@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in — Autodealer Portal</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+</head>
+<body class="auth-body">
+  <div class="auth-shell">
+    <div class="auth-card">
+      <a href="/" class="auth-brand">
+        <span class="brand-mark">A</span>
+        <span class="brand-text">
+          <span class="brand-name">Auto<span class="brand-accent">dealer</span></span>
+          <span class="brand-sub">New Car Management CRM</span>
+        </span>
+      </a>
+
+      <h1 class="auth-title">Sign in to your portal</h1>
+      <p class="auth-sub">Enter your credentials to access the dashboard.</p>
+
+      <form id="loginForm" class="auth-form" novalidate>
+        <label class="field">
+          <span class="field-label">Username</span>
+          <input id="username" name="username" type="text" autocomplete="username"
+                 autocapitalize="none" spellcheck="false" placeholder="Your username" required />
+        </label>
+
+        <label class="field">
+          <span class="field-label">Password</span>
+          <span class="field-pass">
+            <input id="password" name="password" type="password" autocomplete="current-password"
+                   placeholder="••••••••" required />
+            <button type="button" id="togglePass" class="pass-toggle" aria-label="Show password">
+              <svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            </button>
+          </span>
+        </label>
+
+        <div id="authError" class="auth-error" role="alert" hidden></div>
+
+        <button type="submit" id="submitBtn" class="btn btn-primary btn-block">SIGN IN</button>
+      </form>
+
+      <a href="/" class="auth-back">← Back to site</a>
+    </div>
+    <p class="auth-footnote">© 2024 Autodealer CRM · Authorized users only</p>
+  </div>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const errEl = document.getElementById("authError");
+    const btn = document.getElementById("submitBtn");
+    const pass = document.getElementById("password");
+    const toggle = document.getElementById("togglePass");
+
+    toggle.addEventListener("click", () => {
+      const show = pass.type === "password";
+      pass.type = show ? "text" : "password";
+      toggle.classList.toggle("on", show);
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errEl.hidden = true;
+      btn.disabled = true;
+      btn.textContent = "Signing in…";
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: document.getElementById("username").value,
+            password: pass.value,
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          window.location.assign(data.redirect || "/portal");
+          return;
+        }
+        errEl.textContent = data.error || "Invalid username or password.";
+        errEl.hidden = false;
+      } catch {
+        errEl.textContent = "Something went wrong. Please try again.";
+        errEl.hidden = false;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "SIGN IN";
+      }
+    });
+  </script>
+</body>
+</html>

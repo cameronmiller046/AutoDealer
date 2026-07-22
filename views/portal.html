@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+</head>
+<body class="portal-body">
+  <header class="portal-header">
+    <a href="/" class="brand">
+      <span class="brand-mark">A</span>
+      <span class="brand-text">
+        <span class="brand-name" style="color:#0f2947">Auto<span class="brand-accent">dealer</span></span>
+        <span class="brand-sub" style="color:#6b7a90">Portal</span>
+      </span>
+    </a>
+    <div class="portal-user">
+      <span class="role-badge">{{ROLE}}</span>
+      <span class="portal-name">{{NAME}}</span>
+      <button id="logoutBtn" class="btn btn-outline-dark">Sign out</button>
+    </div>
+  </header>
+
+  <main class="portal-main">
+    <span class="portal-eyebrow">{{ROLE}} access</span>
+    <h1>Welcome back, {{NAME}}.</h1>
+    <p class="portal-lead">
+      You're signed in as <strong>{{USERNAME}}</strong>. This is your Autodealer
+      control center — a starting point for the CRM tools.
+    </p>
+
+    <div class="portal-grid">
+      <a class="portal-tile" href="#">
+        <span class="tile-icon">📊</span>
+        <h3>Dashboard</h3>
+        <p>Leads, appointments, sold units, and gross at a glance.</p>
+      </a>
+      <a class="portal-tile" href="#">
+        <span class="tile-icon">🚗</span>
+        <h3>Inventory</h3>
+        <p>Real-time stock with incentives and aging.</p>
+      </a>
+      <a class="portal-tile" href="#">
+        <span class="tile-icon">🧾</span>
+        <h3>Deals &amp; Desking</h3>
+        <p>Structure and desk deals faster.</p>
+      </a>
+      <a class="portal-tile superuser-only" href="#">
+        <span class="tile-icon">🛡️</span>
+        <h3>Superuser Console</h3>
+        <p>View any store's portal and manage access.</p>
+      </a>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await fetch("/api/logout", { method: "POST" }).catch(() => {});
+      window.location.assign("/login");
+    });
+
+    // Show superuser-only tiles only for superusers
+    (async () => {
+      try {
+        const me = await (await fetch("/api/me")).json();
+        if (me.role !== "superuser") {
+          document.querySelectorAll(".superuser-only").forEach((el) => el.remove());
+        }
+      } catch {}
+    })();
+  </script>
+</body>
+</html>
