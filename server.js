@@ -176,16 +176,24 @@ app.post("/api/prospects", (req, res) => {
   res.json({ ok: true, id });
 });
 
-/* ---------- protected portal (not served as a static file) ---------- */
-app.get("/portal", (req, res) => {
-  const u = currentUser(req);
-  if (!u) return res.redirect("/login");
+/* ---------- protected portal pages (not served as static files) ---------- */
+function renderView(res, u, file) {
   const html = fs
-    .readFileSync(path.join(__dirname, "views", "portal.html"), "utf8")
+    .readFileSync(path.join(__dirname, "views", file), "utf8")
     .replaceAll("{{NAME}}", u.n || u.u)
     .replaceAll("{{USERNAME}}", u.u)
     .replaceAll("{{ROLE}}", u.r);
   res.type("html").send(html);
+}
+app.get("/portal", (req, res) => {
+  const u = currentUser(req);
+  if (!u) return res.redirect("/login");
+  renderView(res, u, "portal.html");
+});
+app.get("/portal/active", (req, res) => {
+  const u = currentUser(req);
+  if (!u) return res.redirect("/login");
+  renderView(res, u, "active.html");
 });
 
 // Lightweight health check for Railway
