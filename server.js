@@ -107,22 +107,24 @@ function currentUser(req) {
  *  Auth routes
  * ========================================================== */
 app.post("/api/login", (req, res) => {
-  const { username, password } = req.body || {};
+  const { username, password, remember } = req.body || {};
   const user = findUser(username);
   if (!user || !verifyPassword(user, password)) {
     return res.status(401).json({ error: "Invalid username or password." });
   }
+  // "Remember me" extends the session to 30 days.
+  const ttl = remember ? 30 * 24 * 60 * 60 * 1000 : SESSION_TTL_MS;
   const token = signToken({
     u: user.username,
     r: user.role,
     n: user.name,
-    exp: Date.now() + SESSION_TTL_MS,
+    exp: Date.now() + ttl,
   });
   res.cookie(COOKIE, token, {
     httpOnly: true,
     sameSite: "lax",
     secure: req.secure,
-    maxAge: SESSION_TTL_MS,
+    maxAge: ttl,
     path: "/",
   });
   res.json({ ok: true, role: user.role, redirect: "/portal" });
@@ -158,7 +160,16 @@ app.get("/healthz", (_req, res) => res.status(200).send("ok"));
 app.use(
   express.static(path.join(__dirname, "public"), {
     extensions: ["html"],
-    maxAge: "1h",
+    setHeaders(res, filePath) {
+      if (/\.(html|css|js)$/i.test(filePath)) {
+        // Always revalidate markup/styles so deploys show up immediately.
+        // ETag still yields a cheap 304 when nothing changed.
+        res.setHeader("Cache-Control", "no-cache");
+      } else {
+        // Images and fonts are safe to cache for a while.
+        res.setHeader("Cache-Control", "public, max-age=604800");
+      }
+    },
   })
 );
 

@@ -8,67 +8,161 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/styles.css?v=2" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
 </head>
 <body class="auth-body">
-  <div class="auth-shell">
-    <div class="auth-card">
-      <a href="/" class="auth-brand">
-        <span class="brand-mark">A</span>
-        <span class="brand-text">
-          <span class="brand-name">Auto<span class="brand-accent">dealer</span></span>
-          <span class="brand-sub">New Car Management CRM</span>
-        </span>
-      </a>
+  <div class="auth-split">
 
-      <h1 class="auth-title">Sign in to your portal</h1>
-      <p class="auth-sub">Enter your credentials to access the dashboard.</p>
-
-      <form id="loginForm" class="auth-form" novalidate>
-        <label class="field">
-          <span class="field-label">Username</span>
-          <input id="username" name="username" type="text" autocomplete="username"
-                 autocapitalize="none" spellcheck="false" placeholder="Your username" required />
-        </label>
-
-        <label class="field">
-          <span class="field-label">Password</span>
-          <span class="field-pass">
-            <input id="password" name="password" type="password" autocomplete="current-password"
-                   placeholder="••••••••" required />
-            <button type="button" id="togglePass" class="pass-toggle" aria-label="Show password">
-              <svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-            </button>
+    <!-- ============ LEFT: brand panel ============ -->
+    <section class="auth-brandside">
+      <div class="auth-brandside-inner">
+        <a href="/" class="ad-brand">
+          <span class="ad-mark">ad</span>
+          <span class="ad-brand-text">
+            <span class="ad-brand-name">Auto<span class="accent">dealer</span></span>
+            <span class="ad-brand-sub">New Car Management CRM</span>
           </span>
-        </label>
+        </a>
 
-        <div id="authError" class="auth-error" role="alert" hidden></div>
+        <h1 class="auth-headline">
+          Manage Leads.<br />
+          <span class="accent">Move Inventory.</span><br />
+          Drive More Sales.
+        </h1>
 
-        <button type="submit" id="submitBtn" class="btn btn-primary btn-block">SIGN IN</button>
-      </form>
+        <p class="auth-blurb">
+          Autodealer is the all-in-one CRM built for new car sales teams.
+          Capture more leads, close more deals, and deliver an exceptional
+          customer experience.
+        </p>
 
-      <a href="/" class="auth-back">← Back to site</a>
-    </div>
-    <p class="auth-footnote">© 2024 Autodealer CRM · Authorized users only</p>
+        <ul class="auth-features">
+          <li>
+            <span class="af-icon">
+              <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 19c0-2.5 1.5-4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </span>
+            <span>Lead<br />Management</span>
+          </li>
+          <li>
+            <span class="af-icon">
+              <svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="15" r="1" fill="currentColor"/><circle cx="17" cy="15" r="1" fill="currentColor"/></svg>
+            </span>
+            <span>Inventory<br />Tracking</span>
+          </li>
+          <li>
+            <span class="af-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>
+            </span>
+            <span>Actionable<br />Insights</span>
+          </li>
+          <li>
+            <span class="af-icon">
+              <svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 12.5v5M9.5 15h5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </span>
+            <span>Appointment<br />Center</span>
+          </li>
+        </ul>
+      </div>
+      <div class="auth-photo" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============ RIGHT: sign-in card ============ -->
+    <section class="auth-formside">
+      <div class="auth-panel">
+        <h2 class="auth-welcome">Welcome Back</h2>
+        <p class="auth-welcome-sub">Sign in to access your Autodealer portal</p>
+
+        <form id="loginForm" novalidate>
+          <label class="field">
+            <span class="field-label">Username or Email</span>
+            <span class="field-wrap">
+              <svg class="field-ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              <input id="username" name="username" type="text" autocomplete="username"
+                     autocapitalize="none" spellcheck="false"
+                     placeholder="Enter your username or email" required />
+            </span>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Password</span>
+            <span class="field-wrap">
+              <svg class="field-ico" viewBox="0 0 24 24"><rect x="4.5" y="10" width="15" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              <input id="password" name="password" type="password" autocomplete="current-password"
+                     placeholder="Enter your password" required />
+              <button type="button" id="togglePass" class="pass-toggle" aria-label="Show password">
+                <svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+              </button>
+            </span>
+          </label>
+
+          <div class="auth-row">
+            <label class="remember">
+              <input type="checkbox" id="remember" name="remember" />
+              <span class="box" aria-hidden="true"></span>
+              <span>Remember me</span>
+            </label>
+            <button type="button" id="forgotBtn" class="link-btn">Forgot password?</button>
+          </div>
+
+          <div id="authError" class="auth-error" role="alert" hidden></div>
+          <div id="authNote" class="auth-note" role="status" hidden></div>
+
+          <button type="submit" id="submitBtn" class="auth-submit">Sign In</button>
+        </form>
+
+        <div class="auth-or"><span>or</span></div>
+
+        <button type="button" id="ssoBtn" class="auth-sso">
+          <svg viewBox="0 0 24 24"><rect x="4.5" y="10" width="15" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Login with SSO
+        </button>
+
+        <p class="auth-support">
+          Need help? Contact support at <a href="tel:+18666685394">(866) 668-5394</a>
+        </p>
+      </div>
+    </section>
   </div>
 
   <script>
     const form = document.getElementById("loginForm");
     const errEl = document.getElementById("authError");
+    const noteEl = document.getElementById("authNote");
     const btn = document.getElementById("submitBtn");
     const pass = document.getElementById("password");
     const toggle = document.getElementById("togglePass");
+
+    function showNote(msg) {
+      errEl.hidden = true;
+      noteEl.textContent = msg;
+      noteEl.hidden = false;
+    }
+    function showErr(msg) {
+      noteEl.hidden = true;
+      errEl.textContent = msg;
+      errEl.hidden = false;
+    }
 
     toggle.addEventListener("click", () => {
       const show = pass.type === "password";
       pass.type = show ? "text" : "password";
       toggle.classList.toggle("on", show);
+      toggle.setAttribute("aria-label", show ? "Hide password" : "Show password");
     });
+
+    // These flows aren't wired to a backend yet — say so instead of dead-ending.
+    document.getElementById("forgotBtn").addEventListener("click", () =>
+      showNote("Password resets aren't automated yet — contact support at (866) 668-5394.")
+    );
+    document.getElementById("ssoBtn").addEventListener("click", () =>
+      showNote("SSO isn't configured for this account yet. Use your username and password.")
+    );
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       errEl.hidden = true;
+      noteEl.hidden = true;
       btn.disabled = true;
       btn.textContent = "Signing in…";
       try {
@@ -78,6 +172,7 @@
           body: JSON.stringify({
             username: document.getElementById("username").value,
             password: pass.value,
+            remember: document.getElementById("remember").checked,
           }),
         });
         const data = await res.json().catch(() => ({}));
@@ -85,14 +180,12 @@
           window.location.assign(data.redirect || "/portal");
           return;
         }
-        errEl.textContent = data.error || "Invalid username or password.";
-        errEl.hidden = false;
+        showErr(data.error || "Invalid username or password.");
       } catch {
-        errEl.textContent = "Something went wrong. Please try again.";
-        errEl.hidden = false;
+        showErr("Something went wrong. Please try again.");
       } finally {
         btn.disabled = false;
-        btn.textContent = "SIGN IN";
+        btn.textContent = "Sign In";
       }
     });
   </script>
