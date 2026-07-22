@@ -306,15 +306,55 @@
     "Third Row Seating", "Apple CarPlay", "Premium Audio", "360° Camera",
   ];
 
-  const SILHOUETTES = {
-    SUV: "M14 60 L20 44 Q23 38 32 36 L70 32 Q80 26 96 26 L128 26 Q150 26 164 40 L184 44 Q190 46 190 54 L190 60 Z",
-    Truck: "M12 60 L16 44 Q18 38 28 36 L86 34 L90 24 L150 24 L154 44 L188 48 Q192 50 192 56 L192 60 Z",
-    Sedan: "M12 60 L20 48 Q26 40 44 38 L74 26 Q86 22 104 24 L140 30 Q170 34 184 46 L188 52 L188 60 Z",
-    Coupe: "M12 60 L22 50 Q30 40 52 36 L88 24 Q104 20 120 26 L150 36 Q176 40 186 50 L188 60 Z",
-    Hatchback: "M14 60 L20 46 Q24 40 36 38 L70 28 Q84 24 100 26 L138 34 Q156 38 164 50 L182 54 L182 60 Z",
-    Minivan: "M12 60 L16 42 Q18 34 30 32 L96 28 Q120 28 150 34 L182 42 Q190 44 190 52 L190 60 Z",
-    Other: "M14 60 L20 44 Q23 38 32 36 L70 32 Q80 26 96 26 L128 26 Q150 26 164 40 L184 44 Q190 46 190 54 L190 60 Z",
+  // Models offered with three rows of seating (gates the Third Row feature).
+  const THIRD_ROW = new Set([
+    "Traverse", "Tahoe", "Suburban", "Yukon", "Yukon XL", "Acadia", "Enclave",
+    "Pilot", "Odyssey", "Sienna", "Highlander", "Grand Highlander", "Sequoia",
+    "Palisade", "Telluride", "Carnival", "Atlas", "Wagoneer", "Grand Wagoneer",
+    "Expedition", "Durango", "Pathfinder", "Armada", "XT6", "Escalade", "MDX",
+    "TX", "LX", "GLS", "Model X", "Ascent", "CX-90", "CX-70", "Model Y",
+  ]);
+  function availableFeatures(make, model) {
+    const data = (DATA[make] && DATA[make][model]) || null;
+    if (!data) return FEATURES.slice();
+    const body = data.body;
+    return FEATURES.filter((f) => {
+      if (f === "Tow Package") return body === "Truck" || body === "SUV";
+      if (f === "Third Row Seating") return THIRD_ROW.has(model);
+      return true;
+    });
+  }
+
+  // Clean side-profile illustrations per body style. Body fill = exterior colour.
+  const BODY = {
+    SUV: { body: "M12 78 L12 60 Q12 52 24 50 L54 47 L70 32 Q76 28 86 28 L150 28 Q166 28 174 40 L190 46 Q198 49 198 58 L198 78 Z",
+      windows: ["M76 34 L106 34 L106 47 L82 47 Q76 47 76 41 Z", "M110 34 L148 34 Q160 34 166 45 L110 47 Z"], wf: 54, wr: 156 },
+    Truck: { body: "M10 78 L10 56 Q10 50 20 49 L92 46 L96 30 Q98 27 106 27 L140 27 Q150 27 152 38 L152 49 L196 54 Q200 55 200 60 L200 78 Z",
+      windows: ["M104 32 L138 32 Q146 32 148 44 L104 46 Z"], wf: 52, wr: 158 },
+    Sedan: { body: "M10 78 L10 62 Q10 55 22 53 L52 50 L74 36 Q82 32 96 33 L132 35 Q158 38 168 52 L188 57 Q196 59 196 66 L196 78 Z",
+      windows: ["M80 38 L112 38 L112 50 L86 50 Q80 50 80 44 Z", "M116 38 L140 39 Q156 42 162 51 L116 50 Z"], wf: 52, wr: 150 },
+    Coupe: { body: "M10 78 L10 62 Q10 55 24 53 L54 50 L86 34 Q100 29 118 33 L150 42 Q174 48 186 60 L192 66 L192 78 Z",
+      windows: ["M86 40 L120 36 Q136 38 152 48 L154 53 L90 53 Q84 53 84 46 Z"], wf: 54, wr: 152 },
+    Hatchback: { body: "M12 78 L12 60 Q12 53 24 51 L50 48 L70 32 Q76 28 88 28 L140 29 Q158 31 166 44 L176 50 Q182 53 182 60 L182 78 Z",
+      windows: ["M76 34 L108 34 L108 47 L82 47 Q76 47 76 41 Z", "M112 34 L140 35 Q152 37 158 47 L112 47 Z"], wf: 52, wr: 146 },
+    Minivan: { body: "M12 78 L12 58 Q12 50 22 49 L48 46 L66 30 Q72 27 84 27 L156 28 Q174 30 182 46 L194 52 Q198 54 198 60 L198 78 Z",
+      windows: ["M72 33 L110 33 L110 46 L78 46 Q72 46 72 40 Z", "M114 33 L152 34 Q166 36 170 46 L114 46 Z"], wf: 54, wr: 152 },
   };
+  BODY.Other = BODY.SUV;
+
+  function carMarkup(body, hex) {
+    const b = BODY[body] || BODY.SUV;
+    const win = "rgba(12,17,28,0.5)";
+    const wheel = (cx) =>
+      `<circle cx="${cx}" cy="83" r="13" fill="#15181e"/><circle cx="${cx}" cy="83" r="5.5" fill="#525a67"/>`;
+    return (
+      `<ellipse cx="104" cy="94" rx="92" ry="5" fill="rgba(0,0,0,0.16)"/>` +
+      wheel(b.wf) + wheel(b.wr) +
+      `<path d="${b.body}" fill="${hex}" stroke="rgba(0,0,0,0.28)" stroke-width="1.2" stroke-linejoin="round"/>` +
+      b.windows.map((w) => `<path d="${w}" fill="${win}"/>`).join("") +
+      wheel(b.wf) + wheel(b.wr)
+    );
+  }
 
   window.VEHICLES = {
     makes() { return Object.keys(DATA).sort(); },
@@ -337,6 +377,10 @@
       return c ? c.hex : "#6b7480";
     },
     features() { return FEATURES.slice(); },
-    silhouette(body) { return SILHOUETTES[body] || SILHOUETTES.Other; },
+    availableFeatures(make, model) { return availableFeatures(make, model); },
+    carMarkup(body, colorName) {
+      const hex = colorName ? this.colorHex(colorName, "exterior") : "#5b6675";
+      return carMarkup(body, hex);
+    },
   };
 })();

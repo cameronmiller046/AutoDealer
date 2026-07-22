@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/app.css?v=2" />
-  <script src="/vehicle-data.js?v=1"></script>
+  <link rel="stylesheet" href="/app.css?v=3" />
+  <script src="/vehicle-data.js?v=2"></script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
 </head>
 <body class="app" data-theme="dark">
@@ -101,7 +101,7 @@
         <div>
           <div class="crumb"><a href="#">Prospects</a><span>/</span><span>Add Prospect Wizard</span></div>
           <h1>Add Prospect Wizard</h1>
-          <p class="page-sub">Step <span id="stepNum">1</span> of 6: <span id="stepName">Prospect Information</span></p>
+          <p class="page-sub">Step <span id="stepNum">1</span> of 5: <span id="stepName">Prospect Information</span></p>
         </div>
         <div class="head-right">
           <select class="store-select" aria-label="Store">
@@ -127,10 +127,9 @@
       <div class="stepper" id="stepper">
         <div class="step active"><span class="step-dot">1</span><span class="step-label">Prospect Info</span></div>
         <div class="step"><span class="step-dot">2</span><span class="step-label">Contact Info</span></div>
-        <div class="step"><span class="step-dot">3</span><span class="step-label">Vehicle Interest</span></div>
+        <div class="step"><span class="step-dot">3</span><span class="step-label">Vehicle Selection</span></div>
         <div class="step"><span class="step-dot">4</span><span class="step-label">Source &amp; Type</span></div>
-        <div class="step"><span class="step-dot">5</span><span class="step-label">Additional Info</span></div>
-        <div class="step"><span class="step-dot">6</span><span class="step-label">Review &amp; Save</span></div>
+        <div class="step"><span class="step-dot">5</span><span class="step-label">Review &amp; Save</span></div>
       </div>
 
       <div id="alertBox"></div>
@@ -178,24 +177,18 @@
                 <div class="fld">
                   <label for="salesTeam">Sales Team</label>
                   <select id="salesTeam" name="salesTeam">
-                    <option value="">Select Team</option>
-                    <option>New Car Team</option>
-                    <option>Pre-Owned Team</option>
-                    <option>Internet Team</option>
-                    <option>Fleet &amp; Commercial</option>
+                    <option selected>Sales Team A</option>
+                    <option>Sales Team B</option>
+                    <option>Sales Team C</option>
+                    <option>Sales Team D</option>
                   </select>
                 </div>
                 <div class="fld span2">
-                  <label for="salesperson">Salesperson <span class="req">*</span></label>
-                  <select id="salesperson" name="salesperson" required>
+                  <label for="salesperson">Salesperson</label>
+                  <select id="salesperson" name="salesperson">
                     <option>{{NAME}}</option>
-                    <option>John Smith</option>
-                    <option>Sarah Johnson</option>
-                    <option>Mike Davis</option>
-                    <option>Jessica Brown</option>
-                    <option>Chris Wilson</option>
                   </select>
-                  <span class="err-msg">Select a salesperson.</span>
+                  <span class="hint" style="font-size:11.5px">Locked to your account.</span>
                 </div>
               </div>
             </div>
@@ -258,13 +251,14 @@
                     </select>
                   </div>
                 </div>
-                <div class="checks">
-                  <label class="chk"><input type="checkbox" name="ch" value="Email" checked /><span class="box"></span>Email</label>
-                  <label class="chk"><input type="checkbox" name="ch" value="Text Message" checked /><span class="box"></span>Text Message</label>
-                  <label class="chk"><input type="checkbox" name="ch" value="Phone Call" checked /><span class="box"></span>Phone Call</label>
-                  <label class="chk"><input type="checkbox" name="ch" value="Mail" /><span class="box"></span>Mail</label>
+                <div class="checks" id="commChecks">
+                  <label class="chk"><input type="checkbox" name="ch" value="Email" disabled /><span class="box"></span>Email</label>
+                  <label class="chk"><input type="checkbox" name="ch" value="Text Message" disabled /><span class="box"></span>Text Message</label>
+                  <label class="chk"><input type="checkbox" name="ch" value="Phone Call" disabled /><span class="box"></span>Phone Call</label>
+                  <label class="chk"><input type="checkbox" name="ch" value="Mail" disabled /><span class="box"></span>Mail</label>
                   <label class="chk"><input type="checkbox" id="doNotContact" name="ch" value="Do Not Contact" /><span class="box"></span>Do Not Contact</label>
                 </div>
+                <p class="veh-sub" style="margin-top:8px">Channels enable automatically as you enter an email, phone, or address.</p>
               </div>
             </div>
           </div>
@@ -328,7 +322,7 @@
             <div class="grid2">
               <div class="fld">
                 <label for="condition">Condition</label>
-                <select id="condition" name="condition"><option>New</option><option>Pre-Owned</option><option>Certified Pre-Owned</option></select>
+                <select id="condition" name="condition"><option>New</option><option>Used</option></select>
               </div>
               <div class="fld">
                 <label>Body Style</label>
@@ -409,33 +403,10 @@
             </div>
 
             <div class="section">
-              <div class="grid2">
-                <div class="fld">
-                  <label>Deal Preferences</label>
-                  <div class="checks">
-                    <label class="chk"><input type="checkbox" name="deal" value="Finance" /><span class="box"></span>Finance</label>
-                    <label class="chk"><input type="checkbox" name="deal" value="Lease" /><span class="box"></span>Lease</label>
-                    <label class="chk"><input type="checkbox" name="deal" value="Cash" /><span class="box"></span>Cash</label>
-                    <label class="chk"><input type="checkbox" id="dealUnsure" name="deal" value="Not Sure Yet" checked /><span class="box"></span>Not Sure Yet</label>
-                  </div>
-                </div>
-                <div class="fld">
-                  <label>Trade-In</label>
-                  <div class="segmented" id="tradeIn" data-name="tradeIn">
-                    <button type="button" data-val="No" class="on">No</button>
-                    <button type="button" data-val="Yes">Yes</button>
-                    <button type="button" data-val="Maybe">Maybe</button>
-                  </div>
-                </div>
-                <div class="fld span2" id="tradeVehicleWrap" hidden>
-                  <label for="tradeVehicle">Trade-In Vehicle</label>
-                  <input id="tradeVehicle" name="tradeVehicle" type="text" placeholder="Year / Make / Model (if known)" />
-                </div>
-                <div class="fld span2">
-                  <label for="vehicleNotes">Additional Notes</label>
-                  <textarea id="vehicleNotes" name="vehicleNotes" maxlength="1000" placeholder="e.g. specific packages, colours to avoid, reasons for buying..."></textarea>
-                  <div class="counter"><span id="vehNoteCount">0</span> / 1000</div>
-                </div>
+              <div class="fld">
+                <label for="vehicleNotes">Additional Notes</label>
+                <textarea id="vehicleNotes" name="vehicleNotes" maxlength="1000" placeholder="e.g. specific packages, colours to avoid, reasons for buying..."></textarea>
+                <div class="counter"><span id="vehNoteCount">0</span> / 1000</div>
               </div>
             </div>
           </div>
@@ -464,22 +435,8 @@
           </div>
         </section>
 
-        <!-- ============ STEP 5 ============ -->
+        <!-- ============ STEP 5 — REVIEW ============ -->
         <section class="panel step-panel" data-step="5" hidden>
-          <div class="panel-col">
-            <h2 class="section-title">Additional Information</h2>
-            <div class="grid2">
-              <div class="fld"><label for="timeframe">Purchase Timeframe</label>
-                <select id="timeframe" name="timeframe"><option>Immediately</option><option>Within 30 days</option><option>1-3 months</option><option>3-6 months</option><option>Just researching</option></select></div>
-              <div class="fld"><label for="financing">Financing</label>
-                <select id="financing" name="financing"><option>Finance</option><option>Lease</option><option>Cash</option><option>Undecided</option></select></div>
-              <div class="fld span2"><label for="extraNotes">Additional Notes</label><textarea id="extraNotes" name="extraNotes" maxlength="1000" placeholder="Anything else the team should know..."></textarea></div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ============ STEP 6 ============ -->
-        <section class="panel step-panel" data-step="6" hidden>
           <div class="panel-col">
             <h2 class="section-title">Review &amp; Save</h2>
             <dl class="review-grid" id="reviewGrid"></dl>
@@ -549,29 +506,45 @@
       document.getElementById("scheduledLabel").textContent = scheduled.checked ? "Yes" : "No";
     });
 
-    // Do Not Contact overrides the individual channel checkboxes.
+    /* ---------- communication channels: start off, enable + check as data arrives ---------- */
     const dnc = document.getElementById("doNotContact");
     const channels = [...document.querySelectorAll('input[name="ch"]')].filter(c => c !== dnc);
-    dnc.addEventListener("change", () => {
-      if (dnc.checked) channels.forEach(c => { c.checked = false; c.disabled = true; });
-      else channels.forEach(c => { c.disabled = false; });
-    });
+    function byVal(v) { return channels.find(c => c.value === v); }
+    function syncChannels() {
+      const emailEl = document.getElementById("email");
+      const addressEl = document.getElementById("address");
+      const hasEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test((emailEl.value || "").trim());
+      const hasPhone = (document.getElementById("phone").value || "").replace(/\D/g, "").length >= 10;
+      const hasAddress = ((addressEl && addressEl.value) || "").trim().length > 0;
+      const gate = { "Email": hasEmail, "Text Message": hasPhone, "Phone Call": hasPhone, "Mail": hasAddress };
+      channels.forEach(c => {
+        if (dnc.checked) { c.disabled = true; c.checked = false; }
+        else { const ok = !!gate[c.value]; c.disabled = !ok; c.checked = ok; }
+        c.closest(".chk").classList.toggle("disabled", c.disabled);
+      });
+    }
+    dnc.addEventListener("change", syncChannels);
 
     // Default Date In to today.
     const today = new Date().toISOString().slice(0, 10);
     document.getElementById("dateIn").value = today;
 
-    /* ---------- phone formatting ---------- */
+    /* ---------- phone formatting (also re-syncs channels) ---------- */
     const phone = document.getElementById("phone");
     phone.addEventListener("input", () => {
       const d = phone.value.replace(/\D/g, "").slice(0, 10);
       phone.value = d.length > 6 ? `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`
                   : d.length > 3 ? `(${d.slice(0,3)}) ${d.slice(3)}`
                   : d.length     ? `(${d}` : "";
+      syncChannels();
     });
+    document.getElementById("email").addEventListener("input", syncChannels);
+    document.getElementById("address").addEventListener("input", syncChannels);
+    syncChannels(); // initial: all channels off/disabled
 
     /* ---------- wizard ---------- */
-    const STEP_NAMES = ["Prospect Information","Contact Information","Vehicle Interest","Source & Type","Additional Information","Review & Save"];
+    const STEP_NAMES = ["Prospect Information", "Contact Information", "Vehicle Selection", "Source & Type", "Review & Save"];
+    const TOTAL = STEP_NAMES.length; // 5
     const panels = [...document.querySelectorAll(".step-panel")];
     const steps = [...document.querySelectorAll(".stepper .step")];
     const nextBtn = document.getElementById("nextBtn");
@@ -620,9 +593,9 @@
       document.getElementById("stepNum").textContent = current;
       document.getElementById("stepName").textContent = STEP_NAMES[current - 1];
       backBtn.hidden = current === 1;
-      nextBtn.hidden = current === 6;
-      saveBtn.hidden = current !== 6;
-      if (current === 6) buildReview();
+      nextBtn.hidden = current === TOTAL;
+      saveBtn.hidden = current !== TOTAL;
+      if (current === TOTAL) buildReview();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
@@ -631,21 +604,19 @@
 
     function buildReview() {
       const chans = [...document.querySelectorAll('input[name="ch"]')].filter(c => c.checked).map(c => c.value);
-      const deal = [...document.querySelectorAll('input[name="deal"]')].filter(c => c.checked).map(c => c.value);
       const rows = [
         ["Name", [val("firstName"), val("lastName")].filter(Boolean).join(" ") || "—"],
         ["Phone", val("phone") || "—"],
         ["Email", val("email") || "—"],
         ["Salesperson", val("salesperson") || "—"],
+        ["Sales Team", val("salesTeam") || "—"],
         ["Status", val("status") || "—"],
         ["Priority", val("priority") || "—"],
         ["Vehicle", [val("year"), val("make"), val("model"), val("trim")].filter(Boolean).join(" ") || "—"],
         ["Body / Drivetrain", [currentBody(), veh.drivetrain].filter(Boolean).join(" / ") || "—"],
+        ["Fuel", val("fuel") || "—"],
         ["Target Payment", val("payment") || "—"],
-        ["Trade-In", veh.tradeIn || "—"],
-        ["Deal Preference", deal.join(", ") || "—"],
         ["Lead Source", val("source") || "—"],
-        ["Timeframe", val("timeframe") || "—"],
         ["Communication", chans.length ? chans.join(", ") : "—"],
         ["Tags", val("tags") || "—"],
       ];
@@ -661,7 +632,7 @@
         return;
       }
       showAlert("");
-      if (current < 6) { current++; render(); }
+      if (current < TOTAL) { current++; render(); }
     });
 
     backBtn.addEventListener("click", () => { showAlert(""); if (current > 1) { current--; render(); } });
@@ -691,10 +662,8 @@
         drivetrain: veh.drivetrain, transmission: veh.transmission, fuel: val("fuel"),
         exteriorColor: veh.exteriorColor, interiorColor: veh.interiorColor,
         targetPayment: val("payment"), targetPrice: val("targetPrice"),
-        features: veh.features, dealPreferences: [...document.querySelectorAll('input[name="deal"]')].filter(c => c.checked).map(c => c.value),
-        tradeIn: veh.tradeIn, tradeVehicle: val("tradeVehicle"), vehicleNotes: val("vehicleNotes"),
+        features: veh.features, vehicleNotes: val("vehicleNotes"),
         source: val("source"), ptype: val("ptype"), campaign: val("campaign"), referredBy: val("referredBy"),
-        timeframe: val("timeframe"), financing: val("financing"), extraNotes: val("extraNotes"),
       };
       try {
         const res = await fetch("/api/prospects", {
@@ -775,7 +744,6 @@
     initSegmented("bodyStyle");
     initSegmented("drivetrain");
     initSegmented("transmission");
-    initSegmented("tradeIn", (v) => { document.getElementById("tradeVehicleWrap").hidden = v === "No"; });
 
     /* colour swatches */
     function buildSwatches(id, kind) {
@@ -814,12 +782,34 @@
     }
     featuresBtn.addEventListener("click", () => { featuresMenu.hidden = !featuresMenu.hidden; });
     document.addEventListener("click", (e) => { if (!document.getElementById("featuresMulti").contains(e.target)) featuresMenu.hidden = true; });
-    featuresMenu.addEventListener("change", () => {
+    function refreshFeatures() {
       veh.features = [...featuresMenu.querySelectorAll("input:checked")].map((i) => i.value);
       featuresBtn.firstChild.textContent = veh.features.length ? `${veh.features.length} selected` : "Select features";
       featuresBtn.classList.toggle("has", veh.features.length > 0);
-      updateSummary();
-    });
+    }
+    featuresMenu.addEventListener("change", () => { refreshFeatures(); updateSummary(); });
+
+    // Gray out features a given model doesn't offer (same logic as drivetrain).
+    function constrainFeatures(make, model) {
+      const avail = make && model ? V.availableFeatures(make, model) : null;
+      featuresMenu.querySelectorAll("label").forEach((lab) => {
+        const input = lab.querySelector("input");
+        const ok = !avail || avail.includes(input.value);
+        input.disabled = !ok;
+        lab.classList.toggle("disabled", !ok);
+        if (!ok) input.checked = false;
+      });
+      refreshFeatures();
+    }
+
+    // Gray out fuel options a model doesn't offer; auto-select the first.
+    function constrainFuel(fuels) {
+      [...fuelSel.options].forEach((o) => {
+        if (o.value === "") { o.disabled = false; return; } // keep "Any"
+        o.disabled = Array.isArray(fuels) && !fuels.includes(o.value);
+      });
+      if (Array.isArray(fuels) && fuels.length) fuelSel.value = fuels[0];
+    }
 
     /* cascade: make -> model -> year -> trim */
     makeSel.addEventListener("change", () => {
@@ -833,18 +823,24 @@
       const mk = makeSel.value, md = modelSel.value;
       const data = md ? V.get(mk, md) : null;
       if (data) {
+        const mapped = ["SUV", "Truck", "Sedan", "Coupe", "Hatchback"].includes(data.body) ? data.body : "Other";
         veh.bodyReal = data.body;
-        setSegmented("bodyStyle", ["SUV", "Truck", "Sedan", "Coupe", "Hatchback"].includes(data.body) ? data.body : "Other");
+        constrainSegmented("bodyStyle", [mapped]);       // lock body to the model's actual type
+        setSegmented("bodyStyle", mapped);
         constrainSegmented("drivetrain", data.drivetrains);
         setSegmented("drivetrain", data.drivetrains[0]);
         constrainSegmented("transmission", data.transmissions);
         setSegmented("transmission", data.transmissions[0]);
-        fuelSel.value = data.fuel[0] || "";
+        constrainFuel(data.fuel);
+        constrainFeatures(mk, md);
         fillSelect(yearSel, V.years(mk, md), "Select year");
       } else {
         veh.bodyReal = "";
+        constrainSegmented("bodyStyle", null);
         constrainSegmented("drivetrain", null);
         constrainSegmented("transmission", null);
+        constrainFuel(null);
+        constrainFeatures(null, null);
         fillSelect(yearSel, [], "Select year");
       }
       fillSelect(trimSel, [], "Select trim");
@@ -859,12 +855,6 @@
     });
     [trimSel, condSel, fuelSel].forEach((el) => el.addEventListener("change", updateSummary));
     [paymentEl, priceEl].forEach((el) => el.addEventListener("input", updateSummary));
-
-    /* deal preferences: "Not Sure Yet" is exclusive */
-    const dealUnsure = document.getElementById("dealUnsure");
-    const dealOthers = [...document.querySelectorAll('input[name="deal"]')].filter((c) => c !== dealUnsure);
-    dealUnsure.addEventListener("change", () => { if (dealUnsure.checked) dealOthers.forEach((c) => (c.checked = false)); updateSummary(); });
-    dealOthers.forEach((c) => c.addEventListener("change", () => { if (c.checked) dealUnsure.checked = false; updateSummary(); }));
 
     /* vehicle notes counter */
     const vehNotes = document.getElementById("vehicleNotes");
@@ -913,16 +903,10 @@
     /* live summary */
     function updateSummary() {
       const body = currentBody() || "SUV";
-      const fill = veh.exteriorColor ? V.colorHex(veh.exteriorColor, "exterior") : "#5b6675";
       document.getElementById("vehIllustration").innerHTML =
-        `<svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg">
-           <path d="${V.silhouette(body)}" fill="${fill}" stroke="rgba(0,0,0,0.28)" stroke-width="1"/>
-           <circle cx="52" cy="61" r="12" fill="#111318"/><circle cx="52" cy="61" r="5" fill="#3a3f48"/>
-           <circle cx="150" cy="61" r="12" fill="#111318"/><circle cx="150" cy="61" r="5" fill="#3a3f48"/>
-         </svg>`;
+        `<svg viewBox="0 0 208 104" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vehicle illustration">${V.carMarkup(body, veh.exteriorColor)}</svg>`;
       const parts = [yearSel.value, makeSel.value, modelSel.value, trimSel.value].filter(Boolean);
       document.getElementById("vehHeadline").textContent = parts.length ? parts.join(" ") : "No vehicle selected yet";
-      const deal = [...document.querySelectorAll('input[name="deal"]')].filter((c) => c.checked).map((c) => c.value);
       const rows = [
         ["Condition", condSel.value],
         ["Body Style", currentBody()],
@@ -937,8 +921,6 @@
         ["Target Payment", paymentEl.value],
         ["Target Price", priceEl.value],
         ["Must-Haves", veh.features.length ? veh.features.length + " selected" : ""],
-        ["Deal Preference", deal.join(", ")],
-        ["Trade-In", veh.tradeIn],
       ];
       document.getElementById("summaryList").innerHTML = rows
         .map(([k, v]) => `<div><dt>${k}</dt><dd class="${v ? "" : "unset"}">${v ? esc(v) : "Not set"}</dd></div>`)
