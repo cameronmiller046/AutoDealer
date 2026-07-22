@@ -8,7 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/app.css?v=1" />
+  <link rel="stylesheet" href="/app.css?v=2" />
+  <script src="/vehicle-data.js?v=1"></script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
 </head>
 <body class="app" data-theme="dark">
@@ -302,22 +303,150 @@
         </section>
 
         <!-- ============ STEP 3 ============ -->
-        <section class="panel step-panel" data-step="3" hidden>
-          <div class="panel-col">
-            <h2 class="section-title">Vehicle Interest</h2>
+        <section class="step-panel veh-layout" data-step="3" hidden>
+          <!-- ===== left: selection form ===== -->
+          <div class="panel veh-form">
+            <div class="veh-head">
+              <div>
+                <h2 class="section-title" style="margin:0">Vehicle Selection</h2>
+                <p class="veh-sub">Optional — capture whatever the customer specifies. Nothing here is required.</p>
+              </div>
+            </div>
+
+            <!-- stock lookup -->
+            <div class="stock-row">
+              <div class="fld" style="flex:1;min-width:0">
+                <label for="stock">Stock # <span class="hint">— prefill from inventory</span></label>
+                <input id="stock" name="stock" type="text" placeholder="e.g. GN2648" autocomplete="off" spellcheck="false" />
+                <span class="stock-hint" id="stockHint"></span>
+              </div>
+              <button type="button" class="btn2" id="stockBtn" style="align-self:flex-end">Look up</button>
+            </div>
+
+            <hr class="veh-divider" />
+
             <div class="grid2">
-              <div class="fld"><label for="condition">Condition</label>
-                <select id="condition" name="condition"><option>New</option><option>Pre-Owned</option><option>Certified Pre-Owned</option></select></div>
-              <div class="fld"><label for="make">Make</label>
-                <select id="make" name="make"><option value="">Select make</option><option>Chevrolet</option><option>Buick</option><option>GMC</option><option>Cadillac</option></select></div>
-              <div class="fld"><label for="model">Model</label><input id="model" name="model" type="text" placeholder="e.g. Silverado 1500" /></div>
-              <div class="fld"><label for="year">Year</label><input id="year" name="year" type="text" placeholder="e.g. 2026" /></div>
-              <div class="fld"><label for="budget">Target Monthly Payment</label><input id="budget" name="budget" type="text" placeholder="e.g. $650" /></div>
-              <div class="fld"><label for="tradeIn">Trade-In</label>
-                <select id="tradeIn" name="tradeIn"><option>No</option><option>Yes</option><option>Undecided</option></select></div>
-              <div class="fld span2"><label for="vehicleNotes">Vehicle Notes</label><input id="vehicleNotes" name="vehicleNotes" type="text" placeholder="Colour, trim, must-have options..." /></div>
+              <div class="fld">
+                <label for="condition">Condition</label>
+                <select id="condition" name="condition"><option>New</option><option>Pre-Owned</option><option>Certified Pre-Owned</option></select>
+              </div>
+              <div class="fld">
+                <label>Body Style</label>
+                <div class="segmented wrap" id="bodyStyle" data-name="bodyStyle">
+                  <button type="button" data-val="SUV">SUV</button>
+                  <button type="button" data-val="Truck">Truck</button>
+                  <button type="button" data-val="Sedan">Sedan</button>
+                  <button type="button" data-val="Coupe">Coupe</button>
+                  <button type="button" data-val="Hatchback">Hatchback</button>
+                  <button type="button" data-val="Other">Other</button>
+                </div>
+              </div>
+
+              <div class="fld">
+                <label for="make">Make</label>
+                <select id="make" name="make"><option value="">Select make</option></select>
+              </div>
+              <div class="fld">
+                <label for="model">Model</label>
+                <select id="model" name="model" disabled><option value="">Select model</option></select>
+              </div>
+
+              <div class="fld">
+                <label for="year">Year</label>
+                <select id="year" name="year" disabled><option value="">Select year</option></select>
+              </div>
+              <div class="fld">
+                <label for="trim">Trim</label>
+                <select id="trim" name="trim" disabled><option value="">Select trim</option></select>
+              </div>
+
+              <div class="fld">
+                <label>Drivetrain</label>
+                <div class="segmented" id="drivetrain" data-name="drivetrain">
+                  <button type="button" data-val="FWD">FWD</button>
+                  <button type="button" data-val="RWD">RWD</button>
+                  <button type="button" data-val="AWD">AWD</button>
+                  <button type="button" data-val="4WD">4WD</button>
+                </div>
+              </div>
+              <div class="fld">
+                <label>Transmission</label>
+                <div class="segmented" id="transmission" data-name="transmission">
+                  <button type="button" data-val="Automatic">Automatic</button>
+                  <button type="button" data-val="Manual">Manual</button>
+                </div>
+              </div>
+
+              <div class="fld">
+                <label>Exterior Color</label>
+                <div class="swatches" id="exteriorColor" data-name="exteriorColor"></div>
+              </div>
+              <div class="fld">
+                <label>Interior Color</label>
+                <div class="swatches" id="interiorColor" data-name="interiorColor"></div>
+              </div>
+
+              <div class="fld">
+                <label for="fuel">Fuel Type</label>
+                <select id="fuel" name="fuel"><option value="">Any</option><option>Gasoline</option><option>Diesel</option><option>Hybrid</option><option>Plug-in Hybrid</option><option>Electric</option></select>
+              </div>
+              <div class="fld">
+                <label for="payment">Target Monthly Payment</label>
+                <input id="payment" name="payment" type="text" inputmode="numeric" placeholder="e.g. $650" />
+              </div>
+
+              <div class="fld">
+                <label for="targetPrice">Target Price</label>
+                <input id="targetPrice" name="targetPrice" type="text" inputmode="numeric" placeholder="e.g. $45,000" />
+              </div>
+              <div class="fld">
+                <label>Must-Have Features</label>
+                <div class="multi" id="featuresMulti">
+                  <button type="button" class="multi-btn" id="featuresBtn">Select features<svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  <div class="multi-menu" id="featuresMenu" hidden></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="grid2">
+                <div class="fld">
+                  <label>Deal Preferences</label>
+                  <div class="checks">
+                    <label class="chk"><input type="checkbox" name="deal" value="Finance" /><span class="box"></span>Finance</label>
+                    <label class="chk"><input type="checkbox" name="deal" value="Lease" /><span class="box"></span>Lease</label>
+                    <label class="chk"><input type="checkbox" name="deal" value="Cash" /><span class="box"></span>Cash</label>
+                    <label class="chk"><input type="checkbox" id="dealUnsure" name="deal" value="Not Sure Yet" checked /><span class="box"></span>Not Sure Yet</label>
+                  </div>
+                </div>
+                <div class="fld">
+                  <label>Trade-In</label>
+                  <div class="segmented" id="tradeIn" data-name="tradeIn">
+                    <button type="button" data-val="No" class="on">No</button>
+                    <button type="button" data-val="Yes">Yes</button>
+                    <button type="button" data-val="Maybe">Maybe</button>
+                  </div>
+                </div>
+                <div class="fld span2" id="tradeVehicleWrap" hidden>
+                  <label for="tradeVehicle">Trade-In Vehicle</label>
+                  <input id="tradeVehicle" name="tradeVehicle" type="text" placeholder="Year / Make / Model (if known)" />
+                </div>
+                <div class="fld span2">
+                  <label for="vehicleNotes">Additional Notes</label>
+                  <textarea id="vehicleNotes" name="vehicleNotes" maxlength="1000" placeholder="e.g. specific packages, colours to avoid, reasons for buying..."></textarea>
+                  <div class="counter"><span id="vehNoteCount">0</span> / 1000</div>
+                </div>
+              </div>
             </div>
           </div>
+
+          <!-- ===== right: live summary ===== -->
+          <aside class="panel veh-summary">
+            <h3 class="summary-title">Vehicle Selection Summary</h3>
+            <div class="veh-illustration" id="vehIllustration"></div>
+            <div class="veh-headline" id="vehHeadline">No vehicle selected yet</div>
+            <dl class="summary-list" id="summaryList"></dl>
+          </aside>
         </section>
 
         <!-- ============ STEP 4 ============ -->
@@ -497,10 +626,12 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ""; }
+    function val(id) { const el = document.getElementById(id); return el && typeof el.value === "string" ? el.value.trim() : ""; }
+    function esc(s) { return String(s).replace(/[<>&]/g, c => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c])); }
 
     function buildReview() {
       const chans = [...document.querySelectorAll('input[name="ch"]')].filter(c => c.checked).map(c => c.value);
+      const deal = [...document.querySelectorAll('input[name="deal"]')].filter(c => c.checked).map(c => c.value);
       const rows = [
         ["Name", [val("firstName"), val("lastName")].filter(Boolean).join(" ") || "—"],
         ["Phone", val("phone") || "—"],
@@ -508,15 +639,18 @@
         ["Salesperson", val("salesperson") || "—"],
         ["Status", val("status") || "—"],
         ["Priority", val("priority") || "—"],
-        ["Date In", val("dateIn") || "—"],
-        ["Vehicle", [val("condition"), val("make"), val("model"), val("year")].filter(Boolean).join(" ") || "—"],
+        ["Vehicle", [val("year"), val("make"), val("model"), val("trim")].filter(Boolean).join(" ") || "—"],
+        ["Body / Drivetrain", [currentBody(), veh.drivetrain].filter(Boolean).join(" / ") || "—"],
+        ["Target Payment", val("payment") || "—"],
+        ["Trade-In", veh.tradeIn || "—"],
+        ["Deal Preference", deal.join(", ") || "—"],
         ["Lead Source", val("source") || "—"],
         ["Timeframe", val("timeframe") || "—"],
         ["Communication", chans.length ? chans.join(", ") : "—"],
         ["Tags", val("tags") || "—"],
       ];
       document.getElementById("reviewGrid").innerHTML = rows
-        .map(([k, v]) => `<div class="review-item"><dt>${k}</dt><dd>${String(v).replace(/[<>&]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]))}</dd></div>`)
+        .map(([k, v]) => `<div class="review-item"><dt>${k}</dt><dd>${esc(v)}</dd></div>`)
         .join("");
     }
 
@@ -552,8 +686,13 @@
         notes: val("notes"), tags: val("tags"),
         address: val("address"), city: val("city"), state: val("state"), zip: val("zip"),
         altPhone: val("altPhone"), workPhone: val("workPhone"), altEmail: val("altEmail"),
-        condition: val("condition"), make: val("make"), model: val("model"), year: val("year"),
-        budget: val("budget"), tradeIn: val("tradeIn"), vehicleNotes: val("vehicleNotes"),
+        stock: val("stock"), condition: val("condition"), bodyStyle: currentBody(),
+        make: val("make"), model: val("model"), year: val("year"), trim: val("trim"),
+        drivetrain: veh.drivetrain, transmission: veh.transmission, fuel: val("fuel"),
+        exteriorColor: veh.exteriorColor, interiorColor: veh.interiorColor,
+        targetPayment: val("payment"), targetPrice: val("targetPrice"),
+        features: veh.features, dealPreferences: [...document.querySelectorAll('input[name="deal"]')].filter(c => c.checked).map(c => c.value),
+        tradeIn: veh.tradeIn, tradeVehicle: val("tradeVehicle"), vehicleNotes: val("vehicleNotes"),
         source: val("source"), ptype: val("ptype"), campaign: val("campaign"), referredBy: val("referredBy"),
         timeframe: val("timeframe"), financing: val("financing"), extraNotes: val("extraNotes"),
       };
@@ -575,6 +714,237 @@
         saveBtn.disabled = false; saveBtn.textContent = "Save Prospect";
       }
     });
+
+    /* ===================================================================
+       Vehicle selection (step 3) — cascading real-world data + summary
+       =================================================================== */
+    const V = window.VEHICLES;
+    const veh = { bodyStyle: "", bodyReal: "", drivetrain: "", transmission: "", exteriorColor: "", interiorColor: "", tradeIn: "No", features: [] };
+
+    const makeSel = document.getElementById("make");
+    const modelSel = document.getElementById("model");
+    const yearSel = document.getElementById("year");
+    const trimSel = document.getElementById("trim");
+    const fuelSel = document.getElementById("fuel");
+    const condSel = document.getElementById("condition");
+    const paymentEl = document.getElementById("payment");
+    const priceEl = document.getElementById("targetPrice");
+
+    function fillSelect(sel, items, placeholder) {
+      sel.innerHTML = "";
+      const ph = document.createElement("option");
+      ph.value = ""; ph.textContent = placeholder; sel.appendChild(ph);
+      items.forEach((it) => { const o = document.createElement("option"); o.value = it; o.textContent = it; sel.appendChild(o); });
+      sel.disabled = items.length === 0;
+    }
+    function currentBody() { return veh.bodyReal || veh.bodyStyle || ""; }
+
+    if (V) {
+      V.makes().forEach((mk) => { const o = document.createElement("option"); o.value = mk; o.textContent = mk; makeSel.appendChild(o); });
+    }
+
+    /* segmented controls */
+    function initSegmented(id, onPick) {
+      const box = document.getElementById(id);
+      box.querySelectorAll("button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          if (btn.disabled) return;
+          box.querySelectorAll("button").forEach((b) => b.classList.remove("on"));
+          btn.classList.add("on");
+          veh[box.dataset.name] = btn.dataset.val;
+          if (onPick) onPick(btn.dataset.val);
+          updateSummary();
+        });
+      });
+    }
+    function setSegmented(id, val) {
+      const box = document.getElementById(id);
+      let hit = false;
+      box.querySelectorAll("button").forEach((b) => {
+        const on = b.dataset.val === val && !b.disabled;
+        b.classList.toggle("on", on); if (on) hit = true;
+      });
+      veh[box.dataset.name] = hit ? val : "";
+    }
+    function constrainSegmented(id, allowed) {
+      document.getElementById(id).querySelectorAll("button").forEach((b) => {
+        b.disabled = Array.isArray(allowed) && !allowed.includes(b.dataset.val);
+        if (b.disabled) b.classList.remove("on");
+      });
+    }
+    initSegmented("bodyStyle");
+    initSegmented("drivetrain");
+    initSegmented("transmission");
+    initSegmented("tradeIn", (v) => { document.getElementById("tradeVehicleWrap").hidden = v === "No"; });
+
+    /* colour swatches */
+    function buildSwatches(id, kind) {
+      const box = document.getElementById(id);
+      const list = kind === "interior" ? V.interiorColors() : V.exteriorColors();
+      box.innerHTML = "";
+      list.forEach((c) => {
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "swatch"; b.style.background = c.hex; b.title = c.name; b.dataset.val = c.name;
+        if (["White", "Cream", "Silver"].includes(c.name)) b.classList.add("light");
+        b.addEventListener("click", () => {
+          box.querySelectorAll(".swatch").forEach((s) => s.classList.remove("on"));
+          b.classList.add("on");
+          veh[box.dataset.name] = c.name;
+          updateSummary();
+        });
+        box.appendChild(b);
+      });
+    }
+    function setSwatch(id, name) {
+      const box = document.getElementById(id);
+      box.querySelectorAll(".swatch").forEach((s) => s.classList.toggle("on", s.dataset.val === name));
+      veh[box.dataset.name] = name || "";
+    }
+    if (V) { buildSwatches("exteriorColor", "exterior"); buildSwatches("interiorColor", "interior"); }
+
+    /* must-have features multiselect */
+    const featuresBtn = document.getElementById("featuresBtn");
+    const featuresMenu = document.getElementById("featuresMenu");
+    if (V) {
+      V.features().forEach((f) => {
+        const lab = document.createElement("label");
+        lab.innerHTML = `<input type="checkbox" value="${f}"><span class="box"></span>${f}`;
+        featuresMenu.appendChild(lab);
+      });
+    }
+    featuresBtn.addEventListener("click", () => { featuresMenu.hidden = !featuresMenu.hidden; });
+    document.addEventListener("click", (e) => { if (!document.getElementById("featuresMulti").contains(e.target)) featuresMenu.hidden = true; });
+    featuresMenu.addEventListener("change", () => {
+      veh.features = [...featuresMenu.querySelectorAll("input:checked")].map((i) => i.value);
+      featuresBtn.firstChild.textContent = veh.features.length ? `${veh.features.length} selected` : "Select features";
+      featuresBtn.classList.toggle("has", veh.features.length > 0);
+      updateSummary();
+    });
+
+    /* cascade: make -> model -> year -> trim */
+    makeSel.addEventListener("change", () => {
+      const mk = makeSel.value;
+      fillSelect(modelSel, mk ? V.models(mk) : [], "Select model");
+      fillSelect(yearSel, [], "Select year");
+      fillSelect(trimSel, [], "Select trim");
+      updateSummary();
+    });
+    modelSel.addEventListener("change", () => {
+      const mk = makeSel.value, md = modelSel.value;
+      const data = md ? V.get(mk, md) : null;
+      if (data) {
+        veh.bodyReal = data.body;
+        setSegmented("bodyStyle", ["SUV", "Truck", "Sedan", "Coupe", "Hatchback"].includes(data.body) ? data.body : "Other");
+        constrainSegmented("drivetrain", data.drivetrains);
+        setSegmented("drivetrain", data.drivetrains[0]);
+        constrainSegmented("transmission", data.transmissions);
+        setSegmented("transmission", data.transmissions[0]);
+        fuelSel.value = data.fuel[0] || "";
+        fillSelect(yearSel, V.years(mk, md), "Select year");
+      } else {
+        veh.bodyReal = "";
+        constrainSegmented("drivetrain", null);
+        constrainSegmented("transmission", null);
+        fillSelect(yearSel, [], "Select year");
+      }
+      fillSelect(trimSel, [], "Select trim");
+      updateSummary();
+    });
+    yearSel.addEventListener("change", () => {
+      const mk = makeSel.value, md = modelSel.value, yr = yearSel.value;
+      const trims = mk && md && yr ? V.trims(mk, md, Number(yr)) : [];
+      fillSelect(trimSel, trims, "Select trim");
+      if (trims.length) trimSel.value = trims[0]; // auto-select the first available trim
+      updateSummary();
+    });
+    [trimSel, condSel, fuelSel].forEach((el) => el.addEventListener("change", updateSummary));
+    [paymentEl, priceEl].forEach((el) => el.addEventListener("input", updateSummary));
+
+    /* deal preferences: "Not Sure Yet" is exclusive */
+    const dealUnsure = document.getElementById("dealUnsure");
+    const dealOthers = [...document.querySelectorAll('input[name="deal"]')].filter((c) => c !== dealUnsure);
+    dealUnsure.addEventListener("change", () => { if (dealUnsure.checked) dealOthers.forEach((c) => (c.checked = false)); updateSummary(); });
+    dealOthers.forEach((c) => c.addEventListener("change", () => { if (c.checked) dealUnsure.checked = false; updateSummary(); }));
+
+    /* vehicle notes counter */
+    const vehNotes = document.getElementById("vehicleNotes");
+    vehNotes.addEventListener("input", () => { document.getElementById("vehNoteCount").textContent = vehNotes.value.length; });
+
+    /* stock-number prefill */
+    const stockInput = document.getElementById("stock");
+    const stockHint = document.getElementById("stockHint");
+    if (V) {
+      stockHint.innerHTML = "Try: " + V.stockExamples().slice(0, 5).map((c) => `<b>${c}</b>`).join(", ");
+    }
+    stockHint.addEventListener("click", (e) => {
+      if (e.target.tagName === "B") { stockInput.value = e.target.textContent; doStockLookup(); }
+    });
+    function applyStock(rec) {
+      makeSel.value = rec.make; makeSel.dispatchEvent(new Event("change"));
+      modelSel.value = rec.model; modelSel.dispatchEvent(new Event("change"));
+      yearSel.value = String(rec.year); yearSel.dispatchEvent(new Event("change"));
+      if ([...trimSel.options].some((o) => o.value === rec.trim)) trimSel.value = rec.trim;
+      setSegmented("drivetrain", rec.drivetrain);
+      setSegmented("transmission", rec.transmission);
+      if (rec.fuel) fuelSel.value = rec.fuel;
+      setSwatch("exteriorColor", rec.exterior);
+      setSwatch("interiorColor", rec.interior);
+      if (rec.price) priceEl.value = "$" + rec.price.toLocaleString();
+      if (rec.payment) paymentEl.value = "$" + rec.payment.toLocaleString();
+      condSel.value = "New";
+      updateSummary();
+    }
+    function doStockLookup() {
+      const code = stockInput.value.trim();
+      if (!code) return;
+      const rec = V.stock(code);
+      if (rec) {
+        applyStock(rec);
+        stockHint.style.color = "var(--accent-text)";
+        stockHint.textContent = `Loaded ${rec.year} ${rec.make} ${rec.model} ${rec.trim}.`;
+      } else {
+        stockHint.style.color = "var(--danger)";
+        stockHint.textContent = `No inventory match for "${code}".`;
+      }
+    }
+    document.getElementById("stockBtn").addEventListener("click", doStockLookup);
+    stockInput.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); doStockLookup(); } });
+
+    /* live summary */
+    function updateSummary() {
+      const body = currentBody() || "SUV";
+      const fill = veh.exteriorColor ? V.colorHex(veh.exteriorColor, "exterior") : "#5b6675";
+      document.getElementById("vehIllustration").innerHTML =
+        `<svg viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg">
+           <path d="${V.silhouette(body)}" fill="${fill}" stroke="rgba(0,0,0,0.28)" stroke-width="1"/>
+           <circle cx="52" cy="61" r="12" fill="#111318"/><circle cx="52" cy="61" r="5" fill="#3a3f48"/>
+           <circle cx="150" cy="61" r="12" fill="#111318"/><circle cx="150" cy="61" r="5" fill="#3a3f48"/>
+         </svg>`;
+      const parts = [yearSel.value, makeSel.value, modelSel.value, trimSel.value].filter(Boolean);
+      document.getElementById("vehHeadline").textContent = parts.length ? parts.join(" ") : "No vehicle selected yet";
+      const deal = [...document.querySelectorAll('input[name="deal"]')].filter((c) => c.checked).map((c) => c.value);
+      const rows = [
+        ["Condition", condSel.value],
+        ["Body Style", currentBody()],
+        ["Make / Model", [makeSel.value, modelSel.value].filter(Boolean).join(" / ")],
+        ["Year", yearSel.value],
+        ["Trim", trimSel.value],
+        ["Drivetrain", veh.drivetrain],
+        ["Transmission", veh.transmission],
+        ["Fuel", fuelSel.value],
+        ["Exterior", veh.exteriorColor],
+        ["Interior", veh.interiorColor],
+        ["Target Payment", paymentEl.value],
+        ["Target Price", priceEl.value],
+        ["Must-Haves", veh.features.length ? veh.features.length + " selected" : ""],
+        ["Deal Preference", deal.join(", ")],
+        ["Trade-In", veh.tradeIn],
+      ];
+      document.getElementById("summaryList").innerHTML = rows
+        .map(([k, v]) => `<div><dt>${k}</dt><dd class="${v ? "" : "unset"}">${v ? esc(v) : "Not set"}</dd></div>`)
+        .join("");
+    }
+    updateSummary();
 
     render();
   </script>

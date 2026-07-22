@@ -310,6 +310,84 @@ button { font: inherit; }
 }
 [data-theme="light"] .form-ok { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
 
+/* ===================== VEHICLE SELECTION (step 3) ===================== */
+.veh-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; align-items: start; }
+.veh-form { padding: 20px 22px 22px; }
+.veh-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.veh-sub { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
+.hint { color: var(--faint); font-weight: 400; }
+
+.stock-row { display: flex; gap: 12px; align-items: flex-end; }
+.stock-hint { font-size: 11.5px; color: var(--faint); }
+.stock-hint b { color: var(--accent-text); font-weight: 600; cursor: pointer; }
+.stock-hint b:hover { text-decoration: underline; }
+.veh-divider { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+
+/* segmented control */
+.segmented { display: inline-flex; background: var(--sunken); border: 1px solid var(--border); border-radius: 9px; padding: 3px; gap: 3px; }
+.segmented.wrap { flex-wrap: wrap; }
+.segmented button {
+  border: none; background: transparent; color: var(--muted); cursor: pointer;
+  padding: 8px 13px; border-radius: 7px; font-size: 12.5px; font-weight: 600; white-space: nowrap;
+}
+.segmented button:hover { color: var(--text); }
+.segmented button.on { background: var(--accent); color: #fff; }
+.segmented button:disabled { opacity: 0.32; cursor: not-allowed; }
+.segmented button:disabled:hover { color: var(--muted); }
+
+/* color swatches */
+.swatches { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.swatch {
+  width: 26px; height: 26px; border-radius: 50%; cursor: pointer; padding: 0;
+  border: 2px solid var(--border-strong); position: relative;
+}
+.swatch.on { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.swatch.on::after {
+  content: ""; position: absolute; inset: 0; margin: auto; width: 7px; height: 11px;
+  border: solid #fff; border-width: 0 2px 2px 0; transform: translateY(-1px) rotate(45deg);
+  filter: drop-shadow(0 0 1px rgba(0,0,0,0.6));
+}
+.swatch.light.on::after { border-color: #111; filter: none; }
+
+/* multi-select features */
+.multi { position: relative; }
+.multi-btn {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: var(--input); border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); padding: 10px 12px; font-size: 13.5px; cursor: pointer; text-align: left;
+}
+.multi-btn.has { color: var(--text); }
+.multi-btn svg { width: 11px; height: 8px; flex: none; color: var(--muted); }
+.multi-menu {
+  position: absolute; z-index: 20; top: calc(100% + 6px); left: 0; right: 0;
+  background: var(--panel); border: 1px solid var(--border-strong); border-radius: 10px;
+  padding: 8px; box-shadow: var(--shadow); max-height: 240px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.multi-menu label { display: flex; align-items: center; gap: 9px; padding: 7px 8px; border-radius: 7px; cursor: pointer; font-size: 13px; }
+.multi-menu label:hover { background: var(--accent-soft); }
+
+/* summary panel */
+.veh-summary { padding: 18px 18px 20px; position: sticky; top: 82px; }
+.summary-title { font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+.veh-illustration {
+  background: var(--sunken); border: 1px solid var(--border); border-radius: 11px;
+  padding: 18px 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
+}
+.veh-illustration svg { width: 100%; height: auto; max-height: 120px; }
+.veh-headline { font-size: 14.5px; font-weight: 700; margin-bottom: 14px; line-height: 1.3; }
+.summary-list { display: flex; flex-direction: column; gap: 0; }
+.summary-list > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--border); }
+.summary-list > div:first-child { border-top: none; }
+.summary-list dt { font-size: 12.5px; color: var(--muted); }
+.summary-list dd { font-size: 12.5px; font-weight: 600; text-align: right; }
+.summary-list dd.unset { color: var(--faint); font-weight: 500; }
+
+@media (max-width: 1120px) {
+  .veh-layout { grid-template-columns: 1fr; }
+  .veh-summary { position: static; }
+}
+
 /* review step */
 .review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px 22px; }
 .review-item { display: flex; flex-direction: column; gap: 3px; }
