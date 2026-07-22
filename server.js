@@ -35,6 +35,7 @@ const superuserHash = process.env.SUPERUSER_PASSWORD
 const USERS = [
   {
     username: "Cameronmiller046",
+    emails: ["cameronmiller046@gmail.com"],
     role: "superuser",
     name: "Cameron Miller",
     salt: superuserSalt,
@@ -42,10 +43,17 @@ const USERS = [
   },
 ];
 
-function findUser(username) {
-  if (!username) return null;
-  const u = String(username).trim().toLowerCase();
-  return USERS.find((x) => x.username.toLowerCase() === u) || null;
+// Accept either the username or any registered email (case-insensitive).
+function findUser(identifier) {
+  if (!identifier) return null;
+  const id = String(identifier).trim().toLowerCase();
+  return (
+    USERS.find(
+      (x) =>
+        x.username.toLowerCase() === id ||
+        (x.emails || []).some((e) => e.toLowerCase() === id)
+    ) || null
+  );
 }
 
 function verifyPassword(user, password) {
