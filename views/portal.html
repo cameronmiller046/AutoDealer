@@ -126,7 +126,7 @@
       <!-- stepper -->
       <div class="stepper" id="stepper">
         <div class="step active"><span class="step-dot">1</span><span class="step-label">Prospect Info</span></div>
-        <div class="step"><span class="step-dot">2</span><span class="step-label">Contact Info</span></div>
+        <div class="step"><span class="step-dot">2</span><span class="step-label">Additional Customer Info</span></div>
         <div class="step"><span class="step-dot">3</span><span class="step-label">Vehicle Selection</span></div>
         <div class="step"><span class="step-dot">4</span><span class="step-label">Source &amp; Type</span></div>
         <div class="step"><span class="step-dot">5</span><span class="step-label">Review &amp; Save</span></div>
@@ -283,7 +283,7 @@
         <!-- ============ STEP 2 ============ -->
         <section class="panel step-panel" data-step="2" hidden>
           <div class="panel-col">
-            <h2 class="section-title">Contact Information</h2>
+            <h2 class="section-title">Additional Customer Info</h2>
             <div class="grid2">
               <div class="fld span2"><label for="address">Street Address</label><input id="address" name="address" type="text" placeholder="123 Main St" /></div>
               <div class="fld"><label for="city">City</label><input id="city" name="city" type="text" placeholder="Enter city" /></div>
@@ -420,17 +420,100 @@
           </aside>
         </section>
 
-        <!-- ============ STEP 4 ============ -->
-        <section class="panel step-panel" data-step="4" hidden>
-          <div class="panel-col">
-            <h2 class="section-title">Source &amp; Type</h2>
-            <div class="grid2">
-              <div class="fld"><label for="source">Lead Source</label>
-                <select id="source" name="source"><option>Walk-In</option><option>Cars.com</option><option>AutoTrader</option><option>CarGurus</option><option>Website</option><option>Phone-In</option><option>Referral</option><option>Other</option></select></div>
-              <div class="fld"><label for="ptype">Prospect Type</label>
-                <select id="ptype" name="ptype"><option>Retail</option><option>Fleet</option><option>Commercial</option><option>Wholesale</option></select></div>
-              <div class="fld"><label for="campaign">Campaign</label><input id="campaign" name="campaign" type="text" placeholder="Enter campaign name" /></div>
-              <div class="fld"><label for="referredBy">Referred By</label><input id="referredBy" name="referredBy" type="text" placeholder="Enter referrer" /></div>
+        <!-- ============ STEP 4 — SOURCE & TYPE ============ -->
+        <section class="step-panel src-step" data-step="4" hidden>
+          <div class="src-top">
+            <!-- Lead Source -->
+            <div class="panel src-panel">
+              <div class="sec-head"><h2>Lead Source</h2><p>Where did this prospect come from?</p></div>
+              <div class="source-grid" id="leadSourceGrid">
+                <button type="button" class="src-card" data-val="Walk-In"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 21v-4h6v4M8 7h2M8 10h2M14 7h2M14 10h2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Walk-In</button>
+                <button type="button" class="src-card" data-val="Phone Call"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L18 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Phone Call</button>
+                <button type="button" class="src-card" data-val="Website / Form"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9h17M7 7h.01M9.5 7h.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Website / Form</button>
+                <button type="button" class="src-card" data-val="Third Party Site"><svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="18" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="18" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 8.4v3M11 12.6L7.5 16M13 12.6L16.5 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Third Party Site</button>
+                <button type="button" class="src-card" data-val="Social Media"><svg viewBox="0 0 24 24"><path d="M7 11h3l1-6a2 2 0 0 1 3 1.8V9h4l-1.5 8a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><rect x="3.5" y="11" width="3.5" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Social Media</button>
+                <button type="button" class="src-card" data-val="Referral"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 19c0-2.8 2.2-5 5-5s5 2.2 5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 19c0-2.4 1.4-4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Referral</button>
+                <button type="button" class="src-card" data-val="Email / Campaign"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Email / Campaign</button>
+                <button type="button" class="src-card" data-val="Service Visit"><svg viewBox="0 0 24 24"><path d="M4 14l2-5.5A2 2 0 0 1 7.9 7h8.2a2 2 0 0 1 1.9 1.5L20 14v4h-2.5v-1.5h-11V18H4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7.5" cy="15.5" r="1" fill="currentColor"/><circle cx="16.5" cy="15.5" r="1" fill="currentColor"/></svg>Service Visit</button>
+                <button type="button" class="src-card" data-val="Advertisement"><svg viewBox="0 0 24 24"><path d="M4 9v6h3l7 4V5L7 9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M18 9a4 4 0 0 1 0 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Advertisement</button>
+                <button type="button" class="src-card" data-val="Other"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.2" fill="currentColor"/></svg>Other</button>
+              </div>
+              <div class="grid2 mt16">
+                <div class="fld">
+                  <label for="campaign">Campaign <span class="hint">(Optional)</span></label>
+                  <span class="input-x">
+                    <input id="campaign" name="campaign" type="text" placeholder="Enter campaign name" />
+                    <button type="button" class="xbtn" id="campaignClear" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+                  </span>
+                </div>
+                <div class="fld">
+                  <label for="referredBy">Referred By <span class="hint">(Optional)</span></label>
+                  <input id="referredBy" name="referredBy" type="text" placeholder="Enter referrer name" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Prospect Type -->
+            <div class="panel src-panel">
+              <div class="sec-head"><h2>Prospect Type</h2><p>How is this prospect shopping?</p></div>
+              <div class="ptype-grid" id="prospectTypeGrid">
+                <button type="button" class="ptype-card" data-val="Financing"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 15.5l7-7M9.5 9.5h.01M14.5 14.5h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><b>Financing</b><span>Looking to finance a vehicle.</span></button>
+                <button type="button" class="ptype-card" data-val="Lease"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><b>Lease</b><span>Interested in leasing a vehicle.</span></button>
+                <button type="button" class="ptype-card" data-val="Purchasing"><svg viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 8V6.5A2.5 2.5 0 0 1 15 6.5V8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><b>Purchasing</b><span>Looking to purchase outright.</span></button>
+              </div>
+              <div class="fld mt16">
+                <label for="buyingTimeframe">Buying Timeframe</label>
+                <select id="buyingTimeframe" name="buyingTimeframe">
+                  <option>Just Browsing</option><option>Ready to Buy Now</option><option>Within 30 Days</option>
+                  <option>1-3 Months</option><option>3-6 Months</option><option>6+ Months</option>
+                </select>
+              </div>
+              <div class="fld mt16">
+                <label>Preferred Contact Method</label>
+                <div class="segmented" id="contactMethod" data-name="contact">
+                  <button type="button" data-val="Any" class="on"><svg viewBox="0 0 24 24" style="width:14px;height:14px;margin-right:5px;vertical-align:-2px"><rect x="3.5" y="6" width="17" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 8l8 5 8-5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Any</button>
+                  <button type="button" data-val="Phone">Phone</button>
+                  <button type="button" data-val="Text">Text</button>
+                  <button type="button" data-val="Email">Email</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trade-In Vehicle -->
+          <div class="panel src-panel">
+            <div class="sec-head"><h2>Trade-In Vehicle</h2><p>Tell us about any vehicle they may want to trade in.</p></div>
+            <div class="fld" style="margin-bottom:16px;max-width:280px">
+              <label>Currently Own</label>
+              <div class="segmented" id="tradeOwn" data-name="tradeOwn">
+                <button type="button" data-val="Yes" class="on">Yes</button>
+                <button type="button" data-val="No">No</button>
+                <button type="button" data-val="Not Sure">Not Sure</button>
+              </div>
+            </div>
+            <div class="trade-cols" id="tradeDetail">
+              <div class="tcol">
+                <div class="fld"><label for="tiCondition">Condition</label>
+                  <select id="tiCondition"><option value="">Select condition</option><option>Excellent</option><option>Very Good</option><option>Good</option><option>Fair</option><option>Poor</option></select></div>
+                <div class="fld"><label for="tiPayoff">Payoff / Balance <span class="hint">(Optional)</span></label><input id="tiPayoff" type="text" inputmode="numeric" placeholder="$ e.g. 12,500.00" /></div>
+              </div>
+              <div class="tcol">
+                <div class="fld"><label for="tiMake">Make</label><select id="tiMake"><option value="">Select make</option></select></div>
+                <div class="fld"><label for="tiModel">Model</label><select id="tiModel" disabled><option value="">Select model</option></select></div>
+                <div class="fld"><label for="tiYear">Year</label><select id="tiYear"><option value="">Select year</option></select></div>
+              </div>
+              <div class="tcol">
+                <div class="fld"><label for="tiTrim">Trim <span class="hint">(Optional)</span></label><select id="tiTrim" disabled><option value="">Select trim</option></select></div>
+                <div class="fld"><label for="tiMileage">Mileage</label><input id="tiMileage" type="text" inputmode="numeric" placeholder="e.g. 58,000" /></div>
+                <div class="fld"><label>Exterior Color <span class="hint">(Optional)</span></label><div class="swatches" id="tiColor"></div></div>
+              </div>
+              <div class="tcol">
+                <div class="fld"><label for="tiNotes">Vehicle Notes <span class="hint">(Optional)</span></label>
+                  <textarea id="tiNotes" maxlength="500" placeholder="Add notes about the trade-in vehicle..."></textarea>
+                  <div class="counter"><span id="tiNoteCount">0</span> / 500</div>
+                </div>
+                <div class="fld"><label for="tiValue">Est. Trade-In Value <span class="hint">(Optional)</span></label><input id="tiValue" type="text" inputmode="numeric" placeholder="$ e.g. 15,000.00" /></div>
+              </div>
             </div>
           </div>
         </section>
@@ -543,7 +626,7 @@
     syncChannels(); // initial: all channels off/disabled
 
     /* ---------- wizard ---------- */
-    const STEP_NAMES = ["Prospect Information", "Contact Information", "Vehicle Selection", "Source & Type", "Review & Save"];
+    const STEP_NAMES = ["Prospect Information", "Additional Customer Info", "Vehicle Selection", "Source & Type", "Review & Save"];
     const TOTAL = STEP_NAMES.length; // 5
     const panels = [...document.querySelectorAll(".step-panel")];
     const steps = [...document.querySelectorAll(".stepper .step")];
@@ -616,7 +699,9 @@
         ["Body / Drivetrain", [currentBody(), veh.drivetrain].filter(Boolean).join(" / ") || "—"],
         ["Fuel", val("fuel") || "—"],
         ["Target Payment", val("payment") || "—"],
-        ["Lead Source", val("source") || "—"],
+        ["Lead Source", src.leadSource || "—"],
+        ["Prospect Type", src.prospectType || "—"],
+        ["Trade-In", src.tradeOwn === "No" ? "None" : ([val("tiYear"), val("tiMake"), val("tiModel")].filter(Boolean).join(" ") || src.tradeOwn)],
         ["Communication", chans.length ? chans.join(", ") : "—"],
         ["Tags", val("tags") || "—"],
       ];
@@ -663,7 +748,13 @@
         exteriorColor: veh.exteriorColor, interiorColor: veh.interiorColor,
         targetPayment: val("payment"), targetPrice: val("targetPrice"),
         features: veh.features, vehicleNotes: val("vehicleNotes"),
-        source: val("source"), ptype: val("ptype"), campaign: val("campaign"), referredBy: val("referredBy"),
+        leadSource: src.leadSource, prospectType: src.prospectType, buyingTimeframe: val("buyingTimeframe"),
+        contactMethod: src.contact, campaign: val("campaign"), referredBy: val("referredBy"),
+        trade: {
+          own: src.tradeOwn, make: val("tiMake"), model: val("tiModel"), year: val("tiYear"), trim: val("tiTrim"),
+          condition: val("tiCondition"), mileage: val("tiMileage"), color: src.tradeColor,
+          payoff: val("tiPayoff"), value: val("tiValue"), notes: val("tiNotes"),
+        },
       };
       try {
         const res = await fetch("/api/prospects", {
@@ -927,6 +1018,82 @@
         .join("");
     }
     updateSummary();
+
+    /* ===================================================================
+       Source & Type (step 4)
+       =================================================================== */
+    const src = { leadSource: "", prospectType: "", contact: "Any", tradeOwn: "Yes", tradeColor: "" };
+
+    function cardGroup(gridId, onPick) {
+      const grid = document.getElementById(gridId);
+      grid.querySelectorAll("button").forEach((b) => {
+        b.addEventListener("click", () => {
+          grid.querySelectorAll("button").forEach((x) => x.classList.remove("on"));
+          b.classList.add("on");
+          onPick(b.dataset.val);
+        });
+      });
+    }
+    cardGroup("leadSourceGrid", (v) => { src.leadSource = v; });
+    cardGroup("prospectTypeGrid", (v) => { src.prospectType = v; });
+
+    function srcSegmented(id, key, onPick) {
+      const box = document.getElementById(id);
+      box.querySelectorAll("button").forEach((b) => {
+        b.addEventListener("click", () => {
+          box.querySelectorAll("button").forEach((x) => x.classList.remove("on"));
+          b.classList.add("on");
+          src[key] = b.dataset.val;
+          if (onPick) onPick(b.dataset.val);
+        });
+      });
+    }
+    srcSegmented("contactMethod", "contact");
+    srcSegmented("tradeOwn", "tradeOwn", (v) => setTradeEnabled(v !== "No"));
+
+    // campaign clear button
+    const campaignEl = document.getElementById("campaign");
+    const campaignClear = document.getElementById("campaignClear");
+    campaignEl.addEventListener("input", () => campaignClear.classList.toggle("show", campaignEl.value.length > 0));
+    campaignClear.addEventListener("click", () => { campaignEl.value = ""; campaignClear.classList.remove("show"); campaignEl.focus(); });
+
+    // trade-in cascade (reuses the vehicle dataset for make/model/trim)
+    const tiMake = document.getElementById("tiMake");
+    const tiModel = document.getElementById("tiModel");
+    const tiYear = document.getElementById("tiYear");
+    const tiTrim = document.getElementById("tiTrim");
+    if (V) V.makes().forEach((mk) => { const o = document.createElement("option"); o.value = mk; o.textContent = mk; tiMake.appendChild(o); });
+    (function () { const ys = []; for (let y = 2026; y >= 1996; y--) ys.push(String(y)); fillSelect(tiYear, ys, "Select year"); })();
+    function tiRefreshTrims() {
+      const mk = tiMake.value, md = tiModel.value, yr = tiYear.value;
+      fillSelect(tiTrim, mk && md ? V.trims(mk, md, Number(yr)) : [], "Select trim");
+    }
+    tiMake.addEventListener("change", () => { fillSelect(tiModel, tiMake.value ? V.models(tiMake.value) : [], "Select model"); fillSelect(tiTrim, [], "Select trim"); });
+    tiModel.addEventListener("change", tiRefreshTrims);
+    tiYear.addEventListener("change", () => { if (tiModel.value) tiRefreshTrims(); });
+
+    // trade-in exterior swatches
+    (function () {
+      const box = document.getElementById("tiColor");
+      V.exteriorColors().forEach((c) => {
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "swatch"; b.style.background = c.hex; b.title = c.name; b.dataset.val = c.name;
+        if (["White", "Cream", "Silver"].includes(c.name)) b.classList.add("light");
+        b.addEventListener("click", () => { box.querySelectorAll(".swatch").forEach((s) => s.classList.remove("on")); b.classList.add("on"); src.tradeColor = c.name; });
+        box.appendChild(b);
+      });
+    })();
+
+    const tiNotes = document.getElementById("tiNotes");
+    tiNotes.addEventListener("input", () => { document.getElementById("tiNoteCount").textContent = tiNotes.value.length; });
+
+    // "Currently Own = No" grays out the trade-in details
+    function setTradeEnabled(on) {
+      const wrap = document.getElementById("tradeDetail");
+      wrap.classList.toggle("disabled", !on);
+      wrap.querySelectorAll("input,select,textarea,button").forEach((el) => { el.disabled = !on; });
+      if (on) { tiModel.disabled = !tiMake.value; tiTrim.disabled = !tiModel.value; }
+    }
 
     render();
   </script>
