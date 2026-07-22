@@ -128,9 +128,24 @@ a { color: inherit; text-decoration: none; }
 /* ===================== HERO ===================== */
 .hero {
   position: relative;
-  background:
-    radial-gradient(120% 90% at 78% 8%, #0d3a72 0%, rgba(13, 58, 114, 0) 55%),
-    linear-gradient(160deg, #071f3d 0%, #05152b 55%, #040f22 100%);
+  /* Base colour doubles as the fallback if the photo fails to load */
+  background-color: #05152b;
+  background-image:
+    /* left-weighted scrim keeps the headline legible over the photo */
+    linear-gradient(
+      95deg,
+      rgba(4, 15, 34, 0.88) 0%,
+      rgba(5, 20, 42, 0.72) 30%,
+      rgba(6, 25, 50, 0.42) 56%,
+      rgba(6, 28, 56, 0.22) 80%,
+      rgba(6, 28, 56, 0.15) 100%
+    ),
+    /* soft darkening toward the top so the sticky header stays readable */
+    linear-gradient(180deg, rgba(4, 15, 34, 0.5) 0%, rgba(4, 15, 34, 0) 26%),
+    url("/images/hero-dealership.jpg");
+  background-size: cover, cover, cover;
+  background-position: center, center, center 65%;
+  background-repeat: no-repeat;
   overflow: hidden;
   padding-top: 66px;
 }
@@ -187,33 +202,6 @@ a { color: inherit; text-decoration: none; }
 .hl-icon svg { width: 34px; height: 34px; }
 .hl-text { display: flex; flex-direction: column; color: #9fb2ca; font-size: 12.5px; line-height: 1.35; }
 .hl-text strong { color: #fff; font-size: 12.5px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 3px; }
-
-/* dealership photo band */
-.hero-dealership {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 210px;
-  z-index: 1;
-  background:
-    linear-gradient(180deg, rgba(4, 15, 34, 0.75) 0%, rgba(4, 15, 34, 0.15) 40%, rgba(4, 15, 34, 0.6) 100%),
-    linear-gradient(90deg, #0a2748 0%, #123763 45%, #0c2a4d 100%);
-  border-top: 1px solid rgba(120, 170, 230, 0.12);
-}
-.hero-dealership::before {
-  /* building silhouette + lit showroom */
-  content: "";
-  position: absolute; left: 0; right: 0; bottom: 0; height: 150px;
-  background:
-    repeating-linear-gradient(90deg, rgba(90,150,220,0.16) 0 2px, transparent 2px 34px),
-    linear-gradient(180deg, rgba(20,60,105,0) 0%, rgba(24,74,128,0.55) 60%, rgba(30,92,150,0.75) 100%);
-  clip-path: polygon(0 55%, 14% 55%, 14% 30%, 46% 30%, 46% 8%, 74% 8%, 74% 40%, 100% 40%, 100% 100%, 0 100%);
-  opacity: 0.85;
-}
-.hero-dealership::after {
-  content: "";
-  position: absolute; left: 6%; bottom: 0; width: 60%; height: 60px;
-  background: radial-gradient(60% 100% at 40% 100%, rgba(120,185,255,0.35), rgba(120,185,255,0) 70%);
-}
 
 /* ===================== APP WINDOW (dashboard mockup) ===================== */
 .hero-visual { position: relative; z-index: 3; min-width: 0; }
