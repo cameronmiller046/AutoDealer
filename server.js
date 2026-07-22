@@ -141,6 +141,33 @@ app.get("/api/me", (req, res) => {
   res.json({ username: u.u, role: u.r, name: u.n });
 });
 
+// Create a prospect. Auth required; name + phone enforced server-side.
+let prospectSeq = 1000;
+app.post("/api/prospects", (req, res) => {
+  const u = currentUser(req);
+  if (!u) return res.status(401).json({ error: "Not signed in." });
+
+  const body = req.body || {};
+  const firstName = String(body.firstName || "").trim();
+  const lastName = String(body.lastName || "").trim();
+  const phoneDigits = String(body.phone || "").replace(/\D/g, "");
+
+  if (!firstName || !lastName) {
+    return res.status(400).json({ error: "First and last name are required." });
+  }
+  if (phoneDigits.length < 10) {
+    return res.status(400).json({ error: "A valid phone number (at least 10 digits) is required." });
+  }
+  if (body.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(body.email))) {
+    return res.status(400).json({ error: "Enter a valid email address." });
+  }
+
+  // No datastore yet — acknowledge with an id so the UI can confirm.
+  const id = ++prospectSeq;
+  console.log(`Prospect ${id} created by ${u.u}: ${firstName} ${lastName} / ${phoneDigits}`);
+  res.json({ ok: true, id });
+});
+
 /* ---------- protected portal (not served as a static file) ---------- */
 app.get("/portal", (req, res) => {
   const u = currentUser(req);

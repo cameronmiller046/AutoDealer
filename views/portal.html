@@ -3,77 +3,580 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal — Autodealer</title>
+  <title>Add Prospect Wizard — Autodealer</title>
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=2" />
+  <link rel="stylesheet" href="/app.css?v=1" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
 </head>
-<body class="portal-body">
-  <header class="portal-header">
-    <a href="/" class="brand">
-      <span class="brand-mark">A</span>
-      <span class="brand-text">
-        <span class="brand-name" style="color:#0f2947">Auto<span class="brand-accent">dealer</span></span>
-        <span class="brand-sub" style="color:#6b7a90">Portal</span>
+<body class="app" data-theme="dark">
+
+  <!-- ===================== TOP BAR ===================== -->
+  <header class="topbar">
+    <a href="/portal" class="tb-brand">
+      <span class="tb-mark">A</span>
+      <span class="tb-name">
+        <b>Auto<i>dealer</i></b>
+        <span>New Car Management CRM</span>
       </span>
     </a>
-    <div class="portal-user">
-      <span class="role-badge">{{ROLE}}</span>
-      <span class="portal-name">{{NAME}}</span>
-      <button id="logoutBtn" class="btn btn-outline-dark">Sign out</button>
+
+    <div class="tb-search">
+      <svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      <input type="text" placeholder="Search customers, vehicles, stock #, or VIN" aria-label="Search" />
+    </div>
+
+    <div class="tb-actions">
+      <button class="icon-btn" title="Calls" aria-label="Calls">
+        <svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="icon-btn" title="Messages" aria-label="Messages">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 6.5l8.5 6 8.5-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+      <button class="icon-btn" title="Notifications" aria-label="Notifications">
+        <svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span class="badge">8</span>
+      </button>
+      <div class="tb-user">
+        <span class="tb-avatar" id="avatar">CM</span>
+        <span class="tb-user-name">
+          <b>{{NAME}}</b>
+          <span>{{ROLE}}</span>
+        </span>
+      </div>
     </div>
   </header>
 
-  <main class="portal-main">
-    <span class="portal-eyebrow">{{ROLE}} access</span>
-    <h1>Welcome back, {{NAME}}.</h1>
-    <p class="portal-lead">
-      You're signed in as <strong>{{USERNAME}}</strong>. This is your Autodealer
-      control center — a starting point for the CRM tools.
-    </p>
+  <div class="shell">
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="sidebar">
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Home</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Leads</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="4" width="7" height="4" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="3.5" y="14" width="7" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="11" width="7" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Dashboard</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Inventory</a>
 
-    <div class="portal-grid">
-      <a class="portal-tile" href="#">
-        <span class="tile-icon">📊</span>
-        <h3>Dashboard</h3>
-        <p>Leads, appointments, sold units, and gross at a glance.</p>
-      </a>
-      <a class="portal-tile" href="#">
-        <span class="tile-icon">🚗</span>
-        <h3>Inventory</h3>
-        <p>Real-time stock with incentives and aging.</p>
-      </a>
-      <a class="portal-tile" href="#">
-        <span class="tile-icon">🧾</span>
-        <h3>Deals &amp; Desking</h3>
-        <p>Structure and desk deals faster.</p>
-      </a>
-      <a class="portal-tile superuser-only" href="#">
-        <span class="tile-icon">🛡️</span>
-        <h3>Superuser Console</h3>
-        <p>View any store's portal and manage access.</p>
-      </a>
-    </div>
-  </main>
+      <button class="nav-item open" id="prospectsToggle" aria-expanded="true">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        Prospects
+        <svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav-sub" id="prospectsSub">
+        <a href="/portal" class="active">Add Prospect Wizard</a>
+        <a href="#">Active</a>
+        <a href="#">Inactive</a>
+        <a href="#">Sold</a>
+        <a href="#">Other</a>
+        <a href="#">Customers Recently Sold</a>
+        <a href="#">Source</a>
+        <a href="#">Type</a>
+        <a href="#">Launch EMT</a>
+      </div>
+
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M5 4h11l4 4v12H5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 12h8M8 16h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Deals</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Customers</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 8h12l-2-3M20 16H8l2 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Trade Manager</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 10h17" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Desk Manager</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Appointments</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Communications</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Reports</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M9 3a4 4 0 0 0-4 4 3.5 3.5 0 0 0-1 6.5A3.5 3.5 0 0 0 8 19a3 3 0 0 0 4 .8 3 3 0 0 0 4-.8 3.5 3.5 0 0 0 4-5.5A3.5 3.5 0 0 0 19 7a4 4 0 0 0-4-4 3 3 0 0 0-3 1.2A3 3 0 0 0 9 3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>AI Assistant</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Settings</a>
+
+      <div class="help-card">
+        <svg viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0v4a2 2 0 0 1-2 2h-1v-6h3M4 13v4a2 2 0 0 0 2 2h1v-6H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <div>
+          <b>NEED HELP?</b>
+          <a href="tel:+18666685394">Call Support</a>
+          <span>(866) 668-5394</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===================== MAIN ===================== -->
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <div class="crumb"><a href="#">Prospects</a><span>/</span><span>Add Prospect Wizard</span></div>
+          <h1>Add Prospect Wizard</h1>
+          <p class="page-sub">Step <span id="stepNum">1</span> of 6: <span id="stepName">Prospect Information</span></p>
+        </div>
+        <div class="head-right">
+          <select class="store-select" aria-label="Store">
+            <option>Malcolm Cunningham Chevrolet North Point (22062)</option>
+            <option>Malcolm Cunningham Buick GMC South (22071)</option>
+            <option>Malcolm Cunningham Cadillac West (22088)</option>
+          </select>
+          <div class="head-tools">
+            <label class="theme-toggle">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg>
+              Dark Mode
+              <span class="switch"><input type="checkbox" id="themeSwitch" checked /><span class="track"></span></span>
+            </label>
+            <button class="logout-link" id="logoutBtn">
+              <svg viewBox="0 0 24 24"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10 16l4-4-4-4M14 12H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- stepper -->
+      <div class="stepper" id="stepper">
+        <div class="step active"><span class="step-dot">1</span><span class="step-label">Prospect Info</span></div>
+        <div class="step"><span class="step-dot">2</span><span class="step-label">Contact Info</span></div>
+        <div class="step"><span class="step-dot">3</span><span class="step-label">Vehicle Interest</span></div>
+        <div class="step"><span class="step-dot">4</span><span class="step-label">Source &amp; Type</span></div>
+        <div class="step"><span class="step-dot">5</span><span class="step-label">Additional Info</span></div>
+        <div class="step"><span class="step-dot">6</span><span class="step-label">Review &amp; Save</span></div>
+      </div>
+
+      <div id="alertBox"></div>
+
+      <form id="wizard" novalidate>
+
+        <!-- ============ STEP 1 ============ -->
+        <section class="panel step-panel" data-step="1">
+          <div class="panel-grid">
+            <div class="panel-col">
+              <h2 class="section-title">Prospect Information</h2>
+              <div class="grid2">
+                <div class="fld">
+                  <label for="firstName">First Name <span class="req">*</span></label>
+                  <input id="firstName" name="firstName" type="text" placeholder="Enter first name" required />
+                  <span class="err-msg">First name is required.</span>
+                </div>
+                <div class="fld">
+                  <label for="lastName">Last Name <span class="req">*</span></label>
+                  <input id="lastName" name="lastName" type="text" placeholder="Enter last name" required />
+                  <span class="err-msg">Last name is required.</span>
+                </div>
+                <div class="fld">
+                  <label for="preferredName">Preferred Name</label>
+                  <input id="preferredName" name="preferredName" type="text" placeholder="Enter preferred name" />
+                </div>
+                <div class="fld">
+                  <label for="phone">Phone Number <span class="req">*</span></label>
+                  <input id="phone" name="phone" type="tel" placeholder="(555) 123-4567" required />
+                  <span class="err-msg">A valid phone number is required (at least 10 digits).</span>
+                </div>
+                <div class="fld">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" placeholder="Enter email address" />
+                  <span class="err-msg">Enter a valid email address.</span>
+                </div>
+                <div class="fld">
+                  <label for="dob">Date of Birth</label>
+                  <input id="dob" name="dob" type="date" />
+                </div>
+                <div class="fld">
+                  <label for="license">Driver's License #</label>
+                  <input id="license" name="license" type="text" placeholder="Enter driver's license number" />
+                </div>
+                <div class="fld">
+                  <label for="salesTeam">Sales Team</label>
+                  <select id="salesTeam" name="salesTeam">
+                    <option value="">Select Team</option>
+                    <option>New Car Team</option>
+                    <option>Pre-Owned Team</option>
+                    <option>Internet Team</option>
+                    <option>Fleet &amp; Commercial</option>
+                  </select>
+                </div>
+                <div class="fld span2">
+                  <label for="salesperson">Salesperson <span class="req">*</span></label>
+                  <select id="salesperson" name="salesperson" required>
+                    <option>{{NAME}}</option>
+                    <option>John Smith</option>
+                    <option>Sarah Johnson</option>
+                    <option>Mike Davis</option>
+                    <option>Jessica Brown</option>
+                    <option>Chris Wilson</option>
+                  </select>
+                  <span class="err-msg">Select a salesperson.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-col">
+              <div class="section" style="margin:0;padding:0;border:none">
+                <h2 class="section-title">Prospect Status</h2>
+                <div class="grid2">
+                  <div class="fld">
+                    <label for="status">Status <span class="req">*</span></label>
+                    <select id="status" name="status" required>
+                      <option>Active</option>
+                      <option>Inactive</option>
+                      <option>Sold</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div class="fld">
+                    <label for="priority">Priority</label>
+                    <select id="priority" name="priority">
+                      <option>Low</option>
+                      <option selected>Medium</option>
+                      <option>High</option>
+                    </select>
+                  </div>
+                  <div class="fld">
+                    <label for="dateIn">Date In</label>
+                    <input id="dateIn" name="dateIn" type="date" />
+                  </div>
+                  <div class="fld">
+                    <label>Scheduled</label>
+                    <div class="toggle-row">
+                      <span class="switch"><input type="checkbox" id="scheduled" name="scheduled" /><span class="track"></span></span>
+                      <span id="scheduledLabel">No</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section">
+                <h2 class="section-title">Communication Preferences</h2>
+                <div class="grid2">
+                  <div class="fld">
+                    <label for="prefMethod">Preferred Method</label>
+                    <select id="prefMethod" name="prefMethod">
+                      <option>Any</option>
+                      <option>Email</option>
+                      <option>Text Message</option>
+                      <option>Phone Call</option>
+                      <option>Mail</option>
+                    </select>
+                  </div>
+                  <div class="fld">
+                    <label for="bestTime">Best Time to Contact</label>
+                    <select id="bestTime" name="bestTime">
+                      <option>Anytime</option>
+                      <option>Morning</option>
+                      <option>Afternoon</option>
+                      <option>Evening</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="checks">
+                  <label class="chk"><input type="checkbox" name="ch" value="Email" checked /><span class="box"></span>Email</label>
+                  <label class="chk"><input type="checkbox" name="ch" value="Text Message" checked /><span class="box"></span>Text Message</label>
+                  <label class="chk"><input type="checkbox" name="ch" value="Phone Call" checked /><span class="box"></span>Phone Call</label>
+                  <label class="chk"><input type="checkbox" name="ch" value="Mail" /><span class="box"></span>Mail</label>
+                  <label class="chk"><input type="checkbox" id="doNotContact" name="ch" value="Do Not Contact" /><span class="box"></span>Do Not Contact</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-grid panel-split">
+            <div class="panel-col">
+              <h2 class="section-title">Notes</h2>
+              <div class="fld">
+                <textarea id="notes" name="notes" maxlength="1000" placeholder="Enter any notes about this prospect..."></textarea>
+                <div class="counter"><span id="noteCount">0</span> / 1000</div>
+              </div>
+            </div>
+            <div class="panel-col">
+              <h2 class="section-title">Tags</h2>
+              <div class="fld">
+                <input id="tags" name="tags" type="text" placeholder="Add tags (comma separated)" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ STEP 2 ============ -->
+        <section class="panel step-panel" data-step="2" hidden>
+          <div class="panel-col">
+            <h2 class="section-title">Contact Information</h2>
+            <div class="grid2">
+              <div class="fld span2"><label for="address">Street Address</label><input id="address" name="address" type="text" placeholder="123 Main St" /></div>
+              <div class="fld"><label for="city">City</label><input id="city" name="city" type="text" placeholder="Enter city" /></div>
+              <div class="fld"><label for="state">State</label><input id="state" name="state" type="text" placeholder="Enter state" /></div>
+              <div class="fld"><label for="zip">ZIP Code</label><input id="zip" name="zip" type="text" placeholder="Enter ZIP" /></div>
+              <div class="fld"><label for="altPhone">Alternate Phone</label><input id="altPhone" name="altPhone" type="tel" placeholder="(555) 987-6543" /></div>
+              <div class="fld"><label for="workPhone">Work Phone</label><input id="workPhone" name="workPhone" type="tel" placeholder="(555) 222-3333" /></div>
+              <div class="fld"><label for="altEmail">Alternate Email</label><input id="altEmail" name="altEmail" type="email" placeholder="Enter alternate email" /></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ STEP 3 ============ -->
+        <section class="panel step-panel" data-step="3" hidden>
+          <div class="panel-col">
+            <h2 class="section-title">Vehicle Interest</h2>
+            <div class="grid2">
+              <div class="fld"><label for="condition">Condition</label>
+                <select id="condition" name="condition"><option>New</option><option>Pre-Owned</option><option>Certified Pre-Owned</option></select></div>
+              <div class="fld"><label for="make">Make</label>
+                <select id="make" name="make"><option value="">Select make</option><option>Chevrolet</option><option>Buick</option><option>GMC</option><option>Cadillac</option></select></div>
+              <div class="fld"><label for="model">Model</label><input id="model" name="model" type="text" placeholder="e.g. Silverado 1500" /></div>
+              <div class="fld"><label for="year">Year</label><input id="year" name="year" type="text" placeholder="e.g. 2026" /></div>
+              <div class="fld"><label for="budget">Target Monthly Payment</label><input id="budget" name="budget" type="text" placeholder="e.g. $650" /></div>
+              <div class="fld"><label for="tradeIn">Trade-In</label>
+                <select id="tradeIn" name="tradeIn"><option>No</option><option>Yes</option><option>Undecided</option></select></div>
+              <div class="fld span2"><label for="vehicleNotes">Vehicle Notes</label><input id="vehicleNotes" name="vehicleNotes" type="text" placeholder="Colour, trim, must-have options..." /></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ STEP 4 ============ -->
+        <section class="panel step-panel" data-step="4" hidden>
+          <div class="panel-col">
+            <h2 class="section-title">Source &amp; Type</h2>
+            <div class="grid2">
+              <div class="fld"><label for="source">Lead Source</label>
+                <select id="source" name="source"><option>Walk-In</option><option>Cars.com</option><option>AutoTrader</option><option>CarGurus</option><option>Website</option><option>Phone-In</option><option>Referral</option><option>Other</option></select></div>
+              <div class="fld"><label for="ptype">Prospect Type</label>
+                <select id="ptype" name="ptype"><option>Retail</option><option>Fleet</option><option>Commercial</option><option>Wholesale</option></select></div>
+              <div class="fld"><label for="campaign">Campaign</label><input id="campaign" name="campaign" type="text" placeholder="Enter campaign name" /></div>
+              <div class="fld"><label for="referredBy">Referred By</label><input id="referredBy" name="referredBy" type="text" placeholder="Enter referrer" /></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ STEP 5 ============ -->
+        <section class="panel step-panel" data-step="5" hidden>
+          <div class="panel-col">
+            <h2 class="section-title">Additional Information</h2>
+            <div class="grid2">
+              <div class="fld"><label for="timeframe">Purchase Timeframe</label>
+                <select id="timeframe" name="timeframe"><option>Immediately</option><option>Within 30 days</option><option>1-3 months</option><option>3-6 months</option><option>Just researching</option></select></div>
+              <div class="fld"><label for="financing">Financing</label>
+                <select id="financing" name="financing"><option>Finance</option><option>Lease</option><option>Cash</option><option>Undecided</option></select></div>
+              <div class="fld span2"><label for="extraNotes">Additional Notes</label><textarea id="extraNotes" name="extraNotes" maxlength="1000" placeholder="Anything else the team should know..."></textarea></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ STEP 6 ============ -->
+        <section class="panel step-panel" data-step="6" hidden>
+          <div class="panel-col">
+            <h2 class="section-title">Review &amp; Save</h2>
+            <dl class="review-grid" id="reviewGrid"></dl>
+          </div>
+        </section>
+
+        <div class="wizard-actions">
+          <button type="button" class="btn2 left" id="cancelBtn">Cancel</button>
+          <button type="button" class="btn2" id="backBtn" hidden>
+            <svg viewBox="0 0 20 16"><path d="M19 8H3M8 2L2 8l6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Back
+          </button>
+          <button type="button" class="btn2 primary" id="nextBtn">
+            Next
+            <svg viewBox="0 0 20 16"><path d="M1 8h16M12 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button type="submit" class="btn2 primary" id="saveBtn" hidden>Save Prospect</button>
+        </div>
+      </form>
+
+      <footer class="app-footer">
+        <span>© 2026 Autodealer CRM. All rights reserved.</span>
+        <nav><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Support</a></nav>
+      </footer>
+    </main>
+  </div>
 
   <script>
+    /* ---------- theme ---------- */
+    const themeSwitch = document.getElementById("themeSwitch");
+    const savedTheme = localStorage.getItem("ad-theme");
+    if (savedTheme) {
+      document.body.dataset.theme = savedTheme;
+      themeSwitch.checked = savedTheme === "dark";
+    }
+    themeSwitch.addEventListener("change", () => {
+      const t = themeSwitch.checked ? "dark" : "light";
+      document.body.dataset.theme = t;
+      localStorage.setItem("ad-theme", t);
+    });
+
+    /* ---------- misc chrome ---------- */
+    const nameEl = "{{NAME}}".trim();
+    document.getElementById("avatar").textContent =
+      nameEl.split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase() || "U";
+
     document.getElementById("logoutBtn").addEventListener("click", async () => {
       await fetch("/api/logout", { method: "POST" }).catch(() => {});
       window.location.assign("/login");
     });
 
-    // Show superuser-only tiles only for superusers
-    (async () => {
+    const prospectsToggle = document.getElementById("prospectsToggle");
+    const prospectsSub = document.getElementById("prospectsSub");
+    prospectsToggle.addEventListener("click", () => {
+      const open = prospectsToggle.classList.toggle("open");
+      prospectsSub.style.display = open ? "flex" : "none";
+      prospectsToggle.setAttribute("aria-expanded", String(open));
+    });
+
+    const notes = document.getElementById("notes");
+    notes.addEventListener("input", () => {
+      document.getElementById("noteCount").textContent = notes.value.length;
+    });
+
+    const scheduled = document.getElementById("scheduled");
+    scheduled.addEventListener("change", () => {
+      document.getElementById("scheduledLabel").textContent = scheduled.checked ? "Yes" : "No";
+    });
+
+    // Do Not Contact overrides the individual channel checkboxes.
+    const dnc = document.getElementById("doNotContact");
+    const channels = [...document.querySelectorAll('input[name="ch"]')].filter(c => c !== dnc);
+    dnc.addEventListener("change", () => {
+      if (dnc.checked) channels.forEach(c => { c.checked = false; c.disabled = true; });
+      else channels.forEach(c => { c.disabled = false; });
+    });
+
+    // Default Date In to today.
+    const today = new Date().toISOString().slice(0, 10);
+    document.getElementById("dateIn").value = today;
+
+    /* ---------- phone formatting ---------- */
+    const phone = document.getElementById("phone");
+    phone.addEventListener("input", () => {
+      const d = phone.value.replace(/\D/g, "").slice(0, 10);
+      phone.value = d.length > 6 ? `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`
+                  : d.length > 3 ? `(${d.slice(0,3)}) ${d.slice(3)}`
+                  : d.length     ? `(${d}` : "";
+    });
+
+    /* ---------- wizard ---------- */
+    const STEP_NAMES = ["Prospect Information","Contact Information","Vehicle Interest","Source & Type","Additional Information","Review & Save"];
+    const panels = [...document.querySelectorAll(".step-panel")];
+    const steps = [...document.querySelectorAll(".stepper .step")];
+    const nextBtn = document.getElementById("nextBtn");
+    const backBtn = document.getElementById("backBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const alertBox = document.getElementById("alertBox");
+    let current = 1;
+
+    function setInvalid(el, bad) {
+      el.closest(".fld").classList.toggle("invalid", bad);
+    }
+    function digits(v) { return (v || "").replace(/\D/g, ""); }
+
+    // Step 1 gate: name + phone are required.
+    function validateStep1() {
+      const first = document.getElementById("firstName");
+      const last = document.getElementById("lastName");
+      const em = document.getElementById("email");
+      let ok = true;
+
+      const firstBad = !first.value.trim();
+      setInvalid(first, firstBad); if (firstBad) ok = false;
+
+      const lastBad = !last.value.trim();
+      setInvalid(last, lastBad); if (lastBad) ok = false;
+
+      const phoneBad = digits(phone.value).length < 10;
+      setInvalid(phone, phoneBad); if (phoneBad) ok = false;
+
+      const emailBad = em.value.trim() && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em.value.trim());
+      setInvalid(em, emailBad); if (emailBad) ok = false;
+
+      return ok;
+    }
+
+    function showAlert(msg, kind) {
+      alertBox.innerHTML = msg ? `<div class="${kind === "ok" ? "form-ok" : "form-alert"}">${msg}</div>` : "";
+    }
+
+    function render() {
+      panels.forEach(p => { p.hidden = Number(p.dataset.step) !== current; });
+      steps.forEach((s, i) => {
+        s.classList.toggle("active", i + 1 === current);
+        s.classList.toggle("done", i + 1 < current);
+      });
+      document.getElementById("stepNum").textContent = current;
+      document.getElementById("stepName").textContent = STEP_NAMES[current - 1];
+      backBtn.hidden = current === 1;
+      nextBtn.hidden = current === 6;
+      saveBtn.hidden = current !== 6;
+      if (current === 6) buildReview();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ""; }
+
+    function buildReview() {
+      const chans = [...document.querySelectorAll('input[name="ch"]')].filter(c => c.checked).map(c => c.value);
+      const rows = [
+        ["Name", [val("firstName"), val("lastName")].filter(Boolean).join(" ") || "—"],
+        ["Phone", val("phone") || "—"],
+        ["Email", val("email") || "—"],
+        ["Salesperson", val("salesperson") || "—"],
+        ["Status", val("status") || "—"],
+        ["Priority", val("priority") || "—"],
+        ["Date In", val("dateIn") || "—"],
+        ["Vehicle", [val("condition"), val("make"), val("model"), val("year")].filter(Boolean).join(" ") || "—"],
+        ["Lead Source", val("source") || "—"],
+        ["Timeframe", val("timeframe") || "—"],
+        ["Communication", chans.length ? chans.join(", ") : "—"],
+        ["Tags", val("tags") || "—"],
+      ];
+      document.getElementById("reviewGrid").innerHTML = rows
+        .map(([k, v]) => `<div class="review-item"><dt>${k}</dt><dd>${String(v).replace(/[<>&]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]))}</dd></div>`)
+        .join("");
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (current === 1 && !validateStep1()) {
+        showAlert("Please fix the highlighted fields — a first name, last name, and phone number are required.", "err");
+        document.querySelector(".fld.invalid input")?.focus();
+        return;
+      }
+      showAlert("");
+      if (current < 6) { current++; render(); }
+    });
+
+    backBtn.addEventListener("click", () => { showAlert(""); if (current > 1) { current--; render(); } });
+
+    document.getElementById("cancelBtn").addEventListener("click", () => {
+      if (confirm("Discard this prospect? Any information entered will be lost.")) window.location.reload();
+    });
+
+    document.getElementById("wizard").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      // Re-check step 1 in case the user jumped straight here.
+      if (!validateStep1()) { current = 1; render(); showAlert("A first name, last name, and phone number are required.", "err"); return; }
+      saveBtn.disabled = true; saveBtn.textContent = "Saving…";
+      const payload = {
+        firstName: val("firstName"), lastName: val("lastName"), phone: val("phone"),
+        preferredName: val("preferredName"), email: val("email"), dob: val("dob"),
+        license: val("license"), salesperson: val("salesperson"), salesTeam: val("salesTeam"),
+        status: val("status"), priority: val("priority"), dateIn: val("dateIn"),
+        scheduled: document.getElementById("scheduled").checked,
+        prefMethod: val("prefMethod"), bestTime: val("bestTime"),
+        channels: [...document.querySelectorAll('input[name="ch"]')].filter(c => c.checked).map(c => c.value),
+        notes: val("notes"), tags: val("tags"),
+        address: val("address"), city: val("city"), state: val("state"), zip: val("zip"),
+        altPhone: val("altPhone"), workPhone: val("workPhone"), altEmail: val("altEmail"),
+        condition: val("condition"), make: val("make"), model: val("model"), year: val("year"),
+        budget: val("budget"), tradeIn: val("tradeIn"), vehicleNotes: val("vehicleNotes"),
+        source: val("source"), ptype: val("ptype"), campaign: val("campaign"), referredBy: val("referredBy"),
+        timeframe: val("timeframe"), financing: val("financing"), extraNotes: val("extraNotes"),
+      };
       try {
-        const me = await (await fetch("/api/me")).json();
-        if (me.role !== "superuser") {
-          document.querySelectorAll(".superuser-only").forEach((el) => el.remove());
+        const res = await fetch("/api/prospects", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          showAlert(`Prospect <b>${payload.firstName} ${payload.lastName}</b> saved (ID ${data.id}).`, "ok");
+          saveBtn.textContent = "Saved";
+        } else {
+          showAlert(data.error || "Could not save this prospect.", "err");
+          saveBtn.disabled = false; saveBtn.textContent = "Save Prospect";
         }
-      } catch {}
-    })();
+      } catch {
+        showAlert("Network error — could not save this prospect.", "err");
+        saveBtn.disabled = false; saveBtn.textContent = "Save Prospect";
+      }
+    });
+
+    render();
   </script>
 </body>
 </html>
