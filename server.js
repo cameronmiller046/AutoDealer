@@ -195,6 +195,11 @@ app.get("/portal/active", (req, res) => {
   if (!u) return res.redirect("/login");
   renderView(res, u, "active.html");
 });
+app.get("/portal/inactive", (req, res) => {
+  const u = currentUser(req);
+  if (!u) return res.redirect("/login");
+  renderView(res, u, "inactive.html");
+});
 
 // Lightweight health check for Railway
 app.get("/healthz", (_req, res) => res.status(200).send("ok"));

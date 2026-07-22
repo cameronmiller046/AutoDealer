@@ -528,6 +528,12 @@ table.ap { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 1
 .pill.high { color: #f87171; background: rgba(248, 113, 113, 0.15); }
 .pill.med { color: #fbbf24; background: rgba(251, 191, 36, 0.15); }
 .pill.low { color: #34d399; background: rgba(52, 211, 153, 0.15); }
+/* inactive-reason badges (outlined) */
+.rpill { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11.5px; font-weight: 600; border: 1px solid; }
+.rpill.nocontact { color: #c084fc; border-color: rgba(168, 85, 247, 0.5); background: rgba(168, 85, 247, 0.1); }
+.rpill.disq { color: #f87171; border-color: rgba(248, 113, 113, 0.5); background: rgba(248, 113, 113, 0.1); }
+.rpill.lost { color: #fbbf24; border-color: rgba(251, 191, 36, 0.5); background: rgba(251, 191, 36, 0.1); }
+.fu-na { color: var(--faint); }
 .fu { display: flex; align-items: flex-start; gap: 9px; }
 .fu-ico { width: 17px; height: 17px; flex: none; margin-top: 1px; }
 .fu.phone .fu-ico { color: #22c55e; }

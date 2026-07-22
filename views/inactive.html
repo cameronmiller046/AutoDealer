@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Active Prospects — Autodealer</title>
+  <title>Inactive Prospects — Autodealer</title>
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/app.css?v=4" />
+  <link rel="stylesheet" href="/app.css?v=5" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
 </head>
 <body class="app" data-theme="dark">
@@ -51,8 +51,8 @@
       </button>
       <div class="nav-sub" id="prospectsSub">
         <a href="/portal">Add Prospect Wizard</a>
-        <a href="/portal/active" class="active">Active</a>
-        <a href="/portal/inactive">Inactive</a>
+        <a href="/portal/active">Active</a>
+        <a href="/portal/inactive" class="active">Inactive</a>
         <a href="#">Sold</a>
         <a href="#">Other</a>
         <a href="#">Customers Recently Sold</a>
@@ -81,8 +81,8 @@
     <main class="ap-main">
       <div class="ap-head">
         <div>
-          <div class="ap-title"><h1>Active Prospects</h1><span class="ap-count" id="apCount">19</span></div>
-          <p class="ap-sub">View and manage all active prospects in your pipeline.</p>
+          <div class="ap-title"><h1>Inactive Prospects</h1><span class="ap-count">14</span></div>
+          <p class="ap-sub">Leads that are inactive or no longer in progress.</p>
         </div>
         <div class="ap-actions">
           <button class="ap-refresh" id="refreshBtn"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-.5 4M20 5v6h-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Refresh</button>
@@ -92,26 +92,29 @@
 
       <!-- stat cards -->
       <div class="stat-row">
-        <div class="stat blue"><span class="st-ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><span class="st-body"><span class="st-label">Total Active</span><span class="st-value">19</span><span class="st-sub">All active prospects</span></span></div>
-        <div class="stat purple"><span class="st-ico"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="st-body"><span class="st-label">Scheduled</span><span class="st-value">6</span><span class="st-sub">Upcoming follow-ups</span></span></div>
-        <div class="stat green"><span class="st-ico"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><span class="st-body"><span class="st-label">No Contact</span><span class="st-value">5</span><span class="st-sub">Need attention</span></span></div>
-        <div class="stat orange"><span class="st-ico"><svg viewBox="0 0 24 24"><path d="M4 4h9l7 7-9 9-7-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/></svg></span><span class="st-body"><span class="st-label">Hot Leads</span><span class="st-value">3</span><span class="st-sub">High priority</span></span></div>
-        <div class="stat teal"><span class="st-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 9.2c-.5-.9-1.4-1.2-2.3-1.2-1.3 0-2.2.7-2.2 1.8 0 2.6 5 1.4 5 4 0 1.2-1 2-2.5 2-1.1 0-2-.4-2.5-1.3M12 6.5v11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="st-body"><span class="st-label">Est. Total Value</span><span class="st-value">$427,350</span><span class="st-sub">Total potential revenue</span></span></div>
+        <div class="stat blue"><span class="st-ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><span class="st-body"><span class="st-label">Total Inactive</span><span class="st-value">14</span><span class="st-sub">All inactive prospects</span></span></div>
+        <div class="stat purple"><span class="st-ico"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="st-body"><span class="st-label">No Contact (30+ Days)</span><span class="st-value">6</span><span class="st-sub">No recent activity</span></span></div>
+        <div class="stat green"><span class="st-ico"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><span class="st-body"><span class="st-label">Disqualified</span><span class="st-value">4</span><span class="st-sub">Not a good fit</span></span></div>
+        <div class="stat orange"><span class="st-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="st-body"><span class="st-label">Lost Deal</span><span class="st-value">2</span><span class="st-sub">Went with competitor</span></span></div>
+        <div class="stat teal"><span class="st-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 9.2c-.5-.9-1.4-1.2-2.3-1.2-1.3 0-2.2.7-2.2 1.8 0 2.6 5 1.4 5 4 0 1.2-1 2-2.5 2-1.1 0-2-.4-2.5-1.3M12 6.5v11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="st-body"><span class="st-label">Est. Lost Value</span><span class="st-value">$128,750</span><span class="st-sub">Potential lost revenue</span></span></div>
       </div>
 
       <!-- filter bar -->
-      <div class="filter-bar">
+      <div class="filter-bar" style="grid-template-columns:repeat(5,minmax(0,1fr)) auto">
         <div class="fl"><label>Prospects For</label>
           <div class="chip-box"><span class="chip">Cameron Miller <button type="button" aria-label="Remove">✕</button></span><button class="chip-x" aria-label="Clear all">✕</button></div>
         </div>
         <div class="fl"><label>Date Range</label>
-          <select><option>Last 7 Days</option><option>Today</option><option>Last 30 Days</option><option>This Month</option><option>All Time</option></select>
+          <select><option>Last 30 Days</option><option>Last 7 Days</option><option>This Month</option><option>All Time</option></select>
+        </div>
+        <div class="fl"><label>Inactive Reason</label>
+          <select><option>All Reasons</option><option>No Contact</option><option>Disqualified</option><option>Lost Deal</option></select>
         </div>
         <div class="fl"><label>Start Date</label>
-          <div class="date-input"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>07/15/2026</div>
+          <div class="date-input"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>06/15/2026</div>
         </div>
         <div class="fl"><label>End Date</label>
-          <div class="date-input"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>07/22/2026</div>
+          <div class="date-input"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>07/15/2026</div>
         </div>
         <div class="fl" style="display:flex;align-items:flex-end"><button class="more-filters"><svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>More Filters</button></div>
       </div>
@@ -124,15 +127,14 @@
               <tr>
                 <th><input type="checkbox" class="row-chk" id="chkAll" aria-label="Select all" /></th>
                 <th>Name</th>
-                <th><span class="sort">Date In <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+                <th><span class="sort">Date Inactive <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
                 <th>Phone</th>
-                <th>Priority</th>
-                <th>Scheduled</th>
-                <th>Vehicle Interest</th>
-                <th><span class="sort">Follow Up Type <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+                <th><span class="sort">Inactive Reason <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+                <th>Follow Up Type</th>
+                <th><span class="sort">Vehicle Interest <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
                 <th>Salesperson</th>
                 <th>Source</th>
-                <th>Last Activity</th>
+                <th>Last Contact</th>
                 <th></th>
               </tr>
             </thead>
@@ -140,7 +142,7 @@
           </table>
         </div>
         <div class="ap-foot">
-          <span id="apRange">Showing 1 to 10 of 19 results</span>
+          <span id="apRange">Showing 1 to 10 of 14 results</span>
           <div style="display:flex;align-items:center;gap:16px">
             <div class="perpage"><span>Rows</span><select id="perPage"><option>10 per page</option><option>20 per page</option><option>50 per page</option></select></div>
             <div class="pager" id="pager"></div>
@@ -151,7 +153,6 @@
   </div>
 
   <script>
-    /* theme */
     const saved = localStorage.getItem("ad-theme");
     if (saved) document.body.dataset.theme = saved;
     document.getElementById("themeBtn").addEventListener("click", () => {
@@ -163,39 +164,26 @@
     const pt = document.getElementById("prospectsToggle"), ps = document.getElementById("prospectsSub");
     pt.addEventListener("click", () => { const o = pt.classList.toggle("open"); ps.style.display = o ? "flex" : "none"; });
 
-    /* sample data */
-    const P = "phone", T = "text", E = "email";
+    // [name, dateInactive, phone, reason, vehTitle, vehSub, salesperson, source, lastDate, lastTime]
+    const NC = "nocontact", DQ = "disq", LD = "lost";
     const DATA = [
-      ["Brown, Brenda","07/17/2026","(310) 990-2120","high",1,"2026 Chevrolet Colorado","Truck • Crew Cab • FWD",P,"Today","Miller,C","Web - 3rd Party","GM 3rd Party","Today","10:24 AM"],
-      ["Perkins, Gamaliel","07/16/2026","(404) 309-3797","med",1,"2024 Genesis GV70","SUV • AWD",T,"Tomorrow","Miller,C","Edmunds.com","Instant Cash Offer","Today","9:15 AM"],
-      ["Fitzgerald, Joseph","07/21/2026","(678) 938-5831","low",1,"2021 Chevrolet Silverado 1500","Truck • Crew Cab • 4WD",E,"Jul 23, 2026","Miller,C","Walk-In","","Yesterday","4:42 PM"],
-      ["Herron, Marcus","07/18/2026","(678) 600-2186","med",1,"","Not specified",P,"Jul 24, 2026","Miller,C","Facebook","","Yesterday","2:18 PM"],
-      ["Sanchez, Bernardo","07/21/2026","(404) 908-8594","low",1,"","Not specified",T,"Jul 23, 2026","Miller,C","Elead Contact Center","","Yesterday","11:03 AM"],
-      ["Alfaro, Alberto","07/22/2026","(678) 368-0601","high",1,"2025 Toyota Tacoma","Truck • Double Cab • 4WD",P,"Jul 23, 2026","Miller,C","Facebook","","Yesterday","9:20 AM"],
-      ["Ashley, Caleb","07/17/2026","(470) 962-7955","high",1,"2022 Hyundai Elantra","Sedan • FWD",E,"Today","Miller,C","Web - 3rd Party","GM 3rd Party","Jul 17, 2026","3:57 PM"],
-      ["Balass, Matan","07/15/2026","(405) 657-8022","med",1,"2024 Chevrolet Silverado 1500","Truck • Crew Cab • 4WD",P,"Jul 23, 2026","Miller,C","Dealer Website","","Jul 15, 2026","5:31 PM"],
-      ["Brooks, Sabrie","07/22/2026","(470) 655-9776","low",1,"2025 Volkswagen Taos","SUV • AWD",T,"Jul 24, 2026","Miller,C","Elead Contact Center","","Jul 15, 2026","10:11 AM"],
-      ["Carter, Denise","07/14/2026","(404) 221-4410","med",1,"2026 GMC Sierra 1500","Truck • Crew Cab • 4WD",P,"Jul 25, 2026","Miller,C","Dealer Website","","Jul 14, 2026","1:12 PM"],
-      ["Diaz, Ramon","07/13/2026","(678) 442-9087","high",1,"2025 Chevrolet Equinox","SUV • AWD",E,"Jul 26, 2026","Miller,C","Web - 3rd Party","GM 3rd Party","Jul 13, 2026","8:47 AM"],
-      ["Evans, Priya","07/20/2026","(470) 118-3325","low",0,"2023 Honda CR-V","SUV • AWD",T,"Jul 24, 2026","Miller,C","Facebook","","Jul 12, 2026","4:05 PM"],
-      ["Foster, Liam","07/19/2026","(404) 776-5521","med",1,"2024 Cadillac XT5","SUV • AWD",P,"Jul 23, 2026","Miller,C","Walk-In","","Jul 12, 2026","11:58 AM"],
-      ["Grant, Olivia","07/11/2026","(678) 903-2277","high",1,"2026 Chevrolet Tahoe","SUV • 4WD",E,"Today","Miller,C","Elead Contact Center","","Jul 11, 2026","9:33 AM"],
-      ["Hughes, Marcus","07/10/2026","(470) 550-8841","low",0,"","Not specified",T,"Jul 25, 2026","Miller,C","Facebook","","Jul 10, 2026","3:20 PM"],
-      ["Iqbal, Sana","07/16/2026","(404) 667-1290","med",1,"2025 Buick Enclave","SUV • AWD",P,"Jul 24, 2026","Miller,C","Dealer Website","","Jul 10, 2026","10:47 AM"],
-      ["Jensen, Erik","07/09/2026","(678) 231-7788","high",1,"2026 Ford F-150","Truck • Crew Cab • 4WD",E,"Jul 26, 2026","Miller,C","Web - 3rd Party","GM 3rd Party","Jul 9, 2026","2:02 PM"],
-      ["Kim, Grace","07/08/2026","(470) 884-3390","med",0,"2024 Tesla Model Y","SUV • AWD",T,"Jul 23, 2026","Miller,C","Edmunds.com","Instant Cash Offer","Jul 8, 2026","5:55 PM"],
-      ["Lopez, Miguel","07/22/2026","(404) 512-6634","low",0,"2023 GMC Terrain","SUV • AWD",P,"Jul 25, 2026","Miller,C","Walk-In","","Jul 8, 2026","8:15 AM"],
+      ["Jackson, Tyler","07/10/2026","(404) 555-0198",NC,"2024 Chevrolet Tahoe","SUV • 4WD","Miller,C","Facebook","06/08/2026","11:23 AM"],
+      ["Roberts, Amanda","07/08/2026","(470) 555-0143",DQ,"2023 Toyota RAV4","SUV • AWD","Miller,C","Edmunds.com","06/26/2026","3:45 PM"],
+      ["Thompson, Brian","07/05/2026","(770) 555-0265",LD,"2021 Ford F-150","Truck • Crew Cab • 4WD","Miller,C","Walk-In","06/21/2026","10:02 AM"],
+      ["Martinez, Jessica","07/03/2026","(678) 555-0117",NC,"2024 Honda CR-V","SUV • AWD","Miller,C","TikTok","06/15/2026","9:17 AM"],
+      ["Lee, David","07/01/2026","(404) 555-0387",DQ,"2022 BMW X5","SUV • AWD","Miller,C","Dealer Website","06/18/2026","2:30 PM"],
+      ["White, Courtney","06/28/2026","(470) 555-0239",NC,"2023 Nissan Rogue","SUV • FWD","Miller,C","Facebook","06/07/2026","1:05 PM"],
+      ["Garcia, Miguel","06/25/2026","(678) 555-0662",LD,"2024 Chevrolet Silverado 1500","Truck • Crew Cab • 4WD","Miller,C","Walk-In","06/12/2026","4:50 PM"],
+      ["Anderson, Kevin","06/22/2026","(770) 555-0176",DQ,"2025 Hyundai Palisade","SUV • AWD","Miller,C","Edmunds.com","06/10/2026","12:44 PM"],
+      ["Nguyen, Kim","06/20/2026","(404) 555-0912",NC,"2023 Kia Telluride","SUV • AWD","Miller,C","Facebook","06/05/2026","10:30 AM"],
+      ["Patel, Raj","06/18/2026","(470) 555-0733",NC,"2022 Ram 1500","Truck • Crew Cab • 4WD","Miller,C","Dealer Website","06/02/2026","3:12 PM"],
+      ["O'Brien, Sean","06/15/2026","(678) 555-0488",DQ,"2024 Subaru Outback","SUV • AWD","Miller,C","Walk-In","05/30/2026","9:05 AM"],
+      ["Rivera, Sofia","06/12/2026","(770) 555-0355",NC,"2023 Mazda CX-5","SUV • AWD","Miller,C","TikTok","05/28/2026","1:47 PM"],
+      ["Turner, Grace","06/10/2026","(404) 555-0620",NC,"2025 GMC Acadia","SUV • AWD","Miller,C","Edmunds.com","05/25/2026","11:15 AM"],
+      ["Walker, James","06/08/2026","(470) 555-0271",NC,"2021 Chevrolet Equinox","SUV • FWD","Miller,C","Facebook","05/22/2026","4:20 PM"],
     ];
 
-    const PILL = { high: ["high", "High"], med: ["med", "Medium"], low: ["low", "Low"] };
-    const FU_ICON = {
-      phone: '<svg class="fu-ico" viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>',
-      text: '<svg class="fu-ico" viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>',
-      email: '<svg class="fu-ico" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>',
-    };
-    const FU_LABEL = { phone: "Phone Call", text: "Text Message", email: "Email" };
-    const CAL = '<svg class="sched-ico" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3M8 14l2.5 2.5L15 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    const CAL_OFF = '<svg class="sched-ico off" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+    const RPILL = { nocontact: ["nocontact", "No Contact"], disq: ["disq", "Disqualified"], lost: ["lost", "Lost Deal"] };
     const MENU = '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg>';
 
     let page = 1, per = 10;
@@ -206,21 +194,18 @@
       const start = (page - 1) * per;
       const rows = DATA.slice(start, start + per);
       document.getElementById("apBody").innerHTML = rows.map((r) => {
-        const [name, dateIn, phone, pri, sched, vt, vsub, fu, fudate, sp, s1, s2, la, lat] = r;
-        const veh = vt ? `<div class="two"><b>${vt}</b><span>${vsub}</span></div>` : `<div class="two"><b>—</b><span>${vsub}</span></div>`;
-        const source = `<div class="two"><b>${s1}</b>${s2 ? `<span>${s2}</span>` : ""}</div>`;
+        const [name, dInact, phone, reason, vt, vsub, sp, src, ld, lt] = r;
         return `<tr>
           <td><input type="checkbox" class="row-chk" aria-label="Select ${name}"></td>
           <td><span class="ap-name">${name}</span></td>
-          <td class="ap-date">${dateIn}</td>
+          <td class="ap-date">${dInact}</td>
           <td>${phone}</td>
-          <td><span class="pill ${PILL[pri][0]}">${PILL[pri][1]}</span></td>
-          <td>${sched ? CAL : CAL_OFF}</td>
-          <td>${veh}</td>
-          <td><div class="fu ${fu}">${FU_ICON[fu]}<div class="two"><b>${FU_LABEL[fu]}</b><span>${fudate}</span></div></div></td>
+          <td><span class="rpill ${RPILL[reason][0]}">${RPILL[reason][1]}</span></td>
+          <td class="fu-na">N/A</td>
+          <td><div class="two"><b>${vt}</b><span>${vsub}</span></div></td>
           <td>${sp}</td>
-          <td>${source}</td>
-          <td><div class="two"><b>${la}</b><span>${lat}</span></div></td>
+          <td>${src}</td>
+          <td><div class="two"><b>${ld}</b><span>${lt}</span></div></td>
           <td><button class="row-menu" aria-label="Actions">${MENU}</button></td>
         </tr>`;
       }).join("");
