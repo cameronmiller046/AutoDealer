@@ -500,6 +500,7 @@ button { font: inherit; }
 .cust-name:hover { text-decoration: underline; }
 .vip { background: rgba(59, 130, 246, 0.16); color: #60a5fa; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 5px; margin-left: 7px; vertical-align: middle; }
 .stbadge { display: inline-block; padding: 3px 11px; border-radius: 6px; font-size: 11.5px; font-weight: 600; border: 1px solid rgba(34, 197, 94, 0.45); color: #4ade80; background: rgba(34, 197, 94, 0.1); }
+.stbadge.inactive { border-color: rgba(148, 163, 184, 0.4); color: #94a3b8; background: rgba(148, 163, 184, 0.1); }
 .cust-search { display: flex; align-items: center; gap: 10px; background: var(--input); border: 1px solid var(--border); border-radius: 9px; padding: 11px 14px; color: var(--muted); height: 40px; }
 .cust-search svg { width: 16px; height: 16px; flex: none; }
 .cust-search input { border: none; background: transparent; color: var(--text); width: 100%; outline: none; font-size: 13.5px; }

@@ -177,12 +177,13 @@ app.post("/api/prospects", (req, res) => {
 });
 
 /* ---------- protected portal pages (not served as static files) ---------- */
-function renderView(res, u, file) {
+function renderView(res, u, file, segment) {
   const html = fs
     .readFileSync(path.join(__dirname, "views", file), "utf8")
     .replaceAll("{{NAME}}", u.n || u.u)
     .replaceAll("{{USERNAME}}", u.u)
-    .replaceAll("{{ROLE}}", u.r);
+    .replaceAll("{{ROLE}}", u.r)
+    .replaceAll("{{SEGMENT}}", segment || "all");
   res.type("html").send(html);
 }
 app.get("/portal", (req, res) => {
@@ -200,11 +201,17 @@ app.get("/portal/inactive", (req, res) => {
   if (!u) return res.redirect("/login");
   renderView(res, u, "inactive.html");
 });
-app.get("/portal/customers", (req, res) => {
-  const u = currentUser(req);
-  if (!u) return res.redirect("/login");
-  renderView(res, u, "customers.html");
-});
+function customersPage(segment) {
+  return (req, res) => {
+    const u = currentUser(req);
+    if (!u) return res.redirect("/login");
+    renderView(res, u, "customers.html", segment);
+  };
+}
+app.get("/portal/customers", customersPage("all"));
+app.get("/portal/customers/recent", customersPage("recent"));
+app.get("/portal/customers/vip", customersPage("vip"));
+app.get("/portal/customers/inactive", customersPage("inactive"));
 
 // Lightweight health check for Railway
 app.get("/healthz", (_req, res) => res.status(200).send("ok"));
