@@ -102,21 +102,24 @@
       <!-- filter bar -->
       <div class="filter-bar" style="grid-template-columns:repeat(5,minmax(0,1fr)) auto">
         <div class="fl"><label>Prospects For</label>
-          <div class="chip-box"><span class="chip">Cameron Miller <button type="button" aria-label="Remove">✕</button></span><button class="chip-x" aria-label="Clear all">✕</button></div>
+          <div class="chip-box" id="spChip"><span class="chip">Cameron Miller <button type="button" id="chipRemove" aria-label="Remove">✕</button></span><button class="chip-x" id="chipClear" aria-label="Clear all">✕</button></div>
         </div>
         <div class="fl"><label>Date Range</label>
-          <select><option>Last 30 Days</option><option>Last 7 Days</option><option>This Month</option><option>All Time</option></select>
+          <select id="dateRange"><option>All Time</option><option>Last 7 Days</option><option>Last 30 Days</option><option>Last 90 Days</option><option>This Month</option></select>
         </div>
         <div class="fl"><label>Inactive Reason</label>
-          <select><option>All Reasons</option><option>No Contact</option><option>Disqualified</option><option>Lost Deal</option></select>
+          <select id="reasonFilter"><option>All Reasons</option><option>No Contact</option><option>Disqualified</option><option>Lost Deal</option></select>
         </div>
-        <div class="fl"><label>Start Date</label>
-          <div class="date-input"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>06/15/2026</div>
+        <div class="fl"><label>Start Date</label><input type="date" id="startDate" /></div>
+        <div class="fl"><label>End Date</label><input type="date" id="endDate" /></div>
+        <div class="fl" style="display:flex;align-items:flex-end"><button class="more-filters" id="moreBtn"><svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>More Filters</button></div>
+      </div>
+
+      <!-- more filters -->
+      <div class="more-panel" id="morePanel" hidden style="grid-template-columns:1fr">
+        <div class="fl"><label>Search</label>
+          <div class="cust-search"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input type="text" id="searchInput" placeholder="Name, phone, or vehicle..." /></div>
         </div>
-        <div class="fl"><label>End Date</label>
-          <div class="date-input"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>07/15/2026</div>
-        </div>
-        <div class="fl" style="display:flex;align-items:flex-end"><button class="more-filters"><svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>More Filters</button></div>
       </div>
 
       <!-- table -->
@@ -126,15 +129,15 @@
             <thead>
               <tr>
                 <th><input type="checkbox" class="row-chk" id="chkAll" aria-label="Select all" /></th>
-                <th>Name</th>
-                <th><span class="sort">Date Inactive <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+                <th class="srt" data-key="name">Name<span class="arw"></span></th>
+                <th class="srt" data-key="dateInactive">Date Inactive<span class="arw"></span></th>
                 <th>Phone</th>
-                <th><span class="sort">Inactive Reason <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+                <th class="srt" data-key="reason">Inactive Reason<span class="arw"></span></th>
                 <th>Follow Up Type</th>
-                <th><span class="sort">Vehicle Interest <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-                <th>Salesperson</th>
-                <th>Source</th>
-                <th>Last Contact</th>
+                <th class="srt" data-key="vehicle">Vehicle Interest<span class="arw"></span></th>
+                <th class="srt" data-key="salesperson">Salesperson<span class="arw"></span></th>
+                <th class="srt" data-key="source">Source<span class="arw"></span></th>
+                <th class="srt" data-key="lastContact">Last Contact<span class="arw"></span></th>
                 <th></th>
               </tr>
             </thead>
@@ -186,14 +189,64 @@
     const RPILL = { nocontact: ["nocontact", "No Contact"], disq: ["disq", "Disqualified"], lost: ["lost", "Lost Deal"] };
     const MENU = '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg>';
 
+    /* ---------- filtering + sorting ---------- */
+    const TODAY = new Date("2026-07-22T12:00:00");
+    function parseDate(s) { const d = new Date(s + "T12:00:00"); return isNaN(d) ? null : d; }
+    function timeVal(d, t) {
+      let base = parseDate(d) ? parseDate(d).getTime() : 0;
+      const m = /(\d+):(\d+)\s*(AM|PM)/i.exec(t || "");
+      if (m) { let h = +m[1] % 12; if (/pm/i.test(m[3])) h += 12; base += h * 3600000 + (+m[2]) * 60000; }
+      return base;
+    }
+    const SORT_VAL = {
+      name: (r) => r[0].toLowerCase(),
+      dateInactive: (r) => { const d = parseDate(r[1]); return d ? d.getTime() : 0; },
+      reason: (r) => RPILL[r[3]][1],
+      vehicle: (r) => (r[4] || "zzz").toLowerCase(),
+      salesperson: (r) => r[6].toLowerCase(),
+      source: (r) => r[7].toLowerCase(),
+      lastContact: (r) => timeVal(r[8], r[9]),
+    };
+    const flt = { search: "", reason: "", range: "All Time", start: "", end: "", sp: "on" };
+    let sortKey = null, sortDir = 1;
+
+    function inRange(dateStr) {
+      const d = parseDate(dateStr); if (!d) return true;
+      if (flt.start && d < new Date(flt.start + "T00:00:00")) return false;
+      if (flt.end && d > new Date(flt.end + "T23:59:59")) return false;
+      if (flt.range === "Last 7 Days") return d >= new Date(TODAY.getTime() - 7 * 86400000);
+      if (flt.range === "Last 30 Days") return d >= new Date(TODAY.getTime() - 30 * 86400000);
+      if (flt.range === "Last 90 Days") return d >= new Date(TODAY.getTime() - 90 * 86400000);
+      if (flt.range === "This Month") return d.getMonth() === TODAY.getMonth() && d.getFullYear() === TODAY.getFullYear();
+      return true;
+    }
+    function getRows() {
+      let rows = DATA.filter((r) => {
+        if (!flt.sp && r[6] === "Miller,C") { /* chip cleared shows all; single sp so no-op */ }
+        if (flt.reason && RPILL[r[3]][1] !== flt.reason) return false;
+        if (flt.search) {
+          const q = flt.search.toLowerCase();
+          if (!(r[0].toLowerCase().includes(q) || r[2].includes(q) || (r[4] || "").toLowerCase().includes(q))) return false;
+        }
+        if (!inRange(r[1])) return false;
+        return true;
+      });
+      if (sortKey) {
+        const f = SORT_VAL[sortKey];
+        rows.sort((a, b) => { const x = f(a), y = f(b); return (x < y ? -1 : x > y ? 1 : 0) * sortDir; });
+      }
+      return rows;
+    }
+
     let page = 1, per = 10;
     function render() {
-      const total = DATA.length;
+      const data = getRows();
+      const total = data.length;
       const pages = Math.max(1, Math.ceil(total / per));
       if (page > pages) page = pages;
       const start = (page - 1) * per;
-      const rows = DATA.slice(start, start + per);
-      document.getElementById("apBody").innerHTML = rows.map((r) => {
+      const rows = data.slice(start, start + per);
+      document.getElementById("apBody").innerHTML = (rows.length ? rows.map((r) => {
         const [name, dInact, phone, reason, vt, vsub, sp, src, ld, lt] = r;
         return `<tr>
           <td><input type="checkbox" class="row-chk" aria-label="Select ${name}"></td>
@@ -208,7 +261,7 @@
           <td><div class="two"><b>${ld}</b><span>${lt}</span></div></td>
           <td><button class="row-menu" aria-label="Actions">${MENU}</button></td>
         </tr>`;
-      }).join("");
+      }).join("") : `<tr><td colspan="11" style="padding:28px;text-align:center;color:var(--muted)">No prospects match your filters.</td></tr>`);
 
       document.getElementById("apRange").textContent = `Showing ${total ? start + 1 : 0} to ${Math.min(start + per, total)} of ${total} results`;
       const pager = document.getElementById("pager");
@@ -230,6 +283,34 @@
       document.querySelectorAll("#apBody .row-chk").forEach((c) => (c.checked = e.target.checked));
     });
     document.getElementById("refreshBtn").addEventListener("click", () => { page = 1; render(); });
+
+    /* sort */
+    function updateArrows() {
+      document.querySelectorAll("th.srt").forEach((th) => {
+        const on = th.dataset.key === sortKey;
+        th.classList.toggle("on", on);
+        th.querySelector(".arw").textContent = on ? (sortDir === 1 ? "▲" : "▼") : "";
+      });
+    }
+    document.querySelectorAll("th.srt").forEach((th) => th.addEventListener("click", () => {
+      const k = th.dataset.key;
+      if (sortKey === k) sortDir = -sortDir; else { sortKey = k; sortDir = 1; }
+      page = 1; updateArrows(); render();
+    }));
+
+    /* filters */
+    const reRender = () => { page = 1; render(); };
+    document.getElementById("reasonFilter").addEventListener("change", (e) => { flt.reason = e.target.value === "All Reasons" ? "" : e.target.value; reRender(); });
+    document.getElementById("dateRange").addEventListener("change", (e) => { flt.range = e.target.value; reRender(); });
+    document.getElementById("startDate").addEventListener("change", (e) => { flt.start = e.target.value; reRender(); });
+    document.getElementById("endDate").addEventListener("change", (e) => { flt.end = e.target.value; reRender(); });
+    document.getElementById("searchInput").addEventListener("input", (e) => { flt.search = e.target.value.trim(); reRender(); });
+    const clearSp = () => { flt.sp = ""; document.getElementById("spChip").style.display = "none"; reRender(); };
+    document.getElementById("chipRemove").addEventListener("click", clearSp);
+    document.getElementById("chipClear").addEventListener("click", clearSp);
+    const moreBtn = document.getElementById("moreBtn"), morePanel = document.getElementById("morePanel");
+    moreBtn.addEventListener("click", () => { const open = morePanel.hidden; morePanel.hidden = !open; moreBtn.classList.toggle("on", open); });
+
     render();
   </script>
 </body>

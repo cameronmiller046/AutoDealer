@@ -535,6 +535,30 @@ table.ap { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 1
 .ap thead th { text-align: left; padding: 13px 14px; font-size: 11.5px; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
 .ap thead th .sort { display: inline-flex; align-items: center; gap: 5px; }
 .ap thead th svg { width: 12px; height: 12px; opacity: 0.6; }
+.ap thead th.srt { cursor: pointer; user-select: none; }
+.ap thead th.srt:hover { color: var(--text); }
+.ap thead th .arw { font-size: 10px; opacity: 0; margin-left: 4px; color: var(--accent-text); }
+.ap thead th.srt:hover .arw { opacity: 0.5; }
+.ap thead th.srt.on { color: var(--text); }
+.ap thead th.srt.on .arw { opacity: 1; }
+
+/* real date inputs in filter bars */
+.fl input[type="date"] {
+  width: 100%; height: 40px; font: inherit; font-size: 13px;
+  background: var(--input); color: var(--text); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0 12px;
+}
+.fl input[type="date"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.fl input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
+[data-theme="light"] .fl input[type="date"]::-webkit-calendar-picker-indicator { filter: none; }
+
+/* More Filters expandable panel */
+.more-panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin: -6px 0 16px; display: grid; gap: 14px; }
+.more-panel.cols3 { grid-template-columns: 1.4fr 1fr 1fr; }
+.more-panel .fl label { font-size: 11.5px; color: var(--muted); display: block; margin-bottom: 6px; }
+.more-panel .cust-search { height: 40px; }
+.more-filters.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-text); }
+@media (max-width: 800px) { .more-panel.cols3 { grid-template-columns: 1fr; } }
 .ap tbody td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
 .ap tbody tr:last-child td { border-bottom: none; }
 .ap tbody tr:hover { background: rgba(255, 255, 255, 0.02); }

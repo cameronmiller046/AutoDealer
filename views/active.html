@@ -102,18 +102,23 @@
       <!-- filter bar -->
       <div class="filter-bar">
         <div class="fl"><label>Prospects For</label>
-          <div class="chip-box"><span class="chip">Cameron Miller <button type="button" aria-label="Remove">✕</button></span><button class="chip-x" aria-label="Clear all">✕</button></div>
+          <div class="chip-box" id="spChip"><span class="chip">Cameron Miller <button type="button" id="chipRemove" aria-label="Remove">✕</button></span><button class="chip-x" id="chipClear" aria-label="Clear all">✕</button></div>
         </div>
         <div class="fl"><label>Date Range</label>
-          <select><option>Last 7 Days</option><option>Today</option><option>Last 30 Days</option><option>This Month</option><option>All Time</option></select>
+          <select id="dateRange"><option>All Time</option><option>Today</option><option>Last 7 Days</option><option>Last 30 Days</option><option>This Month</option></select>
         </div>
-        <div class="fl"><label>Start Date</label>
-          <div class="date-input"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>07/15/2026</div>
+        <div class="fl"><label>Start Date</label><input type="date" id="startDate" /></div>
+        <div class="fl"><label>End Date</label><input type="date" id="endDate" /></div>
+        <div class="fl" style="display:flex;align-items:flex-end"><button class="more-filters" id="moreBtn"><svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>More Filters</button></div>
+      </div>
+
+      <!-- more filters -->
+      <div class="more-panel cols3" id="morePanel" hidden>
+        <div class="fl"><label>Search</label>
+          <div class="cust-search"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input type="text" id="searchInput" placeholder="Name, phone, or vehicle..." /></div>
         </div>
-        <div class="fl"><label>End Date</label>
-          <div class="date-input"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>07/22/2026</div>
-        </div>
-        <div class="fl" style="display:flex;align-items:flex-end"><button class="more-filters"><svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>More Filters</button></div>
+        <div class="fl"><label>Priority</label><select id="prioFilter"><option>All Priorities</option><option>High</option><option>Medium</option><option>Low</option></select></div>
+        <div class="fl"><label>Follow-Up Type</label><select id="fuFilter"><option>All Types</option><option>Phone Call</option><option>Text Message</option><option>Email</option></select></div>
       </div>
 
       <!-- table -->
@@ -123,16 +128,16 @@
             <thead>
               <tr>
                 <th><input type="checkbox" class="row-chk" id="chkAll" aria-label="Select all" /></th>
-                <th>Name</th>
-                <th><span class="sort">Date In <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+                <th class="srt" data-key="name">Name<span class="arw"></span></th>
+                <th class="srt" data-key="dateIn">Date In<span class="arw"></span></th>
                 <th>Phone</th>
-                <th>Priority</th>
+                <th class="srt" data-key="priority">Priority<span class="arw"></span></th>
                 <th>Scheduled</th>
-                <th>Vehicle Interest</th>
-                <th><span class="sort">Follow Up Type <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-                <th>Salesperson</th>
-                <th>Source</th>
-                <th>Last Activity</th>
+                <th class="srt" data-key="vehicle">Vehicle Interest<span class="arw"></span></th>
+                <th class="srt" data-key="followup">Follow Up Type<span class="arw"></span></th>
+                <th class="srt" data-key="salesperson">Salesperson<span class="arw"></span></th>
+                <th class="srt" data-key="source">Source<span class="arw"></span></th>
+                <th class="srt" data-key="lastActivity">Last Activity<span class="arw"></span></th>
                 <th></th>
               </tr>
             </thead>
@@ -198,14 +203,68 @@
     const CAL_OFF = '<svg class="sched-ico off" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
     const MENU = '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg>';
 
+    /* ---------- filtering + sorting ---------- */
+    const TODAY = new Date("2026-07-22T12:00:00");
+    const PRIO_RANK = { high: 3, med: 2, low: 1 };
+    function parseDate(s) { const d = new Date(s + "T12:00:00"); return isNaN(d) ? null : d; }
+    function lastActivityVal(la, lat) {
+      let base = la === "Today" ? TODAY.getTime() : la === "Yesterday" ? TODAY.getTime() - 86400000 : (parseDate(la) ? parseDate(la).getTime() : 0);
+      const m = /(\d+):(\d+)\s*(AM|PM)/i.exec(lat || "");
+      if (m) { let h = +m[1] % 12; if (/pm/i.test(m[3])) h += 12; base += h * 3600000 + (+m[2]) * 60000; }
+      return base;
+    }
+    const SORT_VAL = {
+      name: (r) => r[0].toLowerCase(),
+      dateIn: (r) => { const d = parseDate(r[1]); return d ? d.getTime() : 0; },
+      priority: (r) => PRIO_RANK[r[3]] || 0,
+      vehicle: (r) => (r[5] || "zzz").toLowerCase(),
+      followup: (r) => FU_LABEL[r[7]],
+      salesperson: (r) => r[9].toLowerCase(),
+      source: (r) => r[10].toLowerCase(),
+      lastActivity: (r) => lastActivityVal(r[12], r[13]),
+    };
+
+    const flt = { search: "", prio: "", fu: "", range: "All Time", start: "", end: "", sp: "Cameron Miller" };
+    let sortKey = null, sortDir = 1;
+
+    function inRange(dateStr) {
+      const d = parseDate(dateStr); if (!d) return true;
+      if (flt.start && d < new Date(flt.start + "T00:00:00")) return false;
+      if (flt.end && d > new Date(flt.end + "T23:59:59")) return false;
+      if (flt.range === "Today") return d.toDateString() === TODAY.toDateString();
+      if (flt.range === "Last 7 Days") return d >= new Date(TODAY.getTime() - 7 * 86400000);
+      if (flt.range === "Last 30 Days") return d >= new Date(TODAY.getTime() - 30 * 86400000);
+      if (flt.range === "This Month") return d.getMonth() === TODAY.getMonth() && d.getFullYear() === TODAY.getFullYear();
+      return true;
+    }
+    function getRows() {
+      let rows = DATA.filter((r) => {
+        if (flt.sp && r[9] !== "Miller,C") return false;
+        if (flt.search) {
+          const q = flt.search.toLowerCase();
+          if (!(r[0].toLowerCase().includes(q) || r[2].includes(q) || (r[5] || "").toLowerCase().includes(q))) return false;
+        }
+        if (flt.prio && PILL[r[3]][1] !== flt.prio) return false;
+        if (flt.fu && FU_LABEL[r[7]] !== flt.fu) return false;
+        if (!inRange(r[1])) return false;
+        return true;
+      });
+      if (sortKey) {
+        const f = SORT_VAL[sortKey];
+        rows.sort((a, b) => { const x = f(a), y = f(b); return (x < y ? -1 : x > y ? 1 : 0) * sortDir; });
+      }
+      return rows;
+    }
+
     let page = 1, per = 10;
     function render() {
-      const total = DATA.length;
+      const data = getRows();
+      const total = data.length;
       const pages = Math.max(1, Math.ceil(total / per));
       if (page > pages) page = pages;
       const start = (page - 1) * per;
-      const rows = DATA.slice(start, start + per);
-      document.getElementById("apBody").innerHTML = rows.map((r) => {
+      const rows = data.slice(start, start + per);
+      document.getElementById("apBody").innerHTML = (rows.length ? rows.map((r) => {
         const [name, dateIn, phone, pri, sched, vt, vsub, fu, fudate, sp, s1, s2, la, lat] = r;
         const veh = vt ? `<div class="two"><b>${vt}</b><span>${vsub}</span></div>` : `<div class="two"><b>—</b><span>${vsub}</span></div>`;
         const source = `<div class="two"><b>${s1}</b>${s2 ? `<span>${s2}</span>` : ""}</div>`;
@@ -223,7 +282,7 @@
           <td><div class="two"><b>${la}</b><span>${lat}</span></div></td>
           <td><button class="row-menu" aria-label="Actions">${MENU}</button></td>
         </tr>`;
-      }).join("");
+      }).join("") : `<tr><td colspan="12" style="padding:28px;text-align:center;color:var(--muted)">No prospects match your filters.</td></tr>`);
 
       document.getElementById("apRange").textContent = `Showing ${total ? start + 1 : 0} to ${Math.min(start + per, total)} of ${total} results`;
       const pager = document.getElementById("pager");
@@ -245,6 +304,35 @@
       document.querySelectorAll("#apBody .row-chk").forEach((c) => (c.checked = e.target.checked));
     });
     document.getElementById("refreshBtn").addEventListener("click", () => { page = 1; render(); });
+
+    /* sort: click headers */
+    function updateArrows() {
+      document.querySelectorAll("th.srt").forEach((th) => {
+        const on = th.dataset.key === sortKey;
+        th.classList.toggle("on", on);
+        th.querySelector(".arw").textContent = on ? (sortDir === 1 ? "▲" : "▼") : "";
+      });
+    }
+    document.querySelectorAll("th.srt").forEach((th) => th.addEventListener("click", () => {
+      const k = th.dataset.key;
+      if (sortKey === k) sortDir = -sortDir; else { sortKey = k; sortDir = 1; }
+      page = 1; updateArrows(); render();
+    }));
+
+    /* filters */
+    const reRender = () => { page = 1; render(); };
+    document.getElementById("dateRange").addEventListener("change", (e) => { flt.range = e.target.value; reRender(); });
+    document.getElementById("startDate").addEventListener("change", (e) => { flt.start = e.target.value; reRender(); });
+    document.getElementById("endDate").addEventListener("change", (e) => { flt.end = e.target.value; reRender(); });
+    document.getElementById("searchInput").addEventListener("input", (e) => { flt.search = e.target.value.trim(); reRender(); });
+    document.getElementById("prioFilter").addEventListener("change", (e) => { flt.prio = e.target.value === "All Priorities" ? "" : e.target.value; reRender(); });
+    document.getElementById("fuFilter").addEventListener("change", (e) => { flt.fu = e.target.value === "All Types" ? "" : e.target.value; reRender(); });
+    const clearSp = () => { flt.sp = ""; document.getElementById("spChip").style.display = "none"; reRender(); };
+    document.getElementById("chipRemove").addEventListener("click", clearSp);
+    document.getElementById("chipClear").addEventListener("click", clearSp);
+    const moreBtn = document.getElementById("moreBtn"), morePanel = document.getElementById("morePanel");
+    moreBtn.addEventListener("click", () => { const open = morePanel.hidden; morePanel.hidden = !open; moreBtn.classList.toggle("on", open); });
+
     render();
   </script>
 </body>
