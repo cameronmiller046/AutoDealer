@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customers — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/app.css?v=6" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+</head>
+<body class="app" data-theme="dark">
+
+  <header class="topbar">
+    <a href="/portal" class="tb-brand">
+      <span class="tb-mark">A</span>
+      <span class="tb-name"><b>Auto<i>dealer</i></b><span>New Car Management CRM</span></span>
+    </a>
+    <div class="tb-search">
+      <svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      <input type="text" placeholder="Search customers, vehicles, stock #, or VIN" aria-label="Search" />
+    </div>
+    <div class="tb-actions">
+      <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+      <button class="icon-btn" title="Calls" aria-label="Calls"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+      <button class="icon-btn" title="Notifications" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="badge">8</span></button>
+      <div class="tb-user"><span class="tb-avatar" id="avatar">CM</span><span class="tb-user-name"><b>{{NAME}}</b><span>{{ROLE}}</span></span></div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Home</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Leads</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="4" width="7" height="4" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="3.5" y="14" width="7" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="11" width="7" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Dashboard</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Inventory</a>
+      <a class="nav-item" href="/portal"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Prospects</a>
+
+      <button class="nav-item open" id="custToggle" aria-expanded="true">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        Customers
+        <svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav-sub" id="custSub">
+        <a href="/portal/customers" class="active">All Customers</a>
+        <a href="#">Recent Customers</a>
+        <a href="#">VIP Customers</a>
+        <a href="#">Inactive Customers</a>
+      </div>
+
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M5 4h11l4 4v12H5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 12h8M8 16h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Deals</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Appointments</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Communications</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Reports</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 6h12l4 4-4 4H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Analytics</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Settings</a>
+
+      <div class="help-card">
+        <svg viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0v4a2 2 0 0 1-2 2h-1v-6h3M4 13v4a2 2 0 0 0 2 2h1v-6H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <div><b>NEED HELP?</b><a href="tel:+18666685394">Support Center</a><span>(866) 668-5394</span></div>
+      </div>
+    </aside>
+
+    <main class="ap-main">
+      <div class="ap-head">
+        <div>
+          <div class="ap-title"><h1>Customers</h1></div>
+          <p class="ap-sub">Manage and organize your customer relationships.</p>
+        </div>
+        <div class="ap-actions">
+          <button class="import-btn"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M4 19h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Import</button>
+          <button class="ap-print"><svg viewBox="0 0 24 24" style="width:15px;height:15px"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Add Customer</button>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat blue flat"><span class="st-ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><span class="st-body"><span class="st-label">Total Customers</span><span class="st-value">1,248</span><span class="st-sub"><b class="up">▲12</b> vs last 30 days</span></span></div>
+        <div class="stat green flat"><span class="st-ico"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17l-5.2 2.6 1-5.8L3.5 9.7l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><span class="st-body"><span class="st-label">VIP Customers</span><span class="st-value">156 <b class="up" style="font-size:12px">▲8</b></span><span class="st-sub">High value customers</span></span></div>
+        <div class="stat purple flat"><span class="st-ico"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="st-body"><span class="st-label">Customers This Month</span><span class="st-value">48 <b class="up" style="font-size:12px">▲5</b></span><span class="st-sub">New customers</span></span></div>
+        <div class="stat orange flat"><span class="st-ico"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-.5 4M20 5v6h-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="st-body"><span class="st-label">Repeat Customers</span><span class="st-value">642</span><span class="st-sub">51% of total customers</span></span></div>
+        <div class="stat teal flat"><span class="st-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 9.2c-.5-.9-1.4-1.2-2.3-1.2-1.3 0-2.2.7-2.2 1.8 0 2.6 5 1.4 5 4 0 1.2-1 2-2.5 2-1.1 0-2-.4-2.5-1.3M12 6.5v11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="st-body"><span class="st-label">Total Customer Value</span><span class="st-value">$2,847,590</span><span class="st-sub">Total sales (YTD)</span></span></div>
+      </div>
+
+      <div class="filter-bar" style="grid-template-columns:1fr 210px 230px auto">
+        <div class="fl"><label>&nbsp;</label>
+          <div class="cust-search"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input type="text" placeholder="Search customers by name, phone, email, or address..." /></div>
+        </div>
+        <div class="fl"><label>Status</label><select><option>All Statuses</option><option>Active</option><option>Inactive</option><option>VIP</option></select></div>
+        <div class="fl"><label>Salesperson</label><select><option>All Salespeople</option><option>Cameron Miller</option><option>Sarah Johnson</option><option>Mike Davis</option><option>Jessica Brown</option></select></div>
+        <div class="fl" style="display:flex;align-items:flex-end"><button class="more-filters"><svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>More Filters</button></div>
+      </div>
+
+      <div class="ap-table-wrap">
+        <div class="ap-scroll">
+          <table class="ap">
+            <thead>
+              <tr>
+                <th><input type="checkbox" class="row-chk" id="chkAll" aria-label="Select all" /></th>
+                <th><span class="sort">Customer <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+                <th>Contact</th>
+                <th><span class="sort">Total Purchases <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+                <th><span class="sort">Total Spent <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+                <th><span class="sort">Last Contact <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+                <th><span class="sort">Salesperson <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+                <th><span class="sort">Status <svg viewBox="0 0 12 12"><path d="M6 2v8M3 5l3-3 3 3M3 7l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+              </tr>
+            </thead>
+            <tbody id="apBody"></tbody>
+          </table>
+        </div>
+        <div class="ap-foot">
+          <span>Showing 1 to 8 of 1,248 results</span>
+          <div style="display:flex;align-items:center;gap:16px">
+            <div class="perpage"><select id="perPage"><option>10 per page</option><option>25 per page</option><option>50 per page</option></select></div>
+            <div class="pager" id="pager"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const saved = localStorage.getItem("ad-theme");
+    if (saved) document.body.dataset.theme = saved;
+    document.getElementById("themeBtn").addEventListener("click", () => {
+      const t = document.body.dataset.theme === "dark" ? "light" : "dark";
+      document.body.dataset.theme = t; localStorage.setItem("ad-theme", t);
+    });
+    const nm = "{{NAME}}".trim();
+    document.getElementById("avatar").textContent = nm.split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase() || "U";
+    const ct = document.getElementById("custToggle"), cs = document.getElementById("custSub");
+    ct.addEventListener("click", () => { const o = ct.classList.toggle("open"); cs.style.display = o ? "flex" : "none"; });
+
+    // [name, vip, phone, email, purchases, spent, lastDate, lastType, salesperson, avatarColor]
+    const DATA = [
+      ["John Smith", 1, "(404) 555-0123", "jsmith@email.com", 8, "$45,680", "07/21/2026", "Phone Call", "Cameron Miller", "#3b82f6"],
+      ["Ashley Martinez", 0, "(770) 555-0198", "amartinez@email.com", 5, "$28,450", "07/20/2026", "Text Message", "Sarah Johnson", "#a855f7"],
+      ["Robert Williams", 0, "(678) 555-0145", "rwilliams@email.com", 3, "$3,210", "07/18/2026", "Service Visit", "Mike Davis", "#22c55e"],
+      ["Kimberly Lee", 0, "(404) 555-0167", "klee@email.com", 2, "$62,990", "07/15/2026", "Email", "Cameron Miller", "#f59e0b"],
+      ["David Thompson", 0, "(770) 555-0178", "dthompson@email.com", 4, "$19,560", "07/14/2026", "Phone Call", "Jessica Brown", "#14b8a6"],
+      ["Sarah Chen", 0, "(404) 555-0112", "schen@email.com", 6, "$34,120", "07/12/2026", "Text Message", "Sarah Johnson", "#ec4899"],
+      ["Michael Johnson", 0, "(678) 555-0156", "mjohnson@email.com", 1, "$890", "07/10/2026", "Service Visit", "Mike Davis", "#2563eb"],
+      ["Lisa Brown", 0, "(770) 555-0189", "lbrown@email.com", 3, "$11,250", "07/08/2026", "Email", "Jessica Brown", "#eab308"],
+    ];
+    const MENU = '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg>';
+    const ini = (n) => n.split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase();
+
+    document.getElementById("apBody").innerHTML = DATA.map((r) => {
+      const [name, vip, phone, email, purch, spent, ld, lt, sp, col] = r;
+      return `<tr>
+        <td><input type="checkbox" class="row-chk" aria-label="Select ${name}"></td>
+        <td><div class="cust"><span class="cust-av" style="background:${col}">${ini(name)}</span><span class="cust-name">${name}</span>${vip ? '<span class="vip">VIP</span>' : ""}</div></td>
+        <td><div class="two"><b>${phone}</b><span>${email}</span></div></td>
+        <td>${purch}</td>
+        <td><b style="font-weight:600">${spent}</b></td>
+        <td><div class="two"><b>${ld}</b><span>${lt}</span></div></td>
+        <td>${sp}</td>
+        <td><span class="stbadge">Active</span></td>
+      </tr>`;
+    }).join("");
+
+    document.getElementById("chkAll").addEventListener("change", (e) => {
+      document.querySelectorAll("#apBody .row-chk").forEach((c) => (c.checked = e.target.checked));
+    });
+
+    // pager (visual — sample data, 1,248 records across 125 pages)
+    const pager = document.getElementById("pager");
+    const pages = [1, 2, 3, "…", 125];
+    let cur = 1;
+    function drawPager() {
+      pager.innerHTML = `<button ${cur === 1 ? "disabled" : ""} data-go="prev">«</button>` +
+        pages.map((p) => p === "…" ? `<button disabled>…</button>` : `<button class="${p === cur ? "on" : ""}" data-go="${p}">${p}</button>`).join("") +
+        `<button ${cur === 125 ? "disabled" : ""} data-go="next">»</button>`;
+      pager.querySelectorAll("button[data-go]").forEach((b) => b.addEventListener("click", () => {
+        const g = b.dataset.go;
+        cur = g === "prev" ? Math.max(1, cur - 1) : g === "next" ? Math.min(125, cur + 1) : Number(g);
+        drawPager();
+      }));
+    }
+    drawPager();
+  </script>
+</body>
+</html>
