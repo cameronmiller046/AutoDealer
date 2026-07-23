@@ -992,10 +992,11 @@
     stockInput.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); doStockLookup(); } });
 
     /* live summary */
+    const BODY_EMOJI = { SUV: "🚙", Truck: "🛻", Sedan: "🚗", Coupe: "🏎️", Hatchback: "🚗", Minivan: "🚐", Van: "🚐", Other: "🚗" };
     function updateSummary() {
-      const body = currentBody() || "SUV";
-      document.getElementById("vehIllustration").innerHTML =
-        `<svg viewBox="0 0 208 104" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vehicle illustration">${V.carMarkup(body, veh.exteriorColor)}</svg>`;
+      const body = currentBody();
+      const emoji = fuelSel.value === "Electric" ? "⚡" : (BODY_EMOJI[body] || "🚗");
+      document.getElementById("vehIllustration").innerHTML = `<span class="veh-emoji">${emoji}</span>`;
       const parts = [yearSel.value, makeSel.value, modelSel.value, trimSel.value].filter(Boolean);
       document.getElementById("vehHeadline").textContent = parts.length ? parts.join(" ") : "No vehicle selected yet";
       const rows = [

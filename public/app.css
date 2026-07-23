@@ -377,8 +377,9 @@ button { font: inherit; }
 .veh-illustration {
   background: var(--sunken); border: 1px solid var(--border); border-radius: 11px;
   padding: 20px 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
+  min-height: 120px;
 }
-.veh-illustration svg { display: block; width: 100%; height: auto; }
+.veh-emoji { font-size: 72px; line-height: 1; }
 .veh-headline { font-size: 14.5px; font-weight: 700; margin-bottom: 14px; line-height: 1.3; }
 .summary-list { display: flex; flex-direction: column; gap: 0; }
 .summary-list > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--border); }
