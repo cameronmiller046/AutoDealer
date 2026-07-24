@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vehicle Search — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/app.css?v=8" />
+  <script src="/vehicle-data.js?v=2"></script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+</head>
+<body class="app" data-theme="dark">
+
+  <header class="topbar">
+    <a href="/portal" class="tb-brand">
+      <span class="tb-mark">A</span>
+      <span class="tb-name"><b>Auto<i>dealer</i></b><span>New Car Management CRM</span></span>
+    </a>
+    <div class="tb-search">
+      <svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      <input type="text" placeholder="Search customers, vehicles, stock #, or VIN" aria-label="Search" />
+    </div>
+    <div class="tb-actions">
+      <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+      <button class="icon-btn" title="Calls" aria-label="Calls"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+      <button class="icon-btn" title="Notifications" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="badge">6</span></button>
+      <div class="tb-user"><span class="tb-avatar" id="avatar">CM</span><span class="tb-user-name"><b>{{NAME}}</b><span>{{ROLE}}</span></span></div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Home</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Leads</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><rect x="3.5" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="4" width="7" height="4" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="3.5" y="14" width="7" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="11" width="7" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Dashboard</a>
+
+      <button class="nav-item open" id="invToggle" aria-expanded="true">
+        <svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        Inventory
+        <svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav-sub" id="invSub">
+        <a href="/portal/inventory" class="active">Vehicle Search</a>
+        <a href="#">Vehicle Reports</a>
+      </div>
+
+      <a class="nav-item" href="/portal"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Prospects</a>
+      <a class="nav-item" href="/portal/customers"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Customers</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M5 4h11l4 4v12H5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 12h8M8 16h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Deals</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 8h12l-2-3M20 16H8l2 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Trade Manager</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 10h17" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Desk Manager</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Appointments</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Communications</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Reports</a>
+      <a class="nav-item" href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Settings</a>
+
+      <div class="help-card">
+        <svg viewBox="0 0 24 24"><path d="M4 13a8 8 0 0 1 16 0v4a2 2 0 0 1-2 2h-1v-6h3M4 13v4a2 2 0 0 0 2 2h1v-6H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <div><b>NEED HELP?</b><a href="tel:+18666685394">Call Support</a><span>(866) 668-5394</span></div>
+      </div>
+    </aside>
+
+    <main class="inv-main">
+      <div class="inv-crumb"><a href="#">Inventory</a><span>/</span><span>Vehicle Search</span></div>
+      <div class="inv-head">
+        <h1>Vehicle Search</h1>
+        <div style="display:flex;align-items:center;gap:14px">
+          <select class="store-select"><option>Malcolm Cunningham Chevrolet North Point (22062)</option><option>Malcolm Cunningham Buick GMC South (22071)</option></select>
+        </div>
+      </div>
+
+      <div class="inv-tabs">
+        <button class="inv-tab on">Search</button>
+        <button class="inv-tab">Drop Down Search</button>
+        <button class="inv-tab">Shared Inventory</button>
+        <button class="inv-tab">Multi-search</button>
+      </div>
+
+      <!-- SEARCH FORM -->
+      <div class="inv-panel">
+        <div class="inv-checks">
+          <div class="grp">
+            <label class="chk"><input type="checkbox" id="condNew" checked /><span class="box"></span>New</label>
+            <label class="chk"><input type="checkbox" id="condUsed" /><span class="box"></span>Used</label>
+            <label class="chk"><input type="checkbox" /><span class="box"></span>Certified</label>
+            <label class="chk"><input type="checkbox" /><span class="box"></span>Demo</label>
+            <label class="chk"><input type="checkbox" /><span class="box"></span>In Transit</label>
+          </div>
+          <div class="grp spacer">
+            <label class="chk"><input type="checkbox" checked /><span class="box"></span>Ignore Sold Vehicles</label>
+            <label class="chk"><input type="checkbox" /><span class="box"></span>Show Only Sold Vehicles</label>
+          </div>
+        </div>
+
+        <div class="inv-grid">
+          <div class="fld"><label>Stock #</label><input id="fStock" type="text" placeholder="Enter Value" /></div>
+          <div class="fld"><label>VIN #</label><input id="fVin" type="text" placeholder="Enter Value" /></div>
+          <div class="fld"><label>Mileage From</label><input type="text" placeholder="Enter Value" /></div>
+          <div class="fld"><label>Mileage To</label><input type="text" placeholder="Enter Value" /></div>
+
+          <div class="fld"><label>Year</label><input id="fYear" type="text" placeholder="Enter Value" /></div>
+          <div class="fld"><label>Make</label><select id="fMake"></select></div>
+          <div class="fld"><label>Model</label><select id="fModel" disabled><option value="">Select Model</option></select></div>
+          <div class="fld"><label>Trim</label><select id="fTrim" disabled><option value="">Select Trim</option></select></div>
+
+          <div class="fld"><label>Price</label><select><option>Any Price</option><option>Under $25,000</option><option>$25,000 - $40,000</option><option>$40,000 - $60,000</option><option>$60,000+</option></select></div>
+          <div class="fld"><label>Body Style</label><select id="fBody"><option value="">Select Body Style</option><option>SUV</option><option>Truck</option><option>Sedan</option><option>Coupe</option><option>Hatchback</option><option>Van</option></select></div>
+          <div class="fld"><label>Exterior Color</label><select><option>Select Exterior Color</option><option>White</option><option>Black</option><option>Silver</option><option>Gray</option><option>Red</option><option>Blue</option></select></div>
+          <div class="fld"><label>Interior Color</label><select><option>Select Interior Color</option><option>Jet Black</option><option>Black</option><option>Gray</option><option>Tan</option></select></div>
+
+          <div class="fld"><label>Transmission</label><select><option>Any Transmission</option><option>Automatic</option><option>Manual</option></select></div>
+          <div class="fld"><label>Drive Type</label><select id="fDrive"><option>Any Drive Type</option><option>FWD</option><option>RWD</option><option>AWD</option><option>4WD</option></select></div>
+          <div class="fld"><label>Engine</label><select><option>Select Engine</option><option>2.0L Turbo</option><option>3.6L V6</option><option>5.3L V8</option><option>6.2L V8</option><option>Electric</option></select></div>
+          <div class="fld"><label>Fuel Type</label><select id="fFuel"><option>Any Fuel Type</option><option>Gasoline</option><option>Diesel</option><option>Hybrid</option><option>Electric</option></select></div>
+
+          <div class="fld"><label>Wheel Base</label><select><option>Any Wheel Base</option><option>Regular</option><option>Extended</option><option>Crew</option></select></div>
+          <div class="fld"><label>DMS Status</label><select id="fStatus"><option>Any Status</option><option>Available</option><option>Quote in progress</option><option>Hold</option><option>Sold to Customer</option><option>Inbound Trade</option><option>Outbound Trade</option></select></div>
+          <div class="fld"><label>Location</label><select><option>Any Location</option><option>North Point</option><option>South</option></select></div>
+          <div class="fld">
+            <label>Date Acquired</label>
+            <div class="date2"><input type="date" aria-label="Date acquired from" /><input type="date" aria-label="Date acquired to" /></div>
+          </div>
+        </div>
+
+        <div class="legend2">
+          <span style="font-weight:600;color:var(--text-soft)">Legend:</span>
+          <span class="lg"><i style="background:#22c55e"></i>Available</span>
+          <span class="lg"><i style="background:#eab308"></i>Quote in progress</span>
+          <span class="lg"><i style="background:#f97316"></i>Hold</span>
+          <span class="lg"><i style="background:#ef4444"></i>Sold to Customer</span>
+          <span class="lg"><i style="background:#14b8a6"></i>Inbound Trade</span>
+          <span class="lg"><i style="background:#a855f7"></i>Outbound Trade</span>
+          <div class="inv-form-actions">
+            <button class="inv-link" id="clearBtn">Clear Search</button>
+            <button class="inv-link">Save Search</button>
+            <button class="btn-search" id="searchBtn">Search</button>
+            <button class="inv-link">Export</button>
+            <button class="inv-link" onclick="window.print()">Print</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="inv-toolbar">
+        <button class="col-config"><svg viewBox="0 0 24 24" style="width:15px;height:15px"><rect x="3.5" y="4" width="17" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="3.5" y="10" width="17" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="3.5" y="16" width="17" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Column Configuration<svg viewBox="0 0 12 8" style="width:11px;height:8px"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="inv-toolbar-right">
+          <button class="col-config"><svg viewBox="0 0 24 24" style="width:15px;height:15px"><path d="M12 3v12M8 11l4 4 4-4M4 19h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Save Search</button>
+          <div class="sortby">Sort By: <b style="font-weight:600" id="sortLabel">Recently Added</b><svg viewBox="0 0 12 8" style="width:11px;height:8px"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="view-toggle">
+            <button title="Grid view"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="3.5" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="3.5" y="13.5" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="13.5" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></button>
+            <button class="on" title="List view"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="ap-table-wrap">
+        <div class="ap-scroll">
+          <table class="ap inv">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th class="srt" data-key="stock">Stock #<span class="arw"></span></th>
+                <th class="srt" data-key="year">Year<span class="arw"></span></th>
+                <th class="srt" data-key="make">Make<span class="arw"></span></th>
+                <th class="srt" data-key="model">Model<span class="arw"></span></th>
+                <th>Trim</th>
+                <th class="srt" data-key="mileage">Mileage<span class="arw"></span></th>
+                <th>Ext. Color</th>
+                <th>Int. Color</th>
+                <th>VIN</th>
+                <th class="srt" data-key="msrp">MSRP<span class="arw"></span></th>
+                <th class="srt" data-key="price">Selling Price<span class="arw"></span></th>
+                <th>DMS Status</th>
+                <th class="srt" data-key="age">Age<span class="arw"></span></th>
+                <th>Location</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="invBody"></tbody>
+          </table>
+        </div>
+        <div class="ap-foot">
+          <span id="invRange">Showing 1 to 25 of 327 entries</span>
+          <div style="display:flex;align-items:center;gap:16px">
+            <div class="pager" id="pager"></div>
+            <div class="perpage"><span>Show</span><select id="perPage"><option>25</option><option>50</option><option>100</option></select><span>per page</span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const saved = localStorage.getItem("ad-theme");
+    if (saved) document.body.dataset.theme = saved;
+    document.getElementById("themeBtn").addEventListener("click", () => {
+      const t = document.body.dataset.theme === "dark" ? "light" : "dark";
+      document.body.dataset.theme = t; localStorage.setItem("ad-theme", t);
+    });
+    const nm = "{{NAME}}".trim();
+    document.getElementById("avatar").textContent = nm.split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase() || "U";
+    const it = document.getElementById("invToggle"), is = document.getElementById("invSub");
+    it.addEventListener("click", () => { const o = it.classList.toggle("open"); is.style.display = o ? "flex" : "none"; });
+    document.querySelectorAll(".inv-tab").forEach((t) => t.addEventListener("click", () => {
+      document.querySelectorAll(".inv-tab").forEach((x) => x.classList.remove("on")); t.classList.add("on");
+    }));
+
+    /* Make -> Model -> Trim cascade (real vehicle data) */
+    const V = window.VEHICLES;
+    const fMake = document.getElementById("fMake"), fModel = document.getElementById("fModel"), fTrim = document.getElementById("fTrim");
+    function fill(sel, items, ph) { sel.innerHTML = `<option value="">${ph}</option>` + items.map((i) => `<option>${i}</option>`).join(""); sel.disabled = !items.length; }
+    if (V) {
+      fMake.innerHTML = `<option value="">Select Make</option>` + V.makes().map((m) => `<option${m === "Chevrolet" ? " selected" : ""}>${m}</option>`).join("");
+      fill(fModel, V.models("Chevrolet"), "Select Model");
+    }
+    fMake.addEventListener("change", () => { fill(fModel, fMake.value ? V.models(fMake.value) : [], "Select Model"); fill(fTrim, [], "Select Trim"); });
+    fModel.addEventListener("change", () => { fill(fTrim, fMake.value && fModel.value ? V.trims(fMake.value, fModel.value, 2025) : [], "Select Trim"); });
+
+    /* ---------- inventory data ---------- */
+    const BASE = [
+      ["Silverado 1500", "LT Crew Cab 4WD", "Truck", 12, "Summit White", "Jet Black", "3GCUKDED5SG", 57995, 53995, "available", 5, "gas", "new"],
+      ["Equinox", "LT FWD", "SUV", 8, "Riptide Blue", "Black", "3GNAXHEGSSL", 31995, 29495, "available", 3, "gas", "new"],
+      ["Traverse", "RS FWD", "SUV", 15, "Sterling Gray", "Jet Black", "1GNERGRSSSJ", 47995, 45495, "hold", 6, "gas", "new"],
+      ["Tahoe", "Premier 4WD", "SUV", 5, "Black", "Gideon/Very Dark", "1GNSKCKD6SR", 74495, 69995, "available", 2, "gas", "new"],
+      ["Colorado", "Z71 Crew Cab 4WD", "Truck", 10, "Radiant Red", "Jet Black", "1GCPTEEK8S1", 43995, 40995, "quote", 4, "gas", "new"],
+      ["Trax", "ACTIV FWD", "SUV", 22, "Nitro Yellow", "Jet Black", "KL77LHE2RC", 26995, 24995, "available", 8, "gas", "new"],
+      ["Blazer", "RS AWD", "SUV", 9, "Radiant Red", "Jet Black", "3GNKBERS5RS", 45995, 43500, "inbound", 3, "gas", "new"],
+      ["Malibu", "LT FWD", "Sedan", 18, "Mosaic Black", "Jet Black", "1G1ZD5ST8R", 27495, 25995, "sold", 12, "gas", "new"],
+      ["Silverado 2500 HD", "LTZ 4WD", "Truck", 7, "Summit White", "Jet Black", "1GC4YPEY7SF", 68995, 64995, "available", 4, "diesel", "new"],
+      ["Suburban", "High Country 4WD", "SUV", 3, "Dark Ash", "Jet Black", "1GNSKGKD9SR", 83995, 79995, "hold", 1, "gas", "new"],
+      ["Corvette", "Stingray 2LT", "Coupe", 40, "Torch Red", "Jet Black", "1G1YB2D40R5", 76995, 75995, "outbound", 15, "gas", "used"],
+      ["Trailblazer", "RS AWD", "SUV", 14, "Sterling Gray", "Jet Black", "KL79MTSL6SB", 29995, 27995, "available", 6, "gas", "new"],
+    ];
+    const STATUS_LABEL = { available: "Available", quote: "Quote in progress", hold: "Hold", sold: "Sold to Customer", inbound: "Inbound Trade", outbound: "Outbound Trade" };
+    const BODY_EMOJI = { SUV: "🚙", Truck: "🛻", Sedan: "🚗", Coupe: "🏎️", Hatchback: "🚗", Van: "🚐" };
+
+    // build 25 rows for page 1 by cycling the base set
+    const ALL = [];
+    for (let i = 0; i < 25; i++) {
+      const b = BASE[i % BASE.length];
+      const n = 124567 + i;
+      ALL.push({
+        stock: "N" + n, year: 2025 - (i % BASE.length === 10 ? 1 : 0), make: "Chevrolet", model: b[0], trim: b[1], body: b[2],
+        mileage: b[3] + (i * 3) % 30, ext: b[4], int: b[5], vin: b[6] + (123456 + i), msrp: b[7], price: b[8],
+        status: b[9], age: b[10] + (i % 5), fuel: b[11], cond: b[12], location: "North Point",
+      });
+    }
+    const money = (n) => "$" + n.toLocaleString("en-US");
+    const flt = {};
+    let sortKey = null, sortDir = 1, page = 1, per = 25;
+
+    function getRows() {
+      let rows = ALL.filter((v) => {
+        if (flt.stock && !v.stock.toLowerCase().includes(flt.stock.toLowerCase())) return false;
+        if (flt.vin && !v.vin.toLowerCase().includes(flt.vin.toLowerCase())) return false;
+        if (flt.year && String(v.year) !== String(flt.year)) return false;
+        if (flt.make && v.make !== flt.make) return false;
+        if (flt.model && v.model !== flt.model) return false;
+        if (flt.trim && v.trim !== flt.trim) return false;
+        if (flt.body && v.body !== flt.body) return false;
+        if (flt.fuel && v.fuel !== flt.fuel) return false;
+        if (flt.status && STATUS_LABEL[v.status] !== flt.status) return false;
+        if (flt.cond && v.cond !== flt.cond) return false;
+        return true;
+      });
+      if (sortKey) rows.sort((a, b) => { const x = a[sortKey], y = b[sortKey]; return (x < y ? -1 : x > y ? 1 : 0) * sortDir; });
+      return rows;
+    }
+
+    function render() {
+      const rows = getRows();
+      const total = rows.length;
+      document.getElementById("invBody").innerHTML = (rows.length ? rows.map((v) => `<tr>
+        <td><span class="veh-thumb">${BODY_EMOJI[v.body] || "🚗"}</span></td>
+        <td><span class="ap-name">${v.stock}</span></td>
+        <td>${v.year}</td>
+        <td>${v.make}</td>
+        <td>${v.model}</td>
+        <td>${v.trim}</td>
+        <td>${v.mileage}</td>
+        <td>${v.ext}</td>
+        <td>${v.int}</td>
+        <td style="font-family:monospace;font-size:11.5px">${v.vin}</td>
+        <td>${money(v.msrp)}</td>
+        <td><b style="font-weight:600">${money(v.price)}</b></td>
+        <td><span class="dms ${v.status}">${STATUS_LABEL[v.status]}</span></td>
+        <td>${v.age}</td>
+        <td>${v.location}</td>
+        <td><button class="row-menu" aria-label="Actions"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg></button></td>
+      </tr>`).join("") : `<tr><td colspan="16" style="padding:28px;text-align:center;color:var(--muted)">No vehicles match your search.</td></tr>`);
+      document.getElementById("invRange").textContent = `Showing 1 to ${total} of ${total === 25 ? 327 : total} entries`;
+    }
+
+    /* static-ish pager (327 entries / 14 pages) */
+    (function () {
+      const pages = [1, 2, 3, "…", 14]; let cur = 1;
+      const pager = document.getElementById("pager");
+      function draw() {
+        pager.innerHTML = `<button ${cur === 1 ? "disabled" : ""} data-go="prev">‹</button>` +
+          pages.map((p) => p === "…" ? `<button disabled>…</button>` : `<button class="${p === cur ? "on" : ""}" data-go="${p}">${p}</button>`).join("") +
+          `<button ${cur === 14 ? "disabled" : ""} data-go="next">›</button>`;
+        pager.querySelectorAll("button[data-go]").forEach((b) => b.addEventListener("click", () => {
+          const g = b.dataset.go; cur = g === "prev" ? Math.max(1, cur - 1) : g === "next" ? Math.min(14, cur + 1) : Number(g); draw();
+        }));
+      }
+      draw();
+    })();
+
+    /* sort headers */
+    function updateArrows() {
+      document.querySelectorAll("th.srt").forEach((th) => {
+        const on = th.dataset.key === sortKey; th.classList.toggle("on", on);
+        th.querySelector(".arw").textContent = on ? (sortDir === 1 ? "▲" : "▼") : "";
+      });
+    }
+    document.querySelectorAll("th.srt").forEach((th) => th.addEventListener("click", () => {
+      const k = th.dataset.key; if (sortKey === k) sortDir = -sortDir; else { sortKey = k; sortDir = 1; }
+      updateArrows(); render();
+    }));
+
+    /* search + clear */
+    document.getElementById("searchBtn").addEventListener("click", () => {
+      flt.stock = document.getElementById("fStock").value.trim();
+      flt.vin = document.getElementById("fVin").value.trim();
+      flt.year = document.getElementById("fYear").value.trim();
+      flt.make = fMake.value; flt.model = fModel.value; flt.trim = fTrim.value;
+      flt.body = document.getElementById("fBody").value;
+      flt.fuel = document.getElementById("fFuel").value === "Any Fuel Type" ? "" : document.getElementById("fFuel").value;
+      flt.status = document.getElementById("fStatus").value === "Any Status" ? "" : document.getElementById("fStatus").value;
+      const newC = document.getElementById("condNew").checked, usedC = document.getElementById("condUsed").checked;
+      flt.cond = newC && !usedC ? "new" : usedC && !newC ? "used" : "";
+      render();
+    });
+    document.getElementById("clearBtn").addEventListener("click", () => {
+      document.querySelectorAll(".inv-grid input").forEach((i) => (i.value = ""));
+      document.querySelectorAll(".inv-grid select").forEach((s) => (s.selectedIndex = 0));
+      fMake.value = "Chevrolet"; fill(fModel, V.models("Chevrolet"), "Select Model"); fill(fTrim, [], "Select Trim");
+      for (const k in flt) delete flt[k]; render();
+    });
+    document.getElementById("perPage").addEventListener("change", (e) => { per = parseInt(e.target.value, 10) || 25; render(); });
+
+    render();
+  </script>
+</body>
+</html>

@@ -212,6 +212,11 @@ app.get("/portal/customers", customersPage("all"));
 app.get("/portal/customers/recent", customersPage("recent"));
 app.get("/portal/customers/vip", customersPage("vip"));
 app.get("/portal/customers/inactive", customersPage("inactive"));
+app.get("/portal/inventory", (req, res) => {
+  const u = currentUser(req);
+  if (!u) return res.redirect("/login");
+  renderView(res, u, "inventory.html");
+});
 
 // Lightweight health check for Railway
 app.get("/healthz", (_req, res) => res.status(200).send("ok"));
