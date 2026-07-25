@@ -6,8 +6,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Serve static assets from /public
-app.use(express.static(path.join(__dirname, "public")));
+// Serve static assets from /public ("/login" -> login.html)
+app.use(express.static(path.join(__dirname, "public"), { extensions: ["html"] }));
 
 // Health check for Railway
 app.get("/healthz", (_req, res) => res.status(200).send("ok"));

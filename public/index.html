@@ -13,21 +13,28 @@
       background: radial-gradient(120% 90% at 50% 0%, #0d2f5e 0%, #05132b 55%, #030b1c 100%);
       color: #e8eef9; text-align: center; padding: 24px;
     }
-    .wrap { max-width: 480px; }
+    .wrap { max-width: 620px; }
+    .plate {
+      display: inline-block; background: #fff; border-radius: 18px;
+      padding: 22px 30px; box-shadow: 0 30px 70px -30px rgba(0,0,0,0.7);
+    }
+    .logo { width: 100%; max-width: 460px; height: auto; display: block; }
     .mark {
-      width: 60px; height: 60px; margin: 0 auto 22px; border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
+      width: 60px; height: 60px; border-radius: 14px;
+      display: none; align-items: center; justify-content: center;
       background: linear-gradient(180deg, #2c88ff, #0b6ade);
       font-size: 30px; font-weight: 800; color: #fff;
     }
-    h1 { font-size: 30px; letter-spacing: -0.5px; }
-    p { color: #9fb2cc; margin-top: 12px; line-height: 1.6; }
+    p { color: #9fb2cc; margin-top: 20px; line-height: 1.6; }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="mark">A</div>
-    <h1>Autodealer</h1>
+    <div class="plate">
+      <img class="logo" src="/images/autodealer-logo.png" alt="Autodealer"
+           onerror="this.style.display='none';document.getElementById('fallback').style.display='flex';" />
+      <div class="mark" id="fallback">A</div>
+    </div>
     <p>Fresh start. Nothing here yet.</p>
   </div>
 </body>

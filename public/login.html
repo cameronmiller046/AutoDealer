@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <style>
+    :root { color-scheme: dark; }
+    * { margin: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(120% 90% at 50% 0%, #0d2f5e 0%, #05132b 55%, #030b1c 100%);
+      color: #e8eef9; padding: 24px;
+    }
+    .card {
+      width: 100%; max-width: 420px; background: #0c1422;
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
+      padding: 34px 34px 28px; box-shadow: 0 30px 70px -30px rgba(0,0,0,0.8);
+    }
+    .plate { display: block; background: #fff; border-radius: 12px; padding: 14px 20px; margin: 2px auto 6px; max-width: 300px; }
+    .logo { width: 100%; height: auto; display: block; }
+    .mark {
+      width: 54px; height: 54px; margin: 0 auto 8px; border-radius: 12px;
+      display: none; align-items: center; justify-content: center;
+      background: linear-gradient(180deg, #2c88ff, #0b6ade); font-size: 26px; font-weight: 800; color: #fff;
+    }
+    h1 { font-size: 21px; font-weight: 800; text-align: center; margin: 14px 0 4px; }
+    .sub { text-align: center; color: #8fa3bf; font-size: 14px; margin-bottom: 24px; }
+    label { display: block; font-size: 13px; font-weight: 600; color: #cbd8ea; margin: 0 0 7px; }
+    .field { margin-bottom: 16px; }
+    input {
+      width: 100%; font: inherit; font-size: 15px; padding: 12px 14px;
+      background: #101a2b; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #eaf1fb;
+    }
+    input:focus { outline: none; border-color: #2b86ff; box-shadow: 0 0 0 3px rgba(43,134,255,0.16); }
+    button {
+      width: 100%; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; color: #fff;
+      padding: 14px; border: none; border-radius: 10px; margin-top: 6px;
+      background: linear-gradient(180deg, #2b86ff, #0b6ade);
+    }
+    button:hover { filter: brightness(1.07); }
+    .foot { text-align: center; color: #7f92ad; font-size: 12.5px; margin-top: 18px; }
+    .foot a { color: #63a4ff; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="plate">
+      <img class="logo" src="/images/autodealer-logo.png" alt="Autodealer"
+           onerror="this.style.display='none';document.getElementById('fallback').style.display='flex';" />
+    </div>
+    <div class="mark" id="fallback">A</div>
+    <h1>Sign in</h1>
+    <p class="sub">Enter your credentials to continue.</p>
+    <form onsubmit="event.preventDefault();">
+      <div class="field"><label for="u">Username or Email</label><input id="u" type="text" autocomplete="username" placeholder="Enter your username" /></div>
+      <div class="field"><label for="p">Password</label><input id="p" type="password" autocomplete="current-password" placeholder="Enter your password" /></div>
+      <button type="submit">Sign In</button>
+    </form>
+    <p class="foot"><a href="/">← Back to home</a></p>
+  </div>
+</body>
+</html>
