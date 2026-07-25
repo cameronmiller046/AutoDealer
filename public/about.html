@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Autodealer CRM</title>
+  <meta name="description" content="AutoDealer CRM is proudly developed by Mocazari Co., a software company building modern tools for automotive professionals." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --blue: #2563eb; --blue-2: #3b82f6; --bg: #f6f8fb; --text: #16202e; --muted: #64748b; --line: #e7ecf3; --ink: #0a1424; }
+    * { margin: 0; box-sizing: border-box; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; } button { font: inherit; cursor: pointer; }
+    .container { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+    .eyebrow { color: var(--blue); font-size: 13px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+    .wm { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; color: #fff; line-height: 1; display: inline-flex; align-items: flex-end; gap: 8px; }
+    .wm .stk { display: flex; flex-direction: column; } .wm b { color: #2b8fff; }
+    .wm .sw { display: block; width: 90px; height: 8px; margin-bottom: 3px; } .wm .crm { font-size: 13px; font-weight: 700; color: #93a3b8; letter-spacing: 1px; padding-bottom: 2px; }
+
+    /* M logo */
+    .mmark { display: inline-block; }
+    .mmark svg { display: block; }
+
+    /* hero */
+    .hero { position: relative; background: linear-gradient(90deg, rgba(6,12,24,0.92) 0%, rgba(6,12,24,0.72) 40%, rgba(6,12,24,0.4) 100%), url("/images/pricing-hero.jpg"); background-size: cover; background-position: center; }
+    .nav { position: relative; z-index: 5; display: flex; align-items: center; gap: 40px; padding: 22px 0; }
+    .nav-links { display: flex; align-items: center; gap: 30px; margin: 0 auto; }
+    .nav-links a { color: #d3deee; font-size: 15px; font-weight: 500; display: inline-flex; align-items: center; gap: 5px; padding-bottom: 3px; }
+    .nav-links a:hover { color: #fff; } .nav-links a.on { color: #fff; border-bottom: 2px solid #2b8fff; }
+    .nav-links svg { width: 11px; height: 8px; opacity: 0.7; }
+    .nav-right { display: flex; align-items: center; gap: 24px; }
+    .login { color: #eaf1fb; font-size: 15px; font-weight: 600; }
+    .btn-primary { background: linear-gradient(180deg, var(--blue-2), var(--blue)); color: #fff; border: none; border-radius: 9px; padding: 12px 22px; font-size: 15px; font-weight: 700; box-shadow: 0 12px 30px -12px rgba(37,99,235,0.8); }
+    .btn-primary:hover { filter: brightness(1.06); }
+    .hero-inner { position: relative; z-index: 3; padding: 40px 0 90px; max-width: 620px; }
+    .hero .eyebrow { color: #4b9bff; }
+    .hero h1 { color: #fff; font-size: clamp(42px, 5vw, 62px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.04; margin: 16px 0 22px; }
+    .hero p { color: #c4d2e6; font-size: 16.5px; line-height: 1.7; max-width: 480px; }
+
+    /* sections */
+    .section { padding: 78px 0; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    h2 { font-size: 34px; font-weight: 800; letter-spacing: -0.8px; line-height: 1.15; margin: 14px 0 20px; }
+    .lead { color: var(--muted); font-size: 16px; line-height: 1.75; }
+    .lead + .lead { margin-top: 16px; }
+
+    /* mission brand card */
+    .brand-card { border-radius: 16px; overflow: hidden; aspect-ratio: 16/10; background:
+      radial-gradient(120% 90% at 30% 18%, rgba(43,143,255,0.18), transparent 60%),
+      linear-gradient(180deg, #141b25 0%, #0b1017 100%);
+      border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 30px 60px -30px rgba(16,32,60,0.5);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+    .brand-card::after { content: ""; position: absolute; left: 8%; right: 8%; bottom: 12%; height: 40%; background: radial-gradient(60% 100% at 50% 100%, rgba(255,255,255,0.05), transparent 70%); }
+    .brand-card .mmark svg { width: 76px; height: 62px; filter: drop-shadow(0 0 18px rgba(43,143,255,0.6)); }
+    .brand-card .co { color: #eaf1fb; font-size: 22px; font-weight: 500; letter-spacing: 5px; margin-top: 16px; }
+    .brand-card .co b { font-weight: 700; }
+
+    /* values */
+    .values { text-align: center; }
+    .values .eyebrow { display: block; text-align: center; }
+    .val-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 44px; }
+    .val { padding: 0 30px; position: relative; }
+    .val + .val::before { content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; width: 1px; background: var(--line); }
+    .val-ic { color: var(--blue); margin-bottom: 18px; } .val-ic svg { width: 34px; height: 34px; }
+    .val h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+    .val p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    /* company */
+    .btn-out { display: inline-flex; align-items: center; gap: 10px; background: #fff; color: var(--blue); border: 1.5px solid var(--blue); border-radius: 10px; padding: 13px 22px; font-size: 14.5px; font-weight: 700; margin-top: 26px; }
+    .btn-out:hover { background: #f0f6ff; } .btn-out svg { width: 16px; height: 16px; }
+    .stats-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 34px 36px; box-shadow: 0 30px 60px -34px rgba(16,32,60,0.35); }
+    .stats-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 26px; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 30px; }
+    .stat { border-top: 1px solid var(--line); padding-top: 20px; }
+    .stat-grid .stat:nth-child(-n+2) { border-top: none; padding-top: 0; }
+    .stat-ic { color: var(--blue); margin-bottom: 10px; } .stat-ic svg { width: 26px; height: 26px; }
+    .stat .num { font-size: 30px; font-weight: 800; letter-spacing: -0.8px; display: inline-block; }
+    .stat .lbl { color: var(--muted); font-size: 13px; line-height: 1.45; margin-top: 4px; }
+    .stat-row { display: flex; align-items: center; gap: 12px; }
+
+    /* footer */
+    .foot { background: linear-gradient(180deg, #0b1524, #070e1a); color: #cdd8e8; padding: 60px 0; }
+    .foot-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .foot-brand { display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .foot-brand .mmark svg { width: 60px; height: 50px; filter: drop-shadow(0 0 16px rgba(43,143,255,0.5)); }
+    .foot-brand .co { color: #fff; font-size: 22px; font-weight: 500; letter-spacing: 5px; margin-top: 14px; } .foot-brand .co b { font-weight: 700; }
+    .foot-brand .sub { color: #7f92ad; font-size: 12px; letter-spacing: 4px; margin-top: 8px; }
+    .foot-cta h3 { color: #fff; font-size: 24px; font-weight: 800; letter-spacing: -0.4px; }
+    .foot-cta p { color: #a9bace; font-size: 15px; line-height: 1.65; margin: 12px 0 22px; max-width: 460px; }
+
+    @media (max-width: 940px) {
+      .nav-links { display: none; }
+      .two { grid-template-columns: 1fr; gap: 34px; }
+      .val-grid { grid-template-columns: 1fr 1fr; row-gap: 40px; } .val:nth-child(2n+1)::before { display: none; }
+      .foot-inner { grid-template-columns: 1fr; text-align: center; } .foot-cta p { margin-left: auto; margin-right: auto; }
+    }
+    @media (max-width: 560px) { .container { padding: 0 22px; } .val-grid { grid-template-columns: 1fr; } .val::before { display: none !important; } .stat-grid { grid-template-columns: 1fr; } .stat { border-top: 1px solid var(--line); padding-top: 20px; } }
+  </style>
+</head>
+<body>
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="container">
+      <nav class="nav">
+        <a class="wm" href="/"><span class="stk"><svg class="sw" viewBox="0 0 90 8"><path d="M2 6 C22 1, 68 1, 88 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg><span>AUTO<b>DEALER</b></span></span><span class="crm">CRM</span></a>
+        <div class="nav-links">
+          <a href="/#features">Features</a>
+          <a href="#">Solutions <svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="/pricing">Pricing</a>
+          <a href="#">Resources <svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="on" href="/about">About</a>
+        </div>
+        <div class="nav-right">
+          <a class="login" href="/login">Log In</a>
+          <a class="btn-primary" href="/login">Request Demo</a>
+        </div>
+      </nav>
+
+      <div class="hero-inner">
+        <span class="eyebrow">About Mocazari Co.</span>
+        <h1>Building Software.<br />Driving Success.</h1>
+        <p>AutoDealer CRM is proudly developed by Mocazari Co., a software development company dedicated to creating powerful, intuitive tools that help automotive professionals sell more, serve better, and grow faster.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MISSION ===================== -->
+  <section class="section">
+    <div class="container two">
+      <div>
+        <span class="eyebrow">Our Mission</span>
+        <h2>Empowering Dealerships<br />Through Smart Software</h2>
+        <p class="lead">Our mission is simple: build software that solves real problems. We created AutoDealer CRM to help sales teams stay organized, connect with more customers, and close more deals — all in one place.</p>
+      </div>
+      <div class="brand-card">
+        <span class="mmark"><svg viewBox="0 0 80 64"><defs><linearGradient id="mg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4b9bff"/><stop offset="1" stop-color="#1f6fe0"/></linearGradient></defs><path d="M12 54 V14 L40 44 L68 14 V54" fill="none" stroke="url(#mg1)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div class="co">MOCAZARI <b>CO.</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== VALUES ===================== -->
+  <section class="section values" style="padding-top:0">
+    <div class="container">
+      <span class="eyebrow">Our Values</span>
+      <div class="val-grid">
+        <div class="val">
+          <div class="val-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M13 6l-5 7h4l-1 5 5-7h-4z" fill="currentColor"/></svg></div>
+          <h3>Innovate Relentlessly</h3>
+          <p>We never stop exploring new ideas to build better solutions.</p>
+        </div>
+        <div class="val">
+          <div class="val-ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></div>
+          <h3>Put People First</h3>
+          <p>Our customers and their success are at the heart of everything we do.</p>
+        </div>
+        <div class="val">
+          <div class="val-ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Built on Integrity</h3>
+          <p>We believe in honest partnerships, transparent communication, and software you can trust.</p>
+        </div>
+        <div class="val">
+          <div class="val-ic"><svg viewBox="0 0 24 24"><path d="M4 16l5-5 4 4 7-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Drive Real Results</h3>
+          <p>We build tools that make a measurable difference in your dealership every day.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COMPANY ===================== -->
+  <section class="section" style="padding-top:0">
+    <div class="container two">
+      <div>
+        <span class="eyebrow">Our Company</span>
+        <h2>About Mocazari Co.</h2>
+        <p class="lead">Mocazari Co. is a software development company focused on building modern, scalable, and easy-to-use solutions for the automotive industry. Our team of developers, designers, and problem solvers are passionate about technology and committed to helping dealerships thrive in a competitive market.</p>
+        <p class="lead">AutoDealer CRM is our flagship product — purpose-built for dealerships, by people who understand your business.</p>
+        <a class="btn-out" href="#">Learn More About Mocazari Co. <svg viewBox="0 0 20 16"><path d="M1 8h16M12 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="stats-card">
+        <h3>Mocazari Co. by the Numbers</h3>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></div>
+            <div class="num">20+</div><div class="lbl">Passionate Team Members</div>
+          </div>
+          <div class="stat">
+            <div class="stat-ic"><svg viewBox="0 0 24 24"><path d="M9 8l-4 4 4 4M15 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="num">10+</div><div class="lbl">Years of Development Experience</div>
+          </div>
+          <div class="stat">
+            <div class="stat-ic"><svg viewBox="0 0 24 24"><path d="M4 10l8-5 8 5M5 10v9h14v-9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 19v-5h6v5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></div>
+            <div class="num">100+</div><div class="lbl">Dealerships Trust Our Software</div>
+          </div>
+          <div class="stat">
+            <div class="stat-ic"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></div>
+            <div class="num">1M+</div><div class="lbl">Customer Interactions Managed Monthly</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="foot">
+    <div class="container foot-inner">
+      <div class="foot-brand">
+        <span class="mmark"><svg viewBox="0 0 80 64"><defs><linearGradient id="mg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4b9bff"/><stop offset="1" stop-color="#1f6fe0"/></linearGradient></defs><path d="M12 54 V14 L40 44 L68 14 V54" fill="none" stroke="url(#mg2)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div class="co">MOCAZARI <b>CO.</b></div>
+        <div class="sub">SOFTWARE DEVELOPMENT</div>
+      </div>
+      <div class="foot-cta">
+        <h3>Let's Build the Future of Automotive Software</h3>
+        <p>We're just getting started. Join the growing list of dealerships using AutoDealer CRM to drive more sales and deliver better customer experiences.</p>
+        <a class="btn-primary" href="/login">Request a Demo <svg viewBox="0 0 20 16" style="width:16px;height:14px;vertical-align:-2px;margin-left:4px"><path d="M1 8h16M12 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
