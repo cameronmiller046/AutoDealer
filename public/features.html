@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Features — Autodealer CRM</title>
+  <meta name="description" content="AutoDealer CRM is packed with powerful features that help your team attract more leads, engage customers, and close more deals — faster." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --blue: #2563eb; --blue-2: #3b82f6; --bg: #f5f7fb; --text: #16202e; --muted: #64748b; --faint: #94a3b8; --line: #e7ecf3; --ink: #060e1c; }
+    * { margin: 0; box-sizing: border-box; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; } button { font: inherit; cursor: pointer; }
+    .container { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+    .eyebrow { color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
+    .wm { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; color: #fff; line-height: 1; display: inline-flex; align-items: flex-end; gap: 8px; }
+    .wm .stk { display: flex; flex-direction: column; } .wm b { color: #2b8fff; }
+    .wm .sw { display: block; width: 90px; height: 8px; margin-bottom: 3px; } .wm .crm { font-size: 13px; font-weight: 700; color: #93a3b8; letter-spacing: 1px; padding-bottom: 2px; }
+    .link { color: var(--blue); font-size: 13.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+
+    /* hero */
+    .hero { position: relative; overflow: hidden; background: radial-gradient(90% 90% at 82% 20%, #12325f 0%, rgba(18,50,95,0) 55%), linear-gradient(160deg, #0a1a33 0%, #071224 55%, #050c18 100%); }
+    .nav { position: relative; z-index: 5; display: flex; align-items: center; gap: 40px; padding: 22px 0; }
+    .nav-links { display: flex; align-items: center; gap: 30px; margin: 0 auto; }
+    .nav-links a { color: #d3deee; font-size: 15px; font-weight: 500; display: inline-flex; align-items: center; gap: 5px; padding-bottom: 3px; }
+    .nav-links a:hover { color: #fff; } .nav-links a.on { color: #fff; border-bottom: 2px solid #2b8fff; }
+    .nav-links svg { width: 11px; height: 8px; opacity: 0.7; }
+    .nav-right { display: flex; align-items: center; gap: 24px; }
+    .login { color: #eaf1fb; font-size: 15px; font-weight: 600; }
+    .btn-primary { background: linear-gradient(180deg, var(--blue-2), var(--blue)); color: #fff; border: none; border-radius: 9px; padding: 12px 22px; font-size: 15px; font-weight: 700; box-shadow: 0 12px 30px -12px rgba(37,99,235,0.8); }
+    .btn-primary:hover { filter: brightness(1.06); }
+    .hero-inner { position: relative; z-index: 3; display: grid; grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); gap: 44px; align-items: center; padding: 30px 0 70px; }
+    .hero .eyebrow { color: #4b9bff; }
+    .hero h1 { color: #fff; font-size: clamp(38px, 4.4vw, 52px); font-weight: 800; letter-spacing: -1.2px; line-height: 1.08; margin: 14px 0 20px; }
+    .hero h1 .b { color: #2b7fff; }
+    .hero p { color: #b7c6dc; font-size: 16px; line-height: 1.65; max-width: 440px; }
+    .h-highlights { display: flex; gap: 30px; margin-top: 34px; }
+    .hh { max-width: 170px; } .hh-ic { color: #4b9bff; margin-bottom: 12px; } .hh-ic svg { width: 26px; height: 26px; }
+    .hh b { color: #fff; font-size: 13.5px; font-weight: 700; display: block; margin-bottom: 5px; } .hh p { color: #90a2ba; font-size: 12.5px; line-height: 1.45; }
+
+    /* hero dashboard */
+    .hdash { background: #fff; border-radius: 14px; box-shadow: 0 50px 90px -34px rgba(0,0,0,0.7); overflow: hidden; font-size: 9px; color: #46525f; }
+    .hd-top { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-bottom: 1px solid #eef2f7; }
+    .hd-top .wm { color: #0f2947; font-size: 11px; } .hd-top .wm b { color: #2563eb; } .hd-top .wm .sw { display: none; }
+    .hd-top .crm { color: #93a3b8; font-size: 8px; } .hd-top .t { font-weight: 700; color: #16202e; font-size: 13px; margin-left: 6px; }
+    .hd-body { display: grid; grid-template-columns: 92px 1fr; }
+    .hd-side { border-right: 1px solid #eef2f7; padding: 8px 7px; display: flex; flex-direction: column; gap: 2px; }
+    .hd-side a { display: flex; align-items: center; gap: 6px; padding: 5px 7px; border-radius: 5px; color: #7c8698; font-size: 9px; }
+    .hd-side a.on { background: #2563eb; color: #fff; } .hd-side a i { width: 4px; height: 4px; border-radius: 1px; background: currentColor; opacity: 0.7; }
+    .hd-main { padding: 11px; }
+    .hd-kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 7px; }
+    .hd-kpi { border: 1px solid #eef2f7; border-radius: 7px; padding: 8px; }
+    .hd-kpi .l { color: #8a97a8; font-size: 7.5px; } .hd-kpi .v { font-size: 15px; font-weight: 800; color: #16202e; } .hd-kpi .d { color: #16a34a; font-size: 7px; margin-top: 2px; }
+    .hd-charts { display: grid; grid-template-columns: 1.5fr 1fr; gap: 9px; margin: 9px 0; }
+    .hd-panel { border: 1px solid #eef2f7; border-radius: 7px; padding: 9px; }
+    .hd-panel .h { font-weight: 700; color: #16202e; font-size: 9px; margin-bottom: 6px; }
+    .hd-donut { width: 56px; height: 56px; border-radius: 50%; margin: 2px auto; background: conic-gradient(#2563eb 0 42%, #60a5fa 42% 68%, #a5c8ff 68% 86%, #dbe7fb 86% 100%); position: relative; }
+    .hd-donut::after { content: ""; position: absolute; inset: 16px; background: #fff; border-radius: 50%; }
+    .hd-leg { font-size: 7px; color: #64748b; display: flex; flex-direction: column; gap: 3px; margin-top: 4px; }
+    .hd-leg span { display: flex; align-items: center; gap: 4px; } .hd-leg i { width: 5px; height: 5px; border-radius: 50%; }
+    .hd-lists { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .hd-li { display: flex; align-items: center; gap: 6px; padding: 4px 0; font-size: 8px; }
+    .hd-li .a { width: 14px; height: 14px; border-radius: 50%; background: #e2e8f0; flex: none; }
+    .hd-li b { color: #16202e; font-size: 8.5px; } .hd-li span { color: #94a3b8; } .hd-li .rt { margin-left: auto; color: #94a3b8; }
+
+    /* feature grid */
+    .fhead { text-align: center; padding: 66px 0 8px; }
+    .fhead h2 { font-size: 32px; font-weight: 800; letter-spacing: -0.7px; margin: 12px 0 16px; }
+    .fhead p { color: var(--muted); font-size: 15.5px; line-height: 1.6; max-width: 720px; margin: 0 auto; }
+    .fgrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; padding: 40px 0 10px; }
+    .fcard { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 22px 20px 20px; box-shadow: 0 20px 44px -34px rgba(16,32,60,0.4); display: flex; flex-direction: column; }
+    .fc-ic { width: 46px; height: 46px; border-radius: 12px; background: #eaf1fe; color: var(--blue); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .fc-ic svg { width: 23px; height: 23px; }
+    .fcard h3 { font-size: 16px; font-weight: 700; margin-bottom: 9px; }
+    .fcard p { color: var(--muted); font-size: 13px; line-height: 1.5; margin-bottom: 14px; }
+    .fcard .link { margin-top: auto; }
+
+    /* win panel */
+    .win { background: #eaf1fb; border-radius: 20px; margin: 44px 0 0; padding: 46px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .win h2 { font-size: 30px; font-weight: 800; letter-spacing: -0.6px; line-height: 1.2; margin: 12px 0 14px; }
+    .win .lead { color: var(--muted); font-size: 15px; line-height: 1.65; margin-bottom: 22px; }
+    .win-checks { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 26px; }
+    .win-checks li { display: flex; align-items: center; gap: 11px; font-size: 14.5px; font-weight: 500; color: #334155; }
+    .win-checks li svg { width: 19px; height: 19px; color: var(--blue); flex: none; }
+    .btn-out { display: inline-flex; align-items: center; gap: 10px; background: #fff; color: var(--blue); border: 1.5px solid var(--blue); border-radius: 10px; padding: 13px 22px; font-size: 14.5px; font-weight: 700; }
+    .btn-out:hover { background: #f0f6ff; } .btn-out svg { width: 16px; height: 16px; }
+
+    .win-right { display: flex; align-items: center; justify-content: center; gap: 22px; }
+    .phone { width: 230px; flex: none; background: #0c1626; border: 7px solid #0c1626; border-radius: 30px; box-shadow: 0 40px 70px -30px rgba(16,32,60,0.5); overflow: hidden; }
+    .ph-screen { background: #fff; border-radius: 22px; overflow: hidden; font-size: 9px; color: #46525f; }
+    .ph-top { display: flex; align-items: center; justify-content: space-between; padding: 6px 12px 2px; color: #16202e; font-size: 8px; font-weight: 600; }
+    .ph-nav { display: flex; align-items: center; justify-content: space-between; padding: 4px 12px; font-size: 9px; color: #2563eb; font-weight: 600; }
+    .ph-hero { text-align: center; padding: 8px 0 12px; }
+    .ph-av { width: 46px; height: 46px; border-radius: 50%; background: #1f2a3a; color: #fff; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; }
+    .ph-hero b { font-size: 13px; color: #16202e; } .ph-badge { background: #e8f0fe; color: #2563eb; font-size: 7px; font-weight: 700; padding: 1px 6px; border-radius: 5px; margin-left: 4px; }
+    .ph-acts { display: flex; justify-content: center; gap: 14px; padding: 8px 0; border-bottom: 1px solid #eef2f7; }
+    .ph-acts .a { text-align: center; color: #2563eb; font-size: 7px; } .ph-acts .a span { width: 26px; height: 26px; border-radius: 50%; background: #eef4ff; display: flex; align-items: center; justify-content: center; margin: 0 auto 3px; } .ph-acts .a svg { width: 13px; height: 13px; }
+    .ph-det { padding: 8px 14px; } .ph-det .dh { font-weight: 700; color: #16202e; font-size: 10px; margin-bottom: 8px; }
+    .ph-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f2f5f9; font-size: 8.5px; } .ph-row .k { color: #94a3b8; } .ph-row .v { color: #16202e; font-weight: 600; }
+    .ph-notes { padding: 8px 14px; } .ph-notes .dh { font-weight: 700; color: #16202e; font-size: 10px; margin-bottom: 5px; } .ph-notes p { color: #64748b; font-size: 8.5px; line-height: 1.4; }
+    .ph-tabs { display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #eef2f7; color: #94a3b8; }
+    .ph-tabs i { width: 12px; height: 12px; border-radius: 3px; background: currentColor; opacity: 0.5; } .ph-tabs i.on { background: #2563eb; opacity: 1; }
+
+    .acts { display: flex; flex-direction: column; gap: 14px; }
+    .act { background: #fff; border: 1px solid var(--line); border-radius: 11px; padding: 12px 14px; display: flex; gap: 12px; align-items: center; box-shadow: 0 14px 30px -22px rgba(16,32,60,0.4); min-width: 210px; }
+    .act .ai { width: 34px; height: 34px; border-radius: 9px; flex: none; display: flex; align-items: center; justify-content: center; } .act .ai svg { width: 17px; height: 17px; }
+    .ai.green { background: #e6f7ee; color: #16a34a; } .ai.blue { background: #e8f0fe; color: #2563eb; } .ai.purple { background: #f0e9fe; color: #7c3aed; } .ai.orange { background: #fdeede; color: #ea8a0b; }
+    .act b { font-size: 13px; font-weight: 700; display: block; } .act span { color: var(--faint); font-size: 11.5px; }
+
+    /* footer CTA */
+    .cta-foot { position: relative; overflow: hidden; background: linear-gradient(120deg, #0a1830 0%, #0a1428 55%, #0b1f3e 100%); color: #cdd8e8; padding: 46px 0; margin-top: 56px; }
+    .cta-wave { position: absolute; inset: 0; opacity: 0.4; }
+    .cta-inner { position: relative; z-index: 2; display: flex; align-items: center; gap: 28px; }
+    .cta-car { width: 96px; height: 84px; border-radius: 16px; border: 1.5px solid rgba(75,155,255,0.5); color: #4b9bff; display: flex; align-items: center; justify-content: center; flex: none; }
+    .cta-car svg { width: 46px; height: 46px; }
+    .cta-inner h2 { color: #fff; font-size: 26px; font-weight: 800; letter-spacing: -0.4px; line-height: 1.2; }
+    .cta-inner .p { color: #a9bace; font-size: 14.5px; line-height: 1.55; margin-top: 8px; max-width: 420px; }
+    .cta-right { margin-left: auto; text-align: right; flex: none; }
+    .cta-note { color: #8397b0; font-size: 12.5px; margin-top: 12px; }
+
+    @media (max-width: 1080px) {
+      .nav-links { display: none; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .fgrid { grid-template-columns: repeat(3, 1fr); }
+      .win { grid-template-columns: 1fr; } .win-right { flex-direction: column; }
+      .cta-inner { flex-direction: column; align-items: flex-start; } .cta-right { margin-left: 0; text-align: left; }
+    }
+    @media (max-width: 640px) { .container { padding: 0 22px; } .fgrid { grid-template-columns: 1fr 1fr; } .h-highlights { flex-wrap: wrap; gap: 20px; } }
+  </style>
+</head>
+<body>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <nav class="nav">
+        <a class="wm" href="/"><span class="stk"><svg class="sw" viewBox="0 0 90 8"><path d="M2 6 C22 1, 68 1, 88 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg><span>AUTO<b>DEALER</b></span></span><span class="crm">CRM</span></a>
+        <div class="nav-links">
+          <a class="on" href="/features">Features</a>
+          <a href="/solutions">Solutions <svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="/pricing">Pricing</a>
+          <a href="/resources">Resources <svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="/about">About</a>
+        </div>
+        <div class="nav-right">
+          <a class="login" href="/login">Log In</a>
+          <a class="btn-primary" href="/login">Request Demo</a>
+        </div>
+      </nav>
+
+      <div class="hero-inner">
+        <div>
+          <span class="eyebrow">Features</span>
+          <h1>Everything You Need.<br /><span class="b">All in One Platform.</span></h1>
+          <p>AutoDealer CRM is packed with powerful features that help your team attract more leads, engage customers, and close more deals—faster.</p>
+          <div class="h-highlights">
+            <div class="hh"><div class="hh-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><b>All-in-One Platform</b><p>Everything your dealership needs to succeed.</p></div>
+            <div class="hh"><div class="hh-ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M13 8l-4 5h3l-1 4 4-5h-3z" fill="currentColor"/></svg></div><b>Built for Performance</b><p>Designed to help your team work smarter and faster.</p></div>
+            <div class="hh"><div class="hh-ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><b>Secure &amp; Reliable</b><p>Enterprise-grade security you can count on.</p></div>
+          </div>
+        </div>
+
+        <div class="hdash">
+          <div class="hd-top"><span class="wm">AUTO<b>DEALER</b></span><span class="crm">CRM</span><span class="t">Dashboard</span></div>
+          <div class="hd-body">
+            <div class="hd-side"><a class="on"><i></i>Dashboard</a><a><i></i>Leads</a><a><i></i>Customers</a><a><i></i>Inventory</a><a><i></i>Appointments</a><a><i></i>Communications</a><a><i></i>Reports</a><a><i></i>Tasks</a><a><i></i>Settings</a></div>
+            <div class="hd-main">
+              <div class="hd-kpis">
+                <div class="hd-kpi"><div class="l">New Leads</div><div class="v">1,248</div><div class="d">↑ 10% vs last 30 days</div></div>
+                <div class="hd-kpi"><div class="l">Appointments</div><div class="v">320</div><div class="d">↑ 12% vs last 30 days</div></div>
+                <div class="hd-kpi"><div class="l">Deals Closed</div><div class="v">86</div><div class="d">↑ 18% vs last 30 days</div></div>
+                <div class="hd-kpi"><div class="l">Sales</div><div class="v">$642,000</div><div class="d">↑ 22% vs last 30 days</div></div>
+              </div>
+              <div class="hd-charts">
+                <div class="hd-panel"><div class="h">Leads Over Time</div><svg viewBox="0 0 200 66" preserveAspectRatio="none" style="width:100%;height:52px"><polyline points="0,52 18,44 36,48 54,34 72,40 90,24 108,32 126,18 144,26 162,12 180,18 200,6" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="display:flex;justify-content:space-between;color:#94a3b8;font-size:6.5px;margin-top:2px"><span>May 1</span><span>May 8</span><span>May 15</span><span>May 22</span><span>May 29</span></div></div>
+                <div class="hd-panel"><div class="h">Top Lead Sources</div><div class="hd-donut"></div><div class="hd-leg"><span><i style="background:#2563eb"></i>Website 42%</span><span><i style="background:#60a5fa"></i>Phone 26%</span><span><i style="background:#a5c8ff"></i>Walk-in 18%</span><span><i style="background:#dbe7fb"></i>Referral 14%</span></div></div>
+              </div>
+              <div class="hd-lists">
+                <div class="hd-panel"><div class="h">Recent Leads</div>
+                  <div class="hd-li"><span class="a"></span><div><b>Jason Smith</b><span> Website</span></div><span class="rt">2m ago</span></div>
+                  <div class="hd-li"><span class="a"></span><div><b>Maria Garcia</b><span> Phone Call</span></div><span class="rt">15m ago</span></div>
+                  <div class="hd-li"><span class="a"></span><div><b>David Johnson</b><span> Facebook</span></div><span class="rt">1h ago</span></div>
+                </div>
+                <div class="hd-panel"><div class="h">Upcoming Appointments</div>
+                  <div class="hd-li"><b>10:00 AM</b><span class="rt">Robert Brown · Toyota RAV4</span></div>
+                  <div class="hd-li"><b>11:30 AM</b><span class="rt">Jessica Davis · Honda Accord</span></div>
+                  <div class="hd-li"><b>2:00 PM</b><span class="rt">Michael Wilson · Ford F-150</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <!-- FEATURE GRID -->
+    <div class="fhead">
+      <span class="eyebrow">Powerful Features</span>
+      <h2>Features Built for Modern Dealerships</h2>
+      <p>From lead capture to deal closing, AutoDealer CRM gives your team the tools they need to stay organized, drive engagement, and deliver exceptional customer experiences.</p>
+    </div>
+
+    <div class="fgrid">
+      <div class="fcard"><span class="fc-ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><h3>Lead Management</h3><p>Capture, organize, and route leads from all sources with smart automation.</p><a class="link" href="#">Learn More →</a></div>
+      <div class="fcard"><span class="fc-ic"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><h3>Communications</h3><p>Text, email, call, and video message customers from one platform.</p><a class="link" href="#">Learn More →</a></div>
+      <div class="fcard"><span class="fc-ic"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><h3>Appointments</h3><p>Schedule, confirm, and manage appointments with ease for your team and customers.</p><a class="link" href="#">Learn More →</a></div>
+      <div class="fcard"><span class="fc-ic"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.5" cy="15" r="1" fill="currentColor"/><circle cx="16.5" cy="15" r="1" fill="currentColor"/></svg></span><h3>Inventory Integration</h3><p>Real-time inventory sync keeps your listings accurate and up to date.</p><a class="link" href="#">Learn More →</a></div>
+      <div class="fcard"><span class="fc-ic"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg></span><h3>Reporting &amp; Analytics</h3><p>Powerful dashboards and reports to track performance and drive growth.</p><a class="link" href="#">Learn More →</a></div>
+
+      <div class="fcard"><span class="fc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h3>Tasks &amp; Reminders</h3><p>Stay on top of follow-ups and daily tasks with smart reminders and alerts.</p><a class="link" href="#">Learn More →</a></div>
+      <div class="fcard"><span class="fc-ic"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 4v4M9 13h.01M15 13h.01M9 16h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="4" r="1" fill="currentColor"/></svg></span><h3>AI Follow-Up Assistant</h3><p>AI-powered follow-ups and suggestions help you engage leads at the right time.</p><a class="link" href="#">Learn More →</a></div>
+      <div class="fcard"><span class="fc-ic"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><h3>Built-In Phone System</h3><p>Make and receive calls, record conversations, and track call outcomes.</p><a class="link" href="#">Learn More →</a></div>
+      <div class="fcard"><span class="fc-ic"><svg viewBox="0 0 24 24"><rect x="3.5" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 10l4.5-2.5v9L16 14z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><h3>Video Messaging</h3><p>Send personalized videos that build trust and help close deals faster.</p><a class="link" href="#">Learn More →</a></div>
+      <div class="fcard"><span class="fc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><h3>Workflow Automation</h3><p>Automate repetitive tasks and nurture leads with custom workflows.</p><a class="link" href="#">Learn More →</a></div>
+    </div>
+
+    <!-- WIN PANEL -->
+    <div class="win">
+      <div>
+        <span class="eyebrow">Built to Help You Win</span>
+        <h2>Every Feature. Every Detail.<br />Built for Your Success.</h2>
+        <p class="lead">AutoDealer CRM is constantly evolving to help your dealership stay ahead of the competition and deliver better results every day.</p>
+        <ul class="win-checks">
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Seamless DMS Integrations</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Mobile App for On-the-Go Access</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Role-Based Permissions</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Secure &amp; Compliant</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Dedicated Customer Support</li>
+        </ul>
+        <a class="btn-out" href="#">View All Features <svg viewBox="0 0 20 16"><path d="M1 8h16M12 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="win-right">
+        <div class="phone">
+          <div class="ph-screen">
+            <div class="ph-top"><span>15:01</span><span>▪ ▪ ▪ ▪</span></div>
+            <div class="ph-nav"><span>‹ Back</span><span>Edit</span></div>
+            <div class="ph-hero"><div class="ph-av">JS</div><b>James Smith</b><span class="ph-badge">Lead</span></div>
+            <div class="ph-acts">
+              <div class="a"><span><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>Call</div>
+              <div class="a"><span><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>Text</div>
+              <div class="a"><span><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span>Email</div>
+              <div class="a"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg></span>More</div>
+            </div>
+            <div class="ph-det">
+              <div class="dh">Lead Details</div>
+              <div class="ph-row"><span class="k">Source</span><span class="v">Website</span></div>
+              <div class="ph-row"><span class="k">Date Added</span><span class="v">May 20, 2024</span></div>
+              <div class="ph-row"><span class="k">Status</span><span class="v">New</span></div>
+              <div class="ph-row"><span class="k">Salesperson</span><span class="v">Alex Johnson</span></div>
+              <div class="ph-row"><span class="k">Interest</span><span class="v">2024 Chevrolet Silverado</span></div>
+            </div>
+            <div class="ph-notes"><div class="dh">Notes</div><p>Very interested in scheduling a test drive this week.</p></div>
+            <div class="ph-tabs"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+        <div class="acts">
+          <div class="act"><span class="ai green"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><b>New Lead from Website</b><span>May 20, 2024 at 10:24 AM</span></div></div>
+          <div class="act"><span class="ai blue"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div><b>Email Sent</b><span>May 20, 2024 at 10:28 AM</span></div></div>
+          <div class="act"><span class="ai purple"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><b>Text Message</b><span>May 20, 2024 at 10:35 AM</span></div></div>
+          <div class="act"><span class="ai orange"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div><b>Appointment Scheduled</b><span>May 22, 2024 at 2:00 PM</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER CTA -->
+  <section class="cta-foot">
+    <svg class="cta-wave" viewBox="0 0 1200 300" preserveAspectRatio="none"><g fill="none" stroke="#2b6fd6" stroke-width="1" opacity="0.5"><path d="M0,220 C200,150 400,260 600,190 C800,120 1000,240 1200,170"/><path d="M0,250 C200,180 400,290 600,220 C800,150 1000,270 1200,200"/><path d="M0,190 C200,120 400,230 600,160 C800,90 1000,210 1200,140"/></g></svg>
+    <div class="container cta-inner">
+      <span class="cta-car"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.5" cy="15" r="1.2" fill="currentColor"/><circle cx="16.5" cy="15" r="1.2" fill="currentColor"/></svg></span>
+      <div>
+        <h2>Ready to Experience<br />The Full Power of AutoDealer CRM?</h2>
+        <div class="p">See how our features can help your dealership attract more leads, engage customers, and close more deals.</div>
+      </div>
+      <div class="cta-right">
+        <a class="btn-primary" href="/login">Request a Demo <svg viewBox="0 0 20 16" style="width:16px;height:14px;vertical-align:-2px;margin-left:4px"><path d="M1 8h16M12 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="cta-note">No credit card required. Cancel anytime.</div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
