@@ -176,6 +176,11 @@
     .coach-rec { font-size: 12px; color: var(--muted); } .coach-rec b { color: #16a34a; }
     .prob { font-size: 12px; font-weight: 700; color: #16a34a; background: #e7f7ee; padding: 3px 9px; border-radius: 7px; }
 
+    /* completion states */
+    .done-out { opacity: 0; transform: translateX(10px); transition: opacity 0.25s ease, transform 0.25s ease; }
+    .empty { text-align: center; color: var(--muted); font-size: 13.5px; padding: 26px 16px; }
+    .empty svg { width: 30px; height: 30px; color: #16a34a; display: block; margin: 0 auto 10px; }
+
     /* Recent Conversations */
     .convos { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; padding: 8px 16px 16px; }
     .convo { border: 1px solid var(--line); border-radius: 13px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
@@ -340,8 +345,8 @@
           </div>
 
           <div class="card">
-            <div class="card-hd"><h2>Priority Queue</h2><span class="cnt">4 need attention</span></div>
-            <div class="pq">
+            <div class="card-hd"><h2>Priority Queue</h2><span class="cnt" id="pqCount">4 need attention</span></div>
+            <div class="pq" id="pqList">
               <div class="pq-item"><span class="pq-ic pi-orange"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div class="pq-body"><b>Sarah Lewis</b><span>Needs follow-up</span></div><div class="pq-right"><span class="pq-due now">Now</span><button class="mini-btn solid">Text</button></div></div>
               <div class="pq-item"><span class="pq-ic pi-blue"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div class="pq-body"><b>John Smith</b><span>Appointment reminder</span></div><div class="pq-right"><span class="pq-due time">9:30 AM</span><button class="mini-btn">Call</button></div></div>
               <div class="pq-item"><span class="pq-ic pi-green"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div class="pq-body"><b>Michael Williams</b><span>Trade-in details</span></div><div class="pq-right"><span class="pq-due time">11:00 AM</span><button class="mini-btn">Call</button></div></div>
@@ -354,8 +359,8 @@
         <!-- ACTION CENTER + SCHEDULE + AI COACH -->
         <div class="grid-3">
           <div class="card">
-            <div class="card-hd"><h2>Action Center</h2><span class="cnt">7 open</span></div>
-            <div class="ac2">
+            <div class="card-hd"><h2>Action Center</h2><span class="cnt" id="acCount">5 open</span></div>
+            <div class="ac2" id="acList">
               <div class="ac2-item"><span class="ac2-ic pi-green"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div class="ac2-body"><b>Call John Smith</b><span>Discuss availability for test drive</span></div><span class="pri high">High</span><button class="mini-btn solid">Call</button></div>
               <div class="ac2-item"><span class="ac2-ic pi-blue"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div class="ac2-body"><b>Text Michael Williams</b><span>Follow up on trade-in details</span></div><span class="pri high">High</span><button class="mini-btn">Text</button></div>
               <div class="ac2-item"><span class="ac2-ic pi-orange"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div class="ac2-body"><b>Email Sarah Lewis</b><span>Send financing options</span></div><span class="pri med">Medium</span><button class="mini-btn">Email</button></div>
@@ -412,6 +417,32 @@
     document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => {
       document.querySelectorAll(".tab").forEach((x) => x.classList.remove("on")); t.classList.add("on");
     }));
+
+    const CHECK = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    // Completing an item removes it and updates the count; empty state when caught up.
+    function wireList(listId, countId, itemSel, label, emptyMsg) {
+      const list = document.getElementById(listId);
+      const count = document.getElementById(countId);
+      function refresh() {
+        const n = list.querySelectorAll(itemSel).length;
+        count.textContent = n + " " + label;
+        if (n === 0 && !list.querySelector(".empty")) {
+          list.insertAdjacentHTML("beforeend", `<div class="empty">${CHECK}${emptyMsg}</div>`);
+        }
+      }
+      list.addEventListener("click", (e) => {
+        const btn = e.target.closest(".mini-btn");
+        if (!btn) return;
+        const item = btn.closest(itemSel);
+        if (!item) return;
+        item.classList.add("done-out");
+        setTimeout(() => { item.remove(); refresh(); }, 260);
+      });
+      refresh();
+    }
+    wireList("acList", "acCount", ".ac2-item", "open", "You're all caught up.");
+    wireList("pqList", "pqCount", ".pq-item", "need attention", "Nothing needs attention right now.");
   </script>
 </body>
 </html>
