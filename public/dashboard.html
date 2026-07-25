@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #f3f6fa; --card: #ffffff; --sidebar: #0a1628; --sidebar-2: #071120;
+      --text: #16202e; --muted: #6b7a90; --faint: #9aa7b8; --line: #e7ecf3;
+      --accent: #2563eb; --accent-soft: #e8f0fe;
+    }
+    * { margin: 0; box-sizing: border-box; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 14px; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
+    .shell { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+
+    /* ---------- sidebar ---------- */
+    .sidebar { background: linear-gradient(180deg, var(--sidebar), var(--sidebar-2)); color: #c7d4e6; padding: 20px 14px 16px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+    .brand { display: flex; flex-direction: column; align-items: flex-start; padding: 4px 8px 22px; }
+    .brand .swoosh { width: 118px; height: 10px; margin-bottom: 4px; }
+    .brand .wm { font-size: 23px; font-weight: 900; letter-spacing: 0.5px; color: #fff; }
+    .brand .wm b { color: #2b8fff; font-weight: 900; }
+    .nav { display: flex; flex-direction: column; gap: 3px; }
+    .nav a { display: flex; align-items: center; gap: 13px; padding: 11px 14px; border-radius: 10px; color: #b8c6da; font-size: 14.5px; font-weight: 500; }
+    .nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav a.on { background: var(--accent); color: #fff; font-weight: 600; }
+    .nav a svg { width: 19px; height: 19px; flex: none; }
+    .side-user { margin-top: auto; display: flex; align-items: center; gap: 11px; padding: 12px 8px 4px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .side-user img, .side-user .av { width: 38px; height: 38px; border-radius: 50%; flex: none; }
+    .side-user .meta { line-height: 1.25; min-width: 0; }
+    .side-user .meta b { color: #fff; font-size: 13.5px; font-weight: 600; display: block; }
+    .side-user .meta span { color: #8698b0; font-size: 11.5px; }
+    .side-user .chev { margin-left: auto; color: #7e90a8; width: 14px; height: 14px; }
+
+    /* ---------- topbar ---------- */
+    .main { min-width: 0; display: flex; flex-direction: column; }
+    .topbar { position: sticky; top: 0; z-index: 20; background: var(--card); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 18px; padding: 13px 26px; }
+    .hamb { border: none; background: none; color: var(--muted); width: 34px; height: 34px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
+    .hamb:hover { background: var(--bg); }
+    .hamb svg { width: 20px; height: 20px; }
+    .tsearch { flex: 1; max-width: 480px; display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; color: var(--muted); }
+    .tsearch svg { width: 17px; height: 17px; flex: none; }
+    .tsearch input { border: none; background: none; outline: none; width: 100%; font-size: 13.5px; color: var(--text); }
+    .kbd { border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 11px; color: var(--faint); }
+    .add-btn { display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(180deg, #3b82f6, #2563eb); color: #fff; border: none; border-radius: 9px; padding: 10px 16px; font-size: 13.5px; font-weight: 600; }
+    .add-btn:hover { filter: brightness(1.05); }
+    .tb-icons { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+    .ib { position: relative; border: none; background: none; color: var(--muted); width: 38px; height: 38px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; }
+    .ib:hover { background: var(--bg); color: var(--accent); }
+    .ib svg { width: 20px; height: 20px; }
+    .ib .dot { position: absolute; top: 5px; right: 6px; min-width: 16px; height: 16px; border-radius: 8px; background: #ef4444; color: #fff; font-size: 9.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+    .tb-avatar { width: 40px; height: 40px; border-radius: 50%; margin-left: 6px; position: relative; }
+    .tb-avatar::after { content: ""; position: absolute; bottom: 1px; right: 1px; width: 10px; height: 10px; border-radius: 50%; background: #22c55e; border: 2px solid #fff; }
+    .tb-avatar .av { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #3f9bff, #0b57b8); color: #fff; font-weight: 700; }
+
+    /* ---------- content ---------- */
+    .content { padding: 24px 26px 40px; }
+    .greet h1 { font-size: 25px; font-weight: 800; letter-spacing: -0.4px; }
+    .greet p { color: var(--muted); margin-top: 5px; font-size: 14px; }
+
+    .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 22px 0; }
+    .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+    .kpi-top { display: flex; align-items: center; gap: 14px; }
+    .kpi-ic { width: 46px; height: 46px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; }
+    .kpi-ic svg { width: 22px; height: 22px; }
+    .kpi-ic.blue { background: #e8f0fe; color: #2563eb; } .kpi-ic.green { background: #e6f7ee; color: #16a34a; }
+    .kpi-ic.purple { background: #f0e9fe; color: #7c3aed; } .kpi-ic.orange { background: #fdeede; color: #ea8a0b; }
+    .kpi-label { color: var(--muted); font-size: 13px; font-weight: 500; }
+    .kpi-val { font-size: 30px; font-weight: 800; letter-spacing: -0.8px; margin-top: 1px; }
+    .kpi-sub { margin-top: 12px; font-size: 12.5px; color: var(--muted); }
+    .up { color: #16a34a; font-weight: 600; } .hi { color: #ef4444; font-weight: 600; }
+    .b-conf { color: #2563eb; font-weight: 600; } .b-pend { color: #ea8a0b; font-weight: 600; } .b-follow { color: #ea8a0b; font-weight: 600; }
+
+    /* panels */
+    .grid-2 { display: grid; grid-template-columns: 1fr 380px; gap: 18px; margin-bottom: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+    .card-hd { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 20px 14px; }
+    .card-hd h2 { font-size: 16px; font-weight: 700; }
+    .view-all { color: var(--accent); font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; }
+    .tabs { display: flex; align-items: center; gap: 20px; }
+    .tab { border: none; background: none; color: var(--muted); font-size: 14px; font-weight: 600; padding-bottom: 12px; margin-bottom: -14px; border-bottom: 2px solid transparent; }
+    .tab.on { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* opportunities table */
+    .opp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .opp-table th { text-align: left; padding: 8px 20px; font-size: 11.5px; color: var(--muted); font-weight: 600; }
+    .opp-table td { padding: 12px 20px; border-top: 1px solid var(--line); vertical-align: middle; }
+    .prospect { display: flex; align-items: center; gap: 11px; }
+    .av { display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 700; }
+    .av-sm { width: 34px; height: 34px; border-radius: 50%; }
+    .p-name { font-weight: 600; } .p-phone { color: var(--muted); font-size: 12px; }
+    .veh { display: flex; align-items: center; gap: 11px; }
+    .thumb { width: 54px; height: 38px; border-radius: 7px; background: #eef2f7; display: inline-flex; align-items: center; justify-content: center; font-size: 22px; flex: none; }
+    .v-name { font-weight: 600; } .v-stock { color: var(--muted); font-size: 12px; }
+    .badge { display: inline-block; padding: 4px 11px; border-radius: 7px; font-size: 11.5px; font-weight: 600; white-space: nowrap; }
+    .b-blue { background: #e8f0fe; color: #2563eb; } .b-amber { background: #fdf0d5; color: #b45309; }
+    .b-purple { background: #f0e9fe; color: #7c3aed; } .b-rose { background: #fde8e8; color: #dc2626; } .b-green { background: #e6f7ee; color: #16a34a; }
+    .na { display: flex; align-items: center; gap: 9px; }
+    .na-ic { width: 26px; height: 26px; border-radius: 7px; background: var(--bg); color: var(--muted); display: inline-flex; align-items: center; justify-content: center; flex: none; }
+    .na-ic svg { width: 15px; height: 15px; }
+    .na b { font-weight: 600; display: block; } .na span { color: var(--muted); font-size: 12px; }
+    .due b { font-weight: 600; display: block; } .due span { color: var(--muted); font-size: 12px; }
+    .rowmenu { border: none; background: none; color: var(--faint); width: 26px; height: 26px; border-radius: 6px; }
+    .rowmenu:hover { background: var(--bg); }
+    .opp-foot { text-align: center; padding: 14px; border-top: 1px solid var(--line); }
+
+    /* due-on-next list */
+    .dn-list { padding: 6px 8px 10px; }
+    .dn { display: grid; grid-template-columns: 34px 1fr auto; gap: 12px; align-items: center; padding: 12px; border-radius: 10px; }
+    .dn:hover { background: var(--bg); }
+    .dn-ic { width: 34px; height: 34px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; }
+    .dn-ic svg { width: 17px; height: 17px; }
+    .dn-ic.cal { background: #e8f0fe; color: #2563eb; } .dn-ic.call { background: #e6f7ee; color: #16a34a; }
+    .dn-ic.user { background: #f0e9fe; color: #7c3aed; } .dn-ic.drive { background: #eef2f7; color: #475569; } .dn-ic.mail { background: #fdeede; color: #ea8a0b; }
+    .dn-body b { font-weight: 600; display: block; } .dn-body span { display: block; color: var(--muted); font-size: 12px; }
+    .dn-right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+    .dn-time { font-size: 11px; font-weight: 700; } .dn-time.today { color: #ef4444; } .dn-time.tom { color: #2563eb; }
+    .mini-btn { border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 8px; padding: 6px 14px; font-size: 12.5px; font-weight: 600; }
+    .mini-btn:hover { background: var(--bg); border-color: var(--accent); color: var(--accent); }
+
+    /* schedule */
+    .sched { padding: 4px 8px 8px; }
+    .sched-row { display: grid; grid-template-columns: 52px 1fr auto; gap: 12px; align-items: center; padding: 11px 12px; }
+    .sched-time { font-size: 12px; color: var(--muted); font-weight: 600; }
+    .sdot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+    .sched-title { font-weight: 600; } .sched-sub { color: var(--muted); font-size: 12px; }
+
+    /* action queue */
+    .aq { padding: 4px 8px 8px; }
+    .aq-row { display: grid; grid-template-columns: 34px 1fr auto auto; gap: 12px; align-items: center; padding: 11px 12px; }
+    .aq-ic { width: 34px; height: 34px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; }
+    .aq-ic svg { width: 16px; height: 16px; }
+    .aq-ic.call { background: #e6f7ee; color: #16a34a; } .aq-ic.text { background: #e8f0fe; color: #2563eb; } .aq-ic.mail { background: #fdeede; color: #ea8a0b; }
+    .aq b { font-weight: 600; display: block; } .aq span { color: var(--muted); font-size: 12px; }
+    .pri { padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+    .pri.high { background: #fde8e8; color: #dc2626; } .pri.med { background: #fdf0d5; color: #b45309; } .pri.low { background: #eef2f7; color: #64748b; }
+
+    /* ai coach */
+    .coach { padding: 4px 8px 8px; }
+    .coach-row { display: grid; grid-template-columns: 34px 1fr auto; gap: 12px; align-items: center; padding: 11px 12px; }
+    .coach-ic { width: 34px; height: 34px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; }
+    .coach-ic svg { width: 16px; height: 16px; }
+    .coach-ic.call { background: #e6f7ee; color: #16a34a; } .coach-ic.mail { background: #e8f0fe; color: #2563eb; } .coach-ic.chart { background: #f0e9fe; color: #7c3aed; }
+    .coach-txt { font-size: 13px; } .coach-txt b { font-weight: 600; }
+    .coach-txt span { color: var(--muted); display: block; font-size: 12px; }
+    .card-foot { text-align: center; padding: 12px; border-top: 1px solid var(--line); }
+
+    @media (max-width: 1200px) { .grid-2 { grid-template-columns: 1fr; } .grid-3 { grid-template-columns: 1fr; } }
+    @media (max-width: 900px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .kpis { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .kpis { grid-template-columns: 1fr; } .tsearch { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="sidebar">
+      <div class="brand">
+        <svg class="swoosh" viewBox="0 0 118 10"><path d="M2 8 C30 1, 88 1, 116 6" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <span class="wm">AUTO<b>DEALER</b></span>
+      </div>
+      <nav class="nav">
+        <a class="on" href="/dashboard"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Home</a>
+        <a href="#"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Prospects</a>
+        <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Customers</a>
+        <a href="#"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Deals</a>
+        <a href="#"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3M8 14l2.5 2.5L15 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Appointments</a>
+        <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Tasks</a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Inventory</a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Communications</a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Reports</a>
+        <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Settings</a>
+      </nav>
+      <div class="side-user">
+        <span class="av" style="background:linear-gradient(135deg,#3f9bff,#0b57b8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">CM</span>
+        <span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span>
+        <svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </aside>
+
+    <!-- ===================== MAIN ===================== -->
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch">
+          <svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          <input type="text" placeholder="Search prospects, customers, vehicles, deals..." />
+          <span class="kbd">⌘</span><span class="kbd">K</span>
+        </div>
+        <button class="add-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Add Prospect<svg viewBox="0 0 12 8" style="width:11px;height:8px;margin-left:2px"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="tb-icons">
+          <button class="ib"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <button class="ib"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <button class="ib"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="dot">3</span></button>
+          <span class="tb-avatar"><span class="av">CM</span></span>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="greet">
+          <h1>Good morning, Cameron! 👋</h1>
+          <p>Here's what's happening with your day.</p>
+        </div>
+
+        <!-- KPI cards -->
+        <div class="kpis">
+          <div class="kpi">
+            <div class="kpi-top">
+              <span class="kpi-ic blue"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span>
+              <div><div class="kpi-label">New Prospects</div><div class="kpi-val">12</div></div>
+            </div>
+            <div class="kpi-sub"><span class="up">↑ 20%</span> from yesterday</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-top">
+              <span class="kpi-ic green"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+              <div><div class="kpi-label">Appointments Today</div><div class="kpi-val">5</div></div>
+            </div>
+            <div class="kpi-sub"><span class="b-conf">2 confirmed</span> • <span class="b-pend">3 pending</span></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-top">
+              <span class="kpi-ic purple"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3M8 14l2.5 2.5L15 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div><div class="kpi-label">Tasks Due Today</div><div class="kpi-val">7</div></div>
+            </div>
+            <div class="kpi-sub"><span class="hi">3 high priority</span></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-top">
+              <span class="kpi-ic orange"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17l-5.2 2.6 1-5.8L3.5 9.7l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+              <div><div class="kpi-label">Hot Prospects</div><div class="kpi-val">8</div></div>
+            </div>
+            <div class="kpi-sub"><span class="b-follow">8 to follow up</span></div>
+          </div>
+        </div>
+
+        <!-- Opportunities + Due on Next Activity -->
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-hd">
+              <div class="tabs">
+                <span style="font-size:16px;font-weight:700;margin-right:6px">My Opportunities</span>
+                <button class="tab on">Current (18)</button>
+                <button class="tab">Past (23)</button>
+              </div>
+              <a class="view-all" href="#">View All →</a>
+            </div>
+            <table class="opp-table">
+              <thead><tr><th>Prospect</th><th>Vehicle / Interest</th><th>Status</th><th>Next Activity</th><th>Due On</th><th></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><div class="prospect"><span class="av av-sm" style="background:#3b82f6">JS</span><div><div class="p-name">John Smith</div><div class="p-phone">(678) 555-0142</div></div></div></td>
+                  <td><div class="veh"><span class="thumb">🛻</span><div><div class="v-name">2024 Silverado 1500 LT</div><div class="v-stock">Stock #T24158</div></div></div></td>
+                  <td><span class="badge b-blue">Test Drive Scheduled</span></td>
+                  <td><div class="na"><span class="na-ic"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div class="na"><div><b>Test Drive</b><span>Today at 9:30 AM</span></div></div></div></td>
+                  <td><div class="due"><b>Today</b><span>9:30 AM</span></div></td>
+                  <td><button class="rowmenu"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg></button></td>
+                </tr>
+                <tr>
+                  <td><div class="prospect"><span class="av av-sm" style="background:#a855f7">MW</span><div><div class="p-name">Michael Williams</div><div class="p-phone">(404) 555-0198</div></div></div></td>
+                  <td><div class="veh"><span class="thumb">🚙</span><div><div class="v-name">2024 Toyota RAV4</div><div class="v-stock">Stock #U24521</div></div></div></td>
+                  <td><span class="badge b-amber">In Negotiation</span></td>
+                  <td><div class="na"><span class="na-ic"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><b>Call</b><span>Today at 11:00 AM</span></div></div></td>
+                  <td><div class="due"><b>Today</b><span>11:00 AM</span></div></td>
+                  <td><button class="rowmenu"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg></button></td>
+                </tr>
+                <tr>
+                  <td><div class="prospect"><span class="av av-sm" style="background:#8b5cf6">SL</span><div><div class="p-name">Sarah Lewis</div><div class="p-phone">(770) 555-0127</div></div></div></td>
+                  <td><div class="veh"><span class="thumb">🚙</span><div><div class="v-name">2023 Honda CR-V EX</div><div class="v-stock">Stock #U23311</div></div></div></td>
+                  <td><span class="badge b-purple">Proposal Sent</span></td>
+                  <td><div class="na"><span class="na-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 19c0-3 2.7-5 6-5s6 2 6 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><b>Follow Up</b><span>Today at 1:30 PM</span></div></div></td>
+                  <td><div class="due"><b>Today</b><span>1:30 PM</span></div></td>
+                  <td><button class="rowmenu"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg></button></td>
+                </tr>
+                <tr>
+                  <td><div class="prospect"><span class="av av-sm" style="background:#f59e0b">DJ</span><div><div class="p-name">David Johnson</div><div class="p-phone">(678) 555-0177</div></div></div></td>
+                  <td><div class="veh"><span class="thumb">🛻</span><div><div class="v-name">2024 Ford F-150 XLT</div><div class="v-stock">Stock #T24211</div></div></div></td>
+                  <td><span class="badge b-rose">Trade Evaluation</span></td>
+                  <td><div class="na"><span class="na-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg></span><div><b>Test Drive</b><span>Today at 3:00 PM</span></div></div></td>
+                  <td><div class="due"><b>Today</b><span>3:00 PM</span></div></td>
+                  <td><button class="rowmenu"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg></button></td>
+                </tr>
+                <tr>
+                  <td><div class="prospect"><span class="av av-sm" style="background:#ec4899">AH</span><div><div class="p-name">Amanda Harris</div><div class="p-phone">(404) 555-0182</div></div></div></td>
+                  <td><div class="veh"><span class="thumb">🚙</span><div><div class="v-name">2024 Chevrolet Equinox</div><div class="v-stock">Stock #U24566</div></div></div></td>
+                  <td><span class="badge b-green">Qualified</span></td>
+                  <td><div class="na"><span class="na-ic"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div><b>Email</b><span>Tomorrow at 10:00 AM</span></div></div></td>
+                  <td><div class="due"><b>Tomorrow</b><span>10:00 AM</span></div></td>
+                  <td><button class="rowmenu"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg></button></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="opp-foot"><a class="view-all" href="#">View all opportunities →</a></div>
+          </div>
+
+          <div class="card">
+            <div class="card-hd"><h2>Due on Next Activity</h2></div>
+            <div class="dn-list">
+              <div class="dn"><span class="dn-ic cal"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div class="dn-body"><b>John Smith</b><span>Test Drive</span><span>Today at 9:30 AM</span></div><div class="dn-right"><span class="dn-time today">Today<br>9:30 AM</span><button class="mini-btn">Start</button></div></div>
+              <div class="dn"><span class="dn-ic call"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div class="dn-body"><b>Michael Williams</b><span>Call</span><span>Today at 11:00 AM</span></div><div class="dn-right"><span class="dn-time today">Today<br>11:00 AM</span><button class="mini-btn">Call</button></div></div>
+              <div class="dn"><span class="dn-ic user"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 19c0-3 2.7-5 6-5s6 2 6 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div class="dn-body"><b>Sarah Lewis</b><span>Follow Up</span><span>Today at 1:30 PM</span></div><div class="dn-right"><span class="dn-time today">Today<br>1:30 PM</span><button class="mini-btn">Start</button></div></div>
+              <div class="dn"><span class="dn-ic drive"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg></span><div class="dn-body"><b>David Johnson</b><span>Test Drive</span><span>Today at 3:00 PM</span></div><div class="dn-right"><span class="dn-time today">Today<br>3:00 PM</span><button class="mini-btn">Start</button></div></div>
+              <div class="dn"><span class="dn-ic mail"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div class="dn-body"><b>Amanda Harris</b><span>Email</span><span>Tomorrow at 10:00 AM</span></div><div class="dn-right"><span class="dn-time tom">Tomorrow<br>10:00 AM</span><button class="mini-btn">Email</button></div></div>
+            </div>
+            <div class="card-foot"><a class="view-all" href="#">View all →</a></div>
+          </div>
+        </div>
+
+        <!-- Bottom row: schedule / action queue / ai coach -->
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-hd"><h2>Today's Schedule</h2><a class="view-all" href="#">View Calendar</a></div>
+            <div class="sched">
+              <div class="sched-row"><span class="sched-time">9:30 AM</span><div><div class="sched-title"><span class="sdot" style="background:#3b82f6"></span>Test Drive with John Smith</div><div class="sched-sub" style="margin-left:17px">2024 Silverado 1500 LT</div></div><span class="badge b-blue">Confirmed</span></div>
+              <div class="sched-row"><span class="sched-time">11:00 AM</span><div><div class="sched-title"><span class="sdot" style="background:#22c55e"></span>Sales Consult with Michael Williams</div><div class="sched-sub" style="margin-left:17px">2024 Toyota RAV4</div></div><span class="badge b-blue">Confirmed</span></div>
+              <div class="sched-row"><span class="sched-time">1:30 PM</span><div><div class="sched-title"><span class="sdot" style="background:#f59e0b"></span>Trade Appraisal with Sarah Lewis</div><div class="sched-sub" style="margin-left:17px">2023 Honda CR-V EX</div></div><span class="badge b-amber">Pending</span></div>
+              <div class="sched-row"><span class="sched-time">3:00 PM</span><div><div class="sched-title"><span class="sdot" style="background:#ef4444"></span>Test Drive with David Johnson</div><div class="sched-sub" style="margin-left:17px">2024 Ford F-150 XLT</div></div><span class="badge b-amber">Pending</span></div>
+            </div>
+            <div class="card-foot"><a class="view-all" href="#">View full calendar →</a></div>
+          </div>
+
+          <div class="card">
+            <div class="card-hd"><h2>Action Queue <span class="badge b-rose" style="border-radius:50%;padding:2px 8px">7</span></h2><a class="view-all" href="#">View All</a></div>
+            <div class="aq">
+              <div class="aq-row"><span class="aq-ic call"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><b>Call John Smith</b><span>Discuss availability for test drive</span></div><span class="pri high">High</span><button class="mini-btn">Call</button></div>
+              <div class="aq-row"><span class="aq-ic text"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><b>Text Michael Williams</b><span>Follow up on trade-in details</span></div><span class="pri high">High</span><button class="mini-btn">Text</button></div>
+              <div class="aq-row"><span class="aq-ic mail"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div><b>Email Sarah Lewis</b><span>Send financing options</span></div><span class="pri med">Medium</span><button class="mini-btn">Email</button></div>
+              <div class="aq-row"><span class="aq-ic call"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><b>Call David Johnson</b><span>Confirm test drive appointment</span></div><span class="pri low">Low</span><button class="mini-btn">Call</button></div>
+            </div>
+            <div class="card-foot"><a class="view-all" href="#">View all actions →</a></div>
+          </div>
+
+          <div class="card">
+            <div class="card-hd"><h2>✨ AI Coach</h2><a class="view-all" href="#">View All</a></div>
+            <div class="coach">
+              <div class="coach-row"><span class="coach-ic call"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div class="coach-txt"><b>You haven't contacted Sarah Lewis</b><span>in 2 days. Reach out today.</span></div><button class="mini-btn">Call</button></div>
+              <div class="coach-row"><span class="coach-ic mail"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div class="coach-txt"><b>Michael Williams opened your email</b><span>18 minutes ago.</span></div><button class="mini-btn">Call</button></div>
+              <div class="coach-row"><span class="coach-ic chart"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg></span><div class="coach-txt"><b>David Johnson is comparing vehicles.</b><span>Send an updated payment option.</span></div><button class="mini-btn">Send</button></div>
+            </div>
+            <div class="card-foot"><a class="view-all" href="#">View all insights →</a></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach((x) => x.classList.remove("on")); t.classList.add("on");
+    }));
+  </script>
+</body>
+</html>

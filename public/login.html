@@ -54,7 +54,7 @@
     <div class="mark" id="fallback">A</div>
     <h1>Sign in</h1>
     <p class="sub">Enter your credentials to continue.</p>
-    <form onsubmit="event.preventDefault();">
+    <form onsubmit="event.preventDefault(); window.location.assign('/dashboard');">
       <div class="field"><label for="u">Username or Email</label><input id="u" type="text" autocomplete="username" placeholder="Enter your username" /></div>
       <div class="field"><label for="p">Password</label><input id="p" type="password" autocomplete="current-password" placeholder="Enter your password" /></div>
       <button type="submit">Sign In</button>
