@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resources — Autodealer CRM</title>
+  <meta name="description" content="Practical guides, expert insights, and product updates to help your dealership sell more, work smarter, and stay ahead." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --blue: #2563eb; --blue-2: #3b82f6; --bg: #f5f7fb; --text: #16202e; --muted: #64748b; --faint: #94a3b8; --line: #e7ecf3; }
+    * { margin: 0; box-sizing: border-box; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; } button { font: inherit; cursor: pointer; }
+    .container { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+    .eyebrow { color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
+    .wm { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; color: #fff; line-height: 1; display: inline-flex; align-items: flex-end; gap: 8px; }
+    .wm .stk { display: flex; flex-direction: column; } .wm b { color: #2b8fff; }
+    .wm .sw { display: block; width: 90px; height: 8px; margin-bottom: 3px; } .wm .crm { font-size: 13px; font-weight: 700; color: #93a3b8; letter-spacing: 1px; padding-bottom: 2px; }
+    .link { color: var(--blue); font-size: 13.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+
+    /* hero */
+    .hero { position: relative; text-align: center; background: linear-gradient(180deg, rgba(4,10,20,0.9) 0%, rgba(4,10,20,0.7) 45%, rgba(4,10,20,0.82) 100%), url("/images/pricing-hero.jpg"); background-size: cover; background-position: center 55%; }
+    .nav { position: relative; z-index: 5; display: flex; align-items: center; gap: 40px; padding: 22px 0; text-align: left; }
+    .nav-links { display: flex; align-items: center; gap: 30px; margin: 0 auto; }
+    .nav-links a { color: #d3deee; font-size: 15px; font-weight: 500; display: inline-flex; align-items: center; gap: 5px; padding-bottom: 3px; }
+    .nav-links a:hover { color: #fff; } .nav-links a.on { color: #fff; border-bottom: 2px solid #2b8fff; }
+    .nav-links svg { width: 11px; height: 8px; opacity: 0.7; }
+    .nav-right { display: flex; align-items: center; gap: 24px; }
+    .login { color: #eaf1fb; font-size: 15px; font-weight: 600; }
+    .btn-primary { background: linear-gradient(180deg, var(--blue-2), var(--blue)); color: #fff; border: none; border-radius: 9px; padding: 12px 22px; font-size: 15px; font-weight: 700; box-shadow: 0 12px 30px -12px rgba(37,99,235,0.8); }
+    .btn-primary:hover { filter: brightness(1.06); }
+    .hero-inner { position: relative; z-index: 3; padding: 30px 0 46px; }
+    .hero h1 { color: #fff; font-size: clamp(34px, 4.4vw, 50px); font-weight: 800; letter-spacing: -1px; line-height: 1.12; }
+    .hero p { color: #c4d2e6; font-size: 16px; line-height: 1.6; max-width: 560px; margin: 18px auto 0; }
+    .hsearch { max-width: 560px; margin: 28px auto 0; display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 12px; padding: 15px 20px; box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5); }
+    .hsearch svg { width: 19px; height: 19px; color: var(--faint); flex: none; }
+    .hsearch input { border: none; outline: none; width: 100%; font-size: 15px; color: var(--text); }
+
+    /* categories */
+    .cats { padding: 48px 0 8px; text-align: center; }
+    .cats h2 { font-size: 22px; font-weight: 800; margin-bottom: 26px; }
+    .cat-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .cat { display: inline-flex; align-items: center; gap: 10px; background: #fff; border: 1px solid var(--line); border-radius: 11px; padding: 15px 22px; font-size: 14.5px; font-weight: 600; box-shadow: 0 10px 26px -20px rgba(16,32,60,0.4); }
+    .cat:hover { border-color: var(--blue); color: var(--blue); }
+    .cat svg { width: 19px; height: 19px; color: var(--blue); }
+
+    /* featured */
+    .section { padding: 44px 0 0; }
+    .sec-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+    .sec-hd h2 { font-size: 24px; font-weight: 800; letter-spacing: -0.4px; }
+    .fr-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+    .fr-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: 0 24px 50px -36px rgba(16,32,60,0.4); display: flex; flex-direction: column; }
+    .fr-thumb { aspect-ratio: 16/11; position: relative; display: flex; align-items: center; justify-content: center; color: #dbe7fb; }
+    .fr-thumb.t1 { background: radial-gradient(120% 90% at 50% 20%, #1c2c44, #0b1220); }
+    .fr-thumb.t2 { background: radial-gradient(120% 90% at 60% 30%, #17233a, #0a111d); }
+    .fr-thumb.t3 { background: linear-gradient(160deg, #2a3550, #0d1422); }
+    .fr-thumb.t4 { background: radial-gradient(120% 90% at 40% 20%, #1a2942, #0a111e); }
+    .fr-thumb .gd { text-align: center; padding: 18px; }
+    .fr-thumb .gd .gt { font-size: 13px; font-weight: 800; letter-spacing: 1px; color: #cfe0ff; line-height: 1.3; }
+    .fr-thumb .gd .gs { font-size: 9px; color: #7f93b5; letter-spacing: 3px; margin-top: 6px; }
+    .fr-thumb .big { width: 48px; height: 48px; }
+    .fr-thumb .play { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.92); display: flex; align-items: center; justify-content: center; }
+    .fr-thumb .play svg { width: 22px; height: 22px; color: #16202e; margin-left: 3px; }
+    .fr-body { padding: 16px 18px 18px; display: flex; flex-direction: column; flex: 1; }
+    .fr-cat { color: var(--blue); font-size: 11px; font-weight: 800; letter-spacing: 0.8px; }
+    .fr-body h3 { font-size: 16px; font-weight: 700; line-height: 1.3; margin: 8px 0 8px; }
+    .fr-body p { color: var(--muted); font-size: 13px; line-height: 1.5; margin-bottom: 14px; }
+    .fr-body .link { margin-top: auto; }
+
+    /* popular + webinars */
+    .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding-top: 12px; }
+    .art { display: flex; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+    .art:first-of-type { border-top: none; }
+    .art-thumb { width: 92px; height: 68px; border-radius: 9px; flex: none; background: linear-gradient(160deg, #dbe3ee, #c3cede); color: #56637a; display: flex; align-items: center; justify-content: center; }
+    .art-thumb svg { width: 24px; height: 24px; }
+    .art-body { flex: 1; min-width: 0; }
+    .art-top { display: flex; justify-content: space-between; gap: 12px; }
+    .art-top h3 { font-size: 15px; font-weight: 700; } .art-date { color: var(--faint); font-size: 12px; white-space: nowrap; }
+    .art-body p { color: var(--muted); font-size: 13px; line-height: 1.5; margin-top: 5px; }
+
+    .web-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 8px 20px; box-shadow: 0 24px 50px -40px rgba(16,32,60,0.4); }
+    .web { display: flex; align-items: center; gap: 18px; padding: 18px 0; border-top: 1px solid var(--line); }
+    .web:first-child { border-top: none; }
+    .web-date { text-align: center; flex: none; width: 52px; }
+    .web-date .m { color: var(--blue); font-size: 11px; font-weight: 800; letter-spacing: 0.5px; } .web-date .d { font-size: 24px; font-weight: 800; line-height: 1; } .web-date .w { color: var(--faint); font-size: 10px; }
+    .web-body { flex: 1; min-width: 0; } .web-body h3 { font-size: 15px; font-weight: 700; } .web-time { color: var(--blue); font-size: 12.5px; font-weight: 600; margin: 3px 0 5px; } .web-body p { color: var(--muted); font-size: 12.5px; line-height: 1.5; }
+    .btn-out { background: #fff; color: var(--blue); border: 1.5px solid var(--blue); border-radius: 9px; padding: 8px 18px; font-size: 13px; font-weight: 700; flex: none; }
+    .btn-out:hover { background: #f0f6ff; }
+
+    /* newsletter */
+    .news { margin-top: 44px; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 26px 30px; display: flex; align-items: center; gap: 24px; box-shadow: 0 24px 50px -40px rgba(16,32,60,0.4); }
+    .news-ic { width: 54px; height: 54px; border-radius: 12px; flex: none; background: #eaf1fe; color: var(--blue); display: flex; align-items: center; justify-content: center; } .news-ic svg { width: 26px; height: 26px; }
+    .news-txt b { font-size: 17px; font-weight: 700; display: block; } .news-txt p { color: var(--muted); font-size: 13.5px; line-height: 1.5; margin-top: 4px; }
+    .news-form { margin-left: auto; display: flex; gap: 10px; flex: none; }
+    .news-form input { border: 1px solid var(--line); border-radius: 9px; padding: 12px 14px; font-size: 14px; width: 220px; outline: none; }
+    .news-form input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+
+    /* footer CTA */
+    .cta-foot { position: relative; overflow: hidden; background: linear-gradient(120deg, #0a1830 0%, #0a1428 55%, #0b1f3e 100%); color: #cdd8e8; padding: 46px 0; margin-top: 50px; }
+    .cta-wave { position: absolute; inset: 0; opacity: 0.4; }
+    .cta-top { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-bottom: 34px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .cta-top .l { display: flex; align-items: center; gap: 18px; }
+    .cta-top .ic { color: #4b9bff; } .cta-top .ic svg { width: 40px; height: 40px; }
+    .cta-top h2 { color: #fff; font-size: 24px; font-weight: 800; } .cta-top p { color: #a9bace; font-size: 14.5px; margin-top: 5px; }
+    .btn-white { background: var(--blue); color: #fff; border: none; border-radius: 9px; padding: 13px 24px; font-size: 14.5px; font-weight: 700; flex: none; }
+    .btn-white:hover { filter: brightness(1.08); }
+    .cta-grid { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding-top: 30px; }
+    .cg { display: flex; gap: 14px; align-items: flex-start; } .cg .ci { color: #4b9bff; flex: none; } .cg .ci svg { width: 26px; height: 26px; }
+    .cg b { color: #fff; font-size: 15px; font-weight: 700; display: block; margin-bottom: 3px; } .cg p { color: #a9bace; font-size: 13px; line-height: 1.5; }
+
+    @media (max-width: 940px) {
+      .nav-links { display: none; }
+      .fr-grid { grid-template-columns: 1fr 1fr; }
+      .cols { grid-template-columns: 1fr; }
+      .news { flex-direction: column; align-items: flex-start; } .news-form { margin-left: 0; width: 100%; } .news-form input { flex: 1; }
+      .cta-top { flex-direction: column; align-items: flex-start; } .cta-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) { .container { padding: 0 22px; } .fr-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <nav class="nav">
+        <a class="wm" href="/"><span class="stk"><svg class="sw" viewBox="0 0 90 8"><path d="M2 6 C22 1, 68 1, 88 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg><span>AUTO<b>DEALER</b></span></span><span class="crm">CRM</span></a>
+        <div class="nav-links">
+          <a href="/#features">Features</a>
+          <a href="/solutions">Solutions <svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="/pricing">Pricing</a>
+          <a class="on" href="/resources">Resources</a>
+          <a href="/about">About</a>
+        </div>
+        <div class="nav-right">
+          <a class="login" href="/login">Log In</a>
+          <a class="btn-primary" href="/login">Request Demo</a>
+        </div>
+      </nav>
+      <div class="hero-inner">
+        <h1>Resources to Help Your<br />Dealership Succeed</h1>
+        <p>Practical guides, expert insights, and product updates to help you sell more, work smarter, and stay ahead.</p>
+        <div class="hsearch">
+          <svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          <input type="text" placeholder="Search resources, guides, and more..." />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <!-- CATEGORIES -->
+    <section class="cats">
+      <h2>Browse by Category</h2>
+      <div class="cat-row">
+        <a class="cat"><svg viewBox="0 0 24 24"><path d="M4 5.5A2 2 0 0 1 6 4h5v15H6a2 2 0 0 0-2 1.5zM20 5.5A2 2 0 0 0 18 4h-5v15h5a2 2 0 0 1 2 1.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Guides &amp; eBooks</a>
+        <a class="cat"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>Webinars</a>
+        <a class="cat"><svg viewBox="0 0 24 24"><rect x="3.5" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 10l4.5-2.5v9L16 14z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Video Tutorials</a>
+        <a class="cat"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Product Updates</a>
+        <a class="cat"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Best Practices</a>
+        <a class="cat"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10.5c-.7.6-1 1.2-1 2H9c0-.8-.3-1.4-1-2A6 6 0 0 1 12 3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Industry Insights</a>
+      </div>
+    </section>
+
+    <!-- FEATURED -->
+    <section class="section">
+      <div class="sec-hd"><h2>Featured Resources</h2><a class="link" href="#">View all resources →</a></div>
+      <div class="fr-grid">
+        <div class="fr-card">
+          <div class="fr-thumb t1"><div class="gd"><div class="gt">ULTIMATE GUIDE<br>TO AUTOMOTIVE CRM</div><div class="gs">EBOOK</div></div></div>
+          <div class="fr-body"><span class="fr-cat">EBOOK</span><h3>The Ultimate Guide to Automotive CRM</h3><p>Everything you need to know about choosing and implementing the right CRM for your dealership.</p><a class="link" href="#">Read Now →</a></div>
+        </div>
+        <div class="fr-card">
+          <div class="fr-thumb t2"><svg class="big" viewBox="0 0 24 24" fill="none" stroke="#5b8fe6" stroke-width="1.4"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v8.5l6 3" stroke-linecap="round"/><path d="M12 12l7-4" stroke-linecap="round"/></svg></div>
+          <div class="fr-body"><span class="fr-cat">WEBINAR</span><h3>Maximize Your Leads with Automation</h3><p>See how top dealerships use automation to engage more leads and close more deals.</p><a class="link" href="#">Watch Replay →</a></div>
+        </div>
+        <div class="fr-card">
+          <div class="fr-thumb t3"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span></div>
+          <div class="fr-body"><span class="fr-cat">VIDEO TUTORIAL</span><h3>Getting Started with AutoDealer CRM</h3><p>A step-by-step walkthrough to help your team get up and running in no time.</p><a class="link" href="#">Watch Video →</a></div>
+        </div>
+        <div class="fr-card">
+          <div class="fr-thumb t4"><svg class="big" viewBox="0 0 24 24" fill="none" stroke="#5b8fe6" stroke-width="1.4"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M3.5 9h17M7 13h6M7 16h9"/></svg></div>
+          <div class="fr-body"><span class="fr-cat">PRODUCT UPDATE</span><h3>AI-Powered Follow-Ups Now Live</h3><p>Save time and connect faster with our new AI-powered follow-up assistant.</p><a class="link" href="#">See What's New →</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POPULAR + WEBINARS -->
+    <section class="section">
+      <div class="cols">
+        <div>
+          <div class="sec-hd"><h2>Popular Articles</h2></div>
+          <div class="art">
+            <span class="art-thumb"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 18h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+            <div class="art-body"><div class="art-top"><h3>5 Texting Best Practices That Drive More Sales</h3><span class="art-date">May 15, 2024</span></div><p>Simple texting strategies that help you connect faster and sell more vehicles.</p></div>
+          </div>
+          <div class="art">
+            <span class="art-thumb"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+            <div class="art-body"><div class="art-top"><h3>How to Build a Follow-Up Process That Works</h3><span class="art-date">May 2, 2024</span></div><p>Create a follow-up system your team will actually use and stick to.</p></div>
+          </div>
+          <div class="art">
+            <span class="art-thumb"><svg viewBox="0 0 24 24"><path d="M4 18l5-5 3 3 7-8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="art-body"><div class="art-top"><h3>The Key CRM Metrics Every Dealer Should Track</h3><span class="art-date">Apr 18, 2024</span></div><p>Track the right numbers to improve performance and drive growth.</p></div>
+          </div>
+          <div class="art">
+            <span class="art-thumb"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+            <div class="art-body"><div class="art-top"><h3>Lead Management: Best Practices for 2024</h3><span class="art-date">Apr 18, 2024</span></div><p>Proven strategies to capture, respond, and convert more leads.</p></div>
+          </div>
+          <a class="link" href="#" style="margin-top:14px;display:inline-flex">View all articles →</a>
+        </div>
+
+        <div>
+          <div class="sec-hd"><h2>Upcoming Webinars</h2></div>
+          <div class="web-card">
+            <div class="web">
+              <div class="web-date"><div class="m">MAY</div><div class="d">22</div><div class="w">THU</div></div>
+              <div class="web-body"><h3>Using AI to Close More Deals</h3><div class="web-time">12:00 PM - 1:00 PM EST</div><p>Learn how AI tools in AutoDealer CRM can help you save time and close more deals.</p></div>
+              <button class="btn-out" onclick="location.href='/login'">Register</button>
+            </div>
+            <div class="web">
+              <div class="web-date"><div class="m">JUN</div><div class="d">05</div><div class="w">THU</div></div>
+              <div class="web-body"><h3>Inventory Intelligence That Sells</h3><div class="web-time">12:00 PM - 1:00 PM EST</div><p>Use data and insights to keep the right inventory in stock and move units faster.</p></div>
+              <button class="btn-out" onclick="location.href='/login'">Register</button>
+            </div>
+            <div class="web">
+              <div class="web-date"><div class="m">JUN</div><div class="d">19</div><div class="w">THU</div></div>
+              <div class="web-body"><h3>Turning Internet Leads into Loyal Customers</h3><div class="web-time">12:00 PM - 1:00 PM EST</div><p>Best practices for converting online leads and building long-term relationships.</p></div>
+              <button class="btn-out" onclick="location.href='/login'">Register</button>
+            </div>
+          </div>
+          <a class="link" href="#" style="margin-top:14px;display:inline-flex">View all webinars →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <div class="news">
+      <span class="news-ic"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span>
+      <div class="news-txt"><b>Stay Ahead of the Curve</b><p>Get the latest guides, product updates, and industry insights delivered straight to your inbox.</p></div>
+      <form class="news-form" onsubmit="event.preventDefault(); this.reset();"><input type="email" placeholder="Email address" required /><button class="btn-primary" type="submit">Subscribe</button></form>
+    </div>
+  </div>
+
+  <!-- FOOTER CTA -->
+  <section class="cta-foot">
+    <svg class="cta-wave" viewBox="0 0 1200 300" preserveAspectRatio="none"><g fill="none" stroke="#2b6fd6" stroke-width="1" opacity="0.5"><path d="M0,220 C200,150 400,260 600,190 C800,120 1000,240 1200,170"/><path d="M0,250 C200,180 400,290 600,220 C800,150 1000,270 1200,200"/><path d="M0,190 C200,120 400,230 600,160 C800,90 1000,210 1200,140"/></g></svg>
+    <div class="container">
+      <div class="cta-top">
+        <div class="l">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M5 13a7 7 0 0 1 14 0v3a2 2 0 0 1-2 2h-1v-5h3M5 13v3a2 2 0 0 0 2 2h1v-5H5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+          <div><h2>Need Help Finding the Right Resource?</h2><p>Our team is here to help you get the most out of AutoDealer CRM.</p></div>
+        </div>
+        <button class="btn-white" onclick="location.href='/login'">Contact Support</button>
+      </div>
+      <div class="cta-grid">
+        <div class="cg"><span class="ci"><svg viewBox="0 0 24 24"><path d="M5 13a7 7 0 0 1 14 0v3a2 2 0 0 1-2 2h-1v-5h3M5 13v3a2 2 0 0 0 2 2h1v-5H5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><b>Expert Support</b><p>Get answers from our product experts.</p></div></div>
+        <div class="cg"><span class="ci"><svg viewBox="0 0 24 24"><path d="M3 9l9-4 9 4-9 4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M7 11v5c0 1 2.2 2.5 5 2.5s5-1.5 5-2.5v-5M21 9v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><b>Training &amp; Onboarding</b><p>Access training to help your team succeed.</p></div></div>
+        <div class="cg"><span class="ci"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17" cy="9" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 19c0-2.4 1.4-4 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><b>Community</b><p>Connect with other dealerships and share insights.</p></div></div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

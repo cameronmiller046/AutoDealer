@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solutions — Autodealer CRM</title>
+  <meta name="description" content="AutoDealer CRM provides everything your dealership needs to attract more leads, engage customers, and close more deals." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --blue: #2563eb; --blue-2: #3b82f6; --bg: #f5f7fb; --text: #16202e; --muted: #64748b; --line: #e7ecf3; --ink: #08111f; }
+    * { margin: 0; box-sizing: border-box; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; } button { font: inherit; cursor: pointer; }
+    .container { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+    .eyebrow { color: var(--blue); font-size: 13px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+    .wm { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; color: #fff; line-height: 1; display: inline-flex; align-items: flex-end; gap: 8px; }
+    .wm .stk { display: flex; flex-direction: column; } .wm b { color: #2b8fff; }
+    .wm .sw { display: block; width: 90px; height: 8px; margin-bottom: 3px; } .wm .crm { font-size: 13px; font-weight: 700; color: #93a3b8; letter-spacing: 1px; padding-bottom: 2px; }
+
+    /* hero */
+    .hero { position: relative; background: linear-gradient(90deg, rgba(4,10,20,0.94) 0%, rgba(4,10,20,0.78) 42%, rgba(4,10,20,0.5) 100%), linear-gradient(180deg, rgba(4,10,20,0.5), rgba(4,10,20,0.7)), url("/images/pricing-hero.jpg"); background-size: cover; background-position: center 60%; }
+    .nav { position: relative; z-index: 5; display: flex; align-items: center; gap: 40px; padding: 22px 0; }
+    .nav-links { display: flex; align-items: center; gap: 30px; margin: 0 auto; }
+    .nav-links a { color: #d3deee; font-size: 15px; font-weight: 500; display: inline-flex; align-items: center; gap: 5px; padding-bottom: 3px; }
+    .nav-links a:hover { color: #fff; } .nav-links a.on { color: #fff; border-bottom: 2px solid #2b8fff; }
+    .nav-links svg { width: 11px; height: 8px; opacity: 0.7; }
+    .nav-right { display: flex; align-items: center; gap: 24px; }
+    .login { color: #eaf1fb; font-size: 15px; font-weight: 600; }
+    .btn-primary { background: linear-gradient(180deg, var(--blue-2), var(--blue)); color: #fff; border: none; border-radius: 9px; padding: 12px 22px; font-size: 15px; font-weight: 700; box-shadow: 0 12px 30px -12px rgba(37,99,235,0.8); }
+    .btn-primary:hover { filter: brightness(1.06); }
+    .hero-inner { position: relative; z-index: 3; padding: 34px 0 78px; max-width: 620px; }
+    .hero .eyebrow { color: #4b9bff; }
+    .hero h1 { color: #fff; font-size: clamp(38px, 4.6vw, 56px); font-weight: 800; letter-spacing: -1.2px; line-height: 1.08; margin: 14px 0 20px; }
+    .hero h1 .b { color: #2b7fff; }
+    .hero p { color: #c4d2e6; font-size: 16px; line-height: 1.7; max-width: 480px; }
+
+    /* solutions grid */
+    .sol-head { text-align: center; padding: 70px 0 8px; }
+    .sol-head h2 { font-size: 34px; font-weight: 800; letter-spacing: -0.8px; margin: 12px 0 16px; }
+    .sol-head p { color: var(--muted); font-size: 16px; line-height: 1.6; max-width: 720px; margin: 0 auto; }
+    .sol-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 44px 0 20px; }
+    .scard { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 26px 26px 24px; box-shadow: 0 24px 50px -34px rgba(16,32,60,0.35); }
+    .sc-head { display: flex; align-items: flex-start; gap: 15px; }
+    .sc-ic { width: 50px; height: 50px; border-radius: 14px; flex: none; background: #eaf1fe; color: var(--blue); display: flex; align-items: center; justify-content: center; }
+    .sc-ic svg { width: 24px; height: 24px; }
+    .sc-head h3 { font-size: 18px; font-weight: 700; } .sc-head p { color: var(--muted); font-size: 13.5px; line-height: 1.5; margin-top: 5px; }
+    .sc-div { border: none; border-top: 1px solid var(--line); margin: 18px 0; }
+    .sc-feats { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .sc-feats li { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: #334155; }
+    .sc-feats li svg { width: 17px; height: 17px; flex: none; color: var(--blue); }
+
+    /* platform panel */
+    .platform { background: #eaf1fb; border-radius: 20px; margin: 40px 0 0; padding: 42px; display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: center; }
+    .platform .eyebrow { font-size: 12px; }
+    .platform h2 { font-size: 30px; font-weight: 800; letter-spacing: -0.6px; line-height: 1.2; margin: 12px 0 14px; }
+    .platform .lead { color: var(--muted); font-size: 15px; line-height: 1.65; margin-bottom: 24px; }
+    .p-item { display: flex; gap: 14px; margin-bottom: 20px; }
+    .p-item .pi-ic { width: 38px; height: 38px; border-radius: 10px; flex: none; background: #fff; color: var(--blue); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px -10px rgba(16,32,60,0.4); }
+    .p-item .pi-ic svg { width: 19px; height: 19px; }
+    .p-item b { font-size: 15px; font-weight: 700; display: block; margin-bottom: 3px; } .p-item p { color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+
+    /* tablet mini-dashboard */
+    .tablet { background: #0c1626; border: 6px solid #0c1626; border-radius: 18px; box-shadow: 0 40px 70px -34px rgba(16,32,60,0.55); overflow: hidden; }
+    .md { background: #fff; border-radius: 12px; overflow: hidden; font-size: 8px; color: #33404f; }
+    .md-top { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid #eef2f7; }
+    .md-top .wm { color: #0f2947; font-size: 9px; } .md-top .wm b { color: #2563eb; } .md-top .wm .sw { display: none; }
+    .md-top .crm { color: #93a3b8; font-size: 7px; }
+    .md-top .t { font-weight: 700; color: #16202e; font-size: 10px; margin-left: 4px; }
+    .md-body { display: grid; grid-template-columns: 58px 1fr; }
+    .md-side { border-right: 1px solid #eef2f7; padding: 7px 6px; display: flex; flex-direction: column; gap: 2px; }
+    .md-side a { display: flex; align-items: center; gap: 5px; padding: 4px 6px; border-radius: 5px; color: #7c8698; font-size: 7.5px; }
+    .md-side a.on { background: #2563eb; color: #fff; }
+    .md-side a i { width: 4px; height: 4px; border-radius: 1px; background: currentColor; opacity: 0.7; }
+    .md-main { padding: 9px; }
+    .md-kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
+    .md-kpi { border: 1px solid #eef2f7; border-radius: 6px; padding: 6px; }
+    .md-kpi .l { color: #8a97a8; font-size: 6.5px; } .md-kpi .v { font-size: 12px; font-weight: 800; color: #16202e; } .md-kpi .d { color: #16a34a; font-size: 6px; }
+    .md-charts { display: grid; grid-template-columns: 1.5fr 1fr; gap: 8px; margin: 8px 0; }
+    .md-panel { border: 1px solid #eef2f7; border-radius: 6px; padding: 8px; }
+    .md-panel .h { font-weight: 700; color: #16202e; font-size: 8px; margin-bottom: 6px; }
+    .md-donut { width: 52px; height: 52px; border-radius: 50%; margin: 2px auto; background: conic-gradient(#2563eb 0 42%, #60a5fa 42% 70%, #a5c8ff 70% 87%, #dbe7fb 87% 100%); position: relative; }
+    .md-donut::after { content: ""; position: absolute; inset: 15px; background: #fff; border-radius: 50%; }
+    .md-leg { font-size: 6.5px; color: #64748b; display: flex; flex-direction: column; gap: 3px; margin-top: 4px; }
+    .md-leg span { display: flex; align-items: center; gap: 4px; } .md-leg i { width: 5px; height: 5px; border-radius: 50%; }
+    .md-lists { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .md-li { display: flex; align-items: center; gap: 6px; padding: 4px 0; font-size: 7px; }
+    .md-li .a { width: 13px; height: 13px; border-radius: 50%; background: #e2e8f0; flex: none; }
+    .md-li b { color: #16202e; font-size: 7.5px; } .md-li span { color: #94a3b8; }
+    .md-li .rt { margin-left: auto; color: #94a3b8; }
+
+    /* footer CTA */
+    .cta-foot { position: relative; overflow: hidden; background: linear-gradient(120deg, #0a1830 0%, #0a1428 60%, #0b1f3e 100%); color: #cdd8e8; padding: 54px 0; margin-top: 60px; }
+    .cta-wave { position: absolute; inset: 0; opacity: 0.4; }
+    .cta-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+    .cta-inner h2 { color: #fff; font-size: 30px; font-weight: 800; letter-spacing: -0.5px; }
+    .cta-inner p { color: #a9bace; font-size: 15px; line-height: 1.6; margin: 12px 0 22px; max-width: 460px; }
+    .cta-trust { display: flex; gap: 12px; }
+    .ct { text-align: center; padding: 0 22px; position: relative; color: #cdd8e8; }
+    .ct + .ct::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: rgba(255,255,255,0.12); }
+    .ct .ci { color: #4b9bff; margin-bottom: 10px; } .ct .ci svg { width: 26px; height: 26px; }
+    .ct b { font-size: 13.5px; font-weight: 600; line-height: 1.35; display: block; }
+
+    @media (max-width: 940px) {
+      .nav-links { display: none; }
+      .sol-grid { grid-template-columns: 1fr; }
+      .platform { grid-template-columns: 1fr; }
+      .cta-inner { grid-template-columns: 1fr; } .cta-trust { justify-content: flex-start; }
+    }
+    @media (max-width: 560px) { .container { padding: 0 22px; } .md-charts, .md-lists { grid-template-columns: 1fr; } .cta-trust { flex-wrap: wrap; } .ct::before { display: none; } }
+  </style>
+</head>
+<body>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <nav class="nav">
+        <a class="wm" href="/"><span class="stk"><svg class="sw" viewBox="0 0 90 8"><path d="M2 6 C22 1, 68 1, 88 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg><span>AUTO<b>DEALER</b></span></span><span class="crm">CRM</span></a>
+        <div class="nav-links">
+          <a href="/#features">Features</a>
+          <a class="on" href="/solutions">Solutions</a>
+          <a href="/pricing">Pricing</a>
+          <a href="/resources">Resources <svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="/about">About</a>
+        </div>
+        <div class="nav-right">
+          <a class="login" href="/login">Log In</a>
+          <a class="btn-primary" href="/login">Request Demo</a>
+        </div>
+      </nav>
+      <div class="hero-inner">
+        <span class="eyebrow">Solutions</span>
+        <h1>Solutions That Drive<br /><span class="b">Sales and Customer Loyalty.</span></h1>
+        <p>AutoDealer CRM provides everything your dealership needs to attract more leads, engage customers, and close more deals. All in one powerful platform.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTIONS -->
+  <section class="container">
+    <div class="sol-head">
+      <span class="eyebrow">Our Solutions</span>
+      <h2>Powerful Solutions for Every Part of Your Dealership</h2>
+      <p>From lead management to long-term customer relationships, our solutions are built to help your team work smarter, sell more, and deliver exceptional experiences.</p>
+    </div>
+
+    <div class="sol-grid">
+      <!-- Lead Management -->
+      <div class="scard">
+        <div class="sc-head"><span class="sc-ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div><h3>Lead Management</h3><p>Capture, organize, and prioritize leads from all sources in one place.</p></div></div>
+        <hr class="sc-div" />
+        <ul class="sc-feats">
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Multi-Channel Lead Capture</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Smart Lead Routing</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Lead Scoring &amp; Prioritization</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Duplicate Prevention</li>
+        </ul>
+      </div>
+      <!-- Communications -->
+      <div class="scard">
+        <div class="sc-head"><span class="sc-ic"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><h3>Communications</h3><p>Connect with leads and customers instantly across every channel.</p></div></div>
+        <hr class="sc-div" />
+        <ul class="sc-feats">
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Text, Email &amp; Phone</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>AI-Powered Follow-Ups</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Templates &amp; Snippets</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Conversation History</li>
+        </ul>
+      </div>
+      <!-- Appointments -->
+      <div class="scard">
+        <div class="sc-head"><span class="sc-ic"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><h3>Appointments</h3><p>Make scheduling simple for your team and your customers.</p></div></div>
+        <hr class="sc-div" />
+        <ul class="sc-feats">
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Online Scheduling</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Calendar &amp; Reminders</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Showroom &amp; Test Drive Booking</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Automated Confirmations</li>
+        </ul>
+      </div>
+      <!-- Inventory Integration -->
+      <div class="scard">
+        <div class="sc-head"><span class="sc-ic"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.5" cy="15" r="1" fill="currentColor"/><circle cx="16.5" cy="15" r="1" fill="currentColor"/></svg></span><div><h3>Inventory Integration</h3><p>Live inventory data that keeps your team informed and your customers engaged.</p></div></div>
+        <hr class="sc-div" />
+        <ul class="sc-feats">
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Real-Time Inventory Sync</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Vehicle Details &amp; Photos</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom Filters &amp; Searches</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Saved Searches &amp; Alerts</li>
+        </ul>
+      </div>
+      <!-- Reporting & Analytics -->
+      <div class="scard">
+        <div class="sc-head"><span class="sc-ic"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg></span><div><h3>Reporting &amp; Analytics</h3><p>Make data-driven decisions with powerful insights and reports.</p></div></div>
+        <hr class="sc-div" />
+        <ul class="sc-feats">
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Sales Performance Dashboards</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom Reports</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Pipeline &amp; Conversion Tracking</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Activity &amp; KPI Monitoring</li>
+        </ul>
+      </div>
+      <!-- Automation -->
+      <div class="scard">
+        <div class="sc-head"><span class="sc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><h3>Automation</h3><p>Save time and stay consistent with automated workflows.</p></div></div>
+        <hr class="sc-div" />
+        <ul class="sc-feats">
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Automated Follow-Ups</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Task &amp; Reminder Automation</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Dealership Workflows</li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Trigger-Based Actions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PLATFORM PANEL -->
+    <div class="platform">
+      <div class="tablet">
+        <div class="md">
+          <div class="md-top"><span class="wm">AUTO<b>DEALER</b></span><span class="crm">CRM</span><span class="t">Dashboard</span></div>
+          <div class="md-body">
+            <div class="md-side">
+              <a class="on"><i></i>Dashboard</a><a><i></i>Leads</a><a><i></i>Customers</a><a><i></i>Inventory</a><a><i></i>Appointments</a><a><i></i>Communications</a><a><i></i>Reports</a><a><i></i>Tasks</a><a><i></i>Settings</a>
+            </div>
+            <div class="md-main">
+              <div class="md-kpis">
+                <div class="md-kpi"><div class="l">Leads This Month</div><div class="v">1,248</div><div class="d">+10%</div></div>
+                <div class="md-kpi"><div class="l">Appointments</div><div class="v">320</div><div class="d">+12%</div></div>
+                <div class="md-kpi"><div class="l">Deals Closed</div><div class="v">86</div><div class="d">+8%</div></div>
+                <div class="md-kpi"><div class="l">Sales</div><div class="v">$642,000</div><div class="d">+18%</div></div>
+              </div>
+              <div class="md-charts">
+                <div class="md-panel"><div class="h">Leads Over Time</div>
+                  <svg viewBox="0 0 200 70" preserveAspectRatio="none" style="width:100%;height:56px"><polyline points="0,58 18,50 36,54 54,40 72,46 90,30 108,38 126,22 144,30 162,14 180,20 200,6" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="200" cy="6" r="3" fill="#2563eb"/></svg>
+                </div>
+                <div class="md-panel"><div class="h">Top Lead Sources</div>
+                  <div class="md-donut"></div>
+                  <div class="md-leg"><span><i style="background:#2563eb"></i>Website 42%</span><span><i style="background:#60a5fa"></i>Phone 28%</span><span><i style="background:#a5c8ff"></i>Walk-in 17%</span><span><i style="background:#dbe7fb"></i>Referral 13%</span></div>
+                </div>
+              </div>
+              <div class="md-lists">
+                <div class="md-panel"><div class="h">Recent Leads</div>
+                  <div class="md-li"><span class="a"></span><div><b>John Smith</b><span> Website</span></div><span class="rt">2m ago</span></div>
+                  <div class="md-li"><span class="a"></span><div><b>Maria Garcia</b><span> Phone Call</span></div><span class="rt">15m ago</span></div>
+                  <div class="md-li"><span class="a"></span><div><b>David Johnson</b><span> Facebook</span></div><span class="rt">1h ago</span></div>
+                </div>
+                <div class="md-panel"><div class="h">Upcoming Appointments</div>
+                  <div class="md-li"><b>10:00 AM</b><span class="rt">Robert Brown · RAV4</span></div>
+                  <div class="md-li"><b>11:30 AM</b><span class="rt">Jessica Davis · Accord</span></div>
+                  <div class="md-li"><b>2:00 PM</b><span class="rt">Michael Wilson · F-150</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <span class="eyebrow">Built for Today. Ready for Tomorrow.</span>
+        <h2>A Complete Platform That Grows With You</h2>
+        <p class="lead">Our solutions are designed to scale with your dealership, so you can adapt, innovate, and stay ahead of the competition.</p>
+        <div class="p-item"><span class="pi-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><b>Scalable for Any Size Dealership</b><p>Whether you have one rooftop or one hundred, we've got you covered.</p></div></div>
+        <div class="p-item"><span class="pi-ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>Secure, Reliable &amp; Always Improving</b><p>Enterprise-grade security with continuous platform updates.</p></div></div>
+        <div class="p-item"><span class="pi-ic"><svg viewBox="0 0 24 24"><path d="M8 9a3 3 0 0 1 0-6 3 3 0 0 1 3 3v6a3 3 0 0 0 3 3 3 3 0 0 0 3-3M16 15a3 3 0 0 1 0 6 3 3 0 0 1-3-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>Seamless Integrations</b><p>Connect with your existing tools and DMS for a unified experience.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER CTA -->
+  <section class="cta-foot">
+    <svg class="cta-wave" viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <g fill="none" stroke="#2b6fd6" stroke-width="1" opacity="0.5">
+        <path d="M0,220 C200,150 400,260 600,190 C800,120 1000,240 1200,170"/>
+        <path d="M0,250 C200,180 400,290 600,220 C800,150 1000,270 1200,200"/>
+        <path d="M0,190 C200,120 400,230 600,160 C800,90 1000,210 1200,140"/>
+      </g>
+    </svg>
+    <div class="container cta-inner">
+      <div>
+        <h2>Ready to Transform Your Dealership?</h2>
+        <p>Explore how AutoDealer CRM's solutions can help you close more deals, build stronger relationships, and drive long-term success.</p>
+        <a class="btn-primary" href="/login">Request a Demo <svg viewBox="0 0 20 16" style="width:16px;height:14px;vertical-align:-2px;margin-left:4px"><path d="M1 8h16M12 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <div class="cta-trust">
+        <div class="ct"><div class="ci"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></div><b>Thousands of<br>Happy Dealers</b></div>
+        <div class="ct"><div class="ci"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><b>Trusted by<br>Industry Leaders</b></div>
+        <div class="ct"><div class="ci"><svg viewBox="0 0 24 24"><path d="M5 13a7 7 0 0 1 14 0v3a2 2 0 0 1-2 2h-1v-5h3M5 13v3a2 2 0 0 0 2 2h1v-5H5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></div><b>Support When<br>You Need It</b></div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
