@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing — Autodealer CRM</title>
+  <meta name="description" content="Powerful CRM, simple pricing. Plans for every dealership — Starter, Growth, Professional, and Enterprise." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --blue: #2563eb; --blue-2: #3b82f6; --green: #16a34a; --purple: #7c3aed; --orange: #ea8a0b; --bg: #f3f6fa; --text: #16202e; --muted: #64748b; --line: #e7ecf3; }
+    * { margin: 0; box-sizing: border-box; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; } button { font: inherit; cursor: pointer; }
+    .container { width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+    .wm { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; color: #fff; line-height: 1; display: inline-flex; align-items: flex-end; gap: 8px; }
+    .wm .stk { display: flex; flex-direction: column; }
+    .wm b { color: #2b8fff; } .wm .sw { display: block; width: 90px; height: 8px; margin-bottom: 3px; }
+    .wm .crm { font-size: 13px; font-weight: 700; color: #93a3b8; letter-spacing: 1px; padding-bottom: 2px; }
+
+    /* hero */
+    .phero { position: relative; background: linear-gradient(180deg, rgba(8,15,30,0.86) 0%, rgba(8,15,30,0.5) 30%, rgba(8,15,30,0.55) 52%, rgba(243,246,250,0.85) 88%, var(--bg) 100%), url("/images/pricing-hero.jpg"); background-size: cover; background-position: center 30%; }
+    .nav { position: relative; z-index: 5; display: flex; align-items: center; gap: 40px; padding: 24px 0; }
+    .nav-links { display: flex; align-items: center; gap: 32px; margin: 0 auto; }
+    .nav-links a { color: #d3deee; font-size: 15px; font-weight: 500; display: inline-flex; align-items: center; gap: 5px; padding-bottom: 3px; }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a.on { color: #fff; border-bottom: 2px solid #2b8fff; }
+    .nav-links svg { width: 11px; height: 8px; opacity: 0.7; }
+    .nav-right { display: flex; align-items: center; gap: 26px; }
+    .login { color: #eaf1fb; font-size: 15px; font-weight: 600; }
+    .btn-primary { background: linear-gradient(180deg, var(--blue-2), var(--blue)); color: #fff; border: none; border-radius: 9px; padding: 12px 22px; font-size: 15px; font-weight: 700; box-shadow: 0 12px 30px -12px rgba(37,99,235,0.8); }
+    .btn-primary:hover { filter: brightness(1.06); }
+
+    .phead { text-align: center; padding: 26px 0 10px; position: relative; z-index: 3; }
+    .eyebrow { color: #4b9bff; font-size: 14px; font-weight: 700; letter-spacing: 2px; }
+    .phead h1 { color: #fff; font-size: clamp(38px, 4.6vw, 58px); font-weight: 800; letter-spacing: -1.2px; margin: 14px 0 16px; }
+    .phead p { color: #c9d6e8; font-size: 17px; line-height: 1.6; max-width: 720px; margin: 0 auto; }
+    .toggle { display: inline-flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; padding: 5px; margin-top: 28px; }
+    .toggle button { border: none; background: transparent; color: #dbe6f5; font-size: 14px; font-weight: 600; padding: 9px 20px; border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; }
+    .toggle button.on { background: #fff; color: #16202e; }
+    .save { background: #22c55e; color: #fff; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 6px; }
+
+    /* cards */
+    .cards { position: relative; z-index: 3; display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 34px; padding-bottom: 30px; }
+    .pcard { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 30px 26px 28px; box-shadow: 0 30px 60px -30px rgba(16,32,60,0.35); display: flex; flex-direction: column; position: relative; }
+    .pcard.pop { border: 2px solid var(--blue); box-shadow: 0 40px 70px -28px rgba(37,99,235,0.5); }
+    .pop-banner { position: absolute; top: 0; left: 0; right: 0; background: var(--blue); color: #fff; font-size: 11.5px; font-weight: 800; letter-spacing: 1px; text-align: center; padding: 7px; border-radius: 16px 16px 0 0; }
+    .pcard.pop { padding-top: 46px; }
+    .pc-head { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 22px; }
+    .pc-ic { width: 52px; height: 52px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; }
+    .pc-ic svg { width: 26px; height: 26px; }
+    .ic-blue { background: #e8f0fe; color: var(--blue); } .ic-green { background: #e6f7ee; color: var(--green); }
+    .ic-purple { background: #f0e9fe; color: var(--purple); } .ic-orange { background: #fdeede; color: var(--orange); }
+    .pc-head h3 { font-size: 20px; font-weight: 800; } .pc-head p { color: var(--muted); font-size: 13.5px; line-height: 1.45; margin-top: 5px; }
+    .price { font-size: 40px; font-weight: 800; letter-spacing: -1.5px; }
+    .price .per { font-size: 15px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+    .p-blue { color: var(--blue); } .p-green { color: var(--green); } .p-purple { color: var(--purple); } .p-orange { color: var(--orange); }
+    .users { color: var(--muted); font-size: 13.5px; margin-top: 4px; }
+    .pc-div { border: none; border-top: 1px solid var(--line); margin: 20px 0; }
+    .feats { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+    .feats li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: #334155; }
+    .feats li svg { width: 17px; height: 17px; flex: none; margin-top: 1px; }
+    .cf-blue { color: var(--blue); } .cf-green { color: var(--green); } .cf-purple { color: var(--purple); } .cf-orange { color: var(--orange); }
+    .cta { margin-top: auto; width: 100%; border-radius: 10px; padding: 14px; font-size: 14.5px; font-weight: 700; }
+    .cta.o-blue { background: #fff; color: var(--blue); border: 1.5px solid var(--blue); } .cta.o-blue:hover { background: #f0f6ff; }
+    .cta.o-green { background: #fff; color: var(--green); border: 1.5px solid var(--green); } .cta.o-green:hover { background: #f0fdf4; }
+    .cta.o-orange { background: #fff; color: var(--orange); border: 1.5px solid var(--orange); } .cta.o-orange:hover { background: #fff7ed; }
+    .cta.fill-blue { background: linear-gradient(180deg, var(--blue-2), var(--blue)); color: #fff; border: none; } .cta.fill-blue:hover { filter: brightness(1.06); }
+    .pc-note { text-align: center; color: var(--muted); font-size: 12px; margin-top: 14px; }
+
+    /* trust bar */
+    .trust-wrap { padding: 20px 0 60px; }
+    .trust { background: #fff; border: 1px solid var(--line); border-radius: 16px; display: grid; grid-template-columns: repeat(4, 1fr); box-shadow: 0 20px 40px -30px rgba(16,32,60,0.3); }
+    .ti { display: flex; align-items: flex-start; gap: 14px; padding: 26px 28px; position: relative; }
+    .ti + .ti::before { content: ""; position: absolute; left: 0; top: 24px; bottom: 24px; width: 1px; background: var(--line); }
+    .ti-ic { color: var(--blue); flex: none; } .ti-ic svg { width: 26px; height: 26px; }
+    .ti b { font-size: 14.5px; font-weight: 700; display: block; margin-bottom: 4px; } .ti p { color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+    @media (max-width: 1100px) { .cards { grid-template-columns: repeat(2, 1fr); } .trust { grid-template-columns: repeat(2, 1fr); } .ti:nth-child(2n+1)::before { display: none; } .nav-links { display: none; } }
+    @media (max-width: 620px) { .container { padding: 0 20px; } .cards { grid-template-columns: 1fr; } .trust { grid-template-columns: 1fr; } .ti::before { display: none !important; } }
+  </style>
+</head>
+<body>
+  <section class="phero">
+    <div class="container">
+      <nav class="nav">
+        <a class="wm" href="/"><span class="stk"><svg class="sw" viewBox="0 0 90 8"><path d="M2 6 C22 1, 68 1, 88 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg><span>AUTO<b>DEALER</b></span></span><span class="crm">CRM</span></a>
+        <div class="nav-links">
+          <a href="/#features">Features</a>
+          <a href="#">Solutions <svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="on" href="/pricing">Pricing</a>
+          <a href="#">Resources <svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#">About</a>
+        </div>
+        <div class="nav-right">
+          <a class="login" href="/login">Log In</a>
+          <a class="btn-primary" href="/login">Request Demo</a>
+        </div>
+      </nav>
+
+      <div class="phead">
+        <div class="eyebrow">PRICING</div>
+        <h1>Powerful CRM. Simple Pricing.</h1>
+        <p>Everything your sales team needs to close more deals, build stronger relationships, and deliver exceptional customer experiences.</p>
+        <div class="toggle" id="toggle">
+          <button class="on" data-mode="monthly">Billed Monthly</button>
+          <button data-mode="annually">Billed Annually <span class="save">Save 20%</span></button>
+        </div>
+      </div>
+
+      <!-- CARDS -->
+      <div class="cards">
+        <!-- Starter -->
+        <div class="pcard">
+          <div class="pc-head">
+            <span class="pc-ic ic-blue"><svg viewBox="0 0 24 24"><path d="M12 3c3 1 5 4 5 8 0 2-1 4-2 5l-3 2-3-2c-1-1-2-3-2-5 0-4 2-7 5-8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="1.6" fill="currentColor"/><path d="M8 18c-1 1-1.5 3-1.5 3s2-.5 3-1.5M16 18c1 1 1.5 3 1.5 3s-2-.5-3-1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <div><h3>Starter</h3><p>Everything you need to get started and stay organized.</p></div>
+          </div>
+          <div class="price p-blue" data-monthly="$799" data-annually="$639">$799 <span class="per">/ month</span></div>
+          <div class="users">Up to 10 users</div>
+          <hr class="pc-div" />
+          <ul class="feats">
+            <li><svg class="cf-blue" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Lead &amp; Contact Management</li>
+            <li><svg class="cf-blue" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Text &amp; Email Communication</li>
+            <li><svg class="cf-blue" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Appointments &amp; Calendar</li>
+            <li><svg class="cf-blue" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Tasks &amp; Activity Management</li>
+            <li><svg class="cf-blue" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Basic Reporting &amp; Dashboards</li>
+            <li><svg class="cf-blue" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Mobile App Access</li>
+            <li><svg class="cf-blue" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Email Templates</li>
+          </ul>
+          <button class="cta o-blue" onclick="location.href='/login'">Start Free Trial</button>
+          <div class="pc-note">14-day free trial. No credit card required.</div>
+        </div>
+
+        <!-- Growth -->
+        <div class="pcard">
+          <div class="pc-head">
+            <span class="pc-ic ic-green"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg></span>
+            <div><h3>Growth</h3><p>Advanced tools to help your team grow and sell more.</p></div>
+          </div>
+          <div class="price p-green" data-monthly="$1,299" data-annually="$1,039">$1,299 <span class="per">/ month</span></div>
+          <div class="users">Up to 25 users</div>
+          <hr class="pc-div" />
+          <ul class="feats">
+            <li><svg class="cf-green" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Starter</li>
+            <li><svg class="cf-green" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>AI Follow-Up Assistant</li>
+            <li><svg class="cf-green" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Inventory Integration</li>
+            <li><svg class="cf-green" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Phone Dialer &amp; Call Tracking</li>
+            <li><svg class="cf-green" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Automated Workflows</li>
+            <li><svg class="cf-green" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Advanced Reporting</li>
+            <li><svg class="cf-green" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Video Messaging</li>
+          </ul>
+          <button class="cta o-green" onclick="location.href='/login'">Start Free Trial</button>
+          <div class="pc-note">14-day free trial. No credit card required.</div>
+        </div>
+
+        <!-- Professional -->
+        <div class="pcard pop">
+          <div class="pop-banner">MOST POPULAR</div>
+          <div class="pc-head">
+            <span class="pc-ic ic-purple"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17l-5.2 2.6 1-5.8L3.5 9.7l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+            <div><h3>Professional</h3><p>Unlimited users, powerful features, and maximum performance.</p></div>
+          </div>
+          <div class="price p-purple" data-monthly="$1,999" data-annually="$1,599">$1,999 <span class="per">/ month</span></div>
+          <div class="users">Unlimited users</div>
+          <hr class="pc-div" />
+          <ul class="feats">
+            <li><svg class="cf-purple" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Growth</li>
+            <li><svg class="cf-purple" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited Users</li>
+            <li><svg class="cf-purple" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Multi-Store Management</li>
+            <li><svg class="cf-purple" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>OEM &amp; DMS Integrations</li>
+            <li><svg class="cf-purple" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Advanced Analytics &amp; Insights</li>
+            <li><svg class="cf-purple" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom Fields &amp; Pipelines</li>
+            <li><svg class="cf-purple" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority Support</li>
+          </ul>
+          <button class="cta fill-blue" onclick="location.href='/login'">Start Free Trial</button>
+          <div class="pc-note">14-day free trial. No credit card required.</div>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="pcard">
+          <div class="pc-head">
+            <span class="pc-ic ic-orange"><svg viewBox="0 0 24 24"><path d="M4 8l4 4 4-6 4 6 4-4v9H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M4 20h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+            <div><h3>Enterprise</h3><p>Custom solutions for large dealership groups.</p></div>
+          </div>
+          <div class="price p-orange">Custom</div>
+          <div class="users">Tailored to your needs</div>
+          <hr class="pc-div" />
+          <ul class="feats">
+            <li><svg class="cf-orange" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Professional</li>
+            <li><svg class="cf-orange" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom Integrations &amp; API Access</li>
+            <li><svg class="cf-orange" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Advanced Security &amp; Permissions</li>
+            <li><svg class="cf-orange" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Dedicated Success Manager</li>
+            <li><svg class="cf-orange" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Premium Support &amp; Training</li>
+            <li><svg class="cf-orange" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Data Migration Assistance</li>
+            <li><svg class="cf-orange" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom Reporting &amp; Workflows</li>
+          </ul>
+          <button class="cta o-orange" onclick="location.href='/login'">Request a Demo</button>
+          <div class="pc-note">Let's build the right solution for you.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- trust bar -->
+    <div class="container trust-wrap">
+      <div class="trust">
+        <div class="ti"><span class="ti-ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div><b>No Setup Fees</b><p>Get started fast with zero onboarding fees.</p></div></div>
+        <div class="ti"><span class="ti-ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>Cancel Anytime</b><p>No contracts. Cancel whenever you want.</p></div></div>
+        <div class="ti"><span class="ti-ic"><svg viewBox="0 0 24 24"><rect x="4.5" y="10" width="15" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><b>Secure &amp; Compliant</b><p>Your data is secure and privacy is our priority.</p></div></div>
+        <div class="ti"><span class="ti-ic"><svg viewBox="0 0 24 24"><path d="M5 13a7 7 0 0 1 14 0v3a2 2 0 0 1-2 2h-1v-5h3M5 13v3a2 2 0 0 0 2 2h1v-5H5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><b>24/7 Support</b><p>Real humans, whenever you need us.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const toggle = document.getElementById("toggle");
+    toggle.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
+      toggle.querySelectorAll("button").forEach((x) => x.classList.remove("on"));
+      b.classList.add("on");
+      const mode = b.dataset.mode;
+      document.querySelectorAll(".price[data-monthly]").forEach((p) => {
+        const val = mode === "annually" ? p.dataset.annually : p.dataset.monthly;
+        p.childNodes[0].nodeValue = val + " ";
+      });
+    }));
+  </script>
+</body>
+</html>
