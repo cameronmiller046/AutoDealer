@@ -174,6 +174,7 @@
     if (m && ROLES[m[1]]) { localStorage.setItem('ad_role', m[1]);
       try { history.replaceState(null, '', location.pathname); } catch(e){} }
   }
-  function init(){ applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); }
+  function loadAI(){ if(document.getElementById('ad-ai-script')) return; var s=document.createElement('script'); s.id='ad-ai-script'; s.src='/ai.js'; s.async=true; document.body.appendChild(s); }
+  function init(){ applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); loadAI(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
