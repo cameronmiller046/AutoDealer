@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prospects — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #f6f8fb; --card: #ffffff; --sidebar: #0a1628; --sidebar-2: #071120;
+      --text: #16202e; --muted: #6b7a90; --faint: #97a4b6; --line: #eef1f6;
+      --accent: #2563eb; --accent-2: #3b82f6; --accent-soft: #eef4ff;
+      --shadow: 0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28);
+      --radius: 16px;
+    }
+    * { margin: 0; box-sizing: border-box; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 14px; }
+    a { color: inherit; text-decoration: none; } button { font: inherit; cursor: pointer; }
+    .shell { display: grid; grid-template-columns: 244px 1fr; min-height: 100vh; }
+
+    /* sidebar */
+    .sidebar { background: linear-gradient(180deg, var(--sidebar), var(--sidebar-2)); color: #c7d4e6; padding: 22px 14px 18px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+    .brand { display: flex; flex-direction: column; align-items: flex-start; padding: 4px 8px 26px; }
+    .brand .sw { width: 108px; height: 9px; margin-bottom: 4px; } .brand .wm { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; color: #fff; } .brand .wm b { color: #2b8fff; }
+    .nav { display: flex; flex-direction: column; gap: 3px; }
+    .nav a { display: flex; align-items: center; gap: 13px; padding: 11px 14px; border-radius: 11px; color: #aebdd2; font-size: 14.5px; font-weight: 500; }
+    .nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav a.on { background: var(--accent); color: #fff; font-weight: 600; box-shadow: 0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width: 19px; height: 19px; flex: none; }
+    .nav a .nb { margin-left: auto; background: rgba(255,255,255,0.12); color: #dbe7f7; font-size: 11px; font-weight: 700; min-width: 20px; height: 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 0 6px; }
+    .nav a.on .nb { background: rgba(255,255,255,0.25); color: #fff; }
+    .side-user { margin-top: auto; display: flex; align-items: center; gap: 11px; padding: 14px 8px 4px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width: 38px; height: 38px; border-radius: 50%; flex: none; background: linear-gradient(135deg,#3f9bff,#0b57b8); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+    .side-user .meta b { color: #fff; font-size: 13.5px; font-weight: 600; display: block; } .side-user .meta span { color: #8698b0; font-size: 11.5px; }
+    .side-user .chev { margin-left: auto; color: #7e90a8; width: 14px; height: 14px; }
+
+    /* topbar */
+    .main { min-width: 0; display: flex; flex-direction: column; }
+    .topbar { position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.85); backdrop-filter: saturate(180%) blur(8px); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 18px; padding: 12px 30px; }
+    .hamb { border: none; background: none; color: var(--muted); width: 36px; height: 36px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; } .hamb:hover { background: var(--bg); } .hamb svg { width: 20px; height: 20px; }
+    .tsearch { flex: 1; max-width: 460px; display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 11px; padding: 11px 14px; color: var(--muted); }
+    .tsearch svg { width: 17px; height: 17px; flex: none; } .tsearch input { border: none; background: none; outline: none; width: 100%; font-size: 13.5px; color: var(--text); }
+    .kbd { border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 11px; color: var(--faint); background: #fff; }
+    .quick-add { display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 11px; padding: 11px 18px; font-size: 14px; font-weight: 600; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); }
+    .quick-add:hover { filter: brightness(1.06); }
+    .tb-icons { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+    .ib { position: relative; border: none; background: none; color: var(--muted); width: 40px; height: 40px; border-radius: 11px; display: inline-flex; align-items: center; justify-content: center; } .ib:hover { background: var(--bg); color: var(--accent); } .ib svg { width: 21px; height: 21px; }
+    .ib .dot { position: absolute; top: 6px; right: 7px; min-width: 16px; height: 16px; border-radius: 8px; background: #ef4444; color: #fff; font-size: 9.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+    .tb-avatar { width: 40px; height: 40px; border-radius: 50%; margin-left: 8px; position: relative; } .tb-avatar::after { content: ""; position: absolute; bottom: 1px; right: 1px; width: 10px; height: 10px; border-radius: 50%; background: #22c55e; border: 2px solid #fff; }
+    .tb-avatar .av { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #3f9bff, #0b57b8); color: #fff; font-weight: 700; }
+
+    /* content */
+    .content { padding: 26px 30px 60px; }
+    .phead { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .phead h1 { font-size: 27px; font-weight: 800; letter-spacing: -0.6px; } .phead .sub { color: var(--muted); font-size: 14.5px; margin-top: 6px; }
+    .add-btn { display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 11px; padding: 12px 20px; font-size: 14.5px; font-weight: 600; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .add-btn:hover { filter: brightness(1.06); } .add-btn svg { width: 16px; height: 16px; }
+
+    /* lead queue */
+    .queue { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin: 22px 0; }
+    .q { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow); cursor: pointer; transition: border-color 0.15s, transform 0.15s; }
+    .q:hover { border-color: #cfe0f7; transform: translateY(-2px); } .q.active { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .q-ic { width: 40px; height: 40px; border-radius: 11px; flex: none; display: flex; align-items: center; justify-content: center; } .q-ic svg { width: 20px; height: 20px; }
+    .q-ic.red { background: #fde8e8; color: #dc2626; } .q-ic.blue { background: #eaf1fe; color: #2563eb; } .q-ic.amber { background: #fdf0dc; color: #ea8a0b; } .q-ic.purple { background: #f1eafe; color: #7c3aed; } .q-ic.gray { background: #eef1f6; color: #64748b; }
+    .q-v { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; } .q-l { color: var(--muted); font-size: 12px; margin-top: 3px; }
+
+    /* toolbar */
+    .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+    .psearch { flex: 1; min-width: 260px; display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 11px 15px; box-shadow: var(--shadow); }
+    .psearch svg { width: 17px; height: 17px; color: var(--muted); flex: none; } .psearch input { border: none; outline: none; width: 100%; font-size: 14px; color: var(--text); background: none; }
+    .tb-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 11px 16px; font-size: 13.5px; font-weight: 600; box-shadow: var(--shadow); color: var(--text); }
+    .tb-btn:hover { border-color: #cfe0f7; color: var(--accent); } .tb-btn svg { width: 16px; height: 16px; }
+    .views { position: relative; }
+    .views-menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 25; background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 6px; width: 210px; display: none; }
+    .views-menu.open { display: block; }
+    .views-menu button { display: flex; width: 100%; align-items: center; gap: 9px; padding: 9px 11px; border: none; background: none; border-radius: 8px; font-size: 13.5px; color: var(--text); text-align: left; }
+    .views-menu button:hover { background: var(--accent-soft); color: var(--accent); }
+
+    /* filter pills */
+    .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .pill { border: 1px solid var(--line); background: var(--card); color: var(--muted); border-radius: 999px; padding: 8px 15px; font-size: 13px; font-weight: 600; box-shadow: 0 1px 2px rgba(16,32,60,0.03); }
+    .pill:hover { color: var(--text); border-color: #cfe0f7; }
+    .pill.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* list */
+    .list-head { display: grid; grid-template-columns: 38px 2.1fr 1.5fr 1fr 1.2fr 1.3fr 1fr; gap: 14px; padding: 4px 20px 10px; font-size: 11px; color: var(--faint); font-weight: 600; letter-spacing: 0.4px; }
+    .list { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .pc { display: grid; grid-template-columns: 38px 2.1fr 1.5fr 1fr 1.2fr 1.3fr 1fr; gap: 14px; align-items: center; padding: 15px 20px; border-top: 1px solid var(--line); position: relative; cursor: pointer; }
+    .pc:first-child { border-top: none; }
+    .pc:hover { background: #fafbff; }
+    .pc.sel { background: var(--accent-soft); }
+    .chk { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid var(--line); background: #fff; display: inline-block; position: relative; cursor: pointer; flex: none; }
+    .pc.sel .chk, .chk.on { background: var(--accent); border-color: var(--accent); }
+    .chk.on::after { content: ""; position: absolute; left: 5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+    .cust { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .av-sm { width: 40px; height: 40px; border-radius: 50%; flex: none; color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .cust b { font-weight: 600; display: block; } .cust .meta2 { color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 7px; }
+    .src { font-size: 10.5px; font-weight: 700; padding: 1px 7px; border-radius: 5px; background: #eef1f6; color: #64748b; }
+    .veh b { font-weight: 600; display: block; } .veh span { color: var(--muted); font-size: 12px; } .veh .trade { color: var(--faint); font-size: 11.5px; margin-top: 2px; }
+    .muted-2 { color: var(--muted); font-size: 13px; }
+    .na { display: flex; align-items: center; gap: 8px; } .na svg { width: 15px; height: 15px; color: var(--accent); flex: none; } .na b { font-weight: 600; } .na span { color: var(--muted); font-size: 12px; display: block; } .na .ov { color: #dc2626; font-weight: 600; }
+    .stage { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-size: 12px; font-weight: 600; } .stage::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .st-new { color: #2563eb; background: #eaf1fe; } .st-contacted { color: #6366f1; background: #eef0fe; } .st-qual { color: #0d9488; background: #e4f7f4; }
+    .st-appt { color: #7c3aed; background: #f1eafe; } .st-test { color: #0891b2; background: #e2f5fb; } .st-nego { color: #ea8a0b; background: #fdf0dc; }
+    .st-fin { color: #0284c7; background: #e0f2fe; } .st-deliv { color: #16a34a; background: #e7f7ee; } .st-sold { color: #fff; background: #16a34a; } .st-sold::before { background: #fff; } .st-lost { color: #94a3b8; background: #eef1f6; }
+    .stars { color: #f5b638; font-size: 13px; letter-spacing: 1px; } .stars .off { color: #dfe4ec; }
+    .rep { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; } .rep .av-xs { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg,#3f9bff,#0b57b8); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; }
+
+    /* hover actions (Gmail-style) */
+    .row-actions { position: absolute; right: 16px; top: 0; bottom: 0; display: flex; align-items: center; gap: 3px; padding-left: 60px; background: linear-gradient(90deg, rgba(250,251,255,0) 0%, #fafbff 24%); opacity: 0; pointer-events: none; transition: opacity 0.12s; }
+    .pc:hover .row-actions { opacity: 1; pointer-events: auto; }
+    .ra { width: 34px; height: 34px; border-radius: 9px; border: 1px solid var(--line); background: #fff; color: var(--muted); display: inline-flex; align-items: center; justify-content: center; }
+    .ra:hover { background: var(--accent); color: #fff; border-color: var(--accent); } .ra svg { width: 16px; height: 16px; }
+    .ra.open-btn { width: auto; padding: 0 14px; font-size: 12.5px; font-weight: 700; color: var(--accent); }
+    .ra.open-btn:hover { color: #fff; }
+
+    .empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+    .empty svg { width: 44px; height: 44px; color: var(--faint); display: block; margin: 0 auto 14px; }
+    .empty h3 { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .empty .btns { margin-top: 18px; display: flex; gap: 10px; justify-content: center; }
+
+    /* bulk bar */
+    .bulk { position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(30px); z-index: 40; background: #0e1a2e; color: #fff; border-radius: 14px; box-shadow: 0 24px 50px -18px rgba(0,0,0,0.5); padding: 10px 12px 10px 18px; display: flex; align-items: center; gap: 10px; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
+    .bulk.show { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+    .bulk .n { font-size: 13.5px; font-weight: 600; margin-right: 6px; } .bulk .n b { color: #6ea8ff; }
+    .bulk button { background: rgba(255,255,255,0.08); border: none; color: #dbe7f7; border-radius: 9px; padding: 8px 13px; font-size: 12.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 7px; }
+    .bulk button:hover { background: rgba(255,255,255,0.16); color: #fff; } .bulk button svg { width: 14px; height: 14px; }
+    .bulk .x { background: none; padding: 8px; }
+
+    /* slide-over + drawer */
+    .scrim { position: fixed; inset: 0; background: rgba(10,20,36,0.4); z-index: 45; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+    .scrim.show { opacity: 1; pointer-events: auto; }
+    .panel { position: fixed; top: 0; right: 0; bottom: 0; width: 460px; max-width: 94vw; background: var(--bg); z-index: 46; box-shadow: -20px 0 60px -30px rgba(0,0,0,0.5); transform: translateX(100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; }
+    .panel.open { transform: none; }
+    .drawer { width: 380px; }
+    .panel-hd { display: flex; align-items: flex-start; gap: 14px; padding: 20px 22px; background: var(--card); border-bottom: 1px solid var(--line); }
+    .panel-hd .av-lg { width: 52px; height: 52px; border-radius: 50%; color: #fff; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; }
+    .panel-hd h2 { font-size: 19px; font-weight: 800; letter-spacing: -0.3px; } .panel-hd .pmeta { color: var(--muted); font-size: 13px; margin-top: 3px; }
+    .panel-close { margin-left: auto; border: none; background: none; color: var(--muted); width: 34px; height: 34px; border-radius: 9px; } .panel-close:hover { background: var(--bg); } .panel-close svg { width: 18px; height: 18px; }
+    .panel-body { overflow-y: auto; padding: 18px 22px 30px; display: flex; flex-direction: column; gap: 16px; }
+    .qa { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+    .qa button { border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 10px 0 7px; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 9.5px; color: var(--muted); font-weight: 600; }
+    .qa button:hover { border-color: var(--accent); color: var(--accent); } .qa button svg { width: 17px; height: 17px; color: var(--accent); }
+    .sect { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 16px; }
+    .sect h3 { font-size: 13px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+    .sect h3 .spark { color: #7c3aed; } .sect h3 .spark svg { width: 15px; height: 15px; }
+    .ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; margin-bottom: 14px; }
+    .ai-grid .k { color: var(--muted); font-size: 11.5px; } .ai-grid .v { font-weight: 600; font-size: 13.5px; margin-top: 1px; }
+    .prob-wrap { background: linear-gradient(180deg,#f6faff,#fff); border: 1px solid var(--line); border-radius: 11px; padding: 12px 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+    .prob-ring { width: 46px; height: 46px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #16a34a; }
+    .prob-wrap b { font-size: 13.5px; } .prob-wrap p { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+    .sugg { background: #f7f9fc; border: 1px solid var(--line); border-radius: 11px; padding: 12px 14px; font-size: 13px; color: #475569; line-height: 1.5; }
+    .sugg .lbl { color: var(--faint); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+    .send-btn { margin-top: 10px; width: 100%; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 9px; padding: 10px; font-size: 13px; font-weight: 700; }
+    .send-btn:hover { filter: brightness(1.06); }
+    .tl { display: grid; grid-template-columns: 16px 1fr; gap: 12px; padding-bottom: 16px; position: relative; }
+    .tl:last-child { padding-bottom: 0; }
+    .tl-dot { width: 11px; height: 11px; border-radius: 50%; margin-top: 3px; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+    .tl:not(:last-child)::after { content: ""; position: absolute; left: 5px; top: 16px; bottom: 0; width: 2px; background: var(--line); }
+    .tl b { font-weight: 600; display: block; font-size: 13px; } .tl span { color: var(--muted); font-size: 12px; }
+    .field-row { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13px; } .field-row:first-child { border-top: none; } .field-row .k { color: var(--muted); } .field-row .v { font-weight: 600; }
+
+    /* drawer filters */
+    .drawer .panel-body { gap: 18px; }
+    .fld { display: flex; flex-direction: column; gap: 7px; } .fld label { font-size: 12.5px; font-weight: 600; color: var(--text-soft, #33445c); }
+    .fld select, .fld input { font: inherit; font-size: 13.5px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--text); outline: none; }
+    .fld select:focus, .fld input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .drawer-foot { padding: 16px 22px; border-top: 1px solid var(--line); background: var(--card); display: flex; gap: 10px; }
+    .drawer-foot button { flex: 1; border-radius: 10px; padding: 12px; font-size: 13.5px; font-weight: 700; }
+    .df-reset { background: #fff; border: 1px solid var(--line); color: var(--text); } .df-apply { background: var(--accent); border: none; color: #fff; }
+
+    @media (max-width: 1200px) { .queue { grid-template-columns: repeat(3, 1fr); } .list-head { display: none; } .pc { grid-template-columns: 38px 2fr 1.3fr auto; } .pc .col-hideable { display: none; } }
+    @media (max-width: 900px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .queue { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 560px) { .content { padding: 20px 14px 60px; } .queue { grid-template-columns: 1fr; } .pc { grid-template-columns: 34px 1fr auto; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav">
+        <a href="/dashboard"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Home</a>
+        <a class="on" href="/prospects"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Prospects<span class="nb">18</span></a>
+        <a href="/portal/customers"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Customers</a>
+        <a href="#"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Appointments<span class="nb">5</span></a>
+        <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Tasks<span class="nb">7</span></a>
+        <a href="/portal/inventory"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Inventory</a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Communications<span class="nb">3</span></a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Reports</a>
+        <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Settings</a>
+      </nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input type="text" placeholder="Search customers, vehicles, deals..." aria-label="Search" /><span class="kbd">⌘</span><span class="kbd">K</span></div>
+        <button class="quick-add"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Quick Add</button>
+        <div class="tb-icons">
+          <button class="ib" aria-label="Calls"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <button class="ib" aria-label="Messages"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <button class="ib" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="dot">3</span></button>
+          <span class="tb-avatar"><span class="av">CM</span></span>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="phead">
+          <div><h1>Prospects</h1><p class="sub">Manage every lead from first contact to delivery.</p></div>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Add Prospect</button>
+        </div>
+
+        <!-- LEAD QUEUE -->
+        <div class="queue" id="queue"></div>
+
+        <!-- TOOLBAR -->
+        <div class="toolbar">
+          <div class="psearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" type="text" placeholder="Search name, phone, email, vehicle, stock #, VIN, or notes..." /></div>
+          <button class="tb-btn" id="advBtn"><svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Advanced Filters</button>
+          <div class="views"><button class="tb-btn" id="viewsBtn"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 15.5 7.1 18.2l.9-5.5-4-3.9L9.5 8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Saved Views</button>
+            <div class="views-menu" id="viewsMenu"></div>
+          </div>
+        </div>
+
+        <!-- FILTER PILLS -->
+        <div class="pills" id="pills"></div>
+
+        <!-- LIST -->
+        <div class="list-head">
+          <span></span><span>CUSTOMER</span><span>VEHICLE / INTEREST</span><span class="col-hideable">LAST CONTACT</span><span class="col-hideable">NEXT ACTION</span><span class="col-hideable">STAGE · PRIORITY</span><span class="col-hideable">REP</span>
+        </div>
+        <div class="list" id="list"></div>
+      </main>
+    </div>
+  </div>
+
+  <!-- BULK BAR -->
+  <div class="bulk" id="bulk">
+    <span class="n"><b id="bulkN">0</b> selected</span>
+    <button><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Assign</button>
+    <button><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Text</button>
+    <button><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Email</button>
+    <button><svg viewBox="0 0 24 24"><path d="M4 8h9M4 12h12M4 16h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Change Stage</button>
+    <button><svg viewBox="0 0 24 24"><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Follow-up</button>
+    <button><svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M4 19h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Export</button>
+    <button class="x" id="bulkClear" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  </div>
+
+  <!-- SCRIM + PANELS -->
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+
+  <aside class="panel drawer" id="drawer" aria-hidden="true">
+    <div class="panel-hd"><div><h2 style="font-size:17px">Advanced Filters</h2><div class="pmeta">Narrow down your prospects</div></div><button class="panel-close" id="drawerClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+    <div class="panel-body">
+      <div class="fld"><label>Lead Source</label><select id="fSource"><option value="">All Sources</option><option>Internet</option><option>Phone</option><option>Walk-In</option><option>Facebook</option><option>Referral</option></select></div>
+      <div class="fld"><label>Buying Stage</label><select id="fStage"><option value="">All Stages</option><option value="new">New Lead</option><option value="contacted">Contacted</option><option value="qualified">Qualified</option><option value="appt">Appointment Scheduled</option><option value="testdrive">Test Drive</option><option value="negotiating">Negotiating</option><option value="finance">Finance</option><option value="delivery">Ready for Delivery</option><option value="sold">Sold</option><option value="lost">Lost</option></select></div>
+      <div class="fld"><label>Assigned Rep</label><select id="fRep"><option value="">Anyone</option><option>You</option><option>Sarah Johnson</option><option>Mike Davis</option></select></div>
+      <div class="fld"><label>Minimum Priority</label><select id="fPri"><option value="0">Any</option><option value="3">★★★ &amp; up</option><option value="4">★★★★ &amp; up</option><option value="5">★★★★★ only</option></select></div>
+      <div class="fld"><label>Has Trade-In</label><select id="fTrade"><option value="">Any</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+    </div>
+    <div class="drawer-foot"><button class="df-reset" id="fReset">Reset</button><button class="df-apply" id="fApply">Apply Filters</button></div>
+  </aside>
+
+  <script>
+    /* ---------- data ---------- */
+    const STAGES = { new:["st-new","New Lead"], contacted:["st-contacted","Contacted"], qualified:["st-qual","Qualified"], appt:["st-appt","Appointment Scheduled"], testdrive:["st-test","Test Drive"], negotiating:["st-nego","Negotiating"], finance:["st-fin","Finance"], delivery:["st-deliv","Ready for Delivery"], sold:["st-sold","Sold"], lost:["st-lost","Lost"] };
+    const PRI_LABEL = { 5:"Needs Immediate Follow-up", 4:"Likely to Buy", 3:"Active Shopping", 2:"Long Term", 1:"Inactive" };
+    const IC = {
+      call:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      text:'<path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      email:'<rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      video:'<rect x="3.5" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 10l4.5-2.5v9L16 14z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      appt:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      payment:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 9.2c-.5-.9-1.4-1.2-2.3-1.2-1.3 0-2.2.7-2.2 1.8 0 2.6 5 1.4 5 4 0 1.2-1 2-2.5 2-1.1 0-2-.4-2.5-1.3M12 6.5v11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+      trade:'<path d="M4 8h12l-2-3M20 16H8l2 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+      more:'<circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/>'
+    };
+    const svg = (k) => `<svg viewBox="0 0 24 24">${IC[k]}</svg>`;
+
+    const P = [
+      { id:1, name:"John Smith", ini:"JS", c:"#3b82f6", phone:"(678) 555-0142", email:"jsmith@email.com", veh:"2024 Chevrolet Silverado 1500 LT", stock:"T24158", vin:"3GCUKDED5SG123456", trade:"2019 Ford F-150", source:"Phone", last:"Yesterday", next:{t:"call",l:"Call",due:"Today · 11:00 AM"}, stage:"negotiating", pri:5, rep:"You", budget:"$650/mo", timeline:"This week", prob:82, rec:"Call today — opened your pricing email this morning.", msg:"Hi John! I wanted to check in after sending pricing. Do you have any questions?", tags:["myleads","phone","needsaction","hot","manager"] },
+      { id:2, name:"Michael Williams", ini:"MW", c:"#a855f7", phone:"(404) 555-0198", email:"mwilliams@email.com", veh:"2024 Toyota RAV4 XLE", stock:"U24521", vin:"2T3P1RFV8RC123457", trade:"2021 Toyota Camry", source:"Internet", last:"2h ago", next:{t:"text",l:"Text",due:"Today · 1:00 PM"}, stage:"qualified", pri:4, rep:"You", budget:"$480/mo", timeline:"2 weeks", prob:74, rec:"Send trade numbers — comparing financing options.", msg:"Hi Michael, here are the trade-in numbers we discussed. Want to lock it in?", tags:["myleads","internet","needsaction","hot","waiting"] },
+      { id:3, name:"Sarah Lewis", ini:"SL", c:"#8b5cf6", phone:"(770) 555-0127", email:"slewis@email.com", veh:"2023 Honda CR-V EX", stock:"U23311", vin:"7FARW2H85PE123458", trade:"—", source:"Internet", last:"3h ago", next:{t:"email",l:"Email",due:"Today · 1:30 PM"}, stage:"appt", pri:4, rep:"You", budget:"$430/mo", timeline:"This month", prob:68, rec:"Confirm appointment and send financing options.", msg:"Hi Sarah! Looking forward to your visit. Here are a few financing options to review.", tags:["myleads","internet","appointments","waiting"] },
+      { id:4, name:"David Johnson", ini:"DJ", c:"#f59e0b", phone:"(678) 555-0177", email:"djohnson@email.com", veh:"2024 Ford F-150 XLT", stock:"T24211", vin:"1FTFW1E80RF123459", trade:"2018 Chevrolet Silverado", source:"Walk-In", last:"1d ago", next:{t:"video",l:"Send Video",due:"Today · 3:00 PM"}, stage:"testdrive", pri:3, rep:"You", budget:"$720/mo", timeline:"1 month", prob:59, rec:"Send a personalized walkaround video before the test drive.", msg:"Hi David, made you a quick video of the F-150 XLT ahead of your test drive!", tags:["myleads","walkin","appointments"] },
+      { id:5, name:"Amanda Harris", ini:"AH", c:"#ec4899", phone:"(404) 555-0182", email:"aharris@email.com", veh:"2024 Chevrolet Equinox RS", stock:"U24566", vin:"3GNAXWEG0RL123460", trade:"—", source:"Facebook", last:"5h ago", next:{t:"email",l:"Email",due:"Tomorrow · 10:00 AM"}, stage:"new", pri:3, rep:"You", budget:"$390/mo", timeline:"Researching", prob:41, rec:"Send intro email with Equinox availability and pricing.", msg:"Hi Amanda! Thanks for your interest in the Equinox RS — here's current availability.", tags:["myleads","internet","needsaction"] },
+      { id:6, name:"Robert Brown", ini:"RB", c:"#14b8a6", phone:"(770) 555-0231", email:"rbrown@email.com", veh:"2024 Chevrolet Tahoe Premier", stock:"U24610", vin:"1GNSKCKD6SR123461", trade:"2017 Chevrolet Tahoe", source:"Phone", last:"Yesterday", next:{t:"call",l:"Call",due:"Today · 4:00 PM"}, stage:"contacted", pri:4, rep:"You", budget:"$900/mo", timeline:"2 weeks", prob:66, rec:"Call to schedule a test drive — high trade equity.", msg:"Hi Robert, your Tahoe has strong trade value right now. Want to come take a look?", tags:["myleads","phone","hot"] },
+      { id:7, name:"Jessica Davis", ini:"JD", c:"#6366f1", phone:"(404) 555-0265", email:"jdavis@email.com", veh:"2023 Honda Accord Sport", stock:"U23880", vin:"1HGCY2F58PA123462", trade:"—", source:"Internet", last:"2d ago", next:{t:"call",l:"Call",due:"Overdue"}, stage:"contacted", pri:2, rep:"Sarah Johnson", budget:"$410/mo", timeline:"Long term", prob:34, rec:"Overdue follow-up — re-engage with a check-in.", msg:"Hi Jessica, just checking in — still interested in the Accord Sport?", tags:["internet","needsaction","overdue"] },
+      { id:8, name:"Kevin Anderson", ini:"KA", c:"#0ea5e9", phone:"(678) 555-0176", email:"kanderson@email.com", veh:"2025 GMC Sierra 1500 Denali", stock:"T25012", vin:"3GTUUGEL0SG123463", trade:"2016 GMC Sierra", source:"Walk-In", last:"4d ago", next:{t:"text",l:"Follow Up",due:"Overdue"}, stage:"negotiating", pri:5, rep:"You", budget:"$1,050/mo", timeline:"This week", prob:79, rec:"Overdue & hot — get a manager on the deal today.", msg:"Hi Kevin, I got approval to sharpen the numbers on the Denali. Can we talk today?", tags:["myleads","walkin","needsaction","overdue","hot","manager"] },
+      { id:9, name:"Priya Nair", ini:"PN", c:"#f43f5e", phone:"(770) 555-0244", email:"pnair@email.com", veh:"2024 Cadillac XT5 Sport", stock:"U24720", vin:"1GYKNGRS0RZ123464", trade:"—", source:"Internet", last:"1h ago", next:{t:"appt",l:"Confirm Appt",due:"Tomorrow · 2:00 PM"}, stage:"appt", pri:4, rep:"You", budget:"$780/mo", timeline:"This month", prob:71, rec:"Confirm tomorrow's appointment.", msg:"Hi Priya! Confirming your appointment tomorrow at 2 PM for the XT5.", tags:["myleads","internet","appointments","waiting"] },
+      { id:10, name:"Marcus Webb", ini:"MB", c:"#10b981", phone:"(404) 555-0311", email:"mwebb@email.com", veh:"2025 Chevrolet Corvette Stingray", stock:"U25100", vin:"1G1YB2D40S5123465", trade:"—", source:"Referral", last:"6d ago", next:{t:"call",l:"Deliver",due:"Delivered"}, stage:"sold", pri:1, rep:"You", budget:"Cash", timeline:"Complete", prob:100, rec:"Deal complete — request a review and referrals.", msg:"Thanks again, Marcus! Enjoy the Corvette. Mind leaving us a quick review?", tags:["myleads","sold"] },
+      { id:11, name:"Grace Kim", ini:"GK", c:"#eab308", phone:"(678) 555-0402", email:"gkim@email.com", veh:"2023 Kia Telluride SX", stock:"U23440", vin:"5XYP5DGC0PG123466", trade:"—", source:"Internet", last:"8d ago", next:{t:"email",l:"Re-engage",due:"—"}, stage:"lost", pri:1, rep:"Mike Davis", budget:"$560/mo", timeline:"—", prob:12, rec:"Lost to competitor — add to 90-day win-back.", msg:"Hi Grace, if you're still shopping, we just got new Telluride inventory in.", tags:["internet","lost"] },
+      { id:12, name:"Ethan Ross", ini:"ER", c:"#64748b", phone:"(770) 555-0361", email:"eross@email.com", veh:"2024 Buick Enclave Avenir", stock:"U24990", vin:"5GAEVCKW0RJ123467", trade:"2015 Buick Enclave", source:"Phone", last:"1d ago", next:{t:"call",l:"Call",due:"Today · 5:00 PM"}, stage:"finance", pri:5, rep:"You", budget:"$690/mo", timeline:"This week", prob:85, rec:"In finance — confirm terms and delivery date.", msg:"Hi Ethan, finance is approved! Let's lock in your delivery date.", tags:["myleads","phone","hot","manager"] },
+    ];
+
+    /* filter/queue/view definitions */
+    const PILLS = [
+      ["all","All"],["myleads","My Leads"],["needsaction","Needs Action"],["appointments","Appointments"],
+      ["internet","Internet"],["phone","Phone"],["walkin","Walk-In"],["hot","Hot"],["lost","Lost"],["sold","Sold"]
+    ];
+    const QUEUE = [
+      ["needsaction","Needs Action","red",'<path d="M12 8v5M12 16v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/>'],
+      ["appointments","Appointments Today","blue",'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>'],
+      ["waiting","Waiting on Customer","amber",'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'],
+      ["manager","Needs Manager","purple",'<circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M17 6l1.5 1.5L22 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>'],
+      ["overdue","Overdue","gray",'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>']
+    ];
+    const VIEWS = [["all","Today's Work"],["internet","Internet Leads"],["phone","Phone Ups"],["appointments","Appointments"],["sold","Sold"],["myleads","My Customers"],["needsaction","Needs Attention"]];
+
+    const state = { filter:"all", q:"", sel:new Set(), adv:{} };
+
+    function matchFilter(p) {
+      const f = state.filter;
+      if (f === "all") return true;
+      if (f === "myleads") return p.rep === "You";
+      if (f === "internet") return ["Internet","Facebook","Marketplace","Referral"].includes(p.source);
+      if (f === "phone") return p.source === "Phone";
+      if (f === "walkin") return p.source === "Walk-In";
+      if (f === "hot") return p.pri >= 5 || p.tags.includes("hot");
+      if (f === "lost") return p.stage === "lost";
+      if (f === "sold") return p.stage === "sold";
+      return p.tags.includes(f);
+    }
+    function matchAdv(p) {
+      const a = state.adv;
+      if (a.source && p.source !== a.source) return false;
+      if (a.stage && p.stage !== a.stage) return false;
+      if (a.rep && p.rep !== a.rep) return false;
+      if (a.pri && p.pri < +a.pri) return false;
+      if (a.trade === "yes" && p.trade === "—") return false;
+      if (a.trade === "no" && p.trade !== "—") return false;
+      return true;
+    }
+    function matchSearch(p) {
+      const q = state.q.trim().toLowerCase();
+      if (!q) return true;
+      return [p.name,p.phone,p.email,p.veh,p.stock,p.vin,p.trade,p.rec].join(" ").toLowerCase().includes(q);
+    }
+    const filtered = () => P.filter((p) => matchFilter(p) && matchAdv(p) && matchSearch(p));
+
+    const stars = (n) => `<span class="stars">${"★".repeat(n)}<span class="off">${"★".repeat(5-n)}</span></span>`;
+
+    /* ---------- render queue ---------- */
+    function renderQueue() {
+      document.getElementById("queue").innerHTML = QUEUE.map(([tag,label,color,icon]) => {
+        const n = P.filter((p) => p.tags.includes(tag)).length;
+        return `<button class="q ${state.filter===tag?"active":""}" data-tag="${tag}"><span class="q-ic ${color}"><svg viewBox="0 0 24 24">${icon}</svg></span><div><div class="q-v">${n}</div><div class="q-l">${label}</div></div></button>`;
+      }).join("");
+      document.querySelectorAll(".q").forEach((b) => b.addEventListener("click", () => setFilter(b.dataset.tag)));
+    }
+    function renderPills() {
+      document.getElementById("pills").innerHTML = PILLS.map(([t,l]) => `<button class="pill ${state.filter===t?"on":""}" data-t="${t}">${l}</button>`).join("") + `<button class="pill" id="customPill">+ Custom Filter</button>`;
+      document.querySelectorAll(".pill[data-t]").forEach((b) => b.addEventListener("click", () => setFilter(b.dataset.t)));
+      document.getElementById("customPill").addEventListener("click", openDrawer);
+    }
+    function setFilter(t) { state.filter = t; renderQueue(); renderPills(); renderList(); }
+
+    /* ---------- render list ---------- */
+    function renderList() {
+      const rows = filtered();
+      const list = document.getElementById("list");
+      if (!rows.length) {
+        list.innerHTML = `<div class="empty"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19c0-3.4 2.6-5.5 5.5-5.5s5.5 2.1 5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17 8h5M19.5 5.5v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h3>No prospects match your filters</h3><p>Try clearing filters or adding a new prospect.</p><div class="btns"><button class="add-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Add Prospect</button></div></div>`;
+        return;
+      }
+      list.innerHTML = rows.map((p) => {
+        const [sc,sl] = STAGES[p.stage];
+        const due = p.next.due === "Overdue" ? `<span class="ov">Overdue</span>` : `<span>${p.next.due}</span>`;
+        return `<div class="pc ${state.sel.has(p.id)?"sel":""}" data-id="${p.id}" title="${PRI_LABEL[p.pri]}">
+          <span class="chk ${state.sel.has(p.id)?"on":""}" data-chk="${p.id}"></span>
+          <div class="cust"><span class="av-sm" style="background:${p.c}">${p.ini}</span><div><b>${p.name}</b><div class="meta2">${p.phone}<span class="src">${p.source}</span></div></div></div>
+          <div class="veh"><b>${p.veh}</b><span>Stock #${p.stock}</span>${p.trade!=="—"?`<div class="trade">Trade · ${p.trade}</div>`:""}</div>
+          <div class="muted-2 col-hideable">${p.last}</div>
+          <div class="na col-hideable"><svg viewBox="0 0 24 24">${IC[p.next.t]}</svg><div><b>${p.next.l}</b>${due}</div></div>
+          <div class="col-hideable"><span class="stage ${sc}">${sl}</span><div style="margin-top:6px">${stars(p.pri)}</div></div>
+          <div class="rep col-hideable"><span class="av-xs">${p.rep==="You"?"CM":p.rep.split(" ").map(w=>w[0]).join("")}</span>${p.rep}</div>
+          <div class="row-actions">
+            <button class="ra" data-act="call" title="Call">${svg("call")}</button>
+            <button class="ra" data-act="text" title="Text">${svg("text")}</button>
+            <button class="ra" data-act="email" title="Email">${svg("email")}</button>
+            <button class="ra" data-act="video" title="Video">${svg("video")}</button>
+            <button class="ra" data-act="appt" title="Appointment">${svg("appt")}</button>
+            <button class="ra" data-act="payment" title="Payment">${svg("payment")}</button>
+            <button class="ra open-btn" data-open="${p.id}">Open</button>
+          </div>
+        </div>`;
+      }).join("");
+
+      list.querySelectorAll(".pc").forEach((row) => {
+        row.addEventListener("click", (e) => {
+          if (e.target.closest("[data-chk]") || e.target.closest(".ra:not(.open-btn)")) return;
+          openPanel(+row.dataset.id);
+        });
+      });
+      list.querySelectorAll("[data-chk]").forEach((c) => c.addEventListener("click", (e) => { e.stopPropagation(); toggleSel(+c.dataset.chk); }));
+    }
+
+    /* ---------- selection / bulk ---------- */
+    function toggleSel(id) { state.sel.has(id) ? state.sel.delete(id) : state.sel.add(id); renderList(); renderBulk(); }
+    function renderBulk() {
+      const bulk = document.getElementById("bulk");
+      document.getElementById("bulkN").textContent = state.sel.size;
+      bulk.classList.toggle("show", state.sel.size > 0);
+    }
+    document.getElementById("bulkClear").addEventListener("click", () => { state.sel.clear(); renderList(); renderBulk(); });
+
+    /* ---------- slide-over panel ---------- */
+    const scrim = document.getElementById("scrim"), panel = document.getElementById("panel");
+    function openPanel(id) {
+      const p = P.find((x) => x.id === id); if (!p) return;
+      const [sc,sl] = STAGES[p.stage];
+      panel.innerHTML = `
+        <div class="panel-hd">
+          <span class="av-lg" style="background:${p.c}">${p.ini}</span>
+          <div><h2>${p.name}</h2><div class="pmeta">${p.phone} · ${p.email}</div><div style="margin-top:8px;display:flex;align-items:center;gap:10px"><span class="stage ${sc}">${sl}</span>${stars(p.pri)}</div></div>
+          <button class="panel-close" id="panelClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        </div>
+        <div class="panel-body">
+          <div class="qa">
+            <button>${svg("call")}Call</button><button>${svg("text")}Text</button><button>${svg("email")}Email</button><button>${svg("video")}Video</button><button>${svg("appt")}Appt</button><button>${svg("payment")}Payment</button><button>${svg("trade")}Trade</button>
+          </div>
+          <div class="sect">
+            <h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Summary</h3>
+            <div class="ai-grid">
+              <div><div class="k">Interested In</div><div class="v">${p.veh}</div></div>
+              <div><div class="k">Budget</div><div class="v">${p.budget}</div></div>
+              <div><div class="k">Trade-In</div><div class="v">${p.trade}</div></div>
+              <div><div class="k">Timeline</div><div class="v">${p.timeline}</div></div>
+            </div>
+            <div class="prob-wrap"><span class="prob-ring" style="background:conic-gradient(#16a34a ${p.prob*3.6}deg, #e7f7ee 0)"><span style="background:#fff;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center">${p.prob}%</span></span><div><b>Close probability</b><p>${p.rec}</p></div></div>
+            <div class="sugg"><div class="lbl">Suggested Message</div>${p.msg}<button class="send-btn">Send Message</button></div>
+          </div>
+          <div class="sect">
+            <h3>Vehicle &amp; Trade</h3>
+            <div class="field-row"><span class="k">Vehicle</span><span class="v">${p.veh}</span></div>
+            <div class="field-row"><span class="k">Stock #</span><span class="v">${p.stock}</span></div>
+            <div class="field-row"><span class="k">VIN</span><span class="v" style="font-family:monospace;font-size:12px">${p.vin}</span></div>
+            <div class="field-row"><span class="k">Trade-In</span><span class="v">${p.trade}</span></div>
+            <div class="field-row"><span class="k">Lead Source</span><span class="v">${p.source}</span></div>
+            <div class="field-row"><span class="k">Assigned</span><span class="v">${p.rep}</span></div>
+          </div>
+          <div class="sect">
+            <h3>Timeline</h3>
+            <div class="tl"><span class="tl-dot"></span><div><b>${p.next.l} scheduled</b><span>${p.next.due}</span></div></div>
+            <div class="tl"><span class="tl-dot" style="background:#7c3aed;box-shadow:0 0 0 4px #f1eafe"></span><div><b>Viewed pricing email</b><span>This morning</span></div></div>
+            <div class="tl"><span class="tl-dot" style="background:#16a34a;box-shadow:0 0 0 4px #e7f7ee"></span><div><b>Last contact</b><span>${p.last} · ${p.source}</span></div></div>
+            <div class="tl"><span class="tl-dot" style="background:#94a3b8;box-shadow:0 0 0 4px #eef1f6"></span><div><b>Lead created</b><span>from ${p.source}</span></div></div>
+          </div>
+        </div>`;
+      panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
+      panel.querySelector("#panelClose").addEventListener("click", closeAll);
+    }
+
+    /* ---------- drawer ---------- */
+    const drawer = document.getElementById("drawer");
+    function openDrawer() { drawer.classList.add("open"); drawer.setAttribute("aria-hidden","false"); scrim.classList.add("show"); }
+    document.getElementById("advBtn").addEventListener("click", openDrawer);
+    document.getElementById("drawerClose").addEventListener("click", closeAll);
+    document.getElementById("fApply").addEventListener("click", () => {
+      state.adv = { source:val("fSource"), stage:val("fStage"), rep:val("fRep"), pri:val("fPri"), trade:val("fTrade") };
+      closeAll(); renderList();
+    });
+    document.getElementById("fReset").addEventListener("click", () => {
+      ["fSource","fStage","fRep","fTrade"].forEach((i)=>document.getElementById(i).selectedIndex=0);
+      document.getElementById("fPri").selectedIndex=0; state.adv={}; renderList();
+    });
+    const val = (id) => { const v = document.getElementById(id).value; return v; };
+
+    function closeAll() {
+      panel.classList.remove("open"); panel.setAttribute("aria-hidden","true");
+      drawer.classList.remove("open"); drawer.setAttribute("aria-hidden","true");
+      scrim.classList.remove("show");
+    }
+    scrim.addEventListener("click", closeAll);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeAll();
+      if (e.key === "/" && document.activeElement.tagName !== "INPUT") { e.preventDefault(); document.getElementById("search").focus(); }
+    });
+
+    /* ---------- saved views ---------- */
+    const viewsBtn = document.getElementById("viewsBtn"), viewsMenu = document.getElementById("viewsMenu");
+    viewsMenu.innerHTML = VIEWS.map(([t,l]) => `<button data-v="${t}"><svg viewBox="0 0 24 24" style="width:15px;height:15px;color:#64748b"><path d="M4 7h16M6 12h12M9 17h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>${l}</button>`).join("");
+    viewsBtn.addEventListener("click", (e) => { e.stopPropagation(); viewsMenu.classList.toggle("open"); });
+    document.addEventListener("click", () => viewsMenu.classList.remove("open"));
+    viewsMenu.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => { setFilter(b.dataset.v); viewsMenu.classList.remove("open"); }));
+
+    /* ---------- search ---------- */
+    document.getElementById("search").addEventListener("input", (e) => { state.q = e.target.value; renderList(); });
+
+    renderQueue(); renderPills(); renderList();
+  </script>
+</body>
+</html>
