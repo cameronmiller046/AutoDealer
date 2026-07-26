@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
   <style>
-    :root { --blue: #2563eb; --blue-2: #3b82f6; --bg: #f6f8fb; --text: #16202e; --muted: #64748b; --line: #e7ecf3; --ink: #0a1424; }
+    :root { --blue: #2563eb; --blue-2: #3b82f6; --bg: #060d1a; --text: #e8eef9; --muted: #9fb0c6; --line: rgba(255,255,255,0.09); --faint: #7f92ab; --ink: #0a1424; }
     * { margin: 0; box-sizing: border-box; }
     body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
     a { color: inherit; text-decoration: none; } button { font: inherit; cursor: pointer; }
@@ -64,19 +64,19 @@
     .val-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 44px; }
     .val { padding: 0 30px; position: relative; }
     .val + .val::before { content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; width: 1px; background: var(--line); }
-    .val-ic { color: var(--blue); margin-bottom: 18px; } .val-ic svg { width: 34px; height: 34px; }
+    .val-ic { color: #6ea8ff; margin-bottom: 18px; } .val-ic svg { width: 34px; height: 34px; }
     .val h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
     .val p { color: var(--muted); font-size: 14px; line-height: 1.6; }
 
     /* company */
-    .btn-out { display: inline-flex; align-items: center; gap: 10px; background: #fff; color: var(--blue); border: 1.5px solid var(--blue); border-radius: 10px; padding: 13px 22px; font-size: 14.5px; font-weight: 700; margin-top: 26px; }
-    .btn-out:hover { background: #f0f6ff; } .btn-out svg { width: 16px; height: 16px; }
-    .stats-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 34px 36px; box-shadow: 0 30px 60px -34px rgba(16,32,60,0.35); }
+    .btn-out { display: inline-flex; align-items: center; gap: 10px; background: rgba(79,141,255,0.14); color: #6ea8ff; border: 1.5px solid var(--blue); border-radius: 10px; padding: 13px 22px; font-size: 14.5px; font-weight: 700; margin-top: 26px; }
+    .btn-out:hover { background: rgba(79,141,255,0.22); } .btn-out svg { width: 16px; height: 16px; }
+    .stats-card { background: #0c1728; border: 1px solid var(--line); border-radius: 18px; padding: 34px 36px; box-shadow: 0 30px 60px -34px rgba(0,0,0,0.5); }
     .stats-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 26px; }
     .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 30px; }
     .stat { border-top: 1px solid var(--line); padding-top: 20px; }
     .stat-grid .stat:nth-child(-n+2) { border-top: none; padding-top: 0; }
-    .stat-ic { color: var(--blue); margin-bottom: 10px; } .stat-ic svg { width: 26px; height: 26px; }
+    .stat-ic { color: #6ea8ff; margin-bottom: 10px; } .stat-ic svg { width: 26px; height: 26px; }
     .stat .num { font-size: 30px; font-weight: 800; letter-spacing: -0.8px; display: inline-block; }
     .stat .lbl { color: var(--muted); font-size: 13px; line-height: 1.45; margin-top: 4px; }
     .stat-row { display: flex; align-items: center; gap: 12px; }
@@ -101,24 +101,10 @@
   </style>
 </head>
 <body>
+  <script src="/sitenav.js"></script>
   <!-- ===================== HERO ===================== -->
   <section class="hero">
     <div class="container">
-      <nav class="nav">
-        <a class="wm" href="/"><span class="stk"><svg class="sw" viewBox="0 0 90 8"><path d="M2 6 C22 1, 68 1, 88 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg><span>AUTO<b>DEALER</b></span></span><span class="crm">CRM</span></a>
-        <div class="nav-links">
-          <a href="/features">Features</a>
-          <a href="/solutions">Solutions</a>
-          <a href="/pricing">Pricing</a>
-          <a href="/resources">Resources</a>
-          <a class="on" href="/about">About</a>
-        </div>
-        <div class="nav-right">
-          <a class="login" href="/login">Log In</a>
-          <a class="btn-primary" href="/login">Request Demo</a>
-        </div>
-      </nav>
-
       <div class="hero-inner">
         <span class="eyebrow">About Mocazari Co.</span>
         <h1>Building Software.<br />Driving Success.</h1>

@@ -56,7 +56,7 @@
         linear-gradient(90deg, rgba(6,13,26,.94) 0%, rgba(6,13,26,.72) 45%, rgba(6,13,26,.5) 100%),
         linear-gradient(180deg, rgba(6,13,26,.35) 0%, rgba(6,13,26,.2) 40%, rgba(6,13,26,.98) 100%),
         url("/images/hero.jpg");
-      background-size:cover; background-position:center; margin-top:-84px; padding-top:84px; }
+      background-size:cover; background-position:center; }
     .hero-in{ position:relative; z-index:3; text-align:center; padding:70px 0 60px; }
     .hero h1{ font-size:clamp(40px,5.4vw,72px); font-weight:900; letter-spacing:-2px; line-height:1.03; margin:26px 0 0; } .hero h1 .b{ color:var(--accent); }
     .hero .lead{ color:#b7c6dc; font-size:19px; line-height:1.6; max-width:620px; margin:20px auto 0; }
@@ -167,26 +167,9 @@
   </style>
 </head>
 <body id="top">
+  <script src="/sitenav.js"></script>
   <section class="hero">
     <div class="container">
-      <nav class="nav">
-        <div class="nav-in">
-          <a class="wm" href="/"><svg class="sw" viewBox="0 0 96 8"><path d="M2 6 C24 1, 72 1, 94 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg>AUTO<b>DEALER</b></a>
-          <div class="nav-links" id="navLinks">
-            <a href="/features">Features</a>
-            <a href="/solutions">Solutions</a>
-            <a href="/pricing" class="on">Pricing</a>
-            <a href="/resources">Resources</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-          </div>
-          <div class="nav-right">
-            <a class="login" href="/dashboard">Log In</a>
-            <button class="btn-primary" onclick="toast('Demo scheduler opened')">Request Demo</button>
-          </div>
-        </div>
-      </nav>
-
       <div class="hero-in">
         <span class="eyebrow"><span class="sp">✦</span> The AI Dealership Operating System</span>
         <h1>Pricing that grows<br /><span class="b">with your dealership.</span></h1>

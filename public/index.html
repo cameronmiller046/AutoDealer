@@ -193,7 +193,8 @@
     .msg.show { opacity: 1; transform: none; }
     .msg.u { align-self: flex-end; background: linear-gradient(180deg,var(--blue-2),var(--blue)); color: #fff; border-bottom-right-radius: 4px; }
     .msg.a { align-self: flex-start; background: rgba(255,255,255,0.05); border: 1px solid var(--line); color: #dbe6f5; border-bottom-left-radius: 4px; }
-    .msg.a .tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: #9cc4ff; margin-bottom: 7px; }
+    .msg.a .tag { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: #9cc4ff; margin-bottom: 7px; }
+    .msg.a .tag svg { width: 13px; height: 13px; flex: none; }
     .msg .act { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
     .msg .act span { font-size: 11.5px; background: rgba(79,141,255,0.14); border: 1px solid rgba(79,141,255,0.28); color: #9cc4ff; border-radius: 7px; padding: 4px 9px; font-weight: 600; }
     .typing { align-self: flex-start; display: inline-flex; gap: 4px; padding: 12px 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--line); border-radius: 14px; }
@@ -358,26 +359,7 @@
   </style>
 </head>
 <body>
-  <!-- ===================== NAV ===================== -->
-  <nav class="nav" id="nav">
-    <div class="container">
-      <div class="nav-in">
-        <div class="wm"><svg class="sw" viewBox="0 0 96 8"><path d="M2 6 C24 1, 72 1, 94 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg>AUTO<b>DEALER</b></div>
-        <div class="nav-links">
-          <a href="/features">Features</a>
-          <a href="/solutions">Solutions</a>
-          <a href="/pricing">Pricing</a>
-          <a href="/resources">Resources</a>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
-        </div>
-        <div class="nav-right">
-          <a class="login" href="/login">Log In</a>
-          <a class="btn-primary" href="/login">Request Demo</a>
-        </div>
-      </div>
-    </div>
-  </nav>
+  <script src="/sitenav.js"></script>
 
   <!-- ===================== HERO ===================== -->
   <section class="hero">
@@ -808,11 +790,6 @@
   <script>
   (function(){
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    /* ---- nav shadow ---- */
-    var nav = document.getElementById('nav');
-    var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 12); };
-    window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
 
     /* ---- count-up ---- */
     function countUp(el){

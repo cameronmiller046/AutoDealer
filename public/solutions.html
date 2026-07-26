@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
   <style>
-    :root { --blue: #2563eb; --blue-2: #3b82f6; --bg: #f5f7fb; --text: #16202e; --muted: #64748b; --line: #e7ecf3; --ink: #08111f; }
+    :root { --blue: #2563eb; --blue-2: #3b82f6; --bg: #060d1a; --text: #e8eef9; --muted: #9fb0c6; --line: rgba(255,255,255,0.09); --faint: #7f92ab; --ink: #08111f; }
     * { margin: 0; box-sizing: border-box; }
     body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
     a { color: inherit; text-decoration: none; } button { font: inherit; cursor: pointer; }
@@ -42,54 +42,55 @@
     .sol-head h2 { font-size: 34px; font-weight: 800; letter-spacing: -0.8px; margin: 12px 0 16px; }
     .sol-head p { color: var(--muted); font-size: 16px; line-height: 1.6; max-width: 720px; margin: 0 auto; }
     .sol-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 44px 0 20px; }
-    .scard { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 26px 26px 24px; box-shadow: 0 24px 50px -34px rgba(16,32,60,0.35); }
+    .scard { background: #0c1728; border: 1px solid var(--line); border-radius: 16px; padding: 26px 26px 24px; box-shadow: 0 24px 50px -34px rgba(0,0,0,0.6); }
+    .scard:hover { border-color: rgba(43,143,255,0.35); }
     .sc-head { display: flex; align-items: flex-start; gap: 15px; }
-    .sc-ic { width: 50px; height: 50px; border-radius: 14px; flex: none; background: #eaf1fe; color: var(--blue); display: flex; align-items: center; justify-content: center; }
+    .sc-ic { width: 50px; height: 50px; border-radius: 14px; flex: none; background: rgba(79,141,255,0.14); color: #6ea8ff; display: flex; align-items: center; justify-content: center; }
     .sc-ic svg { width: 24px; height: 24px; }
     .sc-head h3 { font-size: 18px; font-weight: 700; } .sc-head p { color: var(--muted); font-size: 13.5px; line-height: 1.5; margin-top: 5px; }
     .sc-div { border: none; border-top: 1px solid var(--line); margin: 18px 0; }
     .sc-feats { list-style: none; display: flex; flex-direction: column; gap: 11px; }
-    .sc-feats li { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: #334155; }
-    .sc-feats li svg { width: 17px; height: 17px; flex: none; color: var(--blue); }
+    .sc-feats li { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: #cdd9ec; }
+    .sc-feats li svg { width: 17px; height: 17px; flex: none; color: #6ea8ff; }
 
     /* platform panel */
-    .platform { background: #eaf1fb; border-radius: 20px; margin: 40px 0 0; padding: 42px; display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: center; }
+    .platform { background: #0a1322; border: 1px solid var(--line); border-radius: 20px; margin: 40px 0 0; padding: 42px; display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: center; }
     .platform .eyebrow { font-size: 12px; }
     .platform h2 { font-size: 30px; font-weight: 800; letter-spacing: -0.6px; line-height: 1.2; margin: 12px 0 14px; }
     .platform .lead { color: var(--muted); font-size: 15px; line-height: 1.65; margin-bottom: 24px; }
     .p-item { display: flex; gap: 14px; margin-bottom: 20px; }
-    .p-item .pi-ic { width: 38px; height: 38px; border-radius: 10px; flex: none; background: #fff; color: var(--blue); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px -10px rgba(16,32,60,0.4); }
+    .p-item .pi-ic { width: 38px; height: 38px; border-radius: 10px; flex: none; background: rgba(79,141,255,0.14); color: #6ea8ff; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px -10px rgba(0,0,0,0.5); }
     .p-item .pi-ic svg { width: 19px; height: 19px; }
     .p-item b { font-size: 15px; font-weight: 700; display: block; margin-bottom: 3px; } .p-item p { color: var(--muted); font-size: 13.5px; line-height: 1.5; }
 
     /* tablet mini-dashboard */
-    .tablet { background: #0c1626; border: 6px solid #0c1626; border-radius: 18px; box-shadow: 0 40px 70px -34px rgba(16,32,60,0.55); overflow: hidden; }
-    .md { background: #fff; border-radius: 12px; overflow: hidden; font-size: 8px; color: #33404f; }
-    .md-top { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid #eef2f7; }
-    .md-top .wm { color: #0f2947; font-size: 9px; } .md-top .wm b { color: #2563eb; } .md-top .wm .sw { display: none; }
-    .md-top .crm { color: #93a3b8; font-size: 7px; }
-    .md-top .t { font-weight: 700; color: #16202e; font-size: 10px; margin-left: 4px; }
+    .tablet { background: #0c1626; border: 6px solid #0c1626; border-radius: 18px; box-shadow: 0 40px 70px -34px rgba(0,0,0,0.7); overflow: hidden; }
+    .md { background: #0b1524; border-radius: 12px; overflow: hidden; font-size: 8px; color: #cdd9ec; }
+    .md-top { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.09); }
+    .md-top .wm { color: #e8eef9; font-size: 9px; } .md-top .wm b { color: #6ea8ff; } .md-top .wm .sw { display: none; }
+    .md-top .crm { color: #9fb0c6; font-size: 7px; }
+    .md-top .t { font-weight: 700; color: #e8eef9; font-size: 10px; margin-left: 4px; }
     .md-body { display: grid; grid-template-columns: 58px 1fr; }
-    .md-side { border-right: 1px solid #eef2f7; padding: 7px 6px; display: flex; flex-direction: column; gap: 2px; }
-    .md-side a { display: flex; align-items: center; gap: 5px; padding: 4px 6px; border-radius: 5px; color: #7c8698; font-size: 7.5px; }
+    .md-side { border-right: 1px solid rgba(255,255,255,0.09); padding: 7px 6px; display: flex; flex-direction: column; gap: 2px; }
+    .md-side a { display: flex; align-items: center; gap: 5px; padding: 4px 6px; border-radius: 5px; color: #9fb0c6; font-size: 7.5px; }
     .md-side a.on { background: #2563eb; color: #fff; }
     .md-side a i { width: 4px; height: 4px; border-radius: 1px; background: currentColor; opacity: 0.7; }
     .md-main { padding: 9px; }
     .md-kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
-    .md-kpi { border: 1px solid #eef2f7; border-radius: 6px; padding: 6px; }
-    .md-kpi .l { color: #8a97a8; font-size: 6.5px; } .md-kpi .v { font-size: 12px; font-weight: 800; color: #16202e; } .md-kpi .d { color: #16a34a; font-size: 6px; }
+    .md-kpi { border: 1px solid rgba(255,255,255,0.09); border-radius: 6px; padding: 6px; }
+    .md-kpi .l { color: #9fb0c6; font-size: 6.5px; } .md-kpi .v { font-size: 12px; font-weight: 800; color: #e8eef9; } .md-kpi .d { color: #4ade80; font-size: 6px; }
     .md-charts { display: grid; grid-template-columns: 1.5fr 1fr; gap: 8px; margin: 8px 0; }
-    .md-panel { border: 1px solid #eef2f7; border-radius: 6px; padding: 8px; }
-    .md-panel .h { font-weight: 700; color: #16202e; font-size: 8px; margin-bottom: 6px; }
+    .md-panel { border: 1px solid rgba(255,255,255,0.09); border-radius: 6px; padding: 8px; }
+    .md-panel .h { font-weight: 700; color: #e8eef9; font-size: 8px; margin-bottom: 6px; }
     .md-donut { width: 52px; height: 52px; border-radius: 50%; margin: 2px auto; background: conic-gradient(#2563eb 0 42%, #60a5fa 42% 70%, #a5c8ff 70% 87%, #dbe7fb 87% 100%); position: relative; }
-    .md-donut::after { content: ""; position: absolute; inset: 15px; background: #fff; border-radius: 50%; }
-    .md-leg { font-size: 6.5px; color: #64748b; display: flex; flex-direction: column; gap: 3px; margin-top: 4px; }
+    .md-donut::after { content: ""; position: absolute; inset: 15px; background: #0b1524; border-radius: 50%; }
+    .md-leg { font-size: 6.5px; color: #9fb0c6; display: flex; flex-direction: column; gap: 3px; margin-top: 4px; }
     .md-leg span { display: flex; align-items: center; gap: 4px; } .md-leg i { width: 5px; height: 5px; border-radius: 50%; }
     .md-lists { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .md-li { display: flex; align-items: center; gap: 6px; padding: 4px 0; font-size: 7px; }
-    .md-li .a { width: 13px; height: 13px; border-radius: 50%; background: #e2e8f0; flex: none; }
-    .md-li b { color: #16202e; font-size: 7.5px; } .md-li span { color: #94a3b8; }
-    .md-li .rt { margin-left: auto; color: #94a3b8; }
+    .md-li .a { width: 13px; height: 13px; border-radius: 50%; background: rgba(255,255,255,0.12); flex: none; }
+    .md-li b { color: #e8eef9; font-size: 7.5px; } .md-li span { color: #9fb0c6; }
+    .md-li .rt { margin-left: auto; color: #9fb0c6; }
 
     /* footer CTA */
     .cta-foot { position: relative; overflow: hidden; background: linear-gradient(120deg, #0a1830 0%, #0a1428 60%, #0b1f3e 100%); color: #cdd8e8; padding: 54px 0; margin-top: 60px; }
@@ -113,23 +114,10 @@
   </style>
 </head>
 <body>
+  <script src="/sitenav.js"></script>
   <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <nav class="nav">
-        <a class="wm" href="/"><span class="stk"><svg class="sw" viewBox="0 0 90 8"><path d="M2 6 C22 1, 68 1, 88 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg><span>AUTO<b>DEALER</b></span></span><span class="crm">CRM</span></a>
-        <div class="nav-links">
-          <a href="/features">Features</a>
-          <a class="on" href="/solutions">Solutions</a>
-          <a href="/pricing">Pricing</a>
-          <a href="/resources">Resources</a>
-          <a href="/about">About</a>
-        </div>
-        <div class="nav-right">
-          <a class="login" href="/login">Log In</a>
-          <a class="btn-primary" href="/login">Request Demo</a>
-        </div>
-      </nav>
       <div class="hero-inner">
         <span class="eyebrow">Solutions</span>
         <h1>Solutions That Drive<br /><span class="b">Sales and Customer Loyalty.</span></h1>
