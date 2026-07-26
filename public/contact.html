@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — AutoDealer by Mocazari Co.</title>
+  <meta name="description" content="Talk to the AutoDealer team. Schedule a personalized demo, reach sales or customer success, or ask us anything about the AI dealership operating system." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root{ --blue:#2563eb; --blue-2:#3b82f6; --brand:#0072ce; --ink:#0b1524; --ink2:#33445c; --muted:#5a6b83; --faint:#8b9bb2; --line:#e9eef5; --bg:#ffffff; --bg2:#f6f9fd; --card:#fff; --green:#16a34a; --amber:#d97706; --radius:20px; --shadow:0 1px 2px rgba(11,21,36,.04), 0 18px 40px -24px rgba(11,21,36,.2); --shadow-lg:0 40px 90px -40px rgba(11,21,36,.35); --grad:linear-gradient(135deg,#2563eb,#0072ce); }
+    *{ margin:0; box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{ font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased; line-height:1.5; }
+    a{ color:inherit; text-decoration:none; } button{ font:inherit; cursor:pointer; } svg{ display:block; }
+    .container{ width:100%; max-width:1200px; margin:0 auto; padding:0 30px; }
+    .muted{ color:var(--muted); }
+    .kicker{ font-size:12.5px; font-weight:800; letter-spacing:1.4px; text-transform:uppercase; color:var(--blue); }
+    h1{ font-size:clamp(38px,5vw,60px); font-weight:900; letter-spacing:-1.8px; line-height:1.04; }
+    h2{ font-size:clamp(26px,3.2vw,38px); font-weight:900; letter-spacing:-.9px; line-height:1.12; }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; gap:9px; border-radius:12px; padding:13px 22px; font-size:14.5px; font-weight:700; border:none; transition:.15s; } .btn svg{ width:17px; height:17px; }
+    .btn-pri{ background:var(--grad); color:#fff; box-shadow:0 16px 34px -16px rgba(37,99,235,.7); } .btn-pri:hover{ filter:brightness(1.06); transform:translateY(-1px); }
+    .btn-ghost{ background:#fff; border:1px solid var(--line); color:var(--ink); } .btn-ghost:hover{ border-color:#c9d8ee; background:#fafcff; }
+
+    /* nav */
+    .nav{ position:sticky; top:0; z-index:50; background:rgba(255,255,255,.85); backdrop-filter:saturate(1.5) blur(14px); border-bottom:1px solid var(--line); }
+    .nav-in{ max-width:1200px; margin:0 auto; height:66px; display:flex; align-items:center; gap:26px; padding:0 30px; }
+    .wm{ display:flex; flex-direction:column; align-items:flex-start; line-height:1; } .wm .sw{ width:96px; height:8px; margin-bottom:3px; } .wm .wt{ font-size:22px; font-weight:900; letter-spacing:.5px; color:var(--ink); } .wm .wt b{ color:var(--blue); }
+    .nav-links{ display:flex; gap:6px; margin-left:6px; } .nav-links a{ padding:8px 13px; border-radius:9px; font-size:14.5px; font-weight:600; color:var(--ink2); } .nav-links a:hover{ background:var(--bg2); color:var(--blue); } .nav-links a.on{ color:var(--blue); }
+    .nav-right{ margin-left:auto; display:flex; align-items:center; gap:12px; } .login{ font-size:14.5px; font-weight:600; color:var(--ink2); } .login:hover{ color:var(--blue); }
+    @media(max-width:940px){ .nav-links{ display:none; } }
+
+    section{ padding:70px 0; }
+    /* hero */
+    .hero{ position:relative; overflow:hidden; background:radial-gradient(900px 460px at 50% -10%, #eaf2ff, transparent 60%), #fff; padding:64px 0 40px; text-align:center; }
+    .hero .carbg{ position:absolute; left:50%; bottom:-40px; transform:translateX(-50%); width:min(1100px,120%); opacity:.05; pointer-events:none; }
+    .hero .rel{ position:relative; z-index:2; }
+    .pill-tag{ display:inline-flex; align-items:center; gap:8px; background:#eef4ff; border:1px solid #dbe7fb; color:var(--blue); border-radius:999px; padding:7px 15px; font-size:13px; font-weight:800; margin-bottom:22px; }
+    .hero .lead{ font-size:19px; color:var(--muted); max-width:640px; margin:18px auto 0; }
+    .hero .cta{ display:flex; gap:12px; justify-content:center; margin-top:28px; flex-wrap:wrap; }
+
+    /* contact layout */
+    .clayout{ display:grid; grid-template-columns:0.95fr 1.15fr; gap:26px; align-items:start; }
+    @media(max-width:980px){ .clayout{ grid-template-columns:1fr; } }
+    .info-stack{ display:flex; flex-direction:column; gap:16px; }
+    .icard{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow); transition:.15s; } .icard:hover{ transform:translateY(-3px); border-color:#d5e2f4; box-shadow:var(--shadow-lg); }
+    .icard .ih{ display:flex; align-items:center; gap:12px; } .icard .ii{ width:44px; height:44px; border-radius:13px; flex:none; display:flex; align-items:center; justify-content:center; } .icard .ii svg{ width:22px; height:22px; }
+    .i-blue{ background:#eef4ff; color:var(--blue); } .i-green{ background:#e7f7ee; color:var(--green); } .i-purple{ background:#f1eafe; color:#7c3aed; } .i-amber{ background:#fff4e5; color:var(--amber); }
+    .icard h3{ font-size:17px; font-weight:800; } .icard .sub{ font-size:13px; color:var(--muted); margin-top:2px; }
+    .icard p{ font-size:13.5px; color:var(--ink2); margin-top:12px; line-height:1.55; }
+    .irow{ display:flex; align-items:center; gap:10px; font-size:13.5px; color:var(--ink2); margin-top:9px; font-weight:600; } .irow svg{ width:16px; height:16px; color:var(--blue); flex:none; } .irow a:hover{ color:var(--blue); }
+    .icard .btn{ margin-top:16px; }
+    .map{ height:150px; border-radius:14px; margin-top:14px; position:relative; overflow:hidden; background:linear-gradient(135deg,#eaf1fb,#dfeaf8); border:1px solid var(--line); }
+    .map .grid{ position:absolute; inset:0; background-image:linear-gradient(rgba(37,99,235,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.09) 1px,transparent 1px); background-size:26px 26px; }
+    .map .road{ position:absolute; left:-10%; right:-10%; top:60%; height:14px; background:#c3d5ef; transform:rotate(-8deg); } .map .road2{ position:absolute; top:-10%; bottom:-10%; left:38%; width:12px; background:#cdddf2; transform:rotate(6deg); }
+    .map .pin{ position:absolute; left:50%; top:44%; transform:translate(-50%,-100%); }
+    .map .pin .p{ width:34px; height:34px; border-radius:50% 50% 50% 0; background:var(--grad); transform:rotate(-45deg); box-shadow:0 10px 20px -8px rgba(37,99,235,.7); display:flex; align-items:center; justify-content:center; } .map .pin .p::after{ content:""; width:12px; height:12px; border-radius:50%; background:#fff; }
+
+    /* form */
+    .form{ background:var(--card); border:1px solid var(--line); border-radius:24px; padding:30px; box-shadow:var(--shadow-lg); }
+    .form h2{ font-size:22px; } .form .fsub{ color:var(--muted); font-size:14px; margin-top:6px; }
+    .fgrid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:22px; }
+    .field{ display:flex; flex-direction:column; } .field.full{ grid-column:1/-1; }
+    .field label{ font-size:12.5px; font-weight:700; color:var(--ink2); margin-bottom:7px; } .field label .req{ color:#dc2626; }
+    .field input, .field select, .field textarea{ border:1px solid var(--line); border-radius:11px; padding:12px 13px; font:inherit; font-size:14px; background:#fff; outline:none; transition:.15s; color:var(--ink); }
+    .field textarea{ resize:vertical; min-height:110px; }
+    .field input:focus, .field select:focus, .field textarea:focus{ border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.12); }
+    .field.err input, .field.err select, .field.err textarea{ border-color:#ef4444; box-shadow:0 0 0 3px rgba(239,68,68,.1); }
+    .field .msg{ font-size:11.5px; color:#dc2626; margin-top:5px; min-height:14px; }
+    .form .submit{ width:100%; margin-top:8px; padding:15px; font-size:15.5px; }
+    .form .fine{ text-align:center; font-size:12px; color:var(--faint); margin-top:14px; }
+    .form-success{ text-align:center; padding:30px 10px; }
+    .form-success .ok{ width:64px; height:64px; border-radius:50%; background:#e7f7ee; color:var(--green); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; } .form-success .ok svg{ width:34px; height:34px; }
+    .form-success h2{ font-size:22px; } .form-success p{ color:var(--muted); margin-top:8px; max-width:420px; margin-left:auto; margin-right:auto; }
+
+    .alt{ background:var(--bg2); }
+    .section-head{ text-align:center; max-width:640px; margin:0 auto 40px; } .section-head h2{ margin-top:12px; } .section-head p{ color:var(--muted); font-size:18px; margin-top:14px; }
+
+    /* demo band */
+    .demo{ background:radial-gradient(700px 340px at 85% -20%, rgba(37,99,235,.4), transparent 60%), var(--ink); border-radius:26px; padding:48px 40px; color:#eef3fa; display:grid; grid-template-columns:1.2fr 1fr; gap:30px; align-items:center; }
+    @media(max-width:820px){ .demo{ grid-template-columns:1fr; } }
+    .demo h2{ color:#fff; } .demo p{ color:#a9bcda; font-size:17px; margin-top:14px; max-width:460px; }
+    .demo .cta{ display:flex; gap:12px; margin-top:24px; flex-wrap:wrap; } .demo .btn-ghost{ background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.2); color:#fff; } .demo .btn-ghost:hover{ background:rgba(255,255,255,.16); }
+    .demo-list{ display:flex; flex-direction:column; gap:12px; } .demo-list .dl{ display:flex; align-items:center; gap:13px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:13px; padding:14px 16px; } .demo-list .dl .di{ width:36px; height:36px; border-radius:10px; background:rgba(255,255,255,.1); color:#7db5ff; display:flex; align-items:center; justify-content:center; flex:none; } .demo-list .dl .di svg{ width:19px; height:19px; } .demo-list .dl b{ font-size:14px; font-weight:700; color:#fff; } .demo-list .dl span{ font-size:12px; color:#9fb0c6; }
+
+    /* why grid */
+    .fgrid2{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+    @media(max-width:1000px){ .fgrid2{ grid-template-columns:repeat(2,1fr); } } @media(max-width:520px){ .fgrid2{ grid-template-columns:1fr; } }
+    .fcard{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:22px; box-shadow:var(--shadow); transition:.15s; } .fcard:hover{ transform:translateY(-3px); border-color:#cfe0f7; }
+    .fcard .fi{ width:44px; height:44px; border-radius:13px; background:#eef4ff; color:var(--blue); display:flex; align-items:center; justify-content:center; margin-bottom:13px; } .fcard .fi svg{ width:22px; height:22px; } .fcard b{ font-size:14.5px; font-weight:800; } .fcard p{ font-size:12.5px; color:var(--muted); margin-top:5px; line-height:1.5; }
+
+    /* faq */
+    .faqlist{ max-width:800px; margin:0 auto; }
+    .qa{ border:1px solid var(--line); border-radius:15px; background:#fff; margin-bottom:12px; box-shadow:var(--shadow); overflow:hidden; }
+    .qa .q{ display:flex; align-items:center; gap:14px; padding:19px 22px; cursor:pointer; font-size:15.5px; font-weight:700; }
+    .qa .q .cv{ margin-left:auto; color:var(--faint); transition:.2s; flex:none; } .qa.open .q .cv{ transform:rotate(45deg); color:var(--blue); }
+    .qa .a{ max-height:0; overflow:hidden; transition:max-height .28s ease; } .qa.open .a{ max-height:220px; } .qa .a p{ padding:0 22px 20px; color:var(--muted); font-size:14px; line-height:1.6; }
+
+    /* chat + hours */
+    .two{ display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+    @media(max-width:820px){ .two{ grid-template-columns:1fr; } }
+    .chat{ background:var(--grad); border-radius:var(--radius); padding:28px; color:#fff; box-shadow:var(--shadow-lg); }
+    .chat .ci{ width:52px; height:52px; border-radius:15px; background:rgba(255,255,255,.16); display:flex; align-items:center; justify-content:center; margin-bottom:16px; } .chat .ci svg{ width:26px; height:26px; }
+    .chat h3{ font-size:21px; font-weight:900; } .chat p{ color:#dbe8ff; font-size:14.5px; margin-top:8px; line-height:1.55; }
+    .chat .status{ display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:700; background:rgba(255,255,255,.16); border-radius:999px; padding:6px 12px; margin-top:16px; } .chat .status .d{ width:8px; height:8px; border-radius:50%; background:#4ade80; } .chat .status.off .d{ background:#fca5a5; }
+    .chat .btn{ background:#fff; color:var(--blue); margin-top:18px; }
+    .hours{ background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .hours .hh{ padding:18px 22px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:11px; } .hours .hh svg{ width:20px; height:20px; color:var(--blue); } .hours .hh b{ font-size:16px; font-weight:800; } .hours .hh .badge{ margin-left:auto; font-size:11.5px; font-weight:800; padding:5px 11px; border-radius:999px; } .badge.open{ background:#e7f7ee; color:var(--green); } .badge.closed{ background:#f1f4f9; color:var(--muted); }
+    .hrow{ display:flex; align-items:center; justify-content:space-between; padding:11px 22px; border-top:1px solid var(--line); font-size:13.5px; } .hrow:first-of-type{ border-top:none; } .hrow.today{ background:#f6f9fd; } .hrow .d{ font-weight:700; } .hrow.today .d{ color:var(--blue); } .hrow .t{ color:var(--muted); font-weight:600; } .hrow.closed .t{ color:var(--faint); }
+
+    /* enterprise + security */
+    .ent-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    @media(max-width:760px){ .ent-grid{ grid-template-columns:1fr; } }
+    .ent{ display:flex; align-items:center; gap:12px; background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow); font-size:14px; font-weight:700; } .ent svg{ width:20px; height:20px; color:var(--blue); flex:none; }
+    .sec-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin-top:26px; } .sec-chip{ display:inline-flex; align-items:center; gap:9px; background:#fff; border:1px solid var(--line); border-radius:999px; padding:10px 17px; font-size:13.5px; font-weight:700; box-shadow:var(--shadow); } .sec-chip svg{ width:17px; height:17px; color:var(--green); }
+
+    /* final CTA */
+    .final{ text-align:center; background:radial-gradient(800px 400px at 50% 120%, #1e3a8a, #0b1524 70%), #0b1524; border-radius:28px; padding:60px 40px; color:#fff; } .final p{ color:#a9bcda; font-size:18px; margin-top:14px; } .final .cta{ display:flex; gap:12px; justify-content:center; margin-top:28px; flex-wrap:wrap; } .final .btn-ghost{ background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.2); color:#fff; } .final .btn-ghost:hover{ background:rgba(255,255,255,.16); }
+
+    /* footer */
+    footer{ border-top:1px solid var(--line); padding:52px 0 34px; background:var(--bg2); }
+    .foot-grid{ display:grid; grid-template-columns:1.6fr repeat(3,1fr); gap:30px; }
+    @media(max-width:820px){ .foot-grid{ grid-template-columns:1fr 1fr; gap:26px; } }
+    .foot-col h4{ font-size:12px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--faint); margin-bottom:14px; } .foot-col a{ display:block; font-size:14px; color:var(--ink2); padding:5px 0; } .foot-col a:hover{ color:var(--blue); }
+    .foot-brand p{ font-size:13.5px; color:var(--muted); margin-top:12px; max-width:280px; line-height:1.55; } .foot-social{ display:flex; gap:10px; margin-top:16px; } .foot-social a{ width:36px; height:36px; border-radius:10px; border:1px solid var(--line); background:#fff; display:flex; align-items:center; justify-content:center; color:var(--ink2); } .foot-social a:hover{ color:var(--blue); border-color:#cfe0f7; } .foot-social svg{ width:17px; height:17px; }
+    .foot-bottom{ border-top:1px solid var(--line); margin-top:36px; padding-top:22px; font-size:13px; color:var(--muted); display:flex; gap:14px; flex-wrap:wrap; } .foot-bottom .sp{ margin-left:auto; }
+
+    .toast{ position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(20px); background:var(--ink); color:#fff; padding:13px 22px; border-radius:13px; font-weight:700; font-size:14px; box-shadow:var(--shadow-lg); opacity:0; transition:.28s; z-index:90; } .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body id="top">
+  <header class="nav">
+    <div class="nav-in">
+      <a class="wm" href="/"><svg class="sw" viewBox="0 0 96 8"><path d="M2 6 C24 1, 72 1, 94 5" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round"/></svg><span class="wt">AUTO<b>DEALER</b></span></a>
+      <nav class="nav-links">
+        <a href="/features">Features</a><a href="/solutions">Solutions</a><a href="/pricing">Pricing</a><a href="/resources">Resources</a><a href="/about">About</a><a href="/contact" class="on">Contact</a>
+      </nav>
+      <div class="nav-right">
+        <a class="login" href="/dashboard">Log In</a>
+        <button class="btn btn-pri" onclick="toast('Demo scheduler opened')">Request Demo</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- hero -->
+  <section class="hero">
+    <svg class="carbg" id="carbg" viewBox="0 0 1100 260"></svg>
+    <div class="container rel">
+      <span class="pill-tag">✦ We'd love to hear from you</span>
+      <h1>Let's talk about<br>your dealership.</h1>
+      <p class="lead">Looking for a better CRM, curious about AutoDealer, or ready for a personalized demo? Our team is here to help you sell more and simplify operations.</p>
+      <div class="cta">
+        <button class="btn btn-pri" onclick="toast('Demo scheduler opened')"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Schedule a Demo</button>
+        <a class="btn btn-ghost" href="tel:+18005551180"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Call Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- contact layout -->
+  <section style="padding-top:20px;">
+    <div class="container">
+      <div class="clayout">
+        <!-- left: info -->
+        <div class="info-stack">
+          <div class="icard">
+            <div class="ih"><span class="ii i-blue"><svg viewBox="0 0 24 24"><path d="M3 11l13-6v14L3 13v4H1v-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M16 8a3 3 0 0 1 0 8" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div><h3>Sales</h3><div class="sub">Interested in AutoDealer CRM?</div></div></div>
+            <p>Talk to one of our dealership specialists about the right plan for your store.</p>
+            <div class="irow"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><a href="tel:+18005551180">(800) 555-1180</a></div>
+            <div class="irow"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><a href="mailto:sales@autodealer.com">sales@autodealer.com</a></div>
+            <div class="irow"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Mon–Fri, 8:00 AM – 6:00 PM</div>
+            <button class="btn btn-pri" onclick="toast('Demo scheduler opened')">Schedule Demo</button>
+          </div>
+
+          <div class="icard">
+            <div class="ih"><span class="ii i-green"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div><h3>Customer Success</h3><div class="sub">Already using AutoDealer?</div></div></div>
+            <p>Need onboarding help or account assistance? Our success team has you covered.</p>
+            <div class="irow"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><a href="tel:+18005551190">(800) 555-1190</a></div>
+            <div class="irow"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><a href="mailto:success@autodealer.com">success@autodealer.com</a></div>
+            <button class="btn btn-ghost" onclick="toast('Support portal opened')">Contact Support</button>
+          </div>
+
+          <div class="icard">
+            <div class="ih"><span class="ii i-purple"><svg viewBox="0 0 24 24"><circle cx="7" cy="8" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 18c0-2.6 2-4.2 4.5-4.2s4.5 1.6 4.5 4.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 6l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><h3>Partnerships</h3><div class="sub">Integrate or resell AutoDealer</div></div></div>
+            <p>Interested in becoming an integration partner or reseller? Let's build together.</p>
+            <div class="irow"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><a href="mailto:partners@autodealer.com">partners@autodealer.com</a></div>
+            <button class="btn btn-ghost" onclick="toast('Partnership inquiry started')">Become a Partner</button>
+          </div>
+
+          <div class="icard">
+            <div class="ih"><span class="ii i-amber"><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11M4 20h16M9 20v-5h6v5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div><h3>Headquarters</h3><div class="sub">Mocazari Co. · Software Development</div></div></div>
+            <div class="irow"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>1400 Motorway Blvd, Suite 500, Springfield</div>
+            <div class="irow"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Mon–Fri, 8:00 AM – 6:00 PM</div>
+            <div class="map"><div class="grid"></div><div class="road"></div><div class="road2"></div><div class="pin"><div class="p"></div></div></div>
+          </div>
+        </div>
+
+        <!-- right: form -->
+        <div class="form" id="formWrap">
+          <div id="formInner">
+            <h2>Tell us about your dealership</h2>
+            <p class="fsub">Fill this out and the right team will reach out within one business day.</p>
+            <form id="contactForm" novalidate>
+              <div class="fgrid">
+                <div class="field"><label>First name <span class="req">*</span></label><input name="first" required /><div class="msg"></div></div>
+                <div class="field"><label>Last name <span class="req">*</span></label><input name="last" required /><div class="msg"></div></div>
+                <div class="field"><label>Dealership name <span class="req">*</span></label><input name="dealership" required /><div class="msg"></div></div>
+                <div class="field"><label>Job title</label><input name="title" placeholder="e.g. General Manager" /><div class="msg"></div></div>
+                <div class="field"><label>Email <span class="req">*</span></label><input name="email" type="email" required /><div class="msg"></div></div>
+                <div class="field"><label>Phone number</label><input name="phone" type="tel" placeholder="(555) 000-0000" /><div class="msg"></div></div>
+                <div class="field"><label>Dealership website</label><input name="website" placeholder="yourdealership.com" /><div class="msg"></div></div>
+                <div class="field"><label>Number of rooftops</label><select name="rooftops"><option>1</option><option>2–5</option><option>6–15</option><option>16+</option></select><div class="msg"></div></div>
+                <div class="field"><label>Current CRM</label><input name="crm" placeholder="e.g. VinSolutions, CDK, none" /><div class="msg"></div></div>
+                <div class="field"><label>Reason for contact <span class="req">*</span></label><select name="reason" required><option value="">Select one…</option><option>Sales Inquiry</option><option>Request Demo</option><option>General Question</option><option>Support</option><option>Partnership</option><option>Media</option><option>Other</option></select><div class="msg"></div></div>
+                <div class="field full"><label>Message <span class="req">*</span></label><textarea name="message" required placeholder="How can we help your dealership succeed?"></textarea><div class="msg"></div></div>
+              </div>
+              <button type="submit" class="btn btn-pri submit">Request Contact</button>
+              <div class="fine">🔒 Encrypted submission · We never sell your data.</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- schedule demo band -->
+  <section class="alt">
+    <div class="container">
+      <div class="demo">
+        <div>
+          <span class="kicker" style="color:#7db5ff;">See it in action</span>
+          <h2 style="margin-top:12px;">See AutoDealer in action</h2>
+          <p>Book a personalized demonstration tailored to your dealership's needs — no slides, just the product.</p>
+          <div class="cta">
+            <button class="btn btn-pri" onclick="toast('Demo scheduler opened')">Book Demo</button>
+            <a class="btn btn-ghost" href="/features">View Features</a>
+          </div>
+        </div>
+        <div class="demo-list">
+          <div class="dl"><span class="di"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><b>30-minute demo</b><span>Focused on what matters to you</span></div></div>
+          <div class="dl"><span class="di"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><b>Live Q&amp;A</b><span>Ask us anything, in real time</span></div></div>
+          <div class="dl"><span class="di"><svg viewBox="0 0 24 24"><path d="M4 13h4l2-5 4 10 2-5h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>Personalized walkthrough</b><span>Your workflows, your data</span></div></div>
+          <div class="dl"><span class="di"><svg viewBox="0 0 24 24"><path d="M12 3v10m0 0l-4-4m4 4l4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><b>Migration discussion</b><span>How we'll move you over, free</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- why -->
+  <section>
+    <div class="container">
+      <div class="section-head"><span class="kicker">Why AutoDealer</span><h2>Why dealerships choose us</h2></div>
+      <div class="fgrid2" id="whyGrid"></div>
+    </div>
+  </section>
+
+  <!-- faq -->
+  <section class="alt">
+    <div class="container">
+      <div class="section-head"><span class="kicker">FAQ</span><h2>Questions, answered</h2></div>
+      <div class="faqlist" id="faqList"></div>
+    </div>
+  </section>
+
+  <!-- chat + hours -->
+  <section>
+    <div class="container">
+      <div class="two">
+        <div class="chat">
+          <div class="ci"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <h3>Need an answer right now?</h3>
+          <p id="chatMsg">Chat live with our team during business hours.</p>
+          <div class="status" id="chatStatus"><span class="d"></span><span id="chatStatusT">Agents online</span></div>
+          <div><button class="btn" onclick="toast('Live chat opening…')">Start Live Chat</button></div>
+        </div>
+        <div class="hours">
+          <div class="hh"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><b>Office hours</b><span class="badge" id="hoursBadge">—</span></div>
+          <div id="hoursRows"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- enterprise -->
+  <section class="alt">
+    <div class="container">
+      <div class="section-head"><span class="kicker">Enterprise</span><h2>Enterprise support, included</h2><p>Enterprise and dealer-group customers get white-glove service every step of the way.</p></div>
+      <div class="ent-grid" id="entGrid"></div>
+    </div>
+  </section>
+
+  <!-- security -->
+  <section>
+    <div class="container" style="text-align:center;">
+      <span class="kicker">Security &amp; privacy</span>
+      <h2 style="margin-top:12px;">Your information is protected</h2>
+      <p class="muted" style="font-size:18px;max-width:560px;margin:14px auto 0;">Enterprise-grade security on every submission. We never sell your data — ever.</p>
+      <div class="sec-row">
+        <span class="sec-chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Encrypted submissions</span>
+        <span class="sec-chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Secure cloud infrastructure</span>
+        <span class="sec-chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>We never sell your data</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- final CTA -->
+  <section>
+    <div class="container">
+      <div class="final">
+        <h2>Ready to modernize your dealership?</h2>
+        <p>See why dealerships are replacing outdated CRM systems with AutoDealer.</p>
+        <div class="cta">
+          <button class="btn btn-pri" onclick="toast('Demo scheduler opened')">Schedule Demo</button>
+          <button class="btn btn-ghost" onclick="toast('Connecting you to sales')">Contact Sales</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div class="foot-col foot-brand">
+          <a class="wm" href="/"><svg class="sw" viewBox="0 0 96 8" style="width:80px;"><path d="M2 6 C24 1, 72 1, 94 5" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round"/></svg><span class="wt" style="font-size:19px;">AUTO<b>DEALER</b></span></a>
+          <p>The AI-powered dealership operating system, built by Mocazari Co.</p>
+          <div class="foot-social">
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 10v6M8 7v.5M12 16v-3.5a1.5 1.5 0 0 1 3 0V16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+            <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg></a>
+          </div>
+        </div>
+        <div class="foot-col"><h4>Company</h4><a href="/about">About</a><a href="/features">Features</a><a href="/solutions">Solutions</a><a href="/pricing">Pricing</a><a href="#">Careers</a></div>
+        <div class="foot-col"><h4>Resources</h4><a href="/resources">Resources</a><a href="/contact">Contact</a><a href="/feedback">Support</a><a href="/developers">Documentation</a></div>
+        <div class="foot-col"><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Security</a></div>
+      </div>
+      <div class="foot-bottom"><span>© 2026 Mocazari Co. All Rights Reserved.</span><span class="sp">Made for modern dealerships.</span></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">Done</div>
+
+  <script src="/anim.js" defer></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var tTimer; function toast(m){ var t=$('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ t.classList.remove('show'); },2200); }
+
+    /* subtle car silhouette background */
+    $('carbg').innerHTML='<path d="M60 200 C80 150 130 128 190 122 C240 82 320 62 470 62 C620 62 700 92 760 130 C880 136 1000 156 1040 200 L1040 214 C1040 220 1035 224 1028 224 L72 224 C65 224 60 220 60 214 Z" fill="#2563eb"/><circle cx="300" cy="224" r="46" fill="#0b1524"/><circle cx="760" cy="224" r="46" fill="#0b1524"/>';
+
+    /* why grid */
+    var WHY=[
+      ['ai','AI in every workflow'],['roles','Role-based workspaces'],['migrate','Free CRM migration'],['portal','Customer Portal'],
+      ['inv','Real-time inventory'],['comms','Unified communications'],['ux','Modern user experience'],['sec','Enterprise security']
+    ];
+    var WI={ ai:'<path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/>', roles:'<circle cx="12" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.7"/>', migrate:'<path d="M12 3v10m0 0l-4-4m4 4l4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>', portal:'<rect x="3" y="4" width="18" height="14" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 8h18M7 21h10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>', inv:'<path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>', comms:'<path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>', ux:'<rect x="3.5" y="4" width="17" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 8h17" stroke="currentColor" stroke-width="1.7"/>', sec:'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>' };
+    $('whyGrid').innerHTML=WHY.map(function(w){ return '<div class="fcard"><div class="fi"><svg viewBox="0 0 24 24">'+WI[w[0]]+'</svg></div><b>'+w[1]+'</b></div>'; }).join('');
+
+    /* enterprise */
+    var ENT=['Priority support','Dedicated success manager','Implementation assistance','Custom training','Migration support','Technical consulting'];
+    $('entGrid').innerHTML=ENT.map(function(e){ return '<div class="ent"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'+e+'</div>'; }).join('');
+
+    /* FAQ */
+    var FAQ=[
+      ['How long does implementation take?','Most single-rooftop dealerships are live in 1–2 weeks, including migration, validation, and team training. Dealer groups get a dedicated onboarding plan.'],
+      ['Do you migrate our existing CRM?','Yes — for free. We support CDK, VinSolutions, DealerSocket, Tekion, DriveCentric, Reynolds & Reynolds, plus CSV/Excel, and clean the data as we go.'],
+      ['Can AutoDealer integrate with our DMS?','Yes. Connect CDK, Reynolds, Tekion and more through the Marketplace, plus lenders (RouteOne, Dealertrack) and communication tools.'],
+      ['How long is the demo?','A focused 30 minutes, tailored to your store — with live Q&A and a migration discussion.'],
+      ['Do you offer onboarding?','Every plan includes onboarding and training resources. Enterprise and Groups add a dedicated success manager.'],
+      ['Can multiple dealerships use one account?','Yes — the Dealer Groups plan supports multiple rooftops under one organization with shared data and centralized reporting.'],
+      ['Do you support dealer groups?','Absolutely. Multi-store management, shared inventory and customers, group analytics, and SSO are built for dealer groups.']
+    ];
+    $('faqList').innerHTML=FAQ.map(function(f){ return '<div class="qa"><div class="q">'+f[0]+'<svg class="cv" viewBox="0 0 24 24" width="20" height="20"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div class="a"><p>'+f[1]+'</p></div></div>'; }).join('');
+    document.querySelectorAll('.qa .q').forEach(function(q){ q.addEventListener('click', function(){ q.parentNode.classList.toggle('open'); }); });
+
+    /* office hours + open/closed */
+    var HOURS=[['Sunday',null],['Monday','8:00 AM – 6:00 PM'],['Tuesday','8:00 AM – 6:00 PM'],['Wednesday','8:00 AM – 6:00 PM'],['Thursday','8:00 AM – 6:00 PM'],['Friday','8:00 AM – 6:00 PM'],['Saturday',null]];
+    (function(){
+      var now=new Date(); var day=now.getDay(); var hour=now.getHours();
+      var isOpen = day>=1 && day<=5 && hour>=8 && hour<18;
+      $('hoursRows').innerHTML=HOURS.map(function(h,i){ var closed=h[1]===null; return '<div class="hrow'+(i===day?' today':'')+(closed?' closed':'')+'"><span class="d">'+h[0]+'</span><span class="t">'+(closed?'Closed':h[1])+'</span></div>'; }).join('');
+      var b=$('hoursBadge'); b.textContent=isOpen?'Currently Open':'Currently Closed'; b.className='badge '+(isOpen?'open':'closed');
+      if(!isOpen){ var cs=$('chatStatus'); cs.classList.add('off'); $('chatStatusT').textContent='Agents offline'; $('chatMsg').textContent='Leave us a message and we\'ll respond as soon as possible.'; }
+    })();
+
+    /* form validation + success */
+    var form=$('contactForm');
+    function setErr(field,msg){ var f=field.closest('.field'); f.classList.toggle('err',!!msg); f.querySelector('.msg').textContent=msg||''; }
+    form.addEventListener('submit', function(e){
+      e.preventDefault(); var ok=true;
+      form.querySelectorAll('[required]').forEach(function(el){
+        var v=el.value.trim();
+        if(!v){ setErr(el,'This field is required'); ok=false; }
+        else if(el.type==='email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){ setErr(el,'Enter a valid email'); ok=false; }
+        else setErr(el,'');
+      });
+      if(!ok){ var first=form.querySelector('.field.err input,.field.err select,.field.err textarea'); if(first) first.focus(); return; }
+      var name=form.first.value.trim();
+      $('formInner').innerHTML='<div class="form-success"><div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h2>Thanks, '+(name||'there')+'! 🎉</h2><p>Your message is on its way to the right team. We\'ll be in touch within one business day. In the meantime, feel free to explore the product.</p><div style="display:flex;gap:12px;justify-content:center;margin-top:22px;flex-wrap:wrap;"><a class="btn btn-pri" href="/features">View Features</a><a class="btn btn-ghost" href="/pricing">See Pricing</a></div></div>';
+      toast('Message sent ✓');
+    });
+    form.querySelectorAll('input,select,textarea').forEach(function(el){ el.addEventListener('input', function(){ if(el.closest('.field').classList.contains('err')) setErr(el,''); }); });
+  </script>
+</body>
+</html>

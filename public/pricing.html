@@ -174,17 +174,11 @@
           <a class="wm" href="/"><svg class="sw" viewBox="0 0 96 8"><path d="M2 6 C24 1, 72 1, 94 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg>AUTO<b>DEALER</b></a>
           <div class="nav-links" id="navLinks">
             <a href="/features">Features</a>
-            <div class="ni" data-drop>
-              <a href="/solutions">Solutions <svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-              <div class="drop" id="dropSolutions"></div>
-            </div>
+            <a href="/solutions">Solutions</a>
             <a href="/pricing" class="on">Pricing</a>
-            <div class="ni" data-drop>
-              <a href="/resources">Resources <svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-              <div class="drop" id="dropResources"></div>
-            </div>
+            <a href="/resources">Resources</a>
             <a href="/about">About</a>
-            <a href="#">Contact</a>
+            <a href="/contact">Contact</a>
           </div>
           <div class="nav-right">
             <a class="login" href="/dashboard">Log In</a>
@@ -324,29 +318,6 @@
   <script>
     var $ = function(id){ return document.getElementById(id); };
     var ck='<svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-
-    /* ---- nav dropdowns ---- */
-    var DROP_SOL=[
-      ['BDC & Internet Sales','Respond faster, book more appointments','<circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 18c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7"/>'],
-      ['Sales & Deal Desk','Structure deals and close with confidence','<path d="M4 7h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 12h16" stroke="currentColor" stroke-width="1.6"/>'],
-      ['Finance & F&I','Move deals from approval to delivery','<path d="M12 3v18M8 7h6a2.5 2.5 0 0 1 0 5H9a2.5 2.5 0 0 0 0 5h7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'],
-      ['Management & Execs','The whole store in one command center','<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'],
-      ['Dealer Groups','Multi-store management and reporting','<path d="M4 9l1.4-3.6A1 1 0 0 1 6.3 5h11.4a1 1 0 0 1 .9.6L20 9M5 9v10h14V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>']
-    ];
-    var DROP_RES=[
-      ['Knowledge Center','Guides, playbooks & OEM docs','<path d="M5 4h9a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M17 7a3 3 0 0 1 3-3v13.5a2.5 2.5 0 0 0-2.5-2.5H17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'],
-      ['Product Tour','See the platform in action','<path d="M8 5v14l11-7z" fill="currentColor"/>'],
-      ['Migration Guide','Switch from any CRM, free','<path d="M12 3v10m0 0l-4-4m4 4l4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'],
-      ['ROI Calculator','Estimate your return','<path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M7 15l3.5-4 3 2.5L20 7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>'],
-      ['Help & Support','Docs, training & live chat','<path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 1 1.9h5c.1-.9.4-1.4 1-1.9A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 19h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>']
-    ];
-    function dropItem(d,href){ return '<a href="'+href+'"><span class="di"><svg viewBox="0 0 24 24">'+d[2]+'</svg></span><span><b>'+d[0]+'</b><span>'+d[1]+'</span></span></a>'; }
-    $('dropSolutions').innerHTML=DROP_SOL.map(function(d){ return dropItem(d,'/solutions'); }).join('');
-    var resHref={'Product Tour':'#','Migration Guide':'/migration','ROI Calculator':'#roi','Knowledge Center':'/knowledge','Help & Support':'/feedback'};
-    $('dropResources').innerHTML=DROP_RES.map(function(d){ return dropItem(d,resHref[d[0]]||'/resources'); }).join('');
-    // click-to-toggle for touch
-    document.querySelectorAll('.ni').forEach(function(ni){ ni.querySelector('a').addEventListener('click', function(e){ if(window.matchMedia('(hover: none)').matches){ e.preventDefault(); ni.classList.toggle('open'); } }); });
-    document.addEventListener('click', function(e){ if(!e.target.closest('.ni')) document.querySelectorAll('.ni.open').forEach(function(n){ n.classList.remove('open'); }); });
 
     /* ---- plans ---- */
     var billing='monthly';
