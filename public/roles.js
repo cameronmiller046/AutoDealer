@@ -75,7 +75,7 @@
         {label:'My Reviews', href:'/reviews', icon:'reviews'},
         {label:'e-Signature', href:'/signing', icon:'signing'},
         {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
-        {label:'Settings', href:'#', icon:'settings'}
+        {label:'Settings', href:'/settings', icon:'settings'}
       ]
     },
     manager: {
@@ -118,7 +118,7 @@
         {label:'Marketplace', href:'/marketplace', icon:'marketplace'},
         {label:'Data Migration', href:'/migration', icon:'migrate'},
         {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
-        {label:'Settings', href:'#', icon:'settings'}
+        {label:'Settings', href:'/settings', icon:'settings'}
       ]
     },
     receptionist: {
@@ -135,7 +135,7 @@
         {label:'Visitor Check-In', href:'/checkin', icon:'checkin', badge:'2'},
         {label:'Training', href:'/training', icon:'training', badge:'1'},
         {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
-        {label:'Settings', href:'#', icon:'settings'}
+        {label:'Settings', href:'/settings', icon:'settings'}
       ]
     },
     bdc: {
@@ -151,7 +151,7 @@
         {label:'Inventory', href:'/inventory', icon:'inventory', tag:'View-only'},
         {label:'Reports', href:'/reports', icon:'reports'},
         {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
-        {label:'Settings', href:'#', icon:'settings'}
+        {label:'Settings', href:'/settings', icon:'settings'}
       ]
     },
     finance: {
@@ -168,7 +168,7 @@
         {label:'Team Chat', href:'/chat', icon:'chat', badge:'2'},
         {label:'Reports', href:'/reports', icon:'reports'},
         {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
-        {label:'Settings', href:'#', icon:'settings'}
+        {label:'Settings', href:'/settings', icon:'settings'}
       ]
     },
     gm: {
@@ -187,7 +187,7 @@
         {label:'Employees', href:'/team', icon:'team'},
         {label:'Team Chat', href:'/chat', icon:'chat', badge:'2'},
         {label:'CRM Administration', href:'/admin', icon:'admin'},
-        {label:'Settings', href:'#', icon:'settings'}
+        {label:'Settings', href:'/settings', icon:'settings'}
       ]
     }
   };
@@ -203,7 +203,7 @@
   ];
 
   /* Every known in-app route. Anything here that is NOT in the active role's nav is blocked. */
-  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing','/showroom','/training','/analytics','/invintel','/service','/whiteboard','/marketplace','/referrals','/aimanager','/chat','/bdc','/finance','/gm'];
+  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing','/showroom','/training','/analytics','/invintel','/service','/whiteboard','/marketplace','/referrals','/aimanager','/chat','/bdc','/finance','/gm','/settings'];
 
   function getRole(){ var r = localStorage.getItem('ad_role'); return ROLES[r] ? r : 'salesperson'; }
   function cfg(){ return ROLES[getRole()]; }
@@ -288,6 +288,7 @@
   }
   function loadAI(){ if(document.getElementById('ad-ai-script')) return; var s=document.createElement('script'); s.id='ad-ai-script'; s.src='/ai.js'; s.async=true; document.body.appendChild(s); }
   function loadNotify(){ if(document.getElementById('ad-notify-script')) return; var s=document.createElement('script'); s.id='ad-notify-script'; s.src='/notify.js'; s.async=true; document.body.appendChild(s); }
-  function init(){ applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); loadAI(); loadNotify(); }
+  function loadCmdK(){ if(document.getElementById('ad-cmdk-script')) return; var s=document.createElement('script'); s.id='ad-cmdk-script'; s.src='/cmdk.js'; s.async=true; document.body.appendChild(s); }
+  function init(){ applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); loadAI(); loadNotify(); loadCmdK(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

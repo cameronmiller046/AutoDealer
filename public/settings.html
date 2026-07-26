@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:360px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#eef1f6; color:#64748b; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+
+    .settings{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 65px);}
+    .catnav{border-right:1px solid var(--line);background:#fbfcfe;padding:20px 12px;position:sticky;top:65px;height:calc(100vh - 65px);overflow-y:auto;}
+    .catnav h1{font-size:19px;font-weight:800;letter-spacing:-.4px;padding:4px 10px 14px;}
+    .cat{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:10px;cursor:pointer;color:var(--muted);font-size:13.5px;font-weight:600;} .cat svg{width:17px;height:17px;flex:none;} .cat:hover{background:#eef2f8;color:var(--text);} .cat.on{background:var(--accent-soft);color:var(--accent);font-weight:700;}
+    .content{padding:28px 34px 60px;max-width:860px;}
+    .chead h2{font-size:22px;font-weight:800;letter-spacing:-.5px;} .chead p{color:var(--muted);font-size:14px;margin-top:5px;margin-bottom:8px;}
+
+    .group{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-top:20px;overflow:hidden;}
+    .group-h{padding:14px 20px;border-bottom:1px solid var(--line);font-size:14px;font-weight:800;display:flex;align-items:center;gap:9px;} .group-h svg{width:16px;height:16px;color:var(--accent);}
+    .row{display:flex;align-items:center;gap:16px;padding:15px 20px;border-top:1px solid var(--line);} .row:first-of-type{border-top:none;}
+    .row .rl{flex:1;min-width:0;} .row .rl b{font-size:13.5px;font-weight:700;} .row .rl span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.4;}
+    .row .rc{flex:none;display:flex;align-items:center;gap:8px;}
+    .tog{width:42px;height:24px;border-radius:999px;background:var(--green);position:relative;flex:none;border:none;} .tog::after{content:"";position:absolute;top:2.5px;right:2.5px;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:.15s;} .tog.off{background:#cbd5e1;} .tog.off::after{right:auto;left:2.5px;}
+    .sel{border:1px solid var(--line);border-radius:9px;padding:8px 12px;font:inherit;font-size:13px;font-weight:600;background:#fff;color:var(--text);cursor:pointer;min-width:150px;} .sel:focus{outline:none;border-color:var(--accent);}
+    .inp{border:1px solid var(--line);border-radius:9px;padding:8px 12px;font:inherit;font-size:13px;background:#fff;outline:none;min-width:200px;} .inp:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+    .btn{border:1px solid var(--line);background:#fff;color:var(--accent);border-radius:9px;padding:8px 14px;font-size:12.5px;font-weight:700;} .btn:hover{background:var(--accent-soft);} .btn.pri{background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;border:none;}
+    .chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:flex-end;max-width:420px;} .chip{font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;background:#eef2f8;color:#475569;display:inline-flex;align-items:center;gap:6px;} .chip .cd{width:8px;height:8px;border-radius:50%;} .chip .x{color:#94a3b8;cursor:pointer;font-weight:800;} .chip.add{background:var(--accent-soft);color:var(--accent);cursor:pointer;}
+    .swatches{display:flex;gap:8px;} .sw2{width:30px;height:30px;border-radius:8px;cursor:pointer;border:2px solid transparent;} .sw2.on{border-color:#0f1b2d;}
+    .intg{display:flex;align-items:center;gap:12px;padding:14px 20px;border-top:1px solid var(--line);} .intg:first-of-type{border-top:none;} .intg .lg{width:38px;height:38px;border-radius:10px;flex:none;color:#fff;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;} .intg .im{flex:1;} .intg .im b{font-size:13.5px;font-weight:700;} .intg .im span{display:block;font-size:12px;color:var(--muted);} .conn{font-size:11px;font-weight:800;padding:4px 10px;border-radius:7px;} .conn.on{background:#e7f7ee;color:#16a34a;} .conn.off{background:#eef1f6;color:#94a3b8;}
+    .badge-mod{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;padding:2px 7px;border-radius:5px;background:#f1eafe;color:#7c3aed;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1000px){ .settings{grid-template-columns:1fr;} .catnav{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search settings   ⌘K" /></div>
+        <span class="role-badge">Settings</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <div class="settings">
+        <nav class="catnav"><h1>Settings</h1><div id="cats"></div></nav>
+        <main class="content" id="content"></main>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Saved</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var CI={
+      org:'<path d="M4 20V8l6-4 6 4v12M4 20h16M10 12h4M10 16h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      users:'<circle cx="9" cy="8" r="2.8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19c0-3 2.5-4.6 5.5-4.6s5.5 1.6 5.5 4.6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.5" cy="9" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/>',
+      crm:'<rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 9h16M9 9v11" stroke="currentColor" stroke-width="1.6"/>',
+      comms:'<path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      ai:'<path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/>',
+      brand:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.4" fill="currentColor"/><circle cx="15" cy="10" r="1.4" fill="currentColor"/><circle cx="12" cy="15" r="1.4" fill="currentColor"/>',
+      intg:'<circle cx="6" cy="6" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="18" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 6h6a2 2 0 0 1 2 2v8" fill="none" stroke="currentColor" stroke-width="1.6"/>'
+    };
+    function ci(k){ return '<svg viewBox="0 0 24 24">'+CI[k]+'</svg>'; }
+
+    // control builders
+    function toggle(on){ return '<button class="tog'+(on?'':' off')+'" data-ctl="tog"></button>'; }
+    function select(opts,val){ return '<select class="sel" data-ctl="sel">'+opts.map(function(o){ return '<option'+(o===val?' selected':'')+'>'+o+'</option>'; }).join('')+'</select>'; }
+    function text(v){ return '<input class="inp" data-ctl="txt" value="'+v+'" />'; }
+    function btn(t,pri){ return '<button class="btn'+(pri?' pri':'')+'" data-ctl="btn">'+t+'</button>'; }
+    function chips(list){ return '<div class="chips">'+list.map(function(c){ return '<span class="chip">'+(c[1]?'<span class="cd" style="background:'+c[1]+'"></span>':'')+c[0]+'<span class="x">×</span></span>'; }).join('')+'<span class="chip add">+ Add</span></div>'; }
+    function colors(list,on){ return '<div class="swatches">'+list.map(function(c){ return '<div class="sw2'+(c===on?' on':'')+'" style="background:'+c+'" data-ctl="col"></div>'; }).join('')+'</div>'; }
+
+    var CATS=[
+      {id:'org',name:'Organization',icon:'org',desc:'Dealership identity, locations, hours, and regional settings.',sections:[
+        {t:'Dealership Information',ic:'org',rows:[
+          ['Dealership name','Shown across the CRM and customer portal',text('Premier Auto')],
+          ['Legal / DBA name','On contracts and documents',text('Premier Automotive Group LLC')],
+          ['Main phone','Primary contact number',text('(555) 200-1180')],
+          ['Address','Primary rooftop location',text('1400 Motorway Blvd, Springfield')]
+        ]},
+        {t:'Locations & Departments',ic:'org',rows:[
+          ['Rooftops','Locations in this dealer group',chips([['Springfield (Main)','#2563eb'],['Northgate','#16a34a'],['Westside','#d97706']])],
+          ['Departments','Active departments',chips([['Sales',''],['BDC',''],['Finance',''],['Service',''],['Reception','']])]
+        ]},
+        {t:'Regional',ic:'org',rows:[
+          ['Time zone','Used for scheduling & reports',select(['America/New_York','America/Chicago','America/Denver','America/Los_Angeles'],'America/Chicago')],
+          ['Currency','Deal & pricing display',select(['USD ($)','CAD ($)','MXN ($)'],'USD ($)')],
+          ['Default tax rate','Applied to new deals',text('8.25%')],
+          ['Date format','Display format',select(['MM/DD/YYYY','DD/MM/YYYY','YYYY-MM-DD'],'MM/DD/YYYY')]
+        ]},
+        {t:'Business Hours',ic:'org',rows:[
+          ['Sales hours','Mon–Sat 8a–8p · Sun 10a–6p',btn('Edit hours')],
+          ['Holiday calendar','7 holidays configured',btn('Manage holidays')]
+        ]}
+      ]},
+      {id:'users',name:'User Management',icon:'users',desc:'Users, teams, roles, and access security.',sections:[
+        {t:'Users & Teams',ic:'users',rows:[
+          ['Active users','8 of 12 seats used',btn('Manage users',true)],
+          ['Invite users','Send a workspace invite',btn('Invite')],
+          ['Teams','Sales Floor · BDC · F&I',btn('Manage teams')],
+          ['Roles & permissions','6 roles · configure in Admin Center',btn('Open matrix')]
+        ]},
+        {t:'Access Security',ic:'users',rows:[
+          ['Multi-factor authentication','Require MFA on every sign-in',toggle(true)],
+          ['Single sign-on (SSO)','SAML via Okta',toggle(false)],
+          ['Password policy','Min length, rotation, complexity',select(['Standard','Strong','Enterprise'],'Strong')],
+          ['Session timeout','Auto-logout when idle',select(['15 min','30 min','1 hour','8 hours'],'30 min')],
+          ['Login history','View recent sign-ins',btn('View history')]
+        ]}
+      ]},
+      {id:'crm',name:'CRM Configuration',icon:'crm',desc:'Tailor stages, pipelines, fields, and views to your process.',sections:[
+        {t:'Stages & Pipelines',ic:'crm',rows:[
+          ['Lead stages','Order of the lead funnel',chips([['New','#2563eb'],['Contacted','#0891b2'],['Working','#d97706'],['Appt Set','#7c3aed'],['Sold','#16a34a']])],
+          ['Customer stages','Lifecycle stages',chips([['Prospect',''],['Active',''],['Sold',''],['Repeat',''],['Lost','']])],
+          ['Sales pipelines','Active pipelines',select(['Standard Retail','Fleet','Internet/BDC'],'Standard Retail')]
+        ]},
+        {t:'Types & Sources',ic:'crm',rows:[
+          ['Appointment types','Sales · Test Drive · Delivery · Service',chips([['Sales',''],['Test Drive',''],['Delivery',''],['Service','']])],
+          ['Task types','Categorize tasks',chips([['Call',''],['Text',''],['Email',''],['Follow-up','']])],
+          ['Lead sources','Where leads originate',chips([['Website',''],['Cars.com',''],['AutoTrader',''],['Referral',''],['Walk-in','']])]
+        ]},
+        {t:'Fields & Views',ic:'crm',rows:[
+          ['Custom fields','5 custom fields on customer records',btn('Manage fields')],
+          ['Saved views','Shared filtered views',btn('Manage views')],
+          ['Status colors','Customize badge colors',colors(['#2563eb','#16a34a','#d97706','#dc2626','#7c3aed','#0891b2'],'#2563eb')]
+        ]}
+      ]},
+      {id:'comms',name:'Communication',icon:'comms',desc:'Providers, numbers, signatures, and templates.',sections:[
+        {t:'Providers',ic:'comms',rows:[
+          ['SMS provider','Powers CRM texting',select(['Twilio','Bandwidth','RingCentral'],'Twilio')],
+          ['Email provider','Outbound email',select(['SendGrid','Microsoft 365','Google Workspace'],'SendGrid')],
+          ['Phone numbers','3 numbers · caller ID configured',btn('Manage numbers')],
+          ['Voicemail','AI transcription enabled',toggle(true)]
+        ]},
+        {t:'Templates',ic:'comms',rows:[
+          ['Email signatures','Per-user & department signatures',btn('Edit signatures')],
+          ['Message templates','24 SMS/email templates',btn('Manage templates')],
+          ['AI response templates','AI-suggested replies',toggle(true)],
+          ['After-hours auto-reply','Text back within 60s',toggle(true)]
+        ]}
+      ]},
+      {id:'ai',name:'AI Configuration',icon:'ai',desc:'Control how AutoDealer AI behaves across the platform.',sections:[
+        {t:'Model & Behavior',ic:'ai',rows:[
+          ['AI model','Powering the assistant & insights',select(['AutoDealer AI (default)','Balanced','Fast'],'AutoDealer AI (default)')],
+          ['Assistant tone','How the AI communicates',select(['Professional','Warm','Concise'],'Warm')],
+          ['Persistent memory','Remember context across sessions',toggle(true)],
+          ['Role-aware responses','Tailor AI to each workspace',toggle(true)]
+        ]},
+        {t:'Permissions & Automation',ic:'ai',rows:[
+          ['AI can draft messages','Suggest texts & emails',toggle(true)],
+          ['AI can take actions','Schedule, create tasks, update records',toggle(true)],
+          ['Never expose beyond permissions','Respect role-based access',toggle(true)],
+          ['Prompt templates','Custom prompts for the team',btn('Manage prompts')],
+          ['Suggested responses','Show inline reply suggestions',toggle(true)]
+        ]}
+      ]},
+      {id:'brand',name:'Branding',icon:'brand',desc:'Make the platform and customer touchpoints your own.',sections:[
+        {t:'Identity',ic:'brand',rows:[
+          ['Logo','Shown in nav, portal, and emails',btn('Upload logo')],
+          ['Primary color','Accent across the CRM',colors(['#2563eb','#0072ce','#16a34a','#7c3aed','#db2777','#0891b2'],'#2563eb')],
+          ['Login screen','Custom background & message',btn('Customize')]
+        ]},
+        {t:'Customer-Facing',ic:'brand',rows:[
+          ['Email branding','Header, footer, colors',btn('Edit email theme')],
+          ['Customer portal branding','My Garage look & feel',btn('Customize portal')],
+          ['PDF templates','Quotes, worksheets, we-owes',btn('Manage templates')]
+        ]}
+      ]},
+      {id:'intg',name:'Integrations',icon:'intg',desc:'Connect the tools your dealership already runs on.',sections:[
+        {t:'Connected & Available',ic:'intg',intg:[
+          ['Twilio','#f22f46','T','CRM texting & call tracking',true],
+          ['Dealertrack','#00a3e0','D','Credit apps & eContracting',true],
+          ['RouteOne','#0057b8','R','Lender decisions in the deal',true],
+          ['Google Workspace','#4285f4','G','Calendar, email, contacts sync',false],
+          ['Microsoft 365','#0078d4','M','Outlook & Teams integration',false],
+          ['Slack','#4a154b','S','Route alerts to team channels',false],
+          ['QuickBooks','#2ca01c','Q','Export deal gross to accounting',false],
+          ['Zapier','#ff4a00','Z','Connect 5,000+ apps',false]
+        ]},
+        {t:'Developer',ic:'intg',rows:[
+          ['Open API','REST API access',select(['Enabled','Disabled'],'Enabled')],
+          ['Webhooks','Event subscriptions',btn('Manage webhooks')],
+          ['API keys','2 active keys',btn('Manage keys')],
+          ['Marketplace','Browse integrations',btn('Open Marketplace',true)]
+        ]}
+      ]}
+    ];
+
+    var cur='org';
+    function renderCats(){
+      $('cats').innerHTML=CATS.map(function(c){ return '<div class="cat'+(c.id===cur?' on':'')+'" data-c="'+c.id+'">'+ci(c.icon)+c.name+'</div>'; }).join('');
+      $('cats').querySelectorAll('.cat').forEach(function(el){ el.addEventListener('click', function(){ cur=el.getAttribute('data-c'); renderCats(); renderContent(); window.scrollTo(0,0); }); });
+    }
+    function renderContent(){
+      var c=CATS.find(function(x){return x.id===cur;});
+      var html='<div class="chead"><h2>'+c.name+'</h2><p>'+c.desc+'</p></div>';
+      c.sections.forEach(function(s){
+        html+='<div class="group"><div class="group-h">'+ci(s.ic)+s.t+'</div>';
+        if(s.intg){ html+=s.intg.map(function(g){ return '<div class="intg"><span class="lg" style="background:'+g[1]+'">'+g[2]+'</span><div class="im"><b>'+g[0]+'</b><span>'+g[3]+'</span></div><span class="conn '+(g[4]?'on':'off')+'">'+(g[4]?'Connected':'Available')+'</span><button class="btn" data-ctl="btn" style="margin-left:10px;">'+(g[4]?'Manage':'Connect')+'</button></div>'; }).join(''); }
+        else { html+=s.rows.map(function(r){ return '<div class="row"><div class="rl"><b>'+r[0]+'</b><span>'+r[1]+'</span></div><div class="rc">'+r[2]+'</div></div>'; }).join(''); }
+        html+='</div>';
+      });
+      $('content').innerHTML=html;
+      wire();
+    }
+    function wire(){
+      $('content').querySelectorAll('[data-ctl="tog"]').forEach(function(b){ b.addEventListener('click', function(){ b.classList.toggle('off'); toast('Setting '+(b.classList.contains('off')?'disabled':'enabled')); }); });
+      $('content').querySelectorAll('[data-ctl="sel"]').forEach(function(s){ s.addEventListener('change', function(){ toast('Saved · '+s.value); }); });
+      $('content').querySelectorAll('[data-ctl="txt"]').forEach(function(i){ i.addEventListener('change', function(){ toast('Saved'); }); });
+      $('content').querySelectorAll('[data-ctl="btn"]').forEach(function(b){ b.addEventListener('click', function(){ if(b.textContent==='Open Marketplace'){ location.href='/marketplace'; return; } if(b.textContent==='Open matrix'||b.textContent==='Manage users'){ location.href='/admin'; return; } toast(b.textContent+' — opened'); }); });
+      $('content').querySelectorAll('[data-ctl="col"]').forEach(function(c){ c.addEventListener('click', function(){ c.parentNode.querySelectorAll('.sw2').forEach(function(x){x.classList.remove('on');}); c.classList.add('on'); toast('Color updated'); }); });
+      $('content').querySelectorAll('.chip .x').forEach(function(x){ x.addEventListener('click', function(){ x.parentNode.remove(); toast('Removed'); }); });
+      $('content').querySelectorAll('.chip.add').forEach(function(a){ a.addEventListener('click', function(){ toast('Add new item'); }); });
+    }
+    var tTimer; function toast(m){ $('toastMsg').textContent=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },1800); }
+    document.addEventListener('DOMContentLoaded', function(){ renderCats(); renderContent(); });
+  </script>
+</body>
+</html>
