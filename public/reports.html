@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reports &amp; Analytics — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #f6f8fb; --card: #ffffff; --sidebar: #0a1628; --sidebar-2: #071120;
+      --text: #16202e; --muted: #6b7a90; --faint: #97a4b6; --line: #eef1f6;
+      --accent: #2563eb; --accent-2: #3b82f6; --accent-soft: #eef4ff;
+      --shadow: 0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28);
+      --radius: 16px; --c1:#2563eb; --c2:#7c3aed; --c3:#16a34a; --c4:#ea8a0b; --c5:#0891b2; --c6:#ec4899; --c7:#64748b;
+    }
+    * { margin: 0; box-sizing: border-box; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 14px; }
+    a { color: inherit; text-decoration: none; } button { font: inherit; cursor: pointer; }
+    .shell { display: grid; grid-template-columns: 244px 1fr; min-height: 100vh; }
+
+    .sidebar { background: linear-gradient(180deg, var(--sidebar), var(--sidebar-2)); color: #c7d4e6; padding: 22px 14px 18px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+    .brand { display: flex; flex-direction: column; align-items: flex-start; padding: 4px 8px 26px; }
+    .brand .sw { width: 108px; height: 9px; margin-bottom: 4px; } .brand .wm { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; color: #fff; } .brand .wm b { color: #2b8fff; }
+    .nav { display: flex; flex-direction: column; gap: 3px; }
+    .nav a { display: flex; align-items: center; gap: 13px; padding: 11px 14px; border-radius: 11px; color: #aebdd2; font-size: 14.5px; font-weight: 500; }
+    .nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav a.on { background: var(--accent); color: #fff; font-weight: 600; box-shadow: 0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width: 19px; height: 19px; flex: none; }
+    .nav a .nb { margin-left: auto; background: rgba(255,255,255,0.12); color: #dbe7f7; font-size: 11px; font-weight: 700; min-width: 20px; height: 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 0 6px; }
+    .nav a.on .nb { background: rgba(255,255,255,0.25); color: #fff; }
+    .side-user { margin-top: auto; display: flex; align-items: center; gap: 11px; padding: 14px 8px 4px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width: 38px; height: 38px; border-radius: 50%; flex: none; background: linear-gradient(135deg,#3f9bff,#0b57b8); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+    .side-user .meta b { color: #fff; font-size: 13.5px; font-weight: 600; display: block; } .side-user .meta span { color: #8698b0; font-size: 11.5px; }
+    .side-user .chev { margin-left: auto; color: #7e90a8; width: 14px; height: 14px; }
+
+    .main { min-width: 0; display: flex; flex-direction: column; }
+    .topbar { position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.85); backdrop-filter: saturate(180%) blur(8px); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 18px; padding: 12px 30px; }
+    .hamb { border: none; background: none; color: var(--muted); width: 36px; height: 36px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; } .hamb:hover { background: var(--bg); } .hamb svg { width: 20px; height: 20px; }
+    .tsearch { flex: 1; max-width: 420px; display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 11px; padding: 11px 14px; color: var(--muted); }
+    .tsearch svg { width: 17px; height: 17px; flex: none; } .tsearch input { border: none; background: none; outline: none; width: 100%; font-size: 13.5px; color: var(--text); }
+    .kbd { border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 11px; color: var(--faint); background: #fff; }
+    .live-chip { display: inline-flex; align-items: center; gap: 7px; background: #e7f7ee; color: #16a34a; border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 700; } .live-chip .ld { width: 8px; height: 8px; border-radius: 50%; background: #16a34a; animation: pulse 1.6s infinite; }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(22,163,74,0.5)} 70%{box-shadow:0 0 0 6px rgba(22,163,74,0)} 100%{box-shadow:0 0 0 0 rgba(22,163,74,0)} }
+    .tb-icons { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+    .ib { position: relative; border: none; background: none; color: var(--muted); width: 40px; height: 40px; border-radius: 11px; display: inline-flex; align-items: center; justify-content: center; } .ib:hover { background: var(--bg); color: var(--accent); } .ib svg { width: 21px; height: 21px; }
+    .ib .dot { position: absolute; top: 6px; right: 7px; min-width: 16px; height: 16px; border-radius: 8px; background: #ef4444; color: #fff; font-size: 9.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+    .tb-avatar { width: 40px; height: 40px; border-radius: 50%; margin-left: 8px; position: relative; } .tb-avatar::after { content: ""; position: absolute; bottom: 1px; right: 1px; width: 10px; height: 10px; border-radius: 50%; background: #22c55e; border: 2px solid #fff; }
+    .tb-avatar .av { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #3f9bff, #0b57b8); color: #fff; font-weight: 700; }
+
+    .content { padding: 26px 30px 60px; }
+    .phead { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .phead h1 { font-size: 27px; font-weight: 800; letter-spacing: -0.6px; } .phead .sub { color: var(--muted); font-size: 14.5px; margin-top: 6px; }
+    .phead-actions { display: flex; gap: 10px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 11px; padding: 11px 17px; font-size: 13.5px; font-weight: 600; box-shadow: var(--shadow); } .btn svg { width: 16px; height: 16px; }
+    .btn-ghost { background: var(--card); border: 1px solid var(--line); color: var(--text); } .btn-ghost:hover { border-color: #cfe0f7; color: var(--accent); }
+    .btn-primary { background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .btn-primary:hover { filter: brightness(1.06); }
+
+    /* control bar */
+    .ctrl { display: flex; align-items: center; gap: 12px; margin: 22px 0 6px; flex-wrap: wrap; }
+    .role-seg, .segn { display: inline-flex; background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 4px; box-shadow: var(--shadow); }
+    .role-seg button, .segn button { border: none; background: none; padding: 8px 15px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--muted); } .role-seg button.on, .segn button.on { background: var(--accent); color: #fff; }
+    .role-seg { background: #0f1b2d; border-color: #0f1b2d; } .role-seg button { color: #9db0c9; } .role-seg button.on { background: linear-gradient(180deg,#3b82f6,#2563eb); }
+    .ctrl .spacer { flex: 1; }
+    .dash-pills { display: flex; gap: 7px; flex-wrap: wrap; margin: 14px 0 4px; }
+    .dpill { border: 1px solid var(--line); background: var(--card); color: var(--muted); border-radius: 999px; padding: 7px 14px; font-size: 12.5px; font-weight: 600; } .dpill:hover { color: var(--text); border-color: #cfe0f7; } .dpill.on { background: var(--accent-soft); color: var(--accent); border-color: #cfe0f7; }
+
+    .sec-label { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; color: var(--faint); text-transform: uppercase; margin: 28px 0 14px; display: flex; align-items: center; gap: 10px; } .sec-label .ln { flex: 1; height: 1px; background: var(--line); }
+
+    /* KPIs */
+    .kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 13px; }
+    .kp { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 15px 16px; box-shadow: var(--shadow); }
+    .kp .kl { color: var(--muted); font-size: 12px; font-weight: 500; } .kp .kv { font-size: 23px; font-weight: 800; letter-spacing: -0.6px; margin-top: 4px; transition: color 0.3s; } .kp .kv.flash { color: #16a34a; }
+    .kp .kf { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+    .delta { font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; } .delta.up { color: #16a34a; } .delta.down { color: #dc2626; } .delta svg { width: 11px; height: 11px; }
+    .spark { width: 62px; height: 24px; } .spark svg { width: 100%; height: 100%; overflow: visible; }
+
+    /* generic panels */
+    .panel-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 16px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; }
+    .card h3 { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 4px; } .card h3 .spark-ic { color: #7c3aed; display: inline-flex; } .card h3 .spark-ic svg { width: 16px; height: 16px; } .card h3 .more { margin-left: auto; color: var(--faint); font-size: 12px; font-weight: 600; }
+    .card .csub { color: var(--muted); font-size: 12.5px; margin-bottom: 14px; }
+
+    /* AI summary */
+    .ai-sum p { font-size: 14px; line-height: 1.65; color: #334155; } .ai-sum p b { color: var(--text); font-weight: 700; } .ai-sum .hl-up { color: #16a34a; font-weight: 700; } .ai-sum .hl-dn { color: #dc2626; font-weight: 700; }
+    .ai-rec { margin-top: 14px; background: linear-gradient(180deg,#f5f0ff,#faf8ff); border: 1px solid #ece3fb; border-radius: 12px; padding: 13px 15px; } .ai-rec .rl { font-size: 11px; font-weight: 800; letter-spacing: 0.4px; text-transform: uppercase; color: #7c3aed; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; } .ai-rec .rl svg { width: 13px; height: 13px; } .ai-rec p { font-size: 13.5px; color: #4b3a72; font-weight: 600; }
+
+    /* forecast cards */
+    .fc { display: flex; flex-direction: column; gap: 12px; }
+    .fcard { border: 1px solid var(--line); border-radius: 13px; padding: 15px; background: linear-gradient(180deg,#fbfcff,#fff); }
+    .fcard .ft { font-size: 12px; color: var(--muted); font-weight: 600; display: flex; align-items: center; gap: 7px; } .fcard .ft svg { width: 14px; height: 14px; color: #7c3aed; }
+    .fcard .fv { font-size: 26px; font-weight: 800; letter-spacing: -0.7px; margin-top: 6px; } .fcard .fv small { font-size: 14px; color: var(--muted); font-weight: 600; }
+    .fcard .frow { display: flex; gap: 18px; margin-top: 8px; } .fcard .frow .k { color: var(--faint); font-size: 11px; } .fcard .frow .v { font-weight: 700; font-size: 14px; }
+    .conf { margin-top: 10px; } .conf .bar-sm { height: 7px; background: #eef2f8; border-radius: 999px; overflow: hidden; } .conf .bar-sm > i { display: block; height: 100%; background: linear-gradient(90deg,#22c55e,#16a34a); border-radius: 999px; transition: width 1s; } .conf .cl { font-size: 11px; color: var(--muted); margin-top: 5px; }
+    .fcard p { font-size: 13px; color: #334155; line-height: 1.5; } .fcard .frec { color: var(--accent); font-weight: 700; font-size: 12.5px; margin-top: 6px; }
+
+    /* charts grid */
+    .charts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .chart-wide { grid-column: span 2; }
+    .chart-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; } .chart-hd b { font-size: 14px; font-weight: 700; } .chart-hd .tag { font-size: 11.5px; font-weight: 700; color: #16a34a; background: #e7f7ee; padding: 3px 9px; border-radius: 7px; }
+    /* area/line */
+    .area-box { position: relative; height: 200px; } .area-box svg { width: 100%; height: 100%; overflow: visible; } .grid-line { stroke: var(--line); stroke-width: 1; } .axis-lbl { font-size: 10px; fill: var(--faint); }
+    .draw { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: draw 1.4s ease forwards; } @keyframes draw { to { stroke-dashoffset: 0; } }
+    .area-fill { opacity: 0; animation: fadein 1s ease 0.4s forwards; } @keyframes fadein { to { opacity: 1; } }
+    /* bars */
+    .bars { display: flex; align-items: flex-end; gap: 12px; height: 200px; padding-top: 10px; }
+    .barcol { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; height: 100%; justify-content: flex-end; }
+    .bar { width: 100%; max-width: 46px; border-radius: 8px 8px 3px 3px; background: linear-gradient(180deg,#3b82f6,#2563eb); height: 0; transition: height 0.9s cubic-bezier(.2,.7,.3,1); position: relative; } .bar:hover { filter: brightness(1.08); } .bar .bv { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .barcol .blbl { font-size: 11.5px; color: var(--muted); font-weight: 600; text-align: center; }
+    /* donut */
+    .donut-wrap { display: flex; align-items: center; gap: 20px; }
+    .donut { width: 160px; height: 160px; border-radius: 50%; flex: none; position: relative; } .donut::after { content: ""; position: absolute; inset: 30px; background: var(--card); border-radius: 50%; } .donut .dc { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1; } .donut .dc b { font-size: 22px; font-weight: 800; } .donut .dc span { font-size: 11px; color: var(--muted); }
+    .legend { display: flex; flex-direction: column; gap: 9px; flex: 1; } .legend .lg { display: flex; align-items: center; gap: 9px; font-size: 12.5px; } .legend .lg .sw { width: 11px; height: 11px; border-radius: 3px; flex: none; } .legend .lg .ll { color: var(--muted); } .legend .lg .lv { margin-left: auto; font-weight: 700; }
+    /* funnel */
+    .funnel { display: flex; flex-direction: column; gap: 8px; padding: 6px 0; }
+    .fstage { margin: 0 auto; border-radius: 8px; padding: 12px 16px; color: #fff; display: flex; align-items: center; justify-content: space-between; font-weight: 700; font-size: 13px; transition: width 0.9s cubic-bezier(.2,.7,.3,1); width: 20%; } .fstage .fn { font-weight: 500; opacity: 0.92; } .fstage .fc2 { font-size: 15px; }
+    /* heatmap */
+    .heat { display: grid; grid-template-columns: 90px repeat(5, 1fr); gap: 5px; align-items: center; }
+    .heat .hh { font-size: 10.5px; color: var(--faint); font-weight: 600; text-align: center; } .heat .hr-lbl { font-size: 12px; color: var(--muted); font-weight: 600; }
+    .heat .hcell { height: 34px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; opacity: 0; animation: fadein 0.5s ease forwards; }
+    /* comms mini bars */
+    .cbars { display: flex; flex-direction: column; gap: 11px; } .cbar-row { display: grid; grid-template-columns: 90px 1fr 46px; gap: 10px; align-items: center; font-size: 12.5px; } .cbar-row .cl { color: var(--muted); } .cbar-track { height: 10px; background: #eef2f8; border-radius: 999px; overflow: hidden; } .cbar-track > i { display: block; height: 100%; border-radius: 999px; width: 0; transition: width 0.9s ease; } .cbar-row .cv { text-align: right; font-weight: 700; }
+
+    /* leaderboard */
+    .lb-row { display: flex; align-items: center; gap: 13px; padding: 12px 4px; border-top: 1px solid var(--line); } .lb-row:first-child { border-top: none; }
+    .lb-rank { width: 26px; height: 26px; border-radius: 8px; flex: none; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; background: var(--bg); color: var(--muted); } .lb-row.top1 .lb-rank { background: linear-gradient(180deg,#fde68a,#f59e0b); color: #7a4a05; } .lb-row.top2 .lb-rank { background: #e5e9f0; color: #475569; } .lb-row.top3 .lb-rank { background: #fbdcc4; color: #9a4a1a; }
+    .lb-row.me { background: var(--accent-soft); border-radius: 10px; margin: 2px 0; }
+    .lb-av { width: 36px; height: 36px; border-radius: 50%; flex: none; color: #fff; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+    .lb-nm { flex: 1; } .lb-nm b { font-weight: 700; font-size: 13.5px; } .lb-nm .you { font-size: 10px; font-weight: 800; color: var(--accent); background: #fff; border: 1px solid #cfe0f7; padding: 1px 6px; border-radius: 5px; margin-left: 6px; } .lb-nm span { display: block; color: var(--muted); font-size: 11.5px; }
+    .lb-stat { text-align: right; } .lb-stat .s1 { font-weight: 800; font-size: 15px; } .lb-stat .s2 { font-size: 11px; color: #16a34a; font-weight: 700; }
+
+    /* goal */
+    .goal-big { text-align: center; padding: 6px 0 4px; } .goal-big .gt { font-size: 13px; color: var(--muted); font-weight: 600; } .goal-big .gv { font-size: 34px; font-weight: 800; letter-spacing: -1px; margin: 4px 0; } .goal-big .gv small { font-size: 18px; color: var(--faint); }
+    .goal-ring { width: 150px; height: 150px; margin: 6px auto 10px; border-radius: 50%; position: relative; display: flex; align-items: center; justify-content: center; } .goal-ring::after { content: ""; position: absolute; inset: 16px; background: var(--card); border-radius: 50%; } .goal-ring .gr { position: relative; z-index: 1; text-align: center; } .goal-ring .gr b { font-size: 28px; font-weight: 800; } .goal-ring .gr span { font-size: 11px; color: var(--muted); display: block; }
+    .goal-sub { display: flex; justify-content: space-around; border-top: 1px solid var(--line); padding-top: 14px; } .goal-sub .gs b { font-size: 17px; font-weight: 800; display: block; text-align: center; } .goal-sub .gs span { font-size: 11px; color: var(--muted); }
+
+    /* ask anything */
+    .ask-box { display: flex; align-items: center; gap: 11px; border: 1px solid var(--line); border-radius: 13px; padding: 13px 16px; background: linear-gradient(180deg,#fbfcff,#fff); } .ask-box:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); } .ask-box .ai-ic { color: #7c3aed; display: inline-flex; } .ask-box .ai-ic svg { width: 20px; height: 20px; } .ask-box input { border: none; outline: none; background: none; flex: 1; font-size: 14px; } .ask-box button { border: none; background: linear-gradient(180deg,var(--accent-2),var(--accent)); color: #fff; border-radius: 9px; padding: 8px 16px; font-size: 13px; font-weight: 700; }
+    .ask-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .ask-chip { border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 7px 14px; font-size: 12.5px; color: var(--muted); font-weight: 500; } .ask-chip:hover { border-color: var(--accent); color: var(--accent); }
+    .ask-ans { margin-top: 14px; border: 1px solid var(--line); border-radius: 13px; padding: 16px; background: #fff; display: none; } .ask-ans.show { display: block; animation: fadein 0.4s ease; }
+    .ask-ans .aq { font-size: 12.5px; color: var(--muted); margin-bottom: 8px; } .ask-ans .aa { font-size: 15px; font-weight: 600; line-height: 1.55; } .ask-ans .aa b { font-weight: 800; color: var(--accent); }
+    .mini-bars { display: flex; align-items: flex-end; gap: 10px; height: 80px; margin-top: 14px; } .mini-bars .mb { flex: 1; max-width: 60px; border-radius: 6px 6px 2px 2px; display: flex; align-items: flex-start; justify-content: center; color: #fff; font-size: 11px; font-weight: 700; padding-top: 4px; }
+
+    /* saved / scheduled */
+    .saved-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+    .saved { border: 1px solid var(--line); border-radius: 12px; padding: 14px; background: var(--card); cursor: pointer; } .saved:hover { border-color: #cfe0f7; }
+    .saved .si { width: 34px; height: 34px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; margin-bottom: 10px; } .saved .si svg { width: 17px; height: 17px; } .saved b { font-size: 13.5px; font-weight: 700; display: block; } .saved span { font-size: 11.5px; color: var(--muted); }
+
+    .toast { position: fixed; bottom: 24px; right: 24px; background: #0f1b2d; color: #fff; padding: 12px 18px; border-radius: 12px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 10px; box-shadow: 0 20px 40px -16px rgba(0,0,0,0.5); opacity: 0; transform: translateY(18px); transition: all 0.3s; z-index: 60; } .toast.show { opacity: 1; transform: none; } .toast .tk { width: 22px; height: 22px; border-radius: 50%; background: #16a34a; display: flex; align-items: center; justify-content: center; flex: none; } .toast .tk svg { width: 13px; height: 13px; }
+
+    @media (max-width: 1240px) { .kpis { grid-template-columns: repeat(3,1fr); } .panel-grid { grid-template-columns: 1fr; } .charts { grid-template-columns: 1fr; } .chart-wide { grid-column: span 1; } .saved-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 900px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .kpis { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 560px) { .content { padding: 20px 14px 60px; } .kpis { grid-template-columns: 1fr; } .saved-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav">
+        <a href="/dashboard"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Home</a>
+        <a href="/prospects"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Prospects<span class="nb">18</span></a>
+        <a href="/customers"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Customers</a>
+        <a href="/appointments"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Appointments<span class="nb">5</span></a>
+        <a href="/tasks"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Tasks<span class="nb">7</span></a>
+        <a href="/inventory"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Inventory</a>
+        <a href="/communications"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Communications<span class="nb">3</span></a>
+        <a class="on" href="/reports"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Reports</a>
+        <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Settings</a>
+      </nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span id="roleLabel">Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input type="text" placeholder="Search reports, metrics, dashboards..." aria-label="Search" /><span class="kbd">/</span></div>
+        <span class="live-chip"><span class="ld"></span>Live</span>
+        <div class="tb-icons">
+          <button class="ib" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="dot">4</span></button>
+          <span class="tb-avatar"><span class="av">CM</span></span>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="phead">
+          <div><h1>Reports &amp; Analytics</h1><p class="sub">Understand dealership performance in real time.</p></div>
+          <div class="phead-actions">
+            <button class="btn btn-ghost" id="exportBtn"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Export</button>
+            <button class="btn btn-primary"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Create Dashboard</button>
+          </div>
+        </div>
+
+        <div class="ctrl">
+          <div class="role-seg" id="roleSeg"><button data-role="rep" class="on">Sales Rep</button><button data-role="manager">Manager</button><button data-role="exec">Executive</button></div>
+          <div class="spacer"></div>
+          <div class="segn" id="timeSeg"><button data-t="today">Today</button><button data-t="7d">7 Days</button><button data-t="30d" class="on">30 Days</button><button data-t="mtd">Month</button><button data-t="qtr">Quarter</button><button data-t="year">Year</button></div>
+          <div class="segn" id="cmpSeg"><button data-c="prev" class="on">vs Prev Period</button><button data-c="yoy">vs Last Year</button></div>
+        </div>
+
+        <div class="dash-pills" id="dashPills"></div>
+
+        <div class="sec-label" id="ovLabel">Performance Overview<span class="ln"></span></div>
+        <div class="kpis" id="kpis"></div>
+
+        <div class="sec-label">Insights &amp; Forecasting<span class="ln"></span></div>
+        <div class="panel-grid">
+          <div class="card ai-sum" id="aiSum"></div>
+          <div class="card"><h3><span class="spark-ic"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Forecasting</h3><p class="csub">Predictive outlook for the next 30 days</p><div class="fc" id="forecast"></div></div>
+        </div>
+
+        <div class="sec-label">Interactive Charts<span class="ln"></span></div>
+        <div class="charts" id="charts"></div>
+
+        <div class="sec-label" id="lbLabel">Sales Performance &amp; Goals<span class="ln"></span></div>
+        <div class="panel-grid">
+          <div class="card"><h3>Sales Leaderboard <span class="more" id="lbSub">This month</span></h3><div id="leaderboard"></div></div>
+          <div class="card"><h3>Goal Tracking</h3><div id="goal"></div></div>
+        </div>
+
+        <div class="sec-label">AI Ask Anything<span class="ln"></span></div>
+        <div class="card">
+          <div class="ask-box"><span class="ai-ic"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span><input id="askInput" placeholder="Ask anything about your data — e.g. “Compare Silverado sales this month vs last”" /><button id="askBtn">Ask</button></div>
+          <div class="ask-chips" id="askChips"></div>
+          <div class="ask-ans" id="askAns"></div>
+        </div>
+
+        <div class="sec-label">Saved Dashboards &amp; Scheduled Reports<span class="ln"></span></div>
+        <div class="saved-grid" id="saved"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const PAL = ["#2563eb","#7c3aed","#16a34a","#ea8a0b","#0891b2","#ec4899","#64748b"];
+    const upIc = '<svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const dnIc = '<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    function sparkline(vals, color) {
+      const w=62,h=24, mn=Math.min(...vals), mx=Math.max(...vals), rng=mx-mn||1;
+      const pts = vals.map((v,i)=>`${(i/(vals.length-1)*w).toFixed(1)},${(h-((v-mn)/rng)*(h-4)-2).toFixed(1)}`).join(" ");
+      return `<span class="spark"><svg viewBox="0 0 ${w} ${h}"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><circle cx="${w}" cy="${(h-((vals[vals.length-1]-mn)/rng)*(h-4)-2).toFixed(1)}" r="2.4" fill="${color}"/></svg></span>`;
+    }
+
+    /* ---------- role-based KPI data ---------- */
+    const KPI = {
+      rep: [
+        ["Sales This Month","18","up","+3 vs last",[11,12,10,13,14,15,16,18],"var(--c1)"],
+        ["Appointments Completed","42","up","+8%",[30,33,31,36,38,40,41,42],"var(--c5)"],
+        ["Follow-up Completion","93%","up","+5%",[80,82,85,88,90,91,92,93],"var(--c3)"],
+        ["Customer Satisfaction","4.8","up","+0.2",[4.4,4.5,4.5,4.6,4.7,4.7,4.8,4.8],"var(--c6)"],
+        ["Avg Response Time","2m 48s","up","-31s",[240,220,210,200,190,180,172,168],"var(--c2)"],
+        ["Avg Days to Close","9.2","up","-1.4",[13,12.5,12,11,10.5,10,9.6,9.2],"var(--c4)"],
+      ],
+      manager: [
+        ["Vehicles Sold","142","up","+14%",[98,110,118,124,130,136,140,142],"var(--c1)"],
+        ["Appointments Set","318","up","+18%",[240,258,270,285,296,305,312,318],"var(--c5)"],
+        ["Appt Show Rate","78%","down","-6%",[86,85,84,82,81,80,79,78],"var(--c4)"],
+        ["Closing Ratio","34%","up","+4pts",[28,29,30,31,32,33,33,34],"var(--c3)"],
+        ["Avg Days to Sale","32","up","-3",[38,37,36,35,34,33,33,32],"var(--c2)"],
+        ["Lead Response Time","4m 12s","up","-48s",[320,300,290,280,270,260,255,252],"var(--c6)"],
+      ],
+      exec: [
+        ["Vehicles Sold","142","up","+14%",[98,110,118,124,130,136,140,142],"var(--c1)"],
+        ["Gross Profit","$612K","up","+11%",[480,510,530,555,575,590,602,612],"var(--c3)"],
+        ["Net Profit","$284K","up","+9%",[220,235,245,258,268,275,280,284],"var(--c2)"],
+        ["Finance Penetration","71%","up","+3pts",[62,64,65,67,68,69,70,71],"var(--c5)"],
+        ["Service Retention","64%","down","-2pts",[68,67,67,66,65,65,64,64],"var(--c4)"],
+        ["Customer Satisfaction","4.7","up","+0.1",[4.4,4.5,4.5,4.6,4.6,4.7,4.7,4.7],"var(--c6)"],
+      ]
+    };
+    const roleName = { rep:"Sales Representative", manager:"Sales Manager", exec:"General Manager" };
+
+    const SUMMARY = {
+      rep: `<p>You've sold <b>18 vehicles</b> this month — <span class="hl-up">up 20%</span> from last month and just <b>7 away</b> from your goal. Your follow-up completion sits at a strong <b>93%</b>, and your average response time improved by <b>31 seconds</b>. Appointments you attended converted at <b>41%</b>, well above the store average.</p><p>Two customers who opened your pricing emails this week haven't been called back yet — closing them could put you at the top of the leaderboard.</p>`,
+      manager: `<p>Sales are up <span class="hl-up">14%</span> compared to last month. Appointments increased by <span class="hl-up">18%</span>, but show rates declined by <span class="hl-dn">6%</span>. Your <b>Silverado</b> inventory has the highest closing rate this week at <b>41%</b>.</p><p>Three salespeople have overdue follow-ups that may affect this week's forecast, and appointment confirmations are trending down heading into the weekend.</p>`,
+      exec: `<p>The dealership is <span class="hl-up">14% ahead</span> of last month with <b>$612K gross</b> and <b>$284K net</b> profit. Finance penetration climbed to <b>71%</b>, but service retention slipped <span class="hl-dn">2 points</span> to 64% — the largest drag on lifetime value this quarter.</p><p>Aged inventory (60+ days) is up to <b>18 units</b>, concentrated in used trucks. Internet leads remain your most efficient channel at a <b>34% close rate</b>.</p>`
+    };
+    const REC = {
+      rep:"Call your two warm pricing-email openers before end of day and confirm tomorrow's appointments.",
+      manager:"Increase appointment confirmations and prioritize aged inventory to protect the weekly forecast.",
+      exec:"Launch a service-retention campaign and discount used-truck inventory aging past 60 days."
+    };
+
+    const FORECAST = {
+      shared: [
+        ["Predicted Vehicle Sales","predict","63","<small> vehicles</small>","Expected Revenue","$2.8M","91"],
+      ],
+      inv: `<div class="fcard"><div class="ft">${'<svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg>'}Inventory Forecast</div><p style="margin-top:8px"><b>Tahoe</b> inventory likely depleted in <b>14 days</b> at the current sales pace.</p><div class="frec">→ Acquire additional Tahoe units</div></div>`,
+      cust: `<div class="fcard"><div class="ft">${'<svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg>'}Customer Forecast</div><p style="margin-top:8px"><b>42 customers</b> are likely ready to upgrade within the next six months.</p><div class="frec">→ Launch a targeted upgrade campaign</div></div>`,
+      repPersonal: `<div class="fcard"><div class="ft">${'<svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg>'}Your Pace</div><p style="margin-top:8px">At your current pace you'll hit <b>24 sales</b> this month — <b>1 short</b> of your goal.</p><div class="frec">→ Two more closes gets you there</div></div>`
+    };
+
+    const LEADER = [
+      ["Cameron Miller","CM","#3b82f6",18,"93%","+3",true],
+      ["Sarah Johnson","SJ","#8b5cf6",16,"95%","+2",false],
+      ["Michael Davis","MD","#14b8a6",15,"91%","+1",false],
+      ["Priya Nair","PN","#f43f5e",13,"89%","+4",false],
+      ["Marcus Webb","MB","#10b981",11,"86%","+1",false],
+    ];
+
+    const SAVED = [
+      ["Sales Performance","Updated 2m ago"],["Executive Summary","Daily · PDF"],["Inventory Health","Live"],["BDC Performance","Weekly"],
+      ["Marketing ROI","Monthly · Excel"],["Finance Performance","Weekly · PDF"],["Service Retention","Live"],["Customer Lifetime Value","Quarterly"]
+    ];
+    const DASH = { rep:["Sales Dashboard","BDC Dashboard","Custom Dashboard"], manager:["Manager Dashboard","Sales Dashboard","Inventory Dashboard","BDC Dashboard","Marketing Dashboard","Custom Dashboard"], exec:["Executive Dashboard","Manager Dashboard","Finance Dashboard","Service Dashboard","Inventory Dashboard","Marketing Dashboard","Custom Dashboard"] };
+
+    let role = "rep";
+
+    function renderKPIs() {
+      $("kpis").innerHTML = KPI[role].map(([l,v,d,dl,sp,c]) => `<div class="kp"><div class="kl">${l}</div><div class="kv">${v}</div><div class="kf"><span class="delta ${d}">${d==="up"?upIc:dnIc}${dl}</span>${sparkline(sp,c.replace("var(--c1)","#2563eb").replace("var(--c2)","#7c3aed").replace("var(--c3)","#16a34a").replace("var(--c4)","#ea8a0b").replace("var(--c5)","#0891b2").replace("var(--c6)","#ec4899"))}</div></div>`).join("");
+    }
+    function renderSummary() {
+      $("aiSum").innerHTML = `<h3><span class="spark-ic"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Business Summary</h3><p class="csub">Generated from live data · ${role==="rep"?"Your performance":role==="manager"?"Team performance":"Dealership-wide"}</p>${SUMMARY[role]}<div class="ai-rec"><div class="rl">${'<svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg>'}Recommendation</div><p>${REC[role]}</p></div>`;
+    }
+    function renderForecast() {
+      const [t,ic,v,vs,k,rv,conf] = FORECAST.shared[0];
+      let html = `<div class="fcard"><div class="ft">${'<svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg>'}${t} · Next 30 Days</div><div class="fv">${v}${vs}</div><div class="frow"><div><div class="k">${k}</div><div class="v">${rv}</div></div><div><div class="k">Confidence</div><div class="v">${conf}%</div></div></div><div class="conf"><div class="bar-sm"><i style="width:0%" data-w="${conf}%"></i></div><div class="cl">Model confidence based on 24 months of data</div></div></div>`;
+      html += role === "rep" ? FORECAST.repPersonal : (FORECAST.inv + FORECAST.cust);
+      $("forecast").innerHTML = html;
+    }
+    function renderDash() {
+      $("dashPills").innerHTML = DASH[role].map((d,i) => `<button class="dpill ${i===0?"on":""}" data-dash="${d}">${d}</button>`).join("");
+      document.querySelectorAll(".dpill").forEach((b) => b.addEventListener("click", () => { document.querySelectorAll(".dpill").forEach((x)=>x.classList.remove("on")); b.classList.add("on"); toast(`Loading ${b.dataset.dash}…`); }));
+    }
+    function renderLeaderboard() {
+      const rows = LEADER.map((p,i) => `<div class="lb-row ${i===0?"top1":i===1?"top2":i===2?"top3":""} ${p[6]&&role==="rep"?"me":""}"><span class="lb-rank">${i+1}</span><span class="lb-av" style="background:${p[2]}">${p[1]}</span><div class="lb-nm"><b>${p[0].split(" ")[0]}${p[6]&&role==="rep"?'<span class="you">YOU</span>':""}</b><span>${p[4]} follow-up completion</span></div><div class="lb-stat"><div class="s1">${p[3]}</div><div class="s2">${p[5]} sold</div></div></div>`).join("");
+      $("leaderboard").innerHTML = rows;
+      $("lbSub").textContent = role === "rep" ? "You rank #1 this month" : "This month · full team";
+    }
+    function renderGoal() {
+      const g = role === "rep" ? {cur:18,tot:25,label:"Vehicles This Month"} : {cur:142,tot:180,label:"Dealership Goal"};
+      const pct = Math.round(g.cur/g.tot*100);
+      $("goal").innerHTML = `
+        <div class="goal-ring" style="background:conic-gradient(var(--accent) ${pct*3.6}deg,#eef2f8 0)"><div class="gr"><b>${pct}%</b><span>to goal</span></div></div>
+        <div class="goal-big"><div class="gt">${g.label}</div><div class="gv">${g.cur} <small>/ ${g.tot}</small></div></div>
+        <div class="goal-sub"><div class="gs"><b>${g.tot-g.cur}</b><span>remaining</span></div><div class="gs"><b>${role==="rep"?"5":"9"}</b><span>days left</span></div><div class="gs"><b style="color:#16a34a">On Track</b><span>pace</span></div></div>`;
+    }
+
+    /* ---------- charts ---------- */
+    function areaChart(vals, color, fillId) {
+      const W=560,H=190, pad=8, mn=Math.min(...vals)*0.9, mx=Math.max(...vals)*1.05, rng=mx-mn||1;
+      const x=(i)=> (i/(vals.length-1))*(W-pad*2)+pad, y=(v)=> H-8-((v-mn)/rng)*(H-30);
+      const line = vals.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+      const area = `M${x(0)},${H-8} L` + vals.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" L") + ` L${x(vals.length-1)},${H-8} Z`;
+      let grid=""; for (let i=0;i<4;i++){ const gy=8+i*((H-30)/3); grid+=`<line class="grid-line" x1="0" y1="${gy}" x2="${W}" y2="${gy}"/>`; }
+      return `<div class="area-box"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${grid}<defs><linearGradient id="${fillId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${color}" stop-opacity="0.28"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></linearGradient></defs><path class="area-fill" d="${area}" fill="url(#${fillId})"/><polyline class="draw" points="${line}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><circle cx="${x(vals.length-1)}" cy="${y(vals[vals.length-1])}" r="4" fill="#fff" stroke="${color}" stroke-width="2.5"/></svg></div>`;
+    }
+    function barChart(items) {
+      const mx = Math.max(...items.map((i)=>i[1]));
+      return `<div class="bars">${items.map((it,i)=>`<div class="barcol"><div class="bar" data-h="${(it[1]/mx*100).toFixed(0)}%" style="background:linear-gradient(180deg,${it[2]||"#3b82f6"},${it[2]?shade(it[2]):"#2563eb"})"><span class="bv">${it[1]}</span></div><div class="blbl">${it[0]}</div></div>`).join("")}</div>`;
+    }
+    function shade(hex){ const n=parseInt(hex.slice(1),16); let r=(n>>16)-24,g=((n>>8)&255)-24,b=(n&255)-24; return "#"+((Math.max(0,r)<<16|Math.max(0,g)<<8|Math.max(0,b))).toString(16).padStart(6,"0"); }
+    function donut(segs) {
+      let acc=0; const stops = segs.map((s,i)=>{ const from=acc; acc+=s[1]; return `${PAL[i%PAL.length]} ${from*3.6}deg ${acc*3.6}deg`; }).join(",");
+      const total = segs.reduce((a,s)=>a+s[1],0);
+      return `<div class="donut-wrap"><div class="donut" style="background:conic-gradient(${stops})"><div class="dc"><b>${total}%</b><span>tracked</span></div></div><div class="legend">${segs.map((s,i)=>`<div class="lg"><span class="sw" style="background:${PAL[i%PAL.length]}"></span><span class="ll">${s[0]}</span><span class="lv">${s[1]}%</span></div>`).join("")}</div></div>`;
+    }
+    function funnel(stages) {
+      const mx = stages[0][1];
+      return `<div class="funnel">${stages.map((s,i)=>`<div class="fstage" data-w="${Math.max(24,s[1]/mx*100).toFixed(0)}%" style="width:24%;background:linear-gradient(90deg,${PAL[i]},${shade(PAL[i])})"><span class="fn">${s[0]}</span><span class="fc2">${s[1]}</span></div>`).join("")}</div>`;
+    }
+    function heatmap() {
+      const models=["Silverado","Tahoe","Equinox","Traverse","F-150","Corvette"];
+      const cols=["0-15","16-30","31-45","46-60","60+"];
+      const data=[[12,8,4,2,1],[9,6,3,1,0],[7,9,6,4,2],[6,7,5,3,1],[3,5,7,9,6],[4,3,2,1,1]];
+      const mx=12;
+      let html=`<div class="heat"><div></div>${cols.map((c)=>`<div class="hh">${c} days</div>`).join("")}`;
+      data.forEach((row,r)=>{ html+=`<div class="hr-lbl">${models[r]}</div>`; row.forEach((v,ci)=>{ const t=v/mx; const bg = t>0.66?"#1e40af":t>0.4?"#3b82f6":t>0.2?"#93b4f5":t>0?"#d6e4fb":"#f1f5fb"; html+=`<div class="hcell" style="background:${bg};color:${t>0.35?"#fff":"#64748b"};animation-delay:${(r*5+ci)*0.02}s" title="${models[r]} · ${cols[ci]} days: ${v} units">${v}</div>`; }); });
+      return html+`</div>`;
+    }
+    function commsBars() {
+      const rows=[["Calls",412,"#2563eb"],["Texts",1284,"#0891b2"],["Emails",968,"#6366f1"],["Videos",143,"#7c3aed"]];
+      const mx=Math.max(...rows.map((r)=>r[1]));
+      return `<div class="cbars">${rows.map((r)=>`<div class="cbar-row"><span class="cl">${r[0]}</span><div class="cbar-track"><i data-w="${(r[1]/mx*100).toFixed(0)}%" style="background:${r[2]}"></i></div><span class="cv">${r[1].toLocaleString()}</span></div>`).join("")}</div>`;
+    }
+
+    function renderCharts() {
+      const salesLine = role==="rep" ? [7,9,8,11,10,13,12,14,13,15,16,18] : [98,104,110,108,116,120,118,126,130,134,138,142];
+      let c = [];
+      c.push(`<div class="card chart-wide"><div class="chart-hd"><b>${role==="rep"?"Your Sales — This Month":"Sales — This Month"}</b><span class="tag">${role==="rep"?"+20%":"+14%"}</span></div>${areaChart(salesLine,"#2563eb","g1")}</div>`);
+      c.push(`<div class="card"><div class="chart-hd"><b>Sales by Model</b></div>${barChart([["Silverado",34,"#2563eb"],["Tahoe",22,"#7c3aed"],["Equinox",19,"#16a34a"],["Traverse",16,"#ea8a0b"],["Colorado",14,"#0891b2"],["Corvette",9,"#ec4899"]])}</div>`);
+      c.push(`<div class="card"><div class="chart-hd"><b>Lead Sources</b></div>${donut([["Internet",42],["Walk-In",21],["Phone",15],["Facebook",11],["Referral",7],["Repeat",4]])}</div>`);
+      c.push(`<div class="card"><div class="chart-hd"><b>Appointment Conversion</b></div>${funnel([["Scheduled",318],["Confirmed",248],["Completed",194],["Sold",66]])}</div>`);
+      c.push(`<div class="card"><div class="chart-hd"><b>Communication Activity</b><span class="tag">Open 61%</span></div>${commsBars()}</div>`);
+      if (role !== "rep") c.push(`<div class="card chart-wide"><div class="chart-hd"><b>Inventory Aging Heatmap</b><span class="tag">18 aged</span></div>${heatmap()}</div>`);
+      if (role === "exec") c.push(`<div class="card chart-wide"><div class="chart-hd"><b>Finance Penetration</b><span class="tag">71%</span></div>${areaChart([58,60,62,63,65,66,68,69,70,70,71,71],"#16a34a","g2")}</div>`);
+      $("charts").innerHTML = c.join("");
+    }
+
+    function renderSaved() {
+      $("saved").innerHTML = SAVED.map((s) => `<div class="saved" data-s="${s[0]}"><div class="si"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg></div><b>${s[0]}</b><span>${s[1]}</span></div>`).join("");
+      document.querySelectorAll(".saved").forEach((el)=>el.addEventListener("click",()=>toast(`Opening “${el.dataset.s}”…`)));
+    }
+
+    function mountAnims() {
+      requestAnimationFrame(() => setTimeout(() => {
+        document.querySelectorAll(".bar[data-h]").forEach((b)=>b.style.height=b.dataset.h);
+        document.querySelectorAll(".fstage[data-w]").forEach((b)=>b.style.width=b.dataset.w);
+        document.querySelectorAll(".cbar-track > i[data-w]").forEach((b)=>b.style.width=b.dataset.w);
+        document.querySelectorAll(".conf .bar-sm > i[data-w]").forEach((b)=>b.style.width=b.dataset.w);
+      }, 60));
+    }
+
+    function renderAll() {
+      $("roleLabel").textContent = roleName[role];
+      renderKPIs(); renderSummary(); renderForecast(); renderDash(); renderCharts(); renderLeaderboard(); renderGoal(); mountAnims();
+    }
+
+    /* ask anything */
+    const QA = {
+      "What was my closing ratio this month?":["Your closing ratio is <b>34%</b> — up 4 points from last month and 6 points above the store average.",[["Last",28],["This",34]]],
+      "Which salesperson has the fastest response time?":["<b>Sarah Johnson</b> leads with a <b>1m 52s</b> average response time, followed by Cameron at 2m 48s.",null],
+      "Which vehicles are aging the fastest?":["<b>F-150 XLT (52 days)</b> and <b>Equinox RS (41 days)</b> are aging fastest — both are strong candidates for a price reduction.",[["F-150",52],["Equinox",41],["Sierra",29]]],
+      "How many internet leads became sales?":["<b>66 of 194</b> internet leads closed this month — a <b>34%</b> conversion, your most efficient channel.",[["Leads",194],["Sold",66]]],
+      "Compare Silverado sales this month vs last":["Silverado sold <b>34 units</b> this month vs <b>27</b> last month — a <b>+26%</b> increase and your top-performing model.",[["Last",27],["This",34]]]
+    };
+    function renderChips() {
+      $("askChips").innerHTML = Object.keys(QA).map((q)=>`<button class="ask-chip" data-q="${q.replace(/"/g,"&quot;")}">${q}</button>`).join("");
+      document.querySelectorAll(".ask-chip").forEach((b)=>b.addEventListener("click",()=>askQ(b.dataset.q)));
+    }
+    function askQ(q) {
+      const a = QA[q] || ["Here's what I found based on your live data. I've highlighted the key metric and trend for this question.",[["Prev",42],["Now",58]]];
+      let chart = "";
+      if (a[1]) { const mx=Math.max(...a[1].map((x)=>x[1])); chart = `<div class="mini-bars">${a[1].map((x,i)=>`<div class="mb" style="height:${(x[1]/mx*80).toFixed(0)}px;background:${PAL[i%3]}">${x[0]}</div>`).join("")}</div>`; }
+      $("askAns").className = "ask-ans show";
+      $("askAns").innerHTML = `<div class="aq">${'<svg viewBox="0 0 24 24" style="width:13px;height:13px;vertical-align:-1px"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="#7c3aed"/></svg>'} ${q}</div><div class="aa">${a[0]}</div>${chart}`;
+      $("askInput").value = q;
+    }
+
+    /* controls */
+    document.querySelectorAll("#roleSeg button").forEach((b)=>b.addEventListener("click",()=>{ document.querySelectorAll("#roleSeg button").forEach((x)=>x.classList.remove("on")); b.classList.add("on"); role=b.dataset.role; renderAll(); toast(`Viewing as ${roleName[role]}`); }));
+    document.querySelectorAll("#timeSeg button").forEach((b)=>b.addEventListener("click",()=>{ document.querySelectorAll("#timeSeg button").forEach((x)=>x.classList.remove("on")); b.classList.add("on"); toast(`Range: ${b.textContent}`); }));
+    document.querySelectorAll("#cmpSeg button").forEach((b)=>b.addEventListener("click",()=>{ document.querySelectorAll("#cmpSeg button").forEach((x)=>x.classList.remove("on")); b.classList.add("on"); }));
+    $("askBtn").addEventListener("click",()=>askQ($("askInput").value.trim()||Object.keys(QA)[0]));
+    $("askInput").addEventListener("keydown",(e)=>{ if(e.key==="Enter") askQ($("askInput").value.trim()||Object.keys(QA)[0]); });
+    $("exportBtn").addEventListener("click",()=>toast("Exporting dashboard as PDF…"));
+    document.addEventListener("keydown",(e)=>{ if(e.key==="/"&&document.activeElement.tagName!=="INPUT"){e.preventDefault();document.querySelector(".tsearch input").focus();} });
+
+    let toastT; function toast(msg){ $("toastMsg").textContent=msg; const el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove("show"),2200); }
+
+    renderChips(); renderSaved(); renderAll();
+
+    /* live: nudge a KPI periodically */
+    setInterval(() => {
+      const kv = document.querySelector("#kpis .kv");
+      if (!kv) return; const n = parseInt(kv.textContent); if (isNaN(n)) return;
+      kv.textContent = (n+1) + (kv.textContent.includes("%")?"%":"");
+      kv.classList.add("flash"); setTimeout(()=>kv.classList.remove("flash"),700);
+      toast(role==="rep"?"You just logged a new sale":"New sale recorded · dealership");
+    }, 14000);
+  </script>
+</body>
+</html>
