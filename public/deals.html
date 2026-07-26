@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deal Desk — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 26px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:11px 14px; border-radius:11px; color:#aebdd2; font-size:14.5px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:19px; height:19px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:14px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:38px; height:38px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13.5px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11.5px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:420px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; flex:none; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; color:var(--text); }
+    .live-chip { display:inline-flex; align-items:center; gap:7px; background:#e7f7ee; color:#16a34a; border-radius:999px; padding:6px 12px; font-size:12px; font-weight:700; } .live-chip .ld { width:8px; height:8px; border-radius:50%; background:#16a34a; animation:pulse 1.6s infinite; }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(22,163,74,0.5)} 70%{box-shadow:0 0 0 6px rgba(22,163,74,0)} 100%{box-shadow:0 0 0 0 rgba(22,163,74,0)} }
+    .tb-icons { display:flex; align-items:center; gap:4px; margin-left:auto; }
+    .ib { position:relative; border:none; background:none; color:var(--muted); width:40px; height:40px; border-radius:11px; display:inline-flex; align-items:center; justify-content:center; } .ib svg { width:21px; height:21px; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:8px; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; }
+    .head-actions { display:flex; gap:10px; }
+    .btn { display:inline-flex; align-items:center; gap:8px; border-radius:11px; padding:11px 17px; font-size:13.5px; font-weight:600; box-shadow:var(--shadow); } .btn svg { width:16px; height:16px; }
+    .btn-ghost { background:var(--card); border:1px solid var(--line); color:var(--text); } .btn-ghost:hover { border-color:#cfe0f7; color:var(--accent); }
+    .btn-primary { background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); }
+    .kpis { display:grid; grid-template-columns:repeat(6,1fr); gap:13px; margin:22px 0 6px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; box-shadow:var(--shadow); } .kp .kl { color:var(--muted); font-size:12px; } .kp .kv { font-size:22px; font-weight:800; letter-spacing:-0.5px; margin-top:4px; }
+    .toolbar { display:flex; align-items:center; gap:12px; margin:20px 0 16px; flex-wrap:wrap; }
+    .segn { display:inline-flex; background:var(--card); border:1px solid var(--line); border-radius:11px; padding:4px; box-shadow:var(--shadow); } .segn button { border:none; background:none; padding:8px 14px; border-radius:8px; font-size:13px; font-weight:600; color:var(--muted); } .segn button.on { background:var(--accent); color:#fff; }
+    .spacer { flex:1; }
+    /* kanban */
+    .board { display:grid; grid-auto-flow:column; grid-auto-columns:288px; gap:14px; overflow-x:auto; padding-bottom:10px; }
+    .col { background:#f0f3f8; border-radius:14px; padding:12px; min-height:200px; }
+    .col-hd { display:flex; align-items:center; gap:8px; margin-bottom:12px; padding:0 4px; } .col-hd .dot { width:9px; height:9px; border-radius:50%; } .col-hd b { font-size:13px; font-weight:700; } .col-hd .cn { margin-left:auto; color:var(--faint); font-size:12px; font-weight:700; background:#fff; border-radius:8px; padding:1px 8px; }
+    .deal { background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px; margin-bottom:10px; cursor:pointer; box-shadow:0 1px 2px rgba(16,32,60,0.04); transition:transform .12s, box-shadow .12s, opacity .3s; border-left:3px solid var(--dc); } .deal:hover { transform:translateY(-2px); box-shadow:0 12px 26px -16px rgba(16,32,60,.4); } .deal.moving { opacity:0; transform:translateX(30px); }
+    .deal-top { display:flex; align-items:center; gap:10px; } .deal .av { width:34px; height:34px; border-radius:50%; flex:none; color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; } .deal .dn b { font-weight:700; font-size:13.5px; } .deal .dn span { display:block; color:var(--muted); font-size:11.5px; }
+    .deal .flag { margin-left:auto; font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:6px; } .fl-hot{background:#fdeaea;color:#dc2626;} .fl-new{background:#eaf1fe;color:#2563eb;} .fl-wait{background:#fdf0dc;color:#b45309;}
+    .deal-veh { font-size:12px; color:var(--accent); font-weight:600; margin:9px 0 8px; }
+    .deal-nums { display:flex; justify-content:space-between; padding-top:9px; border-top:1px solid var(--line); } .deal-nums .k { color:var(--faint); font-size:10px; text-transform:uppercase; letter-spacing:.3px; } .deal-nums .v { font-weight:800; font-size:14px; } .deal-nums .v.g { color:#16a34a; }
+    .deal-foot { display:flex; align-items:center; gap:7px; margin-top:9px; font-size:11px; color:var(--muted); } .deal-foot .age { margin-left:auto; }
+    body[data-role="salesperson"] .mgr-only { display:none !important; }
+
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show { opacity:1; pointer-events:auto; }
+    .panel { position:fixed; top:0; right:0; bottom:0; width:520px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open { transform:none; }
+    .panel-hd { display:flex; align-items:flex-start; gap:14px; padding:20px 22px; background:var(--card); border-bottom:1px solid var(--line); }
+    .panel-hd .av-lg { width:48px; height:48px; border-radius:50%; color:#fff; font-size:16px; font-weight:700; display:flex; align-items:center; justify-content:center; flex:none; }
+    .panel-hd h2 { font-size:18px; font-weight:800; letter-spacing:-0.3px; } .panel-hd .pmeta { color:var(--muted); font-size:13px; margin-top:3px; }
+    .panel-close { margin-left:auto; border:none; background:none; color:var(--muted); width:34px; height:34px; border-radius:9px; } .panel-close svg { width:18px; height:18px; }
+    .panel-body { overflow-y:auto; padding:18px 22px 30px; display:flex; flex-direction:column; gap:16px; }
+    /* stepper */
+    .stepper { display:flex; align-items:center; }
+    .step { flex:1; display:flex; flex-direction:column; align-items:center; position:relative; }
+    .step .sc { width:26px; height:26px; border-radius:50%; background:#e6ebf3; color:var(--faint); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; z-index:1; } .step.done .sc { background:#16a34a; color:#fff; } .step.cur .sc { background:var(--accent); color:#fff; box-shadow:0 0 0 4px var(--accent-soft); } .step .sc svg { width:13px; height:13px; }
+    .step .sl { font-size:9.5px; font-weight:700; color:var(--muted); margin-top:6px; text-align:center; line-height:1.2; } .step.cur .sl { color:var(--accent); }
+    .step:not(:last-child)::after { content:""; position:absolute; top:13px; left:60%; right:-40%; height:2px; background:#e6ebf3; } .step.done:not(:last-child)::after { background:#16a34a; }
+    .sect { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px; }
+    .sect h3 { font-size:13px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:7px; } .sect h3 .spark { color:#7c3aed; display:inline-flex; } .sect h3 .spark svg { width:15px; height:15px; } .sect h3 .rt { margin-left:auto; font-size:12px; font-weight:800; }
+    .nums .nr { display:flex; justify-content:space-between; padding:7px 0; border-top:1px solid var(--line); font-size:13px; } .nums .nr:first-child { border-top:none; } .nums .nr .k { color:var(--muted); } .nums .nr .v { font-weight:600; } .nums .nr.tot { border-top:2px solid var(--line); margin-top:4px; padding-top:10px; } .nums .nr.tot .k { font-weight:700; color:var(--text); } .nums .nr.tot .v { font-size:16px; font-weight:800; } .nums .neg { color:#dc2626; } .nums .pos { color:#16a34a; }
+    /* calculator */
+    .calc-tabs { display:flex; gap:6px; margin-bottom:14px; } .calc-tab { border:1px solid var(--line); background:#fff; border-radius:9px; padding:7px 14px; font-size:12.5px; font-weight:700; color:var(--muted); } .calc-tab.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+    .cfield { display:grid; grid-template-columns:1fr 120px; align-items:center; gap:10px; margin-bottom:10px; } .cfield label { font-size:12.5px; color:#33445c; font-weight:600; } .cfield .inp { display:flex; align-items:center; border:1px solid var(--line); border-radius:9px; padding:0 10px; background:#fff; } .cfield .inp:focus-within { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); } .cfield .inp span { color:var(--faint); font-size:13px; } .cfield input, .cfield select { border:none; outline:none; width:100%; padding:9px 4px; font:inherit; font-size:13.5px; text-align:right; background:none; } .cfield select { text-align:left; }
+    .pay-out { background:linear-gradient(180deg,#0f2749,#0a1c38); color:#fff; border-radius:13px; padding:16px 18px; margin-top:6px; text-align:center; } .pay-out .pl { font-size:11.5px; color:#9db4d6; font-weight:600; } .pay-out .pv { font-size:34px; font-weight:800; letter-spacing:-1px; margin:2px 0; } .pay-out .pv small { font-size:15px; color:#9db4d6; } .pay-out .pf { font-size:11.5px; color:#c3d4ea; }
+    .scen { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px; } .scen .sc2 { border:1px solid var(--line); border-radius:10px; padding:11px 8px; text-align:center; cursor:pointer; } .scen .sc2:hover { border-color:var(--accent); } .scen .sc2 .t { font-size:11px; color:var(--muted); font-weight:600; } .scen .sc2 .p { font-size:17px; font-weight:800; margin-top:3px; } .scen .sc2 .d { font-size:10.5px; color:var(--faint); }
+    .ai-target { margin-top:14px; background:linear-gradient(180deg,#f5f0ff,#faf8ff); border:1px solid #ece3fb; border-radius:11px; padding:13px; } .ai-target .at-l { font-size:11px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; color:#7c3aed; display:flex; align-items:center; gap:6px; margin-bottom:9px; } .ai-target .at-l svg { width:13px; height:13px; } .ai-target .at-row { display:flex; gap:8px; align-items:center; } .ai-target .inp { flex:1; display:flex; align-items:center; border:1px solid #ddd0f5; border-radius:9px; padding:0 10px; background:#fff; } .ai-target .inp span { color:var(--faint); } .ai-target input { border:none; outline:none; padding:9px 4px; width:100%; font:inherit; font-size:13.5px; background:none; } .ai-target button { border:none; background:#7c3aed; color:#fff; border-radius:9px; padding:9px 14px; font-size:12.5px; font-weight:700; } .ai-target .at-out { font-size:12.5px; color:#4b3a72; margin-top:10px; line-height:1.5; } .ai-target .at-out b { color:#5b21b6; }
+    .approve-row { display:flex; gap:10px; } .approve-row button { flex:1; border-radius:11px; padding:12px; font-size:13.5px; font-weight:700; } .ap-send { background:#fff; border:1px solid var(--line); color:var(--text); } .ap-send:hover { border-color:#f0b8b8; color:#dc2626; } .ap-ok { background:linear-gradient(180deg,#22c55e,#16a34a); border:none; color:#fff; box-shadow:0 12px 26px -14px rgba(22,163,74,.9); } .ap-ok:hover { filter:brightness(1.05); }
+    .tl2 { display:grid; grid-template-columns:16px 1fr; gap:12px; padding-bottom:13px; position:relative; } .tl2:last-child { padding-bottom:0; } .tl2-dot { width:11px; height:11px; border-radius:50%; margin-top:3px; } .tl2:not(:last-child)::after { content:""; position:absolute; left:5px; top:15px; bottom:0; width:2px; background:var(--line); } .tl2 b { font-weight:600; display:block; font-size:13px; } .tl2 span { color:var(--muted); font-size:12px; }
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .kpis{grid-template-columns:repeat(2,1fr);} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" placeholder="Search deals by customer or vehicle..." /></div>
+        <span class="live-chip"><span class="ld"></span>Live</span>
+        <div class="tb-icons"><span class="tb-avatar"><span class="av">CM</span></span></div>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>Deal Desk</h1><p class="sub">Every deal moves through a digital approval queue — no more chasing managers around the showroom.</p></div>
+          <div class="head-actions">
+            <button class="btn btn-ghost" id="calcBtn"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 7h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15v3M8 18h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Payment Calculator</button>
+            <button class="btn btn-primary"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Submit Deal</button>
+          </div>
+        </div>
+
+        <div class="kpis" id="kpis"></div>
+
+        <div class="toolbar">
+          <div class="segn" id="viewSeg"><button data-v="board" class="on">Board</button><button data-v="mine">My Deals</button></div>
+          <div class="spacer"></div>
+          <span style="font-size:12.5px;color:var(--muted)">Drag-free approvals · click any deal to review, desk, and advance</span>
+        </div>
+
+        <div class="board" id="board"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var money = function(n){ return "$" + Math.round(n).toLocaleString(); };
+    var STAGES = [["submitted","Submitted","#64748b"],["review","Manager Review","#ea8a0b"],["desk","Desk Numbers","#2563eb"],["trade","Trade Approved","#7c3aed"],["finance","Finance","#0891b2"],["ready","Ready for Delivery","#16a34a"]];
+    var STAGE_I = {}; STAGES.forEach(function(s,i){ STAGE_I[s[0]]=i; });
+
+    // deal: id,cust,ini,color,veh,stock,rep,stage,price,tradeAllow,payoff,down,apr,term,taxRate,fees,rebate,type,flag
+    var D = [
+      {id:1,cust:"John Smith",ini:"JS",color:"#3b82f6",veh:"2024 Silverado High Country",stock:"T45281",rep:"Cameron",stage:"review",price:74300,tradeAllow:28900,payoff:24100,down:5000,apr:6.9,term:72,taxRate:0.07,fees:899,rebate:1500,type:"finance",flag:"fl-new"},
+      {id:2,cust:"Sarah Lewis",ini:"SL",color:"#8b5cf6",veh:"2024 Tahoe RST",stock:"T44102",rep:"Cameron",stage:"finance",price:64995,tradeAllow:22800,payoff:11000,down:8000,apr:5.9,term:60,taxRate:0.07,fees:899,rebate:1000,type:"finance",flag:""},
+      {id:3,cust:"Amanda Harris",ini:"AH",color:"#ec4899",veh:"2024 Equinox RS",stock:"S43011",rep:"Cameron",stage:"desk",price:31995,tradeAllow:0,payoff:0,down:3000,apr:7.4,term:72,taxRate:0.07,fees:799,rebate:750,type:"finance",flag:""},
+      {id:4,cust:"Robert Brown",ini:"RB",color:"#14b8a6",veh:"2023 Tahoe Premier",stock:"T44780",rep:"Cameron",stage:"ready",price:74995,tradeAllow:0,payoff:0,down:12000,apr:6.4,term:72,taxRate:0.07,fees:899,rebate:0,type:"finance",flag:""},
+      {id:5,cust:"David Johnson",ini:"DJ",color:"#f59e0b",veh:"2021 F-150 Lariat",stock:"S39820",rep:"Cameron",stage:"trade",price:44995,tradeAllow:26000,payoff:31200,down:2000,apr:8.2,term:72,taxRate:0.07,fees:799,rebate:500,type:"finance",flag:"fl-wait"},
+      {id:6,cust:"Kevin Anderson",ini:"KA",color:"#0ea5e9",veh:"2022 Sierra Denali",stock:"T42551",rep:"Sarah",stage:"submitted",price:68995,tradeAllow:34500,payoff:22000,down:4000,apr:6.9,term:72,taxRate:0.07,fees:899,rebate:1000,type:"finance",flag:"fl-new"},
+      {id:7,cust:"Priya Nair",ini:"PN",color:"#f43f5e",veh:"2024 Cadillac XT5",stock:"S43550",rep:"Cameron",stage:"submitted",price:49995,tradeAllow:0,payoff:0,down:6000,apr:6.4,term:60,taxRate:0.07,fees:899,rebate:0,type:"lease",flag:""},
+      {id:8,cust:"Marcus Webb",ini:"MB",color:"#10b981",veh:"2023 Corvette Z06",stock:"S41290",rep:"Sarah",stage:"review",price:118000,tradeAllow:0,payoff:0,down:40000,apr:5.9,term:72,taxRate:0.07,fees:899,rebate:0,type:"finance",flag:"fl-hot"},
+      {id:9,cust:"Grace Kim",ini:"GK",color:"#eab308",veh:"2025 Telluride SX",stock:"S44900",rep:"Michael",stage:"desk",price:46900,tradeAllow:21000,payoff:6800,down:3000,apr:7.9,term:75,taxRate:0.07,fees:799,rebate:500,type:"finance",flag:""},
+      {id:10,cust:"Ethan Ross",ini:"ER",color:"#64748b",veh:"2022 Buick Enclave",stock:"S43990",rep:"Michael",stage:"finance",price:39900,tradeAllow:0,payoff:0,down:5000,apr:7.4,term:72,taxRate:0.07,fees:799,rebate:250,type:"cash",flag:""}
+    ];
+
+    /* ---- deal math ---- */
+    function calc(d){
+      var netTrade = d.tradeAllow - d.payoff;               // + equity / - negative equity
+      var taxable = Math.max(0, d.price - d.tradeAllow);
+      var tax = taxable * d.taxRate;
+      var financed = d.price + tax + d.fees - d.rebate - d.down - netTrade;
+      var r = d.apr/1200, n = d.term;
+      var monthly = d.type==="cash" ? 0 : (r>0 ? financed*r/(1-Math.pow(1+r,-n)) : financed/n);
+      if (d.type==="lease") { // simplified lease
+        var residual = d.price*0.58, mf = d.apr/2400, capCost = d.price + tax + d.fees - d.rebate - d.down - netTrade;
+        monthly = (capCost-residual)/n + (capCost+residual)*mf;
+        financed = capCost;
+      }
+      var cashDue = d.price + tax + d.fees - d.rebate - netTrade;
+      var gross = (d.price - d.price*0.88) + (d.fees*0.5) + 900; // front + reserve estimate
+      return {netTrade:netTrade, tax:tax, financed:financed, monthly:monthly, cashDue:cashDue, gross:gross, taxable:taxable};
+    }
+    function monthlyFor(financed, apr, term){ var r=apr/1200; return r>0 ? financed*r/(1-Math.pow(1+r,-term)) : financed/term; }
+
+    /* ---- KPIs ---- */
+    function renderKPIs(){
+      var inProg = D.length, review = D.filter(function(d){return d.stage==="review";}).length, fin = D.filter(function(d){return d.stage==="finance";}).length, ready = D.filter(function(d){return d.stage==="ready";}).length;
+      var avgGross = Math.round(D.reduce(function(a,d){return a+calc(d).gross;},0)/D.length);
+      var cards = [["Deals in Progress",inProg,""],["Pending Review",review,""],["Awaiting Finance",fin,""],["Ready for Delivery",ready,""],["Avg Front Gross",money(avgGross),"mgr-only"],["Closed This Month","38",""]];
+      $("kpis").innerHTML = cards.map(function(c){ return '<div class="kp '+c[2]+'"><div class="kl">'+c[0]+'</div><div class="kv">'+c[1]+'</div></div>'; }).join("");
+    }
+
+    var view = "board", q = "";
+    function visible(){ return D.filter(function(d){ var okv = view==="board" || d.rep==="Cameron"; var okq = !q || (d.cust+" "+d.veh).toLowerCase().indexOf(q.toLowerCase())!==-1; return okv && okq; }); }
+
+    function renderBoard(){
+      var rows = visible();
+      $("board").innerHTML = STAGES.map(function(s){
+        var items = rows.filter(function(d){ return d.stage===s[0]; });
+        var cards = items.map(function(d){ var c=calc(d); return '<div class="deal" data-id="'+d.id+'" style="--dc:'+s[2]+'"><div class="deal-top"><span class="av" style="background:'+d.color+'">'+d.ini+'</span><div class="dn"><b>'+d.cust+'</b><span>'+d.rep+'</span></div>'+(d.flag?'<span class="flag '+d.flag+'">'+(d.flag==="fl-hot"?"HOT":d.flag==="fl-new"?"NEW":"WAITING")+'</span>':"")+'</div>'+
+            '<div class="deal-veh">'+d.veh+'</div><div class="deal-nums"><div><div class="k">'+(d.type==="cash"?"Cash Due":"Payment")+'</div><div class="v">'+(d.type==="cash"?money(c.cashDue):money(c.monthly)+"/mo")+'</div></div><div class="mgr-only" style="text-align:right"><div class="k">Front Gross</div><div class="v g">'+money(c.gross)+'</div></div></div>'+
+            '<div class="deal-foot"><span>'+(d.type==="lease"?"Lease":d.type==="cash"?"Cash":d.term+"mo @ "+d.apr+"%")+'</span><span class="age">'+d.stock+'</span></div></div>'; }).join("");
+        var body = items.length ? cards : '<div style="color:var(--faint);font-size:12px;padding:8px 4px">No deals</div>';
+        return '<div class="col"><div class="col-hd"><span class="dot" style="background:'+s[2]+'"></span><b>'+s[1]+'</b><span class="cn">'+items.length+'</span></div>'+body+'</div>';
+      }).join("");
+      document.querySelectorAll(".deal").forEach(function(el){ el.addEventListener("click", function(){ openDeal(+el.dataset.id); }); });
+    }
+
+    /* ---- slide-over ---- */
+    var scrim = $("scrim"), panel = $("panel");
+    var calcState = {};
+    function openDeal(id){
+      var d = D.find(function(x){ return x.id===id; }); if(!d) return;
+      calcState = Object.assign({}, d);
+      var si = STAGE_I[d.stage];
+      var c = calc(d);
+      panel.innerHTML = ''+
+        '<div class="panel-hd"><span class="av-lg" style="background:'+d.color+'">'+d.ini+'</span><div><h2>'+d.cust+'</h2><div class="pmeta">'+d.veh+' · Stock '+d.stock+' · '+d.rep+'</div></div><button class="panel-close" id="pClose"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>'+
+        '<div class="panel-body">'+
+          '<div class="sect"><h3>Deal Progress</h3><div class="stepper">'+STAGES.map(function(s,i){ var cls=i<si?"done":i===si?"cur":""; return '<div class="step '+cls+'"><span class="sc">'+(i<si?'<svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>':(i+1))+'</span><span class="sl">'+s[1]+'</span></div>'; }).join("")+'</div></div>'+
+          '<div class="sect nums"><h3>Deal Structure <span class="rt mgr-only" style="color:#16a34a">Gross '+money(c.gross)+'</span></h3>'+
+            nr("Sale Price",money(d.price))+
+            (d.tradeAllow?nr("Trade Allowance",money(d.tradeAllow)):"")+
+            (d.payoff?nr("Trade Payoff","-"+money(d.payoff)):"")+
+            (d.tradeAllow?nr("Net Trade "+(c.netTrade<0?"(negative equity)":"(equity)"), (c.netTrade<0?'<span class="neg">-'+money(-c.netTrade)+'</span>':'<span class="pos">+'+money(c.netTrade)+'</span>')):"")+
+            nr("Sales Tax ("+(d.taxRate*100).toFixed(1)+"%)",money(c.tax))+
+            nr("Doc &amp; Fees",money(d.fees))+
+            (d.rebate?nr("Rebates","-"+money(d.rebate)):"")+
+            nr("Cash Down","-"+money(d.down))+
+            '<div class="nr tot"><span class="k">'+(d.type==="cash"?"Total Cash Due":"Amount Financed")+'</span><span class="v">'+money(d.type==="cash"?c.cashDue:c.financed)+'</span></div>'+
+            (d.type!=="cash"?'<div class="nr" style="border-top:none;padding-top:6px"><span class="k">'+d.term+' mo @ '+d.apr+'% '+(d.type==="lease"?"lease":"APR")+'</span><span class="v" style="color:var(--accent);font-size:15px">'+money(c.monthly)+'/mo</span></div>':"")+
+          '</div>'+
+          '<div class="sect"><h3><svg viewBox="0 0 24 24" style="width:15px;height:15px;color:var(--accent)"><rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 7h8M8 11h.01M16 15v3M8 18h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Desking &amp; Payment Calculator</h3><div id="calcArea"></div></div>'+
+          '<div class="sect"><h3>Deal Timeline</h3>'+timelineFor(d,si)+'</div>'+
+          '<div class="approve-row"><button class="ap-send" id="apSend">Send Back</button><button class="ap-ok" id="apOk">'+(si>=STAGES.length-1?"Complete Delivery":"Approve → "+STAGES[si+1][1])+'</button></div>'+
+        '</div>';
+      panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
+      $("pClose").addEventListener("click", closeAll);
+      $("apSend").addEventListener("click", function(){ toast("Deal sent back to "+d.rep+" with a note"); closeAll(); });
+      $("apOk").addEventListener("click", function(){ advance(id); });
+      renderCalc();
+    }
+    function nr(k,v){ return '<div class="nr"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>'; }
+    function timelineFor(d,si){ var events=[["#2563eb","Deal submitted","by "+d.rep+" · 2h ago"],["#ea8a0b","Manager review","Desking numbers"],["#7c3aed","Trade approved","Appraisal signed off"],["#0891b2","Sent to finance","F&I products offered"],["#16a34a","Ready for delivery","Paperwork complete"]];
+      return events.slice(0, Math.max(1,si+1)).map(function(e,i){ var done=i<si; return '<div class="tl2"><span class="tl2-dot" style="background:'+(i<=si?e[0]:"#dfe4ec")+';box-shadow:0 0 0 4px '+(i<=si?e[0]+"22":"transparent")+'"></span><div><b>'+e[1]+'</b><span>'+e[2]+'</span></div></div>'; }).join(""); }
+
+    /* interactive calculator */
+    function renderCalc(){
+      var s = calcState;
+      var typeTabs = ["finance","lease","cash"];
+      $("calcArea").innerHTML = ''+
+        '<div class="calc-tabs">'+typeTabs.map(function(t){ return '<button class="calc-tab '+(s.type===t?"on":"")+'" data-ct="'+t+'">'+t.charAt(0).toUpperCase()+t.slice(1)+'</button>'; }).join("")+'</div>'+
+        cf("Sale Price","price",s.price,"$")+
+        cf("Cash Down","down",s.down,"$")+
+        cf("Trade Allowance","tradeAllow",s.tradeAllow,"$")+
+        cf("Trade Payoff","payoff",s.payoff,"$")+
+        (s.type!=="cash"?cf("APR","apr",s.apr,"%")+termField(s.term):"")+
+        '<div class="pay-out"><div class="pl">'+(s.type==="cash"?"Total Cash Due":s.type==="lease"?"Lease Payment":"Estimated Monthly Payment")+'</div><div class="pv" id="payVal">—</div><div class="pf" id="payFoot"></div></div>'+
+        (s.type==="finance"?'<div class="scen" id="scen"></div>':"")+
+        '<div class="ai-target"><div class="at-l"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg>AI — Structure for a target payment</div><div class="at-row"><div class="inp"><span>$</span><input id="target" placeholder="650" /></div><span style="color:var(--muted);font-size:12.5px">/mo</span><button id="aiGo">Recommend</button></div><div class="at-out" id="aiOut">Enter the customer’s target payment and I’ll solve for the down payment or term.</div></div>';
+      $("calcArea").querySelectorAll(".calc-tab").forEach(function(b){ b.addEventListener("click", function(){ calcState.type=b.dataset.ct; renderCalc(); }); });
+      $("calcArea").querySelectorAll("[data-f]").forEach(function(inp){ inp.addEventListener("input", function(){ calcState[inp.dataset.f]= parseFloat(inp.value.replace(/[^0-9.]/g,""))||0; recompute(); }); });
+      var term=$("termSel"); if(term) term.addEventListener("change", function(){ calcState.term=+term.value; recompute(); });
+      $("aiGo").addEventListener("click", aiRecommend);
+      recompute();
+    }
+    function cf(label,key,val,unit){ return '<div class="cfield"><label>'+label+'</label><div class="inp">'+(unit==="$"?'<span>$</span>':"")+'<input data-f="'+key+'" value="'+val+'" />'+(unit==="%"?'<span>%</span>':"")+'</div></div>'; }
+    function termField(term){ return '<div class="cfield"><label>Term</label><div class="inp"><select id="termSel">'+[36,48,60,72,75,84].map(function(t){ return '<option value="'+t+'"'+(t===term?" selected":"")+'>'+t+' months</option>'; }).join("")+'</select></div></div>'; }
+    function recompute(){
+      var c = calc(calcState);
+      var pv = calcState.type==="cash" ? c.cashDue : c.monthly;
+      $("payVal").innerHTML = calcState.type==="cash" ? money(pv) : money(pv)+'<small>/mo</small>';
+      $("payFoot").textContent = calcState.type==="cash" ? "Out-the-door, taxes & fees included" : money(c.financed)+" financed · "+money(c.tax)+" tax · "+money(c.netTrade)+" net trade";
+      if (calcState.type==="finance"){ var sc=$("scen"); if(sc){ sc.innerHTML=[60,72,84].map(function(t){ var m=monthlyFor(c.financed,calcState.apr,t); return '<div class="sc2" data-term="'+t+'"><div class="t">'+t+' months</div><div class="p">'+money(m)+'</div><div class="d">/mo</div></div>'; }).join(""); sc.querySelectorAll("[data-term]").forEach(function(el){ el.addEventListener("click", function(){ calcState.term=+el.dataset.term; renderCalc(); }); }); } }
+    }
+    function aiRecommend(){
+      var target = parseFloat(($("target").value||"").replace(/[^0-9.]/g,"")); if(!target){ $("aiOut").innerHTML="Enter a target payment first."; return; }
+      var c = calc(calcState), r=calcState.apr/1200, n=calcState.term;
+      var neededFinanced = target*(1-Math.pow(1+r,-n))/r;
+      var extraDown = c.financed - neededFinanced;
+      var out;
+      if (Math.abs(c.monthly-target) < 8) out = 'This deal already lands at <b>'+money(c.monthly)+'/mo</b> — right on target. Present as structured.';
+      else if (extraDown > 0){
+        // also compute alternative term to hit target with current down
+        var altTerm = solveTerm(c.financed, calcState.apr, target);
+        out = 'To hit <b>'+money(target)+'/mo</b> at '+n+' months, increase cash down by <b>'+money(extraDown)+'</b> (to '+money(calcState.down+extraDown)+' total).'+ (altTerm?' Or extend the term to <b>'+altTerm+' months</b> with the current down.':'');
+      } else {
+        out = 'You have room — the customer can put <b>'+money(-extraDown)+' less down</b> and still stay at '+money(target)+'/mo. Consider adding F&amp;I products to protect gross.';
+      }
+      $("aiOut").innerHTML = out;
+    }
+    function solveTerm(financed, apr, target){ var r=apr/1200; for (var n=36;n<=96;n++){ var m=r>0?financed*r/(1-Math.pow(1+r,-n)):financed/n; if (m<=target) return n; } return null; }
+
+    function advance(id){
+      var d = D.find(function(x){ return x.id===id; }); var si=STAGE_I[d.stage];
+      if (si>=STAGES.length-1){ toast(d.cust+"'s vehicle marked delivered 🎉"); D=D.filter(function(x){return x.id!==id;}); }
+      else { d.stage = STAGES[si+1][0]; d.flag=""; toast(d.cust+"'s deal advanced to "+STAGES[si+1][1]); }
+      renderKPIs(); renderBoard(); closeAll();
+    }
+    function closeAll(){ panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
+    scrim.addEventListener("click", closeAll);
+    document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeAll(); });
+
+    document.querySelectorAll("#viewSeg button").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#viewSeg button").forEach(function(x){x.classList.remove("on");}); b.classList.add("on"); view=b.dataset.v; renderBoard(); }); });
+    $("search").addEventListener("input", function(e){ q=e.target.value; renderBoard(); });
+    $("calcBtn").addEventListener("click", function(){ if(D[0]) openDeal(D[0].id); });
+
+    var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2400); }
+
+    renderKPIs(); renderBoard();
+  </script>
+</body>
+</html>
