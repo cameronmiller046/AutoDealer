@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketplace — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:420px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#eef4ff; color:#2563eb; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; max-width:560px; }
+    .btn-ghost { display:inline-flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--line); color:var(--text); border-radius:11px; padding:11px 16px; font-size:13.5px; font-weight:600; } .btn-ghost:hover{border-color:#cfe0f7;color:var(--accent);} .btn-ghost svg{width:16px;height:16px;}
+
+    .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:13px; margin:22px 0 20px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:12px;} .kp .kv{font-size:24px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kd{font-size:11.5px;font-weight:700;margin-top:5px;color:var(--green);}
+
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; } .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; } .pill.on{background:var(--accent);color:#fff;border-color:var(--accent);} .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;} .pill .c{opacity:.7;margin-left:3px;}
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:24px 0 14px; }
+
+    .apps { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; }
+    .app{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s,box-shadow .12s;display:flex;flex-direction:column;} .app:hover{transform:translateY(-3px);box-shadow:0 18px 38px -20px rgba(16,32,60,.42);border-color:#cfe0f7;}
+    .app .ah{display:flex;align-items:center;gap:12px;}
+    .app .logo{width:46px;height:46px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:18px;}
+    .app .an b{font-size:15px;font-weight:800;display:block;} .app .an span{font-size:11.5px;color:var(--muted);}
+    .app .pop{margin-left:auto;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:#b7791f;background:#fdf0dc;padding:3px 8px;border-radius:6px;flex:none;}
+    .app .desc{font-size:12.5px;color:var(--muted);line-height:1.5;margin:12px 0 14px;flex:1;}
+    .app .af{display:flex;align-items:center;gap:10px;}
+    .stat{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;} .stat.on{color:var(--green);} .stat.off{color:var(--faint);} .stat .d{width:7px;height:7px;border-radius:50%;} .stat.on .d{background:var(--green);} .stat.off .d{background:#cbd5e1;}
+    .cbtn{margin-left:auto;border:none;border-radius:9px;padding:8px 15px;font-size:12.5px;font-weight:700;} .cbtn.connect{background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;} .cbtn.manage{background:#fff;border:1px solid var(--line);color:var(--muted);} .cbtn.manage:hover{border-color:#cfe0f7;color:var(--accent);}
+
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show{opacity:1;pointer-events:auto;}
+    .panel { position:fixed; top:0; right:0; bottom:0; width:480px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open{transform:none;}
+    .panel-hd { display:flex; align-items:center; gap:14px; padding:22px; background:var(--card); border-bottom:1px solid var(--line); } .panel-hd .logo{width:56px;height:56px;border-radius:14px;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:22px;} .panel-hd h2{font-size:18px;font-weight:800;} .panel-hd .pm{color:var(--muted);font-size:12.5px;margin-top:3px;} .panel-close{margin-left:auto;border:none;background:none;color:var(--muted);width:34px;height:34px;border-radius:9px;} .panel-close svg{width:18px;height:18px;}
+    .panel-body { overflow-y:auto; padding:18px 22px 20px; display:flex; flex-direction:column; gap:16px; }
+    .sect { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px; } .sect h3{font-size:12px;font-weight:800;margin-bottom:12px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);}
+    .sect p{font-size:13.5px;color:#33445c;line-height:1.6;}
+    .syncs{display:flex;flex-direction:column;} .sync{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:13px;} .sync:first-child{border-top:none;} .sync svg{width:16px;height:16px;color:var(--green);flex:none;}
+    .perm{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:13px;color:var(--muted);} .perm svg{width:15px;height:15px;flex:none;color:var(--accent);}
+    .p-actions{display:flex;gap:10px;} .p-actions button{flex:1;border-radius:11px;padding:13px;font-size:13.5px;font-weight:700;} .pa-ghost{background:#fff;border:1px solid var(--line);color:var(--text);} .pa-ghost:hover{border-color:#cfe0f7;color:var(--accent);} .pa-primary{background:linear-gradient(180deg,var(--accent-2),var(--accent));border:none;color:#fff;} .pa-danger{background:#fff;border:1px solid #f3d0d0;color:var(--red);}
+    .connbox{background:#e7f7ee;border:1px solid #cdeed9;border-radius:11px;padding:14px;display:flex;align-items:center;gap:10px;font-size:13px;color:#15803d;font-weight:600;} .connbox svg{width:18px;height:18px;flex:none;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(2,1fr);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" placeholder="Search integrations..." oninput="renderApps()" /></div>
+        <span class="role-badge">Marketplace</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>Marketplace &amp; Integrations</h1><p class="sub">Connect AutoDealer to the tools you already use — DMS, lenders, marketing, and communication — so data flows automatically, both ways.</p></div>
+          <button class="btn-ghost" onclick="toast('Integration request submitted')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Request an app</button>
+        </div>
+        <div class="kpis">
+          <div class="kp"><div class="kl">Connected</div><div class="kv" id="kConn">0</div><div class="kd">Syncing live</div></div>
+          <div class="kp"><div class="kl">Available Apps</div><div class="kv" id="kTotal">0</div><div class="kd">Across 6 categories</div></div>
+          <div class="kp"><div class="kl">Records Synced</div><div class="kv">1.2M</div><div class="kd">Last 30 days</div></div>
+          <div class="kp"><div class="kl">Data Health</div><div class="kv" style="color:#16a34a">100%</div><div class="kd">All syncs healthy</div></div>
+        </div>
+        <div class="pills" id="pills"></div>
+        <div class="apps" id="apps"></div>
+      </main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var APPS=[
+      {id:1,name:'CDK Global',cat:'DMS',color:'#00843d',letter:'C',desc:'Two-way sync of deals, customers, and inventory with your CDK DMS.',status:'connected',popular:true},
+      {id:2,name:'Reynolds & Reynolds',cat:'DMS',color:'#c8102e',letter:'R',desc:'Push deals and pull accounting-grade inventory & RO data.',status:'available',popular:false},
+      {id:3,name:'Tekion ARC',cat:'DMS',color:'#6d28d9',letter:'T',desc:'Cloud-native DMS integration for real-time deal and F&I flow.',status:'available',popular:true},
+      {id:4,name:'RouteOne',cat:'F&I',color:'#0057b8',letter:'R',desc:'Submit credit apps and receive lender decisions inside the deal.',status:'connected',popular:true},
+      {id:5,name:'Dealertrack F&I',cat:'F&I',color:'#00a3e0',letter:'D',desc:'Credit aggregation, eContracting, and menu selling.',status:'available',popular:false},
+      {id:6,name:'700Credit',cat:'F&I',color:'#e4002b',letter:'7',desc:'Soft-pull prescreen and compliance (OFAC, Red Flags, adverse action).',status:'connected',popular:false},
+      {id:7,name:'vAuto',cat:'Inventory',color:'#f47920',letter:'V',desc:'Live market pricing and appraisal data powering Inventory Intelligence.',status:'connected',popular:true},
+      {id:8,name:'HomeNet',cat:'Inventory',color:'#2563eb',letter:'H',desc:'Syndicate photos and window stickers to all your listing sites.',status:'available',popular:false},
+      {id:9,name:'Cars.com',cat:'Inventory',color:'#7c3aed',letter:'C',desc:'Push inventory and pull leads & marketplace reviews.',status:'connected',popular:false},
+      {id:10,name:'Podium',cat:'Marketing',color:'#4353ff',letter:'P',desc:'Review requests and webchat lead capture into the CRM.',status:'available',popular:true},
+      {id:11,name:'Mailchimp',cat:'Marketing',color:'#ffe01b',letter:'M',ltc:'#241c15',desc:'Sync audiences and automate email campaigns from customer data.',status:'available',popular:false},
+      {id:12,name:'Facebook / Meta Ads',cat:'Marketing',color:'#1877f2',letter:'f',desc:'Import lead-form leads and match sales back to ad spend.',status:'connected',popular:false},
+      {id:13,name:'Google Ads',cat:'Marketing',color:'#ea4335',letter:'G',desc:'Attribute closed sales to campaigns for true ROI in Analytics.',status:'available',popular:false},
+      {id:14,name:'Twilio',cat:'Communication',color:'#f22f46',letter:'T',desc:'Power CRM texting, call tracking, and delivery notifications.',status:'connected',popular:true},
+      {id:15,name:'RingCentral',cat:'Communication',color:'#0684bc',letter:'R',desc:'Click-to-call, call recording, and rep call analytics.',status:'available',popular:false},
+      {id:16,name:'Slack',cat:'Communication',color:'#4a154b',letter:'S',desc:'Route hot-lead and stuck-deal alerts to your team channels.',status:'available',popular:false},
+      {id:17,name:'QuickBooks',cat:'Analytics',color:'#2ca01c',letter:'Q',desc:'Export deal gross and F&I income to your accounting ledger.',status:'available',popular:false},
+      {id:18,name:'Power BI',cat:'Analytics',color:'#f2c811',letter:'B',ltc:'#3b2f00',desc:'Stream CRM & analytics data into your executive dashboards.',status:'available',popular:false}
+    ];
+    var SYNCS={DMS:['Deals & desk logs','Customer records','Inventory & stock','Repair orders'],'F&I':['Credit applications','Lender decisions','eContracts','Compliance checks'],Inventory:['Vehicle photos','Pricing & appraisals','Marketplace listings','Incoming leads'],Marketing:['Audience segments','Campaign performance','Lead-form leads','Sales attribution'],Communication:['Text messages','Call logs & recordings','Delivery alerts','Team notifications'],Analytics:['Deal financials','KPI streams','Attribution data','Custom reports']};
+
+    var filter='All';
+    var CATS=['All','DMS','F&I','Inventory','Marketing','Communication','Analytics'];
+    function renderPills(){
+      $('pills').innerHTML=CATS.map(function(c){ var n=c==='All'?APPS.length:APPS.filter(function(a){return a.cat===c;}).length; return '<button class="pill'+(filter===c?' on':'')+'" data-c="'+c+'">'+c+'<span class="c">'+n+'</span></button>'; }).join('');
+      $('pills').querySelectorAll('.pill').forEach(function(b){ b.addEventListener('click',function(){ filter=b.getAttribute('data-c'); renderPills(); renderApps(); }); });
+    }
+    function logoStyle(a){ return 'background:'+a.color+';color:'+(a.ltc||'#fff')+';'; }
+    function appCard(a){
+      var conn=a.status==='connected';
+      return '<div class="app" onclick="openApp('+a.id+')"><div class="ah"><span class="logo" style="'+logoStyle(a)+'">'+a.letter+'</span><div class="an"><b>'+a.name+'</b><span>'+a.cat+'</span></div>'+(a.popular?'<span class="pop">Popular</span>':'')+'</div>'+
+        '<div class="desc">'+a.desc+'</div>'+
+        '<div class="af"><span class="stat '+(conn?'on':'off')+'"><span class="d"></span>'+(conn?'Connected':'Not connected')+'</span>'+
+          '<button class="cbtn '+(conn?'manage':'connect')+'" onclick="(function(e){e.stopPropagation();})(event);'+(conn?'openApp('+a.id+')':'connect('+a.id+')')+'">'+(conn?'Manage':'Connect')+'</button></div></div>';
+    }
+    function renderApps(){
+      var q=($('search')?$('search').value:'').toLowerCase();
+      var list=APPS.filter(function(a){ return (filter==='All'||a.cat===filter) && (!q||a.name.toLowerCase().indexOf(q)>=0||a.desc.toLowerCase().indexOf(q)>=0); });
+      $('apps').innerHTML=list.map(appCard).join('') || '<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--muted);">No integrations match.</div>';
+      $('kConn').textContent=APPS.filter(function(a){return a.status==='connected';}).length;
+      $('kTotal').textContent=APPS.length;
+    }
+    function connect(id){ var a=APPS.find(function(x){return x.id===id;}); if(a){ a.status='connected'; } renderApps(); toast(a.name+' connected'); }
+
+    function openApp(id){
+      var a=APPS.find(function(x){return x.id===id;}); if(!a) return; var conn=a.status==='connected';
+      var syncs=SYNCS[a.cat]||['Customer records','Deal data'];
+      $('panel').innerHTML=''+
+      '<div class="panel-hd"><span class="logo" style="'+logoStyle(a)+'">'+a.letter+'</span><div><h2>'+a.name+'</h2><div class="pm">'+a.cat+' integration'+(a.popular?' · Popular':'')+'</div></div><button class="panel-close" onclick="closePanel()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button></div>'+
+      '<div class="panel-body">'+
+        (conn?'<div class="connbox"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Connected & syncing · last sync 2 min ago</div>':'')+
+        '<div class="sect"><h3>About</h3><p>'+a.desc+' Once connected, data flows automatically both ways with no manual export.</p></div>'+
+        '<div class="sect"><h3>What it syncs</h3><div class="syncs">'+syncs.map(function(s){ return '<div class="sync"><svg viewBox="0 0 24 24"><path d="M4 4v6h6M20 20v-6h-6M20 9a8 8 0 0 0-14-3M4 15a8 8 0 0 0 14 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'+s+'</div>'; }).join('')+'</div></div>'+
+        '<div class="sect"><h3>Permissions</h3><div class="perm"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Read & write '+a.cat+' data</div><div class="perm"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>OAuth 2.0 · revocable anytime</div><div class="perm"><svg viewBox="0 0 24 24"><path d="M4 4v6h6M20 20v-6h-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Encrypted in transit &amp; at rest</div></div>'+
+        '<div class="p-actions">'+(conn?'<button class="pa-danger" onclick="disconnect('+a.id+')">Disconnect</button><button class="pa-ghost" onclick="toast(\'Sync settings opened\')">Configure</button>':'<button class="pa-ghost" onclick="closePanel()">Cancel</button><button class="pa-primary" onclick="connect('+a.id+');openApp('+a.id+')">Connect '+a.name+'</button>')+'</div>'+
+      '</div>';
+      $('scrim').classList.add('show'); $('panel').classList.add('open');
+    }
+    function disconnect(id){ var a=APPS.find(function(x){return x.id===id;}); if(a) a.status='available'; closePanel(); renderApps(); toast(a.name+' disconnected'); }
+    function closePanel(){ $('scrim').classList.remove('show'); $('panel').classList.remove('open'); }
+
+    var tTimer; function toast(m){ $('toastMsg').innerHTML=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2200); }
+    document.addEventListener('DOMContentLoaded', function(){ renderPills(); renderApps(); $('scrim').addEventListener('click', closePanel); });
+  </script>
+</body>
+</html>

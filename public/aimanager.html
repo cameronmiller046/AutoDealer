@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Manager — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:360px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:linear-gradient(120deg,#ede9fe,#e0e7ff); color:#6d28d9; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:800; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; display:flex; align-items:center; gap:11px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; }
+    .btn-ghost { display:inline-flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--line); color:var(--text); border-radius:11px; padding:11px 16px; font-size:13.5px; font-weight:600; } .btn-ghost:hover{border-color:#cfe0f7;color:var(--accent);} .btn-ghost svg{width:16px;height:16px;}
+
+    /* briefing hero */
+    .brief{background:radial-gradient(900px 400px at 92% -30%,#4c1d95,#0f1b2d 62%),#0f1b2d;border-radius:20px;color:#eaf1fb;padding:26px 30px;margin:22px 0;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+    .brief::after{content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.3),transparent 70%);}
+    .brief-top{display:flex;align-items:center;gap:13px;position:relative;z-index:2;}
+    .gm-av{width:46px;height:46px;border-radius:13px;flex:none;background:linear-gradient(150deg,#8b5cf6,#6d28d9);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 26px -12px rgba(124,58,237,.8);} .gm-av svg{width:24px;height:24px;color:#fff;}
+    .brief-top b{font-size:16px;font-weight:800;} .brief-top .st{font-size:12px;color:#c4b5fd;font-weight:700;display:flex;align-items:center;gap:6px;} .brief-top .st .d{width:7px;height:7px;border-radius:50%;background:#4ade80;}
+    .brief .say{font-size:15.5px;line-height:1.6;margin-top:16px;color:#dbe4f3;position:relative;z-index:2;max-width:820px;} .brief .say b{color:#fff;}
+    .brief .say .up{color:#6ee7b7;font-weight:700;} .brief .say .dn{color:#fca5a5;font-weight:700;}
+    .brief-kpis{display:flex;gap:26px;margin-top:20px;position:relative;z-index:2;flex-wrap:wrap;} .brief-kpis .bk b{font-size:24px;font-weight:900;letter-spacing:-1px;display:block;} .brief-kpis .bk span{font-size:12px;color:#a9bcda;font-weight:600;}
+
+    .grid { display:grid; grid-template-columns:1fr 350px; gap:18px; align-items:start; }
+    @media(max-width:1080px){ .grid{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; margin-bottom:18px; }
+    .card-h { display:flex; align-items:center; gap:10px; padding:15px 18px; border-bottom:1px solid var(--line); } .card-h h2{font-size:14.5px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);} .card-h .r{margin-left:auto;font-size:12px;color:var(--muted);font-weight:700;}
+
+    /* alerts */
+    .alert{display:flex;gap:14px;padding:16px 18px;border-top:1px solid var(--line);align-items:flex-start;} .alert:first-child{border-top:none;}
+    .sev{width:4px;align-self:stretch;border-radius:3px;flex:none;} .sev.crit{background:#dc2626;} .sev.warn{background:#d97706;} .sev.info{background:#2563eb;}
+    .alert .abody{flex:1;min-width:0;} .alert .atop{display:flex;align-items:center;gap:9px;} .alert .atop b{font-size:14px;font-weight:800;} .sevtag{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 7px;border-radius:5px;} .sevtag.crit{background:#fdeaea;color:#dc2626;} .sevtag.warn{background:#fdf0dc;color:#b7791f;} .sevtag.info{background:#eef4ff;color:#2563eb;}
+    .alert p{font-size:12.5px;color:var(--muted);line-height:1.5;margin-top:5px;} .alert .impact{font-size:12px;font-weight:700;color:var(--text);margin-top:6px;} .alert .impact.g{color:var(--green);} .alert .impact.r{color:var(--red);}
+    .alert .aact{margin-top:10px;display:flex;gap:8px;} .actbtn{border:none;border-radius:9px;padding:7px 13px;font-size:12px;font-weight:700;background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;} .actbtn.ghost{background:#fff;border:1px solid var(--line);color:var(--muted);} .actbtn.ghost:hover{color:var(--accent);border-color:#cfe0f7;}
+
+    /* opportunities */
+    .opp{display:flex;gap:12px;padding:14px 18px;border-top:1px solid var(--line);align-items:center;} .opp:first-child{border-top:none;}
+    .opp .oi{width:36px;height:36px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;background:#e7f7ee;color:#16a34a;} .opp .oi svg{width:18px;height:18px;}
+    .opp .om{flex:1;min-width:0;} .opp .om b{font-size:13.5px;font-weight:700;} .opp .om span{display:block;font-size:12px;color:var(--muted);}
+    .opp .ov{font-weight:800;color:var(--green);font-size:13.5px;flex:none;}
+
+    /* pace gauge */
+    .pace{padding:18px;} .pace .pring{width:150px;height:150px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;position:relative;} .pace .pring .pi{width:118px;height:118px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;} .pace .pring .pi b{font-size:34px;font-weight:900;letter-spacing:-1.5px;} .pace .pring .pi span{font-size:11px;color:var(--muted);font-weight:700;}
+    .pace .psub{text-align:center;margin-top:14px;font-size:13px;color:var(--muted);} .pace .pstat{display:flex;justify-content:space-around;margin-top:16px;padding-top:16px;border-top:1px solid var(--line);} .pace .pstat b{font-size:18px;font-weight:900;display:block;text-align:center;} .pace .pstat span{font-size:11px;color:var(--muted);}
+
+    /* ask AI GM */
+    .ask{display:flex;flex-direction:column;height:100%;}
+    .askbody{padding:16px 18px;display:flex;flex-direction:column;gap:11px;max-height:300px;overflow-y:auto;}
+    .abub{max-width:88%;padding:11px 14px;border-radius:14px;font-size:13px;line-height:1.5;} .abub.ai{background:var(--bg);border:1px solid var(--line);border-bottom-left-radius:4px;align-self:flex-start;} .abub.me{background:linear-gradient(150deg,#8b5cf6,#6d28d9);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
+    .sugg{display:flex;flex-wrap:wrap;gap:7px;padding:0 18px 12px;} .sugg button{border:1px solid var(--line);background:#fff;color:var(--accent);border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:600;} .sugg button:hover{background:var(--accent-soft);}
+    .askc{display:flex;gap:9px;padding:14px 18px;border-top:1px solid var(--line);} .askc input{flex:1;border:1px solid var(--line);border-radius:11px;padding:11px 13px;font:inherit;font-size:13px;outline:none;} .askc input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(124,58,237,.12);} .askc button{width:42px;border:none;border-radius:11px;background:linear-gradient(150deg,#8b5cf6,#6d28d9);color:#fff;display:flex;align-items:center;justify-content:center;} .askc button svg{width:18px;height:18px;}
+
+    /* action plan */
+    .plan{counter-reset:step;} .pstep{display:flex;gap:14px;padding:14px 18px;border-top:1px solid var(--line);align-items:flex-start;} .pstep:first-child{border-top:none;} .pstep .pn{counter-increment:step;width:26px;height:26px;border-radius:50%;flex:none;background:var(--accent-soft);color:var(--accent);font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;} .pstep .pn::before{content:counter(step);} .pstep .pt b{font-size:13.5px;font-weight:700;} .pstep .pt p{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.45;} .pstep .pdone{margin-left:auto;flex:none;border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:9px;padding:6px 12px;font-size:11.5px;font-weight:700;} .pstep .pdone:hover{color:var(--green);border-color:#bbe8cc;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Ask about the store..." /></div>
+        <span class="role-badge">✦ AI Manager</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>AI Manager</h1><p class="sub">Your always-on general manager — watching every metric, surfacing what needs you today, and telling you exactly what to do next.</p></div>
+          <button class="btn-ghost" onclick="toast('Briefing refreshed')"><svg viewBox="0 0 24 24"><path d="M4 4v6h6M20 20v-6h-6M20 9a8 8 0 0 0-14-3M4 15a8 8 0 0 0 14 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Refresh</button>
+        </div>
+
+        <div class="brief">
+          <div class="brief-top"><span class="gm-av"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 11.5l1.8 1.8 3.2-3.6" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div><b>Morning briefing, Dana</b><div class="st"><span class="d"></span>Analyzed 4,120 data points · updated 6 min ago</div></div></div>
+          <div class="say">Good morning. The store is <b>on a strong pace</b> — you're at <span class="up">104% to goal</span> with 6 days left in the month. Two things need you today: the <b>Nguyen deal has been stuck at the desk</b> and a <b>2★ review</b> is unanswered. On the upside, AI found <span class="up">9 equity-based upgrade opportunities</span> and your referral pipeline is heating up. If you clear the two red items and work the equity list, today could close 3–4 extra units.</div>
+          <div class="brief-kpis"><div class="bk"><b>104%</b><span>Pace to goal</span></div><div class="bk"><b>24</b><span>Units MTD</span></div><div class="bk"><b>$412K</b><span>Gross MTD</span></div><div class="bk"><b>2</b><span>Red flags</span></div><div class="bk"><b>9</b><span>Opportunities</span></div></div>
+        </div>
+
+        <div class="grid">
+          <div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 9v4M12 16v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><h2>Critical Alerts</h2><span class="r" id="alCount"></span></div><div id="alerts"></div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M4 16l5-5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><h2>Opportunities AI Found</h2><span class="r">$47K potential</span></div><div id="opps"></div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M9 11l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><h2>Today's Action Plan</h2></div><div class="plan" id="plan"></div></div>
+          </div>
+          <div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M12 12l5-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><h2>Pace to Goal</h2></div><div class="pace">
+              <div class="pring" id="pring"><div class="pi"><b>104%</b><span>of monthly goal</span></div></div>
+              <div class="psub">On track for <b style="color:var(--text)">83 units</b> vs 80 goal</div>
+              <div class="pstat"><div><b>24</b><span>Sold</span></div><div><b>6</b><span>Days left</span></div><div><b>3.2</b><span>Units/day</span></div></div>
+            </div></div>
+            <div class="card"><div class="card-h" style="background:linear-gradient(120deg,#f5f3ff,#fff);"><svg viewBox="0 0 24 24" style="color:#7c3aed"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><h2>Ask your AI GM</h2></div><div class="ask">
+              <div class="askbody" id="askbody"><div class="abub ai">Ask me anything about the store — pace, a rep, a source, or "what should I focus on?"</div></div>
+              <div class="sugg" id="sugg"></div>
+              <div class="askc"><input id="askin" placeholder="Ask the AI GM..." onkeydown="if(event.key==='Enter')ask()" /><button onclick="ask()"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-3-6-7-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button></div>
+            </div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+
+    var ALERTS=[
+      {sev:'crit',t:'Deal stuck at the desk',p:'Nguyen Family (Cameron Miller) has been in Working Numbers 22 minutes with no manager touch. Historically these close 30% less when they stall past 20 min.',impact:['r','~$3,400 gross at risk'],act:['Go to desk','/showroom'],act2:'Ping Cameron'},
+      {sev:'crit',t:'Negative review unanswered',p:'Maria Gonzalez posted a 2★ Google review 40 min ago about wait time. Fast public replies recover ~1/3 of unhappy customers and protect your 4.7★.',impact:['r','Reputation exposure'],act:['Draft AI reply','/reviews'],act2:'Assign'},
+      {sev:'warn',t:'CarGurus ROI underwater',p:'Cost-per-sale hit $36K this month vs $1.8K for referrals. You\'re burning ad spend on a source that isn\'t converting.',impact:['','Reallocate ~$3,400/mo'],act:['See analytics','/analytics'],act2:'Snooze'},
+      {sev:'warn',t:'2 reps trailing on pace',p:'Devon and Priya are below 80 on coaching score and behind unit pace. A short bench session on objection handling could recover 2–3 units this month.',impact:['','~$5,000 gross upside'],act:['Open coach','/coach'],act2:'Snooze'}
+    ];
+    function renderAlerts(){
+      $('alerts').innerHTML=ALERTS.map(function(a,i){ return '<div class="alert" data-i="'+i+'"><span class="sev '+a.sev+'"></span><div class="abody"><div class="atop"><b>'+a.t+'</b><span class="sevtag '+a.sev+'">'+(a.sev==='crit'?'Critical':a.sev==='warn'?'Watch':'Info')+'</span></div><p>'+a.p+'</p><div class="impact '+a.impact[0]+'">'+a.impact[1]+'</div><div class="aact"><a class="actbtn" href="'+a.act[1]+'">'+a.act[0]+'</a><button class="actbtn ghost" onclick="dismiss('+i+')">'+a.act2+'</button></div></div></div>'; }).join('');
+      $('alCount').textContent=ALERTS.filter(function(a){return a.sev==='crit';}).length+' critical';
+    }
+    function dismiss(i){ ALERTS.splice(i,1); renderAlerts(); toast('Alert handled'); }
+
+    var OPPS=[
+      ['9 equity upgrade candidates','AI equity mining · avg $1.5K gross each','/equity','$14K'],
+      ['19 aged units to reprice','Free ~$0.7M in floor plan','/invintel','$0.7M'],
+      ['7 warm referrals in pipeline','2× conversion vs cold leads','/referrals','$12K'],
+      ['23 service customers at defection risk','Win-back protects service revenue','/service','$8K']
+    ];
+    function renderOpps(){
+      $('opps').innerHTML=OPPS.map(function(o){ return '<a class="opp" href="'+o[2]+'"><span class="oi"><svg viewBox="0 0 24 24"><path d="M4 16l5-5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div class="om"><b>'+o[0]+'</b><span>'+o[1]+'</span></div><span class="ov">'+o[3]+'</span></a>'; }).join('');
+    }
+
+    var PLAN=[
+      ['Clear the Nguyen deal','Walk to the desk and pencil it — 22 min and counting.'],
+      ['Approve the AI review reply','One tap sends a warm, on-brand response to Maria.'],
+      ['Work the 9-unit equity list','Assign each to the selling rep for a same-day call.'],
+      ['15-min bench with Devon & Priya','Objection-handling drill before the afternoon rush.']
+    ];
+    function renderPlan(){
+      $('plan').innerHTML=PLAN.map(function(p,i){ return '<div class="pstep"><span class="pn"></span><div class="pt"><b>'+p[0]+'</b><p>'+p[1]+'</p></div><button class="pdone" onclick="donePlan('+i+')">Done</button></div>'; }).join('');
+    }
+    function donePlan(i){ PLAN.splice(i,1); renderPlan(); if(!PLAN.length){ $('plan').innerHTML='<div style="padding:26px;text-align:center;color:var(--green);font-weight:700;">✓ Action plan complete — great work!</div>'; } toast('Nice — checked off'); }
+
+    /* ask AI GM */
+    var SUGG=['What should I focus on?','How is Marcus doing?','Which source should I cut?','Are we hitting goal?'];
+    function renderSugg(){ $('sugg').innerHTML=SUGG.map(function(s){ return '<button onclick="ask(this.textContent)">'+s+'</button>'; }).join(''); }
+    function answer(q){ q=q.toLowerCase();
+      if(q.indexOf('focus')>=0) return 'Top priority: clear the Nguyen deal at the desk and approve the review reply — both are time-sensitive. Then hand the 9 equity upgrades to your reps; that\'s your fastest path to 3–4 extra units before month-end.';
+      if(q.indexOf('marcus')>=0) return 'Marcus is your top performer — 91 coaching score, 4.9★ reviews, and leading in closes. Consider having him run the objection-handling bench session; modeling his approach would lift Devon and Priya.';
+      if(q.indexOf('source')>=0||q.indexOf('cut')>=0) return 'Cut or cap CarGurus. It\'s at $36K cost-per-sale vs $1.8K for referrals and $18K for website. Move half its budget to the referral program and website — projected to net 2–3 more units for the same spend.';
+      if(q.indexOf('goal')>=0||q.indexOf('pace')>=0) return 'Yes — you\'re at 104% pace, tracking to ~83 units vs an 80 goal with 6 days left. Holding 3.2 units/day gets you there comfortably. Clearing today\'s red flags protects the cushion.';
+      return 'Based on current data: pace is 104%, two red flags need attention today, and there\'s ~$47K of gross in the opportunity queue. Want me to draft the outreach for the equity list?';
+    }
+    function bub(cls,txt){ var d=document.createElement('div'); d.className='abub '+cls; d.textContent=txt; $('askbody').appendChild(d); $('askbody').scrollTop=$('askbody').scrollHeight; return d; }
+    function ask(q){ q=q||$('askin').value.trim(); if(!q) return; $('askin').value=''; bub('me',q);
+      var t=bub('ai','…'); var full=answer(q),i=0; t.textContent='';
+      var iv=setInterval(function(){ t.textContent=full.slice(0,i+=3); $('askbody').scrollTop=$('askbody').scrollHeight; if(i>=full.length) clearInterval(iv); },14);
+    }
+
+    function renderPace(){ $('pring').style.background='conic-gradient(#16a34a '+(360)+'deg,#e9edf4 0deg)'; }
+    var tTimer; function toast(m){ $('toastMsg').innerHTML=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2200); }
+    document.addEventListener('DOMContentLoaded', function(){ renderAlerts(); renderOpps(); renderPlan(); renderSugg(); renderPace(); });
+  </script>
+</body>
+</html>

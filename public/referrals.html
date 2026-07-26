@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Referral Center — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --gold:#f5b638; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:420px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#e7f7ee; color:#16a34a; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; max-width:560px; }
+    .btn-primary { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; border-radius:11px; padding:11px 18px; font-size:13.5px; font-weight:600; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); } .btn-primary svg { width:16px; height:16px; }
+
+    .kpis { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin:22px 0 20px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 15px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:11.5px;} .kp .kv{font-size:22px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kd{font-size:11px;font-weight:700;margin-top:4px;color:var(--green);}
+
+    .grid { display:grid; grid-template-columns:1fr 330px; gap:18px; align-items:start; }
+    @media(max-width:1080px){ .grid{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .card-h { display:flex; align-items:center; gap:10px; padding:15px 18px; border-bottom:1px solid var(--line); } .card-h h2{font-size:14.5px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);} .card-h .r{margin-left:auto;font-size:12px;color:var(--muted);font-weight:700;}
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:24px 0 14px; }
+
+    /* pipeline rows */
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; } .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; } .pill.on{background:var(--accent);color:#fff;border-color:var(--accent);} .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;} .pill .c{opacity:.7;margin-left:3px;}
+    .ref{display:grid;grid-template-columns:1.7fr 1.5fr 1fr 1fr auto;gap:14px;align-items:center;padding:14px 18px;border-top:1px solid var(--line);cursor:pointer;} .ref:first-of-type{border-top:none;} .ref:hover{background:#fafbff;}
+    .who{display:flex;align-items:center;gap:11px;} .who .av{width:36px;height:36px;border-radius:50%;flex:none;color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;} .who b{font-weight:700;font-size:13.5px;} .who span{display:block;color:var(--muted);font-size:11.5px;}
+    .fromby{font-size:12.5px;color:var(--muted);} .fromby b{color:var(--text);font-weight:700;}
+    .st{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:7px;display:inline-block;} .st-new{background:#eef4ff;color:#2563eb;} .st-contacted{background:#e2f5fb;color:#0891b2;} .st-appt{background:#fdf0dc;color:#b7791f;} .st-sold{background:#e7f7ee;color:#16a34a;} .st-lost{background:#eef1f6;color:#64748b;}
+    .rew{font-size:11px;font-weight:800;padding:4px 10px;border-radius:7px;} .rew-pending{background:#fdf0dc;color:#b7791f;} .rew-earned{background:#eef4ff;color:#2563eb;} .rew-paid{background:#e7f7ee;color:#16a34a;} .rew-none{background:#eef1f6;color:#94a3b8;}
+    .refbtn{border:1px solid var(--line);background:#fff;color:var(--accent);border-radius:9px;padding:7px 12px;font-size:12px;font-weight:700;} .refbtn:hover{background:var(--accent-soft);}
+
+    /* leaderboard */
+    .lb{display:flex;align-items:center;gap:12px;padding:12px 18px;border-top:1px solid var(--line);} .lb:first-child{border-top:none;}
+    .lb .rk{width:24px;font-size:14px;font-weight:900;color:var(--faint);text-align:center;flex:none;} .lb.top .rk{color:var(--gold);}
+    .lb .av{width:36px;height:36px;border-radius:50%;flex:none;color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;}
+    .lb .li{flex:1;min-width:0;} .lb .li b{font-size:13px;font-weight:700;} .lb .li span{display:block;font-size:11px;color:var(--muted);}
+    .lb .lv{text-align:right;flex:none;} .lb .lv b{font-size:14px;font-weight:800;} .lb .lv span{font-size:10.5px;color:var(--muted);display:block;}
+
+    /* reward tiers */
+    .tier{display:flex;align-items:center;gap:12px;padding:12px 18px;border-top:1px solid var(--line);} .tier:first-child{border-top:none;}
+    .tier .tb{width:34px;height:34px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;} .tier.hit .tb{background:linear-gradient(150deg,#fde68a,#f5b638);color:#7a5a08;} .tier:not(.hit) .tb{background:#eef1f6;color:#b6c2d2;}
+    .tier .ti{flex:1;} .tier .ti b{font-size:13px;font-weight:700;} .tier .ti span{display:block;font-size:11px;color:var(--muted);} .tier .tv{font-weight:800;color:var(--green);}
+
+    /* share */
+    .share-b{padding:16px 18px;} .linkbox{display:flex;gap:8px;} .linkbox input{flex:1;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:12.5px;background:var(--bg);color:var(--muted);outline:none;} .linkbox button{border:none;border-radius:10px;background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;padding:0 14px;font-weight:700;font-size:12.5px;}
+    .share-ch{display:flex;gap:9px;margin-top:12px;} .share-ch button{flex:1;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--muted);} .share-ch button:hover{border-color:#cfe0f7;color:var(--accent);} .share-ch button svg{width:18px;height:18px;}
+
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show{opacity:1;pointer-events:auto;}
+    .panel { position:fixed; top:0; right:0; bottom:0; width:480px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open{transform:none;}
+    .panel-hd { display:flex; align-items:center; gap:14px; padding:20px 22px; background:var(--card); border-bottom:1px solid var(--line); } .panel-hd .av{width:46px;height:46px;border-radius:50%;flex:none;color:#fff;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;} .panel-hd h2{font-size:17px;font-weight:800;} .panel-hd .pm{color:var(--muted);font-size:12.5px;margin-top:3px;} .panel-close{margin-left:auto;border:none;background:none;color:var(--muted);width:34px;height:34px;border-radius:9px;} .panel-close svg{width:18px;height:18px;}
+    .panel-body { overflow-y:auto; padding:18px 22px 20px; display:flex; flex-direction:column; gap:16px; }
+    .sect { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px; } .sect h3{font-size:12px;font-weight:800;margin-bottom:14px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);}
+    .flow{display:flex;flex-direction:column;} .fstep{display:flex;gap:12px;padding-bottom:14px;position:relative;} .fstep:last-child{padding-bottom:0;} .fstep::before{content:"";position:absolute;left:9px;top:20px;bottom:0;width:2px;background:var(--line);} .fstep:last-child::before{display:none;} .fstep .fc{width:20px;height:20px;border-radius:50%;flex:none;background:#e9edf4;display:flex;align-items:center;justify-content:center;z-index:1;} .fstep.done .fc{background:var(--green);} .fstep.done .fc svg{width:12px;height:12px;color:#fff;} .fstep .ft b{font-size:13.5px;font-weight:700;} .fstep.pend .ft b{color:var(--faint);} .fstep .ft span{font-size:11.5px;color:var(--muted);}
+    .kv{display:flex;justify-content:space-between;padding:9px 0;border-top:1px solid var(--line);font-size:13px;} .kv:first-child{border-top:none;} .kv .k{color:var(--muted);} .kv .v{font-weight:700;}
+    .p-actions{display:flex;gap:10px;} .p-actions button{flex:1;border-radius:11px;padding:12px;font-size:13.5px;font-weight:700;} .pa-ghost{background:#fff;border:1px solid var(--line);color:var(--text);} .pa-ghost:hover{border-color:#cfe0f7;color:var(--accent);} .pa-primary{background:linear-gradient(180deg,var(--accent-2),var(--accent));border:none;color:#fff;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .ref{grid-template-columns:1fr auto;} .ref .o-hide{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search referrals..." /></div>
+        <span class="role-badge">Referral Center</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content" id="content"></main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    function avColor(s){ var c=['#3b82f6','#8b5cf6','#ec4899','#f59e0b','#10b981','#06b6d4','#6366f1']; var h=0; for(var i=0;i<s.length;i++) h=(h+s.charCodeAt(i))%c.length; return c[h]; }
+    function initials(n){ return n.split(' ').map(function(x){return x[0];}).slice(0,2).join('').toUpperCase(); }
+
+    var STATUS={new:'New',contacted:'Contacted',appt:'Appt Set',sold:'Sold',lost:'Lost'};
+    var REW={pending:'Reward pending',earned:'Reward earned',paid:'$200 paid',none:'—'};
+    var REFS=[
+      {id:1,ref:'Denise Park',by:'Robert Chen',veh:'2025 RAV4',status:'sold',rew:'paid',date:'Jul 18',rep:'Cameron Miller'},
+      {id:2,ref:'Miguel Santos',by:'Jennifer Adams',veh:'Tacoma TRD',status:'appt',rew:'pending',date:'Jul 24',rep:'Marcus Bell'},
+      {id:3,ref:'The Wright Family',by:'David Okafor',veh:'Grand Highlander',status:'contacted',rew:'pending',date:'Jul 25',rep:'Cameron Miller'},
+      {id:4,ref:'Karen Liu',by:'Ashley Patel',veh:'Corolla Hybrid',status:'new',rew:'none',date:'Jul 26',rep:'Unassigned'},
+      {id:5,ref:'Brandon Cole',by:'Robert Chen',veh:'4Runner',status:'sold',rew:'earned',date:'Jul 12',rep:'Sarah Lin'},
+      {id:6,ref:'Tanya Reyes',by:'Maria Gonzalez',veh:'Sienna',status:'appt',rew:'pending',date:'Jul 23',rep:'Cameron Miller'},
+      {id:7,ref:'Peter Novak',by:'Jennifer Adams',veh:'Camry',status:'new',rew:'none',date:'Jul 26',rep:'Unassigned'}
+    ];
+    var TOPREF=[['Robert Chen',5,1000],['Jennifer Adams',4,600],['David Okafor',3,600],['Maria Gonzalez',2,400],['Ashley Patel',2,200]];
+    var TIERS=[['1','First referral','$200 credit',true],['3','Bronze advocate','+$100 bonus',true],['5','Silver advocate','+$250 bonus',false],['10','Gold advocate','Free detailing 1yr',false]];
+
+    var filter='all';
+    function inF(r){ if(filter==='all')return true; if(filter==='open')return r.status!=='sold'&&r.status!=='lost'; return r.status===filter; }
+    function refRow(r){
+      return '<div class="ref" onclick="openRef('+r.id+')"><div class="who"><span class="av" style="background:'+avColor(r.ref)+'">'+initials(r.ref)+'</span><div><b>'+r.ref+'</b><span>'+r.veh+'</span></div></div>'+
+        '<div class="fromby o-hide">Referred by <b>'+r.by+'</b><br><span style="color:var(--faint);font-size:11px;">'+r.date+' · '+r.rep+'</span></div>'+
+        '<span><span class="st st-'+r.status+'">'+STATUS[r.status]+'</span></span>'+
+        '<span class="o-hide"><span class="rew rew-'+r.rew+'">'+REW[r.rew]+'</span></span>'+
+        '<button class="refbtn" onclick="openRef('+r.id+');event.stopPropagation();">View</button></div>';
+    }
+    function renderPipeline(){
+      $('reflist').innerHTML=REFS.filter(inF).map(refRow).join('') || '<div style="padding:34px;text-align:center;color:var(--muted);">No referrals in this view.</div>';
+    }
+    function renderPills(){
+      var defs=[['all','All'],['open','In Progress'],['new','New'],['appt','Appt Set'],['sold','Sold']];
+      $('pills').innerHTML=defs.map(function(d){ var c=REFS.filter(function(r){ var f=filter; filter=d[0]; var res=inF(r); filter=f; return res; }).length; return '<button class="pill'+(filter===d[0]?' on':'')+'" data-f="'+d[0]+'">'+d[1]+'<span class="c">'+c+'</span></button>'; }).join('');
+      $('pills').querySelectorAll('.pill').forEach(function(b){ b.addEventListener('click',function(){ filter=b.getAttribute('data-f'); renderPills(); renderPipeline(); }); });
+    }
+
+    function render(){
+      var role=(window.ADRoles&&window.ADRoles.getRole())||'manager';
+      var isMgr=role==='manager';
+      $('content').innerHTML=''+
+      '<div class="phead"><div><h1>Referral Center</h1><p class="sub">Your happiest customers are your best salespeople. Track every referral, reward advocates automatically, and turn word-of-mouth into a pipeline.</p></div>'+
+        '<button class="btn-primary" onclick="toast(\'Referral invite sent to 34 recent buyers\')"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-3-6-7-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Invite Customers</button></div>'+
+      '<div class="kpis">'+
+        '<div class="kp"><div class="kl">Referrals (mo)</div><div class="kv">'+REFS.length+'</div><div class="kd">▲ 3 vs last mo</div></div>'+
+        '<div class="kp"><div class="kl">Converted</div><div class="kv">2</div><div class="kd">More in pipeline</div></div>'+
+        '<div class="kp"><div class="kl">Conversion</div><div class="kv">34%</div><div class="kd">2× a cold lead</div></div>'+
+        '<div class="kp"><div class="kl">Rewards Paid</div><div class="kv">$2,800</div><div class="kd">YTD</div></div>'+
+        '<div class="kp"><div class="kl">Pending Rewards</div><div class="kv">$600</div><div class="kd">3 in progress</div></div>'+
+        '<div class="kp"><div class="kl">Top Referrer</div><div class="kv" style="font-size:16px;">Robert C.</div><div class="kd">5 referrals</div></div>'+
+      '</div>'+
+      '<div class="grid">'+
+        '<div><div class="sec-label">Referral Pipeline</div><div class="pills" id="pills"></div><div class="card"><div id="reflist"></div></div></div>'+
+        '<div style="display:flex;flex-direction:column;gap:18px;">'+
+          '<div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.6l1-5.8L3.5 9.7l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><h2>Top Referrers</h2></div><div>'+
+            TOPREF.map(function(t,i){ return '<div class="lb'+(i===0?' top':'')+'"><span class="rk">'+(i+1)+'</span><span class="av" style="background:'+avColor(t[0])+'">'+initials(t[0])+'</span><div class="li"><b>'+t[0]+'</b><span>'+t[1]+' referrals</span></div><div class="lv"><b>$'+t[2].toLocaleString()+'</b><span>earned</span></div></div>'; }).join('')+
+          '</div></div>'+
+          '<div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><h2>Reward Tiers</h2></div><div>'+
+            TIERS.map(function(t){ return '<div class="tier'+(t[3]?' hit':'')+'"><span class="tb">'+t[0]+'</span><div class="ti"><b>'+t[1]+'</b><span>'+t[2]+'</span></div>'+(t[3]?'<span class="tv">✓</span>':'<span style="font-size:11px;color:var(--faint);font-weight:700;">Locked</span>')+'</div>'; }).join('')+
+          '</div></div>'+
+          '<div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M9 15l6-6M8 9a3 3 0 1 0 0-.01M16 15a3 3 0 1 0 0 .01" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><h2>Share Tools</h2></div><div class="share-b">'+
+            '<div class="linkbox"><input value="premierauto.com/refer/cam-miller" readonly id="reflink" /><button onclick="copyLink()">Copy</button></div>'+
+            '<div class="share-ch"><button onclick="toast(\'Opened text composer\')"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Text</button>'+
+            '<button onclick="toast(\'Opened email template\')"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Email</button>'+
+            '<button onclick="toast(\'QR code generated\')"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="14" y="4" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="14" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M14 14h3v3M20 14v6M14 20h3" stroke="currentColor" stroke-width="1.6"/></svg>QR Code</button></div>'+
+          '</div></div>'+
+        '</div>'+
+      '</div>';
+      renderPills(); renderPipeline();
+    }
+    function copyLink(){ var i=$('reflink'); i.select&&i.select(); try{document.execCommand('copy');}catch(e){} toast('Referral link copied'); }
+
+    /* slide-over */
+    var ORDER=['new','contacted','appt','sold'];
+    function openRef(id){
+      var r=REFS.find(function(x){return x.id===id;}); if(!r) return;
+      var idx=ORDER.indexOf(r.status); if(r.status==='lost') idx=1;
+      var steps=[['Referral received',r.date],['Contacted',idx>=1?'Reached out':''],['Appointment set',idx>=2?'Scheduled':''],['Sold & reward paid',idx>=3?'$200 credit issued':'']];
+      $('panel').innerHTML=''+
+      '<div class="panel-hd"><span class="av" style="background:'+avColor(r.ref)+'">'+initials(r.ref)+'</span><div><h2>'+r.ref+'</h2><div class="pm">Interested in '+r.veh+'</div></div><button class="panel-close" onclick="closePanel()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button></div>'+
+      '<div class="panel-body">'+
+        '<div class="sect"><h3>Referral Details</h3><div class="kv"><span class="k">Referred by</span><span class="v">'+r.by+'</span></div><div class="kv"><span class="k">Assigned rep</span><span class="v">'+r.rep+'</span></div><div class="kv"><span class="k">Status</span><span class="v"><span class="st st-'+r.status+'">'+STATUS[r.status]+'</span></span></div><div class="kv"><span class="k">Reward</span><span class="v"><span class="rew rew-'+r.rew+'">'+REW[r.rew]+'</span></span></div></div>'+
+        '<div class="sect"><h3>Progress</h3><div class="flow">'+steps.map(function(s,i){ var done=i<=idx; return '<div class="fstep '+(done?'done':'pend')+'"><span class="fc">'+(done?'<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>':'')+'</span><div class="ft"><b>'+s[0]+'</b>'+(s[1]?'<span>'+s[1]+'</span>':'')+'</div></div>'; }).join('')+'</div></div>'+
+        '<div class="p-actions">'+(r.status==='new'?'<button class="pa-ghost" onclick="closePanel()">Close</button><button class="pa-primary" onclick="closePanel();toast(\'Assigned & first outreach queued\')">Assign &amp; contact</button>':r.rew==='pending'||r.rew==='earned'?'<button class="pa-ghost" onclick="closePanel()">Close</button><button class="pa-primary" onclick="payReward('+r.id+')">Pay $200 reward</button>':'<button class="pa-primary" onclick="closePanel()">Close</button>')+'</div>'+
+      '</div>';
+      $('scrim').classList.add('show'); $('panel').classList.add('open');
+    }
+    function payReward(id){ var r=REFS.find(function(x){return x.id===id;}); if(r) r.rew='paid'; closePanel(); render(); toast('$200 reward paid to '+(r?r.by.split(' ')[0]:'referrer')); }
+    function closePanel(){ $('scrim').classList.remove('show'); $('panel').classList.remove('open'); }
+
+    var tTimer; function toast(m){ $('toastMsg').innerHTML=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2200); }
+    document.addEventListener('DOMContentLoaded', function(){ render(); $('scrim').addEventListener('click', closePanel); });
+  </script>
+</body>
+</html>
