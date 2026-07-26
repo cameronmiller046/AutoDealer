@@ -134,7 +134,9 @@
     .fb-note.in { transform: translateX(0); opacity: 1; }
     .fb-note .ni { width: 30px; height: 30px; border-radius: 8px; background: rgba(34,197,94,0.18); color: #4ade80; display: flex; align-items: center; justify-content: center; flex: none; }
     .fb-note .ni svg { width: 15px; height: 15px; }
-    .fb-note b { color: #fff; display: block; font-size: 11px; } .fb-note span { color: #8697ad; font-size: 9.5px; }
+    .fb-note .ni svg { pointer-events: none; }
+    .fb-note > div { min-width: 0; }
+    .fb-note b { color: #fff; display: block; font-size: 11px; white-space: nowrap; } .fb-note span { color: #8697ad; font-size: 9.5px; white-space: nowrap; }
 
     /* ---------- STAT BAND ---------- */
     .statband { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: linear-gradient(180deg,#070f1e,#060d1a); }
@@ -853,7 +855,7 @@
       ['E-signature complete','Purchase agreement']
     ];
     if (note && !reduce){
-      var nb = note.querySelector('b'), ns = note.querySelector('span'), ni = 0;
+      var nb = note.querySelector('div b'), ns = note.querySelector('div span'), ni = 0;
       function cycleNote(){
         note.classList.add('in');
         setTimeout(function(){

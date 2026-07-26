@@ -88,11 +88,11 @@
 
     /* day timeline */
     .tl-grid { position: relative; padding: 8px 0 8px 66px; }
-    .hour { position: relative; height: 92px; border-top: 1px solid var(--line); }
+    .hour { position: relative; height: 132px; border-top: 1px solid var(--line); }
     .hour:first-child { border-top: none; }
     .hour .hr-lbl { position: absolute; left: -58px; top: -8px; width: 50px; text-align: right; font-size: 11px; color: var(--faint); font-weight: 600; }
     .now-line { position: absolute; left: 66px; right: 12px; height: 2px; background: #ef4444; z-index: 4; } .now-line::before { content: ""; position: absolute; left: -5px; top: -4px; width: 10px; height: 10px; border-radius: 50%; background: #ef4444; }
-    .evt { position: absolute; left: 8px; right: 12px; border-radius: 10px; padding: 8px 12px; overflow: hidden; cursor: pointer; z-index: 3; border-left: 3px solid var(--ec); background: var(--eb); transition: transform 0.12s, box-shadow 0.12s; }
+    .evt { position: absolute; left: 8px; right: 12px; border-radius: 10px; padding: 9px 12px; overflow: hidden; cursor: pointer; z-index: 3; border-left: 3px solid var(--ec); background: var(--eb); transition: transform 0.12s, box-shadow 0.12s; line-height: 1.32; }
     .evt:hover { transform: translateY(-1px); box-shadow: 0 10px 22px -14px rgba(16,32,60,0.5); z-index: 5; }
     .evt .et { font-size: 11px; font-weight: 700; color: var(--ec); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .evt .en { font-weight: 700; font-size: 13.5px; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .evt .ev { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .evt .ebadge { position: absolute; top: 8px; right: 10px; font-size: 9.5px; font-weight: 800; letter-spacing: 0.4px; padding: 2px 7px; border-radius: 6px; }
@@ -390,13 +390,13 @@
     }
 
     function dayView() {
-      const H0 = 8, H1 = 18, PH = 92;
+      const H0 = 8, H1 = 18, PH = 132;
       let hours = "";
       for (let h = H0; h <= H1; h++) hours += `<div class="hour"><span class="hr-lbl">${fmt(h)}</span></div>`;
       const now = 13.4;
       const nowTop = 8 + (now - H0) * PH;
       let evts = todays().map((a) => {
-        const top = 8 + (a.start - H0) * PH, ht = Math.max(44, (a.end - a.start) * PH - 6);
+        const top = 8 + (a.start - H0) * PH, ht = Math.max(64, (a.end - a.start) * PH - 6);
         const [ec, eb] = TYPE[a.type];
         const stc = ST[a.status];
         return `<div class="evt" data-open="${a.id}" style="top:${top}px;height:${ht}px;--ec:${ec};--eb:${eb}"><div class="ebadge ${stc[0]}">${stc[1]}</div><div class="et">${fmt(a.start)} · ${TYPE[a.type][2]}</div><div class="en">${a.name}</div><div class="ev">${a.veh}</div></div>`;
