@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trade Center — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:420px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#fdf3e3; color:#b45309; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; }
+    .btn { display:inline-flex; align-items:center; gap:8px; border-radius:11px; padding:11px 17px; font-size:13.5px; font-weight:600; box-shadow:var(--shadow); } .btn svg { width:16px; height:16px; }
+    .btn-scan { background:var(--card); border:1px solid var(--line); color:var(--text); } .btn-scan:hover { border-color:#cfe0f7; color:var(--accent); }
+    .btn-primary { background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); }
+    .head-actions { display:flex; gap:10px; }
+    .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:13px; margin:22px 0 18px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; box-shadow:var(--shadow); } .kp .kl { color:var(--muted); font-size:12px; } .kp .kv { font-size:22px; font-weight:800; letter-spacing:-0.5px; margin-top:4px; } .kp .kv.g{color:#16a34a;}
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+    .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; } .pill.on { background:var(--accent); color:#fff; border-color:var(--accent); } .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;}
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; }
+    .tcard { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; cursor:pointer; transition:transform .12s, box-shadow .12s; } .tcard:hover { transform:translateY(-2px); box-shadow:0 18px 40px -22px rgba(16,32,60,.4); }
+    .tc-photo { height:130px; background:linear-gradient(180deg,#f2f6fc,#e7edf6); position:relative; display:flex; align-items:center; justify-content:center; } .tc-photo svg.car { width:80%; } .tc-photo .grade { position:absolute; top:11px; left:11px; width:30px; height:30px; border-radius:9px; color:#fff; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center; } .tc-photo .status { position:absolute; top:11px; right:11px; font-size:10px; font-weight:800; padding:3px 9px; border-radius:7px; } .st-pend{background:#fdf0dc;color:#b45309;} .st-appr{background:#e7f7ee;color:#16a34a;} .st-prog{background:#eaf1fe;color:#2563eb;}
+    .tc-body { padding:15px 16px; }
+    .tc-cust { display:flex; align-items:center; gap:10px; margin-bottom:11px; } .tc-cust .av { width:32px; height:32px; border-radius:50%; color:#fff; font-weight:700; font-size:11px; display:flex; align-items:center; justify-content:center; flex:none; } .tc-cust b { font-weight:700; font-size:13.5px; } .tc-cust span { display:block; font-size:11.5px; color:var(--muted); }
+    .tc-veh { font-weight:700; font-size:14.5px; } .tc-vin { color:var(--muted); font-size:12px; margin-top:2px; }
+    .tc-nums { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:13px; padding-top:12px; border-top:1px solid var(--line); } .tc-nums .k { color:var(--faint); font-size:10px; text-transform:uppercase; letter-spacing:.3px; } .tc-nums .v { font-weight:800; font-size:14px; margin-top:1px; } .tc-nums .v.eq{color:#16a34a;} .tc-nums .v.neg{color:#dc2626;}
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show { opacity:1; pointer-events:auto; }
+    .panel { position:fixed; top:0; right:0; bottom:0; width:500px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open { transform:none; }
+    .panel-body { overflow-y:auto; }
+    .p-hero { height:190px; background:linear-gradient(180deg,#f2f6fc,#e7edf6); position:relative; display:flex; align-items:center; justify-content:center; } .p-hero svg.car { width:70%; } .p-close { position:absolute; top:14px; right:14px; border:none; background:rgba(255,255,255,.9); width:34px; height:34px; border-radius:9px; box-shadow:0 4px 12px -4px rgba(0,0,0,.3); } .p-close svg { width:18px; height:18px; } .p-scan { position:absolute; bottom:14px; right:14px; background:rgba(15,27,45,.85); color:#fff; border:none; border-radius:9px; padding:8px 13px; font-size:12px; font-weight:700; display:inline-flex; gap:7px; align-items:center; } .p-scan svg{width:14px;height:14px;}
+    .p-sec { padding:18px 22px; display:flex; flex-direction:column; gap:16px; }
+    .p-hd { display:flex; align-items:flex-start; gap:12px; } .p-hd .av { width:44px; height:44px; border-radius:50%; color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center; flex:none; } .p-hd h2 { font-size:18px; font-weight:800; } .p-hd .pm { color:var(--muted); font-size:13px; margin-top:2px; }
+    .sect { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px; } .sect h3 { font-size:13px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:7px; } .sect h3 .rt{margin-left:auto;font-size:12px;font-weight:800;}
+    .vin-grid { display:grid; grid-template-columns:1fr 1fr; gap:11px 16px; } .vin-grid .k { color:var(--muted); font-size:11.5px; } .vin-grid .v { font-weight:600; font-size:13.5px; margin-top:1px; }
+    .cond { display:flex; flex-direction:column; gap:2px; } .cond-row { display:flex; align-items:center; gap:10px; padding:8px 4px; font-size:13px; } .cond-row .cg { margin-left:auto; font-weight:700; font-size:12px; padding:2px 9px; border-radius:7px; } .cg-good{background:#e7f7ee;color:#16a34a;} .cg-fair{background:#fdf0dc;color:#b45309;} .cg-poor{background:#fdeaea;color:#dc2626;}
+    .val-row { display:flex; justify-content:space-between; padding:8px 0; border-top:1px solid var(--line); font-size:13px; } .val-row:first-child{border-top:none;} .val-row .k{color:var(--muted);} .val-row .v{font-weight:600;} .val-row.tot{border-top:2px solid var(--line);margin-top:4px;padding-top:10px;} .val-row.tot .k{font-weight:700;color:var(--text);} .val-row.tot .v{font-size:16px;font-weight:800;} .val-row .eq{color:#16a34a;} .val-row .neg{color:#dc2626;}
+    .comps { display:flex; flex-direction:column; gap:8px; } .comp { display:flex; align-items:center; gap:10px; font-size:12.5px; } .comp .bar { flex:1; height:8px; background:#eef2f8; border-radius:999px; overflow:hidden; } .comp .bar > i { display:block; height:100%; background:linear-gradient(90deg,#3b82f6,#2563eb); border-radius:999px; } .comp .cv { font-weight:700; width:66px; text-align:right; }
+    .appr { display:flex; gap:10px; } .appr button { flex:1; border-radius:11px; padding:12px; font-size:13.5px; font-weight:700; } .ap-adj{background:#fff;border:1px solid var(--line);color:var(--text);} .ap-adj:hover{border-color:#cfe0f7;color:var(--accent);} .ap-ok{background:linear-gradient(180deg,#22c55e,#16a34a);border:none;color:#fff;box-shadow:0 12px 26px -14px rgba(22,163,74,.9);} .mgr-only-note{font-size:11.5px;color:var(--muted);text-align:center;margin-top:-6px;}
+    body[data-role="salesperson"] .mgr-only { display:none !important; }
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .kpis{grid-template-columns:repeat(2,1fr);} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" placeholder="Search trades by customer, VIN, or vehicle..." /></div>
+        <span class="role-badge">Trade Center</span>
+        <span class="tb-avatar"><span class="av">CM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>Trade Center</h1><p class="sub">Scan, appraise, and approve trade-ins with market-based valuations and equity in seconds.</p></div>
+          <div class="head-actions">
+            <button class="btn btn-scan" id="scanBtn"><svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Scan VIN</button>
+            <button class="btn btn-primary"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>New Appraisal</button>
+          </div>
+        </div>
+        <div class="kpis" id="kpis"></div>
+        <div class="pills" id="pills"></div>
+        <div class="grid" id="grid"></div>
+      </main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var money = function(n){ return "$"+Math.round(n).toLocaleString(); };
+    function car(hex){ return '<svg class="car" viewBox="0 0 162 52"><path d="M10 40 C10 34 14 33 20 32 L40 21 C46 17 60 16 80 16 C102 16 122 20 134 27 L147 31 C153 33 153 39 150 40 Z" fill="'+hex+'"/><path d="M46 30 L58 20 L104 21 L120 29 Z" fill="#dbe6f5" opacity="0.85"/><g><circle cx="46" cy="41" r="10" fill="#1c2330"/><circle cx="46" cy="41" r="4.6" fill="#cbd5e1"/><circle cx="122" cy="41" r="10" fill="#1c2330"/><circle cx="122" cy="41" r="4.6" fill="#cbd5e1"/></g></svg>'; }
+    var STATUS = { pending:["st-pend","Pending Approval"], approved:["st-appr","Approved"], progress:["st-prog","In Progress"] };
+    var GRADE = { A:"#16a34a", B:"#2563eb", C:"#ea8a0b", D:"#dc2626" };
+
+    var T = [
+      {id:1,cust:"David Johnson",ini:"DJ",color:"#f59e0b",veh:"2021 Ford F-150 XLT",vin:"1FTFW1E80RF139820",hex:"#b6bac0",miles:52300,grade:"C",status:"pending",acv:26000,market:28900,payoff:31200,offer:26000,year:2021,make:"Ford",model:"F-150",trim:"XLT",eng:"3.5L EcoBoost",cond:[["Exterior","fair"],["Interior","good"],["Tires","fair"],["Mechanical","good"],["Frame / Structure","good"]]},
+      {id:2,cust:"Kevin Anderson",ini:"KA",color:"#0ea5e9",veh:"2022 GMC Sierra 1500",vin:"3GTUUGEL0SG142551",hex:"#e6e7ea",miles:38900,grade:"B",status:"pending",acv:34500,market:36800,payoff:22000,offer:34500,year:2022,make:"GMC",model:"Sierra 1500",trim:"SLT",eng:"5.3L V8",cond:[["Exterior","good"],["Interior","good"],["Tires","good"],["Mechanical","good"],["Frame / Structure","good"]]},
+      {id:3,cust:"Grace Kim",ini:"GK",color:"#eab308",veh:"2020 Kia Telluride SX",vin:"5XYP5DGC0PG123466",hex:"#3a7ca5",miles:62000,grade:"B",status:"progress",acv:21000,market:22400,payoff:6800,offer:21000,year:2020,make:"Kia",model:"Telluride",trim:"SX",eng:"3.8L V6",cond:[["Exterior","good"],["Interior","fair"],["Tires","fair"],["Mechanical","good"],["Frame / Structure","good"]]},
+      {id:4,cust:"Sarah Lewis",ini:"SL",color:"#8b5cf6",veh:"2020 Honda CR-V EX",vin:"7FARW2H85PE123458",hex:"#c0c4ca",miles:41200,grade:"A",status:"approved",acv:22800,market:23600,payoff:11000,offer:22800,year:2020,make:"Honda",model:"CR-V",trim:"EX",eng:"1.5L Turbo",cond:[["Exterior","good"],["Interior","good"],["Tires","good"],["Mechanical","good"],["Frame / Structure","good"]]},
+      {id:5,cust:"Ethan Ross",ini:"ER",color:"#64748b",veh:"2019 Chevrolet Malibu",vin:"1G1ZD5ST0KF123400",hex:"#6b7280",miles:78400,grade:"C",status:"approved",acv:12200,market:13100,payoff:0,offer:12200,year:2019,make:"Chevrolet",model:"Malibu",trim:"LT",eng:"1.5L Turbo",cond:[["Exterior","fair"],["Interior","fair"],["Tires","poor"],["Mechanical","good"],["Frame / Structure","good"]]}
+    ];
+
+    function eqOf(t){ return t.offer - t.payoff; }
+    function renderKPIs(){
+      var pending = T.filter(function(t){return t.status==="pending";}).length;
+      var avgEq = Math.round(T.reduce(function(a,t){return a+eqOf(t);},0)/T.length);
+      $("kpis").innerHTML = [["Appraisals Active",T.length,""],["Pending Approval",pending,""],["Avg Equity",money(avgEq),"g"],["Trades This Month","31",""],["Avg Recon Cost","$780","mgr-only"]].map(function(k){ return '<div class="kp '+(k[2]==="mgr-only"?"mgr-only":"")+'"><div class="kl">'+k[0]+'</div><div class="kv '+(k[2]==="g"?"g":"")+'">'+k[1]+'</div></div>'; }).join("");
+    }
+    var filter="all", q="";
+    var PILLS=[["all","All"],["pending","Pending Approval"],["progress","In Progress"],["approved","Approved"]];
+    function renderPills(){ $("pills").innerHTML=PILLS.map(function(p){ return '<button class="pill '+(filter===p[0]?"on":"")+'" data-f="'+p[0]+'">'+p[1]+'</button>'; }).join(""); document.querySelectorAll(".pill").forEach(function(b){ b.addEventListener("click",function(){ filter=b.dataset.f; renderPills(); renderGrid(); }); }); }
+    function renderGrid(){
+      var rows = T.filter(function(t){ return (filter==="all"||t.status===filter) && (!q || (t.cust+" "+t.veh+" "+t.vin).toLowerCase().indexOf(q.toLowerCase())!==-1); });
+      $("grid").innerHTML = rows.map(function(t){ var eq=eqOf(t); var st=STATUS[t.status]; return '<div class="tcard" data-id="'+t.id+'"><div class="tc-photo">'+car(t.hex)+'<span class="grade" style="background:'+GRADE[t.grade]+'">'+t.grade+'</span><span class="status '+st[0]+'">'+st[1]+'</span></div><div class="tc-body"><div class="tc-cust"><span class="av" style="background:'+t.color+'">'+t.ini+'</span><div><b>'+t.cust+'</b><span>'+t.miles.toLocaleString()+' mi</span></div></div><div class="tc-veh">'+t.veh+'</div><div class="tc-vin">VIN '+t.vin+'</div><div class="tc-nums"><div><div class="k">Market</div><div class="v">'+money(t.market)+'</div></div><div><div class="k">Our Offer</div><div class="v">'+money(t.offer)+'</div></div><div><div class="k">Equity</div><div class="v '+(eq<0?"neg":"eq")+'">'+(eq<0?"-"+money(-eq):"+"+money(eq))+'</div></div></div></div></div>'; }).join("");
+      document.querySelectorAll(".tcard").forEach(function(el){ el.addEventListener("click",function(){ openTrade(+el.dataset.id); }); });
+    }
+
+    var scrim=$("scrim"), panel=$("panel");
+    function openTrade(id){
+      var t=T.find(function(x){return x.id===id;}); if(!t) return; var eq=eqOf(t);
+      var maxComp=t.market*1.08;
+      var comps=[["Similar (avg)",t.market],["Auction (MMR)",t.acv],["Retail asking",t.market*1.18],["Our offer",t.offer]];
+      panel.innerHTML=''+
+      '<div class="panel-body"><div class="p-hero">'+car(t.hex)+'<button class="p-close" id="pClose"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><button class="p-scan"><svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Add Photos</button></div>'+
+      '<div class="p-sec"><div class="p-hd"><span class="av" style="background:'+t.color+'">'+t.ini+'</span><div><h2>'+t.veh+'</h2><div class="pm">'+t.cust+' · Grade '+t.grade+' · '+t.miles.toLocaleString()+' mi</div></div></div>'+
+        '<div class="sect"><h3>VIN Decode <span class="rt" style="color:#16a34a">Verified</span></h3><div class="vin-grid"><div><div class="k">VIN</div><div class="v">'+t.vin+'</div></div><div><div class="k">Year / Make</div><div class="v">'+t.year+' '+t.make+'</div></div><div><div class="k">Model / Trim</div><div class="v">'+t.model+' '+t.trim+'</div></div><div><div class="k">Engine</div><div class="v">'+t.eng+'</div></div><div><div class="k">Mileage</div><div class="v">'+t.miles.toLocaleString()+'</div></div><div><div class="k">Title</div><div class="v">Clean</div></div></div></div>'+
+        '<div class="sect"><h3>Condition Report <span class="rt" style="color:'+GRADE[t.grade]+'">Grade '+t.grade+'</span></h3><div class="cond">'+t.cond.map(function(c){ return '<div class="cond-row">'+c[0]+'<span class="cg cg-'+c[1]+'">'+c[1].charAt(0).toUpperCase()+c[1].slice(1)+'</span></div>'; }).join("")+'</div></div>'+
+        '<div class="sect"><h3>Market Valuation</h3><div class="comps">'+comps.map(function(c){ return '<div class="comp"><span style="width:110px;color:var(--muted)">'+c[0]+'</span><div class="bar"><i style="width:'+Math.min(100,c[1]/maxComp*100)+'%"></i></div><span class="cv">'+money(c[1])+'</span></div>'; }).join("")+'</div></div>'+
+        '<div class="sect"><h3>Equity Calculation</h3>'+
+          '<div class="val-row"><span class="k">Appraised Value (ACV)</span><span class="v">'+money(t.acv)+'</span></div>'+
+          '<div class="val-row"><span class="k">Trade Offer to Customer</span><span class="v">'+money(t.offer)+'</span></div>'+
+          '<div class="val-row"><span class="k">Loan Payoff</span><span class="v">'+(t.payoff?"-"+money(t.payoff):"$0")+'</span></div>'+
+          '<div class="val-row tot"><span class="k">Customer '+(eq<0?"Negative Equity":"Equity")+'</span><span class="v '+(eq<0?"neg":"eq")+'">'+(eq<0?"-"+money(-eq):"+"+money(eq))+'</span></div>'+
+          '<div class="mgr-only" style="margin-top:8px;font-size:12px;color:var(--muted)">Est. recon $780 · Projected retail '+money(t.market*1.18)+' · Est. gross <b style="color:#16a34a">'+money(t.market*1.18 - t.acv - 780)+'</b></div>'+
+        '</div>'+
+        '<div class="appr"><button class="ap-adj" id="apAdj">Adjust Offer</button><button class="ap-ok" id="apOk">'+(t.status==="approved"?"Push to Deal":"Approve Appraisal")+'</button></div>'+
+        '<div class="mgr-only-note mgr-only">Manager approval finalizes the trade allowance on the deal.</div>'+
+      '</div></div>';
+      panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
+      $("pClose").addEventListener("click", closeAll);
+      $("apAdj").addEventListener("click", function(){ toast("Offer adjustment sent to desk"); });
+      $("apOk").addEventListener("click", function(){ if(t.status!=="approved"){ t.status="approved"; renderKPIs(); renderGrid(); } toast(t.veh+" appraisal approved · pushed to deal"); closeAll(); });
+    }
+    function closeAll(){ panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
+    scrim.addEventListener("click", closeAll);
+    document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeAll(); });
+    $("search").addEventListener("input", function(e){ q=e.target.value; renderGrid(); });
+    $("scanBtn").addEventListener("click", function(){ toast("VIN scanner ready — point at the windshield barcode"); });
+    var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2400); }
+    renderKPIs(); renderPills(); renderGrid();
+  </script>
+</body>
+</html>

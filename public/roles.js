@@ -15,6 +15,10 @@
     admin:'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="11" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 13v2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
     checkin:'<rect x="5" y="4" width="14" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M9 4h6v2.5H9zM8.5 13l2 2 4-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
     deals:'<path d="M4 7h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 7V5.5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2V7M4 12h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/>',
+    trades:'<path d="M4 8h13l-3-3M20 16H7l3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+    delivery:'<path d="M5 8l7-4 7 4v8l-7 4-7-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 11l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+    documents:'<path d="M4 6a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+    automations:'<circle cx="6" cy="6" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="18" cy="12" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="6" cy="18" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.4 6H14a2 2 0 0 1 2 2v1.6M8.4 18H14a2 2 0 0 0 2-2v-1.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
     settings:'<circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
     phone:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
     eye:'<path d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7-10-7-10-7z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.7" fill="none" stroke="currentColor" stroke-width="1.7"/>'
@@ -32,6 +36,8 @@
         {label:'Appointments', href:'/appointments', icon:'appt', badge:'5'},
         {label:'Tasks', href:'/tasks', icon:'tasks', badge:'7'},
         {label:'Deal Desk', href:'/deals', icon:'deals', badge:'4'},
+        {label:'Trade Center', href:'/trades', icon:'trades'},
+        {label:'Delivery Center', href:'/delivery', icon:'delivery', badge:'2'},
         {label:'Inventory', href:'/inventory', icon:'inventory', tag:'Read-only'},
         {label:'Communications', href:'/communications', icon:'comms', badge:'3'},
         {label:'Reports', href:'/reports', icon:'reports'},
@@ -46,11 +52,15 @@
         {label:'Customers', href:'/customers', icon:'customers'},
         {label:'Appointments', href:'/appointments', icon:'appt', badge:'23'},
         {label:'Deal Desk', href:'/deals', icon:'deals', badge:'3'},
+        {label:'Trade Center', href:'/trades', icon:'trades', badge:'2'},
+        {label:'Delivery Center', href:'/delivery', icon:'delivery'},
         {label:'Tasks', href:'/tasks', icon:'tasks'},
         {label:'Inventory', href:'/inventory', icon:'inventory'},
         {label:'Communications', href:'/communications', icon:'comms'},
         {label:'Reports', href:'/reports', icon:'reports'},
         {label:'Sales Team', href:'/team', icon:'team', badge:'6'},
+        {label:'Document Center', href:'/documents', icon:'documents'},
+        {label:'Automation Builder', href:'/automations', icon:'automations'},
         {label:'CRM Administration', href:'/admin', icon:'admin'},
         {label:'Settings', href:'#', icon:'settings'}
       ]
@@ -62,6 +72,7 @@
         {label:'Appointments', href:'/appointments', icon:'appt', badge:'12'},
         {label:'Customers', href:'/customers', icon:'customers'},
         {label:'Communications', href:'/communications', icon:'comms', badge:'4'},
+        {label:'Delivery Center', href:'/delivery', icon:'delivery', badge:'4'},
         {label:'Inventory Lookup', href:'/inventory', icon:'inventory'},
         {label:'Visitor Check-In', href:'/checkin', icon:'checkin', badge:'2'},
         {label:'Settings', href:'#', icon:'settings'}
@@ -80,7 +91,7 @@
   ];
 
   /* Every known in-app route. Anything here that is NOT in the active role's nav is blocked. */
-  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals'];
+  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations'];
 
   function getRole(){ var r = localStorage.getItem('ad_role'); return ROLES[r] ? r : 'salesperson'; }
   function cfg(){ return ROLES[getRole()]; }
@@ -130,6 +141,7 @@
   function injectCSS(){
     var css =
     '.nav a .ro-tag{margin-left:auto;font-size:8.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#8aa0bd;background:rgba(255,255,255,.09);padding:2px 6px;border-radius:5px;}'+
+    '.sidebar .nav{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;}.sidebar .nav::-webkit-scrollbar{width:0;height:0;}'+
     '.va-wrap{position:relative;margin-top:auto;padding:6px 2px 10px;}'+
     '.va-btn{width:100%;display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:#c7d4e6;border-radius:12px;padding:9px 12px;font:inherit;font-size:12.5px;cursor:pointer;}'+
     '.va-btn:hover{background:rgba(255,255,255,.09);}'+
