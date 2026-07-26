@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Garage — Premier Auto</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563eb'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root{
+      --blue:#2563eb; --blue2:#3b82f6; --blue-soft:#eff4ff; --ink:#0f1b2d; --ink2:#3a4a63;
+      --muted:#64748b; --faint:#94a3b8; --line:#e7ecf3; --line2:#eef2f8;
+      --bg:#f5f7fb; --card:#ffffff; --green:#16a34a; --amber:#d97706; --radius:20px;
+      --shadow:0 1px 2px rgba(15,27,45,.04), 0 12px 32px -18px rgba(15,27,45,.22);
+      --shadow-lg:0 30px 70px -30px rgba(15,27,45,.4);
+    }
+    *{margin:0;box-sizing:border-box;}
+    html,body{min-height:100%;}
+    body{font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
+    a{color:inherit;text-decoration:none;}
+    .muted{color:var(--muted);} .faint{color:var(--faint);}
+    svg{display:block;}
+    button{font:inherit;cursor:pointer;}
+
+    /* ---------- top bar ---------- */
+    .topbar{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.86);backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line);}
+    .topwrap{max-width:1180px;margin:0 auto;height:66px;display:flex;align-items:center;gap:26px;padding:0 26px;}
+    .logo{display:flex;align-items:center;gap:11px;font-weight:900;font-size:17px;letter-spacing:-.3px;}
+    .logo .mk{width:34px;height:34px;border-radius:10px;background:linear-gradient(150deg,#3b82f6,#2563eb);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:17px;box-shadow:0 8px 18px -8px rgba(37,99,235,.7);}
+    .logo b{color:var(--blue);}
+    .tnav{display:flex;gap:3px;margin-left:8px;}
+    .tnav a{padding:8px 14px;border-radius:10px;font-size:13.5px;font-weight:600;color:var(--ink2);display:flex;align-items:center;gap:7px;}
+    .tnav a svg{width:16px;height:16px;color:var(--faint);}
+    .tnav a:hover{background:var(--blue-soft);color:var(--blue);}
+    .tnav a.on{background:var(--blue-soft);color:var(--blue);} .tnav a.on svg{color:var(--blue);}
+    .tnav a .dot{width:7px;height:7px;border-radius:50%;background:#ef4444;margin-left:2px;}
+    .tright{margin-left:auto;display:flex;align-items:center;gap:12px;}
+    .icobtn{width:40px;height:40px;border-radius:11px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;position:relative;color:var(--ink2);}
+    .icobtn:hover{background:var(--blue-soft);border-color:#d5e0f5;}
+    .icobtn svg{width:19px;height:19px;}
+    .icobtn .nb{position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;border-radius:9px;background:#ef4444;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #fff;}
+    .me{display:flex;align-items:center;gap:10px;padding-left:6px;}
+    .me .av{width:38px;height:38px;border-radius:50%;background:linear-gradient(150deg,#f472b6,#db2777);color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;}
+    .me .mi b{font-size:13.5px;font-weight:700;display:block;line-height:1.15;} .me .mi span{font-size:11.5px;color:var(--muted);}
+
+    .wrap{max-width:1180px;margin:0 auto;padding:26px;}
+
+    /* ---------- hero ---------- */
+    .hero{background:radial-gradient(1100px 500px at 88% -30%,#1e3a8a,#0f1b2d 60%),#0f1b2d;border-radius:26px;color:#eaf1fb;padding:30px 34px;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);}
+    .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(600px 300px at 15% 130%,rgba(59,130,246,.28),transparent 70%);pointer-events:none;}
+    .hero-top{display:flex;align-items:flex-start;gap:24px;position:relative;z-index:2;}
+    .hero .hi{flex:1;min-width:0;}
+    .greet{font-size:13px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#8fb4ff;}
+    .hero h1{font-size:32px;font-weight:900;letter-spacing:-1px;margin-top:6px;line-height:1.1;}
+    .hero .sub{color:#a9bcda;font-size:14.5px;margin-top:9px;max-width:440px;line-height:1.5;}
+    .stage-pill{display:inline-flex;align-items:center;gap:9px;background:rgba(59,130,246,.2);border:1px solid rgba(96,165,250,.4);color:#bcd6ff;border-radius:999px;padding:8px 15px;font-size:13px;font-weight:800;margin-top:18px;}
+    .stage-pill .d{width:9px;height:9px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:pz 1.8s infinite;}
+    @keyframes pz{0%{box-shadow:0 0 0 0 rgba(74,222,128,.55)}70%{box-shadow:0 0 0 9px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
+    .hero-car{width:340px;flex:none;align-self:center;filter:drop-shadow(0 30px 34px rgba(0,0,0,.5));}
+    @media(max-width:900px){.hero-car{display:none;}}
+
+    /* progress tracker */
+    .tracker{position:relative;z-index:2;margin-top:26px;display:flex;justify-content:space-between;gap:6px;}
+    .tracker::before{content:"";position:absolute;left:24px;right:24px;top:15px;height:3px;background:rgba(255,255,255,.12);border-radius:2px;}
+    .tracker .tfill{position:absolute;left:24px;top:15px;height:3px;background:linear-gradient(90deg,#3b82f6,#60a5fa);border-radius:2px;z-index:1;transition:width 1.1s cubic-bezier(.2,.7,.3,1);}
+    .step{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;text-align:center;}
+    .step .sd{width:32px;height:32px;border-radius:50%;background:#22344f;border:2px solid #33507a;display:flex;align-items:center;justify-content:center;color:#7f97bd;font-weight:800;font-size:13px;transition:.3s;}
+    .step.done .sd{background:linear-gradient(150deg,#3b82f6,#2563eb);border-color:#60a5fa;color:#fff;}
+    .step.cur .sd{background:#0f1b2d;border-color:#60a5fa;color:#7db5ff;box-shadow:0 0 0 5px rgba(96,165,250,.18);}
+    .step .sd svg{width:16px;height:16px;}
+    .step .sl{font-size:11.5px;font-weight:700;color:#8fa6c6;letter-spacing:.2px;}
+    .step.done .sl,.step.cur .sl{color:#eaf1fb;}
+    @media(max-width:640px){.step .sl{display:none;}}
+
+    /* ---------- layout ---------- */
+    .grid{display:grid;grid-template-columns:1fr 340px;gap:22px;margin-top:22px;align-items:start;}
+    @media(max-width:900px){.grid{grid-template-columns:1fr;}}
+    .col{display:flex;flex-direction:column;gap:22px;min-width:0;}
+
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);}
+    .card-h{display:flex;align-items:center;gap:11px;padding:18px 22px;border-bottom:1px solid var(--line2);}
+    .card-h svg{width:19px;height:19px;color:var(--blue);}
+    .card-h h2{font-size:15.5px;font-weight:800;letter-spacing:-.2px;}
+    .card-h .link{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--blue);}
+    .card-b{padding:22px;}
+
+    /* next-step banner */
+    .nextstep{display:flex;align-items:center;gap:18px;background:linear-gradient(120deg,#eff4ff,#f7faff);border:1px solid #dbe6fb;border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);}
+    .nextstep .ns-ic{width:52px;height:52px;border-radius:15px;background:linear-gradient(150deg,#3b82f6,#2563eb);color:#fff;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 12px 24px -12px rgba(37,99,235,.8);}
+    .nextstep .ns-ic svg{width:26px;height:26px;}
+    .nextstep .ns-t{flex:1;min-width:0;}
+    .nextstep .ns-t .k{font-size:11.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--blue);}
+    .nextstep .ns-t b{font-size:17px;font-weight:800;display:block;margin-top:3px;letter-spacing:-.3px;}
+    .nextstep .ns-t span{font-size:13px;color:var(--muted);}
+    .btn{border:none;border-radius:12px;padding:11px 18px;font-size:13.5px;font-weight:700;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;}
+    .btn svg{width:16px;height:16px;}
+    .btn-primary{background:linear-gradient(150deg,#3b82f6,#2563eb);color:#fff;box-shadow:0 12px 24px -12px rgba(37,99,235,.85);}
+    .btn-primary:hover{filter:brightness(1.06);}
+    .btn-ghost{background:#fff;border:1px solid var(--line);color:var(--ink);}
+    .btn-ghost:hover{background:var(--blue-soft);border-color:#d5e0f5;color:var(--blue);}
+    .btn-sm{padding:8px 13px;font-size:12.5px;border-radius:10px;}
+
+    /* vehicle summary */
+    .veh{display:flex;gap:22px;align-items:center;}
+    .veh .vimg{width:230px;flex:none;}
+    @media(max-width:560px){.veh{flex-direction:column;}.veh .vimg{width:80%;}}
+    .veh .vmeta{flex:1;min-width:0;}
+    .veh .vmeta .vt{font-size:20px;font-weight:900;letter-spacing:-.4px;}
+    .veh .vmeta .vs{color:var(--muted);font-size:13.5px;margin-top:3px;}
+    .spec{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+    .spec .si{background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:10px 13px;}
+    .spec .si .l{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--faint);}
+    .spec .si .v{font-size:15px;font-weight:800;margin-top:2px;}
+    .veh .vtags{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px;}
+    .tag{font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;background:var(--blue-soft);color:var(--blue);}
+    .tag.g{background:#e8f7ee;color:var(--green);}
+
+    /* price breakdown */
+    .price{margin-top:4px;}
+    .price .pr{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid var(--line2);font-size:14px;}
+    .price .pr:first-child{border-top:none;}
+    .price .pr .pl{color:var(--ink2);}
+    .price .pr .pv{font-weight:700;font-variant-numeric:tabular-nums;}
+    .price .pr.credit .pv{color:var(--green);}
+    .price .pr.total{border-top:2px solid var(--line);margin-top:4px;padding-top:15px;}
+    .price .pr.total .pl{font-weight:800;font-size:15px;}
+    .price .pr.total .pv{font-size:22px;font-weight:900;letter-spacing:-.6px;}
+    .paychip{display:flex;align-items:center;justify-content:space-between;background:#0f1b2d;color:#eaf1fb;border-radius:15px;padding:15px 18px;margin-top:16px;}
+    .paychip .pm{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#8fb4ff;}
+    .paychip b{font-size:26px;font-weight:900;letter-spacing:-1px;} .paychip b small{font-size:14px;color:#8fa6c6;font-weight:700;}
+    .paychip .term{text-align:right;font-size:12px;color:#a9bcda;font-weight:600;}
+
+    /* action / todo list */
+    .todo{display:flex;align-items:center;gap:14px;padding:15px 0;border-top:1px solid var(--line2);}
+    .todo:first-child{border-top:none;}
+    .todo .tc{width:26px;height:26px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;border:2px solid var(--line);color:transparent;}
+    .todo.done .tc{background:var(--green);border-color:var(--green);color:#fff;}
+    .todo .tc svg{width:15px;height:15px;}
+    .todo .ti{flex:1;min-width:0;} .todo .ti b{font-size:14.5px;font-weight:700;} .todo.done .ti b{color:var(--muted);text-decoration:line-through;}
+    .todo .ti span{display:block;font-size:12.5px;color:var(--muted);margin-top:1px;}
+    .todo .badge{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:4px 9px;border-radius:7px;background:#fff4e5;color:var(--amber);flex:none;}
+    .todo.done .badge{background:#e8f7ee;color:var(--green);}
+
+    /* documents */
+    .doc{display:flex;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--line2);}
+    .doc:first-child{border-top:none;}
+    .doc .dic{width:42px;height:42px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--blue-soft);color:var(--blue);}
+    .doc .dic svg{width:21px;height:21px;}
+    .doc .dm{flex:1;min-width:0;} .doc .dm b{font-size:14px;font-weight:700;} .doc .dm span{display:block;font-size:12px;color:var(--muted);}
+    .pill{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:5px 10px;border-radius:8px;flex:none;}
+    .pill.wait{background:#fff4e5;color:var(--amber);} .pill.ok{background:#e8f7ee;color:var(--green);} .pill.blue{background:var(--blue-soft);color:var(--blue);}
+
+    /* right rail */
+    .advisor{display:flex;align-items:center;gap:14px;}
+    .advisor .av{width:56px;height:56px;border-radius:50%;background:linear-gradient(150deg,#22c55e,#15803d);color:#fff;font-weight:800;font-size:19px;display:flex;align-items:center;justify-content:center;flex:none;}
+    .advisor .ai b{font-size:16px;font-weight:800;} .advisor .ai span{display:block;font-size:12.5px;color:var(--muted);}
+    .advisor .stars{color:#f5b638;font-size:12px;margin-top:3px;letter-spacing:1px;}
+    .advisor-act{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px;}
+
+    .appt{display:flex;gap:14px;align-items:center;background:linear-gradient(120deg,#eff4ff,#fff);border:1px solid #dbe6fb;border-radius:15px;padding:15px;}
+    .appt .cal{width:52px;flex:none;text-align:center;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);}
+    .appt .cal .m{background:var(--blue);color:#fff;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:3px 0;}
+    .appt .cal .d{font-size:22px;font-weight:900;padding:5px 0 4px;}
+    .appt .ax b{font-size:14.5px;font-weight:800;} .appt .ax span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;}
+
+    /* messages */
+    .msgs{display:flex;flex-direction:column;gap:12px;max-height:280px;overflow-y:auto;padding-right:2px;}
+    .msg{max-width:86%;padding:10px 13px;border-radius:14px;font-size:13.5px;line-height:1.45;}
+    .msg.them{background:var(--bg);border:1px solid var(--line2);border-bottom-left-radius:4px;align-self:flex-start;}
+    .msg.me{background:linear-gradient(150deg,#3b82f6,#2563eb);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
+    .msg .tm{font-size:10.5px;color:var(--faint);margin-top:4px;font-weight:600;} .msg.me .tm{color:rgba(255,255,255,.7);}
+    .composer{display:flex;gap:9px;margin-top:14px;border-top:1px solid var(--line2);padding-top:14px;}
+    .composer input{flex:1;border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;font-size:13.5px;outline:none;}
+    .composer input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.12);}
+    .composer .send{width:44px;flex:none;border:none;border-radius:12px;background:linear-gradient(150deg,#3b82f6,#2563eb);color:#fff;display:flex;align-items:center;justify-content:center;}
+    .composer .send svg{width:18px;height:18px;}
+
+    .rewards{background:linear-gradient(150deg,#0f1b2d,#1e2f4d);color:#eaf1fb;border-radius:var(--radius);padding:20px 22px;position:relative;overflow:hidden;box-shadow:var(--shadow);}
+    .rewards::after{content:"";position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(245,182,56,.35),transparent 70%);}
+    .rewards .rk{font-size:11.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#f6c76a;}
+    .rewards h3{font-size:19px;font-weight:900;margin-top:6px;letter-spacing:-.4px;}
+    .rewards p{font-size:12.5px;color:#a9bcda;margin-top:6px;line-height:1.5;}
+    .rewards .pts{font-size:30px;font-weight:900;letter-spacing:-1px;margin-top:12px;} .rewards .pts small{font-size:13px;color:#8fa6c6;font-weight:700;}
+
+    .sechead{display:flex;align-items:center;gap:12px;margin:8px 2px 2px;}
+    .sechead h2{font-size:19px;font-weight:900;letter-spacing:-.5px;}
+    .sechead .c{font-size:12px;font-weight:800;color:var(--faint);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 11px;}
+
+    /* modal */
+    .scrim{position:fixed;inset:0;background:rgba(15,27,45,.55);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:.25s;z-index:80;}
+    .scrim.open{opacity:1;pointer-events:auto;}
+    .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-46%);width:min(480px,92vw);background:#fff;border-radius:22px;box-shadow:var(--shadow-lg);z-index:81;opacity:0;pointer-events:none;transition:.28s;overflow:hidden;}
+    .modal.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%);}
+    .modal-h{padding:20px 24px;border-bottom:1px solid var(--line2);display:flex;align-items:center;gap:12px;}
+    .modal-h svg{width:22px;height:22px;color:var(--blue);}
+    .modal-h b{font-size:16.5px;font-weight:800;} .modal-h .x{margin-left:auto;width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--muted);}
+    .modal-b{padding:24px;}
+    .signbox{border:2px dashed #c7d3e6;border-radius:16px;height:120px;display:flex;align-items:center;justify-content:center;position:relative;background:var(--bg);overflow:hidden;}
+    .signbox .ph{color:var(--faint);font-size:13px;font-weight:600;}
+    .signbox .sig{font-family:"Segoe Script","Brush Script MT",cursive;font-size:40px;color:var(--ink);opacity:0;transition:.5s;transform:rotate(-4deg);}
+    .signbox.signed .sig{opacity:1;} .signbox.signed .ph{display:none;}
+    .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(24px);background:#0f1b2d;color:#fff;padding:13px 22px;border-radius:13px;font-weight:700;font-size:13.5px;box-shadow:var(--shadow-lg);opacity:0;transition:.3s;z-index:90;display:flex;align-items:center;gap:10px;}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    .toast svg{width:18px;height:18px;color:#4ade80;}
+
+    footer{max-width:1180px;margin:10px auto 0;padding:26px;color:var(--faint);font-size:12px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;border-top:1px solid var(--line);}
+    footer a:hover{color:var(--blue);}
+  </style>
+</head>
+<body>
+  <!-- ===== top bar ===== -->
+  <header class="topbar">
+    <div class="topwrap">
+      <a class="logo" href="#"><span class="mk">P</span>Premier<b>Auto</b></a>
+      <nav class="tnav">
+        <a class="on" href="#" data-scroll="top"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Dashboard</a>
+        <a href="#deal" data-scroll="deal"><svg viewBox="0 0 24 24"><path d="M5 8l7-4 7 4v8l-7 4-7-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>My Deal</a>
+        <a href="#docs" data-scroll="docs"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v4h4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Documents<span class="dot"></span></a>
+        <a href="#msg" data-scroll="msg"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Messages</a>
+      </nav>
+      <div class="tright">
+        <button class="icobtn" title="Notifications" onclick="toast('You\'re all caught up')"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 4-2 6-2 6h16s-2-2-2-6a6 6 0 0 0-6-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 20a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><span class="nb">3</span></button>
+        <div class="me">
+          <div class="av">SW</div>
+          <div class="mi"><b>Sarah Whitfield</b><span>Member since 2021</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap" id="top">
+    <!-- ===== hero ===== -->
+    <section class="hero">
+      <div class="hero-top">
+        <div class="hi">
+          <div class="greet">Good afternoon</div>
+          <h1>Your new Highlander<br>is almost home, Sarah.</h1>
+          <p class="sub">You're in the financing stage — just two documents left to sign before we schedule your delivery. Your advisor Marcus has everything ready.</p>
+          <div class="stage-pill"><span class="d"></span>Deal #D-4471 · In Financing</div>
+        </div>
+        <div class="hero-car" id="heroCar"></div>
+      </div>
+      <div class="tracker" id="tracker">
+        <div class="tfill" id="tfill"></div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <!-- ===== main column ===== -->
+      <div class="col">
+        <!-- next step -->
+        <div class="nextstep">
+          <div class="ns-ic"><svg viewBox="0 0 24 24"><path d="M4 13l4 4L20 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="ns-t">
+            <div class="k">Your next step</div>
+            <b>Sign 2 remaining documents</b>
+            <span>Retail Installment Contract &amp; Insurance Verification</span>
+          </div>
+          <button class="btn btn-primary" onclick="scrollToId('docs')"><svg viewBox="0 0 24 24"><path d="M4 20h16M6 16l10-10 3 3-10 10H6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Review &amp; Sign</button>
+        </div>
+
+        <!-- vehicle -->
+        <div class="card" id="deal">
+          <div class="card-h">
+            <svg viewBox="0 0 24 24"><path d="M5 8l7-4 7 4v8l-7 4-7-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+            <h2>Your Vehicle</h2>
+            <a class="link" href="#" onclick="toast('Full window sticker opened');return false;">Window sticker</a>
+          </div>
+          <div class="card-b">
+            <div class="veh">
+              <div class="vimg" id="vehCar"></div>
+              <div class="vmeta">
+                <div class="vt">2025 Toyota Highlander</div>
+                <div class="vs">Platinum AWD · Cement Gray / Black Leather</div>
+                <div class="spec">
+                  <div class="si"><div class="l">VIN</div><div class="v">5TD…8842</div></div>
+                  <div class="si"><div class="l">Stock #</div><div class="v">T-19043</div></div>
+                  <div class="si"><div class="l">Miles</div><div class="v">12</div></div>
+                  <div class="si"><div class="l">Drivetrain</div><div class="v">AWD</div></div>
+                </div>
+                <div class="vtags">
+                  <span class="tag">Panoramic Roof</span>
+                  <span class="tag">JBL Audio</span>
+                  <span class="tag g">Certified New</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- price -->
+        <div class="card">
+          <div class="card-h">
+            <svg viewBox="0 0 24 24"><path d="M12 3v18M8 7h6a2.5 2.5 0 0 1 0 5H9a2.5 2.5 0 0 0 0 5h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h2>Deal Summary</h2>
+            <a class="link" href="#" onclick="toast('Sent to marcus@premierauto.com');return false;">Ask a question</a>
+          </div>
+          <div class="card-b">
+            <div class="price">
+              <div class="pr"><span class="pl">Vehicle price</span><span class="pv">$48,920</span></div>
+              <div class="pr"><span class="pl">Accessories &amp; protection</span><span class="pv">$2,150</span></div>
+              <div class="pr credit"><span class="pl">Trade-in credit — 2019 RAV4</span><span class="pv">−$21,400</span></div>
+              <div class="pr credit"><span class="pl">Manufacturer rebate</span><span class="pv">−$1,000</span></div>
+              <div class="pr"><span class="pl">Taxes &amp; fees</span><span class="pv">$3,610</span></div>
+              <div class="pr total"><span class="pl">Amount financed</span><span class="pv">$32,280</span></div>
+            </div>
+            <div class="paychip">
+              <div><div class="pm">Your estimated payment</div><b>$548<small>/mo</small></b></div>
+              <div class="term">72 months · 6.4% APR<br>$3,000 down</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- documents -->
+        <div class="sechead" id="docs"><h2>Documents</h2><span class="c">2 need your signature</span></div>
+        <div class="card">
+          <div class="card-b">
+            <div id="docList"></div>
+          </div>
+        </div>
+
+        <!-- checklist -->
+        <div class="card">
+          <div class="card-h">
+            <svg viewBox="0 0 24 24"><path d="M9 11l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+            <h2>Delivery Checklist</h2>
+          </div>
+          <div class="card-b">
+            <div class="todo done"><span class="tc"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="ti"><b>Credit application approved</b><span>Approved at 6.4% APR</span></div><span class="badge">Done</span></div>
+            <div class="todo done"><span class="tc"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="ti"><b>Trade-in appraised</b><span>2019 RAV4 · $21,400 offer accepted</span></div><span class="badge">Done</span></div>
+            <div class="todo" id="todoUpload"><span class="tc"></span><div class="ti"><b>Upload proof of insurance</b><span>Add your Highlander to your policy</span></div><button class="btn btn-ghost btn-sm" onclick="doUpload()">Upload</button></div>
+            <div class="todo"><span class="tc"></span><div class="ti"><b>Schedule delivery appointment</b><span>Pick a time that works for you</span></div><button class="btn btn-ghost btn-sm" onclick="scrollToId('apptCard')">Schedule</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== right rail ===== -->
+      <div class="col">
+        <!-- advisor -->
+        <div class="card">
+          <div class="card-b">
+            <div class="advisor">
+              <div class="av">MB</div>
+              <div class="ai">
+                <b>Marcus Bell</b>
+                <span>Your Sales Advisor</span>
+                <div class="stars">★★★★★ <span class="faint" style="font-size:11px;">4.9</span></div>
+              </div>
+            </div>
+            <div class="advisor-act">
+              <button class="btn btn-primary btn-sm" onclick="scrollToId('msg')"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Message</button>
+              <button class="btn btn-ghost btn-sm" onclick="toast('Calling Marcus…')"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Call</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- appointment -->
+        <div class="card" id="apptCard">
+          <div class="card-h">
+            <svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+            <h2>Upcoming</h2>
+          </div>
+          <div class="card-b">
+            <div class="appt">
+              <div class="cal"><div class="m">Jul</div><div class="d">29</div></div>
+              <div class="ax">
+                <b>Delivery &amp; Orientation</b>
+                <span id="apptWhen">Tentative · 4:30 PM</span>
+                <span class="faint">Premier Auto — Delivery Bay 2</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:9px;margin-top:14px;">
+              <button class="btn btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="confirmAppt()" id="apptBtn">Confirm time</button>
+              <button class="btn btn-ghost btn-sm" onclick="toast('We\'ll send new times')">Reschedule</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- messages -->
+        <div class="card" id="msg">
+          <div class="card-h">
+            <svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            <h2>Messages</h2>
+            <span class="pill blue">Marcus</span>
+          </div>
+          <div class="card-b">
+            <div class="msgs" id="msgs">
+              <div class="msg them">Hi Sarah! Great news — your financing came back approved at 6.4%. 🎉<div class="tm">Marcus · 10:24 AM</div></div>
+              <div class="msg them">Whenever you have a minute, just sign the last two docs and we'll lock in delivery.<div class="tm">Marcus · 10:24 AM</div></div>
+              <div class="msg me">Amazing! Can we still do Tuesday afternoon?<div class="tm">You · 11:02 AM</div></div>
+              <div class="msg them">Absolutely — I'm holding 4:30 PM for you. Bring your license and insurance card. 🚙<div class="tm">Marcus · 11:05 AM</div></div>
+            </div>
+            <div class="composer">
+              <input id="msgInput" placeholder="Message Marcus…" onkeydown="if(event.key==='Enter')sendMsg()" />
+              <button class="send" onclick="sendMsg()"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-3-6-7-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- rewards / referral -->
+        <div class="rewards">
+          <div class="rk">Premier Rewards</div>
+          <h3>Refer a friend, earn $200</h3>
+          <p>You've referred 2 friends this year. Share your link and earn service credit on every closed sale.</p>
+          <div class="pts">1,450 <small>points</small></div>
+          <button class="btn btn-primary btn-sm" style="margin-top:14px;" onclick="toast('Referral link copied')"><svg viewBox="0 0 24 24"><path d="M9 15l6-6M8 9a3 3 0 1 0 0-.01M16 15a3 3 0 1 0 0 .01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Share my link</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="#">Premier Auto</a>
+    <span class="faint">·</span>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Help Center</a>
+    <span style="margin-left:auto;" class="faint">Secure customer portal · Your data is encrypted end-to-end</span>
+  </footer>
+
+  <!-- ===== sign modal ===== -->
+  <div class="scrim" id="scrim" onclick="closeModal()"></div>
+  <div class="modal" id="modal">
+    <div class="modal-h">
+      <svg viewBox="0 0 24 24"><path d="M4 20h16M6 16l10-10 3 3-10 10H6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <b id="modalTitle">Sign Document</b>
+      <button class="x" onclick="closeModal()"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button>
+    </div>
+    <div class="modal-b">
+      <p class="muted" style="font-size:13.5px;line-height:1.5;margin-bottom:16px;" id="modalDesc">Review the document and add your signature below. Your electronic signature is legally binding and secured.</p>
+      <div class="signbox" id="signbox" onclick="drawSig()">
+        <span class="ph">Tap to sign</span>
+        <span class="sig">Sarah Whitfield</span>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px;">
+        <button class="btn btn-ghost" style="flex:1;justify-content:center;" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" style="flex:1.4;justify-content:center;" id="modalSign" onclick="finishSign()">Adopt &amp; Sign</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="toastMsg"></span></div>
+
+  <script>
+    /* ---------- car silhouette (shared studio look) ---------- */
+    function carSVG(w){
+      return '<svg viewBox="0 0 420 210" style="width:100%;height:auto;">'+
+        '<defs>'+
+          '<linearGradient id="cbody" x1="0" y1="0" x2="0" y2="1">'+
+            '<stop offset="0" stop-color="#5b7699"/><stop offset="0.5" stop-color="#41566f"/><stop offset="1" stop-color="#2b3a4e"/></linearGradient>'+
+          '<linearGradient id="cglass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe0f5"/><stop offset="1" stop-color="#8aa4c4"/></linearGradient>'+
+          '<radialGradient id="cfloor" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="rgba(37,99,235,.18)"/><stop offset="1" stop-color="rgba(37,99,235,0)"/></radialGradient>'+
+        '</defs>'+
+        '<ellipse cx="210" cy="185" rx="180" ry="20" fill="url(#cfloor)"/>'+
+        '<path d="M40 150 C46 118 70 104 96 100 C118 78 150 66 210 66 C266 66 300 80 326 104 C356 108 384 122 388 150 L388 158 C388 162 385 164 381 164 L47 164 C43 164 40 162 40 158 Z" fill="url(#cbody)"/>'+
+        '<path d="M120 100 C140 82 168 74 210 74 C252 74 280 84 300 102 C300 102 264 96 210 96 C156 96 120 100 120 100 Z" fill="url(#cglass)" opacity="0.95"/>'+
+        '<path d="M210 76 L210 96 M256 80 L250 96" stroke="#2b3a4e" stroke-width="2" opacity="0.5"/>'+
+        '<rect x="44" y="140" width="340" height="6" rx="3" fill="#1e2a3a" opacity="0.5"/>'+
+        '<circle cx="120" cy="164" r="30" fill="#151d28"/><circle cx="120" cy="164" r="30" fill="none" stroke="#2b3a4e" stroke-width="2"/><circle cx="120" cy="164" r="14" fill="#33465c"/><circle cx="120" cy="164" r="5" fill="#5b7699"/>'+
+        '<circle cx="300" cy="164" r="30" fill="#151d28"/><circle cx="300" cy="164" r="30" fill="none" stroke="#2b3a4e" stroke-width="2"/><circle cx="300" cy="164" r="14" fill="#33465c"/><circle cx="300" cy="164" r="5" fill="#5b7699"/>'+
+        '<path d="M372 132 q14 2 12 14 l-14 0 Z" fill="#f6c76a" opacity="0.9"/>'+
+        '<rect x="50" y="126" width="16" height="9" rx="3" fill="#dfe9f7" opacity="0.85"/>'+
+      '</svg>';
+    }
+    document.getElementById('heroCar').innerHTML = carSVG();
+    document.getElementById('vehCar').innerHTML = carSVG();
+
+    /* ---------- progress tracker ---------- */
+    var STEPS = [
+      {l:'Applied', done:true},
+      {l:'Approved', done:true},
+      {l:'Trade', done:true},
+      {l:'Financing', cur:true},
+      {l:'Documents', done:false},
+      {l:'Delivery', done:false}
+    ];
+    (function(){
+      var t=document.getElementById('tracker'), fill=document.getElementById('tfill');
+      var curIdx=STEPS.findIndex(function(s){return s.cur;});
+      STEPS.forEach(function(s,i){
+        var el=document.createElement('div');
+        el.className='step'+(s.done?' done':'')+(s.cur?' cur':'');
+        var inner = s.done ? '<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>' : (i+1);
+        el.innerHTML='<div class="sd">'+inner+'</div><div class="sl">'+s.l+'</div>';
+        t.appendChild(el);
+      });
+      // fill up to current step
+      setTimeout(function(){
+        var pct = (curIdx/(STEPS.length-1))*100;
+        fill.style.width='calc('+pct+'% - 24px + 24px*'+(curIdx/(STEPS.length-1))+')';
+        // simpler robust calc:
+        fill.style.width = (curIdx/(STEPS.length-1)*100)+'%';
+      },250);
+    })();
+
+    /* ---------- documents ---------- */
+    var DOCS = [
+      {id:'ric', name:'Retail Installment Contract', meta:'Financing terms · 4 pages', status:'wait'},
+      {id:'ins', name:'Insurance Verification', meta:'Add vehicle to your policy · 1 page', status:'wait'},
+      {id:'trade', name:'Trade-In Agreement', meta:'2019 RAV4 · Signed Jul 22', status:'ok'},
+      {id:'credit', name:'Credit Application', meta:'Submitted & approved', status:'ok'},
+      {id:'privacy', name:'Privacy Notice', meta:'Acknowledged Jul 21', status:'ok'}
+    ];
+    function docIcon(){ return '<svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v4h4M9 13h6M9 17h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'; }
+    function renderDocs(){
+      var wrap=document.getElementById('docList');
+      wrap.innerHTML = DOCS.map(function(d){
+        var right;
+        if(d.status==='wait') right='<button class="btn btn-primary btn-sm" onclick="openSign(\''+d.id+'\')">Review &amp; Sign</button>';
+        else right='<span class="pill ok">Signed</span><button class="btn btn-ghost btn-sm" style="margin-left:8px;" onclick="toast(\'Downloading '+d.name+'\')"><svg viewBox="0 0 24 24"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
+        return '<div class="doc"><div class="dic">'+docIcon()+'</div><div class="dm"><b>'+d.name+'</b><span>'+d.meta+'</span></div>'+
+          (d.status==='wait'?'<span class="pill wait" style="margin-right:10px;">Signature needed</span>':'')+right+'</div>';
+      }).join('');
+      var need=DOCS.filter(function(d){return d.status==='wait';}).length;
+      document.querySelector('#docs + .card').previousElementSibling.querySelector('.c').textContent = need? need+' need your signature':'All signed';
+    }
+    renderDocs();
+
+    /* ---------- sign modal ---------- */
+    var signing=null;
+    function openSign(id){
+      signing=DOCS.find(function(d){return d.id===id;});
+      document.getElementById('modalTitle').textContent='Sign — '+signing.name;
+      var box=document.getElementById('signbox'); box.classList.remove('signed');
+      document.getElementById('scrim').classList.add('open');
+      document.getElementById('modal').classList.add('open');
+    }
+    function drawSig(){ document.getElementById('signbox').classList.add('signed'); }
+    function finishSign(){
+      if(!document.getElementById('signbox').classList.contains('signed')){ drawSig(); return; }
+      if(signing) signing.status='ok', signing.meta='Signed just now';
+      closeModal(); renderDocs();
+      updateAfterSign();
+      toast(signing? signing.name+' signed':'Document signed');
+    }
+    function closeModal(){ document.getElementById('scrim').classList.remove('open'); document.getElementById('modal').classList.remove('open'); }
+
+    function updateAfterSign(){
+      var need=DOCS.filter(function(d){return d.status==='wait';}).length;
+      var ns=document.querySelector('.nextstep .ns-t b');
+      if(need===0){ ns.textContent='All documents signed 🎉'; document.querySelector('.nextstep .ns-t span').textContent='Confirm your delivery appointment below'; }
+      else ns.textContent='Sign '+need+' remaining document'+(need>1?'s':'');
+    }
+
+    /* ---------- messages ---------- */
+    function sendMsg(){
+      var i=document.getElementById('msgInput'), v=i.value.trim(); if(!v) return;
+      var box=document.getElementById('msgs');
+      var m=document.createElement('div'); m.className='msg me'; m.innerHTML=esc(v)+'<div class="tm">You · now</div>';
+      box.appendChild(m); i.value=''; box.scrollTop=box.scrollHeight;
+      setTimeout(function(){
+        var r=document.createElement('div'); r.className='msg them';
+        r.innerHTML='Got it, Sarah — I\'ll take care of that right away. 👍<div class="tm">Marcus · now</div>';
+        box.appendChild(r); box.scrollTop=box.scrollHeight;
+      },1100);
+    }
+    function esc(s){ return s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+
+    /* ---------- misc actions ---------- */
+    function doUpload(){
+      var t=document.getElementById('todoUpload');
+      t.classList.add('done');
+      t.querySelector('.tc').innerHTML='<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      t.querySelector('button').outerHTML='<span class="badge">Done</span>';
+      toast('Insurance card uploaded');
+    }
+    function confirmAppt(){
+      document.getElementById('apptWhen').textContent='Confirmed · Tue Jul 29, 4:30 PM';
+      var b=document.getElementById('apptBtn'); b.textContent='Confirmed ✓'; b.classList.remove('btn-primary'); b.classList.add('btn-ghost'); b.disabled=true; b.style.opacity=.7;
+      toast('Delivery confirmed for Jul 29');
+    }
+    function scrollToId(id){ var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
+
+    /* toast */
+    var tEl=document.getElementById('toast'), tMsg=document.getElementById('toastMsg'), tTimer;
+    function toast(msg){ tMsg.textContent=msg; tEl.classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ tEl.classList.remove('show'); },2400); }
+
+    /* nav scroll spy + smooth scroll */
+    document.querySelectorAll('.tnav a[data-scroll]').forEach(function(a){
+      a.addEventListener('click', function(e){
+        var id=a.getAttribute('data-scroll');
+        if(id==='top'){ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); }
+        else { e.preventDefault(); scrollToId(id); }
+        document.querySelectorAll('.tnav a').forEach(function(x){x.classList.remove('on');});
+        a.classList.add('on');
+      });
+    });
+  </script>
+</body>
+</html>
