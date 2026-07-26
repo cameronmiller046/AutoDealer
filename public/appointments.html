@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appointments — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #f6f8fb; --card: #ffffff; --sidebar: #0a1628; --sidebar-2: #071120;
+      --text: #16202e; --muted: #6b7a90; --faint: #97a4b6; --line: #eef1f6;
+      --accent: #2563eb; --accent-2: #3b82f6; --accent-soft: #eef4ff;
+      --shadow: 0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28);
+      --radius: 16px;
+    }
+    * { margin: 0; box-sizing: border-box; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 14px; }
+    a { color: inherit; text-decoration: none; } button { font: inherit; cursor: pointer; }
+    .shell { display: grid; grid-template-columns: 244px 1fr; min-height: 100vh; }
+
+    .sidebar { background: linear-gradient(180deg, var(--sidebar), var(--sidebar-2)); color: #c7d4e6; padding: 22px 14px 18px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+    .brand { display: flex; flex-direction: column; align-items: flex-start; padding: 4px 8px 26px; }
+    .brand .sw { width: 108px; height: 9px; margin-bottom: 4px; } .brand .wm { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; color: #fff; } .brand .wm b { color: #2b8fff; }
+    .nav { display: flex; flex-direction: column; gap: 3px; }
+    .nav a { display: flex; align-items: center; gap: 13px; padding: 11px 14px; border-radius: 11px; color: #aebdd2; font-size: 14.5px; font-weight: 500; }
+    .nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav a.on { background: var(--accent); color: #fff; font-weight: 600; box-shadow: 0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width: 19px; height: 19px; flex: none; }
+    .nav a .nb { margin-left: auto; background: rgba(255,255,255,0.12); color: #dbe7f7; font-size: 11px; font-weight: 700; min-width: 20px; height: 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 0 6px; }
+    .nav a.on .nb { background: rgba(255,255,255,0.25); color: #fff; }
+    .side-user { margin-top: auto; display: flex; align-items: center; gap: 11px; padding: 14px 8px 4px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width: 38px; height: 38px; border-radius: 50%; flex: none; background: linear-gradient(135deg,#3f9bff,#0b57b8); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+    .side-user .meta b { color: #fff; font-size: 13.5px; font-weight: 600; display: block; } .side-user .meta span { color: #8698b0; font-size: 11.5px; }
+    .side-user .chev { margin-left: auto; color: #7e90a8; width: 14px; height: 14px; }
+
+    .main { min-width: 0; display: flex; flex-direction: column; }
+    .topbar { position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.85); backdrop-filter: saturate(180%) blur(8px); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 18px; padding: 12px 30px; }
+    .hamb { border: none; background: none; color: var(--muted); width: 36px; height: 36px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; } .hamb:hover { background: var(--bg); } .hamb svg { width: 20px; height: 20px; }
+    .tsearch { flex: 1; max-width: 460px; display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 11px; padding: 11px 14px; color: var(--muted); }
+    .tsearch svg { width: 17px; height: 17px; flex: none; } .tsearch input { border: none; background: none; outline: none; width: 100%; font-size: 13.5px; color: var(--text); }
+    .kbd { border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 11px; color: var(--faint); background: #fff; }
+    .quick-add { display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 11px; padding: 11px 18px; font-size: 14px; font-weight: 600; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .quick-add:hover { filter: brightness(1.06); }
+    .tb-icons { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+    .ib { position: relative; border: none; background: none; color: var(--muted); width: 40px; height: 40px; border-radius: 11px; display: inline-flex; align-items: center; justify-content: center; } .ib:hover { background: var(--bg); color: var(--accent); } .ib svg { width: 21px; height: 21px; }
+    .ib .dot { position: absolute; top: 6px; right: 7px; min-width: 16px; height: 16px; border-radius: 8px; background: #ef4444; color: #fff; font-size: 9.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+    .tb-avatar { width: 40px; height: 40px; border-radius: 50%; margin-left: 8px; position: relative; } .tb-avatar::after { content: ""; position: absolute; bottom: 1px; right: 1px; width: 10px; height: 10px; border-radius: 50%; background: #22c55e; border: 2px solid #fff; }
+    .tb-avatar .av { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #3f9bff, #0b57b8); color: #fff; font-weight: 700; }
+
+    .content { padding: 26px 30px 60px; }
+    .phead { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .phead h1 { font-size: 27px; font-weight: 800; letter-spacing: -0.6px; } .phead .sub { color: var(--muted); font-size: 14.5px; margin-top: 6px; }
+    .add-btn { display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 11px; padding: 12px 20px; font-size: 14.5px; font-weight: 600; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .add-btn:hover { filter: brightness(1.06); } .add-btn svg { width: 16px; height: 16px; }
+
+    .sec-label { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; color: var(--faint); text-transform: uppercase; margin: 26px 0 13px; }
+
+    /* summary cards */
+    .summ { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 6px; }
+    .sc { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px; }
+    .sc .sc-ic { width: 38px; height: 38px; border-radius: 11px; flex: none; display: flex; align-items: center; justify-content: center; } .sc .sc-ic svg { width: 19px; height: 19px; }
+    .ic-blue { background: #eaf1fe; color: #2563eb; } .ic-amber { background: #fdf0dc; color: #ea8a0b; } .ic-green { background: #e7f7ee; color: #16a34a; } .ic-teal { background: #e2f5fb; color: #0891b2; } .ic-red { background: #fdeaea; color: #dc2626; } .ic-purple { background: #f1eafe; color: #7c3aed; } .ic-gray { background: #eef1f6; color: #64748b; }
+    .sc .sc-v { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; } .sc .sc-l { color: var(--muted); font-size: 12px; margin-top: 3px; }
+
+    /* toolbar */
+    .toolbar { display: flex; align-items: center; gap: 12px; margin: 22px 0 14px; flex-wrap: wrap; }
+    .psearch { flex: 1; min-width: 240px; display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 11px 15px; box-shadow: var(--shadow); }
+    .psearch svg { width: 17px; height: 17px; color: var(--muted); flex: none; } .psearch input { border: none; outline: none; width: 100%; font-size: 14px; color: var(--text); background: none; }
+    .segn { display: inline-flex; background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 4px; box-shadow: var(--shadow); }
+    .segn button { border: none; background: none; padding: 8px 15px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--muted); } .segn button.on { background: var(--accent); color: #fff; }
+
+    .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .pill { border: 1px solid var(--line); background: var(--card); color: var(--muted); border-radius: 999px; padding: 8px 15px; font-size: 13px; font-weight: 600; box-shadow: 0 1px 2px rgba(16,32,60,0.03); } .pill:hover { color: var(--text); border-color: #cfe0f7; } .pill.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* main split */
+    .split { display: grid; grid-template-columns: minmax(0,1fr) 340px; gap: 22px; align-items: start; }
+
+    /* calendar */
+    .cal { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .cal-hd { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+    .cal-hd .today-btn { border: 1px solid var(--line); background: #fff; border-radius: 9px; padding: 8px 14px; font-size: 13px; font-weight: 600; color: var(--text); } .cal-hd .today-btn:hover { border-color: #cfe0f7; color: var(--accent); }
+    .cal-hd .nav-arrows { display: flex; gap: 2px; } .cal-hd .nav-arrows button { width: 34px; height: 34px; border: none; background: none; border-radius: 8px; color: var(--muted); display: inline-flex; align-items: center; justify-content: center; } .cal-hd .nav-arrows button:hover { background: var(--bg); color: var(--accent); } .cal-hd .nav-arrows svg { width: 17px; height: 17px; }
+    .cal-hd .cal-title { font-size: 16px; font-weight: 700; } .cal-hd .cal-title span { color: var(--muted); font-weight: 500; margin-left: 6px; font-size: 13.5px; }
+    .cal-hd .legend { margin-left: auto; display: flex; gap: 12px; flex-wrap: wrap; }
+    .lg { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted); } .lg::before { content: ""; width: 9px; height: 9px; border-radius: 3px; background: var(--lc); }
+
+    /* day timeline */
+    .tl-grid { position: relative; padding: 8px 0 8px 66px; }
+    .hour { position: relative; height: 92px; border-top: 1px solid var(--line); }
+    .hour:first-child { border-top: none; }
+    .hour .hr-lbl { position: absolute; left: -58px; top: -8px; width: 50px; text-align: right; font-size: 11px; color: var(--faint); font-weight: 600; }
+    .now-line { position: absolute; left: 66px; right: 12px; height: 2px; background: #ef4444; z-index: 4; } .now-line::before { content: ""; position: absolute; left: -5px; top: -4px; width: 10px; height: 10px; border-radius: 50%; background: #ef4444; }
+    .evt { position: absolute; left: 8px; right: 12px; border-radius: 10px; padding: 8px 12px; overflow: hidden; cursor: pointer; z-index: 3; border-left: 3px solid var(--ec); background: var(--eb); transition: transform 0.12s, box-shadow 0.12s; }
+    .evt:hover { transform: translateY(-1px); box-shadow: 0 10px 22px -14px rgba(16,32,60,0.5); z-index: 5; }
+    .evt .et { font-size: 11px; font-weight: 700; color: var(--ec); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .evt .en { font-weight: 700; font-size: 13.5px; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .evt .ev { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .evt .ebadge { position: absolute; top: 8px; right: 10px; font-size: 9.5px; font-weight: 800; letter-spacing: 0.4px; padding: 2px 7px; border-radius: 6px; }
+
+    /* agenda / week / month */
+    .agenda { padding: 10px 18px 18px; }
+    .ag-day { font-size: 12px; font-weight: 800; letter-spacing: 0.4px; color: var(--faint); text-transform: uppercase; margin: 16px 4px 10px; }
+    .ag-row { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px; cursor: pointer; border-left: 3px solid var(--ec); } .ag-row:hover { background: #fafbff; }
+    .ag-time { font-size: 13px; font-weight: 700; width: 74px; flex: none; } .ag-time span { display: block; font-size: 11px; font-weight: 500; color: var(--faint); }
+    .ag-row .av-sm { width: 36px; height: 36px; border-radius: 50%; flex: none; color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .ag-main b { font-weight: 600; } .ag-main span { display: block; font-size: 12px; color: var(--muted); }
+    .ag-type { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--ec); }
+
+    .week { display: grid; grid-template-columns: repeat(7,1fr); gap: 1px; background: var(--line); }
+    .wk-col { background: #fff; min-height: 340px; } .wk-hd { text-align: center; padding: 10px 4px; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--muted); font-weight: 600; } .wk-hd b { display: block; font-size: 17px; color: var(--text); font-weight: 800; } .wk-hd.today b { color: var(--accent); }
+    .wk-evt { margin: 5px 6px; border-radius: 7px; padding: 5px 7px; font-size: 11px; cursor: pointer; border-left: 2px solid var(--ec); background: var(--eb); } .wk-evt b { display: block; color: var(--ec); font-size: 10px; } .wk-evt span { color: var(--text); font-weight: 600; }
+
+    .month { display: grid; grid-template-columns: repeat(7,1fr); gap: 1px; background: var(--line); }
+    .mo-hd { background: #fbfcfe; text-align: center; padding: 8px; font-size: 11px; font-weight: 700; color: var(--faint); }
+    .mo-cell { background: #fff; min-height: 92px; padding: 7px 8px; } .mo-cell.dim { background: #fafbfd; color: var(--faint); } .mo-cell .dn { font-size: 12px; font-weight: 600; } .mo-cell.today .dn { background: var(--accent); color: #fff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+    .mo-dot { display: inline-flex; margin-top: 6px; gap: 3px; flex-wrap: wrap; } .mo-dot i { width: 7px; height: 7px; border-radius: 50%; }
+    .mo-more { font-size: 10.5px; color: var(--muted); margin-top: 4px; font-weight: 600; }
+
+    /* right rail */
+    .rail { display: flex; flex-direction: column; gap: 18px; position: sticky; top: 84px; }
+    .rc { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; }
+    .rc h3 { font-size: 13px; font-weight: 700; margin-bottom: 13px; display: flex; align-items: center; gap: 8px; }
+    .rc h3 .cnt { margin-left: auto; background: var(--accent-soft); color: var(--accent); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 8px; }
+    .rc h3 .spark { color: #7c3aed; display: inline-flex; } .rc h3 .spark svg { width: 15px; height: 15px; }
+    .ai-rec { border: 1px solid var(--line); border-radius: 11px; padding: 12px; margin-bottom: 10px; background: linear-gradient(180deg,#fbfcff,#fff); } .ai-rec:last-child { margin-bottom: 0; }
+    .ai-rec p { font-size: 12.5px; line-height: 1.5; color: #334155; } .ai-rec p b { color: var(--text); }
+    .ai-rec .rec { color: #7c3aed; font-weight: 600; font-size: 12px; margin-top: 5px; }
+    .ai-rec .mini { margin-top: 9px; display: flex; gap: 6px; } .ai-rec .mini button { flex: 1; border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 7px; font-size: 11.5px; font-weight: 700; color: var(--accent); } .ai-rec .mini button:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .wq { border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 10px; } .wq:last-child { margin-bottom: 0; }
+    .wq-top { display: flex; align-items: center; gap: 10px; }
+    .wq .av-sm { width: 36px; height: 36px; border-radius: 50%; flex: none; color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .wq b { font-weight: 600; font-size: 13.5px; } .wq .wait { margin-left: auto; text-align: right; } .wq .wait .badge { background: #fdf0dc; color: #b45309; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 7px; } .wq .wait small { display: block; color: var(--faint); font-size: 11px; margin-top: 2px; }
+    .wq-meta { display: flex; gap: 16px; margin: 10px 0; font-size: 12px; } .wq-meta .k { color: var(--faint); } .wq-meta .v { font-weight: 600; }
+    .claim { width: 100%; border: none; background: linear-gradient(180deg,var(--accent-2),var(--accent)); color: #fff; border-radius: 9px; padding: 9px; font-size: 12.5px; font-weight: 700; } .claim:hover { filter: brightness(1.06); }
+
+    /* bottom sections: deliveries / noshow / upcoming */
+    .cards3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+    .del { background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); padding: 16px; border-top: 3px solid #16a34a; }
+    .del .dh { display: flex; align-items: center; gap: 11px; margin-bottom: 12px; } .del .av-sm { width: 40px; height: 40px; border-radius: 50%; flex:none; color:#fff; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+    .del .dh b { font-weight: 700; } .del .dh span { display: block; font-size: 12px; color: var(--muted); } .del .dh .dt { margin-left: auto; font-size: 13px; font-weight: 700; color: #16a34a; }
+    .chk-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-top: 1px solid var(--line); font-size: 13px; } .chk-row:first-of-type { border-top: none; } .chk-row .ok { color: #16a34a; display: inline-flex; align-items: center; gap: 5px; font-weight: 600; font-size: 12.5px; } .chk-row .ok svg { width: 15px; height: 15px; }
+    .del .start { margin-top: 12px; width: 100%; border: none; background: linear-gradient(180deg,#22c55e,#16a34a); color: #fff; border-radius: 10px; padding: 11px; font-weight: 700; font-size: 13.5px; } .del .start:hover { filter: brightness(1.05); }
+
+    .miss { background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); padding: 16px; border-top: 3px solid #dc2626; }
+    .miss .dh { display: flex; align-items: center; gap: 11px; margin-bottom: 12px; } .miss .av-sm { width: 40px; height: 40px; border-radius: 50%; flex:none; color:#fff; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+    .miss .dh b { font-weight: 700; } .miss .dh span { display: block; font-size: 12px; color: #dc2626; font-weight: 600; } .miss .dh .dt { margin-left: auto; font-size: 13px; font-weight: 700; color: var(--muted); }
+    .miss .sugg { background: #fafbfd; border: 1px solid var(--line); border-radius: 9px; padding: 10px 12px; font-size: 12.5px; color: var(--muted); } .miss .sugg b { color: var(--text); }
+    .miss .acts { margin-top: 11px; display: flex; gap: 8px; } .miss .acts button { flex: 1; border: 1px solid var(--line); background: #fff; border-radius: 9px; padding: 9px; font-size: 12.5px; font-weight: 700; color: var(--accent); } .miss .acts button:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .upc { background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); padding: 16px; cursor: pointer; border-left: 3px solid var(--ec); } .upc:hover { border-color: #cfe0f7; }
+    .upc .ud { font-size: 11px; font-weight: 800; letter-spacing: 0.4px; color: var(--faint); text-transform: uppercase; }
+    .upc .un { display: flex; align-items: center; gap: 10px; margin: 10px 0 6px; } .upc .av-sm { width: 38px; height: 38px; border-radius: 50%; flex:none; color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; } .upc .un b { font-weight: 700; } .upc .un .ty { font-size: 12px; color: var(--ec); font-weight: 600; }
+    .upc .uf { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 13px; } .upc .uf .tm { font-weight: 700; }
+    .st { font-size: 10.5px; font-weight: 800; letter-spacing: 0.3px; padding: 3px 9px; border-radius: 7px; } .st-conf { background: #e7f7ee; color: #16a34a; } .st-pend { background: #fdf0dc; color: #b45309; } .st-done { background: #eef1f6; color: #64748b; } .st-no { background: #fdeaea; color: #dc2626; } .st-in { background: #e2f5fb; color: #0891b2; }
+
+    /* slide-over */
+    .scrim { position: fixed; inset: 0; background: rgba(10,20,36,0.4); z-index: 45; opacity: 0; pointer-events: none; transition: opacity 0.2s; } .scrim.show { opacity: 1; pointer-events: auto; }
+    .panel { position: fixed; top: 0; right: 0; bottom: 0; width: 480px; max-width: 94vw; background: var(--bg); z-index: 46; box-shadow: -20px 0 60px -30px rgba(0,0,0,0.5); transform: translateX(100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; } .panel.open { transform: none; }
+    .panel-hd { display: flex; align-items: flex-start; gap: 14px; padding: 20px 22px; background: var(--card); border-bottom: 1px solid var(--line); }
+    .panel-hd .av-lg { width: 52px; height: 52px; border-radius: 50%; color: #fff; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; }
+    .panel-hd h2 { font-size: 19px; font-weight: 800; letter-spacing: -0.3px; display: flex; align-items: center; gap: 8px; } .panel-hd .pmeta { color: var(--muted); font-size: 13px; margin-top: 3px; }
+    .panel-close { margin-left: auto; border: none; background: none; color: var(--muted); width: 34px; height: 34px; border-radius: 9px; } .panel-close:hover { background: var(--bg); } .panel-close svg { width: 18px; height: 18px; }
+    .panel-body { overflow-y: auto; padding: 18px 22px 30px; display: flex; flex-direction: column; gap: 16px; }
+    .qa { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+    .qa button { border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 10px 0 7px; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 8.5px; color: var(--muted); font-weight: 600; } .qa button:hover { border-color: var(--accent); color: var(--accent); } .qa button svg { width: 17px; height: 17px; color: var(--accent); }
+    .sect { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 16px; }
+    .sect h3 { font-size: 13px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 7px; } .sect h3 .spark { color: #7c3aed; display:inline-flex; } .sect h3 .spark svg { width: 15px; height: 15px; }
+    .brief { display: grid; grid-template-columns: 1fr 1fr; gap: 11px 14px; } .brief .k { color: var(--muted); font-size: 11.5px; } .brief .v { font-weight: 600; font-size: 13.5px; margin-top: 1px; }
+    .qlist { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); } .qlist .qh { font-size: 11.5px; color: var(--muted); font-weight: 600; margin-bottom: 6px; } .qlist li { font-size: 13px; margin: 4px 0 4px 2px; list-style: none; display: flex; gap: 8px; } .qlist li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-top: 7px; flex: none; }
+    .act-list { display: flex; flex-direction: column; gap: 2px; }
+    .ck { display: flex; align-items: center; gap: 11px; padding: 9px 4px; border-radius: 8px; cursor: pointer; } .ck:hover { background: var(--bg); }
+    .ck .box { width: 20px; height: 20px; border-radius: 6px; border: 2px solid #cdd6e3; flex: none; display: flex; align-items: center; justify-content: center; transition: all 0.12s; } .ck .box svg { width: 13px; height: 13px; color: #fff; opacity: 0; }
+    .ck.on .box { background: #16a34a; border-color: #16a34a; } .ck.on .box svg { opacity: 1; } .ck.on .lbl { color: var(--muted); text-decoration: line-through; }
+    .ck .lbl { font-size: 13.5px; font-weight: 500; }
+    .field-row { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13px; } .field-row:first-child { border-top: none; } .field-row .k { color: var(--muted); } .field-row .v { font-weight: 600; }
+    .veh-card { border: 1px solid var(--line); border-radius: 12px; padding: 14px; } .veh-card .vt { font-weight: 700; font-size: 14.5px; margin-bottom: 4px; } .veh-card .vs { color: var(--muted); font-size: 12.5px; }
+    .tl2 { display: grid; grid-template-columns: 16px 1fr; gap: 12px; padding-bottom: 15px; position: relative; } .tl2:last-child { padding-bottom: 0; }
+    .tl2-dot { width: 11px; height: 11px; border-radius: 50%; margin-top: 3px; } .tl2:not(:last-child)::after { content: ""; position: absolute; left: 5px; top: 15px; bottom: 0; width: 2px; background: var(--line); }
+    .tl2 b { font-weight: 600; display: block; font-size: 13px; } .tl2 span { color: var(--muted); font-size: 12px; }
+    .tl2.pending b { color: var(--faint); font-weight: 500; }
+    .checkin-btn { width: 100%; border: none; background: linear-gradient(180deg,var(--accent-2),var(--accent)); color: #fff; border-radius: 11px; padding: 13px; font-weight: 700; font-size: 14px; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .checkin-btn:hover { filter: brightness(1.06); }
+
+    @media (max-width: 1240px) { .summ { grid-template-columns: repeat(3,1fr); } .split { grid-template-columns: 1fr; } .rail { position: static; flex-direction: row; flex-wrap: wrap; } .rc { flex: 1; min-width: 280px; } }
+    @media (max-width: 900px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .summ { grid-template-columns: repeat(2,1fr); } .legend { display: none !important; } }
+    @media (max-width: 560px) { .content { padding: 20px 14px 60px; } .summ { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav">
+        <a href="/dashboard"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Home</a>
+        <a href="/prospects"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Prospects<span class="nb">18</span></a>
+        <a href="/customers"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Customers</a>
+        <a class="on" href="/appointments"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Appointments<span class="nb">5</span></a>
+        <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Tasks<span class="nb">7</span></a>
+        <a href="/portal/inventory"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Inventory</a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Communications<span class="nb">3</span></a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Reports</a>
+        <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Settings</a>
+      </nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input type="text" placeholder="Search customers, vehicles, deals..." aria-label="Search" /><span class="kbd">⌘</span><span class="kbd">K</span></div>
+        <button class="quick-add"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Quick Add</button>
+        <div class="tb-icons">
+          <button class="ib" aria-label="Calls"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <button class="ib" aria-label="Messages"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <button class="ib" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="dot">4</span></button>
+          <span class="tb-avatar"><span class="av">CM</span></span>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="phead">
+          <div><h1>Appointments</h1><p class="sub">Manage showroom visits, test drives, deliveries, and follow-ups.</p></div>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>New Appointment</button>
+        </div>
+
+        <div class="sec-label">Today's Summary — Thursday, July 24</div>
+        <div class="summ" id="summ"></div>
+
+        <div class="toolbar">
+          <div class="psearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" type="text" placeholder="Search appointments by customer or vehicle..." /></div>
+          <div class="segn" id="viewSeg">
+            <button data-v="day" class="on">Day</button><button data-v="week">Week</button><button data-v="month">Month</button><button data-v="agenda">Agenda</button>
+          </div>
+        </div>
+
+        <div class="pills" id="pills"></div>
+
+        <div class="split">
+          <section class="cal">
+            <div class="cal-hd">
+              <button class="today-btn">Today</button>
+              <div class="nav-arrows"><button aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+              <div class="cal-title" id="calTitle">Thursday, July 24 <span>2026</span></div>
+              <div class="legend">
+                <span class="lg" style="--lc:#2563eb">Sales</span><span class="lg" style="--lc:#0891b2">Test Drive</span><span class="lg" style="--lc:#16a34a">Delivery</span><span class="lg" style="--lc:#ea8a0b">Trade</span><span class="lg" style="--lc:#7c3aed">Finance</span><span class="lg" style="--lc:#64748b">Follow-up</span><span class="lg" style="--lc:#dc2626">Missed</span>
+              </div>
+            </div>
+            <div id="calBody"></div>
+          </section>
+
+          <aside class="rail">
+            <div class="rc">
+              <h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Recommendations</h3>
+              <div class="ai-rec"><p><b>John Smith</b> has viewed the Silverado inventory <b>3 times today.</b></p><div class="rec">→ Call before his 9:00 appointment</div><div class="mini"><button>Call</button><button>Text</button></div></div>
+              <div class="ai-rec"><p><b>David Johnson</b> hasn't confirmed his 11:30 trade appraisal.</p><div class="rec">→ Send a confirmation reminder</div><div class="mini"><button>Send Reminder</button></div></div>
+              <div class="ai-rec"><p><b>Kevin Anderson's</b> trade value increased <b>$1,400</b> this week.</p><div class="rec">→ Mention during his 3:30 visit</div><div class="mini"><button>View Trade</button></div></div>
+            </div>
+            <div class="rc">
+              <h3>Walk-In Queue <span class="cnt" id="wqCount">2</span></h3>
+              <div id="wq"></div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="sec-label">Today's Deliveries</div>
+        <div class="cards3" id="deliveries"></div>
+
+        <div class="sec-label">Missed Appointments</div>
+        <div class="cards3" id="noshows"></div>
+
+        <div class="sec-label">Upcoming Appointments</div>
+        <div class="cards3" id="upcoming"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+
+  <script>
+    const TYPE = {
+      sales:["#2563eb","#eef4ff","Sales Consultation"], test:["#0891b2","#e6f6fb","Test Drive"],
+      delivery:["#16a34a","#e9f8ef","Delivery"], trade:["#ea8a0b","#fdf3e3","Trade Appraisal"],
+      finance:["#7c3aed","#f3edfe","Finance"], followup:["#64748b","#f1f4f8","Follow-up"], missed:["#dc2626","#fdeceb","Missed Appointment"]
+    };
+    const ST = { confirmed:["st-conf","Confirmed"], pending:["st-pend","Pending"], completed:["st-done","Completed"], noshow:["st-no","No Show"], checkedin:["st-in","Checked In"] };
+    const IC = {
+      call:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      text:'<path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      email:'<rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      video:'<rect x="3.5" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 10l4.5-2.5v9L16 14z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      locate:'<path d="M12 21s-6-5.5-6-10a6 6 0 1 1 12 0c0 4.5-6 10-6 10z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="11" r="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      print:'<path d="M7 8V3.5h10V8M7 17H5a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-2M7 14h10v6.5H7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      check:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+      checkmark:'<path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>'
+    };
+    const svg = (k) => `<svg viewBox="0 0 24 24">${IC[k]}</svg>`;
+    const fmt = (t) => { const h = Math.floor(t), m = Math.round((t - h) * 60); const ap = h >= 12 ? "PM" : "AM"; const hh = ((h + 11) % 12) + 1; return `${hh}:${m.toString().padStart(2,"0")} ${ap}`; };
+
+    const A = [
+      { id:1, day:"today", name:"John Smith", ini:"JS", c:"#3b82f6", start:9, end:9.75, type:"test", veh:"2026 Chevrolet Silverado LT", rep:"Cameron", status:"confirmed", trade:"2019 Ford F-150", next:"Prepare Vehicle", phone:"(678) 555-0142", email:"jsmith@email.com", budget:"$650 / month", interested:"2026 Silverado LT", last:"Yesterday",
+        questions:["Monthly payment","Tow package availability","Trade-in value for the F-150"],
+        checklist:[["Vehicle washed",true],["Vehicle fueled",true],["Keys available",true],["Window sticker printed",false],["Trade worksheet ready",false],["Finance notified",false],["Vehicle parked up front",false]],
+        timeline:[["done","Appointment scheduled","Mon, Jul 21"],["done","Customer confirmed","Tue, Jul 22"],["done","Reminder sent","Wed, Jul 23"],["pending","Customer checked in",""],["pending","Test drive started",""],["pending","Negotiation started",""]] },
+      { id:2, day:"today", name:"Amanda Harris", ini:"AH", c:"#ec4899", start:10.5, end:11.25, type:"sales", veh:"2024 Chevrolet Equinox RS", rep:"Cameron", status:"confirmed", trade:"None", next:"Prepare Quote", phone:"(404) 555-0182", email:"aharris@email.com", budget:"$480 / month", interested:"2024 Equinox RS", last:"2 days ago",
+        questions:["Available colors","Lease vs finance","Apple CarPlay"],
+        checklist:[["Vehicle washed",true],["Keys available",true],["Window sticker printed",false],["Quote prepared",false],["Vehicle parked up front",false]],
+        timeline:[["done","Appointment scheduled","Tue, Jul 22"],["done","Customer confirmed","Wed, Jul 23"],["pending","Customer checked in",""]] },
+      { id:3, day:"today", name:"David Johnson", ini:"DJ", c:"#f59e0b", start:11.5, end:12.25, type:"trade", veh:"Trade Appraisal", rep:"Cameron", status:"pending", trade:"2021 Ford F-150 XLT", next:"Confirm Appointment", phone:"(678) 555-0177", email:"djohnson@email.com", budget:"—", interested:"Upgrade to F-150 Lariat", last:"3 weeks ago",
+        questions:["Current trade value","Payoff amount","Upgrade options"],
+        checklist:[["Trade worksheet ready",false],["Appraisal tool ready",false],["Recent comps pulled",false],["Manager notified",false]],
+        timeline:[["done","Appointment scheduled","Wed, Jul 23"],["pending","Customer confirmed",""],["pending","Customer checked in",""]] },
+      { id:4, day:"today", name:"Robert Brown", ini:"RB", c:"#14b8a6", start:13, end:13.75, type:"finance", veh:"2023 Chevrolet Tahoe Premier", rep:"Cameron", status:"confirmed", trade:"None", next:"Prepare Paperwork", phone:"(770) 555-0231", email:"rbrown@email.com", budget:"$780 / month", interested:"Finance completion", last:"5 days ago",
+        questions:["APR options","Extended warranty","Gap insurance"],
+        checklist:[["Credit application ready",true],["Paperwork printed",true],["Finance manager notified",true],["Trade payoff confirmed",false]],
+        timeline:[["done","Appointment scheduled","Mon, Jul 21"],["done","Customer confirmed","Tue, Jul 22"],["done","Reminder sent","Wed, Jul 23"],["pending","Customer checked in",""]] },
+      { id:5, day:"today", name:"Sarah Lewis", ini:"SL", c:"#8b5cf6", start:14, end:14.75, type:"delivery", veh:"2023 Chevrolet Tahoe High Country", rep:"Cameron", status:"confirmed", trade:"2020 Honda CR-V", next:"Detail Vehicle", phone:"(770) 555-0127", email:"slewis@email.com", budget:"Completed", interested:"Vehicle delivery", last:"Today",
+        questions:["Feature walkthrough","Warranty registration","First service schedule"],
+        checklist:[["Documents ready",true],["Vehicle detailed",true],["Finance complete",true],["Plates / temp tag ready",true],["Full tank of fuel",true],["Bow / delivery setup",false]],
+        timeline:[["done","Appointment scheduled","Fri, Jul 18"],["done","Customer confirmed","Mon, Jul 21"],["done","Finance completed","Wed, Jul 23"],["done","Reminder sent","Thu, Jul 24"],["pending","Delivery started",""]] },
+      { id:6, day:"today", name:"Kevin Anderson", ini:"KA", c:"#0ea5e9", start:15.5, end:16.25, type:"test", veh:"2022 GMC Sierra Denali", rep:"Cameron", status:"pending", trade:"2022 GMC Sierra 1500", next:"Prepare Vehicle", phone:"(678) 555-0176", email:"kanderson@email.com", budget:"$720 / month", interested:"2022 Sierra Denali", last:"2 months ago",
+        questions:["Denali package features","Trade equity","Towing capacity"],
+        checklist:[["Vehicle washed",false],["Keys available",false],["Trade worksheet ready",false],["Vehicle parked up front",false]],
+        timeline:[["done","Appointment scheduled","Wed, Jul 23"],["pending","Customer confirmed",""],["pending","Customer checked in",""]] },
+      { id:7, day:"today", name:"Priya Nair", ini:"PN", c:"#f43f5e", start:16.5, end:17.25, type:"sales", veh:"2024 Cadillac XT5 Sport", rep:"Cameron", status:"confirmed", trade:"None", next:"Prepare Presentation", phone:"(770) 555-0244", email:"pnair@email.com", budget:"$820 / month", interested:"2024 Cadillac XT5", last:"3 days ago",
+        questions:["Premium package","Delivery timeline","Loyalty pricing"],
+        checklist:[["Vehicle washed",true],["Keys available",true],["Presentation ready",false],["Vehicle parked up front",false]],
+        timeline:[["done","Appointment scheduled","Mon, Jul 21"],["done","Customer confirmed","Wed, Jul 23"],["pending","Customer checked in",""]] },
+      { id:8, day:"today", name:"Ethan Ross", ini:"ER", c:"#dc2626", start:8.5, end:9, type:"missed", veh:"2022 Buick Enclave Avenir", rep:"Cameron", status:"noshow", trade:"None", next:"Send Follow-up", phone:"(770) 555-0361", email:"eross@email.com", budget:"$560 / month", interested:"Lease-end upgrade", last:"1 month ago",
+        questions:["Lease-end options","New Enclave pricing"],
+        checklist:[["Reschedule offered",false],["Follow-up text sent",false]],
+        timeline:[["done","Appointment scheduled","Tue, Jul 22"],["done","Reminder sent","Wed, Jul 23"],["done","No-show recorded","Today, 8:45 AM"]] },
+      { id:9, day:"tomorrow", name:"Sarah Lewis", ini:"SL", c:"#8b5cf6", start:14, end:14.75, type:"delivery", veh:"2023 Chevrolet Tahoe High Country", rep:"Cameron", status:"confirmed", trade:"2020 Honda CR-V", next:"Detail Vehicle", phone:"(770) 555-0127", email:"slewis@email.com", budget:"Completed", interested:"Vehicle delivery", last:"Today",
+        questions:["Feature walkthrough"], checklist:[["Documents ready",true],["Vehicle detailed",false]],
+        timeline:[["done","Appointment scheduled","Fri, Jul 18"],["done","Customer confirmed","Mon, Jul 21"]] },
+      { id:10, day:"friday", name:"Michael Williams", ini:"MW", c:"#a855f7", start:11, end:11.75, type:"sales", veh:"2022 Toyota RAV4 XLE", rep:"Cameron", status:"pending", trade:"None", next:"Confirm Appointment", phone:"(404) 555-0198", email:"mwilliams@email.com", budget:"$430 / month", interested:"2025 Chevrolet Trailblazer", last:"14 months ago",
+        questions:["Trade options","Financing"], checklist:[["Vehicle washed",false]],
+        timeline:[["done","Appointment scheduled","Thu, Jul 24"],["pending","Customer confirmed",""]] },
+      { id:11, day:"friday", name:"Grace Kim", ini:"GK", c:"#eab308", start:15, end:15.75, type:"trade", veh:"Trade Appraisal", rep:"Mike Davis", status:"confirmed", trade:"2020 Kia Telluride SX", next:"Prepare Appraisal", phone:"(678) 555-0402", email:"gkim@email.com", budget:"—", interested:"2025 Telluride upgrade", last:"8 months ago",
+        questions:["Trade value","Upgrade cost"], checklist:[["Appraisal tool ready",false]],
+        timeline:[["done","Appointment scheduled","Thu, Jul 24"],["done","Customer confirmed","Thu, Jul 24"]] },
+    ];
+
+    const WQ = [
+      { name:"Michael Williams", ini:"MW", c:"#a855f7", wait:"7 min", looking:"Tahoe", assigned:"None" },
+      { name:"Jessica Davis", ini:"JD", c:"#6366f1", wait:"3 min", looking:"Accord", assigned:"None" }
+    ];
+
+    const SUMM = [
+      ["Today","12","blue",'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>'],
+      ["Confirmed","8","green",'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>'],
+      ["Pending","2","amber",'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'],
+      ["Completed","5","gray",'<path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'],
+      ["No Shows","1","red",'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M9 9l6 6M15 9l-6 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'],
+      ["Walk-Ins","2","teal",'<circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/>']
+    ];
+    const PILLS = [["all","All"],["today","Today"],["tomorrow","Tomorrow"],["week","This Week"],["confirmed","Confirmed"],["pending","Pending"],["noshow","No Show"],["completed","Completed"],["sales","Sales"],["test","Test Drives"],["delivery","Deliveries"],["mine","My Appointments"]];
+
+    const state = { view:"day", filter:"all", q:"" };
+    function matchFilter(a) {
+      const f = state.filter;
+      if (f === "all") return true;
+      if (["today","tomorrow"].includes(f)) return a.day === f;
+      if (f === "week") return true;
+      if (["confirmed","pending","noshow","completed"].includes(f)) return a.status === f;
+      if (["sales","test","delivery","trade","finance","followup"].includes(f)) return a.type === f;
+      if (f === "mine") return a.rep === "Cameron";
+      return true;
+    }
+    function matchSearch(a) { const q = state.q.trim().toLowerCase(); if (!q) return true; return [a.name,a.veh,a.trade,a.interested].join(" ").toLowerCase().includes(q); }
+    const events = () => A.filter((a) => matchFilter(a) && matchSearch(a));
+    const todays = () => events().filter((a) => a.day === "today");
+
+    function renderSummary() {
+      document.getElementById("summ").innerHTML = SUMM.map(([l,v,c,ic]) =>
+        `<div class="sc"><span class="sc-ic ic-${c}"><svg viewBox="0 0 24 24">${ic}</svg></span><div><div class="sc-v">${v}</div><div class="sc-l">${l}</div></div></div>`).join("");
+    }
+    function renderPills() {
+      document.getElementById("pills").innerHTML = PILLS.map(([t,l]) => `<button class="pill ${state.filter===t?"on":""}" data-t="${t}">${l}</button>`).join("");
+      document.querySelectorAll(".pill").forEach((b) => b.addEventListener("click", () => { state.filter = b.dataset.t; renderPills(); renderCal(); }));
+    }
+
+    function renderCal() {
+      const body = document.getElementById("calBody");
+      if (state.view === "day") body.innerHTML = dayView();
+      else if (state.view === "agenda") body.innerHTML = agendaView();
+      else if (state.view === "week") body.innerHTML = weekView();
+      else body.innerHTML = monthView();
+      body.querySelectorAll("[data-open]").forEach((el) => el.addEventListener("click", () => openPanel(+el.dataset.open)));
+    }
+
+    function dayView() {
+      const H0 = 8, H1 = 18, PH = 92;
+      let hours = "";
+      for (let h = H0; h <= H1; h++) hours += `<div class="hour"><span class="hr-lbl">${fmt(h)}</span></div>`;
+      const now = 13.4;
+      const nowTop = 8 + (now - H0) * PH;
+      let evts = todays().map((a) => {
+        const top = 8 + (a.start - H0) * PH, ht = Math.max(44, (a.end - a.start) * PH - 6);
+        const [ec, eb] = TYPE[a.type];
+        const stc = ST[a.status];
+        return `<div class="evt" data-open="${a.id}" style="top:${top}px;height:${ht}px;--ec:${ec};--eb:${eb}"><div class="ebadge ${stc[0]}">${stc[1]}</div><div class="et">${fmt(a.start)} · ${TYPE[a.type][2]}</div><div class="en">${a.name}</div><div class="ev">${a.veh}</div></div>`;
+      }).join("");
+      if (!todays().length) evts = `<div style="position:absolute;top:40px;left:0;right:0;text-align:center;color:var(--muted)">No appointments match this filter.</div>`;
+      return `<div class="tl-grid">${hours}<div class="now-line" style="top:${nowTop}px"></div>${evts}</div>`;
+    }
+
+    function agendaView() {
+      const groups = [["today","Today · Thursday, Jul 24"],["tomorrow","Tomorrow · Friday, Jul 25"],["friday","Saturday · Jul 26"]];
+      let html = `<div class="agenda">`;
+      groups.forEach(([d,label]) => {
+        const rows = events().filter((a) => a.day === d).sort((x,y)=>x.start-y.start);
+        if (!rows.length) return;
+        html += `<div class="ag-day">${label}</div>`;
+        html += rows.map((a) => { const [ec] = TYPE[a.type], stc = ST[a.status]; return `<div class="ag-row" data-open="${a.id}" style="--ec:${ec}"><div class="ag-time">${fmt(a.start)}<span>${fmt(a.end)}</span></div><span class="av-sm" style="background:${a.c}">${a.ini}</span><div class="ag-main"><b>${a.name}</b><span>${a.veh}</span></div><div style="text-align:right"><div class="ag-type" style="--ec:${ec}">${TYPE[a.type][2]}</div><span class="st ${stc[0]}" style="margin-top:5px;display:inline-block">${stc[1]}</span></div></div>`; }).join("");
+      });
+      return html + `</div>`;
+    }
+
+    function weekView() {
+      const days = [["Mon","21"],["Tue","22"],["Wed","23"],["Thu","24",true],["Fri","25"],["Sat","26"],["Sun","27"]];
+      const byDay = { "24":todays(), "25":events().filter(a=>a.day==="tomorrow"), "26":events().filter(a=>a.day==="friday") };
+      let html = `<div class="week">`;
+      days.forEach(([dn,num,today]) => {
+        html += `<div class="wk-col"><div class="wk-hd ${today?"today":""}">${dn}<b>${num}</b></div>`;
+        (byDay[num]||[]).sort((x,y)=>x.start-y.start).forEach((a) => { const [ec,eb] = TYPE[a.type]; html += `<div class="wk-evt" data-open="${a.id}" style="--ec:${ec};--eb:${eb}"><b>${fmt(a.start)}</b><span>${a.name}</span></div>`; });
+        html += `</div>`;
+      });
+      return html + `</div>`;
+    }
+
+    function monthView() {
+      const dows = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+      let html = `<div class="month">` + dows.map((d) => `<div class="mo-hd">${d}</div>`).join("");
+      const counts = { 24:todays(), 25:events().filter(a=>a.day==="tomorrow"), 26:events().filter(a=>a.day==="friday") };
+      for (let i = 0; i < 35; i++) {
+        const day = i - 2; const inMonth = day >= 1 && day <= 31; const isToday = day === 24;
+        let dots = "";
+        if (counts[day]) { dots = `<div class="mo-dot">` + counts[day].slice(0,4).map((a)=>`<i style="background:${TYPE[a.type][0]}"></i>`).join("") + `</div>` + (counts[day].length>0?`<div class="mo-more">${counts[day].length} appt${counts[day].length>1?"s":""}</div>`:""); }
+        html += `<div class="mo-cell ${inMonth?"":"dim"} ${isToday?"today":""}"><span class="dn">${inMonth?day:(day<1?31+day:day-31)}</span>${dots}</div>`;
+      }
+      return html + `</div>`;
+    }
+
+    function renderWQ() {
+      document.getElementById("wq").innerHTML = WQ.map((w) => `<div class="wq"><div class="wq-top"><span class="av-sm" style="background:${w.c}">${w.ini}</span><b>${w.name}</b><div class="wait"><span class="badge">Waiting</span><small>${w.wait}</small></div></div><div class="wq-meta"><div><div class="k">Looking At</div><div class="v">${w.looking}</div></div><div><div class="k">Assigned</div><div class="v">${w.assigned}</div></div></div><button class="claim">Claim Customer</button></div>`).join("");
+    }
+
+    function renderDeliveries() {
+      const dels = A.filter((a) => a.type === "delivery" && a.day === "today");
+      document.getElementById("deliveries").innerHTML = dels.map((a) => `<div class="del"><div class="dh"><span class="av-sm" style="background:${a.c}">${a.ini}</span><div><b>${a.name}</b><span>${a.veh}</span></div><span class="dt">${fmt(a.start)}</span></div>${a.checklist.slice(0,3).map(([l,ok])=>`<div class="chk-row"><span>${l}</span>${ok?`<span class="ok">${svg("check")}Ready</span>`:`<span style="color:var(--muted);font-size:12.5px">Pending</span>`}</div>`).join("")}<button class="start" data-open="${a.id}">Start Delivery</button></div>`).join("");
+      document.querySelectorAll("#deliveries .start").forEach((b)=>b.addEventListener("click",()=>openPanel(+b.dataset.open)));
+    }
+    function renderNoShows() {
+      const ns = A.filter((a) => a.status === "noshow");
+      document.getElementById("noshows").innerHTML = ns.map((a) => `<div class="miss"><div class="dh"><span class="av-sm" style="background:${a.c}">${a.ini}</span><div><b>${a.name}</b><span>No Show · ${fmt(a.start)}</span></div><span class="dt">${a.interested}</span></div><div class="sugg">Suggested Action: <b>Send a follow-up text</b> to reschedule and recover the visit.</div><div class="acts"><button data-open="${a.id}">Text</button><button data-open="${a.id}">Reschedule</button></div></div>`).join("");
+      document.querySelectorAll("#noshows [data-open]").forEach((b)=>b.addEventListener("click",()=>openPanel(+b.dataset.open)));
+    }
+    function renderUpcoming() {
+      const up = A.filter((a) => a.day === "tomorrow" || a.day === "friday");
+      const label = { tomorrow:"Tomorrow · Fri, Jul 25", friday:"Saturday · Jul 26" };
+      document.getElementById("upcoming").innerHTML = up.map((a) => { const [ec] = TYPE[a.type], stc = ST[a.status]; return `<div class="upc" data-open="${a.id}" style="--ec:${ec}"><div class="ud">${label[a.day]}</div><div class="un"><span class="av-sm" style="background:${a.c}">${a.ini}</span><div><b>${a.name}</b><div class="ty" style="color:${ec}">${TYPE[a.type][2]}</div></div></div><div class="uf"><span class="tm">${fmt(a.start)}</span><span class="st ${stc[0]}">${stc[1]}</span></div></div>`; }).join("");
+      document.querySelectorAll("#upcoming .upc").forEach((b)=>b.addEventListener("click",()=>openPanel(+b.dataset.open)));
+    }
+
+    const scrim = document.getElementById("scrim"), panel = document.getElementById("panel");
+    function openPanel(id) {
+      const a = A.find((x) => x.id === id); if (!a) return;
+      const [ec,eb,tlabel] = TYPE[a.type], stc = ST[a.status];
+      const doneCount = a.checklist.filter((c)=>c[1]).length;
+      panel.innerHTML = `
+        <div class="panel-hd">
+          <span class="av-lg" style="background:${a.c}">${a.ini}</span>
+          <div><h2>${a.name} <span class="st ${stc[0]}">${stc[1]}</span></h2><div class="pmeta">${a.day==="today"?"Today":a.day==="tomorrow"?"Tomorrow":"Saturday"} · ${fmt(a.start)} · <span style="color:${ec};font-weight:600">${tlabel}</span></div></div>
+          <button class="panel-close" id="panelClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        </div>
+        <div class="panel-body">
+          <div class="qa">
+            <button>${svg("call")}Call</button><button>${svg("text")}Text</button><button>${svg("email")}Email</button><button>${svg("video")}Video</button><button>${svg("locate")}Locate</button><button>${svg("print")}Print</button><button>${svg("check")}Check In</button>
+          </div>
+
+          <div class="sect">
+            <h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Appointment Brief</h3>
+            <div class="brief">
+              <div><div class="k">Interested In</div><div class="v">${a.interested}</div></div>
+              <div><div class="k">Budget</div><div class="v">${a.budget}</div></div>
+              <div><div class="k">Trade</div><div class="v">${a.trade}</div></div>
+              <div><div class="k">Last Contact</div><div class="v">${a.last}</div></div>
+            </div>
+            <div class="qlist"><div class="qh">Likely Questions</div><ul style="padding:0;margin:0">${a.questions.map((q)=>`<li>${q}</li>`).join("")}</ul></div>
+          </div>
+
+          <div class="sect">
+            <h3>Pre-Arrival Checklist <span style="margin-left:auto;font-size:11.5px;color:var(--muted);font-weight:600">${doneCount}/${a.checklist.length} done</span></h3>
+            <div class="act-list" id="checklist">
+              ${a.checklist.map(([l,ok],i)=>`<div class="ck ${ok?"on":""}" data-i="${i}"><span class="box">${svg("checkmark")}</span><span class="lbl">${l}</span></div>`).join("")}
+            </div>
+          </div>
+
+          <div class="sect">
+            <h3>Vehicle</h3>
+            <div class="veh-card"><div class="vt">${a.veh}</div><div class="vs">Assigned to ${a.rep} · Next step: ${a.next}</div></div>
+            ${a.trade !== "None" ? `<div class="field-row" style="margin-top:12px"><span class="k">Trade-In</span><span class="v">${a.trade}</span></div>` : ""}
+          </div>
+
+          <div class="sect">
+            <h3>Appointment Timeline</h3>
+            ${a.timeline.map((t)=>`<div class="tl2 ${t[0]==="pending"?"pending":""}"><span class="tl2-dot" style="background:${t[0]==="done"?ec:"#dfe4ec"};box-shadow:0 0 0 4px ${t[0]==="done"?ec+"22":"transparent"}"></span><div><b>${t[1]}</b>${t[2]?`<span>${t[2]}</span>`:""}</div></div>`).join("")}
+          </div>
+
+          ${a.status !== "noshow" ? `<button class="checkin-btn">${a.type==="delivery"?"Begin Delivery":"Check In Customer"}</button>` : `<button class="checkin-btn" style="background:linear-gradient(180deg,#f87171,#dc2626)">Send Follow-Up</button>`}
+        </div>`;
+      panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
+      panel.querySelector("#panelClose").addEventListener("click", closeAll);
+      panel.querySelectorAll(".ck").forEach((ck) => ck.addEventListener("click", () => {
+        ck.classList.toggle("on");
+        const done = panel.querySelectorAll(".ck.on").length, tot = panel.querySelectorAll(".ck").length;
+        panel.querySelector(".sect h3 span").textContent = `${done}/${tot} done`;
+      }));
+    }
+    function closeAll() { panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
+    scrim.addEventListener("click", closeAll);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeAll(); if (e.key === "/" && document.activeElement.tagName !== "INPUT") { e.preventDefault(); document.getElementById("search").focus(); }
+      if (["1","2","3","4"].includes(e.key) && document.activeElement.tagName !== "INPUT") { const v = ["day","week","month","agenda"][+e.key-1]; setView(v); } });
+
+    function setView(v) { state.view = v; document.querySelectorAll("#viewSeg button").forEach((b)=>b.classList.toggle("on", b.dataset.v===v)); renderCal(); }
+    document.querySelectorAll("#viewSeg button").forEach((b) => b.addEventListener("click", () => setView(b.dataset.v)));
+    document.getElementById("search").addEventListener("input", (e) => { state.q = e.target.value; renderCal(); });
+
+    renderSummary(); renderPills(); renderCal(); renderWQ(); renderDeliveries(); renderNoShows(); renderUpcoming();
+  </script>
+</body>
+</html>
