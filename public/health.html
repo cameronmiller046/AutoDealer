@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRM Health — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:420px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#e7f7ee; color:#16a34a; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; }
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:26px 0 14px; display:flex; align-items:center; gap:10px; } .sec-label .ln{flex:1;height:1px;background:var(--line);}
+    .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:13px; margin-top:20px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:12px;} .kp .kv{font-size:23px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kv.g{color:#16a34a;} .kp .kv.a{color:#ea8a0b;} .kp .kv.r{color:#dc2626;}
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin:20px 0 16px; } .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; } .pill.on{background:var(--accent);color:#fff;border-color:var(--accent);} .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;}
+    /* team grid */
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; }
+    .hcard { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; cursor:pointer; transition:transform .12s,box-shadow .12s; } .hcard:hover{transform:translateY(-2px);box-shadow:0 18px 40px -22px rgba(16,32,60,.4);}
+    .hc-top { display:flex; align-items:center; gap:14px; }
+    .ring { width:66px; height:66px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; } .ring .inner { width:50px; height:50px; border-radius:50%; background:var(--card); display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:900; letter-spacing:-1px; }
+    .hc-top .who b{font-size:16px;font-weight:800;} .hc-top .who .av{display:inline-flex;align-items:center;gap:7px;} .hc-top .who .a{width:24px;height:24px;border-radius:50%;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;} .hc-top .who .grade{font-size:12px;font-weight:800;margin-top:3px;}
+    .hc-top .tr{margin-left:auto;font-size:12.5px;font-weight:800;display:inline-flex;align-items:center;gap:4px;} .hc-top .tr.up{color:#16a34a;} .hc-top .tr.dn{color:#dc2626;} .hc-top .tr svg{width:14px;height:14px;}
+    .hc-coach { margin-top:14px; padding-top:13px; border-top:1px solid var(--line); } .hc-coach .cl{font-size:10.5px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:var(--faint);margin-bottom:9px;} .cbar{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12.5px;} .cbar .cn{width:130px;flex:none;color:var(--muted);} .cbar .bar{flex:1;height:7px;background:#eef2f8;border-radius:999px;overflow:hidden;} .cbar .bar>i{display:block;height:100%;border-radius:999px;} .cbar .cv{width:34px;text-align:right;font-weight:700;}
+    .flag { margin-top:12px; font-size:11px; font-weight:800; padding:5px 11px; border-radius:8px; display:inline-flex; align-items:center; gap:6px; } .fl-ok{background:#e7f7ee;color:#16a34a;} .fl-warn{background:#fdf0dc;color:#b45309;} .fl-risk{background:#fdeaea;color:#dc2626;} .flag svg{width:13px;height:13px;}
+    /* personal hero */
+    .hero { background:linear-gradient(135deg,#0f2c1e,#0a1c38); color:#fff; border-radius:20px; padding:30px; display:flex; align-items:center; gap:30px; flex-wrap:wrap; }
+    .hero .bigring { width:170px; height:170px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; } .hero .bigring .inner{width:132px;height:132px;border-radius:50%;background:#0a1c33;display:flex;flex-direction:column;align-items:center;justify-content:center;} .hero .bigring .p{font-size:52px;font-weight:900;letter-spacing:-2px;} .hero .bigring .s{font-size:12px;color:#9db4d6;font-weight:700;}
+    .hero .hd h2{font-size:26px;font-weight:800;} .hero .hd .grade{font-size:16px;font-weight:800;margin-top:4px;} .hero .hd p{color:#9db4d6;font-size:14px;margin-top:8px;max-width:420px;line-height:1.5;} .hero .hd .stat{display:flex;gap:26px;margin-top:16px;} .hero .hd .stat b{font-size:22px;font-weight:900;display:block;} .hero .hd .stat span{font-size:11.5px;color:#9db4d6;font-weight:700;}
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; margin-bottom:16px; } .card h3{font-size:14px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;} .card h3 .si{color:#7c3aed;display:inline-flex;} .card h3 .si svg{width:16px;height:16px;}
+    .frow { display:flex; align-items:center; gap:14px; padding:12px 0; border-top:1px solid var(--line); } .frow:first-child{border-top:none;} .frow .fn{width:190px;flex:none;} .frow .fn b{font-size:13.5px;font-weight:600;display:block;} .frow .fn span{font-size:11.5px;color:var(--faint);} .frow .bar{flex:1;height:9px;background:#eef2f8;border-radius:999px;overflow:hidden;position:relative;} .frow .bar>i{display:block;height:100%;border-radius:999px;transition:width .8s cubic-bezier(.2,.7,.3,1);} .frow .bar .target{position:absolute;top:-3px;bottom:-3px;width:2px;background:#94a3b8;border-radius:2px;} .frow .fv{width:56px;text-align:right;font-weight:800;font-size:15px;}
+    .improve .airec { border:1px solid var(--line); border-radius:11px; padding:13px; margin-bottom:10px; background:linear-gradient(180deg,#fbfcff,#fff); } .improve .airec:last-child{margin-bottom:0;} .improve .airec p{font-size:13px;line-height:1.5;color:#334155;} .improve .airec p b{color:var(--text);} .improve .airec .rec{color:#16a34a;font-weight:700;font-size:12.5px;margin-top:5px;}
+    .grid2 { display:grid; grid-template-columns:1.5fr 1fr; gap:16px; align-items:start; }
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show{opacity:1;pointer-events:auto;}
+    .panel { position:fixed; top:0; right:0; bottom:0; width:470px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open{transform:none;}
+    .panel-hd { display:flex; align-items:center; gap:14px; padding:20px 22px; background:var(--card); border-bottom:1px solid var(--line); } .panel-hd .ring{width:56px;height:56px;} .panel-hd .ring .inner{width:42px;height:42px;font-size:16px;} .panel-hd h2{font-size:18px;font-weight:800;} .panel-hd .pm{color:var(--muted);font-size:13px;margin-top:2px;} .panel-close{margin-left:auto;border:none;background:none;color:var(--muted);width:34px;height:34px;border-radius:9px;} .panel-close svg{width:18px;height:18px;}
+    .panel-body { overflow-y:auto; padding:18px 22px 20px; display:flex; flex-direction:column; gap:16px; }
+    .coach-note { display:flex; gap:8px; } .coach-note input{flex:1;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font:inherit;font-size:13px;outline:none;} .coach-note input:focus{border-color:var(--accent);} .coach-note button{border:none;background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;border-radius:10px;padding:11px 16px;font-size:13px;font-weight:700;}
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} .grid2{grid-template-columns:1fr;} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .kpis{grid-template-columns:repeat(2,1fr);} .frow .fn{width:130px;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" placeholder="Search..." /></div>
+        <span class="role-badge">CRM Health</span>
+        <span class="tb-avatar"><span class="av">CM</span></span>
+      </header>
+      <main class="content" id="content"></main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    function hcolor(s){ return s>=90?"#16a34a":s>=75?"#2563eb":s>=60?"#ea8a0b":"#dc2626"; }
+    function grade(s){ return s>=90?"Champion":s>=75?"Healthy":s>=60?"Needs Attention":"At Risk"; }
+    function ring(s,size){ var c=hcolor(s); return '<span class="ring" style="width:'+size+'px;height:'+size+'px;background:conic-gradient('+c+' '+(s*3.6)+'deg,#eef2f8 0)"><span class="inner" style="color:'+c+'">'+s+'</span></span>'; }
+
+    var FACTORS = [["calls","Calls Completed",78],["texts","Texts Sent",90],["emails","Emails Sent",82],["tasks","Tasks Completed",94],["followup","Follow-up Completion",93],["apptconf","Appointment Confirmations",85],["notes","Notes Quality",72],["response","Response Time",88],["usage","CRM Usage / Logins",96]];
+    // reps: name, ini, color, factor scores by key, trend
+    var REPS = [
+      {n:"Cameron Miller",i:"CM",c:"#3b82f6",f:{calls:78,texts:90,emails:82,tasks:94,followup:93,apptconf:85,notes:72,response:88,usage:96},tr:4},
+      {n:"Sarah Johnson",i:"SJ",c:"#8b5cf6",f:{calls:84,texts:88,emails:90,tasks:91,followup:95,apptconf:82,notes:80,response:70,usage:92},tr:-2},
+      {n:"Priya Nair",i:"PN",c:"#f43f5e",f:{calls:80,texts:86,emails:78,tasks:88,followup:89,apptconf:90,notes:76,response:84,usage:90},tr:6},
+      {n:"Marcus Webb",i:"MB",c:"#10b981",f:{calls:70,texts:74,emails:66,tasks:78,followup:80,apptconf:72,notes:64,response:76,usage:82},tr:3},
+      {n:"Michael Davis",i:"MD",c:"#14b8a6",f:{calls:52,texts:58,emails:44,tasks:60,followup:55,apptconf:48,notes:40,response:50,usage:38},tr:-9},
+      {n:"Grace Kim",i:"GK",c:"#eab308",f:{calls:60,texts:62,emails:55,tasks:64,followup:58,apptconf:60,notes:52,response:62,usage:56},tr:-4}
+    ];
+    REPS.forEach(function(r){ var vals=FACTORS.map(function(f){return r.f[f[0]];}); r.overall=Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length); });
+
+    function weakest(r,n){ return FACTORS.map(function(f){return [f[1],r.f[f[0]]];}).sort(function(a,b){return a[1]-b[1];}).slice(0,n); }
+
+    /* ---------- MANAGER: team view ---------- */
+    function managerView(){
+      var avg=Math.round(REPS.reduce(function(a,r){return a+r.overall;},0)/REPS.length);
+      var champ=REPS.filter(function(r){return r.overall>=90;}).length;
+      var healthy=REPS.filter(function(r){return r.overall>=75&&r.overall<90;}).length;
+      var attn=REPS.filter(function(r){return r.overall>=60&&r.overall<75;}).length;
+      var risk=REPS.filter(function(r){return r.overall<60;}).length;
+      var html='<div class="phead"><h1>Team CRM Health</h1><p class="sub">See at a glance who is truly using the CRM — coach on behavior, not just outcomes.</p></div>'+
+        '<div class="kpis">'+
+          kp("Team Avg Health",avg,"g")+kp("Champions (90+)",champ,"")+kp("Healthy",healthy,"")+kp("Needs Attention",attn,"a")+kp("At Risk",risk,"r")+
+        '</div>'+
+        '<div class="sec-label">Salesperson Health Scores<span class="ln"></span></div><div class="grid" id="grid"></div>';
+      $("content").innerHTML=html;
+      var rows=REPS.slice().sort(function(a,b){return b.overall-a.overall;});
+      $("grid").innerHTML=rows.map(function(r,idx){ var w=weakest(r,2); var flag=r.overall>=90?["fl-ok","Champion — CRM power user"]:r.overall>=75?["fl-ok","Healthy adoption"]:r.overall>=60?["fl-warn","Coaching recommended"]:["fl-risk","At risk — low CRM usage"];
+        return '<div class="hcard" data-rep="'+REPS.indexOf(r)+'"><div class="hc-top">'+ring(r.overall,66)+'<div class="who"><b>'+r.n+'</b><div class="av"><span class="a" style="background:'+r.c+'">'+r.i+'</span><span class="grade" style="color:'+hcolor(r.overall)+'">'+grade(r.overall)+'</span></div></div><span class="tr '+(r.tr>=0?"up":"dn")+'">'+trArrow(r.tr)+' '+Math.abs(r.tr)+'</span></div>'+
+          '<div class="hc-coach"><div class="cl">Weakest areas</div>'+w.map(function(x){ return '<div class="cbar"><span class="cn">'+x[0]+'</span><div class="bar"><i style="width:'+x[1]+'%;background:'+hcolor(x[1])+'"></i></div><span class="cv">'+x[1]+'</span></div>'; }).join("")+
+          '<span class="flag '+flag[0]+'">'+flagIcon(flag[0])+flag[1]+'</span></div></div>';
+      }).join("");
+      document.querySelectorAll("[data-rep]").forEach(function(el){ el.addEventListener("click",function(){ openRep(+el.dataset.rep); }); });
+    }
+    function kp(l,v,cls){ return '<div class="kp"><div class="kl">'+l+'</div><div class="kv '+cls+'">'+v+(l.indexOf("Avg")>=0?"":"")+'</div></div>'; }
+    function trArrow(t){ return t>=0?'<svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>':'<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+    function flagIcon(c){ if(c==="fl-ok")return '<svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; return '<svg viewBox="0 0 24 24"><path d="M12 4l9 15H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10v4M12 16.5v.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'; }
+
+    var scrim=$("scrim"), panel=$("panel");
+    function openRep(idx){
+      var r=REPS[idx];
+      panel.innerHTML='<div class="panel-hd">'+ring(r.overall,56)+'<div><h2>'+r.n+'</h2><div class="pm">'+grade(r.overall)+' · CRM Health '+r.overall+'/100</div></div><button class="panel-close" id="pClose"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>'+
+        '<div class="panel-body"><div class="card" style="margin:0"><h3>Health Factors</h3>'+FACTORS.map(function(f){ var s=r.f[f[0]]; return '<div class="frow"><div class="fn"><b>'+f[1]+'</b></div><div class="bar"><i style="width:'+s+'%;background:'+hcolor(s)+'"></i></div><div class="fv" style="color:'+hcolor(s)+'">'+s+'</div></div>'; }).join("")+'</div>'+
+        '<div class="card" style="margin:0"><h3><span class="si"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Coaching</h3>'+coachTips(r)+'</div>'+
+        '<div class="card" style="margin:0"><h3>Send a coaching note</h3><div class="coach-note"><input id="cnInp" placeholder="e.g. Great follow-ups — let’s lift call volume this week"/><button id="cnBtn">Send</button></div></div></div>';
+      panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
+      $("pClose").addEventListener("click", closeAll);
+      $("cnBtn").addEventListener("click", function(){ toast("Coaching note sent to "+r.n.split(" ")[0]); closeAll(); });
+    }
+    function coachTips(r){
+      var w=weakest(r,3); var tips={ "Calls Completed":["Call volume is below the 20/day target.","Block two power-hour sessions on the dialer."],"Texts Sent":["Text activity is light.","Use quick-reply templates to move faster."],"Emails Sent":["Email cadence is low.","Lean on the AI email drafts to keep pace."],"Tasks Completed":["Tasks are piling up.","Work the Action Queue top-to-bottom each morning."],"Follow-up Completion":["Follow-ups are slipping.","Enable the 3-day follow-up automation."],"Appointment Confirmations":["Show rate is at risk.","Confirm every appointment the day before."],"Notes Quality":["Notes are thin.","Capture next-step + customer intent on every touch."],"Response Time":["Response time exceeds the dealership goal.","Turn on push notifications for new replies."],"CRM Usage / Logins":["Low CRM logins detected.","Start each shift in the CRM, not on paper."] };
+      return w.map(function(x){ var t=tips[x[0]]||["Room to improve.","Focus here this week."]; return '<div class="airec"><p><b>'+x[0]+' · '+x[1]+'/100</b> — '+t[0]+'</p><div class="rec">→ '+t[1]+'</div></div>'; }).join("");
+    }
+    function closeAll(){ panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
+    scrim.addEventListener("click", closeAll);
+    document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeAll(); });
+
+    /* ---------- SALESPERSON: personal view ---------- */
+    function personalView(){
+      var me=REPS[0]; var c=hcolor(me.overall);
+      var rank=REPS.slice().sort(function(a,b){return b.overall-a.overall;}).findIndex(function(r){return r===me;})+1;
+      $("content").innerHTML='<div class="phead"><h1>My CRM Health</h1><p class="sub">Your live score reflects how effectively you’re working the CRM — improve the factors below to climb.</p></div>'+
+        '<div class="hero" style="margin-top:20px"><span class="bigring" style="background:conic-gradient('+c+' '+(me.overall*3.6)+'deg, rgba(255,255,255,.08) 0)"><span class="inner"><span class="p" style="color:'+c+'">'+me.overall+'</span><span class="s">/ 100</span></span></span>'+
+          '<div class="hd"><h2>You’re '+grade(me.overall)+'</h2><div class="grade" style="color:#6fe0a0">Top habits: tasks, follow-ups & CRM usage</div><p>Keep it up — you’re just points from Champion. Lift <b>Notes Quality</b> and <b>Calls</b> to break 90.</p><div class="stat"><div><b>#'+rank+'</b><span>TEAM RANK</span></div><div><b>14</b><span>DAY STREAK</span></div><div><b style="color:#6fe0a0">+4</b><span>THIS WEEK</span></div></div></div></div>'+
+        '<div class="grid2" style="margin-top:20px"><div class="card"><h3>Your Health Factors</h3>'+FACTORS.map(function(f){ var s=me.f[f[0]]; return '<div class="frow"><div class="fn"><b>'+f[1]+'</b><span>Target 85+</span></div><div class="bar"><i style="width:'+s+'%;background:'+hcolor(s)+'"></i><span class="target" style="left:85%"></span></div><div class="fv" style="color:'+hcolor(s)+'">'+s+'</div></div>'; }).join("")+'</div>'+
+        '<div class="card improve"><h3><span class="si"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>Improve Your Score</h3>'+coachTips(me)+'</div></div>';
+    }
+
+    document.addEventListener("DOMContentLoaded", function(){
+      var role = (window.ADRoles && window.ADRoles.getRole && window.ADRoles.getRole()) || "salesperson";
+      if (role==="salesperson") personalView(); else managerView();
+    });
+    var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2400); }
+  </script>
+</body>
+</html>
