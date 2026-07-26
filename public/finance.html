@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finance Dashboard — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:360px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#e7f7ee; color:#16a34a; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:24px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:25px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14px; margin-top:6px; }
+
+    .kpis { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin:20px 0; }
+    @media(max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} } @media(max-width:640px){ .kpis{grid-template-columns:repeat(2,1fr);} }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:14px 15px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:11.5px;} .kp .kv{font-size:22px;font-weight:800;letter-spacing:-0.6px;margin-top:3px;} .kp .kd{font-size:11px;font-weight:700;margin-top:3px;color:var(--green);} .kp .kd.warn{color:var(--amber);}
+
+    .grid { display:grid; grid-template-columns:1fr 330px; gap:18px; align-items:start; }
+    @media(max-width:1080px){ .grid{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .card-h { display:flex; align-items:center; gap:10px; padding:15px 18px; border-bottom:1px solid var(--line); } .card-h h2{font-size:14.5px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);} .card-h .r{margin-left:auto;font-size:12px;color:var(--muted);font-weight:700;}
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; } .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; } .pill.on{background:var(--accent);color:#fff;border-color:var(--accent);} .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;} .pill .c{opacity:.7;margin-left:3px;}
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:0 0 14px; }
+
+    /* deal cards */
+    .deal{border-top:1px solid var(--line);padding:16px 18px;cursor:pointer;} .deal:first-child{border-top:none;} .deal:hover{background:#fafbff;}
+    .deal .dt{display:flex;align-items:center;gap:12px;}
+    .deal .av{width:42px;height:42px;border-radius:12px;flex:none;color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;}
+    .deal .dn b{font-size:15px;font-weight:800;} .deal .dn span{display:block;font-size:12.5px;color:var(--muted);}
+    .deal .dr{margin-left:auto;text-align:right;flex:none;} .deal .dr .dl{font-size:10.5px;font-weight:700;color:var(--faint);text-transform:uppercase;} .deal .dr .dv{font-size:14px;font-weight:800;}
+    .deal .chips{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap;}
+    .chip{font-size:11px;font-weight:700;padding:4px 10px;border-radius:7px;display:inline-flex;align-items:center;gap:5px;} .chip.ok{background:#e7f7ee;color:#16a34a;} .chip.ok::before{content:"✓";} .chip.wait{background:#fdf0dc;color:#b7791f;} .chip.pend{background:#eef1f6;color:#64748b;}
+    .deal .wait-on{margin-top:11px;font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:8px;} .deal .wait-on b{color:var(--amber);} .deal .wait-on.ready b{color:var(--green);}
+    .deal .dact{display:flex;gap:8px;margin-top:12px;} .dbtn{border:none;border-radius:9px;padding:8px 15px;font-size:12.5px;font-weight:700;background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;} .dbtn.ghost{background:#fff;border:1px solid var(--line);color:var(--text);} .dbtn.ghost:hover{border-color:#cfe0f7;color:var(--accent);}
+
+    /* side widgets */
+    .fw{display:flex;align-items:center;gap:12px;padding:12px 18px;border-top:1px solid var(--line);} .fw:first-child{border-top:none;}
+    .fw .fi{width:34px;height:34px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;} .fw .fi svg{width:17px;height:17px;}
+    .fw .fx{flex:1;min-width:0;} .fw .fx b{font-size:13px;font-weight:700;} .fw .fx span{display:block;font-size:11.5px;color:var(--muted);}
+    .fw .fv{font-size:11px;font-weight:800;padding:3px 9px;border-radius:6px;flex:none;}
+    .i-green{background:#e7f7ee;color:#16a34a;} .i-blue{background:#eef4ff;color:#2563eb;} .i-amber{background:#fdf0dc;color:#b7791f;} .i-red{background:#fdeaea;color:#dc2626;}
+
+    .aicoach{display:flex;gap:11px;padding:13px 18px;border-top:1px solid var(--line);align-items:flex-start;} .aicoach:first-child{border-top:none;}
+    .aicoach .ci{width:30px;height:30px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;background:#f1eafe;color:#7c3aed;} .aicoach .ci svg{width:16px;height:16px;}
+    .aicoach .cx b{font-size:13px;font-weight:700;} .aicoach .cx p{font-size:12px;color:var(--muted);line-height:1.45;margin-top:2px;}
+
+    .pen{padding:16px 18px;} .penrow{display:flex;align-items:center;gap:10px;margin-bottom:11px;} .penrow .pl{width:78px;font-size:12px;color:var(--muted);font-weight:600;flex:none;} .penrow .pb{flex:1;height:8px;background:var(--bg);border-radius:5px;overflow:hidden;} .penrow .pb>i{display:block;height:100%;border-radius:5px;background:linear-gradient(90deg,#22c55e,#16a34a);} .penrow .pv{width:38px;text-align:right;font-size:12.5px;font-weight:800;flex:none;}
+
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show{opacity:1;pointer-events:auto;}
+    .panel { position:fixed; top:0; right:0; bottom:0; width:480px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open{transform:none;}
+    .panel-hd { display:flex; align-items:center; gap:14px; padding:20px 22px; background:var(--card); border-bottom:1px solid var(--line); } .panel-hd .av{width:46px;height:46px;border-radius:12px;flex:none;color:#fff;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;} .panel-hd h2{font-size:17px;font-weight:800;} .panel-hd .pm{color:var(--muted);font-size:12.5px;margin-top:3px;} .panel-close{margin-left:auto;border:none;background:none;color:var(--muted);width:34px;height:34px;border-radius:9px;} .panel-close svg{width:18px;height:18px;}
+    .panel-body { overflow-y:auto; padding:18px 22px 20px; display:flex; flex-direction:column; gap:16px; }
+    .sect { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px; } .sect h3{font-size:12px;font-weight:800;margin-bottom:12px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);}
+    .jstep{display:flex;align-items:center;gap:11px;padding:9px 0;border-top:1px solid var(--line);} .jstep:first-child{border-top:none;} .jstep .jc{width:22px;height:22px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:#e9edf4;} .jstep.done .jc{background:#16a34a;} .jstep.done .jc svg{width:13px;height:13px;color:#fff;} .jstep.cur .jc{background:#fdf0dc;} .jstep.cur .jc::after{content:"";width:8px;height:8px;border-radius:50%;background:#d97706;} .jstep .jt{font-size:13.5px;font-weight:600;flex:1;} .jstep.pend .jt{color:var(--faint);} .jstep .jm{font-size:11.5px;color:var(--muted);}
+    .aibox{background:#f1eafe;border:1px solid #e4d5fb;border-radius:11px;padding:14px;font-size:13.5px;line-height:1.55;color:#4c2889;}
+    .p-actions{display:flex;gap:10px;} .p-actions button{flex:1;border-radius:11px;padding:12px;font-size:13.5px;font-weight:700;} .pa-ghost{background:#fff;border:1px solid var(--line);color:var(--text);} .pa-ghost:hover{border-color:#cfe0f7;color:var(--accent);} .pa-primary{background:linear-gradient(180deg,var(--accent-2),var(--accent));border:none;color:#fff;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">TF</span><span class="meta"><b>Tom Fielder</b><span>Finance Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search deals..." /></div>
+        <span class="role-badge">Finance Workspace</span>
+        <span class="tb-avatar"><span class="av">TF</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>Finance Queue</h1><p class="sub">7 deals in finance. Let's move them from approval to delivery — fastest path first.</p></div>
+        </div>
+
+        <div class="kpis">
+          <div class="kp"><div class="kl">Deals in Finance</div><div class="kv">7</div><div class="kd">2 ready to deliver</div></div>
+          <div class="kp"><div class="kl">Contracts Signed</div><div class="kv">5</div><div class="kd">Today</div></div>
+          <div class="kp"><div class="kl">Funding Pending</div><div class="kv">3</div><div class="kd warn">1 delayed</div></div>
+          <div class="kp"><div class="kl">Avg Time in Finance</div><div class="kv">3.4h</div><div class="kd">▼ 0.6 faster</div></div>
+          <div class="kp"><div class="kl">Products / Deal</div><div class="kv">2.1</div><div class="kd">▲ penetration</div></div>
+          <div class="kp"><div class="kl">Approvals Today</div><div class="kv">6</div><div class="kd">86% approval rate</div></div>
+        </div>
+
+        <div class="grid">
+          <div>
+            <div class="sec-label">Finance Queue</div>
+            <div class="pills" id="pills"></div>
+            <div class="card"><div id="deals"></div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M12 3v18M8 7h6a2.5 2.5 0 0 1 0 5H9a2.5 2.5 0 0 0 0 5h7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><h2>Funding Status</h2></div><div id="funding"></div></div>
+            <div class="card"><div class="card-h" style="background:linear-gradient(120deg,#f5f3ff,#fff)"><svg viewBox="0 0 24 24" style="color:#7c3aed"><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 1 1.9h5c.1-.9.4-1.4 1-1.9A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><h2>AI Finance Assistant</h2></div><div id="aicoach"></div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><h2>F&I Penetration</h2><span class="r">this month</span></div><div class="pen" id="pen"></div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    function avc(s){ var c=['#3b82f6','#8b5cf6','#ec4899','#f59e0b','#10b981','#06b6d4','#0891b2']; var h=0; for(var i=0;i<s.length;i++) h=(h+s.charCodeAt(i))%c.length; return c[h]; }
+    function ini(n){ return n.split(' ').map(function(x){return x[0];}).slice(0,2).join('').toUpperCase(); }
+
+    var DEALS=[
+      {id:1,name:'John Smith',veh:'Silverado LT',amt:'$1,140/mo',status:'waiting',chips:[['Credit Approved','ok'],['Trade Complete','ok'],['Products','wait']],waiting:'Warranty selection',delivery:'2:00 PM today'},
+      {id:2,name:'Sarah Lewis',veh:'Tahoe LT',amt:'$892/mo',status:'contract',chips:[['Credit Approved','ok'],['Products Selected','ok'],['Contract','wait']],waiting:'Signature on contract',delivery:'4:30 PM today'},
+      {id:3,name:'David Johnson',veh:'F-150 XLT',amt:'$734/mo',status:'waiting',chips:[['Credit Approved','ok'],['Insurance','wait']],waiting:'Proof of insurance',delivery:'Tomorrow 11 AM'},
+      {id:4,name:'The Nguyen Family',veh:'Grand Highlander',amt:'$648/mo',status:'funding',chips:[['Signed','ok'],['Funding','wait']],waiting:'Lender funding (Ally)',delivery:'Delivered'},
+      {id:5,name:'Robert Brown',veh:'Equinox RS',amt:'$512/mo',status:'ready',chips:[['Approved','ok'],['Signed','ok'],['Funded','ok']],waiting:'Ready to deliver',delivery:'1:00 PM today',ready:true},
+      {id:6,name:'Amanda Harris',veh:'Camry XSE',amt:'$466/mo',status:'ready',chips:[['Approved','ok'],['Signed','ok'],['Funded','ok']],waiting:'Ready to deliver',delivery:'Scheduled',ready:true},
+      {id:7,name:'Kevin Anderson',veh:'Tacoma TRD',amt:'$705/mo',status:'contract',chips:[['Approved','ok'],['Products','ok'],['Contract','pend']],waiting:'Build contract',delivery:'TBD'}
+    ];
+    var STLABEL={waiting:'Waiting',contract:'Contracts',funding:'Funding',ready:'Ready'};
+    var filter='all';
+    function inF(d){ if(filter==='all')return true; return d.status===filter; }
+    function dealCard(d){
+      return '<div class="deal" onclick="openDeal('+d.id+')"><div class="dt"><span class="av" style="background:'+avc(d.name)+'">'+ini(d.name)+'</span><div class="dn"><b>'+d.name+'</b><span>'+d.veh+'</span></div><div class="dr"><div class="dl">Payment</div><div class="dv">'+d.amt+'</div></div></div>'+
+        '<div class="chips">'+d.chips.map(function(c){ return '<span class="chip '+c[1]+'">'+c[0]+'</span>'; }).join('')+'</div>'+
+        '<div class="wait-on'+(d.ready?' ready':'')+'"><svg viewBox="0 0 24 24" width="15" height="15" style="color:'+(d.ready?'#16a34a':'#d97706')+'"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v4l2.5 1.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Waiting on: <b>'+d.waiting+'</b> · Delivery '+d.delivery+'</div>'+
+        '<div class="dact"><button class="dbtn" onclick="event.stopPropagation();openDeal('+d.id+')">Open Deal</button>'+(d.ready?'<button class="dbtn ghost" onclick="event.stopPropagation();deliver('+d.id+')">Mark Delivered</button>':'')+'</div></div>';
+    }
+    function renderDeals(){ $('deals').innerHTML=DEALS.filter(inF).map(dealCard).join('') || '<div style="padding:34px;text-align:center;color:var(--muted);">No deals in this view.</div>'; }
+    function renderPills(){
+      var defs=[['all','All'],['waiting','Waiting'],['contract','Contracts'],['funding','Funding'],['ready','Ready']];
+      $('pills').innerHTML=defs.map(function(x){ var c=x[0]==='all'?DEALS.length:DEALS.filter(function(d){return d.status===x[0];}).length; return '<button class="pill'+(filter===x[0]?' on':'')+'" data-f="'+x[0]+'">'+x[1]+'<span class="c">'+c+'</span></button>'; }).join('');
+      $('pills').querySelectorAll('.pill').forEach(function(b){ b.addEventListener('click',function(){ filter=b.getAttribute('data-f'); renderPills(); renderDeals(); }); });
+    }
+    function deliver(id){ var d=DEALS.find(function(x){return x.id===id;}); DEALS=DEALS.filter(function(x){return x.id!==id;}); renderPills(); renderDeals(); toast('🎉 '+(d?d.name.split(' ')[0]:'Deal')+' delivered!'); }
+
+    var FUND=[
+      ['Robert Brown','Chase · $34,200','Funded','i-green'],['The Nguyens','Ally · $42,800','Funded','i-green'],
+      ['Sarah Lewis','Ally · $58,400','Pending','i-amber'],['David Johnson','CU · $41,100','Pending','i-amber'],['John Smith','Chase · $74,300','Contract out','i-blue']
+    ];
+    function renderFunding(){ $('funding').innerHTML=FUND.map(function(f){ return '<div class="fw"><span class="fi '+f[3]+'"><svg viewBox="0 0 24 24"><path d="M12 3v18M8 7h6a2.5 2.5 0 0 1 0 5H9a2.5 2.5 0 0 0 0 5h7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div class="fx"><b>'+f[0]+'</b><span>'+f[1]+'</span></div><span class="fv '+f[3]+'">'+f[2]+'</span></div>'; }).join(''); }
+
+    var COACH=[
+      ['Missing proof of insurance','David Johnson · request before the 11 AM delivery. I drafted a text.'],
+      ['Recommend GAP + VSC','Smith deal has high LTV and a 72mo term — strong fit, boosts penetration.'],
+      ['Funding delayed','Sarah Lewis · Ally needs the odometer statement. Contact lender to release funds.'],
+      ['Lower APR available','Brown qualifies for 5.9% at the credit union — offer to save the customer money.']
+    ];
+    function renderCoach(){ $('aicoach').innerHTML=COACH.map(function(c){ return '<div class="aicoach"><span class="ci"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div class="cx"><b>'+c[0]+'</b><p>'+c[1]+'</p></div></div>'; }).join(''); }
+
+    var PEN=[['VSC',68],['GAP',54],['T&W',31],['Maint.',22]];
+    function renderPen(){ $('pen').innerHTML=PEN.map(function(p){ return '<div class="penrow"><span class="pl">'+p[0]+'</span><div class="pb"><i style="width:'+p[1]+'%"></i></div><span class="pv">'+p[1]+'%</span></div>'; }).join(''); }
+
+    var JACKET=['Customer','Vehicle','Trade','Credit','Lenders','Products','Documents','Signatures','Funding','Delivery'];
+    function openDeal(id){
+      var d=DEALS.find(function(x){return x.id===id;}); if(!d) return;
+      var stageIdx = d.status==='ready'?9:d.status==='funding'?8:d.status==='contract'?7:5;
+      var steps=JACKET.map(function(s,i){ var cls=i<stageIdx?'done':i===stageIdx?'cur':'pend'; return '<div class="jstep '+cls+'"><span class="jc">'+(i<stageIdx?'<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>':'')+'</span><span class="jt">'+s+'</span>'+(i===stageIdx?'<span class="jm">current</span>':'')+'</div>'; }).join('');
+      $('panel').innerHTML=''+
+      '<div class="panel-hd"><span class="av" style="background:'+avc(d.name)+'">'+ini(d.name)+'</span><div><h2>'+d.name+'</h2><div class="pm">'+d.veh+' · '+d.amt+' · Delivery '+d.delivery+'</div></div><button class="panel-close" onclick="closePanel()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button></div>'+
+      '<div class="panel-body">'+
+        '<div class="sect"><h3>AI Finance Assistant</h3><div class="aibox">'+aiFor(d)+'</div></div>'+
+        '<div class="sect"><h3>Deal Jacket</h3>'+steps+'</div>'+
+        '<div class="p-actions"><button class="pa-ghost" onclick="closePanel()">Close</button><button class="pa-primary" onclick="'+(d.ready?'deliver('+d.id+')':'closePanel();toast(\'Advancing deal\')')+'">'+(d.ready?'Mark Delivered':'Advance deal')+'</button></div>'+
+      '</div>';
+      $('scrim').classList.add('show'); $('panel').classList.add('open');
+    }
+    function aiFor(d){ if(d.status==='waiting'&&d.waiting.indexOf('insurance')>=0) return 'Missing <b>proof of insurance</b> — this blocks delivery. I\'ve drafted a request text to '+d.name.split(' ')[0]+'.'; if(d.status==='waiting') return 'Present <b>VSC + GAP</b> for warranty selection — strong fit for this term and LTV. Then build the contract.'; if(d.status==='contract') return 'Contract is ready to build/sign. Send for e-signature and you can fund same-day.'; if(d.status==='funding') return 'Awaiting lender funding. Verify the odometer statement is attached to release funds faster.'; return 'All clear — approved, signed, and funded. Ready to deliver on schedule. 🎉'; }
+    function closePanel(){ $('scrim').classList.remove('show'); $('panel').classList.remove('open'); }
+
+    var tTimer; function toast(m){ $('toastMsg').innerHTML=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2200); }
+    document.addEventListener('DOMContentLoaded', function(){ renderPills(); renderDeals(); renderFunding(); renderCoach(); renderPen(); $('scrim').addEventListener('click', closePanel); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BDC Dashboard — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:360px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#fdf0dc; color:#b7791f; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:24px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:25px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14px; margin-top:6px; }
+
+    /* quick actions */
+    .qa{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0 6px;}
+    .qbtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px 15px;font-size:13px;font-weight:700;color:var(--text);box-shadow:var(--shadow);} .qbtn svg{width:16px;height:16px;color:var(--accent);} .qbtn:hover{border-color:#cfe0f7;background:var(--accent-soft);}
+    .qbtn.pri{background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;border:none;} .qbtn.pri svg{color:#fff;}
+
+    .kpis { display:grid; grid-template-columns:repeat(7,1fr); gap:11px; margin:18px 0 20px; }
+    @media(max-width:1400px){ .kpis{grid-template-columns:repeat(4,1fr);} } @media(max-width:760px){ .kpis{grid-template-columns:repeat(2,1fr);} }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:13px 14px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:11px;font-weight:600;} .kp .kv{font-size:22px;font-weight:800;letter-spacing:-0.6px;margin-top:3px;} .kp .kd{font-size:10.5px;font-weight:700;margin-top:3px;color:var(--green);} .kp .kd.warn{color:var(--amber);} .kp.sla .kv{color:var(--green);}
+
+    .grid { display:grid; grid-template-columns:1fr 330px; gap:18px; align-items:start; }
+    @media(max-width:1080px){ .grid{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .card-h { display:flex; align-items:center; gap:10px; padding:15px 18px; border-bottom:1px solid var(--line); } .card-h h2{font-size:14.5px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);} .card-h .r{margin-left:auto;font-size:12px;color:var(--muted);font-weight:700;}
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; } .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; } .pill.on{background:var(--accent);color:#fff;border-color:var(--accent);} .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;} .pill .c{opacity:.7;margin-left:3px;}
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:0 0 14px; }
+
+    /* lead cards */
+    .lead{border-top:1px solid var(--line);padding:16px 18px;} .lead:first-child{border-top:none;} .lead.hot{background:linear-gradient(90deg,#fff6f6,#fff);}
+    .lead .lt{display:flex;align-items:center;gap:12px;}
+    .lead .av{width:42px;height:42px;border-radius:12px;flex:none;color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;}
+    .lead .ln b{font-size:15px;font-weight:800;} .lead .ln span{display:block;font-size:12.5px;color:var(--muted);}
+    .lead .lr{margin-left:auto;text-align:right;flex:none;} .lead .lr .src{font-size:11px;font-weight:700;color:var(--muted);} .lead .lr .rc{font-size:12px;font-weight:800;margin-top:2px;} .lead .lr .rc.hot{color:var(--red);}
+    .lead .lmid{display:flex;align-items:center;gap:9px;margin-top:11px;flex-wrap:wrap;}
+    .stat{font-size:11px;font-weight:800;padding:4px 10px;border-radius:7px;} .s-wait{background:#fdeaea;color:#dc2626;} .s-working{background:#fdf0dc;color:#b7791f;} .s-engaged{background:#eef4ff;color:#2563eb;} .s-new{background:#e7f7ee;color:#16a34a;}
+    .sugg{font-size:12px;color:var(--muted);} .sugg b{color:var(--text);}
+    .lead .lacts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+    .la{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:12.5px;font-weight:700;color:var(--text);} .la svg{width:14px;height:14px;color:var(--accent);} .la:hover{background:var(--accent-soft);border-color:#cfe0f7;}
+    .la.call{background:linear-gradient(180deg,#22c55e,#16a34a);color:#fff;border:none;} .la.call svg{color:#fff;}
+    .la.pri{background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;border:none;} .la.pri svg{color:#fff;}
+
+    /* appointment goal ring */
+    .goal{padding:18px;text-align:center;} .gring{width:150px;height:150px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;} .gring .gi{width:116px;height:116px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;} .gring .gi b{font-size:34px;font-weight:900;letter-spacing:-1.5px;} .gring .gi span{font-size:11px;color:var(--muted);font-weight:700;}
+    .goal .gsub{font-size:13px;color:var(--muted);margin-top:12px;} .goal .gsub b{color:var(--text);}
+
+    /* AI coach */
+    .coach{display:flex;gap:11px;padding:13px 18px;border-top:1px solid var(--line);align-items:flex-start;} .coach:first-child{border-top:none;}
+    .coach .ci{width:30px;height:30px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;background:#f1eafe;color:#7c3aed;} .coach .ci svg{width:16px;height:16px;}
+    .coach .cx b{font-size:13px;font-weight:700;} .coach .cx p{font-size:12px;color:var(--muted);line-height:1.45;margin-top:2px;}
+
+    /* conversations */
+    .conv{display:flex;gap:11px;padding:12px 18px;border-top:1px solid var(--line);align-items:center;} .conv:first-child{border-top:none;}
+    .conv .av{width:34px;height:34px;border-radius:50%;flex:none;color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;}
+    .conv .cv{flex:1;min-width:0;} .conv .cv b{font-size:13px;font-weight:700;} .conv .cv span{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .conv .un{background:#ef4444;color:#fff;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex:none;}
+
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show{opacity:1;pointer-events:auto;}
+    .panel { position:fixed; top:0; right:0; bottom:0; width:440px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open{transform:none;}
+    .panel-hd { display:flex; align-items:center; gap:14px; padding:20px 22px; background:var(--card); border-bottom:1px solid var(--line); } .panel-hd .av{width:46px;height:46px;border-radius:12px;flex:none;color:#fff;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;} .panel-hd h2{font-size:17px;font-weight:800;} .panel-hd .pm{color:var(--muted);font-size:12.5px;margin-top:3px;} .panel-close{margin-left:auto;border:none;background:none;color:var(--muted);width:34px;height:34px;border-radius:9px;} .panel-close svg{width:18px;height:18px;}
+    .panel-body { overflow-y:auto; padding:18px 22px 20px; display:flex; flex-direction:column; gap:16px; }
+    .sect { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px; } .sect h3{font-size:12px;font-weight:800;margin-bottom:12px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);}
+    .aibox{background:#f1eafe;border:1px solid #e4d5fb;border-radius:11px;padding:14px;font-size:13.5px;line-height:1.55;color:#4c2889;}
+    .qgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;} .qgrid .la{justify-content:center;}
+    .kv{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--line);font-size:13px;} .kv:first-child{border-top:none;} .kv .k{color:var(--muted);} .kv .v{font-weight:700;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">MR</span><span class="meta"><b>Marcus Reyes</b><span>BDC Agent</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search leads..." /></div>
+        <span class="role-badge">BDC Workspace</span>
+        <span class="tb-avatar"><span class="av">MR</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>Good morning, Marcus 👋</h1><p class="sub">14 new leads overnight. Your job today: respond fast and book appointments. Let's beat the SLA.</p></div>
+        </div>
+        <div class="qa">
+          <button class="qbtn pri" onclick="toast('Dialer opened')"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Call</button>
+          <button class="qbtn" onclick="toast('Text composer opened')"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Text</button>
+          <button class="qbtn" onclick="toast('Email composer opened')"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Email</button>
+          <button class="qbtn" onclick="toast('Video message')"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 10l5-3v10l-5-3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Video</button>
+          <button class="qbtn" onclick="toast('Scheduler opened')"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Schedule</button>
+          <button class="qbtn" onclick="toast('Assign to salesperson')"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 18c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M17 7v6M14 10h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Assign</button>
+          <button class="qbtn" onclick="toast('Note added')"><svg viewBox="0 0 24 24"><path d="M4 20h16M6 16l10-10 3 3-10 10H6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Add Note</button>
+        </div>
+
+        <div class="kpis">
+          <div class="kp"><div class="kl">New Leads Today</div><div class="kv">14</div><div class="kd">6 unworked</div></div>
+          <div class="kp"><div class="kl">Calls Made</div><div class="kv">28</div><div class="kd">▲ vs yesterday</div></div>
+          <div class="kp"><div class="kl">Texts Sent</div><div class="kv">41</div><div class="kd">3× email rate</div></div>
+          <div class="kp"><div class="kl">Appts Scheduled</div><div class="kv">9</div><div class="kd">Goal: 12</div></div>
+          <div class="kp"><div class="kl">Show Rate</div><div class="kv">72%</div><div class="kd">▲ 5 pts</div></div>
+          <div class="kp"><div class="kl">Avg Response</div><div class="kv">4m 12s</div><div class="kd warn">Target &lt; 5m</div></div>
+          <div class="kp sla"><div class="kl">SLA Compliance</div><div class="kv">91%</div><div class="kd">Under 5 min</div></div>
+        </div>
+
+        <div class="grid">
+          <div>
+            <div class="sec-label">Lead Inbox</div>
+            <div class="pills" id="pills"></div>
+            <div class="card"><div id="leads"></div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><h2>Appointment Goal</h2></div><div class="goal">
+              <div class="gring" id="gring"><div class="gi"><b>9</b><span>of 12 booked</span></div></div>
+              <div class="gsub">3 more to hit your daily goal · <b>on pace</b></div>
+            </div></div>
+            <div class="card"><div class="card-h" style="background:linear-gradient(120deg,#f5f3ff,#fff)"><svg viewBox="0 0 24 24" style="color:#7c3aed"><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 1 1.9h5c.1-.9.4-1.4 1-1.9A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><h2>AI Lead Coach</h2></div><div id="coach"></div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><h2>Recent Conversations</h2></div><div id="convs"></div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    function avc(s){ var c=['#3b82f6','#8b5cf6','#ec4899','#f59e0b','#10b981','#06b6d4','#dc2626']; var h=0; for(var i=0;i<s.length;i++) h=(h+s.charCodeAt(i))%c.length; return c[h]; }
+    function ini(n){ return n.split(' ').map(function(x){return x[0];}).slice(0,2).join('').toUpperCase(); }
+
+    var LEADS=[
+      {id:1,name:'Jessica Tran',veh:'2025 Highlander',src:'Cars.com',recv:'2 min ago',status:'wait',hot:true,sugg:'Call now — pre-qualified & viewing pricing',act:'call'},
+      {id:2,name:'John Smith',veh:'Silverado LT',src:'Website',recv:'4 min ago',status:'wait',hot:true,sugg:'Call — viewed inventory 3× today',act:'call'},
+      {id:3,name:'Maria Lopez',veh:'RAV4 Hybrid',src:'Facebook',recv:'11 min ago',status:'wait',hot:false,sugg:'Text — form fill, no phone answer yet',act:'text'},
+      {id:4,name:'Kevin Anderson',veh:'Tacoma TRD',src:'AutoTrader',recv:'26 min ago',status:'working',hot:false,sugg:'Opened 2 emails — send appointment invite',act:'text'},
+      {id:5,name:'The Wright Family',veh:'Grand Highlander',src:'Referral',recv:'40 min ago',status:'engaged',hot:false,sugg:'Replied — offer 2 time slots to book',act:'schedule'},
+      {id:6,name:'David Chen',veh:'Camry XSE',src:'Website',recv:'1 hr ago',status:'new',hot:false,sugg:'New — send first-touch text',act:'text'}
+    ];
+    var STLABEL={wait:'Waiting',working:'Working',engaged:'Engaged',new:'New'};
+    var filter='all';
+    function inF(l){ if(filter==='all')return true; return l.status===filter; }
+    function actBtn(l){
+      if(l.act==='call') return '<button class="la call" onclick="doAct('+l.id+',\'Call started\');event.stopPropagation();"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Start Call</button>';
+      if(l.act==='schedule') return '<button class="la pri" onclick="doAct('+l.id+',\'Appointment booked\');event.stopPropagation();"><svg viewBox="0 0 24 24"><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" stroke="currentColor" stroke-width="1.7"/><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Book Appt</button>';
+      return '<button class="la pri" onclick="doAct('+l.id+',\'Text sent\');event.stopPropagation();"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Send Text</button>';
+    }
+    function leadCard(l){
+      return '<div class="lead'+(l.hot?' hot':'')+'" onclick="openLead('+l.id+')"><div class="lt"><span class="av" style="background:'+avc(l.name)+'">'+ini(l.name)+'</span><div class="ln"><b>'+l.name+'</b><span>'+l.veh+'</span></div><div class="lr"><div class="src">'+l.src+'</div><div class="rc'+(l.hot?' hot':'')+'">'+l.recv+'</div></div></div>'+
+        '<div class="lmid"><span class="stat s-'+l.status+'">'+STLABEL[l.status]+'</span><span class="sugg">AI: <b>'+l.sugg+'</b></span></div>'+
+        '<div class="lacts">'+actBtn(l)+'<button class="la" onclick="doAct('+l.id+',\'Text sent\');event.stopPropagation();"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Text</button><button class="la" onclick="doAct('+l.id+',\'Email sent\');event.stopPropagation();"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Email</button></div></div>';
+    }
+    function renderLeads(){ $('leads').innerHTML=LEADS.filter(inF).map(leadCard).join('') || '<div style="padding:34px;text-align:center;color:var(--muted);">No leads in this view 🎉</div>'; }
+    function renderPills(){
+      var defs=[['all','All'],['wait','Waiting'],['working','Working'],['engaged','Engaged'],['new','New']];
+      $('pills').innerHTML=defs.map(function(d){ var c=d[0]==='all'?LEADS.length:LEADS.filter(function(l){return l.status===d[0];}).length; return '<button class="pill'+(filter===d[0]?' on':'')+'" data-f="'+d[0]+'">'+d[1]+'<span class="c">'+c+'</span></button>'; }).join('');
+      $('pills').querySelectorAll('.pill').forEach(function(b){ b.addEventListener('click',function(){ filter=b.getAttribute('data-f'); renderPills(); renderLeads(); }); });
+    }
+    function doAct(id,msg){ var l=LEADS.find(function(x){return x.id===id;}); if(l && (msg==='Appointment booked')){ LEADS=LEADS.filter(function(x){return x.id!==id;}); renderPills(); renderLeads(); } toast(msg+(l?' · '+l.name.split(' ')[0]:'')); }
+
+    var COACH=[
+      ['Call Jessica immediately','Lead is pre-qualified and hasn\'t been contacted. Every minute cuts contact odds ~10%.'],
+      ['John opened pricing','Send an appointment invitation — high purchase intent, viewed inventory 3×.'],
+      ['Kevin viewed inventory 3×','Strong intent signal. A short "which day works?" text usually books these.']
+    ];
+    function renderCoach(){ $('coach').innerHTML=COACH.map(function(c){ return '<div class="coach"><span class="ci"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div class="cx"><b>'+c[0]+'</b><p>'+c[1]+'</p></div></div>'; }).join(''); }
+
+    var CONVS=[
+      ['John Smith','You: Ready for you tomorrow at 3! …',2],['The Wright Family','Sounds great, see you then 👍',0],['Amanda Harris','Can I bring my trade-in?',1],['Kevin Anderson','Thanks for the info',0]
+    ];
+    function renderConvs(){ $('convs').innerHTML=CONVS.map(function(c){ return '<div class="conv" onclick="toast(\'Opening chat with '+c[0].split(" ")[0]+'\')"><span class="av" style="background:'+avc(c[0])+'">'+ini(c[0])+'</span><div class="cv"><b>'+c[0]+'</b><span>'+c[1]+'</span></div>'+(c[2]?'<span class="un">'+c[2]+'</span>':'')+'</div>'; }).join(''); }
+
+    function openLead(id){
+      var l=LEADS.find(function(x){return x.id===id;}); if(!l) return;
+      $('panel').innerHTML=''+
+      '<div class="panel-hd"><span class="av" style="background:'+avc(l.name)+'">'+ini(l.name)+'</span><div><h2>'+l.name+'</h2><div class="pm">'+l.veh+' · '+l.src+' · '+l.recv+'</div></div><button class="panel-close" onclick="closePanel()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button></div>'+
+      '<div class="panel-body">'+
+        '<div class="sect"><h3>AI Recommendation</h3><div class="aibox">'+l.sugg+'. I\'ve drafted an appointment-first message you can send in one tap.</div></div>'+
+        '<div class="sect"><h3>Quick Actions</h3><div class="qgrid">'+
+          '<button class="la call" onclick="doAct('+l.id+',\'Call started\')"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Call</button>'+
+          '<button class="la" onclick="doAct('+l.id+',\'Text sent\')"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Text</button>'+
+          '<button class="la" onclick="doAct('+l.id+',\'Email sent\')"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Email</button>'+
+          '<button class="la pri" onclick="doAct('+l.id+',\'Appointment booked\')"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17" stroke="currentColor" stroke-width="1.6"/></svg>Schedule</button>'+
+        '</div></div>'+
+        '<div class="sect"><h3>Lead Detail</h3><div class="kv"><span class="k">Source</span><span class="v">'+l.src+'</span></div><div class="kv"><span class="k">Vehicle</span><span class="v">'+l.veh+'</span></div><div class="kv"><span class="k">Status</span><span class="v"><span class="stat s-'+l.status+'">'+STLABEL[l.status]+'</span></span></div><div class="kv"><span class="k">Received</span><span class="v">'+l.recv+'</span></div></div>'+
+      '</div>';
+      $('scrim').classList.add('show'); $('panel').classList.add('open');
+    }
+    function closePanel(){ $('scrim').classList.remove('show'); $('panel').classList.remove('open'); }
+
+    function renderGoal(){ $('gring').style.background='conic-gradient(#16a34a '+(9/12*360)+'deg,#e9edf4 0)'; }
+    var tTimer; function toast(m){ $('toastMsg').innerHTML=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2200); }
+    document.addEventListener('DOMContentLoaded', function(){ renderPills(); renderLeads(); renderCoach(); renderConvs(); renderGoal(); $('scrim').addEventListener('click', closePanel); });
+  </script>
+</body>
+</html>

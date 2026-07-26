@@ -17,16 +17,42 @@
     blue:['#eff4ff','#2563eb'], red:['#fdeaea','#dc2626'], amber:['#fdf0dc','#b7791f'],
     green:['#e7f7ee','#16a34a'], purple:['#f1eafe','#7c3aed'], pink:['#fdeaf3','#db2777']
   };
-  // Shared feed (bell shows the most recent; /notifications shows the full history)
-  var FEED = [
-    {id:1,ic:'lead',tone:'red',t:'Hot lead just came in',d:'Jessica Tran — 2025 Highlander, financing pre-qualified',time:'2m',href:'/prospects',unread:true},
-    {id:2,ic:'deal',tone:'amber',t:'Deal waiting at the desk',d:'Nguyen Family (Cameron) has been at desk 22 min',time:'8m',href:'/showroom',unread:true},
-    {id:3,ic:'review',tone:'amber',t:'New review needs a reply',d:'Maria Gonzalez left a 2★ review on Google',time:'40m',href:'/reviews',unread:true},
-    {id:4,ic:'equity',tone:'green',t:'3 customers hit positive equity',d:'AI found upgrade opportunities worth ~$14K gross',time:'1h',href:'/equity',unread:true},
-    {id:5,ic:'appt',tone:'blue',t:'Delivery confirmed',d:'Sarah Whitfield confirmed Jul 29 · 4:30 PM',time:'2h',href:'/delivery',unread:false},
-    {id:6,ic:'birthday',tone:'pink',t:'Customer birthday tomorrow',d:'Robert Chen — a quick note goes a long way',time:'3h',href:'/customers',unread:false},
-    {id:7,ic:'training',tone:'purple',t:'Required course due soon',d:'Adverse Action & Privacy — due in 3 days',time:'5h',href:'/training',unread:false}
-  ];
+  // Role-aware feed — the bell shows what matters to THIS role.
+  var role = (window.ADRoles && window.ADRoles.getRole && window.ADRoles.getRole()) || 'salesperson';
+  var FEEDS = {
+    bdc:[
+      {id:1,ic:'lead',tone:'red',t:'New internet lead',d:'Jessica Tran — Highlander, pre-qualified. SLA clock running',time:'1m',href:'/prospects',unread:true},
+      {id:2,ic:'lead',tone:'amber',t:'SLA warning',d:'Maria Lopez lead un-responded for 4m 40s',time:'4m',href:'/prospects',unread:true},
+      {id:3,ic:'appt',tone:'blue',t:'Customer replied',d:'John Smith: "Can we do tomorrow morning instead?"',time:'12m',href:'/communications',unread:true},
+      {id:4,ic:'appt',tone:'green',t:'Appointment confirmed',d:'Kevin Anderson confirmed for 3:30 PM today',time:'40m',href:'/appointments',unread:false},
+      {id:5,ic:'system',tone:'amber',t:'Missed call',d:'Inbound from (555) 100-2288 — no voicemail',time:'1h',href:'/communications',unread:false}
+    ],
+    finance:[
+      {id:1,ic:'deal',tone:'green',t:'Credit approved',d:'John Smith · Chase Auto @ 6.4% — ready to structure',time:'3m',href:'/finance',unread:true},
+      {id:2,ic:'review',tone:'amber',t:'Missing document',d:'David Johnson · proof of insurance needed before delivery',time:'20m',href:'/documents',unread:true},
+      {id:3,ic:'deal',tone:'blue',t:'Contract signed',d:'Sarah Lewis e-signed the retail installment contract',time:'35m',href:'/signing',unread:true},
+      {id:4,ic:'equity',tone:'green',t:'Funding received',d:'Okafor deal (#D-4455) funded by lender — $38,200',time:'2h',href:'/finance',unread:false},
+      {id:5,ic:'appt',tone:'blue',t:'Delivery ready',d:'Whitfield · all docs signed · Jul 29 4:30 PM',time:'3h',href:'/delivery',unread:false}
+    ],
+    gm:[
+      {id:1,ic:'deal',tone:'red',t:'Deal awaiting approval',d:'Nguyen deal stuck at desk 22m — needs a manager',time:'8m',href:'/showroom',unread:true},
+      {id:2,ic:'system',tone:'red',t:'SLA breach',d:'Internet lead response exceeded 5-min SLA (weekend)',time:'22m',href:'/analytics',unread:true},
+      {id:3,ic:'equity',tone:'green',t:'Sales goal milestone',d:'Store hit 104% of monthly goal with 6 days left',time:'1h',href:'/gm',unread:true},
+      {id:4,ic:'deal',tone:'amber',t:'Inventory aging alert',d:'Silverado stock depletes in ~12 days at current pace',time:'2h',href:'/invintel',unread:true},
+      {id:5,ic:'review',tone:'amber',t:'Critical customer issue',d:'2★ Google review unanswered for 40 min',time:'2h',href:'/reviews',unread:false},
+      {id:6,ic:'system',tone:'blue',t:'System health',d:'DMS sync (CDK) delayed 4 min — self-recovering',time:'3h',href:'/admin',unread:false}
+    ],
+    _default:[
+      {id:1,ic:'lead',tone:'red',t:'Hot lead just came in',d:'Jessica Tran — 2025 Highlander, financing pre-qualified',time:'2m',href:'/prospects',unread:true},
+      {id:2,ic:'deal',tone:'amber',t:'Deal waiting at the desk',d:'Nguyen Family (Cameron) has been at desk 22 min',time:'8m',href:'/showroom',unread:true},
+      {id:3,ic:'review',tone:'amber',t:'New review needs a reply',d:'Maria Gonzalez left a 2★ review on Google',time:'40m',href:'/reviews',unread:true},
+      {id:4,ic:'equity',tone:'green',t:'3 customers hit positive equity',d:'AI found upgrade opportunities worth ~$14K gross',time:'1h',href:'/equity',unread:true},
+      {id:5,ic:'appt',tone:'blue',t:'Delivery confirmed',d:'Sarah Whitfield confirmed Jul 29 · 4:30 PM',time:'2h',href:'/delivery',unread:false},
+      {id:6,ic:'birthday',tone:'pink',t:'Customer birthday tomorrow',d:'Robert Chen — a quick note goes a long way',time:'3h',href:'/customers',unread:false},
+      {id:7,ic:'training',tone:'purple',t:'Required course due soon',d:'Adverse Action & Privacy — due in 3 days',time:'5h',href:'/training',unread:false}
+    ]
+  };
+  var FEED = FEEDS[role] || FEEDS._default;
   window.ADNotify = { feed: FEED };
 
   function css(){

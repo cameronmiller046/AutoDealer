@@ -14,8 +14,24 @@
     '/appointments':['Appointments',null], '/tasks':['Tasks',null], '/inventory':['Inventory',null],
     '/communications':['Communications','John Smith'], '/reports':['Reports',null], '/deals':['Deal Desk',null],
     '/trades':['Trade Center',null], '/delivery':['Delivery Center',null], '/documents':['Document Center',null],
-    '/automations':['Automation Builder',null], '/team':['Sales Team',null], '/checkin':['Visitor Check-In',null], '/admin':['CRM Administration',null]
+    '/automations':['Automation Builder',null], '/team':['Sales Team',null], '/checkin':['Visitor Check-In',null], '/admin':['CRM Administration',null],
+    '/bdc':['BDC Dashboard',null], '/finance':['Finance Dashboard',null], '/gm':['Executive Dashboard',null],
+    '/jacket':['Deal Jacket',null], '/signing':['Contracts',null], '/invintel':['Inventory Intelligence',null]
   };
+
+  /* ---------- specialized AI persona per role ---------- */
+  var ROLE_AI = {
+    bdc:{ name:'BDC AI', sub:'Your lead-response coach', greet:'I help you respond faster and book more appointments. Which lead should we work first?',
+      suggest:['Who needs a response right now?','Write a text to this lead','Book an appointment','Prioritize my lead queue'] },
+    finance:{ name:'Finance AI', sub:'Your F&I copilot', greet:'I help you move deals from approval to delivery — lenders, paperwork, products, and funding. What deal are we working?',
+      suggest:['Which deals are waiting on finance?','Find missing paperwork','Recommend F&I products','Best lender for this deal'] },
+    gm:{ name:'Executive AI', sub:'Your dealership command center', greet:'I watch the whole store and surface what needs your decision. What would you like to know?',
+      suggest:['Summarize dealership performance','Where are the bottlenecks?','Forecast this month','Any staffing or inventory actions?'] },
+    manager:{ name:'AutoDealer AI', sub:'Your dealership coworker' },
+    salesperson:{ name:'AutoDealer AI', sub:'Your dealership coworker' },
+    receptionist:{ name:'AutoDealer AI', sub:'Your front-desk assistant' }
+  };
+  var persona = ROLE_AI[role] || ROLE_AI.salesperson;
   function ctx() {
     var p = (location.pathname.replace(/\/$/,'')||'/');
     var m = PAGES[p] || ['AutoDealer', null];
@@ -39,7 +55,7 @@
     '/reception':['Who’s waiting in the lobby?','Summarize today’s appointments'],
     'default':['Summarize my day','Who’s likely to buy this week?','Draft a follow-up text','Schedule an appointment']
   };
-  function suggestions(){ return SUGGEST[ctx().path] || SUGGEST['default']; }
+  function suggestions(){ return SUGGEST[ctx().path] || (persona.suggest) || SUGGEST['default']; }
 
   /* ---------- response engine (canned but context/role aware; performs "actions") ---------- */
   function avatar(ini,c){ return '<span class="ad-ai-av2" style="background:'+c+'">'+ini+'</span>'; }
@@ -47,6 +63,72 @@
     var q = qraw.toLowerCase(), c = ctx(), who = c.entity || 'John Smith';
     function txt(t){ return {text:t}; }
     function card(t, html){ return {text:t, card:html}; }
+
+    /* ---- BDC AI ---- */
+    if (role==='bdc'){
+      if (/respon|contact|work first|prioriti|queue|hot/.test(q)){
+        return card('Here’s your lead queue, ranked by intent and how long they’ve waited:',
+          listCard([['Jessica Tran','JT','#dc2626','2m · pre-qualified · CALL NOW'],['John Smith','JS','#3b82f6','4m · Silverado · viewed pricing 3×'],['Kevin Anderson','KA','#0891b2','18m · opened 2 emails'],['Maria Lopez','ML','#8b5cf6','1h · form fill · no reply yet']]));
+      }
+      if (/(text|message|write|reply|email).*lead|write.*text|draft/.test(q) || /(text|reply)/.test(q)){
+        return card('Drafted a fast, appointment-first response:',
+          draftCard('Text · Jessica Tran', 'Hi Jessica! This is Marcus at Premier Auto — great news, you’re pre-qualified on the Highlander. I can hold it for you. Are you free today at 4:30 or would tomorrow morning work better?'));
+      }
+      if (/book|appointment|schedul/.test(q)){
+        return card('Booked it and sent the confirmation — SLA clock stopped.',
+          doneCard('Appointment set', 'Jessica Tran · Today 4:30 PM · assigned to Cameron Miller · confirmation text sent'));
+      }
+      if (/sla|slow|behind|overdue|missed/.test(q)){
+        return card('2 leads are approaching the 5-minute SLA — respond now:',
+          listCard([['Jessica Tran','JT','#dc2626','4m 10s · SLA in 50s'],['Maria Lopez','ML','#d97706','4m 40s · SLA in 20s']]));
+      }
+    }
+    /* ---- Finance AI ---- */
+    if (role==='finance'){
+      if (/wait|finance|queue|blocking|stuck/.test(q)){
+        return card('3 deals are in your finance queue right now:',
+          listCard([['John Smith · Silverado','JS','#3b82f6','Approved · waiting on warranty selection'],['Sarah Lewis · Tahoe','SL','#8b5cf6','Contract out for signature'],['David Johnson · F-150','DJ','#f59e0b','Missing proof of insurance']]));
+      }
+      if (/paperwork|document|missing/.test(q)){
+        return card('AI found a missing document blocking delivery:',
+          doneCard('Action needed', 'David Johnson · <b>proof of insurance</b> not on file. I drafted a request text — send before the 2:00 PM delivery.'));
+      }
+      if (/product|gap|warranty|f&i|penetrat|bundle/.test(q)){
+        return card('F&I product recommendations for the Smith deal:',
+          listCard([['VSC (Vehicle Service Contract)','','#16a34a','High fit · truck, 72mo term'],['GAP coverage','','#2563eb','Recommended · high LTV'],['Tire & wheel','','#0891b2','Good attach with off-road pkg']]));
+      }
+      if (/lender|apr|rate|refinanc|approv/.test(q)){
+        return card('Best lender options for this credit tier (720 FICO):',
+          listCard([['Chase Auto','','#0057b8','6.4% · buy-rate · fastest funding'],['Ally','','#7c3aed','6.6% · flat available'],['Credit Union','','#16a34a','5.9% · member · slower approval']]));
+      }
+      if (/fund|delay/.test(q)){
+        return card('1 deal has a funding delay:',
+          doneCard('Funding follow-up', 'Sarah Lewis · Ally hasn’t funded after 3 days — missing odometer statement. I flagged it and drafted a lender note.'));
+      }
+    }
+    /* ---- General Manager / Executive AI ---- */
+    if (role==='gm'){
+      if (/summar|performanc|how.*doing|overview|store/.test(q)){
+        return card('Dealership snapshot — right now:',
+          '<div class="ad-ai-sum">'+row('Sold today','7 units')+row('Pace to goal','<b style="color:#16a34a">104%</b>')+row('Gross MTD','$412K')+row('Appointments','23 · 78% confirmed')+row('Finance penetration','<b style="color:#16a34a">+8%</b>')+row('Red flags','2 need attention')+'</div><div class="ad-ai-rec">→ Clear the stuck desk deal and the 2★ review to protect the cushion.</div>');
+      }
+      if (/bottleneck|stuck|problem|slow|where/.test(q)){
+        return card('Top bottlenecks costing you units:',
+          listCard([['Negotiation stage','','#dc2626','2.1 days avg · 3× your next-slowest'],['Silverado inventory','','#d97706','Depletes in ~12 days at current pace'],['BDC weekend SLA','','#d97706','Response time up to 9m Fri–Sat']]));
+      }
+      if (/forecast|project|month|end/.test(q)){
+        return card('Month-end forecast:',
+          doneCard('On track for 83 units', 'vs 80 goal (104%). Holding 3.2 units/day gets you there. Upside to 86 if you convert the 9 equity-upgrade opportunities.'));
+      }
+      if (/staff|inventory|acqui|hire|action|recommend/.test(q)){
+        return card('AI recommends 2 actions this week:',
+          listCard([['Acquire Silverado inventory','','#d97706','Stock depletes in 12 days · demand strong'],['Add BDC weekend coverage','','#2563eb','Recovers ~6 appointments/week'],['Reprice 11 aged units','','#16a34a','Frees ~$0.7M floor plan']]));
+      }
+      if (/employee|rep|team|coach|who/.test(q)){
+        return card('Team performance — who needs attention:',
+          listCard([['Marcus Bell','MB','#16a34a','Top performer · model his closes'],['Sarah — 22 overdue follow-ups','SL','#dc2626','Coaching needed'],['Devon & Priya','DW','#d97706','Below 80 coaching score']]));
+      }
+    }
 
     if (/summar/.test(q) && (/customer/.test(q) || c.entity || c.path==='/customer')){
       return card('Here’s the 360° summary for '+who+':',
@@ -172,7 +254,7 @@
   var scrim=document.createElement('div'); scrim.className='ad-ai-scrim';
   var panel=document.createElement('aside'); panel.className='ad-ai-panel'; panel.setAttribute('aria-hidden','true');
   panel.innerHTML=''+
-    '<div class="ad-ai-hd"><span class="logo">'+sparkle+'</span><div><b>AutoDealer AI</b><div class="sub">Your dealership coworker</div></div>'+
+    '<div class="ad-ai-hd"><span class="logo">'+sparkle+'</span><div><b>'+persona.name+'</b><div class="sub">'+persona.sub+'</div></div>'+
       '<button class="hbtn" id="adAiNew" title="New chat"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>'+
       '<button class="x" id="adAiClose"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>'+
     '<div class="ad-ai-ctx" id="adAiCtx"></div>'+
@@ -195,7 +277,7 @@
 
   function addUser(t){ var d=document.createElement('div'); d.className='ad-ai-msg user ad-ai-user'; d.innerHTML='<span class="a" style="background:linear-gradient(135deg,#3f9bff,#0b57b8)"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="3.4" fill="#fff"/><path d="M5.5 19c0-3.2 3-5 6.5-5s6.5 1.8 6.5 5" fill="#fff"/></svg></span><div class="ad-ai-bub">'+t+'</div>'; body.appendChild(d); body.scrollTop=body.scrollHeight; }
   function addChips(){ var arr=suggestions(); var d=document.createElement('div'); d.className='ad-ai-chips'; d.innerHTML=arr.map(function(s){ return '<button class="ad-ai-chip">'+s+'</button>'; }).join(''); body.appendChild(d); d.querySelectorAll('.ad-ai-chip').forEach(function(b){ b.addEventListener('click', function(){ ask(b.textContent); }); }); body.scrollTop=body.scrollHeight; }
-  function greet(){ var c=ctx(); var m=document.createElement('div'); m.className='ad-ai-msg ad-ai-ai'; m.innerHTML='<span class="a">'+sparkle+'</span><div class="ad-ai-bub">Hi! I’m AutoDealer AI. I can see you’re on <b>'+c.page+'</b>'+(c.entity?(' looking at <b>'+c.entity+'</b>'):'')+'. Ask me anything or tell me to take an action — here are some ideas:</div>'; body.appendChild(m); addChips(); }
+  function greet(){ var c=ctx(); var intro=persona.greet?(' '+persona.greet):' Ask me anything or tell me to take an action — here are some ideas:'; var m=document.createElement('div'); m.className='ad-ai-msg ad-ai-ai'; m.innerHTML='<span class="a">'+sparkle+'</span><div class="ad-ai-bub">Hi! I’m <b>'+persona.name+'</b>. I can see you’re on <b>'+c.page+'</b>'+(c.entity?(' looking at <b>'+c.entity+'</b>'):'')+'.'+intro+'</div>'; body.appendChild(m); addChips(); }
 
   function stream(html, card){
     var wrap=document.createElement('div'); wrap.className='ad-ai-msg ad-ai-ai'; wrap.innerHTML='<span class="a">'+sparkle+'</span><div class="ad-ai-bub"><span class="ad-ai-typing"><i></i><i></i><i></i></span></div>';

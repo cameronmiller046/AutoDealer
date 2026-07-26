@@ -137,6 +137,58 @@
         {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
         {label:'Settings', href:'#', icon:'settings'}
       ]
+    },
+    bdc: {
+      name:'Marcus Reyes', title:'BDC Agent', avatar:'MR', home:'/bdc',
+      nav:[
+        {label:'Dashboard', href:'/bdc', icon:'home'},
+        {label:'Leads', href:'/prospects', icon:'prospects', badge:'14'},
+        {label:'Communications', href:'/communications', icon:'comms', badge:'6'},
+        {label:'Team Chat', href:'/chat', icon:'chat', badge:'2'},
+        {label:'Appointments', href:'/appointments', icon:'appt', badge:'9'},
+        {label:'Tasks', href:'/tasks', icon:'tasks', badge:'5'},
+        {label:'Customers', href:'/customers', icon:'customers'},
+        {label:'Inventory', href:'/inventory', icon:'inventory', tag:'View-only'},
+        {label:'Reports', href:'/reports', icon:'reports'},
+        {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
+        {label:'Settings', href:'#', icon:'settings'}
+      ]
+    },
+    finance: {
+      name:'Tom Fielder', title:'Finance Manager', avatar:'TF', home:'/finance',
+      nav:[
+        {label:'Dashboard', href:'/finance', icon:'home'},
+        {label:'Deal Jackets', href:'/jacket', icon:'deals', badge:'7'},
+        {label:'Deal Desk', href:'/deals', icon:'deals'},
+        {label:'Customers', href:'/customers', icon:'customers'},
+        {label:'Documents', href:'/documents', icon:'documents'},
+        {label:'Contracts', href:'/signing', icon:'signing', badge:'5'},
+        {label:'Deliveries', href:'/delivery', icon:'delivery', badge:'3'},
+        {label:'Communications', href:'/communications', icon:'comms'},
+        {label:'Team Chat', href:'/chat', icon:'chat', badge:'2'},
+        {label:'Reports', href:'/reports', icon:'reports'},
+        {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
+        {label:'Settings', href:'#', icon:'settings'}
+      ]
+    },
+    gm: {
+      name:'Gloria Vance', title:'General Manager', avatar:'GV', home:'/gm',
+      nav:[
+        {label:'Executive Dashboard', href:'/gm', icon:'aimanager'},
+        {label:'AI Manager', href:'/aimanager', icon:'aimanager', tag:'AI'},
+        {label:'Showroom Ops', href:'/showroom', icon:'showroom', tag:'Live'},
+        {label:'Sales', href:'/manager', icon:'deals'},
+        {label:'BDC', href:'/bdc', icon:'prospects'},
+        {label:'Finance', href:'/finance', icon:'signing'},
+        {label:'Inventory', href:'/invintel', icon:'invintel'},
+        {label:'Workflow Analytics', href:'/analytics', icon:'analytics'},
+        {label:'Customers', href:'/customers', icon:'customers'},
+        {label:'Reports', href:'/reports', icon:'reports'},
+        {label:'Employees', href:'/team', icon:'team'},
+        {label:'Team Chat', href:'/chat', icon:'chat', badge:'2'},
+        {label:'CRM Administration', href:'/admin', icon:'admin'},
+        {label:'Settings', href:'#', icon:'settings'}
+      ]
     }
   };
   /* Future roles plug in here with zero architectural change: */
@@ -145,13 +197,13 @@
     ['salesperson','Salesperson','Focused selling workspace', true],
     ['manager','Sales Manager','Team coaching & performance', true],
     ['receptionist','Receptionist','Front-desk & check-in', true],
-    ['bdc','BDC Agent','Lead handling', false],
-    ['finance','Finance Manager','F&I & penetration', false],
-    ['gm','General Manager','Executive overview', false]
+    ['bdc','BDC Agent','Lead handling & appointments', true],
+    ['finance','Finance Manager','F&I & penetration', true],
+    ['gm','General Manager','Executive overview', true]
   ];
 
   /* Every known in-app route. Anything here that is NOT in the active role's nav is blocked. */
-  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing','/showroom','/training','/analytics','/invintel','/service','/whiteboard','/marketplace','/referrals','/aimanager','/chat'];
+  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing','/showroom','/training','/analytics','/invintel','/service','/whiteboard','/marketplace','/referrals','/aimanager','/chat','/bdc','/finance','/gm'];
 
   function getRole(){ var r = localStorage.getItem('ad_role'); return ROLES[r] ? r : 'salesperson'; }
   function cfg(){ return ROLES[getRole()]; }

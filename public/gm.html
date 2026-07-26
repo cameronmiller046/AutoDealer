@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Executive Dashboard — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .nav a .ro-tag{margin-left:auto;font-size:8.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#8aa0bd;background:rgba(255,255,255,.09);padding:2px 6px;border-radius:5px;}
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#db2777,#9d174d); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:360px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#fdeaf3; color:#db2777; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:800; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#db2777,#9d174d); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:24px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:25px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14px; margin-top:6px; }
+    .qa{display:flex;gap:9px;flex-wrap:wrap;} .qbtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px 15px;font-size:12.5px;font-weight:700;color:var(--text);box-shadow:var(--shadow);} .qbtn svg{width:15px;height:15px;color:var(--accent);} .qbtn:hover{border-color:#cfe0f7;background:var(--accent-soft);} .qbtn.pri{background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;border:none;} .qbtn.pri svg{color:#fff;}
+
+    /* exec summary hero */
+    .exec{background:radial-gradient(900px 400px at 92% -30%,#831843,#0f1b2d 60%),#0f1b2d;border-radius:20px;color:#eaf1fb;padding:22px 26px;margin:18px 0;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+    .exec::after{content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(219,39,119,.28),transparent 70%);}
+    .exec .et{font-size:11.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#f9a8d4;position:relative;}
+    .exec .say{font-size:15px;line-height:1.6;margin-top:8px;color:#dbe4f3;position:relative;max-width:840px;} .exec .say b{color:#fff;} .exec .say .up{color:#6ee7b7;font-weight:700;} .exec .say .dn{color:#fca5a5;font-weight:700;}
+
+    .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:11px; margin-bottom:18px; }
+    @media(max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} } @media(max-width:640px){ .kpis{grid-template-columns:repeat(2,1fr);} }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:13px 15px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:11px;font-weight:600;} .kp .kv{font-size:21px;font-weight:800;letter-spacing:-0.6px;margin-top:3px;} .kp .kd{font-size:10.5px;font-weight:700;margin-top:3px;color:var(--green);} .kp .kd.warn{color:var(--amber);} .kp .kd.down{color:var(--red);}
+
+    .grid { display:grid; grid-template-columns:1fr 350px; gap:18px; align-items:start; }
+    @media(max-width:1080px){ .grid{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; margin-bottom:18px; }
+    .card-h { display:flex; align-items:center; gap:10px; padding:15px 18px; border-bottom:1px solid var(--line); } .card-h h2{font-size:14.5px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);} .card-h .r{margin-left:auto;font-size:12px;color:var(--muted);font-weight:700;}
+    .card-b{padding:18px;}
+
+    /* department grid */
+    .depts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 18px;}
+    @media(max-width:640px){ .depts{grid-template-columns:1fr;} }
+    .dept{border:1px solid var(--line);border-radius:13px;padding:14px;} .dept .dh{display:flex;align-items:center;gap:9px;margin-bottom:10px;} .dept .di{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;} .dept .di svg{width:17px;height:17px;} .dept .dn{font-size:13px;font-weight:800;} .dept .status{margin-left:auto;width:9px;height:9px;border-radius:50%;} .s-ok{background:#16a34a;} .s-warn{background:#d97706;} .s-crit{background:#dc2626;}
+    .dept .dv{font-size:22px;font-weight:900;letter-spacing:-1px;} .dept .dvs{font-size:11.5px;color:var(--muted);} .dept .dtr{font-size:11px;font-weight:700;margin-top:6px;} .dept .dtr.up{color:#16a34a;} .dept .dtr.dn{color:#dc2626;} .dept .dtr.fl{color:#d97706;}
+    .d-blue{background:#eef4ff;color:#2563eb;} .d-amber{background:#fdf0dc;color:#b7791f;} .d-green{background:#e7f7ee;color:#16a34a;} .d-purple{background:#f1eafe;color:#7c3aed;} .d-teal{background:#e2f5fb;color:#0891b2;}
+
+    /* team leaderboard */
+    .thead,.trow{display:grid;grid-template-columns:1.6fr .7fr .7fr .8fr .8fr auto;gap:10px;align-items:center;padding:11px 18px;font-size:12.5px;}
+    .thead{font-size:10.5px;color:var(--faint);font-weight:700;letter-spacing:.3px;border-bottom:1px solid var(--line);}
+    .trow{border-top:1px solid var(--line);} .trow:first-of-type{border-top:none;} .trow:hover{background:#fafbff;}
+    .tm-nm{display:flex;align-items:center;gap:10px;} .tm-nm .av{width:32px;height:32px;border-radius:50%;color:#fff;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none;} .tm-nm b{font-weight:700;font-size:13px;}
+    .tnum{font-weight:700;text-align:center;} .tflag{font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;} .tf-top{background:#e7f7ee;color:#16a34a;} .tf-coach{background:#fdeaea;color:#dc2626;} .tf-ok{background:#eef1f6;color:#64748b;}
+
+    /* AI insights + alerts */
+    .ins{display:flex;gap:11px;padding:13px 18px;border-top:1px solid var(--line);align-items:flex-start;} .ins:first-child{border-top:none;}
+    .ins .ii{width:32px;height:32px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;} .ins .ii svg{width:16px;height:16px;} .ins.warn .ii{background:#fdf0dc;color:#b7791f;} .ins.good .ii{background:#e7f7ee;color:#16a34a;} .ins.info .ii{background:#f1eafe;color:#7c3aed;}
+    .ins .ix b{font-size:13px;font-weight:700;} .ins .ix p{font-size:12px;color:var(--muted);line-height:1.45;margin-top:2px;}
+    .alert{display:flex;gap:11px;padding:13px 18px;border-top:1px solid var(--line);align-items:flex-start;} .alert:first-child{border-top:none;}
+    .alert .sev{width:4px;align-self:stretch;border-radius:3px;flex:none;} .sev.crit{background:#dc2626;} .sev.warn{background:#d97706;}
+    .alert .ax b{font-size:13px;font-weight:700;} .alert .ax p{font-size:12px;color:var(--muted);line-height:1.45;margin-top:2px;} .alert a{font-size:11.5px;font-weight:700;color:var(--accent);margin-top:6px;display:inline-block;}
+
+    /* forecast */
+    .chart{height:120px;padding:6px 0;} .chart svg{width:100%;height:100%;overflow:visible;} .chart .ln{fill:none;stroke:#db2777;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;} .chart .ar{fill:url(#ag);opacity:.4;} .chart .dot{fill:#db2777;} .chart .gl{stroke:var(--line);stroke-width:1;}
+    .fc-b{padding:14px 18px;} .fc-row{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--line);font-size:13px;} .fc-row:first-child{border-top:none;} .fc-row .k{color:var(--muted);} .fc-row .v{font-weight:800;} .fc-row .v.g{color:#16a34a;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .thead{display:none;} .trow{grid-template-columns:1fr auto;} .trow .t-hide{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">GV</span><span class="meta"><b>Gloria Vance</b><span>General Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Ask about any department..." /></div>
+        <span class="role-badge">✦ Executive Command</span>
+        <span class="tb-avatar"><span class="av">GV</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>Good morning, Gloria 👋</h1><p class="sub">Here's the whole store at a glance — and what needs your decision today.</p></div>
+          <div class="qa">
+            <button class="qbtn pri" onclick="toast('Deal approved')"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Approve Deal</button>
+            <button class="qbtn" onclick="toast('Broadcast sent to all staff')"><svg viewBox="0 0 24 24"><path d="M3 11l13-6v14L3 13v4H1v-6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Broadcast</button>
+            <button class="qbtn" onclick="toast('AI analysis running…')"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg>AI Analysis</button>
+          </div>
+        </div>
+
+        <div class="exec">
+          <div class="et">✦ AI Executive Summary · updated 5 min ago</div>
+          <div class="say">The store is <b>outperforming</b> — <span class="up">104% to goal</span> with 6 days left, gross up <span class="up">9%</span>, and finance penetration <span class="up">+8%</span>. Watch two things: <b>Silverado inventory depletes in ~12 days</b>, and <b>appointment confirmations dropped 11%</b>. Three deals need approval and two require your attention on the floor.</div>
+        </div>
+
+        <div class="kpis">
+          <div class="kp"><div class="kl">Vehicles Sold Today</div><div class="kv">7</div><div class="kd">24 MTD · 104% pace</div></div>
+          <div class="kp"><div class="kl">Closing Ratio</div><div class="kv">34%</div><div class="kd">▲ 2 pts</div></div>
+          <div class="kp"><div class="kl">Avg Gross</div><div class="kv">$3,180</div><div class="kd">▲ $210</div></div>
+          <div class="kp"><div class="kl">Appointments</div><div class="kv">23</div><div class="kd warn">78% confirmed</div></div>
+          <div class="kp"><div class="kl">Inventory Turn</div><div class="kv">11.2×</div><div class="kd">Annualized</div></div>
+          <div class="kp"><div class="kl">Avg Days in Stock</div><div class="kv">34</div><div class="kd">▼ 4</div></div>
+          <div class="kp"><div class="kl">CSI Score</div><div class="kv">4.7★</div><div class="kd">▲ 0.2</div></div>
+          <div class="kp"><div class="kl">Internet Conversion</div><div class="kv">14.2%</div><div class="kd">▲ 1.8 pts</div></div>
+          <div class="kp"><div class="kl">Finance Penetration</div><div class="kv">72%</div><div class="kd">▲ 8%</div></div>
+          <div class="kp"><div class="kl">Service Retention</div><div class="kv">68%</div><div class="kd">▲ 4%</div></div>
+        </div>
+
+        <div class="grid">
+          <div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M4 13h7V4H4zM13 20h7v-9h-7zM13 4v5h7V4zM4 20h7v-5H4z" fill="currentColor"/></svg><h2>Department Performance</h2><span class="r">live</span></div><div class="depts" id="depts"></div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><circle cx="7" cy="9" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="9" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 18c0-2.2 2-3.6 4.5-3.6s4.5 1.4 4.5 3.6M12.5 18c0-2.2 2-3.6 4.5-3.6s4.5 1.4 4.5 3.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h2>Team Performance</h2></div>
+              <div class="thead"><span>EMPLOYEE</span><span>SALES</span><span>APPTS</span><span>CLOSE</span><span>RESP</span><span>STATUS</span></div><div id="team"></div></div>
+          </div>
+          <div>
+            <div class="card"><div class="card-h" style="background:linear-gradient(120deg,#fdf2f8,#fff)"><svg viewBox="0 0 24 24" style="color:#db2777"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg><h2>AI Executive Insights</h2></div><div id="insights"></div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 9v4M12 16v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><h2>Critical Alerts</h2><span class="r" id="alCount"></span></div><div id="alerts"></div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 14l3.5-4 3 2.5L20 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><h2>Month-End Forecast</h2></div><div class="chart" id="chart"></div><div class="fc-b"><div class="fc-row"><span class="k">Projected units</span><span class="v g">83</span></div><div class="fc-row"><span class="k">Monthly goal</span><span class="v">80</span></div><div class="fc-row"><span class="k">Projected gross</span><span class="v">$1.42M</span></div><div class="fc-row"><span class="k">Confidence</span><span class="v">High (104%)</span></div></div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    function ini(n){ return n.split(' ').map(function(x){return x[0];}).slice(0,2).join('').toUpperCase(); }
+    function avc(s){ var c=['#3b82f6','#8b5cf6','#ec4899','#f59e0b','#10b981','#06b6d4','#0891b2','#d97706']; var h=0; for(var i=0;i<s.length;i++) h=(h+s.charCodeAt(i))%c.length; return c[h]; }
+
+    var DEPTS=[
+      ['Sales','d-blue','deals','7 sold','104% to goal','up','▲ pacing ahead','ok'],
+      ['BDC','d-amber','prospects','9 appts set','SLA 91%','fl','SLA slipping weekends','warn'],
+      ['Finance','d-green','money','$3,180 avg','72% penetration','up','▲ 8% MoM','ok'],
+      ['Inventory','d-teal','car','218 units','12-day Silverado risk','fl','Reorder soon','warn'],
+      ['Service','d-purple','wrench','68% retention','$412 avg RO','up','▲ 4% YoY','ok'],
+      ['Marketing','d-blue','mkt','$3.2M attributed','ROI review needed','fl','Cut CarGurus','warn']
+    ];
+    var DI={deals:'<path d="M4 7h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 12h16" stroke="currentColor" stroke-width="1.5"/>',prospects:'<circle cx="9" cy="8" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 18c0-2.6 2.2-4 5-4s5 1.4 5 4" fill="none" stroke="currentColor" stroke-width="1.6"/>',money:'<path d="M12 3v18M8 7h6a2.5 2.5 0 0 1 0 5H9a2.5 2.5 0 0 0 0 5h7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',car:'<path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',wrench:'<path d="M14.5 5.5a3.5 3.5 0 0 1-4.6 4.6L5 15l2 2 4.9-4.9a3.5 3.5 0 0 0 4.6-4.6l-2.2 2.2-1.8-1.8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',mkt:'<path d="M3 11l13-6v14L3 13v4H1v-6z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>'};
+    function renderDepts(){ $('depts').innerHTML=DEPTS.map(function(d){ return '<div class="dept"><div class="dh"><span class="di '+d[1]+'"><svg viewBox="0 0 24 24">'+DI[d[2]]+'</svg></span><span class="dn">'+d[0]+'</span><span class="status s-'+d[7]+'"></span></div><div class="dv">'+d[3]+'</div><div class="dvs">'+d[4]+'</div><div class="dtr '+d[5]+'">'+d[6]+'</div></div>'; }).join(''); }
+
+    var TEAM=[
+      ['Marcus Bell',15,4.9,'42%','3m','top'],['Cameron Miller',11,4.8,'36%','4m','ok'],['Nina Alvarez',9,4.6,'33%','5m','ok'],['Sarah Lin',7,4.4,'28%','6m','coach'],['Devon Wright',5,4.2,'24%','8m','coach']
+    ];
+    function renderTeam(){ $('team').innerHTML=TEAM.map(function(t){ var f=t[5]==='top'?['tf-top','Top']:t[5]==='coach'?['tf-coach','Coaching']:['tf-ok','On track']; return '<div class="trow"><div class="tm-nm"><span class="av" style="background:'+avc(t[0])+'">'+ini(t[0])+'</span><b>'+t[0]+'</b></div><span class="tnum t-hide">'+t[1]+'</span><span class="tnum t-hide">'+t[2]+'★</span><span class="tnum t-hide">'+t[3]+'</span><span class="tnum t-hide">'+t[4]+'</span><span><span class="tflag '+f[0]+'">'+f[1]+'</span></span></div>'; }).join(''); }
+
+    var INS=[
+      ['warn','Silverado inventory depleting','Only 12 days of Silverado supply at current sales pace. Recommend acquiring 8–10 units this week.'],
+      ['warn','Sarah has 22 overdue follow-ups','Her pipeline is leaking. A coaching session + reassignment of 5 aged leads recovers ~2 units.'],
+      ['warn','Confirmations dropped 11%','Appointment confirmation rate fell this week — likely the weekend BDC coverage gap.'],
+      ['good','Finance penetration +8%','Tom\'s F&I process is working — VSC and GAP attach are both up. Worth sharing the playbook.']
+    ];
+    function renderIns(){ $('insights').innerHTML=INS.map(function(x){ var ic=x[0]==='warn'?'<path d="M12 3l9 16H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 9v4M12 16v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>':'<path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'; return '<div class="ins '+x[0]+'"><span class="ii"><svg viewBox="0 0 24 24">'+ic+'</svg></span><div class="ix"><b>'+x[1]+'</b><p>'+x[2]+'</p></div></div>'; }).join(''); }
+
+    var ALERTS=[
+      ['crit','2 guests waiting 20+ min','Floor is short-staffed at the desk. Send a manager now.','/showroom'],
+      ['crit','3 vehicles sold without delivery scheduled','Schedule deliveries before the customers cool off.','/delivery'],
+      ['warn','Internet lead response exceeded SLA','A weekend lead sat 9 minutes. Review BDC coverage.','/analytics'],
+      ['warn','Finance queue delayed','1 deal awaiting funding 3 days — Ally missing paperwork.','/finance']
+    ];
+    function renderAlerts(){ $('alerts').innerHTML=ALERTS.map(function(a){ return '<div class="alert"><span class="sev '+a[0]+'"></span><div class="ax"><b>'+a[1]+'</b><p>'+a[2]+'</p><a href="'+a[3]+'">Take action →</a></div></div>'; }).join(''); $('alCount').textContent=ALERTS.filter(function(a){return a[0]==='crit';}).length+' critical'; }
+
+    function renderChart(){
+      var data=[68,72,70,76,74,80,78,83], w=310,h=110,pad=6,max=88,min=60;
+      var pts=data.map(function(v,i){ var x=pad+i*((w-2*pad)/(data.length-1)); var y=h-((v-min)/(max-min))*(h-18)-9; return [x,y]; });
+      var line=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+      var area=line+' L'+pts[pts.length-1][0].toFixed(1)+' '+h+' L'+pts[0][0].toFixed(1)+' '+h+' Z';
+      var grid=''; for(var g=0;g<3;g++){ var gy=9+g*((h-18)/2); grid+='<line class="gl" x1="0" y1="'+gy+'" x2="'+w+'" y2="'+gy+'"/>'; }
+      var dots=pts.map(function(p,i){ return '<circle class="dot" cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="'+(i===pts.length-1?4:2.5)+'"/>'; }).join('');
+      $('chart').innerHTML='<svg viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none"><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#db2777"/><stop offset="1" stop-color="#db2777" stop-opacity="0"/></linearGradient></defs>'+grid+'<path class="ar" d="'+area+'"/><path class="ln" d="'+line+'"/>'+dots+'</svg>';
+    }
+
+    var tTimer; function toast(m){ $('toastMsg').innerHTML=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2200); }
+    document.addEventListener('DOMContentLoaded', function(){ renderDepts(); renderTeam(); renderIns(); renderAlerts(); renderChart(); });
+  </script>
+</body>
+</html>
