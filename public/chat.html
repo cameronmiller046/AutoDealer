@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Chat — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    html,body{height:100%;}
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; height:100vh; }
+    .topbar { flex:none; background:#fff; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 24px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#eef4ff; color:#2563eb; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+
+    /* chat layout */
+    .chat{flex:1;display:grid;grid-template-columns:250px 1fr;min-height:0;}
+    .clist{border-right:1px solid var(--line);background:#fbfcfe;overflow-y:auto;padding:14px 10px;}
+    .cl-h{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);padding:12px 10px 8px;display:flex;align-items:center;} .cl-h .add{margin-left:auto;color:var(--accent);font-size:15px;font-weight:800;cursor:pointer;line-height:1;}
+    .ch{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:10px;cursor:pointer;color:var(--muted);font-size:13.5px;font-weight:600;} .ch:hover{background:#eef2f8;color:var(--text);} .ch.on{background:var(--accent-soft);color:var(--accent);font-weight:700;}
+    .ch .hash{font-size:15px;opacity:.6;flex:none;width:16px;text-align:center;} .ch.on .hash{opacity:1;}
+    .ch .cn{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} .ch .un{background:#ef4444;color:#fff;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 5px;flex:none;}
+    .ch .pdot{width:9px;height:9px;border-radius:50%;flex:none;border:2px solid #fbfcfe;} .p-on{background:#16a34a;} .p-away{background:#d97706;} .p-off{background:#cbd5e1;}
+    .ch .cav{width:26px;height:26px;border-radius:7px;flex:none;color:#fff;font-weight:800;font-size:10px;display:flex;align-items:center;justify-content:center;position:relative;} .ch .cav .pdot{position:absolute;bottom:-2px;right:-2px;}
+
+    .cmain{display:flex;flex-direction:column;min-width:0;min-height:0;background:#fff;}
+    .cmain-h{flex:none;padding:14px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;}
+    .cmain-h .ct{font-size:16px;font-weight:800;display:flex;align-items:center;gap:7px;} .cmain-h .ct .hash{color:var(--faint);}
+    .cmain-h .cmeta{font-size:12px;color:var(--muted);} .cmain-h .members{margin-left:auto;display:flex;align-items:center;}
+    .cmain-h .members .m{width:28px;height:28px;border-radius:50%;color:#fff;font-weight:800;font-size:10px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;margin-left:-8px;} .cmain-h .members .more{background:#eef2f8;color:var(--muted);}
+
+    .msgs{flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:2px;}
+    .daydiv{text-align:center;margin:12px 0;position:relative;} .daydiv span{background:#fff;position:relative;z-index:1;padding:0 12px;font-size:11px;font-weight:700;color:var(--faint);} .daydiv::before{content:"";position:absolute;top:50%;left:0;right:0;height:1px;background:var(--line);}
+    .msg{display:flex;gap:12px;padding:6px 8px;border-radius:10px;} .msg:hover{background:#fafbff;}
+    .msg .mav{width:38px;height:38px;border-radius:11px;flex:none;color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;}
+    .msg.cont .mav{visibility:hidden;height:0;} .msg.cont{padding-top:1px;padding-bottom:1px;}
+    .msg .mb{flex:1;min-width:0;} .msg .mtop{display:flex;align-items:baseline;gap:9px;} .msg .mtop b{font-size:13.5px;font-weight:800;} .msg .mtop .rl{font-size:10px;font-weight:700;padding:1px 6px;border-radius:5px;background:#eef2f8;color:var(--muted);} .msg .mtop .tm{font-size:11px;color:var(--faint);}
+    .msg .mtext{font-size:13.5px;line-height:1.5;color:#243244;margin-top:2px;word-wrap:break-word;}
+    .msg .mtext .men{color:var(--accent);font-weight:700;background:var(--accent-soft);padding:0 3px;border-radius:4px;}
+    .react{display:inline-flex;align-items:center;gap:5px;margin-top:6px;margin-right:6px;background:#eef2f8;border:1px solid var(--line);border-radius:999px;padding:2px 9px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;} .react:hover{border-color:#cfe0f7;}
+
+    .typing{padding:2px 22px 6px;font-size:12px;color:var(--muted);font-style:italic;height:22px;} .typing .dots i{display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--muted);margin:0 1px;animation:tb 1.2s infinite;} .typing .dots i:nth-child(2){animation-delay:.2s;} .typing .dots i:nth-child(3){animation-delay:.4s;} @keyframes tb{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-2px)}}
+
+    .composer{flex:none;padding:12px 22px 18px;}
+    .cbox{border:1px solid var(--line);border-radius:14px;background:#fff;display:flex;align-items:flex-end;gap:8px;padding:8px 10px 8px 14px;transition:.15s;} .cbox:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1);}
+    .cbox textarea{flex:1;border:none;outline:none;resize:none;font:inherit;font-size:13.5px;line-height:1.5;max-height:120px;padding:6px 0;background:none;}
+    .cbtns{display:flex;gap:4px;align-items:center;} .cbtns .ib{width:32px;height:32px;border:none;background:none;color:var(--muted);border-radius:8px;display:flex;align-items:center;justify-content:center;} .cbtns .ib:hover{background:#eef2f8;color:var(--accent);} .cbtns .ib svg{width:18px;height:18px;}
+    .send{width:36px;height:36px;border:none;border-radius:10px;background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;display:flex;align-items:center;justify-content:center;} .send:disabled{opacity:.4;} .send svg{width:18px;height:18px;}
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .chat{grid-template-columns:1fr;} .clist{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <span class="role-badge">Team Chat</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <div class="chat">
+        <div class="clist">
+          <div class="cl-h">Channels<span class="add" onclick="toast('New channel')">+</span></div>
+          <div id="channels"></div>
+          <div class="cl-h" style="margin-top:8px;">Direct Messages<span class="add" onclick="toast('New message')">+</span></div>
+          <div id="dms"></div>
+        </div>
+        <div class="cmain">
+          <div class="cmain-h" id="cmainH"></div>
+          <div class="msgs" id="msgs"></div>
+          <div class="typing" id="typing"></div>
+          <div class="composer"><div class="cbox">
+            <textarea id="input" rows="1" placeholder="Message..." oninput="grow(this)" onkeydown="onKey(event)"></textarea>
+            <div class="cbtns"><button class="ib" onclick="toast('Attach file')"><svg viewBox="0 0 24 24"><path d="M8 12l6-6a3 3 0 0 1 4 4l-7 7a5 5 0 0 1-7-7l7-7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="ib" onclick="addEmoji()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 14a4 4 0 0 0 7 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg></button><button class="send" id="sendBtn" onclick="send()"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-3-6-7-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="toast" style="position:fixed;bottom:24px;right:24px;background:#0f1b2d;color:#fff;padding:12px 18px;border-radius:12px;font-size:13px;font-weight:600;box-shadow:0 20px 40px -16px rgba(0,0,0,.5);opacity:0;transform:translateY(18px);transition:all .3s;z-index:60;"><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    function initials(n){ return n.split(' ').map(function(x){return x[0];}).slice(0,2).join('').toUpperCase(); }
+    function col(s){ var c=['#3b82f6','#8b5cf6','#ec4899','#f59e0b','#10b981','#06b6d4','#6366f1','#0891b2','#d97706','#db2777']; var h=0; for(var i=0;i<s.length;i++) h=(h+s.charCodeAt(i))%c.length; return c[h]; }
+
+    var ME='Dana Morales';
+    var PEOPLE={
+      'Marcus Bell':{role:'Sales',p:'on'},'Cameron Miller':{role:'Sales',p:'on'},'Sarah Lin':{role:'Sales',p:'away'},
+      'Riley Brooks':{role:'Reception',p:'on'},'Marcus Reyes':{role:'BDC',p:'on'},'Tom Fielder':{role:'Finance',p:'off'},
+      'Gloria Vance':{role:'GM',p:'on'},'Nina Alvarez':{role:'Sales',p:'away'}
+    };
+
+    var CHANNELS=[
+      {id:'general',name:'general',members:12,unread:0,msgs:[
+        {u:'Gloria Vance',t:'8:02 AM',x:'Morning team! Big day — we\'re at 104% to goal with 6 days left. Let\'s finish strong 💪',react:['🔥',4]},
+        {u:'Marcus Bell',t:'8:05 AM',x:'On it 🙌 Two deliveries booked already today'},
+        {u:'Riley Brooks',t:'8:11 AM',x:'Coffee\'s on in the break room ☕'},
+        {u:'Gloria Vance',t:'8:14 AM',x:'@Dana Morales can you cover the desk from 2–3? I\'ve got the manufacturer call.'},
+        {u:'Dana Morales',t:'8:15 AM',x:'Got it 👍 I\'ll be on the desk.'}
+      ]},
+      {id:'sales-floor',name:'sales-floor',members:8,unread:2,msgs:[
+        {u:'Cameron Miller',t:'9:20 AM',x:'Test driving the Highlander with the Nguyens now, looking strong 🚙'},
+        {u:'Nina Alvarez',t:'9:41 AM',x:'Anyone have the keys to stock T-19110? Can\'t find them at the board'},
+        {u:'Marcus Bell',t:'9:43 AM',x:'@Nina Alvarez I had them — dropping at the desk now'}
+      ]},
+      {id:'bdc',name:'bdc-team',members:4,unread:0,msgs:[
+        {u:'Marcus Reyes',t:'8:30 AM',x:'14 new internet leads overnight — working the hot ones first. Jessica Tran already pre-qualified 🔥'},
+        {u:'Marcus Reyes',t:'8:52 AM',x:'Booked 3 appointments for this afternoon already'}
+      ]},
+      {id:'wins',name:'wins',members:12,unread:0,msgs:[
+        {u:'Cameron Miller',t:'Yesterday',x:'SOLD the RAV4 to the Chens! 🎉 Second car they\'ve bought from us',react:['🎉',8]},
+        {u:'Sarah Lin',t:'Yesterday',x:'Just got a 5-star review: "best car-buying experience ever" ⭐',react:['⭐',5]},
+        {u:'Gloria Vance',t:'Yesterday',x:'Marcus hit 15 units this month — new personal record! 👏',react:['👏',11]}
+      ]}
+    ];
+    var DMS=[
+      {id:'dm-marcus',name:'Marcus Bell',unread:0,msgs:[{u:'Marcus Bell',t:'9:50 AM',x:'Hey, can you approve the Nguyen deal when you get a sec? Customer\'s waiting'},{u:'Dana Morales',t:'9:52 AM',x:'Heading over now 👍'}]},
+      {id:'dm-gloria',name:'Gloria Vance',unread:1,msgs:[{u:'Gloria Vance',t:'10:04 AM',x:'Great numbers this week. Let\'s sync at 4 on the month-end push.'}]},
+      {id:'dm-reyes',name:'Marcus Reyes',unread:0,msgs:[{u:'Marcus Reyes',t:'8:55 AM',x:'Sending the hot leads your reps\' way — Jessica Tran is ready for a call'}]}
+    ];
+
+    var cur=CHANNELS[0];
+    function allConvos(){ return CHANNELS.concat(DMS); }
+
+    function renderList(){
+      $('channels').innerHTML=CHANNELS.map(function(c){ return '<div class="ch'+(c===cur?' on':'')+'" onclick="openConvo(\''+c.id+'\')"><span class="hash">#</span><span class="cn">'+c.name+'</span>'+(c.unread?'<span class="un">'+c.unread+'</span>':'')+'</div>'; }).join('');
+      $('dms').innerHTML=DMS.map(function(d){ var pp=PEOPLE[d.name]||{p:'off'}; return '<div class="ch'+(d===cur?' on':'')+'" onclick="openConvo(\''+d.id+'\')"><span class="cav" style="background:'+col(d.name)+'">'+initials(d.name)+'<span class="pdot p-'+pp.p+'"></span></span><span class="cn">'+d.name+'</span>'+(d.unread?'<span class="un">'+d.unread+'</span>':'')+'</div>'; }).join('');
+    }
+    function openConvo(id){ cur=allConvos().find(function(c){return c.id===id;}); cur.unread=0; renderList(); renderHead(); renderMsgs(); $('input').focus(); }
+
+    function renderHead(){
+      var isDm=DMS.indexOf(cur)>=0;
+      if(isDm){ var pp=PEOPLE[cur.name]||{role:'',p:'off'}; $('cmainH').innerHTML='<span class="cav" style="width:32px;height:32px;border-radius:9px;background:'+col(cur.name)+';color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;">'+initials(cur.name)+'</span><div><div class="ct">'+cur.name+'</div><div class="cmeta">'+pp.role+' · '+(pp.p==='on'?'Active now':pp.p==='away'?'Away':'Offline')+'</div></div>'; }
+      else {
+        var names=Object.keys(PEOPLE).slice(0,4);
+        $('cmainH').innerHTML='<div><div class="ct"><span class="hash">#</span>'+cur.name+'</div><div class="cmeta">'+cur.members+' members · '+Object.values(PEOPLE).filter(function(p){return p.p==='on';}).length+' online</div></div>'+
+          '<div class="members">'+names.map(function(n){ return '<span class="m" style="background:'+col(n)+'">'+initials(n)+'</span>'; }).join('')+'<span class="m more">+'+(cur.members-4)+'</span></div>';
+      }
+    }
+    function fmtText(x){ return x.replace(/@([A-Z][a-z]+ [A-Z][a-z]+)/g,'<span class="men">@$1</span>'); }
+    function renderMsgs(){
+      var html='<div class="daydiv"><span>Today</span></div>';
+      var prev=null;
+      cur.msgs.forEach(function(m){
+        var cont = prev===m.u;
+        var pp=PEOPLE[m.u]; var role=pp?pp.role:(m.u===ME?'Manager':'');
+        html+='<div class="msg'+(cont?' cont':'')+'"><span class="mav" style="background:'+col(m.u)+'">'+initials(m.u)+'</span><div class="mb">'+
+          (cont?'':'<div class="mtop"><b>'+m.u+'</b>'+(role?'<span class="rl">'+role+'</span>':'')+'<span class="tm">'+m.t+'</span></div>')+
+          '<div class="mtext">'+fmtText(m.x)+'</div>'+
+          (m.react?'<span class="react" onclick="bumpReact(this)">'+m.react[0]+' <b>'+m.react[1]+'</b></span>':'')+
+        '</div></div>';
+        prev=m.u;
+      });
+      $('msgs').innerHTML=html; $('msgs').scrollTop=$('msgs').scrollHeight;
+    }
+    function bumpReact(el){ var b=el.querySelector('b'); b.textContent=+b.textContent+1; }
+
+    function esc(s){ return s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+    function nowT(){ var d=new Date(),h=d.getHours(),m=d.getMinutes(),ap=h>=12?'PM':'AM'; return (h%12||12)+':'+(m<10?'0':'')+m+' '+ap; }
+    function send(){
+      var v=$('input').value.trim(); if(!v) return;
+      var me=(window.ADRoles&&window.ADRoles.cfg&&window.ADRoles.cfg().name)||ME;
+      cur.msgs.push({u:me,t:nowT(),x:esc(v)}); $('input').value=''; grow($('input')); renderMsgs();
+      maybeReply();
+    }
+    function maybeReply(){
+      var isDm=DMS.indexOf(cur)>=0;
+      var who = isDm ? cur.name : ['Marcus Bell','Cameron Miller','Riley Brooks','Marcus Reyes'][Math.floor((cur.msgs.length*7)%4)];
+      showTyping(who);
+      setTimeout(function(){
+        clearTyping();
+        var replies=['👍','On it!','Nice — thanks for the update','Sounds good 👌','Got it, handling now','💪','Perfect, appreciate it'];
+        var r=replies[(cur.msgs.length*3)%replies.length];
+        cur.msgs.push({u:who,t:nowT(),x:r}); renderMsgs();
+      }, 1600);
+    }
+    var typingTimer;
+    function showTyping(who){ $('typing').innerHTML=who.split(' ')[0]+' is typing<span class="dots"><i></i><i></i><i></i></span>'; }
+    function clearTyping(){ $('typing').innerHTML=''; }
+
+    function grow(el){ el.style.height='auto'; el.style.height=Math.min(120,el.scrollHeight)+'px'; }
+    function onKey(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send(); } }
+    function addEmoji(){ $('input').value+=' 🎉'; $('input').focus(); }
+
+    /* simulated ambient activity */
+    var AMBIENT=[
+      ['sales-floor','Nina Alvarez','Just closed the 4Runner! 🎉'],
+      ['general','Riley Brooks','Two walk-ins just arrived, sending to the up board'],
+      ['bdc','Marcus Reyes','Another appointment booked for 3:30 ✅'],
+      ['wins','Cameron Miller','Delivery #3 done for the day 🚗']
+    ];
+    var ai=0;
+    function ambient(){
+      var a=AMBIENT[ai%AMBIENT.length]; ai++;
+      var ch=CHANNELS.find(function(c){return c.id===a[0];}); if(!ch) return;
+      ch.msgs.push({u:a[1],t:nowT(),x:a[2]});
+      if(ch===cur){ renderMsgs(); } else { ch.unread=(ch.unread||0)+1; renderList(); }
+    }
+
+    var tTimer; function toast(m){ $('toastMsg').textContent=m; $('toast').style.opacity='1'; $('toast').style.transform='none'; clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').style.opacity='0'; $('toast').style.transform='translateY(18px)'; },2000); }
+    document.addEventListener('DOMContentLoaded', function(){ renderList(); renderHead(); renderMsgs(); setInterval(ambient, 14000); });
+  </script>
+</body>
+</html>

@@ -43,7 +43,8 @@
     marketplace:'<path d="M4 8h16l-1 3.5a2 2 0 0 1-2 1.5H7a2 2 0 0 1-2-1.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 8l1.4-3.2A1 1 0 0 1 6.3 4h11.4a1 1 0 0 1 .9.8L20 8M6 13v7h12v-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
     referrals:'<circle cx="7" cy="8" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 18c0-2.6 2-4.2 4.5-4.2s4.5 1.6 4.5 4.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M16 6l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.5 12.5a3 3 0 1 1 3 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
     aimanager:'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 11.5l1.8 1.8 3.2-3.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
-    bell:'<path d="M12 3a6 6 0 0 0-6 6c0 4-2 6-2 6h16s-2-2-2-6a6 6 0 0 0-6-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 20a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7"/>'
+    bell:'<path d="M12 3a6 6 0 0 0-6 6c0 4-2 6-2 6h16s-2-2-2-6a6 6 0 0 0-6-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 20a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+    chat:'<path d="M4 5.5h16v10H10l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'
   };
   function svg(k){ return '<svg viewBox="0 0 24 24">'+(IC[k]||'')+'</svg>'; }
 
@@ -66,6 +67,7 @@
         {label:'Inventory', href:'/inventory', icon:'inventory', tag:'Read-only'},
         {label:'Inventory Intel', href:'/invintel', icon:'invintel'},
         {label:'Communications', href:'/communications', icon:'comms', badge:'3'},
+        {label:'Team Chat', href:'/chat', icon:'chat', badge:'2'},
         {label:'Reports', href:'/reports', icon:'reports'},
         {label:'CRM Health', href:'/health', icon:'health'},
         {label:'Sales Coach', href:'/coach', icon:'coach'},
@@ -94,6 +96,7 @@
         {label:'Inventory', href:'/inventory', icon:'inventory'},
         {label:'Inventory Intel', href:'/invintel', icon:'invintel'},
         {label:'Communications', href:'/communications', icon:'comms'},
+        {label:'Team Chat', href:'/chat', icon:'chat', badge:'2'},
         {label:'Reports', href:'/reports', icon:'reports'},
         {label:'Workflow Analytics', href:'/analytics', icon:'analytics'},
         {label:'Service Retention', href:'/service', icon:'service', badge:'9'},
@@ -126,6 +129,7 @@
         {label:'Appointments', href:'/appointments', icon:'appt', badge:'12'},
         {label:'Customers', href:'/customers', icon:'customers'},
         {label:'Communications', href:'/communications', icon:'comms', badge:'4'},
+        {label:'Team Chat', href:'/chat', icon:'chat', badge:'2'},
         {label:'Delivery Center', href:'/delivery', icon:'delivery', badge:'4'},
         {label:'Inventory Lookup', href:'/inventory', icon:'inventory'},
         {label:'Visitor Check-In', href:'/checkin', icon:'checkin', badge:'2'},
@@ -147,7 +151,7 @@
   ];
 
   /* Every known in-app route. Anything here that is NOT in the active role's nav is blocked. */
-  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing','/showroom','/training','/analytics','/invintel','/service','/whiteboard','/marketplace','/referrals','/aimanager'];
+  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing','/showroom','/training','/analytics','/invintel','/service','/whiteboard','/marketplace','/referrals','/aimanager','/chat'];
 
   function getRole(){ var r = localStorage.getItem('ad_role'); return ROLES[r] ? r : 'salesperson'; }
   function cfg(){ return ROLES[getRole()]; }

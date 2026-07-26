@@ -3,48 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CRM Administration — Autodealer</title>
+  <title>Admin Center — Autodealer</title>
   <meta name="robots" content="noindex" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
   <style>
-    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
     * { margin:0; box-sizing:border-box; }
     body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
     a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
     .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
     .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
-    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 26px; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
     .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
     .nav { display:flex; flex-direction:column; gap:3px; }
-    .nav a { display:flex; align-items:center; gap:13px; padding:11px 14px; border-radius:11px; color:#aebdd2; font-size:14.5px; font-weight:500; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
     .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
-    .nav a svg { width:19px; height:19px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
-    .side-user { display:flex; align-items:center; gap:11px; padding:14px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
-    .side-user .av { width:38px; height:38px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
-    .side-user .meta b { color:#fff; font-size:13.5px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11.5px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
     .main { min-width:0; display:flex; flex-direction:column; }
     .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
-    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; } .hamb svg { width:20px; height:20px; }
-    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#ede9fe; color:#6d28d9; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; margin-left:auto; }
-    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:8px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:360px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#ede9fe; color:#6d28d9; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
     .content { padding:26px 30px 60px; }
-    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:7px; }
-    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:26px 0 14px; display:flex; align-items:center; gap:10px; } .sec-label .ln { flex:1; height:1px; background:var(--line); }
-    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:0; overflow:hidden; }
-    .thead, .trow { display:grid; grid-template-columns:2fr 1.6fr 1fr 1fr auto; gap:14px; align-items:center; padding:13px 20px; } .thead { font-size:11px; color:var(--faint); font-weight:700; letter-spacing:.3px; border-bottom:1px solid var(--line); } .trow { border-top:1px solid var(--line); } .trow:first-of-type{border-top:none;}
-    .u-nm { display:flex; align-items:center; gap:11px; } .u-av { width:36px; height:36px; border-radius:50%; color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; flex:none; } .u-nm b { font-weight:600; } .u-nm span { display:block; color:var(--muted); font-size:12px; }
-    .rchip { font-size:11px; font-weight:700; padding:4px 11px; border-radius:8px; display:inline-block; } .r-sales{background:#eaf1fe;color:#2563eb;} .r-mgr{background:#ede9fe;color:#6d28d9;} .r-recep{background:#e2f5fb;color:#0891b2;} .r-fin{background:#e7f7ee;color:#16a34a;}
-    .u-stat { font-size:12.5px; color:var(--muted); } .u-on { color:#16a34a; font-weight:700; } .u-off{color:#94a3b8;font-weight:700;}
-    .u-edit { border:1px solid var(--line); background:#fff; border-radius:8px; padding:6px 12px; font-size:12px; font-weight:700; color:var(--accent); } .u-edit:hover{background:var(--accent-soft);}
-    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    .pad { padding:18px; }
-    .pad h3 { font-size:14px; font-weight:700; margin-bottom:14px; }
-    .rule { display:flex; align-items:center; gap:11px; padding:11px 0; border-top:1px solid var(--line); font-size:13px; } .rule:first-of-type{border-top:none;} .rule .rk { color:var(--muted); } .rule .rv { margin-left:auto; font-weight:700; } .rule .tgl { width:38px; height:22px; border-radius:999px; background:#16a34a; position:relative; flex:none; } .rule .tgl::after{content:"";position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#fff;} .rule .tgl.off{background:#cbd5e1;} .rule .tgl.off::after{right:auto;left:2px;}
-    .note { padding:18px; } .note .nb { background:linear-gradient(180deg,#f5f0ff,#faf8ff); border:1px solid #ece3fb; border-radius:12px; padding:14px 16px; font-size:13px; line-height:1.6; color:#4b3a72; } .note .nb b{color:#5b21b6;}
-    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .grid2{grid-template-columns:1fr;} .thead{display:none;} .trow{grid-template-columns:1fr auto;} .trow .u-hide{display:none;} }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; max-width:580px; }
+    .btn-primary { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; border-radius:11px; padding:11px 18px; font-size:13.5px; font-weight:600; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); } .btn-primary svg { width:16px; height:16px; }
+
+    /* tabs */
+    .tabs{display:flex;gap:4px;margin:22px 0 20px;border-bottom:1px solid var(--line);flex-wrap:wrap;}
+    .tab{border:none;background:none;padding:11px 16px;font-size:13.5px;font-weight:700;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:8px;} .tab svg{width:16px;height:16px;} .tab.on{color:var(--accent);border-bottom-color:var(--accent);} .tab:hover{color:var(--text);}
+
+    .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:13px; margin-bottom:20px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:12px;} .kp .kv{font-size:23px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kd{font-size:11.5px;font-weight:700;margin-top:5px;color:var(--green);}
+
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start; }
+    @media(max-width:1000px){ .grid2{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .card-h { display:flex; align-items:center; gap:10px; padding:15px 18px; border-bottom:1px solid var(--line); } .card-h h2{font-size:14.5px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);} .card-h .r{margin-left:auto;font-size:12px;color:var(--muted);font-weight:700;}
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:22px 0 14px; }
+
+    /* status list */
+    .sys{display:flex;align-items:center;gap:12px;padding:13px 18px;border-top:1px solid var(--line);} .sys:first-child{border-top:none;}
+    .sys .sd{width:9px;height:9px;border-radius:50%;flex:none;} .sd-ok{background:#16a34a;} .sd-warn{background:#d97706;}
+    .sys b{font-size:13.5px;font-weight:600;flex:1;} .sys .sv{font-size:12px;color:var(--muted);font-weight:600;} .sys .sok{color:#16a34a;font-weight:700;font-size:12px;}
+
+    /* activity feed */
+    .act{display:flex;gap:12px;padding:12px 18px;border-top:1px solid var(--line);} .act:first-child{border-top:none;}
+    .act .aa{width:30px;height:30px;border-radius:50%;flex:none;color:#fff;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;}
+    .act .ax{flex:1;min-width:0;font-size:13px;} .act .ax b{font-weight:700;} .act .tm{font-size:11px;color:var(--faint);margin-top:2px;}
+
+    /* user table */
+    .thead,.trow{display:grid;grid-template-columns:2fr 1.4fr 1fr 1.1fr auto;gap:14px;align-items:center;padding:13px 20px;}
+    .thead{font-size:11px;color:var(--faint);font-weight:700;letter-spacing:.3px;border-bottom:1px solid var(--line);}
+    .trow{border-top:1px solid var(--line);} .trow:first-of-type{border-top:none;} .trow:hover{background:#fafbff;}
+    .u-nm{display:flex;align-items:center;gap:11px;} .u-av{width:36px;height:36px;border-radius:50%;color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex:none;} .u-nm b{font-weight:600;} .u-nm span{display:block;color:var(--muted);font-size:12px;}
+    .rchip{font-size:11px;font-weight:700;padding:4px 11px;border-radius:8px;display:inline-block;} .r-sales{background:#eaf1fe;color:#2563eb;} .r-mgr{background:#ede9fe;color:#6d28d9;} .r-recep{background:#e2f5fb;color:#0891b2;} .r-fin{background:#e7f7ee;color:#16a34a;} .r-bdc{background:#fdf0dc;color:#b7791f;} .r-gm{background:#fdeaf3;color:#db2777;}
+    .u-stat{font-size:12.5px;} .u-on{color:#16a34a;font-weight:700;} .u-off{color:#94a3b8;font-weight:700;}
+    .u-edit{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;color:var(--accent);} .u-edit:hover{background:var(--accent-soft);}
+
+    /* permission matrix */
+    .matrix{overflow-x:auto;}
+    .mx{width:100%;border-collapse:collapse;min-width:720px;}
+    .mx th,.mx td{padding:11px 12px;text-align:center;border-bottom:1px solid var(--line);font-size:12.5px;}
+    .mx th{font-size:11px;color:var(--faint);font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+    .mx th:first-child,.mx td:first-child{text-align:left;font-weight:600;color:var(--text);}
+    .mx .cap{color:var(--text);font-weight:600;}
+    .cell{width:26px;height:26px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;} .cell svg{width:15px;height:15px;}
+    .cell.yes{background:#e7f7ee;color:#16a34a;} .cell.no{background:#f1f4f9;color:#c3ccd8;}
+
+    /* toggle rows */
+    .rule{display:flex;align-items:center;gap:12px;padding:13px 18px;border-top:1px solid var(--line);} .rule:first-child{border-top:none;}
+    .rule .ri{flex:1;} .rule .ri b{font-size:13.5px;font-weight:700;} .rule .ri span{display:block;font-size:11.5px;color:var(--muted);margin-top:1px;}
+    .rule .rv{font-size:13px;font-weight:700;color:var(--muted);}
+    .tog{width:40px;height:23px;border-radius:999px;background:var(--green);position:relative;flex:none;border:none;} .tog::after{content:"";position:absolute;top:2.5px;right:2.5px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);} .tog.off{background:#cbd5e1;} .tog.off::after{right:auto;left:2.5px;}
+
+    /* audit */
+    .aud{display:grid;grid-template-columns:auto 1.6fr 2fr 1fr;gap:14px;align-items:center;padding:12px 20px;border-top:1px solid var(--line);font-size:12.5px;} .aud:first-of-type{border-top:none;}
+    .aud .aa{width:30px;height:30px;border-radius:50%;color:#fff;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none;}
+    .aud b{font-weight:700;} .aud .amut{color:var(--muted);} .aud .aip{font-family:monospace;font-size:11px;color:var(--faint);} .aud .atm{color:var(--faint);text-align:right;}
+    .lhead-a{display:grid;grid-template-columns:auto 1.6fr 2fr 1fr;gap:14px;padding:12px 20px;font-size:11px;color:var(--faint);font-weight:700;border-bottom:1px solid var(--line);}
+
+    .note{padding:18px;} .note .nb{background:linear-gradient(180deg,#f5f0ff,#faf8ff);border:1px solid #ece3fb;border-radius:12px;padding:14px 16px;font-size:13px;line-height:1.6;color:#4b3a72;} .note .nb b{color:#5b21b6;}
+    .tabpane{display:none;} .tabpane.on{display:block;animation:fade .2s ease;} @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .thead{display:none;} .trow{grid-template-columns:1fr auto;} .trow .u-hide{display:none;} }
   </style>
 </head>
 <body>
@@ -57,45 +108,166 @@
     <div class="main">
       <header class="topbar">
         <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-        <span class="role-badge">Manager Workspace</span>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search users, settings..." /></div>
+        <span class="role-badge">Admin Center</span>
         <span class="tb-avatar"><span class="av">DM</span></span>
       </header>
       <main class="content">
-        <div class="phead"><h1>CRM Administration</h1><p class="sub">Manage sales-team users, roles, and lead-routing rules. Payroll, accounting, and HR remain restricted to executives.</p></div>
-
-        <div class="sec-label">Users &amp; Roles<span class="ln"></span></div>
-        <div class="card">
-          <div class="thead"><span>USER</span><span>ROLE / WORKSPACE</span><span>STATUS</span><span>LAST ACTIVE</span><span></span></div>
-          <div id="users"></div>
+        <div class="phead">
+          <div><h1>Admin Center</h1><p class="sub">Manage users, roles, permissions, security, and system health across the dealership. Payroll, accounting, and HR remain restricted to executives.</p></div>
+          <button class="btn-primary" onclick="toast('Invite sent')"><svg viewBox="0 0 24 24"><path d="M16 8a3 3 0 1 0 0-.01M4.5 20a5.5 5.5 0 0 1 11 0M19 11v4M17 13h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Invite User</button>
         </div>
 
-        <div class="sec-label">Automation<span class="ln"></span></div>
-        <div class="grid2">
-          <div class="card pad"><h3>Lead Routing Rules</h3><div id="rules"></div></div>
-          <div class="card note"><h3 style="font-size:14px;font-weight:700;margin-bottom:14px">Role-Based Workspaces</h3><div class="nb">Every employee is provisioned a <b>role-based workspace</b>, not just filtered menus. Navigation, homepage, KPIs, and permitted routes are driven by one <b>role configuration</b> — so adding <b>BDC Agent</b>, <b>Finance Manager</b>, or <b>Service Advisor</b> takes a single config entry with no code changes. Restricted routes are blocked even via direct URL. Use <b>View As</b> in the sidebar to preview any workspace.</div></div>
+        <div class="tabs" id="tabs"></div>
+
+        <!-- OVERVIEW -->
+        <div class="tabpane on" id="tab-overview">
+          <div class="kpis">
+            <div class="kp"><div class="kl">Active Users</div><div class="kv">8 <span style="font-size:13px;color:var(--muted)">/ 12 seats</span></div><div class="kd">4 seats available</div></div>
+            <div class="kp"><div class="kl">System Uptime</div><div class="kv">99.98%</div><div class="kd">30-day</div></div>
+            <div class="kp"><div class="kl">Storage Used</div><div class="kv">42%</div><div class="kd">of 500 GB</div></div>
+            <div class="kp"><div class="kl">API Calls</div><div class="kv">128K</div><div class="kd">This month</div></div>
+            <div class="kp"><div class="kl">Data Health</div><div class="kv" style="color:#16a34a">100%</div><div class="kd">All syncs OK</div></div>
+          </div>
+          <div class="grid2">
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><h2>System Status</h2><span class="r">All operational</span></div><div id="sys"></div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><h2>Recent Admin Activity</h2></div><div id="recent"></div></div>
+          </div>
+        </div>
+
+        <!-- USERS -->
+        <div class="tabpane" id="tab-users">
+          <div class="sec-label">Users &amp; Seats</div>
+          <div class="card">
+            <div class="thead"><span>USER</span><span>ROLE / WORKSPACE</span><span>STATUS</span><span>LAST ACTIVE</span><span></span></div>
+            <div id="users"></div>
+          </div>
+        </div>
+
+        <!-- ROLES & PERMISSIONS -->
+        <div class="tabpane" id="tab-perms">
+          <div class="sec-label">Permission Matrix</div>
+          <div class="card"><div class="matrix"><table class="mx" id="matrix"></table></div></div>
+          <div class="card note" style="margin-top:18px;"><h3 style="font-size:14px;font-weight:700;margin-bottom:12px">Config-Driven Role-Based Access</h3><div class="nb">Every employee gets a <b>role-based workspace</b>, not just filtered menus. Navigation, homepage, KPIs, AI assistant, notifications, and permitted routes are driven by one <b>role configuration</b> — so adding <b>BDC Agent</b>, <b>Finance Manager</b>, or <b>General Manager</b> is a single config entry with no code changes. Restricted routes are blocked even via direct URL, and toggling a cell above updates that role everywhere instantly. Use <b>View As</b> in the sidebar to preview any workspace.</div></div>
+        </div>
+
+        <!-- SECURITY -->
+        <div class="tabpane" id="tab-security">
+          <div class="grid2">
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><h2>Access &amp; Security</h2></div><div id="security"></div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><h2>Recent Sign-Ins</h2></div><div id="signins"></div></div>
+          </div>
+        </div>
+
+        <!-- AUTOMATION -->
+        <div class="tabpane" id="tab-automation">
+          <div class="grid2">
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="12" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="18" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 6H14a2 2 0 0 1 2 2v1.6M8.2 18H14a2 2 0 0 0 2-2v-1.6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><h2>Lead Routing Rules</h2></div><div id="rules"></div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><h2>Business Rules</h2></div><div id="bizrules"></div></div>
+          </div>
+        </div>
+
+        <!-- AUDIT LOG -->
+        <div class="tabpane" id="tab-audit">
+          <div class="sec-label">Audit Log</div>
+          <div class="card"><div class="lhead-a"><span></span><span>USER &amp; ACTION</span><span>DETAIL</span><span>WHEN</span></div><div id="audit"></div></div>
         </div>
       </main>
     </div>
   </div>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
   <script src="/roles.js"></script>
   <script>
-    var USERS = [
-      ["Cameron Miller","CM","#3b82f6","cameron@autodealer.com","r-sales","Salesperson",true,"2m ago"],
-      ["Sarah Johnson","SJ","#8b5cf6","sarah@autodealer.com","r-sales","Salesperson",true,"9m ago"],
-      ["Michael Davis","MD","#14b8a6","michael@autodealer.com","r-sales","Salesperson",false,"Yesterday"],
-      ["Dana Morales","DM","#7c3aed","dana@autodealer.com","r-mgr","Sales Manager",true,"now"],
-      ["Riley Brooks","RB","#0891b2","riley@autodealer.com","r-recep","Receptionist",true,"5m ago"],
-      ["Tom Fielder","TF","#16a34a","tom@autodealer.com","r-fin","Finance Manager",false,"1h ago"]
+    var $ = function(id){ return document.getElementById(id); };
+    function initials(n){ return n.split(' ').map(function(x){return x[0];}).slice(0,2).join('').toUpperCase(); }
+
+    var TABS=[['overview','Overview','<path d="M4 13h7V4H4zM13 20h7v-9h-7zM13 4v5h7V4zM4 20h7v-5H4z" fill="currentColor"/>'],['users','Users','<circle cx="12" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.7"/>'],['perms','Roles &amp; Permissions','<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'],['security','Security','<rect x="5" y="11" width="14" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.7"/>'],['automation','Automation','<circle cx="6" cy="6" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="18" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 6h6a2 2 0 0 1 2 2v8" fill="none" stroke="currentColor" stroke-width="1.6"/>'],['audit','Audit Log','<path d="M6 3h8l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v4h4M9 13h6M9 16h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>']];
+    function renderTabs(){
+      $('tabs').innerHTML=TABS.map(function(t,i){ return '<button class="tab'+(i===0?' on':'')+'" data-t="'+t[0]+'"><svg viewBox="0 0 24 24">'+t[2]+'</svg>'+t[1]+'</button>'; }).join('');
+      $('tabs').querySelectorAll('.tab').forEach(function(b){ b.addEventListener('click',function(){ $('tabs').querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');}); b.classList.add('on'); document.querySelectorAll('.tabpane').forEach(function(p){p.classList.remove('on');}); $('tab-'+b.getAttribute('data-t')).classList.add('on'); }); });
+    }
+
+    var SYS=[['CRM Application','ok','Operational'],['API Gateway','ok','128K calls · 42ms avg'],['Telephony (Twilio)','ok','Operational'],['Email & SMS Delivery','ok','99.4% delivered'],['Nightly Backups','ok','Last: 3:04 AM'],['DMS Sync (CDK)','warn','Delayed 4 min']];
+    function renderSys(){ $('sys').innerHTML=SYS.map(function(s){ return '<div class="sys"><span class="sd sd-'+s[1]+'"></span><b>'+s[0]+'</b><span class="'+(s[1]==='ok'?'sok':'sv')+'">'+s[2]+'</span></div>'; }).join(''); }
+
+    var RECENT=[
+      ['Dana Morales','#7c3aed','changed <b>Riley Brooks</b> role to Receptionist','12m ago'],
+      ['System','#64748b','ran nightly backup successfully','3h ago'],
+      ['Dana Morales','#7c3aed','enabled 2FA enforcement','Yesterday'],
+      ['Tom Fielder','#16a34a','exported F&I report','Yesterday'],
+      ['Dana Morales','#7c3aed','invited <b>new Finance Manager</b>','2 days ago']
     ];
-    document.getElementById("users").innerHTML = USERS.map(function(u){
-      return '<div class="trow"><div class="u-nm"><span class="u-av" style="background:'+u[2]+'">'+u[1]+'</span><div><b>'+u[0]+'</b><span>'+u[3]+'</span></div></div>'+
-        '<span class="u-hide"><span class="rchip '+u[4]+'">'+u[5]+'</span></span>'+
-        '<span class="u-stat u-hide">'+(u[6]?'<span class="u-on">● Online</span>':'<span class="u-off">● Offline</span>')+'</span>'+
-        '<span class="u-stat u-hide">'+u[7]+'</span>'+
-        '<button class="u-edit">Manage</button></div>';
-    }).join("");
-    var RULES = [["Internet leads","Cameron Miller",false],["Silverado / truck inquiries","Cameron Miller",false],["Facebook / Messenger","Round-robin",false],["Walk-ins","Auto by availability",false],["After-hours leads","BDC queue",true]];
-    document.getElementById("rules").innerHTML = RULES.map(function(r){ return '<div class="rule"><span class="rk">'+r[0]+'</span><span class="rv">'+r[1]+'</span><span class="tgl'+(r[2]?" off":"")+'"></span></div>'; }).join("");
+    function renderRecent(){ $('recent').innerHTML=RECENT.map(function(a){ return '<div class="act"><span class="aa" style="background:'+a[1]+'">'+initials(a[0])+'</span><div class="ax"><b>'+a[0]+'</b> '+a[2]+'<div class="tm">'+a[3]+'</div></div></div>'; }).join(''); }
+
+    var USERS=[
+      ['Cameron Miller','#3b82f6','cameron@autodealer.com','r-sales','Salesperson',true,'2m ago'],
+      ['Sarah Johnson','#8b5cf6','sarah@autodealer.com','r-sales','Salesperson',true,'9m ago'],
+      ['Michael Davis','#14b8a6','michael@autodealer.com','r-sales','Salesperson',false,'Yesterday'],
+      ['Dana Morales','#7c3aed','dana@autodealer.com','r-mgr','Sales Manager',true,'now'],
+      ['Riley Brooks','#0891b2','riley@autodealer.com','r-recep','Receptionist',true,'5m ago'],
+      ['Marcus Reyes','#d97706','marcus.bdc@autodealer.com','r-bdc','BDC Agent',true,'1m ago'],
+      ['Tom Fielder','#16a34a','tom@autodealer.com','r-fin','Finance Manager',false,'1h ago'],
+      ['Gloria Vance','#db2777','gloria@autodealer.com','r-gm','General Manager',true,'14m ago']
+    ];
+    function renderUsers(){ $('users').innerHTML=USERS.map(function(u){ return '<div class="trow"><div class="u-nm"><span class="u-av" style="background:'+u[1]+'">'+initials(u[0])+'</span><div><b>'+u[0]+'</b><span>'+u[2]+'</span></div></div><span class="u-hide"><span class="rchip '+u[3]+'">'+u[4]+'</span></span><span class="u-stat u-hide">'+(u[5]?'<span class="u-on">● Online</span>':'<span class="u-off">● Offline</span>')+'</span><span class="u-stat u-hide" style="color:var(--muted)">'+u[6]+'</span><button class="u-edit" onclick="toast(\'Editing '+u[0].split(" ")[0]+'\')">Manage</button></div>'; }).join(''); }
+
+    var ROLES=['Sales','BDC','Finance','Recep','Manager','GM'];
+    var CAPS=[
+      ['View leads & customers',[1,1,1,1,1,1]],
+      ['Create & edit deals',[1,0,1,0,1,1]],
+      ['Edit vehicle pricing',[0,0,0,0,1,1]],
+      ['See dealership gross',[0,0,1,0,1,1]],
+      ['Structure F&I / contracts',[0,0,1,0,0,1]],
+      ['Void / unwind contracts',[0,0,1,0,0,1]],
+      ['Manage users & roles',[0,0,0,0,1,1]],
+      ['Export reports & data',[0,0,1,0,1,1]],
+      ['Broadcast announcements',[0,0,0,0,1,1]]
+    ];
+    function renderMatrix(){
+      var head='<tr><th>Capability</th>'+ROLES.map(function(r){return '<th>'+r+'</th>';}).join('')+'</tr>';
+      var rows=CAPS.map(function(c,ci){ return '<tr><td class="cap">'+c[0]+'</td>'+c[1].map(function(v,ri){ return '<td><span class="cell '+(v?'yes':'no')+'" data-c="'+ci+'" data-r="'+ri+'">'+(v?'<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>':'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>')+'</span></td>'; }).join('')+'</tr>'; }).join('');
+      $('matrix').innerHTML=head+rows;
+      $('matrix').querySelectorAll('.cell').forEach(function(el){ el.addEventListener('click',function(){ var ci=+el.getAttribute('data-c'),ri=+el.getAttribute('data-r'); CAPS[ci][1][ri]=CAPS[ci][1][ri]?0:1; renderMatrix(); toast(ROLES[ri]+' · '+CAPS[ci][0]+(CAPS[ci][1][ri]?' allowed':' revoked')); }); });
+    }
+
+    var SECURITY=[
+      ['Two-factor authentication','Required for all users on every sign-in',1],
+      ['Single sign-on (SSO)','SAML via Okta — auto-provision users',0],
+      ['Auto-logout after inactivity','Sessions end after 30 minutes idle',1],
+      ['IP allowlist','Restrict access to dealership networks',0],
+      ['Password rotation','Force reset every 90 days',1],
+      ['Restrict data export','Only managers & GM can export',1]
+    ];
+    function renderSecurity(){ $('security').innerHTML=SECURITY.map(function(s,i){ return '<div class="rule"><div class="ri"><b>'+s[0]+'</b><span>'+s[1]+'</span></div><button class="tog'+(s[2]?'':' off')+'" onclick="SECURITY['+i+'][2]=SECURITY['+i+'][2]?0:1;this.classList.toggle(\'off\');toast(\''+s[0]+' updated\')"></button></div>'; }).join(''); }
+
+    var SIGNINS=[
+      ['Gloria Vance','#db2777','General Manager','Chrome · Mac','14m ago','ok'],
+      ['Marcus Reyes','#d97706','BDC Agent','Chrome · Windows','1m ago','ok'],
+      ['Cameron Miller','#3b82f6','Salesperson','Safari · iPhone','2m ago','ok'],
+      ['Unknown','#dc2626','Failed attempt','Firefox · Unknown IP','3h ago','fail']
+    ];
+    function renderSignins(){ $('signins').innerHTML=SIGNINS.map(function(s){ return '<div class="sys"><span class="u-av" style="width:30px;height:30px;font-size:10px;background:'+s[1]+'">'+initials(s[0])+'</span><div style="flex:1;"><b style="font-weight:600;font-size:13px;">'+s[0]+'</b><div style="font-size:11px;color:var(--muted);">'+s[2]+' · '+s[3]+'</div></div><span class="'+(s[5]==='ok'?'sok':'')+'" style="font-size:11.5px;font-weight:700;'+(s[5]==='fail'?'color:var(--red)':'')+'">'+(s[5]==='fail'?'Blocked':s[4])+'</span></div>'; }).join(''); }
+
+    var RULES=[['Internet leads','Round-robin · Sales',1],['Truck inquiries','Cameron Miller',1],['Facebook / Messenger','BDC queue',1],['Walk-ins','Auto by availability',1],['After-hours leads','BDC overflow',0]];
+    function renderRules(){ $('rules').innerHTML=RULES.map(function(r,i){ return '<div class="rule"><div class="ri"><b>'+r[0]+'</b><span>Route to '+r[1]+'</span></div><button class="tog'+(r[2]?'':' off')+'" onclick="RULES['+i+'][2]=RULES['+i+'][2]?0:1;this.classList.toggle(\'off\');toast(\'Rule updated\')"></button></div>'; }).join(''); }
+
+    var BIZ=[['Business hours','Mon–Sat 8a–8p · Sun 10a–6p',1],['Lead SLA timer','Alert if no response in 5 min',1],['Auto-assign new leads','Instantly on receipt',1],['Duplicate lead merge','Auto-merge on match',1],['After-hours auto-reply','Text back within 60s',1]];
+    function renderBiz(){ $('bizrules').innerHTML=BIZ.map(function(r,i){ return '<div class="rule"><div class="ri"><b>'+r[0]+'</b><span>'+r[1]+'</span></div><button class="tog'+(r[2]?'':' off')+'" onclick="BIZ['+i+'][2]=BIZ['+i+'][2]?0:1;this.classList.toggle(\'off\');toast(\'Setting updated\')"></button></div>'; }).join(''); }
+
+    var AUDIT=[
+      ['Dana Morales','#7c3aed','changed role','Riley Brooks → Receptionist','12m ago','198.51.100.24'],
+      ['Gloria Vance','#db2777','approved deal','Deal #D-4471 · $32,280','40m ago','203.0.113.9'],
+      ['Marcus Reyes','#d97706','reassigned lead','Jessica Tran → Cameron','1h ago','198.51.100.31'],
+      ['Dana Morales','#7c3aed','enabled setting','2FA enforcement ON','Yesterday','198.51.100.24'],
+      ['Tom Fielder','#16a34a','exported data','F&I penetration report','Yesterday','198.51.100.55'],
+      ['System','#64748b','completed backup','Nightly snapshot · 2.1 GB','Yesterday','—'],
+      ['Gloria Vance','#db2777','broadcast','"Record Saturday — great work team!"','2 days ago','203.0.113.9']
+    ];
+    function renderAudit(){ $('audit').innerHTML=AUDIT.map(function(a){ return '<div class="aud"><span class="aa" style="background:'+a[1]+'">'+initials(a[0])+'</span><div><b>'+a[0]+'</b> <span class="amut">'+a[2]+'</span></div><div class="amut">'+a[3]+'<div class="aip">IP '+a[5]+'</div></div><div class="atm">'+a[4]+'</div></div>'; }).join(''); }
+
+    var tTimer; function toast(m){ $('toastMsg').innerHTML=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2200); }
+    document.addEventListener('DOMContentLoaded', function(){ renderTabs(); renderSys(); renderRecent(); renderUsers(); renderMatrix(); renderSecurity(); renderSignins(); renderRules(); renderBiz(); renderAudit(); });
   </script>
 </body>
 </html>
