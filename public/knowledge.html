@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Knowledge Center — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --purple:#7c3aed; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:360px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#eef4ff; color:#2563eb; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+
+    /* hero search + AI */
+    .khero{background:radial-gradient(800px 320px at 85% -40%,#1e3a8a,#0f1b2d 62%),#0f1b2d;border-radius:20px;color:#eaf1fb;padding:28px 30px;box-shadow:var(--shadow);}
+    .khero h1{font-size:24px;font-weight:800;letter-spacing:-.5px;} .khero p{color:#a9bcda;font-size:14px;margin-top:6px;}
+    .kbox{display:flex;align-items:center;gap:12px;background:#fff;border-radius:13px;padding:13px 16px;margin-top:16px;max-width:640px;}
+    .kbox svg{width:19px;height:19px;color:#7c3aed;flex:none;} .kbox input{flex:1;border:none;outline:none;font:inherit;font-size:15px;} .kbox button{border:none;border-radius:9px;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;padding:9px 16px;font-size:13px;font-weight:700;}
+    .kchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;} .kc{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#c7d4e6;border-radius:999px;padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;} .kc:hover{background:rgba(255,255,255,.14);color:#fff;}
+
+    /* AI answer */
+    .aians{background:#fff;border:1px solid #e4d5fb;border-radius:14px;box-shadow:var(--shadow);margin-top:18px;overflow:hidden;display:none;}
+    .aians.show{display:block;}
+    .aians-h{display:flex;align-items:center;gap:10px;padding:14px 18px;background:linear-gradient(120deg,#f5f3ff,#fff);border-bottom:1px solid var(--line);} .aians-h svg{width:18px;height:18px;color:#7c3aed;} .aians-h b{font-size:14px;font-weight:800;}
+    .aians-b{padding:18px;font-size:14px;line-height:1.6;color:#33445c;} .aians-b b{color:var(--text);}
+    .aians-src{display:flex;gap:8px;flex-wrap:wrap;padding:0 18px 16px;} .aians-src .s{font-size:11.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:7px;padding:5px 10px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;} .aians-src .s svg{width:12px;height:12px;}
+
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin:24px 0 16px; } .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; } .pill.on{background:var(--accent);color:#fff;border-color:var(--accent);} .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;}
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:22px 0 14px; }
+
+    .arts{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+    .art{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);cursor:pointer;overflow:hidden;transition:transform .12s,box-shadow .12s;} .art:hover{transform:translateY(-3px);box-shadow:0 18px 38px -20px rgba(16,32,60,.42);border-color:#cfe0f7;}
+    .art .ac{height:8px;} .art .ab{padding:16px;} .art .acat{font-size:10.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;} .art .at{font-size:15px;font-weight:800;margin-top:5px;line-height:1.3;} .art .ad{font-size:12.5px;color:var(--muted);margin-top:7px;line-height:1.45;} .art .am{font-size:11.5px;color:var(--faint);margin-top:11px;display:flex;align-items:center;gap:8px;} .art .am .vid{color:#dc2626;font-weight:700;}
+    .c-blue{color:#2563eb;} .c-green{color:#16a34a;} .c-purple{color:#7c3aed;} .c-amber{color:#d97706;} .c-red{color:#dc2626;} .c-teal{color:#0891b2;}
+    .b-blue{background:#2563eb;} .b-green{background:#16a34a;} .b-purple{background:#7c3aed;} .b-amber{background:#d97706;} .b-red{background:#dc2626;} .b-teal{background:#0891b2;}
+
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show{opacity:1;pointer-events:auto;}
+    .panel { position:fixed; top:0; right:0; bottom:0; width:560px; max-width:96vw; background:#fff; z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open{transform:none;}
+    .panel-hd { display:flex; align-items:flex-start; gap:14px; padding:22px; border-bottom:1px solid var(--line); } .panel-hd .acat{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;} .panel-hd h2{font-size:20px;font-weight:800;margin-top:4px;line-height:1.25;} .panel-close{margin-left:auto;border:none;background:none;color:var(--muted);width:34px;height:34px;border-radius:9px;flex:none;} .panel-close svg{width:18px;height:18px;}
+    .panel-body { overflow-y:auto; padding:22px; font-size:14.5px; line-height:1.7; color:#33445c; } .panel-body h3{font-size:15px;font-weight:800;color:var(--text);margin:18px 0 8px;} .panel-body p{margin-bottom:12px;} .panel-body ul{margin:0 0 12px 20px;} .panel-body li{margin-bottom:6px;}
+    .vidbox{height:220px;border-radius:12px;background:linear-gradient(150deg,#1e293b,#0f172a);display:flex;align-items:center;justify-content:center;margin-bottom:16px;} .vidbox .play{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;} .vidbox .play svg{width:24px;height:24px;color:#0f172a;margin-left:3px;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;}
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search knowledge base..." /></div>
+        <span class="role-badge">Knowledge Center</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content">
+        <div class="khero">
+          <h1>How can we help you sell today?</h1>
+          <p>Search dealership guides, processes, and OEM docs — or just ask AI a question.</p>
+          <div class="kbox"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg><input id="ask" placeholder="Ask anything… e.g. How do I present GAP coverage?" onkeydown="if(event.key==='Enter')askAI()" /><button onclick="askAI()">Ask AI</button></div>
+          <div class="kchips"><span class="kc" onclick="askQ(this)">How do I handle a price objection?</span><span class="kc" onclick="askQ(this)">What's our trade appraisal process?</span><span class="kc" onclick="askQ(this)">Toyota 2025 warranty terms</span><span class="kc" onclick="askQ(this)">How do I request a review?</span></div>
+        </div>
+
+        <div class="aians" id="aians">
+          <div class="aians-h"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg><b>AI Answer</b></div>
+          <div class="aians-b" id="aiansB"></div>
+          <div class="aians-src" id="aiansSrc"></div>
+        </div>
+
+        <div class="pills" id="pills"></div>
+        <div class="sec-label" id="secLabel">All Articles</div>
+        <div class="arts" id="arts"></div>
+      </main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var CATC={ 'Sales Guides':'blue','Processes':'green','Policies':'amber','OEM Docs':'teal','Training Videos':'red','FAQs':'purple','Announcements':'blue' };
+    var ARTS=[
+      {cat:'Sales Guides',t:'Handling Price Objections',d:'The feel-felt-found method and how to hold value before discounting.',read:'6 min read',body:'processObjection'},
+      {cat:'Sales Guides',t:'The Perfect First 10 Minutes',d:'Greeting, discovery, and building rapport that leads to appointments.',read:'8 min read'},
+      {cat:'Processes',t:'Trade-In Appraisal Process',d:'Step-by-step from walkaround to presenting equity as usable value.',read:'5 min read'},
+      {cat:'Processes',t:'Delivery & Handoff Checklist',d:'Everything that must happen for a 5-star delivery experience.',read:'4 min read'},
+      {cat:'OEM Docs',t:'2025 Toyota Warranty Terms',d:'Basic, powertrain, hybrid battery, and ToyotaCare coverage details.',read:'OEM PDF'},
+      {cat:'OEM Docs',t:'EV & Hybrid Charging Guide',d:'Range, charging times, and how to answer common EV questions.',read:'OEM PDF'},
+      {cat:'Policies',t:'Adverse Action & Privacy (GLBA)',d:'Compliance requirements for credit decisions and customer data.',read:'Required'},
+      {cat:'Training Videos',t:'Presenting F&I Products',d:'Watch Tom walk through the menu and build value on VSC + GAP.',read:'12 min video',vid:true},
+      {cat:'Training Videos',t:'Mastering AutoDealer CRM',d:'A full tour of logging activity, deals, and using AI.',read:'18 min video',vid:true},
+      {cat:'FAQs',t:'How do I request a customer review?',d:'The best timing and templates for review requests.',read:'2 min read'},
+      {cat:'FAQs',t:'How do I reassign a lead?',d:'Steps to transfer a lead to another rep or the BDC.',read:'1 min read'},
+      {cat:'Announcements',t:'July: Toyota Weekend Cash ends Sunday',d:'Manufacturer incentive details and how to apply it on deals.',read:'Pinned'}
+    ];
+    var filter='All';
+    function artCard(a){ var c=CATC[a.cat]||'blue'; return '<div class="art" onclick="openArt(\''+a.t.replace(/\x27/g,"")+'\')"><div class="ac b-'+c+'"></div><div class="ab"><div class="acat c-'+c+'">'+a.cat+'</div><div class="at">'+a.t+'</div><div class="ad">'+a.d+'</div><div class="am">'+(a.vid?'<span class="vid">▶ Video</span> · ':'')+a.read+'</div></div></div>'; }
+    function renderArts(){ var list=ARTS.filter(function(a){return filter==='All'||a.cat===filter;}); $('arts').innerHTML=list.map(artCard).join(''); $('secLabel').textContent=filter==='All'?'All Articles':filter; }
+    function renderPills(){ var cats=['All'].concat(Object.keys(CATC).filter(function(v,i,s){return s.indexOf(v)===i;})); $('pills').innerHTML=cats.map(function(c){ return '<button class="pill'+(filter===c?' on':'')+'" data-c="'+c+'">'+c+'</button>'; }).join(''); $('pills').querySelectorAll('.pill').forEach(function(b){ b.addEventListener('click',function(){ filter=b.getAttribute('data-c'); renderPills(); renderArts(); }); }); }
+
+    function askQ(el){ $('ask').value=el.textContent; askAI(); }
+    function askAI(){
+      var q=$('ask').value.trim(); if(!q) return;
+      var A={
+        price:['When a customer pushes on price, <b>acknowledge before you answer</b> and hold value for at least 30 seconds before any number moves. Use <b>feel-felt-found</b>: "I understand how you feel, other customers felt the same, and what they found was…" Reframe around what\'s included — warranty, ToyotaCare, and resale value — then present options rather than a single discount.',['Handling Price Objections','Presenting F&I Products']],
+        trade:['Our trade process: <b>1)</b> Walkaround with the customer to build agreement on condition. <b>2)</b> Pull live market data in Inventory Intelligence. <b>3)</b> Present the number as <b>usable equity</b> — "money you can put toward your new vehicle today." <b>4)</b> If there\'s negative equity, roll it into the structure transparently.',['Trade-In Appraisal Process','Inventory Intelligence']],
+        warranty:['2025 Toyota coverage: <b>Basic</b> 36 mo/36k mi, <b>Powertrain</b> 60 mo/60k mi, <b>Hybrid battery</b> 10 yr/150k mi, and <b>ToyotaCare</b> 2 yr/25k mi maintenance. For EVs, the battery carries the extended hybrid warranty.',['2025 Toyota Warranty Terms','EV & Hybrid Charging Guide']],
+        review:['Ask for the review <b>right at delivery</b> while excitement is highest. Text (not email) converts ~3× better — use "Copy my review link" in the Reputation page and send it personally within an hour. Always reply to reviews to encourage more.',['How do I request a customer review?','Reputation Management']],
+        gap:['Present GAP as <b>peace of mind on high-LTV deals</b>: it covers the gap between what\'s owed and the insurance payout if the vehicle is totaled. Bundle with VSC for the strongest value story, especially on 72+ month terms.',['Presenting F&I Products','2025 Toyota Warranty Terms']]
+      };
+      var key = /price|objection|discount/.test(q.toLowerCase())?'price': /trade|apprais/.test(q.toLowerCase())?'trade': /warrant|coverage|toyota/.test(q.toLowerCase())?'warranty': /review/.test(q.toLowerCase())?'review': /gap|f&i|product/.test(q.toLowerCase())?'gap':'price';
+      var ans=A[key];
+      $('aiansB').innerHTML=ans[0];
+      $('aiansSrc').innerHTML='<span style="font-size:11.5px;color:var(--muted);font-weight:600;align-self:center;">Sources:</span>'+ans[1].map(function(s){ return '<span class="s" onclick="openArt(\''+s.replace(/\x27/g,"")+'\')"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>'+s+'</span>'; }).join('');
+      $('aians').classList.add('show'); $('aians').scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+
+    function openArt(title){
+      var a=ARTS.find(function(x){return x.t===title;})||{cat:'Sales Guides',t:title,vid:false};
+      var c=CATC[a.cat]||'blue';
+      $('panel').innerHTML=''+
+      '<div class="panel-hd"><div><div class="acat c-'+c+'">'+a.cat+'</div><h2>'+a.t+'</h2></div><button class="panel-close" onclick="closePanel()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button></div>'+
+      '<div class="panel-body">'+
+        (a.vid?'<div class="vidbox"><div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div></div>':'')+
+        '<p>'+(a.d||'')+'</p>'+
+        '<h3>Overview</h3><p>This guide walks the team through the recommended approach step by step. Keep it consistent — a repeatable process is what separates top performers from the pack.</p>'+
+        '<h3>Key steps</h3><ul><li>Set the stage and build genuine rapport first.</li><li>Ask discovery questions before presenting anything.</li><li>Frame everything around value the customer cares about.</li><li>Confirm next steps and log the activity in the CRM.</li></ul>'+
+        '<h3>Tips from top reps</h3><p>Marcus recommends slowing down at the moment of tension — "the deal is won in the pause." Watch the linked training video for a live example.</p>'+
+        '<p style="color:var(--faint);font-size:12.5px;margin-top:18px;">AI can answer questions using this document — just ask in the search bar above.</p>'+
+      '</div>';
+      $('scrim').classList.add('show'); $('panel').classList.add('open');
+    }
+    function closePanel(){ $('scrim').classList.remove('show'); $('panel').classList.remove('open'); }
+
+    var tTimer; function toast(m){ $('toastMsg').textContent=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2000); }
+    document.addEventListener('DOMContentLoaded', function(){ renderPills(); renderArts(); $('scrim').addEventListener('click', closePanel); });
+  </script>
+</body>
+</html>

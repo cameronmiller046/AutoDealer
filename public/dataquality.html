@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Quality — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:360px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#e2f5fb; color:#0891b2; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; max-width:560px; }
+    .btn-primary { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; border-radius:11px; padding:11px 18px; font-size:13.5px; font-weight:600; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); } .btn-primary svg { width:16px; height:16px; }
+
+    .top{display:grid;grid-template-columns:300px 1fr;gap:18px;margin:22px 0;align-items:stretch;}
+    @media(max-width:900px){ .top{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .score{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px;text-align:center;}
+    .sring{width:150px;height:150px;border-radius:50%;display:flex;align-items:center;justify-content:center;} .sring .si{width:118px;height:118px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;} .sring .si b{font-size:38px;font-weight:900;letter-spacing:-2px;color:#16a34a;} .sring .si span{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;}
+    .score h3{font-size:15px;font-weight:800;margin-top:14px;} .score p{font-size:12.5px;color:var(--muted);margin-top:4px;}
+    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .kp{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:center;} .kp .kl{color:var(--muted);font-size:12px;} .kp .kv{font-size:26px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kd{font-size:11.5px;font-weight:700;margin-top:5px;color:var(--green);} .kp .kd.warn{color:var(--amber);}
+
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:22px 0 14px; }
+    .issue{display:flex;align-items:center;gap:14px;padding:16px 20px;border-top:1px solid var(--line);cursor:pointer;} .issue:first-child{border-top:none;} .issue:hover{background:#fafbff;}
+    .issue .ii{width:44px;height:44px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;} .issue .ii svg{width:22px;height:22px;}
+    .issue .im{flex:1;min-width:0;} .issue .im b{font-size:14.5px;font-weight:800;} .issue .im span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;}
+    .issue .cnt{font-size:22px;font-weight:900;letter-spacing:-1px;flex:none;} .issue .sev{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:4px 9px;border-radius:6px;flex:none;}
+    .sev-hi{background:#fdeaea;color:#dc2626;} .sev-md{background:#fdf0dc;color:#b7791f;} .sev-lo{background:#eef4ff;color:#2563eb;} .sev-ok{background:#e7f7ee;color:#16a34a;}
+    .fixbtn{border:none;border-radius:9px;padding:9px 15px;font-size:12.5px;font-weight:700;background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;flex:none;} .fixbtn.done{background:#e7f7ee;color:#16a34a;pointer-events:none;}
+    .i-red{background:#fdeaea;color:#dc2626;} .i-amber{background:#fdf0dc;color:#b7791f;} .i-blue{background:#eef4ff;color:#2563eb;} .i-purple{background:#f1eafe;color:#7c3aed;} .i-teal{background:#e2f5fb;color:#0891b2;} .i-green{background:#e7f7ee;color:#16a34a;}
+
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show{opacity:1;pointer-events:auto;}
+    .panel { position:fixed; top:0; right:0; bottom:0; width:500px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open{transform:none;}
+    .panel-hd { display:flex; align-items:center; gap:14px; padding:20px 22px; background:var(--card); border-bottom:1px solid var(--line); } .panel-hd .ii{width:44px;height:44px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;} .panel-hd .ii svg{width:22px;height:22px;} .panel-hd h2{font-size:17px;font-weight:800;} .panel-hd .pm{color:var(--muted);font-size:12.5px;margin-top:3px;} .panel-close{margin-left:auto;border:none;background:none;color:var(--muted);width:34px;height:34px;border-radius:9px;} .panel-close svg{width:18px;height:18px;}
+    .panel-body { overflow-y:auto; padding:18px 22px 20px; display:flex; flex-direction:column; gap:14px; }
+    .rec{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;} .rec.dupe{border-color:#f5c6c6;}
+    .rec .rt{display:flex;align-items:center;gap:11px;} .rec .av{width:34px;height:34px;border-radius:50%;flex:none;color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;} .rec .rn b{font-size:13.5px;font-weight:700;} .rec .rn span{display:block;font-size:11.5px;color:var(--muted);}
+    .rec .diff{margin-top:10px;font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;} .rec .diff .d{background:var(--bg);border-radius:6px;padding:3px 8px;} .rec .diff .d.miss{background:#fdeaea;color:#dc2626;}
+    .mergebtn{border:none;border-radius:10px;padding:11px;font-size:13.5px;font-weight:700;background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;width:100%;} .mergebtn.ghost{background:#fff;border:1px solid var(--line);color:var(--text);}
+    .fillrow{display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid var(--line);} .fillrow:first-child{border-top:none;} .fillrow .fa{width:30px;height:30px;border-radius:50%;flex:none;color:#fff;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;} .fillrow .fi{flex:1;} .fillrow .fi b{font-size:13px;font-weight:700;} .fillrow .fi span{display:block;font-size:11.5px;color:var(--red);} .fillrow .fb{border:1px solid var(--line);background:#fff;color:var(--accent);border-radius:8px;padding:6px 11px;font-size:12px;font-weight:700;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .kpis{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search records..." /></div>
+        <span class="role-badge">Data Quality</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>Data Quality Center</h1><p class="sub">AI continuously scans your CRM for duplicates, missing info, and broken automations — and fixes most of it in one click.</p></div>
+          <button class="btn-primary" onclick="fixAll()"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg>Auto-fix all safe issues</button>
+        </div>
+        <div class="top">
+          <div class="card score">
+            <div class="sring" id="sring"><div class="si"><b id="scoreV">88</b><span>Health</span></div></div>
+            <h3 id="scoreH">Good — a few things to clean up</h3><p>Fixing all issues would raise your score to 99.</p>
+          </div>
+          <div class="kpis">
+            <div class="kp"><div class="kl">Open Issues</div><div class="kv" id="kOpen">12</div><div class="kd warn">Across 8 types</div></div>
+            <div class="kp"><div class="kl">Auto-Fixable</div><div class="kv" id="kAuto">9</div><div class="kd">One-click safe</div></div>
+            <div class="kp"><div class="kl">Records Scanned</div><div class="kv">14,208</div><div class="kd">Updated 2m ago</div></div>
+            <div class="kp"><div class="kl">Duplicates Found</div><div class="kv">10</div><div class="kd warn">8 customers · 2 inventory</div></div>
+            <div class="kp"><div class="kl">Missing Fields</div><div class="kv">37</div><div class="kd warn">phone / email</div></div>
+            <div class="kp"><div class="kl">Fixed This Week</div><div class="kv">64</div><div class="kd">By you + AI</div></div>
+          </div>
+        </div>
+
+        <div class="sec-label">Detected Issues</div>
+        <div class="card"><div id="issues"></div></div>
+      </main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Fixed</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    function ini(n){ return n.split(' ').map(function(x){return x[0];}).slice(0,2).join('').toUpperCase(); }
+    function avc(s){ var c=['#3b82f6','#8b5cf6','#ec4899','#f59e0b','#10b981','#06b6d4']; var h=0; for(var i=0;i<s.length;i++) h=(h+s.charCodeAt(i))%c.length; return c[h]; }
+
+    var II={
+      dupe:'<ellipse cx="10" cy="7" rx="6" ry="2.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 7v5c0 1.3 2.7 2.3 6 2.3" fill="none" stroke="currentColor" stroke-width="1.6"/><ellipse cx="16" cy="15" rx="5" ry="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 15v3c0 1.1 2.2 2 5 2" fill="none" stroke="currentColor" stroke-width="1.6"/>',
+      car:'<path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
+      vin:'<rect x="4" y="7" width="16" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 10v4M10 10v4M13 10v4M16 10v4" stroke="currentColor" stroke-width="1.5"/>',
+      phone:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      mail:'<rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.6"/>',
+      lead:'<circle cx="9" cy="8" r="2.8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 18c0-3 2.5-4.6 5.5-4.6s5.5 1.6 5.5 4.6" fill="none" stroke="currentColor" stroke-width="1.6"/>',
+      auto:'<circle cx="6" cy="6" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="18" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 6h6a2 2 0 0 1 2 2v8" fill="none" stroke="currentColor" stroke-width="1.6"/>',
+      photo:'<rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 17l4-4 3 3 3-3 4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>'
+    };
+    var ISSUES=[
+      {id:'dup-c',ic:'dupe',tone:'red',t:'Duplicate customers',d:'Same person entered more than once',cnt:8,sev:'hi',sevl:'Merge',auto:true,kind:'dupe'},
+      {id:'miss-e',ic:'mail',tone:'amber',t:'Missing email addresses',d:'Customers with no email on file',cnt:23,sev:'md',sevl:'Enrich',auto:true,kind:'fill'},
+      {id:'miss-p',ic:'phone',tone:'amber',t:'Missing phone numbers',d:'Contacts we can\'t call or text',cnt:14,sev:'md',sevl:'Enrich',auto:true,kind:'fill'},
+      {id:'unassigned',ic:'lead',tone:'purple',t:'Unassigned leads',d:'New leads with no owner — SLA at risk',cnt:5,sev:'hi',sevl:'Assign',auto:true,kind:'assign'},
+      {id:'photos',ic:'photo',tone:'teal',t:'Inventory missing photos',d:'Vehicles with no listing photos',cnt:11,sev:'md',sevl:'Notify',auto:false,kind:'notify'},
+      {id:'dup-i',ic:'car',tone:'red',t:'Duplicate inventory',d:'Same VIN listed twice',cnt:2,sev:'hi',sevl:'Merge',auto:true,kind:'dupe'},
+      {id:'broken',ic:'auto',tone:'red',t:'Broken automations',d:'Workflows failing to run',cnt:2,sev:'hi',sevl:'Repair',auto:false,kind:'repair'},
+      {id:'vin',ic:'vin',tone:'amber',t:'Invalid VINs',d:'VIN fails checksum validation',cnt:1,sev:'md',sevl:'Review',auto:false,kind:'review'}
+    ];
+    function issueRow(x){
+      return '<div class="issue" onclick="openIssue(\''+x.id+'\')"><span class="ii i-'+x.tone+'"><svg viewBox="0 0 24 24">'+II[x.ic]+'</svg></span>'+
+        '<div class="im"><b>'+x.t+'</b><span>'+x.d+'</span></div>'+
+        '<span class="cnt" style="color:var(--'+(x.sev==='hi'?'red':x.sev==='md'?'amber':'accent')+')">'+x.cnt+'</span>'+
+        '<span class="sev sev-'+x.sev+'">'+(x.sev==='hi'?'High':'Medium')+'</span>'+
+        '<button class="fixbtn'+(x.cnt===0?' done':'')+'" onclick="event.stopPropagation();quickFix(\''+x.id+'\')">'+(x.cnt===0?'✓ Clear':x.sevl)+'</button></div>';
+    }
+    function renderIssues(){ $('issues').innerHTML=ISSUES.map(issueRow).join(''); var open=ISSUES.reduce(function(a,x){return a+x.cnt;},0); var auto=ISSUES.filter(function(x){return x.auto;}).reduce(function(a,x){return a+x.cnt;},0); $('kOpen').textContent=ISSUES.filter(function(x){return x.cnt>0;}).length; $('kAuto').textContent=ISSUES.filter(function(x){return x.auto;}).length; var score=Math.min(99,Math.round(99-open*0.9)); $('scoreV').textContent=score; $('sring').style.background='conic-gradient('+(score>=90?'#16a34a':'#d97706')+' '+(score*3.6)+'deg,#e9edf4 0)'; $('scoreH').textContent=score>=97?'Excellent — your data is clean':'Good — a few things to clean up'; }
+    function quickFix(id){ var x=ISSUES.find(function(i){return i.id===id;}); if(!x||x.cnt===0) return; if(!x.auto){ openIssue(id); return; } var n=x.cnt; x.cnt=0; renderIssues(); toast(x.sevl+'ed '+n+' · '+x.t.toLowerCase()); }
+    function fixAll(){ var total=0; ISSUES.forEach(function(x){ if(x.auto){ total+=x.cnt; x.cnt=0; } }); renderIssues(); toast('✓ Auto-fixed '+total+' safe issues'); }
+
+    var DUPES=[['Robert Chen','robert.chen@gmail.com · (555) 210-9981','Sold · Highlander'],['Rob Chen','r.chen@gmail.com · (555) 210-9981','Prospect · no vehicle']];
+    var FILLS=[['Kevin Ross','No email on file'],['Angela Ruiz','No email on file'],['Peter Novak','No phone number'],['Karen Liu','No email on file']];
+    function openIssue(id){
+      var x=ISSUES.find(function(i){return i.id===id;}); if(!x) return;
+      var body='';
+      if(x.kind==='dupe'){
+        body='<div style="font-size:13px;color:var(--muted);">AI matched these records with 96% confidence. Review and merge — the primary record\'s data is kept and gaps are filled from the duplicate.</div>'+
+          DUPES.map(function(d,i){ return '<div class="rec dupe"><div class="rt"><span class="av" style="background:'+avc(d[0])+'">'+ini(d[0])+'</span><div class="rn"><b>'+d[0]+(i===0?' <span style="font-size:10px;color:var(--green);font-weight:800;">PRIMARY</span>':'')+'</b><span>'+d[1]+'</span></div></div><div class="diff"><span class="d">'+d[2]+'</span></div></div>'; }).join('')+
+          '<button class="mergebtn" onclick="quickFix(\''+id+'\');closePanel();">Merge into primary record</button><button class="mergebtn ghost" onclick="closePanel()">Keep both</button>';
+      } else if(x.kind==='fill'){
+        body='<div style="font-size:13px;color:var(--muted);">These records are missing contact info. AI can enrich from public data + linked deals, or you can request it from the customer.</div><div class="rec">'+FILLS.map(function(f){ return '<div class="fillrow"><span class="fa" style="background:'+avc(f[0])+'">'+ini(f[0])+'</span><div class="fi"><b>'+f[0]+'</b><span>'+f[1]+'</span></div><button class="fb" onclick="toast(\'Enrichment requested\')">Enrich</button></div>'; }).join('')+'</div><button class="mergebtn" onclick="quickFix(\''+id+'\');closePanel();">Auto-enrich all '+x.cnt+'</button>';
+      } else {
+        body='<div class="rec"><div style="font-size:13.5px;line-height:1.6;color:#33445c;">'+(x.kind==='assign'?'5 new leads have no owner and are approaching the 5-minute SLA. Auto-assign by round-robin, or route to the BDC queue.':x.kind==='repair'?'2 automations are failing — the "After-hours auto-reply" workflow lost its SMS credential. Reconnect Twilio to repair.':x.kind==='notify'?'11 vehicles have no listing photos. Notify the lot team to shoot and upload — vehicles without photos get 5× fewer views.':'1 VIN failed checksum validation. Verify the VIN against the vehicle before it hits any listing site.')+'</div></div><button class="mergebtn" onclick="quickFix2(\''+id+'\')">'+x.sevl+' now</button>';
+      }
+      $('panel').innerHTML='<div class="panel-hd"><span class="ii i-'+x.tone+'"><svg viewBox="0 0 24 24">'+II[x.ic]+'</svg></span><div><h2>'+x.t+'</h2><div class="pm">'+x.cnt+' records affected</div></div><button class="panel-close" onclick="closePanel()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button></div><div class="panel-body">'+body+'</div>';
+      $('scrim').classList.add('show'); $('panel').classList.add('open');
+    }
+    function quickFix2(id){ var x=ISSUES.find(function(i){return i.id===id;}); var n=x.cnt; x.cnt=0; renderIssues(); closePanel(); toast(x.sevl+'ed '+n+' · '+x.t.toLowerCase()); }
+    function closePanel(){ $('scrim').classList.remove('show'); $('panel').classList.remove('open'); }
+
+    var tTimer; function toast(m){ $('toastMsg').textContent=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2000); }
+    document.addEventListener('DOMContentLoaded', function(){ renderIssues(); $('scrim').addEventListener('click', closePanel); });
+  </script>
+</body>
+</html>

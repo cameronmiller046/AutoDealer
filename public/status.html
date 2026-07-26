@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System Health — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:360px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#e7f7ee; color:#16a34a; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; }
+
+    .banner{display:flex;align-items:center;gap:16px;background:linear-gradient(120deg,#eefaf2,#fff);border:1px solid #cdeed9;border-radius:16px;padding:20px 24px;margin:22px 0;box-shadow:var(--shadow);}
+    .banner.degraded{background:linear-gradient(120deg,#fff8ee,#fff);border-color:#f5e0bf;}
+    .banner .bi{width:48px;height:48px;border-radius:14px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--green);color:#fff;} .banner.degraded .bi{background:var(--amber);} .banner .bi svg{width:26px;height:26px;}
+    .banner b{font-size:19px;font-weight:800;letter-spacing:-.4px;} .banner span{display:block;font-size:13px;color:var(--muted);margin-top:2px;}
+    .banner .up{margin-left:auto;text-align:right;flex:none;} .banner .up b{font-size:22px;font-weight:900;color:var(--green);} .banner .up span{font-size:11.5px;}
+
+    .grid { display:grid; grid-template-columns:1fr 340px; gap:18px; align-items:start; }
+    @media(max-width:1080px){ .grid{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; margin-bottom:18px; }
+    .card-h { display:flex; align-items:center; gap:10px; padding:15px 18px; border-bottom:1px solid var(--line); } .card-h h2{font-size:14.5px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);} .card-h .r{margin-left:auto;font-size:12px;color:var(--muted);font-weight:700;}
+
+    .svc{display:flex;align-items:center;gap:14px;padding:15px 18px;border-top:1px solid var(--line);} .svc:first-child{border-top:none;}
+    .svc .sd{width:10px;height:10px;border-radius:50%;flex:none;} .d-ok{background:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.15);} .d-warn{background:#d97706;box-shadow:0 0 0 3px rgba(217,119,6,.15);} .d-down{background:#dc2626;box-shadow:0 0 0 3px rgba(220,38,38,.15);}
+    .svc .sn{flex:1;min-width:0;} .svc .sn b{font-size:14px;font-weight:700;} .svc .sn span{display:block;font-size:11.5px;color:var(--muted);}
+    .svc .lat{font-variant-numeric:tabular-nums;font-size:12.5px;font-weight:700;color:var(--muted);flex:none;width:70px;text-align:right;}
+    .svc .bars{display:flex;gap:2px;flex:none;} .svc .bars i{width:3px;height:20px;border-radius:2px;background:#16a34a;} .svc .bars i.w{background:#d97706;} .svc .bars i.d{background:#dc2626;}
+    .svc .st{font-size:11px;font-weight:800;flex:none;width:74px;text-align:right;} .st-ok{color:#16a34a;} .st-warn{color:#d97706;} .st-down{color:#dc2626;}
+
+    .inc{display:flex;gap:12px;padding:14px 18px;border-top:1px solid var(--line);} .inc:first-child{border-top:none;} .inc .id{width:10px;height:10px;border-radius:50%;margin-top:4px;flex:none;} .inc .ix b{font-size:13.5px;font-weight:700;} .inc .ix p{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:2px;} .inc .ix .tm{font-size:11px;color:var(--faint);margin-top:4px;}
+
+    /* offline */
+    .off{padding:18px;} .offst{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;background:#eefaf2;border:1px solid #cdeed9;} .offst.offline{background:#fdeaea;border-color:#f5c6c6;} .offst .oi{width:38px;height:38px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--green);color:#fff;} .offst.offline .oi{background:var(--red);} .offst .oi svg{width:20px;height:20px;} .offst b{font-size:14px;font-weight:800;} .offst span{display:block;font-size:12px;color:var(--muted);}
+    .offcap{margin-top:14px;} .offcap .oc{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:13px;} .offcap .oc:first-child{border-top:none;} .offcap .oc svg{width:16px;height:16px;color:var(--green);flex:none;} .offcap .oc .sync{margin-left:auto;font-size:11px;font-weight:700;color:var(--muted);}
+    .queue{margin-top:14px;padding:12px 14px;border-radius:11px;background:var(--bg);font-size:12.5px;color:var(--muted);} .queue b{color:var(--text);}
+
+    .kp2{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);}
+    .kp2 .k{background:#fff;padding:14px 18px;} .kp2 .k .kl{font-size:11.5px;color:var(--muted);} .kp2 .k .kv{font-size:20px;font-weight:800;margin-top:2px;}
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search services..." /></div>
+        <span class="role-badge">System Health</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead"><h1>System Health</h1><p class="sub">Real-time status of every service that powers your dealership — plus offline &amp; sync.</p></div>
+
+        <div class="banner" id="banner">
+          <span class="bi"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div><b id="bTitle">All Systems Operational</b><span id="bSub">All 8 services running normally · no active incidents</span></div>
+          <div class="up"><b>99.98%</b><span>30-day uptime</span></div>
+        </div>
+
+        <div class="grid">
+          <div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><h2>Services</h2><span class="r" id="svcR">live</span></div><div id="svcs"></div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><h2>Recent Incidents</h2><span class="r">last 30 days</span></div><div id="incidents"></div></div>
+          </div>
+          <div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0M8.5 15a3.5 3.5 0 0 1 7 0M12 18v.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M3 8l18 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h2>Offline &amp; Sync</h2></div><div class="off">
+              <div class="offst" id="offst"><span class="oi" id="offi"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b id="offt">Online</b><span id="offs">Connected · everything syncing in real time</span></div></div>
+              <div class="offcap">
+                <div class="oc"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Customer lookup<span class="sync">cached</span></div>
+                <div class="oc"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Inventory browse<span class="sync">cached</span></div>
+                <div class="oc"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Appointments &amp; tasks<span class="sync">cached</span></div>
+                <div class="oc"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Notes &amp; photos<span class="sync">queued offline</span></div>
+              </div>
+              <div class="queue" id="queue"><b>0 changes</b> waiting to sync · last synced just now</div>
+            </div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h2>Capacity</h2></div><div class="kp2">
+              <div class="k"><div class="kl">Storage</div><div class="kv">42%</div></div>
+              <div class="k"><div class="kl">API quota</div><div class="kv">128K / 1M</div></div>
+              <div class="k"><div class="kl">Background jobs</div><div class="kv">All clear</div></div>
+              <div class="k"><div class="kl">Queue depth</div><div class="kv" id="qd">3</div></div>
+            </div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var SVCS=[
+      {n:'CRM Application',d:'Web & mobile app',base:38,st:'ok'},
+      {n:'API Gateway',d:'REST API · 128K calls today',base:42,st:'ok'},
+      {n:'Email Delivery',d:'SendGrid · 99.4% delivered',base:210,st:'ok'},
+      {n:'SMS / Telephony',d:'Twilio · texting & calls',base:96,st:'ok'},
+      {n:'Database Sync (CDK)',d:'DMS synchronization',base:340,st:'warn'},
+      {n:'Background Jobs',d:'Automations & reminders',base:12,st:'ok'},
+      {n:'Storage',d:'Documents & photos · 42% used',base:8,st:'ok'},
+      {n:'Integrations',d:'8 connected · all healthy',base:64,st:'ok'}
+    ];
+    function bars(st){ var s=''; for(var i=0;i<20;i++){ var cls=''; if(st==='warn'&&i>=17) cls='w'; if(st==='down'&&i>=16) cls='d'; s+='<i class="'+cls+'"></i>'; } return '<div class="bars">'+s+'</div>'; }
+    function renderSvcs(){
+      $('svcs').innerHTML=SVCS.map(function(s){ var stl=s.st==='ok'?'Operational':s.st==='warn'?'Degraded':'Down'; return '<div class="svc"><span class="sd d-'+s.st+'"></span><div class="sn"><b>'+s.n+'</b><span>'+s.d+'</span></div>'+bars(s.st)+'<span class="lat" data-base="'+s.base+'">'+s.base+'ms</span><span class="st st-'+s.st+'">'+stl+'</span></div>'; }).join('');
+    }
+    function jitter(){ document.querySelectorAll('.lat[data-base]').forEach(function(el){ var b=+el.getAttribute('data-base'); var v=Math.max(4,Math.round(b+(((el.textContent.length*7)%11)-5)+(Math.floor((Date.now()/1000)%7)-3))); el.textContent=v+'ms'; }); }
+
+    var INC=[
+      ['warn','DMS sync latency','CDK integration is running ~4 min behind. Auto-recovering — no data loss.','Ongoing · started 12 min ago'],
+      ['ok','Scheduled maintenance completed','Nightly backup and index rebuild finished successfully.','Yesterday 3:04 AM'],
+      ['ok','Email provider degradation resolved','Brief delivery delay from SendGrid cleared after 8 minutes.','Jul 22'],
+      ['ok','All systems nominal','No incidents.','Jul 20']
+    ];
+    function renderInc(){ $('incidents').innerHTML=INC.map(function(x){ var c=x[0]==='warn'?'#d97706':'#16a34a'; return '<div class="inc"><span class="id" style="background:'+c+'"></span><div class="ix"><b>'+x[1]+'</b><p>'+x[2]+'</p><div class="tm">'+x[3]+'</div></div></div>'; }).join(''); }
+
+    /* offline detection */
+    var pending=0;
+    function setOnline(on){
+      var el=$('offst');
+      if(on){ el.classList.remove('offline'); $('offi').innerHTML='<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'; $('offt').textContent='Online'; $('offs').textContent='Connected · everything syncing in real time';
+        if(pending){ $('queue').innerHTML='<b>Syncing '+pending+' changes…</b>'; setTimeout(function(){ pending=0; $('queue').innerHTML='<b>0 changes</b> waiting to sync · last synced just now'; $('qd').textContent='3'; },1400); } }
+      else { el.classList.add('offline'); $('offi').innerHTML='<svg viewBox="0 0 24 24"><path d="M3 3l18 18M8.5 15a3.5 3.5 0 0 1 5-1M5 12a7 7 0 0 1 3-2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>'; $('offt').textContent='Offline — still working'; $('offs').textContent='Changes are saved locally and will sync when you reconnect'; pending=4; $('queue').innerHTML='<b>'+pending+' changes</b> queued offline · will sync automatically'; $('qd').textContent=(3+pending)+''; }
+    }
+    window.addEventListener('online', function(){ setOnline(true); });
+    window.addEventListener('offline', function(){ setOnline(false); });
+
+    document.addEventListener('DOMContentLoaded', function(){ renderSvcs(); renderInc(); setOnline(navigator.onLine!==false); setInterval(jitter, 2500); });
+  </script>
+</body>
+</html>

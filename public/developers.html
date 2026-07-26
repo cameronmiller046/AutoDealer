@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Developer Platform — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --ink:#0f172a; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;} code,.mono{font-family:"JetBrains Mono",ui-monospace,monospace;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:360px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .sbx{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--muted);} .sbx .tog{width:38px;height:22px;border-radius:999px;background:#cbd5e1;position:relative;border:none;} .sbx .tog::after{content:"";position:absolute;top:2.5px;left:2.5px;width:17px;height:17px;border-radius:50%;background:#fff;transition:.15s;} .sbx .tog.on{background:var(--amber);} .sbx .tog.on::after{left:auto;right:2.5px;}
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#0f172a; color:#e2e8f0; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; max-width:560px; }
+    .btn-primary { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; border-radius:11px; padding:11px 18px; font-size:13.5px; font-weight:600; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); } .btn-primary svg { width:16px; height:16px; }
+
+    .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:13px; margin:22px 0; }
+    @media(max-width:900px){ .kpis{grid-template-columns:repeat(2,1fr);} }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:12px;} .kp .kv{font-size:23px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kd{font-size:11.5px;font-weight:700;margin-top:5px;color:var(--green);}
+
+    .grid { display:grid; grid-template-columns:1.35fr 1fr; gap:18px; align-items:start; }
+    @media(max-width:1080px){ .grid{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; margin-bottom:18px; }
+    .card-h { display:flex; align-items:center; gap:10px; padding:15px 18px; border-bottom:1px solid var(--line); } .card-h h2{font-size:14.5px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);} .card-h .add{margin-left:auto;border:1px solid var(--line);background:#fff;color:var(--accent);border-radius:9px;padding:7px 12px;font-size:12px;font-weight:700;} .card-h .add:hover{background:var(--accent-soft);}
+
+    /* keys */
+    .key{display:flex;align-items:center;gap:14px;padding:14px 18px;border-top:1px solid var(--line);} .key:first-child{border-top:none;}
+    .key .kn b{font-size:13.5px;font-weight:700;} .key .kn .kv2{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);margin-top:3px;} .key .km{margin-left:auto;text-align:right;flex:none;font-size:11.5px;color:var(--faint);} .key .env{font-size:10px;font-weight:800;text-transform:uppercase;padding:3px 8px;border-radius:6px;flex:none;} .env-live{background:#e7f7ee;color:#16a34a;} .env-test{background:#fdf0dc;color:#b7791f;}
+    .rev{border:1px solid #f3d0d0;background:#fff;color:var(--red);border-radius:8px;padding:6px 11px;font-size:11.5px;font-weight:700;flex:none;} .rev:hover{background:#fdeaea;}
+
+    /* endpoints */
+    .ep{border-top:1px solid var(--line);cursor:pointer;} .ep:first-child{border-top:none;}
+    .ep-h{display:flex;align-items:center;gap:12px;padding:13px 18px;} .ep-h:hover{background:#fafbff;}
+    .method{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;flex:none;width:52px;text-align:center;} .m-get{background:#e7f7ee;color:#16a34a;} .m-post{background:#eef4ff;color:#2563eb;} .m-put{background:#fdf0dc;color:#b7791f;} .m-del{background:#fdeaea;color:#dc2626;}
+    .ep-p{font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:600;flex:1;} .ep-d{font-size:12px;color:var(--muted);flex:none;} .ep-cv{color:var(--faint);flex:none;transition:.2s;} .ep.open .ep-cv{transform:rotate(90deg);}
+    .ep-body{display:none;padding:0 18px 16px;} .ep.open .ep-body{display:block;}
+    .code{background:#0f172a;border-radius:11px;padding:14px 16px;font-family:"JetBrains Mono",monospace;font-size:12.5px;line-height:1.65;color:#e2e8f0;overflow-x:auto;white-space:pre;} .code .k{color:#7dd3fc;} .code .s{color:#86efac;} .code .c{color:#64748b;}
+
+    /* webhooks */
+    .wh{display:flex;align-items:center;gap:12px;padding:13px 18px;border-top:1px solid var(--line);} .wh:first-child{border-top:none;} .wh .wd{width:9px;height:9px;border-radius:50%;flex:none;} .wh .wi{flex:1;min-width:0;} .wh .wi b{font-family:"JetBrains Mono",monospace;font-size:12.5px;font-weight:600;} .wh .wi span{display:block;font-size:11.5px;color:var(--muted);} .wh .wc{font-size:11px;font-weight:700;color:var(--green);flex:none;}
+
+    .foot{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;} .fl{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);cursor:pointer;} .fl:hover{border-color:#cfe0f7;} .fl .fi{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:10px;} .fl .fi svg{width:18px;height:18px;} .fl b{font-size:14px;font-weight:800;} .fl span{display:block;font-size:12px;color:var(--muted);margin-top:3px;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;}
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .foot{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search the API..." /></div>
+        <span class="sbx">Sandbox<button class="tog" id="sbxTog" onclick="this.classList.toggle('on');toast(this.classList.contains('on')?'Test mode ON':'Live mode')"></button></span>
+        <span class="role-badge">Developer Platform</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>Developer Platform</h1><p class="sub">Build on AutoDealer — a REST API, webhooks, an SDK, and a sandbox so partners can extend the platform.</p></div>
+          <button class="btn-primary" onclick="toast('New API key generated')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Create API Key</button>
+        </div>
+        <div class="kpis">
+          <div class="kp"><div class="kl">API Calls Today</div><div class="kv">128,402</div><div class="kd">▲ 12% vs yesterday</div></div>
+          <div class="kp"><div class="kl">Rate Limit</div><div class="kv">1,000<span style="font-size:13px;color:var(--muted)">/min</span></div><div class="kd">14% peak usage</div></div>
+          <div class="kp"><div class="kl">Active Keys</div><div class="kv">2</div><div class="kd">1 live · 1 test</div></div>
+          <div class="kp"><div class="kl">Webhooks</div><div class="kv">4</div><div class="kd">All delivering</div></div>
+        </div>
+
+        <div class="grid">
+          <div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13 5l-2 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><h2>API Reference</h2><span class="add" onclick="window.open('','_self');toast('Full docs opened')">Full docs ↗</span></div><div id="endpoints"></div></div>
+          </div>
+          <div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M10.5 10.5L20 20M17 17l-2 2 3 3 2-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><h2>API Keys</h2><button class="add" onclick="toast('New API key generated')">+ New</button></div><div id="keys"></div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 8-8M12 20a8 8 0 0 1-8-8M12 4v4M8 8l-3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="18" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><h2>Webhooks</h2><button class="add" onclick="toast('Add webhook endpoint')">+ Add</button></div><div id="webhooks"></div></div>
+          </div>
+        </div>
+
+        <div class="foot">
+          <div class="fl" onclick="toast('Opening SDK docs')"><div class="fi"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v4h4" stroke="currentColor" stroke-width="1.5"/></svg></div><b>SDKs & Libraries</b><span>JavaScript, Python, and Ruby clients</span></div>
+          <div class="fl" onclick="toast('Opening sandbox')"><div class="fi"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 9l-2 3 2 3M15 9l2 3-2 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div><b>Sandbox Environment</b><span>Test with fake data · reset anytime</span></div>
+          <div class="fl" onclick="location.href='/marketplace'"><div class="fi"><svg viewBox="0 0 24 24"><path d="M4 8h16l-1 3.5a2 2 0 0 1-2 1.5H7a2 2 0 0 1-2-1.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 13v7h12v-7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div><b>Extension Framework</b><span>Publish to the AutoDealer Marketplace</span></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast"><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var KEYS=[
+      ['Production Key','ad_live_51H•••••••••••8xQ2','live','Last used 2 min ago · created Jun 12'],
+      ['Test Key','ad_test_51H•••••••••••k9Lm','test','Last used 1 hr ago · created Jun 12']
+    ];
+    function renderKeys(){ $('keys').innerHTML=KEYS.map(function(k){ return '<div class="key"><div class="kn"><b>'+k[0]+'</b><div class="kv2">'+k[1]+'</div></div><span class="env env-'+k[2]+'">'+k[2]+'</span><button class="rev" onclick="toast(\''+k[0]+' revoked\')">Revoke</button></div>'; }).join(''); }
+
+    var EP=[
+      ['GET','get','/v1/customers','List customers','{\n  <span class="k">"data"</span>: [{ <span class="k">"id"</span>: <span class="s">"cus_4471"</span>, <span class="k">"name"</span>: <span class="s">"Sarah Whitfield"</span>, <span class="k">"phone"</span>: <span class="s">"+15552001180"</span> }],\n  <span class="k">"has_more"</span>: false\n}'],
+      ['POST','post','/v1/leads','Create a lead','<span class="c">// creates a lead and triggers routing rules</span>\ncurl -X POST https://api.autodealer.com/v1/leads \\\n  -H <span class="s">"Authorization: Bearer ad_live_..."</span> \\\n  -d <span class="s">\'{"name":"John Smith","source":"website","vehicle":"Silverado LT"}\'</span>'],
+      ['GET','get','/v1/inventory','Search inventory','GET /v1/inventory?make=Toyota&days_in_stock=gt:60\n<span class="c">// returns aged units with market pricing</span>'],
+      ['POST','post','/v1/appointments','Book an appointment','{ <span class="k">"customer_id"</span>: <span class="s">"cus_4471"</span>, <span class="k">"type"</span>: <span class="s">"delivery"</span>, <span class="k">"time"</span>: <span class="s">"2026-07-29T16:30:00Z"</span> }'],
+      ['PUT','put','/v1/deals/:id','Update a deal',''],
+      ['DELETE','del','/v1/webhooks/:id','Delete a webhook','']
+    ];
+    function renderEp(){ $('endpoints').innerHTML=EP.map(function(e,i){ return '<div class="ep" data-i="'+i+'"><div class="ep-h"><span class="method m-'+e[1]+'">'+e[0]+'</span><span class="ep-p">'+e[2]+'</span><span class="ep-d">'+e[3]+'</span><svg class="ep-cv" viewBox="0 0 24 24" width="16" height="16"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'+(e[4]?'<div class="ep-body"><div class="code">'+e[4]+'</div></div>':'')+'</div>'; }).join('');
+      $('endpoints').querySelectorAll('.ep').forEach(function(el){ el.querySelector('.ep-h').addEventListener('click', function(){ el.classList.toggle('open'); }); }); }
+
+    var WH=[
+      ['customer.created','https://hooks.mydealer.com/ad','#16a34a','Active'],
+      ['deal.approved','https://hooks.mydealer.com/deals','#16a34a','Active'],
+      ['appointment.confirmed','https://zapier.com/hooks/•••','#16a34a','Active'],
+      ['inventory.updated','https://hooks.mydealer.com/inv','#16a34a','Active']
+    ];
+    function renderWh(){ $('webhooks').innerHTML=WH.map(function(w){ return '<div class="wh"><span class="wd" style="background:'+w[2]+'"></span><div class="wi"><b>'+w[0]+'</b><span>'+w[1]+'</span></div><span class="wc">'+w[3]+'</span></div>'; }).join(''); }
+
+    var tTimer; function toast(m){ $('toastMsg').textContent=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2000); }
+    document.addEventListener('DOMContentLoaded', function(){ renderKeys(); renderEp(); renderWh(); });
+  </script>
+</body>
+</html>

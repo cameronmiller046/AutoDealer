@@ -44,7 +44,12 @@
     referrals:'<circle cx="7" cy="8" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 18c0-2.6 2-4.2 4.5-4.2s4.5 1.6 4.5 4.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M16 6l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.5 12.5a3 3 0 1 1 3 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
     aimanager:'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 11.5l1.8 1.8 3.2-3.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
     bell:'<path d="M12 3a6 6 0 0 0-6 6c0 4-2 6-2 6h16s-2-2-2-6a6 6 0 0 0-6-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 20a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7"/>',
-    chat:'<path d="M4 5.5h16v10H10l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'
+    chat:'<path d="M4 5.5h16v10H10l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+    knowledge:'<path d="M5 4h9a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M17 7a3 3 0 0 1 3-3v13.5a2.5 2.5 0 0 0-2.5-2.5H17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+    dataquality:'<ellipse cx="12" cy="6" rx="7" ry="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 6v6c0 1.4 3.1 2.6 7 2.6M19 6v4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M14.5 18l2 2 4-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+    status:'<rect x="3.5" y="4" width="17" height="6" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="3.5" y="14" width="17" height="6" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7" cy="7" r="1" fill="currentColor"/><circle cx="7" cy="17" r="1" fill="currentColor"/>',
+    developers:'<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13 5l-2 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+    stores:'<path d="M4 9l1.4-3.6A1 1 0 0 1 6.3 5h11.4a1 1 0 0 1 .9.6L20 9M4 9h16M4 9v10h16V9M4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>'
   };
   function svg(k){ return '<svg viewBox="0 0 24 24">'+(IC[k]||'')+'</svg>'; }
 
@@ -74,6 +79,7 @@
         {label:'Training', href:'/training', icon:'training', badge:'2'},
         {label:'My Reviews', href:'/reviews', icon:'reviews'},
         {label:'e-Signature', href:'/signing', icon:'signing'},
+        {label:'Knowledge', href:'/knowledge', icon:'knowledge'},
         {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
         {label:'Settings', href:'/settings', icon:'settings'}
       ]
@@ -114,6 +120,11 @@
         {label:'Customer Portal', href:'/portal', icon:'portal', tag:'Preview'},
         {label:'Document Center', href:'/documents', icon:'documents'},
         {label:'Automation Builder', href:'/automations', icon:'automations'},
+        {label:'Knowledge Center', href:'/knowledge', icon:'knowledge'},
+        {label:'Data Quality', href:'/dataquality', icon:'dataquality', badge:'12'},
+        {label:'System Health', href:'/status', icon:'status'},
+        {label:'Multi-Store', href:'/stores', icon:'stores'},
+        {label:'Developer Platform', href:'/developers', icon:'developers'},
         {label:'CRM Administration', href:'/admin', icon:'admin'},
         {label:'Marketplace', href:'/marketplace', icon:'marketplace'},
         {label:'Data Migration', href:'/migration', icon:'migrate'},
@@ -134,6 +145,7 @@
         {label:'Inventory Lookup', href:'/inventory', icon:'inventory'},
         {label:'Visitor Check-In', href:'/checkin', icon:'checkin', badge:'2'},
         {label:'Training', href:'/training', icon:'training', badge:'1'},
+        {label:'Knowledge', href:'/knowledge', icon:'knowledge'},
         {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
         {label:'Settings', href:'/settings', icon:'settings'}
       ]
@@ -150,6 +162,7 @@
         {label:'Customers', href:'/customers', icon:'customers'},
         {label:'Inventory', href:'/inventory', icon:'inventory', tag:'View-only'},
         {label:'Reports', href:'/reports', icon:'reports'},
+        {label:'Knowledge', href:'/knowledge', icon:'knowledge'},
         {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
         {label:'Settings', href:'/settings', icon:'settings'}
       ]
@@ -167,6 +180,7 @@
         {label:'Communications', href:'/communications', icon:'comms'},
         {label:'Team Chat', href:'/chat', icon:'chat', badge:'2'},
         {label:'Reports', href:'/reports', icon:'reports'},
+        {label:'Knowledge', href:'/knowledge', icon:'knowledge'},
         {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
         {label:'Settings', href:'/settings', icon:'settings'}
       ]
@@ -186,6 +200,11 @@
         {label:'Reports', href:'/reports', icon:'reports'},
         {label:'Employees', href:'/team', icon:'team'},
         {label:'Team Chat', href:'/chat', icon:'chat', badge:'2'},
+        {label:'Multi-Store', href:'/stores', icon:'stores'},
+        {label:'Knowledge Center', href:'/knowledge', icon:'knowledge'},
+        {label:'Data Quality', href:'/dataquality', icon:'dataquality', badge:'12'},
+        {label:'System Health', href:'/status', icon:'status'},
+        {label:'Developer Platform', href:'/developers', icon:'developers'},
         {label:'CRM Administration', href:'/admin', icon:'admin'},
         {label:'Settings', href:'/settings', icon:'settings'}
       ]
@@ -203,7 +222,7 @@
   ];
 
   /* Every known in-app route. Anything here that is NOT in the active role's nav is blocked. */
-  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing','/showroom','/training','/analytics','/invintel','/service','/whiteboard','/marketplace','/referrals','/aimanager','/chat','/bdc','/finance','/gm','/settings'];
+  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing','/showroom','/training','/analytics','/invintel','/service','/whiteboard','/marketplace','/referrals','/aimanager','/chat','/bdc','/finance','/gm','/settings','/knowledge','/dataquality','/status','/developers','/stores'];
 
   function getRole(){ var r = localStorage.getItem('ad_role'); return ROLES[r] ? r : 'salesperson'; }
   function cfg(){ return ROLES[getRole()]; }

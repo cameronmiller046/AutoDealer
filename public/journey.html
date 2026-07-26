@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Journey — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --purple:#7c3aed; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .crumb{font-size:13px;color:var(--muted);font-weight:600;} .crumb b{color:var(--text);}
+    .tsearch { flex:1; max-width:300px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); margin-left:auto;} .tsearch svg{width:17px;height:17px;} .tsearch input{border:none;background:none;outline:none;width:100%;font-size:13.5px;}
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#f1eafe; color:#7c3aed; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; }
+    .content { padding:26px 30px 60px; }
+
+    /* customer header */
+    .chero{display:flex;align-items:center;gap:18px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 24px;box-shadow:var(--shadow);flex-wrap:wrap;}
+    .chero .av{width:60px;height:60px;border-radius:50%;flex:none;background:linear-gradient(150deg,#f472b6,#db2777);color:#fff;font-weight:800;font-size:22px;display:flex;align-items:center;justify-content:center;}
+    .chero h1{font-size:22px;font-weight:800;letter-spacing:-.4px;} .chero .csub{color:var(--muted);font-size:13.5px;margin-top:3px;}
+    .chero .cstats{display:flex;gap:28px;margin-left:auto;flex-wrap:wrap;} .chero .cstats b{font-size:20px;font-weight:900;display:block;} .chero .cstats span{font-size:11.5px;color:var(--muted);font-weight:600;}
+
+    /* journey rail (horizontal) */
+    .jwrap{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);margin-top:18px;padding:24px 20px 20px;overflow-x:auto;}
+    .jrail{display:flex;min-width:900px;position:relative;}
+    .jstage{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;cursor:pointer;padding:0 4px;}
+    .jstage .line{position:absolute;top:22px;left:50%;right:-50%;height:3px;background:#e9edf4;z-index:0;} .jstage.done .line{background:#16a34a;} .jstage.cur .line{background:linear-gradient(90deg,#16a34a,#e9edf4);} .jstage:last-child .line{display:none;}
+    .jstage .node{width:46px;height:46px;border-radius:50%;background:#f1f4f9;border:2px solid #e2e8f2;display:flex;align-items:center;justify-content:center;color:#94a3b8;z-index:1;transition:.15s;} .jstage .node svg{width:22px;height:22px;}
+    .jstage.done .node{background:#16a34a;border-color:#16a34a;color:#fff;} .jstage.cur .node{background:#fff;border-color:#2563eb;color:#2563eb;box-shadow:0 0 0 5px var(--accent-soft);}
+    .jstage:hover .node{transform:scale(1.08);}
+    .jstage.sel .node{box-shadow:0 0 0 5px rgba(124,58,237,.18);border-color:#7c3aed;}
+    .jstage .jl{font-size:12px;font-weight:700;margin-top:9px;color:var(--muted);} .jstage.done .jl,.jstage.cur .jl{color:var(--text);}
+    .jstage .jd{font-size:10.5px;color:var(--faint);margin-top:2px;}
+
+    .grid { display:grid; grid-template-columns:1fr 330px; gap:18px; align-items:start; margin-top:18px; }
+    @media(max-width:1080px){ .grid{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .card-h { display:flex; align-items:center; gap:10px; padding:15px 18px; border-bottom:1px solid var(--line); } .card-h h2{font-size:14.5px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);}
+    /* stage detail */
+    .sdetail{padding:20px;}
+    .sdetail .sdh{display:flex;align-items:center;gap:13px;margin-bottom:16px;} .sdetail .sdi{width:46px;height:46px;border-radius:13px;flex:none;display:flex;align-items:center;justify-content:center;} .sdetail .sdi svg{width:23px;height:23px;} .sdetail .sdt b{font-size:17px;font-weight:800;} .sdetail .sdt span{display:block;font-size:12.5px;color:var(--muted);}
+    .stat-badge{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:4px 9px;border-radius:6px;margin-left:auto;} .b-done{background:#e7f7ee;color:#16a34a;} .b-cur{background:#eef4ff;color:#2563eb;} .b-fut{background:#eef1f6;color:#94a3b8;}
+    .tevent{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line);} .tevent:first-child{border-top:none;} .tevent .td{width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:4px;flex:none;} .tevent .tx b{font-size:13.5px;font-weight:700;} .tevent .tx p{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:2px;} .tevent .tx .tm{font-size:11px;color:var(--faint);margin-top:3px;}
+    .nextbox{background:var(--accent-soft);border:1px solid #d7e6fc;border-radius:12px;padding:14px;font-size:13.5px;line-height:1.55;color:#1e3a5f;margin-top:6px;} .nextbox b{color:#0f2f5f;}
+
+    /* right rail */
+    .rr-stat{display:flex;align-items:center;gap:12px;padding:13px 18px;border-top:1px solid var(--line);} .rr-stat:first-child{border-top:none;} .rr-stat .ri{width:34px;height:34px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);color:var(--accent);} .rr-stat .ri svg{width:17px;height:17px;} .rr-stat .rx{flex:1;} .rr-stat .rx b{font-size:14px;font-weight:800;} .rr-stat .rx span{display:block;font-size:11.5px;color:var(--muted);}
+    .touch{display:flex;align-items:center;gap:10px;padding:10px 18px;border-top:1px solid var(--line);font-size:12.5px;} .touch:first-child{border-top:none;} .touch .ti{width:26px;height:26px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;} .touch .ti svg{width:14px;height:14px;} .touch b{font-weight:700;} .touch .cnt{margin-left:auto;font-weight:800;color:var(--muted);}
+    .i-green{background:#e7f7ee;color:#16a34a;} .i-blue{background:#eef4ff;color:#2563eb;} .i-teal{background:#e2f5fb;color:#0891b2;} .i-purple{background:#f1eafe;color:#7c3aed;} .i-amber{background:#fdf0dc;color:#b7791f;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;}
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <a class="crumb" href="/customers">Customers</a><span class="crumb">/ <b id="crumbName">Sarah Whitfield</b> / Journey</span>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search..." /></div>
+        <span class="role-badge">Customer Journey</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content">
+        <div class="chero">
+          <span class="av">SW</span>
+          <div><h1>Sarah Whitfield</h1><div class="csub">2025 Toyota Highlander Platinum · Deal #D-4471 · Advisor: Marcus Bell</div></div>
+          <div class="cstats"><div><b>428</b><span>Days as customer</span></div><div><b>2</b><span>Vehicles bought</span></div><div><b>$71,340</b><span>Lifetime value</span></div><div><b style="color:#16a34a">Happy</b><span>Sentiment</span></div></div>
+        </div>
+
+        <div class="jwrap"><div class="jrail" id="jrail"></div></div>
+
+        <div class="grid">
+          <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><h2>Stage Detail</h2></div><div class="sdetail" id="sdetail"></div></div>
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M4 16l5-5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><h2>Journey Metrics</h2></div><div id="metrics"></div></div>
+            <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><h2>Touchpoints</h2></div><div id="touch"></div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast"><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var SI={
+      lead:'<circle cx="9" cy="8" r="2.6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 18c0-3 2.5-4.6 5.5-4.6s5.5 1.6 5.5 4.6" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      call:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      appt:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      drive:'<path d="M5 8l7-4 7 4v8l-7 4-7-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      nego:'<path d="M12 3v18M8 7h6a2.5 2.5 0 0 1 0 5H9a2.5 2.5 0 0 0 0 5h7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+      finance:'<path d="M4 7h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 12h16" stroke="currentColor" stroke-width="1.6"/>',
+      deliver:'<path d="M5 8l7-4 7 4v8l-7 4-7-4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 11l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+      service:'<path d="M14.5 5.5a3.5 3.5 0 0 1-4.6 4.6L5 15l2 2 4.9-4.9a3.5 3.5 0 0 0 4.6-4.6l-2.2 2.2-1.8-1.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      warranty:'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      trade:'<path d="M4 8h13l-3-3M20 16H7l3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+      repeat:'<path d="M4 4v6h6M20 20v-6h-6M20 9a8 8 0 0 0-14-3M4 15a8 8 0 0 0 14 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>'
+    };
+    var STAGES=[
+      {k:'lead',l:'Lead',d:'Jul 8',st:'done',tone:'green',events:[['Website lead captured','Requested a quote on a 2025 Highlander','Jul 8 · 2:14 PM']],next:''},
+      {k:'call',l:'Call',d:'Jul 8',st:'done',tone:'green',events:[['First contact call','Marcus reached out in 3 minutes — great speed to lead','Jul 8 · 2:17 PM']],next:''},
+      {k:'appt',l:'Appointment',d:'Jul 10',st:'done',tone:'green',events:[['Appointment set','Booked a Saturday test drive','Jul 8 · 2:22 PM'],['Confirmed','Reminder text confirmed','Jul 9']],next:''},
+      {k:'drive',l:'Test Drive',d:'Jul 10',st:'done',tone:'green',events:[['Test drive completed','Loved the Platinum trim & panoramic roof','Jul 10 · 11:00 AM']],next:''},
+      {k:'nego',l:'Negotiation',d:'Jul 12',st:'done',tone:'green',events:[['Trade appraised','2019 RAV4 · $21,400 equity','Jul 12'],['Numbers agreed','$548/mo · 72mo','Jul 12']],next:''},
+      {k:'finance',l:'Finance',d:'Jul 14',st:'cur',tone:'blue',events:[['Credit approved','Chase Auto @ 6.4%','Jul 14'],['Contract e-signed','Retail installment signed','Jul 22'],['Insurance verification','Awaiting proof of insurance','Pending']],next:'Two documents from delivery — just needs proof of insurance. AI has drafted the request.'},
+      {k:'deliver',l:'Delivery',d:'Jul 29',st:'fut',tone:'amber',events:[['Delivery scheduled','Tentative · Jul 29 4:30 PM','Upcoming']],next:'Confirm the delivery time to lock it in — orientation + first-tank-full walkthrough.'},
+      {k:'service',l:'First Service',d:'~Oct',st:'fut',tone:'teal',events:[['First service due','~5,000 mi / 6 months','Projected Oct']],next:'Enroll in ToyotaCare reminders to protect service retention.'},
+      {k:'warranty',l:'Warranty',d:'Ongoing',st:'fut',tone:'purple',events:[['Coverage active','Basic 36/36k · Powertrain 60/60k','From delivery']],next:''},
+      {k:'trade',l:'Trade',d:'~2028',st:'fut',tone:'amber',events:[['Equity milestone','AI will flag when positive equity returns','Projected 2028']],next:'AI Equity Mining will surface the upgrade opportunity automatically.'},
+      {k:'repeat',l:'Repeat',d:'Future',st:'fut',tone:'green',events:[['Repeat purchase','2nd vehicle from Premier — loyalty loop','Goal']],next:'Referral + review requests keep Sarah in the family.'}
+    ];
+    var TONEC={green:'i-green',blue:'i-blue',teal:'i-teal',purple:'i-purple',amber:'i-amber'};
+    var sel=5;
+    function renderRail(){
+      $('jrail').innerHTML=STAGES.map(function(s,i){ return '<div class="jstage '+s.st+(i===sel?' sel':'')+'" data-i="'+i+'"><span class="line"></span><span class="node">'+(s.st==='done'?'<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>':'<svg viewBox="0 0 24 24">'+SI[s.k]+'</svg>')+'</span><span class="jl">'+s.l+'</span><span class="jd">'+s.d+'</span></div>'; }).join('');
+      $('jrail').querySelectorAll('.jstage').forEach(function(el){ el.addEventListener('click', function(){ sel=+el.getAttribute('data-i'); renderRail(); renderDetail(); }); });
+    }
+    function renderDetail(){
+      var s=STAGES[sel]; var stl=s.st==='done'?['b-done','Completed']:s.st==='cur'?['b-cur','In Progress']:['b-fut','Upcoming'];
+      $('sdetail').innerHTML=''+
+        '<div class="sdh"><span class="sdi '+TONEC[s.tone]+'"><svg viewBox="0 0 24 24">'+SI[s.k]+'</svg></span><div class="sdt"><b>'+s.l+'</b><span>'+s.d+'</span></div><span class="stat-badge '+stl[0]+'">'+stl[1]+'</span></div>'+
+        s.events.map(function(e){ return '<div class="tevent"><span class="td"></span><div class="tx"><b>'+e[0]+'</b><p>'+e[1]+'</p><div class="tm">'+e[2]+'</div></div></div>'; }).join('')+
+        (s.next?'<div class="nextbox"><b>Next best action:</b> '+s.next+'</div>':'');
+    }
+    function renderMetrics(){
+      var M=[['drive','12 touchpoints','Across the full journey','i-blue'],['appt','428 days','As a customer','i-green'],['finance','$71,340','Lifetime value','i-purple'],['repeat','2 purchases','Repeat buyer','i-amber']];
+      $('metrics').innerHTML=M.map(function(m){ return '<div class="rr-stat"><span class="ri '+m[3]+'"><svg viewBox="0 0 24 24">'+SI[m[0]]+'</svg></span><div class="rx"><b>'+m[1]+'</b><span>'+m[2]+'</span></div></div>'; }).join(''); }
+    function renderTouch(){
+      var T=[['call','Calls','i-green',6],['appt','Appointments','i-blue',3],['drive','Test drives','i-teal',1],['finance','Documents','i-purple',9],['service','Service visits','i-amber',2]];
+      $('touch').innerHTML=T.map(function(t){ return '<div class="touch"><span class="ti '+t[2]+'"><svg viewBox="0 0 24 24">'+SI[t[0]]+'</svg></span><b>'+t[1]+'</b><span class="cnt">'+t[3]+'</span></div>'; }).join(''); }
+
+    var tTimer; function toast(m){ $('toastMsg').textContent=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2000); }
+    document.addEventListener('DOMContentLoaded', function(){ renderRail(); renderDetail(); renderMetrics(); renderTouch(); });
+  </script>
+</body>
+</html>

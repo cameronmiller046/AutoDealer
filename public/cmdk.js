@@ -39,7 +39,8 @@
     ['Customer Sentiment','/sentiment'],['Service Retention','/service'],['Referral Center','/referrals'],['Customer Portal','/portal'],
     ['Document Center','/documents'],['Automation Builder','/automations'],['Marketplace','/marketplace'],['Data Migration','/migration'],
     ['CRM Health','/health'],['Notifications','/notifications'],['Help & Feedback','/feedback'],['Admin Center','/admin'],['Settings','/settings'],
-    ['Finance Dashboard','/finance'],['BDC Dashboard','/bdc']
+    ['Finance Dashboard','/finance'],['BDC Dashboard','/bdc'],['Knowledge Center','/knowledge'],['Data Quality Center','/dataquality'],
+    ['System Health','/status'],['Developer Platform','/developers'],['Multi-Store Management','/stores'],['Customer Journey','/journey']
   ];
   var CUSTOMERS = [
     ['John Smith','Silverado LT · (555) 200-1180','#3b82f6'],['Sarah Whitfield','2025 Highlander · Deal #D-4471','#db2777'],
