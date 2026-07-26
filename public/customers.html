@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customers — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #f6f8fb; --card: #ffffff; --sidebar: #0a1628; --sidebar-2: #071120;
+      --text: #16202e; --muted: #6b7a90; --faint: #97a4b6; --line: #eef1f6;
+      --accent: #2563eb; --accent-2: #3b82f6; --accent-soft: #eef4ff;
+      --shadow: 0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28);
+      --radius: 16px;
+    }
+    * { margin: 0; box-sizing: border-box; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 14px; }
+    a { color: inherit; text-decoration: none; } button { font: inherit; cursor: pointer; }
+    .shell { display: grid; grid-template-columns: 244px 1fr; min-height: 100vh; }
+
+    .sidebar { background: linear-gradient(180deg, var(--sidebar), var(--sidebar-2)); color: #c7d4e6; padding: 22px 14px 18px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+    .brand { display: flex; flex-direction: column; align-items: flex-start; padding: 4px 8px 26px; }
+    .brand .sw { width: 108px; height: 9px; margin-bottom: 4px; } .brand .wm { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; color: #fff; } .brand .wm b { color: #2b8fff; }
+    .nav { display: flex; flex-direction: column; gap: 3px; }
+    .nav a { display: flex; align-items: center; gap: 13px; padding: 11px 14px; border-radius: 11px; color: #aebdd2; font-size: 14.5px; font-weight: 500; }
+    .nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav a.on { background: var(--accent); color: #fff; font-weight: 600; box-shadow: 0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width: 19px; height: 19px; flex: none; }
+    .nav a .nb { margin-left: auto; background: rgba(255,255,255,0.12); color: #dbe7f7; font-size: 11px; font-weight: 700; min-width: 20px; height: 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 0 6px; }
+    .nav a.on .nb { background: rgba(255,255,255,0.25); color: #fff; }
+    .side-user { margin-top: auto; display: flex; align-items: center; gap: 11px; padding: 14px 8px 4px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width: 38px; height: 38px; border-radius: 50%; flex: none; background: linear-gradient(135deg,#3f9bff,#0b57b8); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+    .side-user .meta b { color: #fff; font-size: 13.5px; font-weight: 600; display: block; } .side-user .meta span { color: #8698b0; font-size: 11.5px; }
+    .side-user .chev { margin-left: auto; color: #7e90a8; width: 14px; height: 14px; }
+
+    .main { min-width: 0; display: flex; flex-direction: column; }
+    .topbar { position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.85); backdrop-filter: saturate(180%) blur(8px); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 18px; padding: 12px 30px; }
+    .hamb { border: none; background: none; color: var(--muted); width: 36px; height: 36px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; } .hamb:hover { background: var(--bg); } .hamb svg { width: 20px; height: 20px; }
+    .tsearch { flex: 1; max-width: 460px; display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 11px; padding: 11px 14px; color: var(--muted); }
+    .tsearch svg { width: 17px; height: 17px; flex: none; } .tsearch input { border: none; background: none; outline: none; width: 100%; font-size: 13.5px; color: var(--text); }
+    .kbd { border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 11px; color: var(--faint); background: #fff; }
+    .quick-add { display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 11px; padding: 11px 18px; font-size: 14px; font-weight: 600; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .quick-add:hover { filter: brightness(1.06); }
+    .tb-icons { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+    .ib { position: relative; border: none; background: none; color: var(--muted); width: 40px; height: 40px; border-radius: 11px; display: inline-flex; align-items: center; justify-content: center; } .ib:hover { background: var(--bg); color: var(--accent); } .ib svg { width: 21px; height: 21px; }
+    .ib .dot { position: absolute; top: 6px; right: 7px; min-width: 16px; height: 16px; border-radius: 8px; background: #ef4444; color: #fff; font-size: 9.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+    .tb-avatar { width: 40px; height: 40px; border-radius: 50%; margin-left: 8px; position: relative; } .tb-avatar::after { content: ""; position: absolute; bottom: 1px; right: 1px; width: 10px; height: 10px; border-radius: 50%; background: #22c55e; border: 2px solid #fff; }
+    .tb-avatar .av { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #3f9bff, #0b57b8); color: #fff; font-weight: 700; }
+
+    .content { padding: 26px 30px 60px; }
+    .phead { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .phead h1 { font-size: 27px; font-weight: 800; letter-spacing: -0.6px; } .phead .sub { color: var(--muted); font-size: 14.5px; margin-top: 6px; }
+    .add-btn { display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 11px; padding: 12px 20px; font-size: 14.5px; font-weight: 600; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .add-btn:hover { filter: brightness(1.06); } .add-btn svg { width: 16px; height: 16px; }
+
+    /* relationship summary */
+    .rsum { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; margin: 22px 0; }
+    .rs { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 15px 16px; box-shadow: var(--shadow); cursor: pointer; transition: border-color 0.15s, transform 0.15s; }
+    .rs:hover { border-color: #cfe0f7; transform: translateY(-2px); } .rs.active { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .rs .rs-ic { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; } .rs .rs-ic svg { width: 17px; height: 17px; }
+    .ic-blue { background: #eaf1fe; color: #2563eb; } .ic-amber { background: #fdf0dc; color: #ea8a0b; } .ic-pink { background: #fdeaf3; color: #db2777; } .ic-purple { background: #f1eafe; color: #7c3aed; } .ic-teal { background: #e2f5fb; color: #0891b2; } .ic-green { background: #e7f7ee; color: #16a34a; } .ic-indigo { background: #eef0fe; color: #6366f1; }
+    .rs .rs-v { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; } .rs .rs-l { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+    .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+    .psearch { flex: 1; min-width: 260px; display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 11px 15px; box-shadow: var(--shadow); }
+    .psearch svg { width: 17px; height: 17px; color: var(--muted); flex: none; } .psearch input { border: none; outline: none; width: 100%; font-size: 14px; color: var(--text); background: none; }
+    .tb-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 11px 16px; font-size: 13.5px; font-weight: 600; box-shadow: var(--shadow); color: var(--text); } .tb-btn:hover { border-color: #cfe0f7; color: var(--accent); } .tb-btn svg { width: 16px; height: 16px; }
+    .views { position: relative; }
+    .views-menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 25; background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 6px; width: 220px; display: none; }
+    .views-menu.open { display: block; }
+    .views-menu button { display: flex; width: 100%; align-items: center; gap: 9px; padding: 9px 11px; border: none; background: none; border-radius: 8px; font-size: 13.5px; color: var(--text); text-align: left; } .views-menu button:hover { background: var(--accent-soft); color: var(--accent); }
+
+    .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .pill { border: 1px solid var(--line); background: var(--card); color: var(--muted); border-radius: 999px; padding: 8px 15px; font-size: 13px; font-weight: 600; box-shadow: 0 1px 2px rgba(16,32,60,0.03); } .pill:hover { color: var(--text); border-color: #cfe0f7; } .pill.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .list-head { display: grid; grid-template-columns: 2fr 1.5fr 1fr 1fr 1.2fr 1.2fr 1fr; gap: 14px; padding: 4px 20px 10px; font-size: 11px; color: var(--faint); font-weight: 600; letter-spacing: 0.4px; }
+    .list { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .cc { display: grid; grid-template-columns: 2fr 1.5fr 1fr 1fr 1.2fr 1.2fr 1fr; gap: 14px; align-items: center; padding: 15px 20px; border-top: 1px solid var(--line); position: relative; cursor: pointer; }
+    .cc:first-child { border-top: none; } .cc:hover { background: #fafbff; }
+    .cust { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .av-sm { width: 40px; height: 40px; border-radius: 50%; flex: none; color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .cust b { font-weight: 600; display: flex; align-items: center; gap: 7px; } .vip { background: linear-gradient(180deg,#fef3c7,#fde68a); color: #92600a; font-size: 9.5px; font-weight: 800; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 5px; }
+    .cust .stars-sm { font-size: 11px; margin-top: 2px; }
+    .stars { color: #f5b638; letter-spacing: 1px; } .stars .off { color: #dfe4ec; }
+    .veh b { font-weight: 600; display: block; } .veh span { color: var(--muted); font-size: 12px; }
+    .muted-2 { color: var(--muted); font-size: 13px; }
+    .opp { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--accent); } .opp svg { width: 14px; height: 14px; }
+    .svc { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; } .svc::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--sd); } .svc.ok { --sd:#16a34a; color: #16a34a; } .svc.due { --sd:#ea8a0b; color: #b45309; } .svc.warn { --sd:#dc2626; color: #dc2626; }
+    .rep { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; } .rep .av-xs { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg,#3f9bff,#0b57b8); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; }
+
+    .row-actions { position: absolute; right: 16px; top: 0; bottom: 0; display: flex; align-items: center; gap: 3px; padding-left: 60px; background: linear-gradient(90deg, rgba(250,251,255,0) 0%, #fafbff 24%); opacity: 0; pointer-events: none; transition: opacity 0.12s; }
+    .cc:hover .row-actions { opacity: 1; pointer-events: auto; }
+    .ra { width: 34px; height: 34px; border-radius: 9px; border: 1px solid var(--line); background: #fff; color: var(--muted); display: inline-flex; align-items: center; justify-content: center; } .ra:hover { background: var(--accent); color: #fff; border-color: var(--accent); } .ra svg { width: 16px; height: 16px; }
+    .ra.open-btn { width: auto; padding: 0 14px; font-size: 12.5px; font-weight: 700; color: var(--accent); } .ra.open-btn:hover { color: #fff; }
+
+    .empty { text-align: center; padding: 60px 20px; color: var(--muted); } .empty svg { width: 44px; height: 44px; color: var(--faint); display: block; margin: 0 auto 14px; } .empty h3 { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; } .empty .btns { margin-top: 18px; display: flex; gap: 10px; justify-content: center; }
+
+    /* slide-over + drawer */
+    .scrim { position: fixed; inset: 0; background: rgba(10,20,36,0.4); z-index: 45; opacity: 0; pointer-events: none; transition: opacity 0.2s; } .scrim.show { opacity: 1; pointer-events: auto; }
+    .panel { position: fixed; top: 0; right: 0; bottom: 0; width: 470px; max-width: 94vw; background: var(--bg); z-index: 46; box-shadow: -20px 0 60px -30px rgba(0,0,0,0.5); transform: translateX(100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; } .panel.open { transform: none; }
+    .drawer { width: 380px; }
+    .panel-hd { display: flex; align-items: flex-start; gap: 14px; padding: 20px 22px; background: var(--card); border-bottom: 1px solid var(--line); }
+    .panel-hd .av-lg { width: 52px; height: 52px; border-radius: 50%; color: #fff; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; }
+    .panel-hd h2 { font-size: 19px; font-weight: 800; letter-spacing: -0.3px; display: flex; align-items: center; gap: 8px; } .panel-hd .pmeta { color: var(--muted); font-size: 13px; margin-top: 3px; }
+    .panel-close { margin-left: auto; border: none; background: none; color: var(--muted); width: 34px; height: 34px; border-radius: 9px; } .panel-close:hover { background: var(--bg); } .panel-close svg { width: 18px; height: 18px; }
+    .panel-body { overflow-y: auto; padding: 18px 22px 30px; display: flex; flex-direction: column; gap: 16px; }
+    .qa { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+    .qa button { border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 10px 0 7px; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 9px; color: var(--muted); font-weight: 600; } .qa button:hover { border-color: var(--accent); color: var(--accent); } .qa button svg { width: 17px; height: 17px; color: var(--accent); }
+    .sect { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 16px; }
+    .sect h3 { font-size: 13px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 7px; } .sect h3 .spark { color: #7c3aed; } .sect h3 .spark svg { width: 15px; height: 15px; }
+    .ai-card { border: 1px solid var(--line); border-radius: 11px; padding: 13px; margin-bottom: 10px; background: linear-gradient(180deg,#fbfcff,#fff); } .ai-card:last-child { margin-bottom: 0; }
+    .ai-card p { font-size: 13px; line-height: 1.5; color: #334155; } .ai-card p b { color: var(--text); }
+    .ai-card .rec { color: #16a34a; font-weight: 600; font-size: 12.5px; margin-top: 6px; }
+    .ai-btn { margin-top: 10px; background: linear-gradient(180deg,var(--accent-2),var(--accent)); color: #fff; border: none; border-radius: 9px; padding: 8px 14px; font-size: 12.5px; font-weight: 700; } .ai-btn:hover { filter: brightness(1.06); }
+    .veh-card { border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+    .veh-card .vt { font-weight: 700; font-size: 14.5px; margin-bottom: 10px; }
+    .vgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; } .vgrid .k { color: var(--muted); font-size: 11.5px; } .vgrid .v { font-weight: 600; font-size: 13.5px; margin-top: 1px; }
+    .prob-wrap { display: flex; align-items: center; gap: 12px; }
+    .prob-ring { width: 46px; height: 46px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; } .prob-ring span { background: #fff; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: #16a34a; }
+    .field-row { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13px; } .field-row:first-child { border-top: none; } .field-row .k { color: var(--muted); } .field-row .v { font-weight: 600; }
+    .tl { display: grid; grid-template-columns: 16px 1fr; gap: 12px; padding-bottom: 16px; position: relative; } .tl:last-child { padding-bottom: 0; }
+    .tl-dot { width: 11px; height: 11px; border-radius: 50%; margin-top: 3px; } .tl:not(:last-child)::after { content: ""; position: absolute; left: 5px; top: 16px; bottom: 0; width: 2px; background: var(--line); }
+    .tl b { font-weight: 600; display: block; font-size: 13px; } .tl span { color: var(--muted); font-size: 12px; }
+
+    .fld { display: flex; flex-direction: column; gap: 7px; } .fld label { font-size: 12.5px; font-weight: 600; color: #33445c; }
+    .fld select { font: inherit; font-size: 13.5px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--text); outline: none; } .fld select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .drawer-foot { padding: 16px 22px; border-top: 1px solid var(--line); background: var(--card); display: flex; gap: 10px; } .drawer-foot button { flex: 1; border-radius: 10px; padding: 12px; font-size: 13.5px; font-weight: 700; } .df-reset { background: #fff; border: 1px solid var(--line); color: var(--text); } .df-apply { background: var(--accent); border: none; color: #fff; }
+
+    @media (max-width: 1280px) { .rsum { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 1100px) { .list-head { display: none; } .cc { grid-template-columns: 2fr 1.4fr auto; } .cc .col-hideable { display: none; } }
+    @media (max-width: 900px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .rsum { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 560px) { .content { padding: 20px 14px 60px; } .rsum { grid-template-columns: 1fr; } .cc { grid-template-columns: 1fr auto; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav">
+        <a href="/dashboard"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Home</a>
+        <a href="/prospects"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Prospects<span class="nb">18</span></a>
+        <a class="on" href="/customers"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Customers</a>
+        <a href="#"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Appointments<span class="nb">5</span></a>
+        <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Tasks<span class="nb">7</span></a>
+        <a href="/portal/inventory"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Inventory</a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Communications<span class="nb">3</span></a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Reports</a>
+        <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Settings</a>
+      </nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input type="text" placeholder="Search customers, vehicles, deals..." aria-label="Search" /><span class="kbd">⌘</span><span class="kbd">K</span></div>
+        <button class="quick-add"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Quick Add</button>
+        <div class="tb-icons">
+          <button class="ib" aria-label="Calls"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <button class="ib" aria-label="Messages"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <button class="ib" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="dot">3</span></button>
+          <span class="tb-avatar"><span class="av">CM</span></span>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="phead">
+          <div><h1>Customers</h1><p class="sub">Manage your customer relationships after the sale.</p></div>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Add Customer</button>
+        </div>
+
+        <div class="rsum" id="rsum"></div>
+
+        <div class="toolbar">
+          <div class="psearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" type="text" placeholder="Search name, phone, email, VIN, vehicle, trade, or notes..." /></div>
+          <button class="tb-btn" id="advBtn"><svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Advanced Filters</button>
+          <div class="views"><button class="tb-btn" id="viewsBtn"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 15.5 7.1 18.2l.9-5.5-4-3.9L9.5 8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Saved Views</button><div class="views-menu" id="viewsMenu"></div></div>
+        </div>
+
+        <div class="pills" id="pills"></div>
+
+        <div class="list-head"><span>CUSTOMER</span><span>VEHICLE</span><span>PURCHASED</span><span>LAST CONTACT</span><span>NEXT OPPORTUNITY</span><span>SERVICE</span><span>REP</span></div>
+        <div class="list" id="list"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+
+  <aside class="panel drawer" id="drawer" aria-hidden="true">
+    <div class="panel-hd"><div><h2 style="font-size:17px">Advanced Filters</h2><div class="pmeta">Refine your customer list</div></div><button class="panel-close" id="drawerClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+    <div class="panel-body">
+      <div class="fld"><label>Relationship Score</label><select id="fScore"><option value="0">Any</option><option value="5">★★★★★ Loyal</option><option value="4">★★★★ &amp; up</option><option value="3">★★★ &amp; up</option></select></div>
+      <div class="fld"><label>Service Status</label><select id="fSvc"><option value="">Any</option><option value="due">Service Due</option><option value="warn">Warranty / Recall</option><option value="ok">Up to Date</option></select></div>
+      <div class="fld"><label>Assigned Rep</label><select id="fRep"><option value="">Anyone</option><option>You</option><option>Sarah Johnson</option><option>Mike Davis</option></select></div>
+      <div class="fld"><label>Relationship</label><select id="fTag"><option value="">Any</option><option value="repeat">Repeat Buyers</option><option value="lease">Lease Ending</option><option value="warranty">Warranty Ending</option><option value="birthday">Birthday This Month</option><option value="inactive">Inactive</option></select></div>
+    </div>
+    <div class="drawer-foot"><button class="df-reset" id="fReset">Reset</button><button class="df-apply" id="fApply">Apply Filters</button></div>
+  </aside>
+
+  <script>
+    const SCORE_LABEL = { 5:"Loyal Customer", 4:"Engaged", 3:"Healthy", 2:"Needs Attention", 1:"Inactive" };
+    const IC = {
+      call:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      text:'<path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      email:'<rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      video:'<rect x="3.5" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 10l4.5-2.5v9L16 14z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      service:'<path d="M14.5 5.5a3.5 3.5 0 0 1-4.6 4.6L5 15l2 2 4.9-4.9a3.5 3.5 0 0 0 4.6-4.6l-2.2 2.2-1.8-1.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      upgrade:'<path d="M3 14l2-5.5A2 2 0 0 1 6.9 7h10.2a2 2 0 0 1 1.9 1.5L21 14v4h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 12V4M9.5 6.5L12 4l2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+      note:'<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17l-5.2 2.6 1-5.8L3.5 9.7l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'
+    };
+    const svg = (k) => `<svg viewBox="0 0 24 24">${IC[k]}</svg>`;
+
+    const C = [
+      { id:1, name:"John Smith", ini:"JS", c:"#3b82f6", phone:"(678) 555-0142", email:"jsmith@email.com", vin:"3GCUKDED5SG123456", veh:"2024 Chevrolet Silverado High Country", purchase:"Jul 2025", purchaseAgo:"8 months ago", last:"2 weeks ago", opp:"Lease Upgrade", oppIcon:"upgrade", svc:["warn","Warranty ending soon"], score:5, spend:"$74,300", rep:"You", mileage:"18,200", warranty:"2028", tradeValue:"$48,300", upProb:92, upVeh:"2027 Silverado", equity:"$12,400",
+        ai:[["John's lease ends in 9 months.","Start upgrade conversation.","Start Conversation"],["Warranty ends in 90 days.","Offer an extended service plan.","Send Offer"]],
+        tl:[["#2563eb","Purchased Silverado High Country","Jul 18, 2025"],["#7c3aed","Delivery appointment","Jul 20, 2025"],["#16a34a","Oil change service","Oct 2025"],["#ea8a0b","Sent birthday text","Jan 2026"],["#dc2626","Trade value requested","Today"]],
+        tags:["mycustomers","vip","repeat","warranty","lease","upgrade","purchasedyear"] },
+      { id:2, name:"Sarah Lewis", ini:"SL", c:"#8b5cf6", phone:"(770) 555-0127", email:"slewis@email.com", vin:"7FARW2H85PE123458", veh:"2023 Honda CR-V EX", purchase:"Jun 2024", purchaseAgo:"1 year ago", last:"1 month ago", opp:"Loyalty Offer", oppIcon:"note", svc:["due","Service due"], score:4, spend:"$34,120", rep:"You", mileage:"24,600", warranty:"2027", tradeValue:"$22,800", upProb:88, upVeh:"Chevrolet Tahoe RST", equity:"$8,900",
+        ai:[["Sarah has serviced her vehicle every 6 months.","Send a loyalty offer.","Send Offer"]],
+        tl:[["#2563eb","Purchased CR-V EX","Jun 2024"],["#16a34a","Oil change service","Dec 2024"],["#16a34a","Tire rotation","Jun 2025"],["#ea8a0b","Loyalty offer eligible","Today"]],
+        tags:["mycustomers","service","repeat","needsfollowup"] },
+      { id:3, name:"Michael Williams", ini:"MW", c:"#a855f7", phone:"(404) 555-0198", email:"mwilliams@email.com", vin:"2T3P1RFV8RC123457", veh:"2022 Toyota RAV4 XLE", purchase:"Mar 2023", purchaseAgo:"2 years ago", last:"14 months ago", opp:"Check-in", oppIcon:"text", svc:["ok","Up to date"], score:2, spend:"$28,450", rep:"You", mileage:"41,000", warranty:"2026", tradeValue:"$19,200", upProb:44, upVeh:"RAV4 Hybrid", equity:"$5,100",
+        ai:[["Michael hasn't visited in 14 months.","Check in to re-engage.","Send",`Hi Michael! Just wanted to see how you're enjoying your RAV4 and let you know we're here if you ever need anything.`]],
+        tl:[["#2563eb","Purchased RAV4 XLE","Mar 2023"],["#16a34a","Oil change service","Nov 2024"],["#94a3b8","No contact since","14 months ago"]],
+        tags:["mycustomers","inactive","needsfollowup"] },
+      { id:4, name:"David Johnson", ini:"DJ", c:"#f59e0b", phone:"(678) 555-0177", email:"djohnson@email.com", vin:"1FTFW1E80RF123459", veh:"2021 Ford F-150 XLT", purchase:"May 2022", purchaseAgo:"3 years ago", last:"3 weeks ago", opp:"Birthday", oppIcon:"note", svc:["warn","Warranty expiring"], score:3, spend:"$52,995", rep:"You", mileage:"52,300", warranty:"2026", tradeValue:"$28,900", upProb:61, upVeh:"F-150 Lariat", equity:"$9,600",
+        ai:[["David's birthday is tomorrow.","Send a birthday text.","Send"],["Warranty expires in 60 days.","Offer an extended warranty.","Send Offer"]],
+        tl:[["#2563eb","Purchased F-150 XLT","May 2022"],["#16a34a","Brake service","Aug 2024"],["#ea8a0b","Birthday tomorrow","Tomorrow"]],
+        tags:["mycustomers","birthday","warranty"] },
+      { id:5, name:"Amanda Harris", ini:"AH", c:"#ec4899", phone:"(404) 555-0182", email:"aharris@email.com", vin:"3GNAXWEG0RL123460", veh:"2024 Chevrolet Equinox RS", purchase:"Nov 2025", purchaseAgo:"4 months ago", last:"1 week ago", opp:"Referral", oppIcon:"upgrade", svc:["ok","Up to date"], score:4, spend:"$31,995", rep:"You", mileage:"6,100", warranty:"2029", tradeValue:"$27,400", upProb:52, upVeh:"Traverse", equity:"$3,200",
+        ai:[["Amanda is a happy recent buyer.","Invite her to your referral program.","Send Invite"]],
+        tl:[["#2563eb","Purchased Equinox RS","Nov 2025"],["#16a34a","First service","Feb 2026"]],
+        tags:["mycustomers","purchasedyear"] },
+      { id:6, name:"Robert Brown", ini:"RB", c:"#14b8a6", phone:"(770) 555-0231", email:"rbrown@email.com", vin:"1GNSKCKD6SR123461", veh:"2023 Chevrolet Tahoe Premier", purchase:"Dec 2023", purchaseAgo:"1.5 years ago", last:"5 days ago", opp:"Service Plan", oppIcon:"service", svc:["due","Tire rotation due"], score:5, spend:"$83,995", rep:"You", mileage:"29,400", warranty:"2028", tradeValue:"$54,000", upProb:70, upVeh:"Suburban", equity:"$16,200",
+        ai:[["Robert is a VIP with high service engagement.","Offer a premium service package.","Send Offer"]],
+        tl:[["#2563eb","Purchased Tahoe Premier","Dec 2023"],["#16a34a","Oil change","Jun 2025"],["#ea8a0b","Tire rotation due","Today"]],
+        tags:["mycustomers","vip","repeat","service"] },
+      { id:7, name:"Jessica Davis", ini:"JD", c:"#6366f1", phone:"(404) 555-0265", email:"jdavis@email.com", vin:"1HGCY2F58PA123462", veh:"2019 Honda Accord Sport", purchase:"Feb 2019", purchaseAgo:"6 years ago", last:"2 years ago", opp:"Win-back", oppIcon:"upgrade", svc:["warn","Warranty expired"], score:1, spend:"$24,000", rep:"Sarah Johnson", mileage:"78,000", warranty:"Expired", tradeValue:"$11,200", upProb:38, upVeh:"Civic / CR-V", equity:"$2,000",
+        ai:[["Jessica hasn't purchased or serviced in 2 years.","Add to 90-day win-back campaign.","Add to Campaign"]],
+        tl:[["#2563eb","Purchased Accord Sport","Feb 2019"],["#94a3b8","No contact since","2 years ago"]],
+        tags:["inactive"] },
+      { id:8, name:"Kevin Anderson", ini:"KA", c:"#0ea5e9", phone:"(678) 555-0176", email:"kanderson@email.com", vin:"3GTUUGEL0SG123463", veh:"2022 GMC Sierra 1500", purchase:"Sep 2022", purchaseAgo:"2.5 years ago", last:"2 months ago", opp:"Trade-In", oppIcon:"upgrade", svc:["due","Oil change due"], score:3, spend:"$61,000", rep:"You", mileage:"38,900", warranty:"2027", tradeValue:"$34,500", upProb:66, upVeh:"Sierra Denali", equity:"$11,300",
+        ai:[["Kevin has strong trade equity.","Start an upgrade-to-Denali conversation.","Start Conversation"]],
+        tl:[["#2563eb","Purchased Sierra 1500","Sep 2022"],["#16a34a","Oil change","Jan 2025"],["#ea8a0b","Oil change due","This month"]],
+        tags:["mycustomers","service","warranty"] },
+      { id:9, name:"Priya Nair", ini:"PN", c:"#f43f5e", phone:"(770) 555-0244", email:"pnair@email.com", vin:"1GYKNGRS0RZ123464", veh:"2024 Cadillac XT5 Sport", purchase:"Sep 2025", purchaseAgo:"6 months ago", last:"3 days ago", opp:"Referral Program", oppIcon:"note", svc:["ok","Up to date"], score:5, spend:"$88,900", rep:"You", mileage:"7,800", warranty:"2029", tradeValue:"$58,000", upProb:75, upVeh:"Escalade", equity:"$6,400",
+        ai:[["Priya is a highly satisfied VIP.","Invite her to refer friends and family.","Send Invite"]],
+        tl:[["#2563eb","Purchased Cadillac XT5","Sep 2025"],["#16a34a","First service","Feb 2026"],["#7c3aed","Left 5-star review","Mar 2026"]],
+        tags:["mycustomers","vip","purchasedyear","repeat"] },
+      { id:10, name:"Marcus Webb", ini:"MB", c:"#10b981", phone:"(404) 555-0311", email:"mwebb@email.com", vin:"1G1YB2D40S5123465", veh:"2023 Chevrolet Corvette Stingray", purchase:"May 2024", purchaseAgo:"1 year ago", last:"1 month ago", opp:"Recall Service", oppIcon:"service", svc:["warn","Recall available"], score:4, spend:"$76,995", rep:"You", mileage:"9,200", warranty:"2028", tradeValue:"$68,000", upProb:58, upVeh:"Corvette Z06", equity:"$14,000",
+        ai:[["An open recall is available for Marcus's Corvette.","Schedule recall service.","Schedule Service"]],
+        tl:[["#2563eb","Purchased Corvette Stingray","May 2024"],["#dc2626","Recall notice issued","This week"]],
+        tags:["mycustomers","service","repeat"] },
+      { id:11, name:"Grace Kim", ini:"GK", c:"#eab308", phone:"(678) 555-0402", email:"gkim@email.com", vin:"5XYP5DGC0PG123466", veh:"2020 Kia Telluride SX", purchase:"Apr 2020", purchaseAgo:"5 years ago", last:"8 months ago", opp:"Upgrade", oppIcon:"upgrade", svc:["warn","Warranty expiring"], score:2, spend:"$40,000", rep:"Mike Davis", mileage:"62,000", warranty:"2026", tradeValue:"$21,000", upProb:49, upVeh:"Telluride 2025", equity:"$6,800",
+        ai:[["Grace's birthday is this month and warranty is ending.","Send a birthday note with an upgrade offer.","Send"]],
+        tl:[["#2563eb","Purchased Telluride SX","Apr 2020"],["#16a34a","Last service","Jul 2025"]],
+        tags:["warranty","birthday","needsfollowup"] },
+      { id:12, name:"Ethan Ross", ini:"ER", c:"#64748b", phone:"(770) 555-0361", email:"eross@email.com", vin:"5GAEVCKW0RJ123467", veh:"2022 Buick Enclave Avenir", purchase:"Aug 2022", purchaseAgo:"3 years ago", last:"1 month ago", opp:"Lease End", oppIcon:"upgrade", svc:["ok","Up to date"], score:3, spend:"$56,900", rep:"You", mileage:"33,500", warranty:"2027", tradeValue:"$31,000", upProb:64, upVeh:"Enclave 2025", equity:"$9,900",
+        ai:[["Ethan's lease ends in 4 months.","Schedule an upgrade appointment.","Start Conversation"]],
+        tl:[["#2563eb","Purchased Enclave Avenir","Aug 2022"],["#16a34a","Oil change","Feb 2025"]],
+        tags:["mycustomers","lease"] },
+    ];
+
+    const RSUM = [
+      ["all","Customers","1,245","blue",'<circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/>'],
+      ["needsfollowup","Needs Follow-up","42","amber",'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'],
+      ["birthday","Upcoming Birthdays","6","pink",'<path d="M5 20h14v-6H5zM7 14v-3a5 5 0 0 1 10 0v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 3v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'],
+      ["lease","Lease Expiring","18","purple",'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>'],
+      ["warranty","Warranty Ending","13","teal",'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'],
+      ["service","Service Due","29","green",'<path d="M14.5 5.5a3.5 3.5 0 0 1-4.6 4.6L5 15l2 2 4.9-4.9a3.5 3.5 0 0 0 4.6-4.6l-2.2 2.2-1.8-1.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'],
+      ["repeat","Repeat Opportunities","11","indigo",'<path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>']
+    ];
+    const PILLS = [["all","All"],["vip","VIP"],["purchasedyear","Purchased This Year"],["repeat","Repeat Buyers"],["service","Service Customers"],["warranty","Warranty Expiring"],["lease","Lease Ending"],["birthday","Birthday This Month"],["needsfollowup","Needs Follow-up"],["inactive","Inactive"]];
+    const VIEWS = [["vip","VIP Customers"],["purchasedyear","Purchased This Year"],["service","Service Follow-ups"],["lease","Lease Expirations"],["warranty","Warranty Expirations"],["inactive","Inactive Customers"],["repeat","Referral Opportunities"]];
+
+    const state = { filter:"all", q:"", adv:{} };
+    function matchFilter(p) { const f = state.filter; if (f === "all") return true; if (f === "mycustomers") return p.rep === "You"; return p.tags.includes(f); }
+    function matchAdv(p) { const a = state.adv; if (a.score && p.score < +a.score) return false; if (a.svc && p.svc[0] !== a.svc) return false; if (a.rep && p.rep !== a.rep) return false; if (a.tag && !p.tags.includes(a.tag)) return false; return true; }
+    function matchSearch(p) { const q = state.q.trim().toLowerCase(); if (!q) return true; return [p.name,p.phone,p.email,p.vin,p.veh,p.opp,p.rep].join(" ").toLowerCase().includes(q); }
+    const filtered = () => C.filter((p) => matchFilter(p) && matchAdv(p) && matchSearch(p));
+    const stars = (n) => `<span class="stars">${"★".repeat(n)}<span class="off">${"★".repeat(5-n)}</span></span>`;
+
+    function renderSummary() {
+      document.getElementById("rsum").innerHTML = RSUM.map(([tag,label,val,color,icon]) =>
+        `<button class="rs ${state.filter===tag?"active":""}" data-tag="${tag}"><span class="rs-ic ic-${color}"><svg viewBox="0 0 24 24">${icon}</svg></span><div class="rs-v">${val}</div><div class="rs-l">${label}</div></button>`).join("");
+      document.querySelectorAll(".rs").forEach((b) => b.addEventListener("click", () => setFilter(b.dataset.tag)));
+    }
+    function renderPills() {
+      document.getElementById("pills").innerHTML = PILLS.map(([t,l]) => `<button class="pill ${state.filter===t?"on":""}" data-t="${t}">${l}</button>`).join("") + `<button class="pill" id="customPill">+ Custom Filter</button>`;
+      document.querySelectorAll(".pill[data-t]").forEach((b) => b.addEventListener("click", () => setFilter(b.dataset.t)));
+      document.getElementById("customPill").addEventListener("click", openDrawer);
+    }
+    function setFilter(t) { state.filter = t; renderSummary(); renderPills(); renderList(); }
+
+    function renderList() {
+      const rows = filtered(), list = document.getElementById("list");
+      if (!rows.length) { list.innerHTML = `<div class="empty"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h3>No customers match your filters</h3><p>Try a different filter or add a customer.</p><div class="btns"><button class="add-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Add Customer</button></div></div>`; return; }
+      list.innerHTML = rows.map((p) => `<div class="cc" data-id="${p.id}" title="${SCORE_LABEL[p.score]}">
+        <div class="cust"><span class="av-sm" style="background:${p.c}">${p.ini}</span><div><b>${p.name}${p.score===5?'<span class="vip">VIP</span>':""}</b><div class="stars-sm">${stars(p.score)}</div></div></div>
+        <div class="veh"><b>${p.veh}</b><span>${p.spend} lifetime</span></div>
+        <div class="muted-2 col-hideable">${p.purchaseAgo}</div>
+        <div class="muted-2 col-hideable">${p.last}</div>
+        <div class="col-hideable"><span class="opp">${svg(p.oppIcon)}${p.opp}</span></div>
+        <div class="col-hideable"><span class="svc ${p.svc[0]}">${p.svc[1]}</span></div>
+        <div class="rep col-hideable"><span class="av-xs">${p.rep==="You"?"CM":p.rep.split(" ").map(w=>w[0]).join("")}</span>${p.rep}</div>
+        <div class="row-actions">
+          <button class="ra" data-act="call" title="Call">${svg("call")}</button>
+          <button class="ra" data-act="text" title="Text">${svg("text")}</button>
+          <button class="ra" data-act="email" title="Email">${svg("email")}</button>
+          <button class="ra" data-act="video" title="Personalized Video">${svg("video")}</button>
+          <button class="ra" data-act="service" title="Schedule Service">${svg("service")}</button>
+          <button class="ra" data-act="upgrade" title="Upgrade Opportunity">${svg("upgrade")}</button>
+          <button class="ra open-btn" data-open="${p.id}">Open</button>
+        </div></div>`).join("");
+      list.querySelectorAll(".cc").forEach((row) => row.addEventListener("click", (e) => { if (e.target.closest(".ra:not(.open-btn)")) return; openPanel(+row.dataset.id); }));
+    }
+
+    const scrim = document.getElementById("scrim"), panel = document.getElementById("panel");
+    function openPanel(id) {
+      const p = C.find((x) => x.id === id); if (!p) return;
+      panel.innerHTML = `
+        <div class="panel-hd">
+          <span class="av-lg" style="background:${p.c}">${p.ini}</span>
+          <div><h2>${p.name}${p.score===5?'<span class="vip">VIP</span>':""}</h2><div class="pmeta">${p.phone} · ${p.email}</div><div style="margin-top:8px">${stars(p.score)} <span style="color:var(--muted);font-size:12px;margin-left:4px">${SCORE_LABEL[p.score]}</span></div></div>
+          <button class="panel-close" id="panelClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        </div>
+        <div class="panel-body">
+          <div class="qa"><button>${svg("call")}Call</button><button>${svg("text")}Text</button><button>${svg("email")}Email</button><button>${svg("video")}Video</button><button>${svg("service")}Service</button><button>${svg("upgrade")}Upgrade</button><button>${svg("note")}Note</button></div>
+          <div class="sect">
+            <h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Relationship Assistant</h3>
+            ${p.ai.map((a) => `<div class="ai-card"><p><b>${a[0]}</b></p>${a[3]?`<div class="sugg" style="margin-top:8px;background:#f7f9fc;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-size:12.5px;color:#475569;line-height:1.5">${a[3]}</div>`:""}<div class="rec">→ ${a[1]}</div><button class="ai-btn">${a[2]}</button></div>`).join("")}
+          </div>
+          <div class="sect">
+            <h3>Vehicle</h3>
+            <div class="veh-card"><div class="vt">${p.veh}</div><div class="vgrid">
+              <div><div class="k">Purchased</div><div class="v">${p.purchase}</div></div>
+              <div><div class="k">Mileage</div><div class="v">${p.mileage}</div></div>
+              <div><div class="k">Warranty</div><div class="v">Expires ${p.warranty}</div></div>
+              <div><div class="k">Trade Value</div><div class="v">${p.tradeValue}</div></div>
+            </div></div>
+          </div>
+          <div class="sect">
+            <h3>Upgrade Opportunity</h3>
+            <div class="prob-wrap"><span class="prob-ring" style="background:conic-gradient(#16a34a ${p.upProb*3.6}deg,#e7f7ee 0)"><span>${p.upProb}%</span></span><div><b style="font-size:14px">Likely to purchase again</b><p style="color:var(--muted);font-size:12.5px;margin-top:2px">Potential upgrade · <b style="color:var(--text)">${p.upVeh}</b></p></div></div>
+            <div class="field-row" style="margin-top:12px"><span class="k">Current Equity</span><span class="v">${p.equity}</span></div>
+            <div class="field-row"><span class="k">Lifetime Spend</span><span class="v">${p.spend}</span></div>
+            <div class="field-row"><span class="k">Lead Source Rep</span><span class="v">${p.rep}</span></div>
+          </div>
+          <div class="sect">
+            <h3>Timeline</h3>
+            ${p.tl.map((t) => `<div class="tl"><span class="tl-dot" style="background:${t[0]};box-shadow:0 0 0 4px ${t[0]}22"></span><div><b>${t[1]}</b><span>${t[2]}</span></div></div>`).join("")}
+          </div>
+        </div>`;
+      panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
+      panel.querySelector("#panelClose").addEventListener("click", closeAll);
+    }
+
+    const drawer = document.getElementById("drawer");
+    function openDrawer() { drawer.classList.add("open"); drawer.setAttribute("aria-hidden","false"); scrim.classList.add("show"); }
+    document.getElementById("advBtn").addEventListener("click", openDrawer);
+    document.getElementById("drawerClose").addEventListener("click", closeAll);
+    document.getElementById("fApply").addEventListener("click", () => { state.adv = { score:v("fScore"), svc:v("fSvc"), rep:v("fRep"), tag:v("fTag") }; closeAll(); renderList(); });
+    document.getElementById("fReset").addEventListener("click", () => { ["fScore","fSvc","fRep","fTag"].forEach((i)=>document.getElementById(i).selectedIndex=0); state.adv={}; renderList(); });
+    const v = (id) => document.getElementById(id).value;
+    function closeAll() { panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); drawer.classList.remove("open"); drawer.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
+    scrim.addEventListener("click", closeAll);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeAll(); if (e.key === "/" && document.activeElement.tagName !== "INPUT") { e.preventDefault(); document.getElementById("search").focus(); } });
+
+    const viewsBtn = document.getElementById("viewsBtn"), viewsMenu = document.getElementById("viewsMenu");
+    viewsMenu.innerHTML = VIEWS.map(([t,l]) => `<button data-v="${t}"><svg viewBox="0 0 24 24" style="width:15px;height:15px;color:#64748b"><path d="M4 7h16M6 12h12M9 17h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>${l}</button>`).join("");
+    viewsBtn.addEventListener("click", (e) => { e.stopPropagation(); viewsMenu.classList.toggle("open"); });
+    document.addEventListener("click", () => viewsMenu.classList.remove("open"));
+    viewsMenu.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => { setFilter(b.dataset.v); viewsMenu.classList.remove("open"); }));
+    document.getElementById("search").addEventListener("input", (e) => { state.q = e.target.value; renderList(); });
+
+    renderSummary(); renderPills(); renderList();
+  </script>
+</body>
+</html>
