@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Migration Center — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:14px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .crumb { color:var(--faint); font-size:13px; } .crumb b { color:var(--text); font-weight:600; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#ede9fe; color:#6d28d9; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; margin-left:auto; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:8px; }
+    .content { padding:26px 30px 60px; max-width:1080px; margin:0 auto; width:100%; }
+
+    /* intro */
+    .hero { background:linear-gradient(135deg,#0f1b3a,#0a1c38); color:#fff; border-radius:20px; padding:40px 36px; text-align:center; position:relative; overflow:hidden; }
+    .hero::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at 70% 20%, rgba(124,58,237,.25), transparent 45%); }
+    .hero .hi { width:66px; height:66px; border-radius:18px; background:linear-gradient(135deg,#7c3aed,#3b82f6); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; position:relative; z-index:1; } .hero .hi svg { width:32px; height:32px; color:#fff; }
+    .hero h1 { font-size:28px; font-weight:800; letter-spacing:-0.6px; position:relative; z-index:1; } .hero p { color:#9db4d6; font-size:15px; margin-top:8px; position:relative; z-index:1; }
+    .hero .est { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.1); border-radius:999px; padding:8px 16px; margin-top:18px; font-size:13px; font-weight:600; position:relative; z-index:1; } .hero .est svg { width:15px; height:15px; color:#6fe0a0; }
+    .hero .start { display:inline-flex; align-items:center; gap:9px; background:linear-gradient(180deg,#3b82f6,#2563eb); color:#fff; border:none; border-radius:12px; padding:14px 28px; font-size:15px; font-weight:700; margin-top:22px; box-shadow:0 14px 30px -12px rgba(37,99,235,.8); position:relative; z-index:1; } .hero .start:hover { filter:brightness(1.08); } .hero .start svg { width:17px; height:17px; }
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:30px 0 14px; }
+    .platforms { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:12px; }
+    .plat { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:14px 15px; box-shadow:var(--shadow); display:flex; align-items:center; gap:11px; } .plat .pd { width:34px; height:34px; border-radius:9px; flex:none; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:13px; } .plat b { font-size:13px; font-weight:700; } .plat .ok { margin-left:auto; color:#16a34a; } .plat .ok svg { width:16px; height:16px; }
+    .sec-strip { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; } .sbadge { display:inline-flex; align-items:center; gap:7px; background:#e7f7ee; color:#15803d; border-radius:9px; padding:8px 12px; font-size:12px; font-weight:600; } .sbadge svg { width:14px; height:14px; }
+    .hist { background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); overflow:hidden; }
+    .hrow { display:grid; grid-template-columns:1fr 1.2fr 1fr 0.8fr 0.9fr auto; gap:14px; align-items:center; padding:13px 18px; border-top:1px solid var(--line); font-size:13px; } .hrow:first-child { border-top:none; font-size:11px; color:var(--faint); font-weight:700; letter-spacing:.3px; } .hrow b{font-weight:600;} .hst{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:6px;} .hst-done{background:#e7f7ee;color:#16a34a;} .hlog{color:var(--accent);font-weight:700;font-size:12px;cursor:pointer;}
+
+    /* wizard */
+    .stepper { display:flex; align-items:center; margin-bottom:26px; }
+    .step { flex:1; display:flex; flex-direction:column; align-items:center; position:relative; }
+    .step .sc { width:32px; height:32px; border-radius:50%; background:#e6ebf3; color:var(--faint); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; z-index:1; } .step.done .sc { background:#16a34a; color:#fff; } .step.cur .sc { background:var(--accent); color:#fff; box-shadow:0 0 0 5px var(--accent-soft); } .step .sc svg { width:15px; height:15px; }
+    .step .sl { font-size:11px; font-weight:700; color:var(--muted); margin-top:7px; } .step.cur .sl { color:var(--accent); }
+    .step:not(:last-child)::after { content:""; position:absolute; top:16px; left:60%; right:-40%; height:2px; background:#e6ebf3; } .step.done:not(:last-child)::after { background:#16a34a; }
+    .wcard { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:26px; }
+    .wcard h2 { font-size:20px; font-weight:800; letter-spacing:-0.4px; } .wcard .wsub { color:var(--muted); font-size:14px; margin-top:6px; margin-bottom:22px; }
+    .opt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+    .opt { border:1.5px solid var(--line); border-radius:13px; padding:16px; cursor:pointer; display:flex; align-items:center; gap:12px; transition:all .12s; } .opt:hover { border-color:#cfe0f7; } .opt.sel { border-color:var(--accent); background:var(--accent-soft); }
+    .opt .od { width:38px; height:38px; border-radius:10px; flex:none; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:14px; } .opt .oi svg { width:19px; height:19px; }
+    .opt b { font-size:14px; font-weight:700; display:block; } .opt span { font-size:12px; color:var(--muted); } .opt .check { margin-left:auto; color:var(--accent); opacity:0; } .opt.sel .check { opacity:1; } .opt .check svg { width:18px; height:18px; }
+    .method .oi { width:40px; height:40px; border-radius:11px; background:#eef4ff; color:#2563eb; display:flex; align-items:center; justify-content:center; flex:none; }
+    /* data toggles */
+    .selall { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; } .selall .cnt { color:var(--muted); font-size:13px; } .selall button { border:1px solid var(--line); background:#fff; border-radius:9px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--accent); }
+    .data-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:10px; }
+    .dchk { display:flex; align-items:center; gap:11px; border:1px solid var(--line); border-radius:11px; padding:12px 14px; cursor:pointer; } .dchk:hover{border-color:#cfe0f7;} .dchk .box { width:20px; height:20px; border-radius:6px; border:2px solid #cdd6e3; flex:none; display:flex; align-items:center; justify-content:center; } .dchk .box svg { width:12px; height:12px; color:#fff; opacity:0; } .dchk.on .box { background:var(--accent); border-color:var(--accent); } .dchk.on .box svg { opacity:1; } .dchk b { font-size:13.5px; font-weight:600; } .dchk .rc { margin-left:auto; font-size:11.5px; color:var(--faint); font-weight:700; }
+    /* mapping */
+    .ai-banner { display:flex; align-items:center; gap:11px; background:linear-gradient(180deg,#f5f0ff,#faf8ff); border:1px solid #ece3fb; border-radius:12px; padding:13px 15px; margin-bottom:16px; } .ai-banner .si { color:#7c3aed; } .ai-banner .si svg { width:18px; height:18px; } .ai-banner b { color:#5b21b6; } .ai-banner span { color:#6b5a8c; font-size:12.5px; }
+    .map-head { display:grid; grid-template-columns:1fr 30px 1fr 90px; gap:12px; padding:0 4px 8px; font-size:11px; color:var(--faint); font-weight:700; letter-spacing:.3px; }
+    .map-row { display:grid; grid-template-columns:1fr 30px 1fr 90px; gap:12px; align-items:center; padding:9px 4px; border-top:1px solid var(--line); } .map-row:first-of-type{border-top:none;}
+    .map-old { background:#f7f9fc; border:1px solid var(--line); border-radius:9px; padding:10px 12px; font-size:13px; font-weight:600; }
+    .map-arrow { text-align:center; color:var(--faint); } .map-arrow svg { width:17px; height:17px; }
+    .map-new { border:1px solid var(--line); border-radius:9px; padding:0 10px; background:#fff; } .map-new select { border:none; outline:none; width:100%; padding:10px 2px; font:inherit; font-size:13px; background:none; }
+    .map-badge { font-size:10.5px; font-weight:800; padding:4px 9px; border-radius:7px; text-align:center; } .mb-ai{background:#f1eafe;color:#7c3aed;} .mb-manual{background:#fdf0dc;color:#b45309;}
+    /* preview */
+    .prev-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; margin-bottom:20px; }
+    .pcard { border:1px solid var(--line); border-radius:12px; padding:15px 16px; } .pcard .pv { font-size:24px; font-weight:800; letter-spacing:-0.6px; } .pcard .pl { color:var(--muted); font-size:12px; margin-top:3px; }
+    .cleanup { background:linear-gradient(180deg,#fffdf5,#fff); border:1px solid #f5e4bd; border-radius:13px; padding:16px; } .cleanup h3 { font-size:13.5px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:8px; } .cleanup h3 .si{color:#7c3aed;display:inline-flex;} .cleanup h3 .si svg{width:16px;height:16px;}
+    .iss { display:flex; align-items:center; gap:11px; padding:9px 0; border-top:1px solid #f2ead2; font-size:13px; } .iss:first-of-type{border-top:none;} .iss .id { width:26px; height:26px; border-radius:8px; flex:none; display:flex; align-items:center; justify-content:center; } .iss .id svg{width:14px;height:14px;} .iss .n { margin-left:auto; font-weight:800; } .iss .fix { font-size:11.5px; font-weight:700; color:var(--accent); cursor:pointer; }
+    .i-amber{background:#fdf0dc;color:#ea8a0b;} .i-red{background:#fdeaea;color:#dc2626;} .i-blue{background:#eaf1fe;color:#2563eb;}
+    .dupe { border:1px solid var(--line); border-radius:13px; padding:16px; margin-top:14px; } .dupe h3 { font-size:13.5px; font-weight:700; margin-bottom:12px; }
+    .dupe-cmp { display:grid; grid-template-columns:1fr 1fr; gap:12px; } .dupe-side { border:1px solid var(--line); border-radius:11px; padding:12px; } .dupe-side .dl { font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.3px; color:var(--faint); margin-bottom:8px; } .dupe-side b { font-weight:700; } .dupe-side .dm { font-size:12px; color:var(--muted); margin-top:3px; } .dupe-match { text-align:center; font-size:12px; color:#16a34a; font-weight:700; margin:10px 0; }
+    .dupe-acts { display:flex; gap:8px; flex-wrap:wrap; } .dupe-acts button { border:1px solid var(--line); background:#fff; border-radius:9px; padding:8px 14px; font-size:12.5px; font-weight:700; color:var(--text); } .dupe-acts button:hover{border-color:var(--accent);color:var(--accent);} .dupe-acts .apply{margin-left:auto;color:var(--muted);}
+    /* progress */
+    .prog-hero { text-align:center; padding:12px 0 24px; } .prog-hero .big { font-size:46px; font-weight:800; letter-spacing:-1.5px; color:var(--accent); } .prog-hero .cur { color:var(--muted); font-size:14px; margin-top:4px; } .prog-hero .cur b{color:var(--text);} .prog-hero .eta { font-size:12.5px; color:var(--faint); margin-top:6px; }
+    .pbars { display:flex; flex-direction:column; gap:12px; }
+    .pbar-row { } .pbar-top { display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:5px; } .pbar-top .pl{font-weight:600;} .pbar-top .pn{color:var(--muted);} .pbar-track { height:10px; background:#eef2f8; border-radius:999px; overflow:hidden; } .pbar-track > i { display:block; height:100%; background:linear-gradient(90deg,#3b82f6,#2563eb); border-radius:999px; transition:width .3s; } .pbar-track > i.done { background:linear-gradient(90deg,#22c55e,#16a34a); }
+    /* summary */
+    .done-hero { text-align:center; padding:8px 0 22px; } .done-hero .dk { width:62px; height:62px; border-radius:50%; background:#e7f7ee; color:#16a34a; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; } .done-hero .dk svg { width:32px; height:32px; } .done-hero h2 { font-size:24px; font-weight:800; } .done-hero p { color:var(--muted); font-size:14px; margin-top:6px; }
+    .audit { background:linear-gradient(180deg,#f5f0ff,#faf8ff); border:1px solid #ece3fb; border-radius:13px; padding:16px; margin-top:16px; } .audit h3 { font-size:13.5px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:8px; } .audit h3 .si{color:#7c3aed;display:inline-flex;} .audit h3 .si svg{width:16px;height:16px;}
+    .arec { display:flex; align-items:flex-start; gap:10px; padding:8px 0; font-size:13px; color:#4b3a72; } .arec svg { width:15px; height:15px; color:#7c3aed; flex:none; margin-top:2px; }
+    .invite { margin-top:16px; } .inv-row { display:flex; align-items:center; gap:12px; padding:11px 0; border-top:1px solid var(--line); } .inv-row:first-of-type{border-top:none;} .inv-row .ir { width:32px; height:32px; border-radius:9px; background:var(--accent-soft); color:var(--accent); display:flex; align-items:center; justify-content:center; flex:none; } .inv-row .ir svg{width:16px;height:16px;} .inv-row b{font-weight:600;font-size:13.5px;display:block;} .inv-row span{color:var(--muted);font-size:12px;} .inv-row .ib{margin-left:auto;border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:12px;font-weight:700;color:var(--accent);} .inv-row .ib:hover{background:var(--accent);color:#fff;border-color:var(--accent);} .inv-row .ib.done{background:#e7f7ee;color:#16a34a;border-color:#cdebd8;}
+    .sync { display:flex; align-items:center; gap:12px; border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-top:16px; } .sync .tgl { width:38px; height:22px; border-radius:999px; background:#16a34a; position:relative; flex:none; cursor:pointer; } .sync .tgl::after{content:"";position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#fff;} .sync .tgl.off{background:#cbd5e1;} .sync .tgl.off::after{right:auto;left:2px;} .sync b{font-weight:600;font-size:13.5px;} .sync span{display:block;color:var(--muted);font-size:12px;}
+    .rollback { display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; } .rollback button { border:1px solid var(--line); background:#fff; border-radius:10px; padding:10px 15px; font-size:12.5px; font-weight:700; color:var(--text); } .rollback button:hover{border-color:#cfe0f7;color:var(--accent);}
+
+    .wfoot { display:flex; align-items:center; gap:12px; margin-top:24px; } .wfoot .back { border:1px solid var(--line); background:#fff; color:var(--text); border-radius:11px; padding:12px 20px; font-size:13.5px; font-weight:700; } .wfoot .back:hover{border-color:#cfe0f7;} .wfoot .spacer{flex:1;} .wfoot .next { border:none; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border-radius:11px; padding:12px 24px; font-size:13.5px; font-weight:700; box-shadow:0 12px 26px -14px rgba(37,99,235,.9); display:inline-flex; align-items:center; gap:8px; } .wfoot .next svg{width:16px;height:16px;} .wfoot .next:disabled{opacity:.5;cursor:not-allowed;box-shadow:none;}
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .dupe-cmp{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <span class="crumb">Settings · <b>Data Migration</b></span>
+        <span class="role-badge">Migration Center</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content" id="content"></main>
+    </div>
+  </div>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var num = function(n){ return n.toLocaleString(); };
+    var sparkle='<svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg>';
+    var check='<svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    var SOURCES = [["CDK","CDK CRM","#e11d48"],["VinSolutions","VinSolutions","#2563eb"],["DealerSocket","DealerSocket","#0891b2"],["Tekion","Tekion","#7c3aed"],["DriveCentric","DriveCentric","#16a34a"],["Reynolds","Reynolds & Reynolds","#ea580c"],["DealerMine","DealerMine","#db2777"],["DealerPeak","DealerPeak","#0ea5e9"],["CSV","Generic CSV","#64748b"],["Excel","Excel","#059669"],["Other","Other / Custom","#94a3b8"]];
+    var METHODS = [["api","Connect Directly (API)","Securely link your account — fastest, fully automated","bolt"],["upload","Upload Export Files","Drag &amp; drop CSV / Excel exports","upload"],["cloud","Secure Cloud Import","Pull from your cloud storage or SFTP","cloud"],["dms","DMS Connection","Pull directly from your DMS platform","dms"]];
+    var DATA = [["Customers",24891],["Prospects",4221],["Appointments",281],["Inventory",1432],["Communications",18740],["Tasks",8911],["Notes",12300],["Documents",3742],["Trade History",5120],["Sales History",9880],["Service History",22400],["Users",34],["Email Templates",56],["Text Templates",41],["Custom Fields",28],["Reports",64]];
+    var MAP = [["Customer Name","Full Name",1],["Phone","Mobile Phone",1],["Cell Phone","Mobile Phone",1],["Email Address","Email",1],["Salesperson","Assigned User",1],["Vehicle of Interest","Primary Vehicle",1],["Stock Number","Stock #",1],["VIN","VIN",1],["Trade-In","Trade Vehicle",1],["Last Contact","Last Activity",1],["Lead Source","Lead Source",1],["Notes","Notes",1],["Appt Date/Time","Appointment Time",1],["Rep Comments","Internal Note",0],["Buyer Score","",0]];
+    var AD_FIELDS = ["Full Name","First Name","Last Name","Mobile Phone","Home Phone","Email","Assigned User","Primary Vehicle","Trade Vehicle","Stock #","VIN","Last Activity","Lead Source","Notes","Internal Note","Appointment Time","— Skip this field —"];
+    var METHOD_IC = { bolt:'<path d="M13 3L5 13h6l-1 8 8-10h-6z" fill="currentColor"/>', upload:'<path d="M12 16V4m0 0L8 8m4-4l4 4M5 20h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>', cloud:'<path d="M6 18a4 4 0 0 1 .5-8A5 5 0 0 1 16 9a3.5 3.5 0 0 1 1 6.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 12v6m0-6l-2 2m2-2l2 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>', dms:'<rect x="4" y="4" width="16" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="14" width="16" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 7h.01M7 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' };
+
+    var state = { step:0, source:null, method:"api", data:{}, dupeApplied:false, sync:true, invited:{} };
+    DATA.forEach(function(d){ state.data[d[0]]=true; });
+
+    var STEPS = ["Source","Method","Data","Mapping","Preview"];
+
+    function render(){
+      var c = $("content");
+      if (state.step===0) c.innerHTML = intro();
+      else if (state.step>=1 && state.step<=5) c.innerHTML = stepper() + wizard();
+      else if (state.step===6) { c.innerHTML = progressView(); runProgress(); }
+      else c.innerHTML = summaryView();
+      wire();
+    }
+
+    function intro(){
+      return '<div class="hero"><span class="hi"><svg viewBox="0 0 24 24"><path d="M12 3v10m0 0l-4-4m4 4l4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>'+
+        '<h1>Dealership Migration Center</h1><p>Import your entire dealership into AutoDealer — customers, inventory, appointments, and history — with almost no manual work.</p>'+
+        '<div class="est"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Estimated time · 15–45 minutes</div><br>'+
+        '<button class="start" id="startBtn"><svg viewBox="0 0 24 24"><path d="M5 12h14m0 0l-6-6m6 6l-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Start Migration</button></div>'+
+        '<div class="sec-label">Supported Platforms</div><div class="platforms">'+SOURCES.map(function(s){ return '<div class="plat"><span class="pd" style="background:'+s[2]+'">'+s[0].slice(0,2).toUpperCase()+'</span><b>'+s[1]+'</b><span class="ok">'+check+'</span></div>'; }).join("")+'</div>'+
+        '<div class="sec-strip">'+["256-bit encryption","Read-only imports","Encrypted transfers","Automatic backups","Full audit logs","Role-based access"].map(function(b){ return '<span class="sbadge"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>'+b+'</span>'; }).join("")+'</div>'+
+        '<div class="sec-label">Import History</div><div class="hist"><div class="hrow"><span>DATE</span><span>SOURCE CRM</span><span>USER</span><span>RECORDS</span><span>DURATION</span><span>STATUS</span></div>'+
+          [["Jul 22","VinSolutions","Dana Morales","2,431 (test)","4 min","Completed"]].map(function(h){ return '<div class="hrow"><b>'+h[0]+'</b><span>'+h[1]+'</span><span>'+h[2]+'</span><span>'+h[3]+'</span><span>'+h[4]+'</span><span><span class="hst hst-done">'+h[5]+'</span> <span class="hlog">Log</span></span></div>'; }).join("")+'</div>';
+    }
+
+    function stepper(){
+      return '<div class="stepper">'+STEPS.map(function(s,i){ var n=i+1; var cls=state.step>n?"done":state.step===n?"cur":""; return '<div class="step '+cls+'"><span class="sc">'+(state.step>n?check:n)+'</span><span class="sl">'+s+'</span></div>'; }).join("")+'</div>';
+    }
+
+    function wizard(){
+      var s = state.step, inner="";
+      if (s===1){
+        inner = head("Select your previous system","We’ll load the right connector and field-mapping profile automatically.")+
+          '<div class="opt-grid">'+SOURCES.map(function(src){ return '<div class="opt '+(state.source===src[0]?"sel":"")+'" data-src="'+src[0]+'"><span class="od" style="background:'+src[2]+'">'+src[0].slice(0,2).toUpperCase()+'</span><div><b>'+src[1]+'</b></div><span class="check">'+check+'</span></div>'; }).join("")+'</div>';
+      } else if (s===2){
+        inner = head("Choose your import method","Direct API is fastest. All methods are read-only and never modify your source system.")+
+          '<div class="opt-grid">'+METHODS.map(function(m){ return '<div class="opt method '+(state.method===m[0]?"sel":"")+'" data-method="'+m[0]+'"><span class="oi">'+ '<svg viewBox="0 0 24 24">'+METHOD_IC[m[3]]+'</svg>' +'</span><div><b>'+m[1]+'</b><span>'+m[2]+'</span></div><span class="check">'+check+'</span></div>'; }).join("")+'</div>';
+      } else if (s===3){
+        var on = Object.keys(state.data).filter(function(k){return state.data[k];}).length;
+        var total = DATA.filter(function(d){return state.data[d[0]];}).reduce(function(a,d){return a+d[1];},0);
+        inner = head("Select data to import","Import everything, or pick exactly what you need. Each type keeps its own history.")+
+          '<div class="selall"><span class="cnt"><b>'+on+'</b> of '+DATA.length+' types · <b>'+num(total)+'</b> records selected</span><button id="selAll">'+(on===DATA.length?"Deselect all":"Select all")+'</button></div>'+
+          '<div class="data-grid">'+DATA.map(function(d){ return '<div class="dchk '+(state.data[d[0]]?"on":"")+'" data-d="'+d[0]+'"><span class="box">'+check+'</span><b>'+d[0]+'</b><span class="rc">'+num(d[1])+'</span></div>'; }).join("")+'</div>';
+      } else if (s===4){
+        var auto = MAP.filter(function(m){return m[2];}).length;
+        inner = head("Field mapping","We line up your old fields with AutoDealer’s. Adjust anything the AI wasn’t sure about.")+
+          '<div class="ai-banner"><span class="si">'+sparkle+'</span><div><b>AI auto-mapped '+auto+' of '+MAP.length+' fields.</b> <span>Review the '+(MAP.length-auto)+' that need your confirmation below.</span></div></div>'+
+          '<div class="map-head"><span>'+(state.source||"YOUR CRM")+' FIELD</span><span></span><span>AUTODEALER FIELD</span><span></span></div>'+
+          MAP.map(function(m,i){ return '<div class="map-row"><div class="map-old">'+m[0]+'</div><div class="map-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m0 0l-5-5m5 5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="map-new"><select data-m="'+i+'">'+AD_FIELDS.map(function(f){ return '<option '+((m[1]&&f===m[1])||(!m[1]&&f.indexOf("Skip")===0)?"selected":"")+'>'+f+'</option>'; }).join("")+'</select></div><div class="map-badge '+(m[2]?"mb-ai":"mb-manual")+'">'+(m[2]?"AI ✓":"Review")+'</div></div>'; }).join("");
+      } else if (s===5){
+        var pv = [["Customers",24891],["Prospects",4221],["Vehicles",1432],["Appointments",281],["Tasks",8911],["Documents",3742]];
+        inner = head("Preview & data cleanup","Exactly what will be imported. Our AI flagged a few issues to fix first.")+
+          '<div class="prev-grid">'+pv.map(function(p){ return '<div class="pcard"><div class="pv">'+num(p[1])+'</div><div class="pl">'+p[0]+'</div></div>'; }).join("")+'</div>'+
+          '<div class="cleanup"><h3><span class="si">'+sparkle+'</span>AI Data Cleanup — 5 issues found</h3>'+
+            [["i-amber","dupe","73 duplicate customers","Merge automatically"],["i-amber","mail","182 customers missing emails","Import anyway"],["i-red","phone","31 broken phone numbers","Auto-format"],["i-red","vin","9 corrupted VINs","Re-decode"],["i-blue","user","4 records missing a salesperson","Assign to house"]].map(function(x){ return '<div class="iss"><span class="id '+x[0]+'"><svg viewBox="0 0 24 24"><path d="M12 4l9 15H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 10v4M12 16.5v.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>'+x[2]+'<span class="n">'+x[2].match(/^\d+/)[0]+'</span><span class="fix" data-fix="'+x[3]+'">'+x[3]+'</span></div>'; }).join("")+'</div>'+
+          '<div class="dupe"><h3>Duplicate detected · resolve before import</h3><div class="dupe-cmp"><div class="dupe-side"><div class="dl">Incoming (from '+(state.source||"CRM")+')</div><b>John Smith</b><div class="dm">(678) 555-0142 · jsmith@email.com</div></div><div class="dupe-side"><div class="dl">Already in AutoDealer</div><b>John A. Smith</b><div class="dm">(678) 555-0142 · Silverado owner</div></div></div><div class="dupe-match">✓ Phone &amp; name match — likely the same person</div><div class="dupe-acts"><button data-dupe="Merge">Merge</button><button data-dupe="Replace">Replace</button><button data-dupe="Keep Both">Keep Both</button><button class="apply" data-dupe="Apply to all 73">Apply to all 73 →</button></div></div>';
+      }
+      return '<div class="wcard">'+inner+'</div>'+foot();
+    }
+    function head(t,s){ return '<h2>'+t+'</h2><div class="wsub">'+s+'</div>'; }
+    function foot(){
+      var s = state.step, canNext = !(s===1 && !state.source);
+      var nextLabel = s===5 ? "Start Import" : "Continue";
+      return '<div class="wfoot"><button class="back" id="backBtn">Back</button><div class="spacer"></div><button class="next" id="nextBtn"'+(canNext?"":" disabled")+'>'+nextLabel+'<svg viewBox="0 0 24 24"><path d="M5 12h14m0 0l-6-6m6 6l-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>';
+    }
+
+    /* live progress */
+    var ENT = [["Customers",24891],["Prospects",4221],["Communications",18740],["Appointments",281],["Tasks",8911],["Documents",3742],["Inventory",1432],["Service History",22400]];
+    function progressView(){
+      return '<div class="wcard"><div class="prog-hero"><div class="big" id="ovPct">0%</div><div class="cur">Importing <b id="curEnt">Customers</b>…</div><div class="eta" id="eta">Estimated 8 minutes remaining</div></div>'+
+        '<div class="pbars">'+ENT.map(function(e,i){ return '<div class="pbar-row"><div class="pbar-top"><span class="pl">'+e[0]+'</span><span class="pn" id="pn'+i+'">0 / '+num(e[1])+'</span></div><div class="pbar-track"><i id="pi'+i+'" style="width:0%"></i></div></div>'; }).join("")+'</div></div>';
+    }
+    var progTimer;
+    function runProgress(){
+      var i=0, p=0; clearInterval(progTimer);
+      progTimer = setInterval(function(){
+        p += Math.random()*9 + 6;
+        if (p>=100){ p=100; var bar=$("pi"+i), pn=$("pn"+i); if(bar){ bar.style.width="100%"; bar.classList.add("done"); pn.textContent=num(ENT[i][1])+" / "+num(ENT[i][1]); } i++; p=0;
+          if (i>=ENT.length){ clearInterval(progTimer); $("ovPct").textContent="100%"; $("curEnt").textContent="Done"; $("eta").textContent="Migration complete"; setTimeout(function(){ state.step=7; render(); }, 700); return; }
+          $("curEnt").textContent=ENT[i][0];
+        } else { var b=$("pi"+i), n=$("pn"+i); if(b){ b.style.width=p+"%"; n.textContent=num(Math.round(ENT[i][1]*p/100))+" / "+num(ENT[i][1]); } }
+        var overall = Math.round((i + p/100)/ENT.length*100); $("ovPct").textContent=overall+"%"; $("eta").textContent="Estimated "+Math.max(1,Math.round((ENT.length-i)*0.9))+" minutes remaining";
+      }, 140);
+    }
+
+    function summaryView(){
+      var imp=[["Customers",24818],["Prospects",4221],["Appointments",281],["Tasks",8911],["Documents",3742],["Inventory",1432]];
+      return '<div class="wcard"><div class="done-hero"><span class="dk">'+check+'</span><h2>Migration Complete</h2><p>Your dealership is now live in AutoDealer. Here’s what came over.</p></div>'+
+        '<div class="prev-grid">'+imp.map(function(p){ return '<div class="pcard"><div class="pv">'+num(p[1])+'</div><div class="pl">'+p[0]+'</div></div>'; }).join("")+
+          '<div class="pcard"><div class="pv" style="color:#7c3aed">73</div><div class="pl">Merged</div></div><div class="pcard"><div class="pv" style="color:#ea8a0b">12</div><div class="pl">Skipped</div></div><div class="pcard"><div class="pv" style="color:#16a34a">0</div><div class="pl">Errors</div></div></div>'+
+        '<div class="audit"><h3><span class="si">'+sparkle+'</span>AI Post-Migration Audit</h3>'+
+          ["73 duplicate customers were automatically merged.","183 customers are missing email addresses — consider a data-append.","42 vehicles have no photos uploaded.","17 appointments have no assigned salesperson.","Recommend inviting 28 employees to finish setup."].map(function(a){ return '<div class="arec"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>'+a+'</div>'; }).join("")+'</div>'+
+        '<div class="invite"><h3 style="font-size:14px;font-weight:700;margin:20px 0 6px">Invite your team</h3>'+
+          [["user","Salespeople","18 detected"],["team","Managers","3 detected"],["checkin","Receptionists","2 detected"],["deals","Finance","2 detected"],["comms","BDC","3 detected"]].map(function(x,i){ return '<div class="inv-row"><span class="ir"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 19c0-2.8 2.7-4.5 6-4.5s6 1.7 6 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><b>'+x[1]+'</b><span>'+x[2]+'</span></div><button class="ib '+(state.invited[i]?"done":"")+'" data-invite="'+i+'">'+(state.invited[i]?"Invited ✓":"Send Invites")+'</button></div>'; }).join("")+'</div>'+
+        '<div class="sync"><span class="tgl '+(state.sync?"":"off")+'" id="syncTgl"></span><div><b>Keep '+(state.source||"your old CRM")+' in sync for now</b><span>Delta sync runs every 15 minutes until you fully switch. You can disable this anytime.</span></div></div>'+
+        '<div class="rollback"><button data-rb="Undo Last Migration">↺ Undo Last Migration</button><button data-rb="Restore Backup">Restore Backup</button><button data-rb="Download Import Log">Download Import Log</button></div>'+
+        '<div class="wfoot"><div class="spacer"></div><a class="next" href="/manager" style="text-decoration:none">Go to Dashboard<svg viewBox="0 0 24 24"><path d="M5 12h14m0 0l-6-6m6 6l-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></div>';
+    }
+
+    function wire(){
+      var b;
+      if ((b=$("startBtn"))) b.addEventListener("click", function(){ state.step=1; render(); });
+      if ((b=$("backBtn"))) b.addEventListener("click", function(){ state.step=Math.max(0,state.step-1); render(); });
+      if ((b=$("nextBtn"))) b.addEventListener("click", function(){ if(state.step===5){ state.step=6; } else { state.step++; } render(); });
+      document.querySelectorAll("[data-src]").forEach(function(el){ el.addEventListener("click", function(){ state.source=el.dataset.src; render(); }); });
+      document.querySelectorAll("[data-method]").forEach(function(el){ el.addEventListener("click", function(){ state.method=el.dataset.method; render(); }); });
+      document.querySelectorAll("[data-d]").forEach(function(el){ el.addEventListener("click", function(){ state.data[el.dataset.d]=!state.data[el.dataset.d]; render(); }); });
+      if ((b=$("selAll"))){ b.addEventListener("click", function(){ var all=DATA.every(function(d){return state.data[d[0]];}); DATA.forEach(function(d){ state.data[d[0]]=!all; }); render(); }); }
+      document.querySelectorAll("[data-fix]").forEach(function(el){ el.addEventListener("click", function(){ toast("AI fix applied · "+el.dataset.fix); }); });
+      document.querySelectorAll("[data-dupe]").forEach(function(el){ el.addEventListener("click", function(){ toast(el.dataset.dupe.indexOf("Apply")===0?"Applied to all 73 duplicates":el.dataset.dupe+" selected"); }); });
+      document.querySelectorAll("[data-invite]").forEach(function(el){ el.addEventListener("click", function(){ state.invited[el.dataset.invite]=true; toast("Email invitations sent"); render(); }); });
+      document.querySelectorAll("[data-rb]").forEach(function(el){ el.addEventListener("click", function(){ toast(el.dataset.rb+" — every migration is backed up automatically"); }); });
+      if ((b=$("syncTgl"))) b.addEventListener("click", function(){ state.sync=!state.sync; render(); toast(state.sync?"Live sync enabled · every 15 min":"Live sync disabled"); });
+    }
+    var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2400); }
+    render();
+  </script>
+</body>
+</html>
