@@ -3,66 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Autodealer — The Modern CRM for Automotive Sales</title>
-  <meta name="description" content="AutoDealer CRM helps your sales team stay organized, connect with more customers, and close deals faster — all in one powerful platform." />
+  <title>AutoDealer — The Operating System for Modern Dealerships</title>
+  <meta name="description" content="AutoDealer is the AI-native operating system for automotive retail — one platform for leads, deals, inventory, service, and every role on your team. Sell more, in less time." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
   <style>
-    :root { --blue: #2563eb; --blue-2: #3b82f6; --ink: #060d1a; }
+    :root { --blue: #2563eb; --blue-2: #3b82f6; --sky: #2b8fff; --ink: #060d1a; --ink-2: #070f1e; --line: rgba(255,255,255,0.08); }
     * { margin: 0; box-sizing: border-box; }
-    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--ink); color: #e8eef9; -webkit-font-smoothing: antialiased; }
+    html { scroll-behavior: smooth; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--ink); color: #e8eef9; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
     a { color: inherit; text-decoration: none; }
     button { font: inherit; cursor: pointer; }
     .container { width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+    .eyebrow-tag { display: inline-flex; align-items: center; gap: 9px; background: rgba(43,143,255,0.08); border: 1px solid rgba(43,143,255,0.25); border-radius: 999px; padding: 8px 16px; font-size: 13px; font-weight: 600; color: #9cc4ff; letter-spacing: 0.2px; }
+    .eyebrow-tag .dot { width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 0 rgba(52,211,153,0.7); animation: pulse 2.4s infinite; }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(52,211,153,0.6);} 70%{box-shadow:0 0 0 8px rgba(52,211,153,0);} 100%{box-shadow:0 0 0 0 rgba(52,211,153,0);} }
+    .section-head { text-align: center; max-width: 760px; margin: 0 auto 56px; }
+    .section-head h2 { font-size: clamp(30px, 4vw, 46px); font-weight: 900; letter-spacing: -1.4px; line-height: 1.06; }
+    .section-head h2 .g { background: linear-gradient(120deg,#4f8dff,#7db4ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .section-head p { color: #9fb0c6; font-size: 17.5px; line-height: 1.6; margin-top: 18px; }
+    .kicker { display: inline-block; font-size: 13px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #4f8dff; margin-bottom: 16px; }
 
     /* wordmark */
     .wm { font-size: 24px; font-weight: 900; letter-spacing: 0.5px; color: #fff; line-height: 1; }
-    .wm b { color: #2b8fff; }
+    .wm b { color: var(--sky); }
     .wm .sw { display: block; width: 96px; height: 8px; margin-bottom: 3px; }
 
-    /* ---------- HERO ---------- */
-    .hero {
-      position: relative; overflow: hidden;
-      background:
-        linear-gradient(90deg, rgba(6,13,26,0.92) 0%, rgba(6,13,26,0.68) 42%, rgba(6,13,26,0.32) 100%),
-        linear-gradient(180deg, rgba(6,13,26,0.55) 0%, rgba(6,13,26,0.15) 38%, rgba(6,13,26,0.88) 100%),
-        url("/images/hero.jpg");
-      background-size: cover; background-position: center;
-    }
-    .nav { position: relative; z-index: 5; display: flex; align-items: center; gap: 40px; padding: 26px 0; }
+    /* buttons */
+    .btn-primary { background: linear-gradient(180deg, var(--blue-2), var(--blue)); color: #fff; border: none; border-radius: 10px; padding: 13px 24px; font-size: 15px; font-weight: 700; box-shadow: 0 12px 30px -12px rgba(37,99,235,0.85); transition: transform .18s ease, filter .18s ease, box-shadow .18s ease; }
+    .btn-primary:hover { filter: brightness(1.07); transform: translateY(-2px); box-shadow: 0 18px 40px -14px rgba(37,99,235,0.95); }
+    .btn-ghost { background: rgba(255,255,255,0.05); color: #fff; border: 1.5px solid rgba(255,255,255,0.22); border-radius: 10px; padding: 13px 24px; font-size: 15px; font-weight: 600; transition: background .18s ease, transform .18s ease, border-color .18s ease; }
+    .btn-ghost:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); border-color: rgba(255,255,255,0.4); }
+    .btn-lg { padding: 16px 30px; font-size: 16px; border-radius: 12px; display: inline-flex; align-items: center; gap: 11px; }
+    .arrow { width: 20px; height: 15px; }
+    .play { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.5); display: inline-flex; align-items: center; justify-content: center; }
+    .play svg { width: 10px; height: 10px; margin-left: 1px; }
+
+    /* ---------- NAV (sticky glass) ---------- */
+    .nav { position: sticky; top: 0; z-index: 50; transition: background .3s ease, box-shadow .3s ease, border-color .3s ease; border-bottom: 1px solid transparent; }
+    .nav.scrolled { background: rgba(6,13,26,0.82); backdrop-filter: saturate(1.5) blur(16px); border-bottom-color: var(--line); box-shadow: 0 10px 34px -18px rgba(0,0,0,0.7); }
+    .nav-in { display: flex; align-items: center; gap: 40px; padding: 20px 0; }
     .nav-links { display: flex; align-items: center; gap: 30px; margin: 0 auto; }
-    .nav-links a { color: #cdd9ec; font-size: 15px; font-weight: 500; display: inline-flex; align-items: center; gap: 5px; }
+    .nav-links a { color: #cdd9ec; font-size: 15px; font-weight: 500; transition: color .18s ease; }
     .nav-links a:hover { color: #fff; }
-    .nav-links svg { width: 11px; height: 8px; opacity: 0.7; }
-    .nav-right { display: flex; align-items: center; gap: 26px; }
+    .nav-right { display: flex; align-items: center; gap: 22px; }
     .login { color: #eaf1fb; font-size: 15px; font-weight: 600; }
-    .btn-primary { background: linear-gradient(180deg, var(--blue-2), var(--blue)); color: #fff; border: none; border-radius: 10px; padding: 13px 24px; font-size: 15px; font-weight: 700; box-shadow: 0 12px 30px -12px rgba(37,99,235,0.8); }
-    .btn-primary:hover { filter: brightness(1.06); }
 
-    .hero-inner { position: relative; z-index: 3; display: grid; grid-template-columns: minmax(0,0.92fr) minmax(0,1.08fr); gap: 40px; align-items: center; padding: 40px 0 100px; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 9px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; padding: 9px 18px; font-size: 13.5px; font-weight: 600; color: #d7e2f2; margin-bottom: 30px; }
-    .eyebrow .sp { color: #2b8fff; }
-    .hero h1 { font-size: clamp(50px, 6vw, 82px); font-weight: 900; letter-spacing: -2px; line-height: 1.02; }
-    .hero h1 .b { color: #2b7fff; }
-    .lead { color: #b7c6dc; font-size: 18px; line-height: 1.65; max-width: 470px; margin: 26px 0 34px; }
+    /* ---------- HERO ---------- */
+    .hero { position: relative; overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(6,13,26,0.94) 0%, rgba(6,13,26,0.7) 42%, rgba(6,13,26,0.36) 100%),
+        linear-gradient(180deg, rgba(6,13,26,0.5) 0%, rgba(6,13,26,0.1) 34%, var(--ink) 96%),
+        url("/images/hero.jpg");
+      background-size: cover; background-position: center; }
+    .hero::before { content: ""; position: absolute; top: -20%; left: -10%; width: 60%; height: 90%; background: radial-gradient(circle, rgba(43,143,255,0.22), transparent 62%); filter: blur(30px); pointer-events: none; }
+    .hero::after { content: ""; position: absolute; bottom: -30%; right: -5%; width: 55%; height: 100%; background: radial-gradient(circle, rgba(124,92,255,0.16), transparent 60%); filter: blur(30px); pointer-events: none; }
+    .hero-inner { position: relative; z-index: 3; display: grid; grid-template-columns: minmax(0,0.92fr) minmax(0,1.08fr); gap: 44px; align-items: center; padding: 60px 0 120px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; padding: 9px 18px; font-size: 13.5px; font-weight: 600; color: #d7e2f2; margin-bottom: 28px; }
+    .eyebrow .sp { color: var(--sky); }
+    .hero h1 { font-size: clamp(48px, 6vw, 84px); font-weight: 900; letter-spacing: -2.4px; line-height: 1.0; }
+    .hero h1 .b { background: linear-gradient(120deg,#2b7fff,#6ea8ff 60%,#a9c9ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .lead { color: #b7c6dc; font-size: 18.5px; line-height: 1.62; max-width: 480px; margin: 26px 0 34px; }
     .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
-    .btn-lg { padding: 16px 28px; font-size: 16px; border-radius: 11px; display: inline-flex; align-items: center; gap: 11px; }
-    .btn-ghost { background: rgba(255,255,255,0.05); color: #fff; border: 1.5px solid rgba(255,255,255,0.25); }
-    .btn-ghost:hover { background: rgba(255,255,255,0.1); }
-    .arrow, .play { width: 22px; height: 22px; }
-    .play { border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.5); display: inline-flex; align-items: center; justify-content: center; }
-    .play svg { width: 11px; height: 11px; margin-left: 1px; }
-    .trust { display: flex; align-items: center; gap: 14px; margin-top: 40px; }
-    .avatars { display: flex; }
-    .avatars img, .avatars .fa { width: 38px; height: 38px; border-radius: 50%; border: 2px solid #0a1424; margin-left: -10px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; }
-    .avatars .fa:first-child { margin-left: 0; }
-    .stars { color: #f5b638; font-size: 16px; letter-spacing: 1px; }
-    .trust-txt { color: #a9bace; font-size: 14px; }
+    .hero-metrics { display: flex; gap: 30px; margin-top: 44px; flex-wrap: wrap; }
+    .hm { }
+    .hm b { display: block; font-size: 30px; font-weight: 900; color: #fff; letter-spacing: -1px; }
+    .hm span { font-size: 13px; color: #93a3b8; }
+    .scroll-ind { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 4; display: flex; flex-direction: column; align-items: center; gap: 8px; color: #7f92ab; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
+    .mouse { width: 22px; height: 34px; border: 1.5px solid rgba(255,255,255,0.3); border-radius: 12px; position: relative; }
+    .mouse::after { content: ""; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 3px; height: 6px; border-radius: 2px; background: #7f92ab; animation: mscroll 1.8s infinite; }
+    @keyframes mscroll { 0%{opacity:0;transform:translate(-50%,0);} 40%{opacity:1;} 100%{opacity:0;transform:translate(-50%,10px);} }
 
-    /* ---------- dashboard preview ---------- */
-    .preview { border-radius: 16px; overflow: hidden; background: #0b1524; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 50px 90px -30px rgba(0,0,0,0.75); font-size: 10px; color: #cdd8e8; }
+    /* ---------- floating dashboard ---------- */
+    .dashwrap { position: relative; }
+    .dashwrap.float { animation: floaty 7s ease-in-out infinite; }
+    @keyframes floaty { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+    .preview { border-radius: 16px; overflow: hidden; background: #0b1524; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 50px 90px -30px rgba(0,0,0,0.8); font-size: 10px; color: #cdd8e8; }
     .pv-top { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.07); }
     .pv-top .wm { font-size: 13px; } .pv-top .wm .sw { width: 48px; height: 5px; margin-bottom: 1px; }
     .pv-search { flex: 1; background: rgba(255,255,255,0.05); border-radius: 6px; padding: 6px 10px; color: #7f8ea5; font-size: 9.5px; }
@@ -75,25 +93,27 @@
     .pv-side a.on { background: var(--blue); color: #fff; }
     .pv-side a svg { width: 12px; height: 12px; }
     .pv-side .u { margin-top: auto; display: flex; align-items: center; gap: 7px; padding: 8px 6px 2px; border-top: 1px solid rgba(255,255,255,0.07); }
-    .pv-side .u .a { width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(135deg,#3f9bff,#0b57b8); }
-    .pv-side .u b { font-size: 9.5px; color: #fff; } .pv-side .u span { font-size: 8px; color: #8697ad; }
-    .pv-main { padding: 13px; }
+    .pv-side .u .a { width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(135deg,#3f9bff,#0b57b8); flex: none; }
+    .pv-side .u b { font-size: 9.5px; color: #fff; display:block; } .pv-side .u span { font-size: 8px; color: #8697ad; }
+    .pv-main { padding: 13px; position: relative; }
     .pv-greet b { font-size: 13px; color: #fff; } .pv-greet .date { float: right; background: rgba(255,255,255,0.05); border-radius: 6px; padding: 4px 8px; font-size: 9px; }
     .pv-greet p { color: #8697ad; font-size: 9.5px; margin-top: 2px; }
     .pv-kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin: 12px 0; }
     .pv-kpi { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 9px; }
     .pv-kpi .r { display: flex; align-items: center; gap: 7px; }
-    .pv-kpi .ic { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .pv-kpi .ic { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex: none; }
     .pv-kpi .ic svg { width: 13px; height: 13px; }
     .pv-kpi .lbl { font-size: 8px; color: #8697ad; } .pv-kpi .v { font-size: 16px; font-weight: 800; color: #fff; }
     .pv-kpi .sub { font-size: 7.5px; margin-top: 6px; color: #8697ad; }
     .ic.blue { background: rgba(37,99,235,0.2); color: #6ea8ff; } .ic.green { background: rgba(34,197,94,0.18); color: #4ade80; }
     .ic.purple { background: rgba(168,85,247,0.18); color: #c084fc; } .ic.orange { background: rgba(245,158,11,0.18); color: #fbbf24; }
-    .pv-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .pv-lower { display: grid; grid-template-columns: 1.15fr 1fr; gap: 10px; }
     .pv-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px; }
     .pv-ph { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
     .pv-ph b { font-size: 10.5px; color: #fff; } .pv-ph .va { color: #6ea8ff; font-size: 8.5px; }
-    .pv-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; }
+    .pv-chart { height: 74px; position: relative; }
+    .pv-chart svg { width: 100%; height: 100%; overflow: visible; }
+    .pv-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; }
     .pv-item .mi { width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex: none; }
     .pv-item .mi svg { width: 12px; height: 12px; }
     .pv-item .t b { font-size: 9.5px; color: #fff; display: block; } .pv-item .t span { font-size: 8px; color: #8697ad; }
@@ -101,42 +121,247 @@
     .chip { padding: 2px 7px; border-radius: 5px; font-size: 8px; font-weight: 700; }
     .chip.high { background: rgba(239,68,68,0.16); color: #f87171; } .chip.med { background: rgba(245,158,11,0.16); color: #fbbf24; } .chip.low { background: rgba(148,163,184,0.16); color: #94a3b8; }
     .pbtn { border: 1px solid rgba(255,255,255,0.16); background: transparent; color: #cdd8e8; border-radius: 6px; padding: 3px 10px; font-size: 8.5px; font-weight: 600; }
-    .pv-time { font-size: 8px; font-weight: 700; color: #f87171; text-align: right; line-height: 1.3; }
+    /* floating AI + live note badges over the dashboard */
+    .float-badge { position: absolute; z-index: 6; border-radius: 12px; padding: 10px 13px; font-size: 11px; box-shadow: 0 20px 40px -16px rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(8px); }
+    .fb-ai { left: -34px; bottom: 64px; background: rgba(19,28,46,0.94); width: 210px; }
+    .fb-ai .h { display: flex; align-items: center; gap: 7px; font-weight: 700; color: #fff; margin-bottom: 5px; font-size: 11px; }
+    .fb-ai .h .spark { width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(135deg,#4f8dff,#7c5cff); display: flex; align-items: center; justify-content: center; }
+    .fb-ai .h .spark svg { width: 11px; height: 11px; color: #fff; }
+    .fb-ai .txt { color: #b7c6dc; line-height: 1.45; min-height: 30px; }
+    .fb-ai .cursor { display: inline-block; width: 6px; height: 12px; background: #6ea8ff; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50%{opacity:0;} }
+    .fb-note { right: -26px; top: 92px; background: rgba(19,28,46,0.94); display: flex; align-items: center; gap: 9px; width: 208px; transform: translateX(140%); opacity: 0; transition: transform .6s cubic-bezier(.16,1,.3,1), opacity .6s ease; }
+    .fb-note.in { transform: translateX(0); opacity: 1; }
+    .fb-note .ni { width: 30px; height: 30px; border-radius: 8px; background: rgba(34,197,94,0.18); color: #4ade80; display: flex; align-items: center; justify-content: center; flex: none; }
+    .fb-note .ni svg { width: 15px; height: 15px; }
+    .fb-note b { color: #fff; display: block; font-size: 11px; } .fb-note span { color: #8697ad; font-size: 9.5px; }
 
-    /* ---------- FEATURES ---------- */
-    .features { background: #070f1e; padding: 80px 0 90px; }
-    .features h2 { text-align: center; font-size: 36px; font-weight: 800; letter-spacing: -0.8px; }
-    .rule { width: 60px; height: 3px; background: var(--blue); border-radius: 2px; margin: 16px auto 56px; }
-    .feat-grid { display: grid; grid-template-columns: repeat(6, 1fr); }
-    .feat { text-align: center; padding: 0 26px; position: relative; }
-    .feat + .feat::before { content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 1px; background: rgba(255,255,255,0.08); }
-    .feat-ic { width: 62px; height: 62px; border-radius: 16px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; }
-    .feat-ic svg { width: 28px; height: 28px; }
-    .feat-ic.blue { background: rgba(37,99,235,0.12); color: #4f8dff; box-shadow: 0 0 30px -6px rgba(37,99,235,0.5); }
-    .feat-ic.purple { background: rgba(168,85,247,0.12); color: #b57bf5; box-shadow: 0 0 30px -6px rgba(168,85,247,0.5); }
-    .feat-ic.green { background: rgba(34,197,94,0.12); color: #46d17f; box-shadow: 0 0 30px -6px rgba(34,197,94,0.5); }
-    .feat-ic.orange { background: rgba(245,158,11,0.12); color: #f2a938; box-shadow: 0 0 30px -6px rgba(245,158,11,0.5); }
-    .feat h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
-    .feat p { color: #93a3b8; font-size: 14px; line-height: 1.55; }
+    /* ---------- STAT BAND ---------- */
+    .statband { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: linear-gradient(180deg,#070f1e,#060d1a); }
+    .stat-grid { display: grid; grid-template-columns: repeat(4,1fr); }
+    .stat { text-align: center; padding: 48px 20px; position: relative; }
+    .stat + .stat::before { content: ""; position: absolute; left: 0; top: 30%; bottom: 30%; width: 1px; background: var(--line); }
+    .stat b { display: block; font-size: clamp(34px,4vw,52px); font-weight: 900; letter-spacing: -1.5px; background: linear-gradient(120deg,#fff,#9cc4ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .stat span { color: #93a3b8; font-size: 14.5px; margin-top: 6px; display: block; }
+
+    /* ---------- generic section ---------- */
+    section.blk { padding: 96px 0; position: relative; }
+    .alt { background: var(--ink-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+    /* ---------- ROLE SWITCHER ---------- */
+    .role-tabs { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+    .rtab { display: inline-flex; align-items: center; gap: 9px; padding: 11px 18px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,0.03); color: #b7c6dc; font-size: 14px; font-weight: 600; transition: all .2s ease; }
+    .rtab:hover { border-color: rgba(43,143,255,0.4); color: #fff; }
+    .rtab.on { background: linear-gradient(180deg,var(--blue-2),var(--blue)); border-color: transparent; color: #fff; box-shadow: 0 12px 26px -12px rgba(37,99,235,0.8); }
+    .rtab .rav { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: #fff; }
+    .role-stage { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 44px; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid var(--line); border-radius: 20px; padding: 40px; }
+    .role-copy .rc-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; color: #9cc4ff; background: rgba(43,143,255,0.1); border: 1px solid rgba(43,143,255,0.24); border-radius: 999px; padding: 6px 13px; margin-bottom: 18px; }
+    .role-copy h3 { font-size: 27px; font-weight: 800; letter-spacing: -0.8px; }
+    .role-copy .who { color: #7f92ab; font-size: 14px; margin: 6px 0 18px; }
+    .role-copy p { color: #a9bace; font-size: 15.5px; line-height: 1.6; }
+    .role-feats { list-style: none; margin: 22px 0 26px; display: grid; gap: 11px; }
+    .role-feats li { display: flex; align-items: flex-start; gap: 11px; font-size: 14.5px; color: #cdd9ec; }
+    .role-feats .ck { width: 20px; height: 20px; border-radius: 50%; background: rgba(34,197,94,0.16); color: #4ade80; display: flex; align-items: center; justify-content: center; flex: none; margin-top: 1px; }
+    .role-feats .ck svg { width: 12px; height: 12px; }
+    .role-card { border-radius: 16px; border: 1px solid var(--line); background: #0b1524; overflow: hidden; box-shadow: 0 40px 80px -34px rgba(0,0,0,0.8); }
+    .rc-top { display: flex; align-items: center; gap: 12px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+    .rc-top .rc-av { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 15px; flex: none; }
+    .rc-top b { font-size: 15px; color: #fff; display: block; } .rc-top span { font-size: 12px; color: #8697ad; }
+    .rc-kpis { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; padding: 20px; }
+    .rc-kpi { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 14px; }
+    .rc-kpi .v { font-size: 24px; font-weight: 900; color: #fff; letter-spacing: -0.6px; } .rc-kpi .l { font-size: 11px; color: #8697ad; margin-top: 3px; }
+    .rc-ai { margin: 0 20px 20px; background: linear-gradient(135deg,rgba(79,141,255,0.1),rgba(124,92,255,0.08)); border: 1px solid rgba(79,141,255,0.2); border-radius: 12px; padding: 14px 16px; display: flex; gap: 12px; }
+    .rc-ai .spark { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg,#4f8dff,#7c5cff); display: flex; align-items: center; justify-content: center; flex: none; }
+    .rc-ai .spark svg { width: 14px; height: 14px; color: #fff; }
+    .rc-ai .body b { font-size: 12px; color: #9cc4ff; display: block; margin-bottom: 3px; } .rc-ai .body p { font-size: 13px; color: #cdd9ec; line-height: 1.5; margin: 0; }
+
+    /* ---------- AI CENTERPIECE ---------- */
+    .ai-stage { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+    .ai-cap { display: grid; gap: 18px; margin-top: 30px; }
+    .ai-cap .cap { display: flex; gap: 14px; align-items: flex-start; }
+    .ai-cap .cap .ci { width: 42px; height: 42px; border-radius: 12px; background: rgba(79,141,255,0.12); color: #6ea8ff; display: flex; align-items: center; justify-content: center; flex: none; }
+    .ai-cap .cap .ci svg { width: 21px; height: 21px; }
+    .ai-cap .cap b { font-size: 16px; color: #fff; } .ai-cap .cap p { font-size: 14px; color: #9fb0c6; line-height: 1.55; margin-top: 3px; }
+    .ai-chat { border-radius: 18px; border: 1px solid rgba(79,141,255,0.22); background: linear-gradient(180deg,#0c1728,#0a1220); box-shadow: 0 40px 90px -34px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.04); overflow: hidden; }
+    .ac-top { display: flex; align-items: center; gap: 11px; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+    .ac-top .spark { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg,#4f8dff,#7c5cff); display: flex; align-items: center; justify-content: center; }
+    .ac-top .spark svg { width: 16px; height: 16px; color: #fff; }
+    .ac-top b { font-size: 15px; color: #fff; } .ac-top .st { margin-left: auto; font-size: 11.5px; color: #4ade80; display: inline-flex; align-items: center; gap: 6px; }
+    .ac-top .st .d { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; }
+    .ac-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; min-height: 300px; }
+    .msg { max-width: 82%; padding: 12px 15px; border-radius: 14px; font-size: 14px; line-height: 1.5; opacity: 0; transform: translateY(10px); transition: opacity .4s ease, transform .4s ease; }
+    .msg.show { opacity: 1; transform: none; }
+    .msg.u { align-self: flex-end; background: linear-gradient(180deg,var(--blue-2),var(--blue)); color: #fff; border-bottom-right-radius: 4px; }
+    .msg.a { align-self: flex-start; background: rgba(255,255,255,0.05); border: 1px solid var(--line); color: #dbe6f5; border-bottom-left-radius: 4px; }
+    .msg.a .tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: #9cc4ff; margin-bottom: 7px; }
+    .msg .act { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .msg .act span { font-size: 11.5px; background: rgba(79,141,255,0.14); border: 1px solid rgba(79,141,255,0.28); color: #9cc4ff; border-radius: 7px; padding: 4px 9px; font-weight: 600; }
+    .typing { align-self: flex-start; display: inline-flex; gap: 4px; padding: 12px 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--line); border-radius: 14px; }
+    .typing i { width: 6px; height: 6px; border-radius: 50%; background: #6ea8ff; animation: td 1.2s infinite; }
+    .typing i:nth-child(2){ animation-delay: .2s; } .typing i:nth-child(3){ animation-delay: .4s; }
+    @keyframes td { 0%,60%,100%{opacity:.3;transform:translateY(0);} 30%{opacity:1;transform:translateY(-4px);} }
+
+    /* ---------- LIVE FEED ---------- */
+    .feed-stage { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 50px; align-items: center; }
+    .feed { border-radius: 16px; border: 1px solid var(--line); background: #0b1524; overflow: hidden; box-shadow: 0 40px 80px -36px rgba(0,0,0,0.8); }
+    .feed-h { display: flex; align-items: center; gap: 10px; padding: 15px 20px; border-bottom: 1px solid var(--line); font-size: 14px; font-weight: 700; color: #fff; }
+    .feed-h .live { margin-left: auto; display: inline-flex; align-items: center; gap: 7px; font-size: 11.5px; color: #4ade80; font-weight: 600; }
+    .feed-h .live .d { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; animation: pulse 2s infinite; }
+    .feed-list { padding: 8px 10px; max-height: 360px; overflow: hidden; }
+    .fev { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 10px; animation: fevin .5s ease; }
+    .fev:hover { background: rgba(255,255,255,0.03); }
+    @keyframes fevin { from{opacity:0;transform:translateY(-8px);} to{opacity:1;transform:none;} }
+    .fev .fi { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex: none; }
+    .fev .fi svg { width: 17px; height: 17px; }
+    .fev .ft b { font-size: 13.5px; color: #e8eef9; } .fev .ft span { font-size: 12px; color: #8697ad; display: block; margin-top: 1px; }
+    .fev .fw { margin-left: auto; font-size: 11px; color: #6c7d94; white-space: nowrap; }
+
+    /* ---------- JOURNEY ---------- */
+    .journey { position: relative; margin-top: 20px; }
+    .jline { position: absolute; left: 0; right: 0; top: 27px; height: 3px; background: rgba(255,255,255,0.08); border-radius: 3px; }
+    .jfill { position: absolute; left: 0; top: 27px; height: 3px; width: 0; background: linear-gradient(90deg,#2b7fff,#7c5cff); border-radius: 3px; transition: width 2.4s cubic-bezier(.16,1,.3,1); box-shadow: 0 0 16px rgba(43,143,255,0.6); }
+    .jsteps { display: grid; grid-template-columns: repeat(9,1fr); gap: 8px; position: relative; z-index: 2; }
+    .jstep { text-align: center; }
+    .jstep .jd { width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 14px; background: #0b1524; border: 2px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; color: #6c7d94; transition: all .4s ease; }
+    .jstep .jd svg { width: 24px; height: 24px; }
+    .jstep.lit .jd { border-color: transparent; background: linear-gradient(135deg,#2b7fff,#7c5cff); color: #fff; box-shadow: 0 0 26px -4px rgba(43,143,255,0.7); transform: scale(1.06); }
+    .jstep b { font-size: 12.5px; color: #cdd9ec; display: block; } .jstep span { font-size: 11px; color: #7f92ab; }
+    @media (max-width: 900px){ .jsteps { grid-template-columns: repeat(3,1fr); row-gap: 30px; } .jline,.jfill { display: none; } }
+
+    /* ---------- FEATURE BLOCKS ---------- */
+    .fblk { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .fblk + .fblk { margin-top: 96px; }
+    .fblk.rev .fb-visual { order: 2; }
+    .fb-copy .kicker { margin-bottom: 14px; }
+    .fb-copy h3 { font-size: clamp(26px,3vw,36px); font-weight: 800; letter-spacing: -1px; line-height: 1.08; }
+    .fb-copy p { color: #9fb0c6; font-size: 16px; line-height: 1.65; margin-top: 16px; }
+    .fb-list { list-style: none; margin: 24px 0 0; display: grid; gap: 12px; }
+    .fb-list li { display: flex; align-items: center; gap: 12px; font-size: 15px; color: #cdd9ec; }
+    .fb-list .ck { width: 22px; height: 22px; border-radius: 50%; background: rgba(79,141,255,0.14); color: #6ea8ff; display: flex; align-items: center; justify-content: center; flex: none; }
+    .fb-list .ck svg { width: 13px; height: 13px; }
+    .fb-visual { border-radius: 16px; border: 1px solid var(--line); background: linear-gradient(160deg,#0c1728,#0a1220); padding: 26px; box-shadow: 0 40px 80px -40px rgba(0,0,0,0.8); position: relative; overflow: hidden; }
+    .fb-visual::before { content: ""; position: absolute; top: -40%; right: -20%; width: 60%; height: 80%; background: radial-gradient(circle,rgba(43,143,255,0.14),transparent 65%); }
+    .mini { position: relative; z-index: 2; }
+    .mini-row { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 11px; padding: 13px 15px; margin-bottom: 10px; }
+    .mini-row .mr-ic { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex: none; }
+    .mini-row .mr-ic svg { width: 17px; height: 17px; }
+    .mini-row b { font-size: 13.5px; color: #fff; display: block; } .mini-row span { font-size: 12px; color: #8697ad; }
+    .mini-row .mr-v { margin-left: auto; font-size: 15px; font-weight: 800; color: #fff; }
+    .mini-bars { display: flex; align-items: flex-end; gap: 10px; height: 120px; padding: 10px 4px 0; }
+    .mini-bars .bar { flex: 1; border-radius: 6px 6px 0 0; background: linear-gradient(180deg,#4f8dff,#2563eb); opacity: .85; }
+    .mgauge { text-align: center; padding: 8px 0 4px; }
+    .mgauge .gv { font-size: 40px; font-weight: 900; color: #fff; letter-spacing: -1.5px; } .mgauge .gl { font-size: 12.5px; color: #8697ad; }
+
+    /* ---------- TRUST GRID ---------- */
+    .trust-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+    .tcard { background: rgba(255,255,255,0.02); border: 1px solid var(--line); border-radius: 14px; padding: 26px 22px; transition: transform .2s ease, border-color .2s ease; }
+    .tcard:hover { transform: translateY(-4px); border-color: rgba(43,143,255,0.35); }
+    .tcard .ti { width: 44px; height: 44px; border-radius: 12px; background: rgba(79,141,255,0.12); color: #6ea8ff; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .tcard .ti svg { width: 22px; height: 22px; }
+    .tcard b { font-size: 15.5px; color: #fff; display: block; margin-bottom: 8px; } .tcard p { font-size: 13.5px; color: #93a3b8; line-height: 1.55; }
+
+    /* ---------- MIGRATION ---------- */
+    .mig-flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+    .mstep { flex: 1; min-width: 150px; text-align: center; padding: 0 14px; position: relative; }
+    .mstep + .mstep::before { content: ""; position: absolute; left: -6px; top: 26px; width: 12px; height: 12px; border-top: 2px solid rgba(43,143,255,0.5); border-right: 2px solid rgba(43,143,255,0.5); transform: rotate(45deg); }
+    .mstep .mn { width: 54px; height: 54px; border-radius: 15px; margin: 0 auto 16px; background: linear-gradient(135deg,rgba(79,141,255,0.16),rgba(124,92,255,0.12)); border: 1px solid rgba(79,141,255,0.28); color: #6ea8ff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; }
+    .mstep b { font-size: 15px; color: #fff; display: block; margin-bottom: 6px; } .mstep p { font-size: 13px; color: #93a3b8; line-height: 1.5; }
+
+    /* ---------- INTEGRATIONS MARQUEE ---------- */
+    .marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent); mask-image: linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent); }
+    .mtrack { display: flex; gap: 16px; width: max-content; animation: scrollx 34s linear infinite; }
+    .marquee:hover .mtrack { animation-play-state: paused; }
+    @keyframes scrollx { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+    .intg { display: inline-flex; align-items: center; gap: 11px; background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 12px; padding: 15px 22px; white-space: nowrap; }
+    .intg .lg { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #fff; font-size: 13px; flex: none; }
+    .intg b { font-size: 14.5px; color: #dbe6f5; }
+    @media (prefers-reduced-motion: reduce){ .mtrack { animation: none; } .dashwrap.float { animation: none; } }
+
+    /* ---------- ROI ---------- */
+    .roi-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); }
+    .roi-in { background: #0b1524; padding: 40px; }
+    .roi-out { background: linear-gradient(160deg,#0e2247,#0a1626); padding: 40px; position: relative; overflow: hidden; }
+    .roi-out::before { content: ""; position: absolute; top: -30%; right: -20%; width: 60%; height: 80%; background: radial-gradient(circle,rgba(43,143,255,0.2),transparent 65%); }
+    .roi-field { margin-bottom: 26px; }
+    .roi-field .rl { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+    .roi-field .rl label { font-size: 14px; color: #cdd9ec; font-weight: 600; }
+    .roi-field .rl .rv { font-size: 18px; font-weight: 800; color: #6ea8ff; }
+    input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 4px; background: rgba(255,255,255,0.1); outline: none; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg,#4f8dff,#2563eb); cursor: pointer; box-shadow: 0 4px 12px -2px rgba(37,99,235,0.8); border: 3px solid #0b1524; }
+    input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: #3b82f6; cursor: pointer; border: 3px solid #0b1524; }
+    .roi-out .ro-lbl { font-size: 13px; color: #9cc4ff; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; position: relative; }
+    .roi-big { font-size: clamp(40px,5vw,58px); font-weight: 900; letter-spacing: -2px; color: #fff; margin: 8px 0 4px; position: relative; }
+    .roi-sub { color: #9fb0c6; font-size: 14px; position: relative; }
+    .roi-breakdown { margin-top: 30px; display: grid; gap: 14px; position: relative; }
+    .roi-line { display: flex; justify-content: space-between; align-items: center; padding-bottom: 13px; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 14px; color: #cdd9ec; }
+    .roi-line b { font-size: 16px; color: #fff; }
+    .roi-line.tot { border-bottom: none; } .roi-line.tot b { color: #4ade80; }
+    .plan-note { margin-top: 22px; font-size: 12px; color: #7f92ab; line-height: 1.55; position: relative; }
+
+    /* ---------- PRICING PREVIEW ---------- */
+    .pp-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .pcard { background: rgba(255,255,255,0.02); border: 1px solid var(--line); border-radius: 18px; padding: 32px 28px; position: relative; transition: transform .2s ease, border-color .2s ease; }
+    .pcard:hover { transform: translateY(-5px); }
+    .pcard.pop { border-color: rgba(43,143,255,0.5); background: linear-gradient(180deg,rgba(37,99,235,0.1),rgba(255,255,255,0.02)); box-shadow: 0 40px 80px -40px rgba(37,99,235,0.5); }
+    .pcard .ptag { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg,var(--blue-2),var(--blue)); color: #fff; font-size: 11.5px; font-weight: 800; letter-spacing: 0.5px; padding: 6px 16px; border-radius: 999px; }
+    .pcard h4 { font-size: 19px; font-weight: 800; color: #fff; } .pcard .pdesc { font-size: 13.5px; color: #93a3b8; margin: 6px 0 20px; min-height: 38px; }
+    .pcard .price { font-size: 42px; font-weight: 900; color: #fff; letter-spacing: -1.5px; } .pcard .price span { font-size: 15px; font-weight: 600; color: #8697ad; letter-spacing: 0; }
+    .pcard ul { list-style: none; margin: 22px 0 26px; display: grid; gap: 11px; }
+    .pcard ul li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #cdd9ec; }
+    .pcard ul .ck { width: 19px; height: 19px; border-radius: 50%; background: rgba(34,197,94,0.16); color: #4ade80; display: flex; align-items: center; justify-content: center; flex: none; }
+    .pcard ul .ck svg { width: 11px; height: 11px; }
+    .pcard .pbtn2 { display: block; text-align: center; border-radius: 10px; padding: 13px; font-size: 14.5px; font-weight: 700; }
+    .pbtn2.solid { background: linear-gradient(180deg,var(--blue-2),var(--blue)); color: #fff; }
+    .pbtn2.out { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.2); color: #fff; }
+
+    /* ---------- FINAL CTA ---------- */
+    .finalcta { position: relative; overflow: hidden; text-align: center; padding: 120px 0; background: linear-gradient(180deg,#060d1a,#0a1a3a); border-top: 1px solid var(--line); }
+    .finalcta::before { content: ""; position: absolute; top: -30%; left: 50%; transform: translateX(-50%); width: 900px; height: 600px; background: radial-gradient(circle,rgba(43,143,255,0.22),transparent 62%); filter: blur(20px); }
+    .finalcta h2 { font-size: clamp(36px,5.5vw,68px); font-weight: 900; letter-spacing: -2.4px; line-height: 1.02; position: relative; }
+    .finalcta h2 .g { background: linear-gradient(120deg,#4f8dff,#a9c9ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .finalcta p { color: #b7c6dc; font-size: 19px; margin: 24px auto 40px; max-width: 560px; position: relative; }
+    .finalcta .cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; }
+    .finalcta .fine { margin-top: 26px; font-size: 13.5px; color: #7f92ab; position: relative; }
+
+    /* ---------- FOOTER ---------- */
+    footer { background: #050a14; border-top: 1px solid var(--line); padding: 70px 0 34px; }
+    .foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; }
+    .foot-brand .lead2 { color: #8697ad; font-size: 14px; line-height: 1.6; margin: 18px 0 20px; max-width: 300px; }
+    .foot-social { display: flex; gap: 10px; }
+    .foot-social a { width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; color: #9fb0c6; transition: all .2s ease; }
+    .foot-social a:hover { color: #fff; border-color: rgba(43,143,255,0.4); background: rgba(43,143,255,0.08); }
+    .foot-social svg { width: 17px; height: 17px; }
+    .foot-col h5 { font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #6c7d94; margin-bottom: 18px; }
+    .foot-col a { display: block; color: #b7c6dc; font-size: 14px; margin-bottom: 12px; transition: color .18s ease; }
+    .foot-col a:hover { color: #fff; }
+    .foot-bot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 54px; padding-top: 26px; border-top: 1px solid var(--line); color: #6c7d94; font-size: 13.5px; }
+    .foot-bot .fb-links { display: flex; gap: 22px; } .foot-bot .fb-links a:hover { color: #cdd9ec; }
 
     @media (max-width: 1080px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 50px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 54px; padding-bottom: 90px; }
       .nav-links { display: none; }
-      .feat-grid { grid-template-columns: repeat(3, 1fr); row-gap: 46px; }
-      .feat:nth-child(3n+1)::before, .feat + .feat::before { display: none; }
+      .role-stage, .ai-stage, .feed-stage, .fblk, .fblk.rev .fb-visual { grid-template-columns: 1fr; }
+      .fblk.rev .fb-visual { order: 0; }
+      .stat-grid { grid-template-columns: 1fr 1fr; } .stat:nth-child(3)::before { display: none; }
+      .trust-grid { grid-template-columns: 1fr 1fr; }
+      .roi-wrap, .pp-grid { grid-template-columns: 1fr; }
+      .foot-grid { grid-template-columns: 1fr 1fr; }
+      .fb-ai { left: 6px; } .fb-note { right: 6px; }
     }
     @media (max-width: 620px) {
       .container { padding: 0 22px; }
-      .feat-grid { grid-template-columns: 1fr 1fr; }
-      .trust { flex-wrap: wrap; }
+      .trust-grid, .foot-grid, .stat-grid { grid-template-columns: 1fr; }
+      .stat + .stat::before { display: none; }
+      .hero-metrics { gap: 22px; }
+      .role-stage { padding: 24px; }
     }
   </style>
 </head>
 <body>
-  <!-- ===================== HERO ===================== -->
-  <section class="hero">
+  <!-- ===================== NAV ===================== -->
+  <nav class="nav" id="nav">
     <div class="container">
-      <nav class="nav">
+      <div class="nav-in">
         <div class="wm"><svg class="sw" viewBox="0 0 96 8"><path d="M2 6 C24 1, 72 1, 94 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg>AUTO<b>DEALER</b></div>
         <div class="nav-links">
           <a href="/features">Features</a>
@@ -150,127 +375,791 @@
           <a class="login" href="/login">Log In</a>
           <a class="btn-primary" href="/login">Request Demo</a>
         </div>
-      </nav>
+      </div>
+    </div>
+  </nav>
 
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="container">
       <div class="hero-inner">
         <div class="hero-copy">
-          <span class="eyebrow"><span class="sp">✦</span> The Modern CRM Built for Automotive Sales</span>
-          <h1>Work Smarter.<br /><span class="b">Sell More.</span></h1>
-          <p class="lead">AutoDealer CRM helps your sales team stay organized, connect with more customers, and close deals faster — all in one powerful platform.</p>
+          <span class="eyebrow"><span class="sp">✦</span> The AI-Native Operating System for Dealerships</span>
+          <h1>Run your dealership <span class="b">on one platform.</span></h1>
+          <p class="lead">Leads, deals, inventory, service, and every role on your team — unified, AI-proactive, and built to sell more cars in less time. This is what modern automotive retail runs on.</p>
           <div class="hero-cta">
-            <a class="btn-primary btn-lg" href="/login">Request Demo
+            <a class="btn-primary btn-lg" href="/login">Request a Demo
               <svg class="arrow" viewBox="0 0 22 16"><path d="M1 8h18M13 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            <a class="btn-ghost btn-lg" href="/dashboard"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>See It In Action</a>
+            <a class="btn-ghost btn-lg" href="/dashboard"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>See It Live</a>
           </div>
-          <div class="trust">
-            <div class="avatars">
-              <span class="fa" style="background:#3b82f6">JS</span>
-              <span class="fa" style="background:#a855f7">AM</span>
-              <span class="fa" style="background:#22c55e">RW</span>
-            </div>
-            <div>
-              <div class="stars">★★★★★</div>
-              <div class="trust-txt">Trusted by sales teams everywhere</div>
-            </div>
+          <div class="hero-metrics">
+            <div class="hm"><b data-count="38" data-suffix="%">0%</b><span>More closed deals</span></div>
+            <div class="hm"><b data-count="12" data-suffix="hrs">0</b><span>Saved per rep / week</span></div>
+            <div class="hm"><b data-count="500" data-suffix="+">0</b><span>Rooftops running it</span></div>
           </div>
         </div>
 
-        <!-- dashboard preview -->
-        <div class="preview">
-          <div class="pv-top">
-            <div class="wm"><svg class="sw" viewBox="0 0 48 5"><path d="M1 4 C12 1, 36 1, 47 3" fill="none" stroke="#2b8fff" stroke-width="1.6" stroke-linecap="round"/></svg>AUTO<b>DEALER</b></div>
-            <div class="pv-search">Search prospects, customers, vehicles...</div>
-            <div class="pv-ics">
-              <svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-              <span class="pv-av"></span>
+        <!-- floating dashboard -->
+        <div class="dashwrap float">
+          <div class="preview" id="heroDash">
+            <div class="pv-top">
+              <div class="wm"><svg class="sw" viewBox="0 0 48 5"><path d="M1 4 C12 1, 36 1, 47 3" fill="none" stroke="#2b8fff" stroke-width="1.6" stroke-linecap="round"/></svg>AUTO<b>DEALER</b></div>
+              <div class="pv-search">Search prospects, customers, vehicles...</div>
+              <div class="pv-ics">
+                <svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+                <span class="pv-av"></span>
+              </div>
+            </div>
+            <div class="pv-body">
+              <div class="pv-side">
+                <a class="on"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>Home</a>
+                <a><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>Prospects</a>
+                <a><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M5 20c0-3.4 3-5.6 7-5.6s7 2.2 7 5.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>Customers</a>
+                <a><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 9.5h17" fill="none" stroke="currentColor" stroke-width="1.9"/></svg>Deals</a>
+                <a><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.9"/></svg>Appointments</a>
+                <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Tasks</a>
+                <a><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>Communications</a>
+                <a><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Inventory</a>
+                <div class="u"><span class="a"></span><div><b>Cameron Miller</b><span>Sales Representative</span></div></div>
+              </div>
+              <div class="pv-main">
+                <div class="pv-greet"><span class="date">📅 Today ▾</span><b>Good morning, Cameron! 👋</b><p>Here's what's happening with your day.</p></div>
+                <div class="pv-kpis">
+                  <div class="pv-kpi"><div class="r"><span class="ic blue"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><div><div class="lbl">New Prospects</div><div class="v" data-count="12">0</div></div></div><div class="sub" style="color:#4ade80">↑ 20% from yesterday</div></div>
+                  <div class="pv-kpi"><div class="r"><span class="ic green"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><div class="lbl">Appointments</div><div class="v" data-count="5">0</div></div></div><div class="sub">2 confirmed • 3 pending</div></div>
+                  <div class="pv-kpi"><div class="r"><span class="ic purple"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.9"/></svg></span><div><div class="lbl">Tasks Due</div><div class="v" data-count="7">0</div></div></div><div class="sub" style="color:#f87171">3 high priority</div></div>
+                  <div class="pv-kpi"><div class="r"><span class="ic orange"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17l-5.2 2.6 1-5.8L3.5 9.7l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div><div class="lbl">Hot Prospects</div><div class="v" data-count="8">0</div></div></div><div class="sub" style="color:#fbbf24">8 to follow up</div></div>
+                </div>
+                <div class="pv-lower">
+                  <div class="pv-panel">
+                    <div class="pv-ph"><b>Deals This Month</b><span class="va">+18%</span></div>
+                    <div class="pv-chart">
+                      <svg viewBox="0 0 260 74" preserveAspectRatio="none">
+                        <defs><linearGradient id="spg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f8dff" stop-opacity="0.35"/><stop offset="1" stop-color="#4f8dff" stop-opacity="0"/></linearGradient></defs>
+                        <path id="sparkFill" d="M0,60 L20,54 L46,58 L72,44 L98,48 L124,34 L150,38 L176,26 L202,30 L228,16 L260,10 L260,74 L0,74 Z" fill="url(#spg)" opacity="0"/>
+                        <path id="heroSpark" d="M0,60 L20,54 L46,58 L72,44 L98,48 L124,34 L150,38 L176,26 L202,30 L228,16 L260,10" fill="none" stroke="#6ea8ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="pv-panel">
+                    <div class="pv-ph"><b>Action Queue</b><span class="va">View All</span></div>
+                    <div class="pv-item"><span class="mi" style="background:rgba(34,197,94,0.15);color:#4ade80"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div class="t"><b>Call John Smith</b><span>Test drive follow-up</span></div><div class="rt"><span class="chip high">High</span></div></div>
+                    <div class="pv-item"><span class="mi" style="background:rgba(37,99,235,0.15);color:#6ea8ff"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div class="t"><b>Text M. Williams</b><span>Trade-in details</span></div><div class="rt"><span class="chip high">High</span></div></div>
+                    <div class="pv-item"><span class="mi" style="background:rgba(245,158,11,0.15);color:#fbbf24"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div class="t"><b>Email Sarah Lewis</b><span>Financing options</span></div><div class="rt"><span class="chip med">Med</span></div></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="pv-body">
-            <div class="pv-side">
-              <a class="on"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>Home</a>
-              <a><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>Prospects</a>
-              <a><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M5 20c0-3.4 3-5.6 7-5.6s7 2.2 7 5.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>Customers</a>
-              <a><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 9.5h17" fill="none" stroke="currentColor" stroke-width="1.9"/></svg>Deals</a>
-              <a><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.9"/></svg>Appointments</a>
-              <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Tasks</a>
-              <a><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>Communications</a>
-              <a><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Inventory</a>
-              <a><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Reports</a>
-              <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>Settings</a>
-              <div class="u"><span class="a"></span><div><b>Cameron Miller</b><span>Sales Representative</span></div></div>
-            </div>
-            <div class="pv-main">
-              <div class="pv-greet"><span class="date">📅 May 29, 2024 ▾</span><b>Good morning, Cameron! 👋</b><p>Here's what's happening with your day.</p></div>
-              <div class="pv-kpis">
-                <div class="pv-kpi"><div class="r"><span class="ic blue"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><div><div class="lbl">New Prospects</div><div class="v">12</div></div></div><div class="sub" style="color:#4ade80">↑ 20% from yesterday</div></div>
-                <div class="pv-kpi"><div class="r"><span class="ic green"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><div class="lbl">Appointments Today</div><div class="v">5</div></div></div><div class="sub">2 confirmed • 3 pending</div></div>
-                <div class="pv-kpi"><div class="r"><span class="ic purple"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.9"/></svg></span><div><div class="lbl">Tasks Due Today</div><div class="v">7</div></div></div><div class="sub" style="color:#f87171">3 high priority</div></div>
-                <div class="pv-kpi"><div class="r"><span class="ic orange"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17l-5.2 2.6 1-5.8L3.5 9.7l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div><div class="lbl">Hot Prospects</div><div class="v">8</div></div></div><div class="sub" style="color:#fbbf24">8 to follow up</div></div>
-              </div>
-              <div class="pv-panels">
-                <div class="pv-panel">
-                  <div class="pv-ph"><b>Action Queue <span style="background:rgba(245,158,11,0.2);color:#fbbf24;border-radius:50%;padding:1px 5px">7</span></b><span class="va">View All</span></div>
-                  <div class="pv-item"><span class="mi" style="background:rgba(34,197,94,0.15);color:#4ade80"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div class="t"><b>Call John Smith</b><span>Discuss availability for test drive</span></div><div class="rt"><span class="chip high">High</span><button class="pbtn">Call</button></div></div>
-                  <div class="pv-item"><span class="mi" style="background:rgba(37,99,235,0.15);color:#6ea8ff"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div class="t"><b>Text Michael Williams</b><span>Follow up on trade-in details</span></div><div class="rt"><span class="chip high">High</span><button class="pbtn">Text</button></div></div>
-                  <div class="pv-item"><span class="mi" style="background:rgba(245,158,11,0.15);color:#fbbf24"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div class="t"><b>Email Sarah Lewis</b><span>Send financing options</span></div><div class="rt"><span class="chip med">Medium</span><button class="pbtn">Email</button></div></div>
-                  <div class="pv-item"><span class="mi" style="background:rgba(34,197,94,0.15);color:#4ade80"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div class="t"><b>Call David Johnson</b><span>Confirm test drive appointment</span></div><div class="rt"><span class="chip low">Low</span><button class="pbtn">Call</button></div></div>
-                </div>
-                <div class="pv-panel">
-                  <div class="pv-ph"><b>Due on Next Activity</b><span class="va">View All</span></div>
-                  <div class="pv-item"><span class="mi" style="background:rgba(37,99,235,0.15);color:#6ea8ff"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div class="t"><b>John Smith</b><span>Test Drive · Today at 9:30 AM</span></div><div class="rt"><span class="pv-time">Today<br>9:30 AM</span><button class="pbtn">Start</button></div></div>
-                  <div class="pv-item"><span class="mi" style="background:rgba(34,197,94,0.15);color:#4ade80"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div class="t"><b>Michael Williams</b><span>Call · Today at 11:00 AM</span></div><div class="rt"><span class="pv-time">Today<br>11:00 AM</span><button class="pbtn">Call</button></div></div>
-                  <div class="pv-item"><span class="mi" style="background:rgba(168,85,247,0.15);color:#c084fc"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 19c0-3 2.7-5 6-5s6 2 6 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div class="t"><b>Sarah Lewis</b><span>Follow Up · Today at 1:30 PM</span></div><div class="rt"><span class="pv-time">Today<br>1:30 PM</span><button class="pbtn">Start</button></div></div>
-                  <div class="pv-item"><span class="mi" style="background:rgba(148,163,184,0.15);color:#94a3b8"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg></span><div class="t"><b>David Johnson</b><span>Test Drive · Today at 3:00 PM</span></div><div class="rt"><span class="pv-time">Today<br>3:00 PM</span><button class="pbtn">Start</button></div></div>
-                </div>
-              </div>
-            </div>
+          <!-- floating badges -->
+          <div class="float-badge fb-ai">
+            <div class="h"><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 2l2.2 6.2L20 10l-5.8 1.8L12 18l-2.2-6.2L4 10l5.8-1.8z" fill="currentColor"/></svg></span> AutoDealer AI</div>
+            <div class="txt"><span id="dashAiText"></span><span class="cursor"></span></div>
+          </div>
+          <div class="float-badge fb-note" id="liveNote">
+            <span class="ni"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div><b>Deal closed 🎉</b><span>2021 RAV4 · $32,400</span></div>
           </div>
         </div>
       </div>
     </div>
+    <div class="scroll-ind"><span class="mouse"></span>Scroll</div>
   </section>
 
-  <!-- ===================== FEATURES ===================== -->
-  <section class="features" id="features">
+  <!-- ===================== STAT BAND ===================== -->
+  <div class="statband">
     <div class="container">
-      <h2>Everything you need to win more deals</h2>
-      <div class="rule"></div>
-      <div class="feat-grid">
-        <div class="feat">
-          <span class="feat-ic blue"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span>
-          <h3>Manage Every Lead</h3>
-          <p>Capture, organize, and follow up with every opportunity.</p>
+      <div class="stat-grid">
+        <div class="stat"><b data-count="38" data-suffix="%">0%</b><span>Higher close rate</span></div>
+        <div class="stat"><b data-count="4" data-suffix="x">0x</b><span>Faster lead response</span></div>
+        <div class="stat"><b data-count="12" data-suffix="hrs">0</b><span>Saved per rep weekly</span></div>
+        <div class="stat"><b data-count="99" data-suffix="%">0%</b><span>Uptime, always on</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== ROLE SWITCHER ===================== -->
+  <section class="blk">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">One platform, every role</span>
+        <h2>A workspace built for <span class="g">how each person works</span></h2>
+        <p>Not one dashboard filtered six ways — a tailored home, navigation, KPIs, and AI copilot for every role on your team. Click a role to see their world.</p>
+      </div>
+      <div class="role-tabs" id="roleTabs"></div>
+      <div class="role-stage">
+        <div class="role-copy" id="roleCopy"></div>
+        <div class="role-card" id="roleCard"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== AI CENTERPIECE ===================== -->
+  <section class="blk alt">
+    <div class="container">
+      <div class="ai-stage">
+        <div>
+          <span class="kicker">Meet AutoDealer AI</span>
+          <h2 style="font-size:clamp(28px,3.4vw,42px);font-weight:900;letter-spacing:-1.4px;line-height:1.08;">An AI copilot that doesn't just answer — <span style="background:linear-gradient(120deg,#4f8dff,#7db4ff);-webkit-background-clip:text;background-clip:text;color:transparent;">it takes action.</span></h2>
+          <div class="ai-cap">
+            <div class="cap"><span class="ci"><svg viewBox="0 0 24 24"><path d="M12 2l2.2 6.2L20 10l-5.8 1.8L12 18l-2.2-6.2L4 10l5.8-1.8z" fill="currentColor"/></svg></span><div><b>Context-aware everywhere</b><p>It knows the customer, vehicle, deal, and page you're on — no re-explaining, ever.</p></div></div>
+            <div class="cap"><span class="ci"><svg viewBox="0 0 24 24"><path d="M13 2L4.5 13H11l-1 9 8.5-11H12z" fill="currentColor"/></svg></span><div><b>Performs real actions</b><p>Schedule appointments, send texts, draft quotes, and update deals — from one chat.</p></div></div>
+            <div class="cap"><span class="ci"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><div><b>Proactive, not passive</b><p>Surfaces the next best action, flags at-risk deals, and mines your database for opportunities.</p></div></div>
+          </div>
         </div>
-        <div class="feat">
-          <span class="feat-ic purple"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span>
-          <h3>Book More Appointments</h3>
-          <p>Streamline scheduling and fill your calendar.</p>
-        </div>
-        <div class="feat">
-          <span class="feat-ic green"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
-          <h3>Communicate Smarter</h3>
-          <p>Call, text, email, and video from one powerful CRM.</p>
-        </div>
-        <div class="feat">
-          <span class="feat-ic blue"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg></span>
-          <h3>Stay Focused</h3>
-          <p>Actionable insights and daily priorities that drive results.</p>
-        </div>
-        <div class="feat">
-          <span class="feat-ic orange"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.5" cy="15" r="1" fill="currentColor"/><circle cx="16.5" cy="15" r="1" fill="currentColor"/></svg></span>
-          <h3>Close More Deals</h3>
-          <p>Stay on top of every step and close with confidence.</p>
-        </div>
-        <div class="feat">
-          <span class="feat-ic purple"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <h3>Save Time</h3>
-          <p>Automate tasks and follow ups so you can sell more.</p>
+        <div class="ai-chat">
+          <div class="ac-top"><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 2l2.2 6.2L20 10l-5.8 1.8L12 18l-2.2-6.2L4 10l5.8-1.8z" fill="currentColor"/></svg></span><b>AutoDealer AI</b><span class="st"><span class="d"></span> Online</span></div>
+          <div class="ac-body" id="aiChat"></div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ===================== LIVE FEED ===================== -->
+  <section class="blk">
+    <div class="container">
+      <div class="feed-stage">
+        <div>
+          <span class="kicker">Real-time by default</span>
+          <h2 style="font-size:clamp(28px,3.4vw,42px);font-weight:900;letter-spacing:-1.4px;line-height:1.08;">Your whole store, <span style="background:linear-gradient(120deg,#4f8dff,#7db4ff);-webkit-background-clip:text;background-clip:text;color:transparent;">live and in sync.</span></h2>
+          <p style="color:#9fb0c6;font-size:16.5px;line-height:1.65;margin-top:18px;">Every lead, message, test drive, and signed deal updates instantly across every screen — showroom TVs, manager desks, and phones in the field. No refresh, no stale data, no silos.</p>
+          <div style="display:flex;gap:14px;margin-top:26px;flex-wrap:wrap;">
+            <a class="btn-primary" href="/login">Request a Demo</a>
+            <a class="btn-ghost" href="/features">Explore Features</a>
+          </div>
+        </div>
+        <div class="feed">
+          <div class="feed-h"><svg viewBox="0 0 24 24" width="18" height="18" style="color:#6ea8ff"><path d="M13 2L4.5 13H11l-1 9 8.5-11H12z" fill="currentColor"/></svg> Live Activity<span class="live"><span class="d"></span> Live</span></div>
+          <div class="feed-list" id="liveFeed"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== JOURNEY ===================== -->
+  <section class="blk alt">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">The full lifecycle</span>
+        <h2>From first click to <span class="g">lifelong customer</span></h2>
+        <p>AutoDealer covers every stage of the relationship — one connected system instead of a dozen disconnected tools.</p>
+      </div>
+      <div class="journey">
+        <div class="jline"></div><div class="jfill" id="jfill"></div>
+        <div class="jsteps" id="journey"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURE BLOCKS ===================== -->
+  <section class="blk">
+    <div class="container">
+      <div class="fblk">
+        <div class="fb-copy">
+          <span class="kicker">Deal Desk &amp; Finance</span>
+          <h3>Structure, desk, and close every deal in one place</h3>
+          <p>Build payments, present options, run the F&amp;I menu, and move a deal from worksheet to signed — without leaving the platform. The digital deal jacket assembles itself.</p>
+          <ul class="fb-list">
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Real-time payment &amp; lease calculators</li>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>F&amp;I menu presentation &amp; penetration tracking</li>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Digital deal jacket &amp; e-signature built in</li>
+          </ul>
+        </div>
+        <div class="fb-visual">
+          <div class="mini">
+            <div class="mini-row"><span class="mr-ic" style="background:rgba(37,99,235,0.15);color:#6ea8ff"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 9.5h17" fill="none" stroke="currentColor" stroke-width="1.9"/></svg></span><div><b>Monthly Payment</b><span>72 mo · 6.9% APR</span></div><span class="mr-v">$486</span></div>
+            <div class="mini-row"><span class="mr-ic" style="background:rgba(34,197,94,0.15);color:#4ade80"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span><div><b>Front + Back Gross</b><span>Incl. F&amp;I products</span></div><span class="mr-v">$4,280</span></div>
+            <div class="mini-row"><span class="mr-ic" style="background:rgba(168,85,247,0.15);color:#c084fc"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.8 4.2a2 2 0 0 0-1.4.6L4.8 6.4A2 2 0 0 0 4.2 7.8v8.4a2 2 0 0 0 .6 1.4l1.6 1.6a2 2 0 0 0 1.4.6h8.4a2 2 0 0 0 1.4-.6l1.6-1.6a2 2 0 0 0 .6-1.4V7.8a2 2 0 0 0-.6-1.4l-1.6-1.6a2 2 0 0 0-1.4-.6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><div><b>Deal Status</b><span>Ready for signature</span></div><span class="mr-v" style="color:#4ade80;font-size:12px;">SIGNED</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fblk rev">
+        <div class="fb-copy">
+          <span class="kicker">Inventory Intelligence</span>
+          <h3>Price to the market, move aged units, protect your gross</h3>
+          <p>AI scores every vehicle on aging, demand, and price-to-market, then recommends the exact move — reprice, promote, hold, or wholesale — before water eats your profit.</p>
+          <ul class="fb-list">
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Live price-to-market &amp; demand scoring</li>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Aged-inventory &amp; "water" alerts</li>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>One-click AI reprice &amp; promote actions</li>
+          </ul>
+        </div>
+        <div class="fb-visual">
+          <div class="mini">
+            <div class="mini-bars">
+              <div class="bar" style="height:45%"></div><div class="bar" style="height:62%"></div><div class="bar" style="height:38%"></div><div class="bar" style="height:78%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:88%"></div><div class="bar" style="height:70%"></div>
+            </div>
+            <div class="mini-row" style="margin-top:16px;"><span class="mr-ic" style="background:rgba(245,158,11,0.15);color:#fbbf24"><svg viewBox="0 0 24 24"><path d="M12 3v6M12 15h.01M4 20h16L12 4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>3 units aging &gt; 60 days</b><span>AI suggests reprice −$1,200</span></div><span class="mr-v" style="font-size:12px;color:#fbbf24;">ACT</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fblk">
+        <div class="fb-copy">
+          <span class="kicker">Service Retention</span>
+          <h3>Turn every sale into a lifetime of return visits</h3>
+          <p>Track retention by ownership year, catch defection risk early, and launch AI-timed campaigns that bring customers back for service — and their next vehicle.</p>
+          <ul class="fb-list">
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Retention scoring by ownership year</li>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Defection-risk &amp; equity-upgrade alerts</li>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Automated, well-timed retention campaigns</li>
+          </ul>
+        </div>
+        <div class="fb-visual">
+          <div class="mini">
+            <div class="mgauge"><div class="gv">72<span style="font-size:22px;">%</span></div><div class="gl">Service retention rate</div></div>
+            <div class="mini-row" style="margin-top:14px;"><span class="mr-ic" style="background:rgba(34,197,94,0.15);color:#4ade80"><svg viewBox="0 0 24 24"><path d="M4 17l5-5 3 3 7-8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>Equity upgrade ready</b><span>14 customers in positive equity</span></div><span class="mr-v" style="font-size:12px;color:#4ade80;">+14</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TRUST GRID ===================== -->
+  <section class="blk alt">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">Enterprise-grade</span>
+        <h2>Built to be trusted with <span class="g">your entire business</span></h2>
+        <p>Security, reliability, and control that hold up to dealer groups and enterprise IT.</p>
+      </div>
+      <div class="trust-grid" id="trustGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== MIGRATION ===================== -->
+  <section class="blk">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">Effortless onboarding</span>
+        <h2>Switch in days, <span class="g">not months</span></h2>
+        <p>Our guided Migration Center moves your data from any legacy CRM — with AI cleanup, live progress, and zero downtime.</p>
+      </div>
+      <div class="mig-flow" id="migFlow"></div>
+      <div style="text-align:center;margin-top:44px;">
+        <a class="btn-primary btn-lg" href="/login">Start Your Migration
+          <svg class="arrow" viewBox="0 0 22 16"><path d="M1 8h18M13 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== INTEGRATIONS MARQUEE ===================== -->
+  <section class="blk alt" style="padding:70px 0;">
+    <div class="container">
+      <div class="section-head" style="margin-bottom:40px;">
+        <span class="kicker">Plays well with everything</span>
+        <h2 style="font-size:clamp(26px,3vw,38px);">Connected to the tools you already run</h2>
+      </div>
+    </div>
+    <div class="marquee"><div class="mtrack" id="mtrack"></div></div>
+  </section>
+
+  <!-- ===================== ROI ===================== -->
+  <section class="blk">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">The math</span>
+        <h2>See what AutoDealer <span class="g">puts back on your books</span></h2>
+        <p>Move the sliders to match your store. This is a conservative estimate of monthly savings and annual ROI.</p>
+      </div>
+      <div class="roi-wrap">
+        <div class="roi-in">
+          <div class="roi-field">
+            <div class="rl"><label>Sales reps on your team</label><span class="rv" id="repsV">20</span></div>
+            <input type="range" id="reps" min="3" max="80" value="20" />
+          </div>
+          <div class="roi-field">
+            <div class="rl"><label>Leads per month</label><span class="rv" id="leadsV">400</span></div>
+            <input type="range" id="leads" min="50" max="2500" step="10" value="400" />
+          </div>
+          <div class="roi-field">
+            <div class="rl"><label>Vehicles sold / month</label><span class="rv" id="unitsV">90</span></div>
+            <input type="range" id="units" min="10" max="600" step="5" value="90" />
+          </div>
+          <div class="roi-field">
+            <div class="rl"><label>Current CRM cost / month</label><span class="rv" id="costV">$5,000</span></div>
+            <input type="range" id="cost" min="0" max="15000" step="100" value="5000" />
+          </div>
+          <p class="plan-note">Assumes the Growth plan at $1,795/mo. Estimates use conservative industry benchmarks: a modest lift in closed units from faster follow-up, plus recovered rep selling time valued at $34/hr. Your results will vary.</p>
+        </div>
+        <div class="roi-out">
+          <div class="ro-lbl">Estimated monthly savings</div>
+          <div class="roi-big" id="roiMonthly">$18,275</div>
+          <div class="roi-sub">A conservative estimate based on your inputs.</div>
+          <div class="roi-breakdown">
+            <div class="roi-line"><span>Additional gross from more closed units</span><b id="roiGross">$26,000</b></div>
+            <div class="roi-line"><span>Rep time recovered (hrs/mo)</span><b id="roiHours">430 hrs</b></div>
+            <div class="roi-line"><span>Value of recovered selling time</span><b id="roiLabor">$14,620</b></div>
+            <div class="roi-line"><span>Software cost difference</span><b id="roiSoftware">+$3,205</b></div>
+            <div class="roi-line tot"><span>Estimated annual ROI</span><b id="roiAnnual">$562,500</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PRICING PREVIEW ===================== -->
+  <section class="blk alt">
+    <div class="container">
+      <div class="section-head">
+        <span class="kicker">Simple, honest pricing</span>
+        <h2>Plans that scale with <span class="g">your store</span></h2>
+        <p>Every plan includes the full platform, unlimited users, onboarding, and AI. No per-seat games.</p>
+      </div>
+      <div class="pp-grid">
+        <div class="pcard">
+          <h4>Essentials</h4>
+          <div class="pdesc">For single rooftops getting organized and closing more.</div>
+          <div class="price">$995<span>/mo</span></div>
+          <ul>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Full CRM &amp; deal desk</li>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited users</li>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>AutoDealer AI included</li>
+          </ul>
+          <a class="pbtn2 out" href="/pricing">Choose Essentials</a>
+        </div>
+        <div class="pcard pop">
+          <span class="ptag">MOST POPULAR</span>
+          <h4>Growth</h4>
+          <div class="pdesc">For growing stores that want the full AI-native platform.</div>
+          <div class="price">$1,795<span>/mo</span></div>
+          <ul>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Everything in Essentials</li>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Inventory Intelligence &amp; Service</li>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Role workspaces &amp; automations</li>
+          </ul>
+          <a class="pbtn2 solid" href="/pricing">Choose Growth</a>
+        </div>
+        <div class="pcard">
+          <h4>Enterprise</h4>
+          <div class="pdesc">For dealer groups running multiple rooftops.</div>
+          <div class="price">$2,995<span>/mo</span></div>
+          <ul>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Everything in Growth</li>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Multi-store &amp; group analytics</li>
+            <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>SSO, API &amp; dedicated success</li>
+          </ul>
+          <a class="pbtn2 out" href="/pricing">Choose Enterprise</a>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:34px;"><a href="/pricing" style="color:#6ea8ff;font-weight:600;font-size:15px;">Compare all plans &amp; features →</a></div>
+    </div>
+  </section>
+
+  <!-- ===================== FINAL CTA ===================== -->
+  <section class="finalcta">
+    <div class="container">
+      <h2>The dealership of the future<br /><span class="g">runs on AutoDealer.</span></h2>
+      <p>Join the stores selling more cars, in less time, with a platform their whole team actually loves to use.</p>
+      <div class="cta-row">
+        <a class="btn-primary btn-lg" href="/login">Request a Demo
+          <svg class="arrow" viewBox="0 0 22 16"><path d="M1 8h18M13 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="btn-ghost btn-lg" href="/dashboard"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>Explore the Platform</a>
+      </div>
+      <div class="fine">No credit card required · Full migration included · Live in days</div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <div class="wm"><svg class="sw" viewBox="0 0 96 8"><path d="M2 6 C24 1, 72 1, 94 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg>AUTO<b>DEALER</b></div>
+          <p class="lead2">The AI-native operating system for modern automotive retail. One platform for every lead, deal, and customer relationship.</p>
+          <div class="foot-social">
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></a>
+            <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11 9.5l4 2.5-4 2.5z" fill="currentColor"/></svg></a>
+          </div>
+        </div>
+        <div class="foot-col">
+          <h5>Product</h5>
+          <a href="/features">Features</a>
+          <a href="/solutions">Solutions</a>
+          <a href="/pricing">Pricing</a>
+          <a href="/dashboard">Live Demo</a>
+        </div>
+        <div class="foot-col">
+          <h5>Company</h5>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+          <a href="/resources">Resources</a>
+          <a href="/login">Log In</a>
+        </div>
+        <div class="foot-col">
+          <h5>Get Started</h5>
+          <a href="/login">Request a Demo</a>
+          <a href="/pricing">View Pricing</a>
+          <a href="/contact">Talk to Sales</a>
+          <a href="/resources">Help Center</a>
+        </div>
+      </div>
+      <div class="foot-bot">
+        <div>© 2026 Mocazari Co. All rights reserved. AutoDealer is a product of Mocazari Co.</div>
+        <div class="fb-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Security</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---- nav shadow ---- */
+    var nav = document.getElementById('nav');
+    var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 12); };
+    window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+    /* ---- count-up ---- */
+    function countUp(el){
+      var target = parseFloat(el.getAttribute('data-count'));
+      var suffix = el.getAttribute('data-suffix') || '';
+      if (reduce){ el.textContent = target + suffix; return; }
+      var dur = 1400, start = null;
+      function step(ts){
+        if (!start) start = ts;
+        var p = Math.min((ts - start) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        var val = Math.round(target * eased);
+        el.textContent = val + suffix;
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    var counted = new WeakSet();
+    var cio = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting && !counted.has(e.target)){ counted.add(e.target); countUp(e.target); cio.unobserve(e.target); }
+      });
+    }, {threshold: 0.5});
+    document.querySelectorAll('[data-count]').forEach(function(el){ cio.observe(el); });
+
+    /* ---- hero spark draw ---- */
+    var spark = document.getElementById('heroSpark');
+    var sparkFill = document.getElementById('sparkFill');
+    if (spark){
+      var len = spark.getTotalLength();
+      if (reduce){ if(sparkFill) sparkFill.style.opacity = 1; }
+      else {
+        spark.style.strokeDasharray = len; spark.style.strokeDashoffset = len;
+        setTimeout(function(){
+          spark.style.transition = 'stroke-dashoffset 2.2s ease';
+          spark.style.strokeDashoffset = 0;
+          if (sparkFill){ sparkFill.style.transition = 'opacity 1.4s ease .8s'; sparkFill.style.opacity = 1; }
+        }, 700);
+      }
+    }
+
+    /* ---- dash AI typing ---- */
+    var aiTextEl = document.getElementById('dashAiText');
+    var aiPhrase = "3 leads haven't been contacted in 2 hrs — want me to text them now?";
+    if (aiTextEl){
+      if (reduce){ aiTextEl.textContent = aiPhrase; }
+      else {
+        var i = 0;
+        setTimeout(function type(){
+          if (i <= aiPhrase.length){ aiTextEl.textContent = aiPhrase.slice(0, i); i++; setTimeout(type, 34); }
+        }, 1400);
+      }
+    }
+
+    /* ---- live note slide-in loop ---- */
+    var note = document.getElementById('liveNote');
+    var noteData = [
+      ['Deal closed 🎉','2021 RAV4 · $32,400'],
+      ['Appointment booked','Test drive · 3:00 PM'],
+      ['New lead assigned','Web · Silverado 1500'],
+      ['E-signature complete','Purchase agreement']
+    ];
+    if (note && !reduce){
+      var nb = note.querySelector('b'), ns = note.querySelector('span'), ni = 0;
+      function cycleNote(){
+        note.classList.add('in');
+        setTimeout(function(){
+          note.classList.remove('in');
+          setTimeout(function(){
+            ni = (ni + 1) % noteData.length;
+            nb.textContent = noteData[ni][0]; ns.textContent = noteData[ni][1];
+            cycleNote();
+          }, 700);
+        }, 3200);
+      }
+      setTimeout(cycleNote, 1800);
+    } else if (note){ note.classList.add('in'); }
+
+    /* ================= ROLE SWITCHER ================= */
+    var ROLES = [
+      { key:'sales', name:'Salesperson', ini:'CM', c:'#3b82f6', who:'Cameron Miller · Sales Rep',
+        badge:'Sell more, chase less',
+        desc:'A focused daily cockpit: prioritized action queue, one-tap call/text/email, and an AI coach that tells you exactly who to follow up with next.',
+        feats:['Prioritized action queue & hot prospects','1-tap call, text, email & scheduling','AI Sales Coach on every conversation'],
+        kpis:[['12','New leads'],['5','Appts today'],['8','Hot prospects']],
+        ai:'You have 3 hot prospects idle for 2+ days. Want me to draft follow-up texts for all three?' },
+      { key:'bdc', name:'BDC Agent', ini:'MR', c:'#22c55e', who:'Marcus Reyes · BDC Agent',
+        badge:'Speed to lead wins',
+        desc:'A communications-first inbox built for volume: every new lead surfaced instantly with SLA timers, one-click outreach, and an appointment-set goal ring.',
+        feats:['Live lead inbox with SLA response timers','1-click Call / Text / Schedule','AI Lead Coach drafts the perfect opener'],
+        kpis:[['47','Leads today'],['1m 40s','Avg response'],['18','Appts set']],
+        ai:'A web lead just came in on a Silverado. Fastest closer nearby is you — text drafted, send it?' },
+      { key:'finance', name:'Finance Mgr', ini:'TF', c:'#a855f7', who:'Tom Fielder · Finance Manager',
+        badge:'Fund faster, penetrate deeper',
+        desc:'A deal-centric queue with approval chips and funding status at a glance, plus an AI finance assistant and live F&I penetration tracking.',
+        feats:['Deal queue with approvals & waiting-on','Funding status & contracts-in-transit','AI menu & F&I penetration tracking'],
+        kpis:[['9','Deals in queue'],['$1,840','Avg back gross'],['86%','F&I penetration']],
+        ai:'Deal #4471 is missing stips for funding. I drafted the request to the lender — send?' },
+      { key:'gm', name:'General Mgr', ini:'GV', c:'#f59e0b', who:'Gloria Vance · General Manager',
+        badge:'The whole store, at a glance',
+        desc:'An executive command center: an AI daily briefing, department health across sales, F&I, and service, live pace-to-goal, and critical alerts with dollar impact.',
+        feats:['AI daily briefing & pace-to-goal','Department health & team leaderboard','Critical alerts with $ impact & actions'],
+        kpis:[['142','Units MTD'],['$684K','Total gross'],['+18%','vs last month']],
+        ai:'You\'re 8 units behind pace with 6 days left. 14 equity-upgrade customers could close the gap.' },
+      { key:'reception', name:'Reception', ini:'AL', c:'#0ea5e9', who:'Ava Lin · Front Desk',
+        badge:'Every guest, handled',
+        desc:'A calm front-desk view: who\'s on the showroom floor, which rep is up next, live check-ins, and instant routing so no customer ever waits.',
+        feats:['Live showroom floor & up-rotation','Guest check-in & instant rep routing','Appointment arrivals at a glance'],
+        kpis:[['6','On floor now'],['Rep 3','Up next'],['4','Appts arriving']],
+        ai:'The Johnson family just checked in for a 2:00 test drive. I\'ve notified their rep, Cameron.' },
+    ];
+    var tabsEl = document.getElementById('roleTabs');
+    var copyEl = document.getElementById('roleCopy');
+    var cardEl = document.getElementById('roleCard');
+    var CK = '<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var SPK = '<svg viewBox="0 0 24 24"><path d="M12 2l2.2 6.2L20 10l-5.8 1.8L12 18l-2.2-6.2L4 10l5.8-1.8z" fill="currentColor"/></svg>';
+    function renderRole(r){
+      copyEl.innerHTML =
+        '<span class="rc-badge">'+SPK+' '+r.badge+'</span>'+
+        '<h3>'+r.name+'</h3>'+
+        '<div class="who">'+r.who+'</div>'+
+        '<p>'+r.desc+'</p>'+
+        '<ul class="role-feats">'+r.feats.map(function(f){ return '<li><span class="ck">'+CK+'</span>'+f+'</li>'; }).join('')+'</ul>'+
+        '<a class="btn-primary" href="/login">See this workspace</a>';
+      cardEl.innerHTML =
+        '<div class="rc-top"><span class="rc-av" style="background:linear-gradient(135deg,'+r.c+',rgba(0,0,0,0.35))">'+r.ini+'</span><div><b>'+r.name+' Workspace</b><span>'+r.who+'</span></div></div>'+
+        '<div class="rc-kpis">'+r.kpis.map(function(k){ return '<div class="rc-kpi"><div class="v">'+k[0]+'</div><div class="l">'+k[1]+'</div></div>'; }).join('')+'</div>'+
+        '<div class="rc-ai"><span class="spark">'+SPK+'</span><div class="body"><b>'+r.name+' AI</b><p>'+r.ai+'</p></div></div>';
+    }
+    ROLES.forEach(function(r, idx){
+      var t = document.createElement('button');
+      t.className = 'rtab' + (idx===0 ? ' on' : '');
+      t.innerHTML = '<span class="rav" style="background:linear-gradient(135deg,'+r.c+',rgba(0,0,0,0.35))">'+r.ini+'</span>'+r.name;
+      t.addEventListener('click', function(){
+        tabsEl.querySelectorAll('.rtab').forEach(function(x){ x.classList.remove('on'); });
+        t.classList.add('on'); renderRole(r);
+      });
+      tabsEl.appendChild(t);
+    });
+    renderRole(ROLES[0]);
+
+    /* ================= AI CHAT typing ================= */
+    var AICONV = [
+      { s:'u', t:"Who should I follow up with first today?" },
+      { s:'a', t:"John Smith — he test-drove the RAV4 yesterday and his financing pre-approval expires tomorrow. High intent, time-sensitive.", act:['Open John\'s deal','Draft a text'] },
+      { s:'u', t:"Text him and set a time to come in." },
+      { s:'a', t:"Done. I texted John offering 2:00 or 4:30 PM today and added a tentative hold to your calendar. I'll notify you the moment he replies.", act:['✓ Text sent','✓ Calendar hold added'] },
+    ];
+    var chatEl = document.getElementById('aiChat');
+    function renderMsg(m){
+      var d = document.createElement('div');
+      d.className = 'msg ' + m.s;
+      var inner = '';
+      if (m.s === 'a') inner += '<span class="tag">'+SPK+' AutoDealer AI</span>';
+      inner += m.t;
+      if (m.act) inner += '<div class="act">'+m.act.map(function(a){ return '<span>'+a+'</span>'; }).join('')+'</div>';
+      d.innerHTML = inner;
+      chatEl.appendChild(d);
+      requestAnimationFrame(function(){ d.classList.add('show'); });
+      return d;
+    }
+    function runChat(){
+      if (chatEl.getAttribute('data-done')) return;
+      chatEl.setAttribute('data-done','1');
+      if (reduce){ AICONV.forEach(renderMsg); return; }
+      var idx = 0;
+      function next(){
+        if (idx >= AICONV.length) return;
+        var m = AICONV[idx];
+        if (m.s === 'a'){
+          var typing = document.createElement('div');
+          typing.className = 'typing'; typing.innerHTML = '<i></i><i></i><i></i>';
+          chatEl.appendChild(typing);
+          setTimeout(function(){ chatEl.removeChild(typing); renderMsg(m); idx++; setTimeout(next, 700); }, 1100);
+        } else {
+          renderMsg(m); idx++; setTimeout(next, 900);
+        }
+      }
+      next();
+    }
+    var chatIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting){ runChat(); chatIO.disconnect(); } });
+    }, {threshold: 0.4});
+    chatIO.observe(chatEl);
+
+    /* ================= LIVE FEED ================= */
+    var LI = {
+      lead:['<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>','rgba(37,99,235,0.15)','#6ea8ff'],
+      text:['<svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>','rgba(34,197,94,0.15)','#4ade80'],
+      appt:['<svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.9"/></svg>','rgba(168,85,247,0.15)','#c084fc'],
+      deal:['<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>','rgba(245,158,11,0.15)','#fbbf24'],
+      sign:['<svg viewBox="0 0 24 24"><path d="M4 20s2-8 8-8M12 12l3-3 3 3-3 3z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>','rgba(14,165,233,0.15)','#38bdf8']
+    };
+    var EVENTS = [
+      ['lead','New lead assigned','Sarah K. · web · Silverado 1500'],
+      ['text','Text replied','John Smith · "See you at 2!"'],
+      ['appt','Appointment booked','M. Williams · test drive 3:00 PM'],
+      ['deal','Deal closed','2021 RAV4 · $32,400 · Cameron'],
+      ['sign','Document signed','Purchase agreement · D. Johnson'],
+      ['lead','New lead assigned','Marcus R. · phone · Model Y'],
+      ['text','Text sent','AI follow-up · 4 prospects'],
+      ['appt','Appointment confirmed','Lopez family · 5:30 PM'],
+      ['deal','Deal closed','2019 F-150 · $28,900 · Priya'],
+      ['sign','E-signature complete','Finance contract · S. Lewis'],
+    ];
+    var feedEl = document.getElementById('liveFeed');
+    function evNode(ev){
+      var meta = LI[ev[0]];
+      var d = document.createElement('div');
+      d.className = 'fev';
+      d.innerHTML = '<span class="fi" style="background:'+meta[1]+';color:'+meta[2]+'">'+meta[0]+'</span>'+
+        '<div class="ft"><b>'+ev[1]+'</b><span>'+ev[2]+'</span></div><span class="fw">just now</span>';
+      return d;
+    }
+    // seed
+    var seed = [3,1,2,0,4];
+    seed.forEach(function(i){ feedEl.appendChild(evNode(EVENTS[i])); });
+    Array.prototype.forEach.call(feedEl.children, function(c, i){ var w=c.querySelector('.fw'); w.textContent = (i+1)+'m ago'; });
+    var feedPtr = 5;
+    if (!reduce){
+      setInterval(function(){
+        var ev = EVENTS[feedPtr % EVENTS.length]; feedPtr++;
+        var node = evNode(ev);
+        feedEl.insertBefore(node, feedEl.firstChild);
+        Array.prototype.forEach.call(feedEl.children, function(c, i){ if(i>0){ var w=c.querySelector('.fw'); w.textContent = i+'m ago'; } });
+        while (feedEl.children.length > 6) feedEl.removeChild(feedEl.lastChild);
+      }, 2600);
+    }
+
+    /* ================= JOURNEY ================= */
+    var JOURNEY = [
+      ['Lead','Captured'],['Engage','Contacted'],['Appointment','Scheduled'],['Showroom','Test drive'],
+      ['Deal','Structured'],['Finance','F&I menu'],['Sign','E-signed'],['Deliver','Handoff'],['Retain','Repeat']
+    ];
+    var JICON = [
+      '<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+      '<svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>',
+      '<svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.9"/></svg>',
+      '<svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+      '<svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 9.5h17" fill="none" stroke="currentColor" stroke-width="1.9"/></svg>',
+      '<svg viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+      '<svg viewBox="0 0 24 24"><path d="M4 20s2-8 8-8M12 12l3-3 3 3-3 3z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>',
+      '<svg viewBox="0 0 24 24"><path d="M5 12h9l-2-3M5 12l0 4h2a2 2 0 0 0 4 0h4a2 2 0 0 0 4 0h1v-4l-3-4h-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>',
+      '<svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10a7 7 0 0 1 14 0c0 5.5-7 10-7 10z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="11" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>'
+    ];
+    var jEl = document.getElementById('journey');
+    JOURNEY.forEach(function(s, i){
+      var d = document.createElement('div');
+      d.className = 'jstep';
+      d.innerHTML = '<div class="jd">'+JICON[i]+'</div><b>'+s[0]+'</b><span>'+s[1]+'</span>';
+      jEl.appendChild(d);
+    });
+    var jSteps = jEl.querySelectorAll('.jstep');
+    var jfill = document.getElementById('jfill');
+    var jDone = false;
+    var jIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting && !jDone){
+          jDone = true;
+          if (reduce){ jSteps.forEach(function(s){ s.classList.add('lit'); }); jfill.style.transition='none'; jfill.style.width='100%'; return; }
+          jfill.style.width = '100%';
+          jSteps.forEach(function(s, i){ setTimeout(function(){ s.classList.add('lit'); }, i * 260); });
+        }
+      });
+    }, {threshold: 0.3});
+    jIO.observe(jEl);
+
+    /* ================= TRUST GRID ================= */
+    var TRUST = [
+      ['Bank-grade security','256-bit encryption at rest and in transit, with continuous monitoring.','<path d="M12 2l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'],
+      ['SOC 2 &amp; compliant','Independently-audited controls and privacy practices you can hand to IT.','<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 12l2.5 2.5L16 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'],
+      ['99.9% uptime','A resilient, always-on platform your team can count on every day.','<path d="M4 13l4 4 4-6 3 4 5-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'],
+      ['Role-based access','Granular permissions so every person sees exactly what they should.','<circle cx="12" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c0-3.4 3-5.6 7-5.6s7 2.2 7 5.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'],
+      ['Full audit trail','Every action logged and searchable — accountability by default.','<rect x="4" y="3" width="16" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'],
+      ['Automatic backups','Your data is continuously backed up with point-in-time recovery.','<path d="M4 7a8 4 0 0 0 16 0M4 7a8 4 0 0 1 16 0v10a8 4 0 0 1-16 0z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 12a8 4 0 0 0 16 0" fill="none" stroke="currentColor" stroke-width="1.8"/>'],
+      ['Open API &amp; webhooks','Build on top of AutoDealer and connect anything your group runs.','<path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13 6l-2 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'],
+      ['Dedicated success','Real onboarding and a team that knows the car business.','<circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 19c0-3 2.5-5 6-5M16 6a3 3 0 0 1 0 6M15 19c3.5 0 6 2 6 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>']
+    ];
+    var tg = document.getElementById('trustGrid');
+    TRUST.forEach(function(t){
+      var d = document.createElement('div');
+      d.className = 'tcard';
+      d.innerHTML = '<div class="ti"><svg viewBox="0 0 24 24">'+t[2]+'</svg></div><b>'+t[0]+'</b><p>'+t[1]+'</p>';
+      tg.appendChild(d);
+    });
+
+    /* ================= MIGRATION ================= */
+    var MIG = [
+      ['1','Pick your source','CDK, VinSolutions, DealerSocket, Reynolds, CSV & more.'],
+      ['2','AI field mapping','We map and match your fields automatically — you just confirm.'],
+      ['3','Clean & preview','AI flags duplicates, broken phones, and missing emails before import.'],
+      ['4','Live import','Watch progress in real time with zero downtime for your team.'],
+      ['5','Go live','Post-migration audit, user invites, and optional live sync.']
+    ];
+    var mf = document.getElementById('migFlow');
+    MIG.forEach(function(m){
+      var d = document.createElement('div');
+      d.className = 'mstep';
+      d.innerHTML = '<div class="mn">'+m[0]+'</div><b>'+m[1]+'</b><p>'+m[2]+'</p>';
+      mf.appendChild(d);
+    });
+
+    /* ================= INTEGRATIONS MARQUEE ================= */
+    var INTG = [
+      ['Twilio','#F22F46','Tw'],['DocuSign','#FFCC22','DS'],['QuickBooks','#2CA01C','QB'],['Google','#4285F4','G'],
+      ['Outlook','#0078D4','O'],['Stripe','#635BFF','St'],['Slack','#611f69','Sl'],['Carfax','#1a7fd4','Cf'],
+      ['Kelley Blue Book','#004b8d','KB'],['AutoTrader','#5b2d8e','At'],['Meta','#0866FF','M'],['Zapier','#FF4A00','Zp']
+    ];
+    var mt = document.getElementById('mtrack');
+    var doubled = INTG.concat(INTG);
+    doubled.forEach(function(g){
+      var d = document.createElement('div');
+      d.className = 'intg';
+      d.innerHTML = '<span class="lg" style="background:'+g[1]+'">'+g[2]+'</span><b>'+g[0]+'</b>';
+      mt.appendChild(d);
+    });
+
+    /* ================= ROI CALCULATOR ================= */
+    var reps = document.getElementById('reps'), leads = document.getElementById('leads'),
+        units = document.getElementById('units'), cost = document.getElementById('cost');
+    var PLAN = 1795;
+    function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+    function calcRoi(){
+      var r = +reps.value, l = +leads.value, u = +units.value, c = +cost.value;
+      document.getElementById('repsV').textContent = r;
+      document.getElementById('leadsV').textContent = l.toLocaleString('en-US');
+      document.getElementById('unitsV').textContent = u;
+      document.getElementById('costV').textContent = money(c);
+      // conservative extra units from faster follow-up, capped by both lead volume and current sales
+      var addlUnits = Math.max(1, Math.round(Math.min(l * 0.028, u * 0.18)));
+      var addlGross = addlUnits * 2600;
+      var timeSaved = Math.round(r * 21.5);              // hrs/mo recovered across the team
+      var laborValue = timeSaved * 34;                    // value of recovered selling time
+      var softwareDiff = c + 450 - PLAN;                  // current cost + integrations − our plan
+      var monthlySavings = Math.max(0, softwareDiff) + laborValue + addlGross;
+      var annualRoi = Math.max(0, (addlGross + laborValue + softwareDiff) * 12);
+      document.getElementById('roiMonthly').textContent = money(monthlySavings);
+      document.getElementById('roiGross').textContent = money(addlGross) + ' (' + addlUnits + ' units)';
+      document.getElementById('roiHours').textContent = timeSaved.toLocaleString('en-US') + ' hrs';
+      document.getElementById('roiLabor').textContent = money(laborValue);
+      document.getElementById('roiSoftware').textContent = (softwareDiff >= 0 ? '+' : '−') + money(Math.abs(softwareDiff));
+      document.getElementById('roiAnnual').textContent = money(annualRoi);
+    }
+    [reps, leads, units, cost].forEach(function(el){ el.addEventListener('input', calcRoi); });
+    calcRoi();
+  })();
+  </script>
   <script src="/anim.js" defer></script>
 </body>
 </html>
