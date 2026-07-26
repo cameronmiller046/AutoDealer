@@ -5,212 +5,237 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pricing — AutoDealer, the AI Dealership Operating System</title>
   <meta name="description" content="Transparent pricing for AutoDealer — the AI-powered dealership operating system. No setup fees, free migration, AI included in every plan." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
   <style>
-    :root{
-      --blue:#2563eb; --blue2:#3b82f6; --brand:#0072ce; --ink:#0b1524; --ink2:#33445c; --muted:#5a6b83; --faint:#8b9bb2;
-      --line:#e9eef5; --bg:#ffffff; --bg2:#f6f9fd; --card:#ffffff; --green:#16a34a; --amber:#d97706;
-      --radius:22px; --shadow:0 1px 2px rgba(11,21,36,.04), 0 18px 40px -24px rgba(11,21,36,.22); --shadow-lg:0 40px 90px -40px rgba(11,21,36,.4);
-      --grad:linear-gradient(135deg,#2563eb,#0072ce);
-    }
-    *{margin:0;box-sizing:border-box;}
-    html{scroll-behavior:smooth;}
-    body{font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5;}
-    a{color:inherit;text-decoration:none;} button{font:inherit;cursor:pointer;} svg{display:block;}
-    .wrap{max-width:1160px;margin:0 auto;padding:0 26px;}
-    .muted{color:var(--muted);}
-    .eyebrow{font-size:12.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:13px;padding:13px 22px;font-size:14.5px;font-weight:700;border:none;transition:.15s;white-space:nowrap;}
-    .btn svg{width:17px;height:17px;}
-    .btn-pri{background:var(--grad);color:#fff;box-shadow:0 16px 34px -16px rgba(37,99,235,.7);} .btn-pri:hover{filter:brightness(1.06);transform:translateY(-1px);}
-    .btn-ghost{background:#fff;border:1px solid var(--line);color:var(--ink);} .btn-ghost:hover{border-color:#c9d8ee;background:#fafcff;}
-    .btn-dark{background:var(--ink);color:#fff;} .btn-dark:hover{background:#16243a;}
+    :root{ --blue:#2563eb; --blue-2:#3b82f6; --accent:#2b8fff; --ink:#060d1a; --ink2:#070f1e; --panel:rgba(255,255,255,.035); --line:rgba(255,255,255,.09); --text:#e8eef9; --muted:#9fb0c6; --faint:#6f83a0; --green:#4ade80; --radius:18px; }
+    *{ margin:0; box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{ font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--ink); color:var(--text); -webkit-font-smoothing:antialiased; line-height:1.5; }
+    a{ color:inherit; text-decoration:none; } button{ font:inherit; cursor:pointer; } svg{ display:block; }
+    .container{ width:100%; max-width:1320px; margin:0 auto; padding:0 40px; }
+    .muted{ color:var(--muted); }
+    .eyebrow{ display:inline-flex; align-items:center; gap:9px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:999px; padding:9px 18px; font-size:13.5px; font-weight:600; color:#d7e2f2; } .eyebrow .sp{ color:var(--accent); }
+    .kicker{ font-size:13px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent); }
 
-    .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(1.5) blur(14px);border-bottom:1px solid var(--line);}
-    .nav-in{max-width:1160px;margin:0 auto;height:66px;display:flex;align-items:center;gap:28px;padding:0 26px;}
-    .logo{display:flex;align-items:center;gap:11px;font-weight:900;font-size:18px;letter-spacing:-.4px;}
-    .logo .mk{width:34px;height:34px;border-radius:10px;background:var(--grad);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:17px;box-shadow:0 8px 18px -8px rgba(37,99,235,.7);}
-    .logo b{color:var(--blue);}
-    .nav-links{display:flex;gap:4px;margin-left:8px;}
-    .nav-links a{padding:8px 13px;border-radius:9px;font-size:14px;font-weight:600;color:var(--ink2);} .nav-links a:hover{background:var(--bg2);color:var(--blue);}
-    .nav-cta{margin-left:auto;display:flex;align-items:center;gap:10px;}
-    @media(max-width:860px){ .nav-links{display:none;} }
+    /* wordmark (matches homepage) */
+    .wm{ font-size:24px; font-weight:900; letter-spacing:.5px; color:#fff; line-height:1; } .wm b{ color:#2b8fff; } .wm .sw{ display:block; width:96px; height:8px; margin-bottom:3px; }
 
-    section{padding:76px 0;}
-    .center{text-align:center;}
-    h1{font-size:clamp(38px,5.2vw,60px);font-weight:900;letter-spacing:-1.8px;line-height:1.04;}
-    h2{font-size:clamp(28px,3.4vw,40px);font-weight:900;letter-spacing:-1px;line-height:1.1;}
-    .lead{font-size:19px;color:var(--muted);max-width:640px;margin:18px auto 0;}
+    /* buttons */
+    .btn-primary{ background:linear-gradient(180deg,var(--blue-2),var(--blue)); color:#fff; border:none; border-radius:11px; padding:13px 24px; font-size:15px; font-weight:700; box-shadow:0 12px 30px -12px rgba(37,99,235,.8); display:inline-flex; align-items:center; justify-content:center; gap:11px; transition:.15s; }
+    .btn-primary:hover{ filter:brightness(1.07); transform:translateY(-1px); }
+    .btn-ghost{ background:rgba(255,255,255,.05); color:#fff; border:1.5px solid rgba(255,255,255,.25); border-radius:11px; padding:13px 24px; font-size:15px; font-weight:700; display:inline-flex; align-items:center; justify-content:center; gap:11px; transition:.15s; } .btn-ghost:hover{ background:rgba(255,255,255,.11); }
+    .btn-lg{ padding:16px 28px; font-size:16px; }
+    .btn-dark{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); color:#fff; border-radius:11px; padding:13px; font-size:14.5px; font-weight:700; width:100%; transition:.15s; } .btn-dark:hover{ background:rgba(255,255,255,.12); }
+    .arrow{ width:20px; height:16px; } .play{ width:22px; height:22px; border-radius:50%; border:1.5px solid rgba(255,255,255,.5); display:inline-flex; align-items:center; justify-content:center; } .play svg{ width:11px; height:11px; margin-left:1px; }
 
-    .hero{background:radial-gradient(900px 500px at 50% -10%,#eaf2ff,transparent 60%),#fff;padding-top:70px;position:relative;overflow:hidden;}
-    .hero .badges{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px;}
-    .hero .bdg{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 15px;font-size:13.5px;font-weight:700;color:var(--ink2);box-shadow:var(--shadow);}
-    .hero .bdg svg{width:16px;height:16px;color:var(--green);}
-    .hero .cta{display:flex;gap:12px;justify-content:center;margin-top:30px;flex-wrap:wrap;}
-    .pill-tag{display:inline-flex;align-items:center;gap:8px;background:#eef4ff;border:1px solid #dbe7fb;color:var(--blue);border-radius:999px;padding:7px 15px;font-size:13px;font-weight:800;margin-bottom:22px;}
-    .pill-tag .d{width:7px;height:7px;border-radius:50%;background:var(--blue);}
+    /* ---- nav (sticky, transparent over hero → dark on scroll via anim.js) ---- */
+    .nav{ position:sticky; top:0; z-index:60; }
+    .nav-in{ display:flex; align-items:center; gap:40px; padding:22px 0; }
+    .nav-links{ display:flex; align-items:center; gap:28px; margin:0 auto; }
+    .nav-links > a, .ni > a{ color:#cdd9ec; font-size:15px; font-weight:500; display:inline-flex; align-items:center; gap:6px; padding:6px 0; }
+    .nav-links > a:hover, .ni > a:hover, .ni:hover > a{ color:#fff; }
+    .nav-links a.on{ color:#fff; } .nav-links a.on::after{ content:""; display:block; }
+    .ni{ position:relative; }
+    .ni > a svg{ width:11px; height:8px; opacity:.7; transition:transform .2s; } .ni:hover > a svg, .ni.open > a svg{ transform:rotate(180deg); }
+    .drop{ position:absolute; top:calc(100% + 12px); left:50%; transform:translateX(-50%) translateY(8px); min-width:300px; background:#0b1626; border:1px solid rgba(255,255,255,.12); border-radius:16px; box-shadow:0 30px 70px -28px rgba(0,0,0,.8); padding:10px; opacity:0; pointer-events:none; transition:.18s; }
+    .ni:hover .drop, .ni.open .drop{ opacity:1; pointer-events:auto; transform:translateX(-50%) translateY(0); }
+    .drop::before{ content:""; position:absolute; top:-14px; left:0; right:0; height:14px; }
+    .drop a{ display:flex; align-items:flex-start; gap:12px; padding:11px 13px; border-radius:11px; color:#c7d4e6; }
+    .drop a:hover{ background:rgba(255,255,255,.06); }
+    .drop a .di{ width:34px; height:34px; border-radius:9px; flex:none; display:flex; align-items:center; justify-content:center; background:rgba(43,143,255,.14); color:#6ea8ff; } .drop a .di svg{ width:17px; height:17px; }
+    .drop a b{ font-size:13.5px; font-weight:700; color:#fff; display:block; } .drop a span{ font-size:12px; color:#8ea3c0; }
+    .nav-right{ display:flex; align-items:center; gap:24px; } .login{ color:#eaf1fb; font-size:15px; font-weight:600; } .login:hover{ color:#fff; }
+    .hamb{ display:none; }
 
-    .toggle-wrap{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:44px;}
-    .toggle{display:inline-flex;background:var(--bg2);border:1px solid var(--line);border-radius:13px;padding:4px;position:relative;}
-    .toggle button{border:none;background:none;padding:9px 20px;font-size:14px;font-weight:700;color:var(--muted);border-radius:10px;position:relative;z-index:1;transition:color .2s;}
-    .toggle button.on{color:var(--ink);}
-    .toggle .slider{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);background:#fff;border-radius:10px;box-shadow:var(--shadow);transition:transform .25s cubic-bezier(.4,0,.2,1);}
-    .toggle.annual .slider{transform:translateX(100%);}
-    .save-tag{font-size:12.5px;font-weight:800;color:var(--green);background:#e7f7ee;border-radius:999px;padding:5px 11px;}
+    /* ---- hero ---- */
+    .hero{ position:relative; overflow:hidden;
+      background:
+        linear-gradient(90deg, rgba(6,13,26,.94) 0%, rgba(6,13,26,.72) 45%, rgba(6,13,26,.5) 100%),
+        linear-gradient(180deg, rgba(6,13,26,.35) 0%, rgba(6,13,26,.2) 40%, rgba(6,13,26,.98) 100%),
+        url("/images/hero.jpg");
+      background-size:cover; background-position:center; margin-top:-84px; padding-top:84px; }
+    .hero-in{ position:relative; z-index:3; text-align:center; padding:70px 0 60px; }
+    .hero h1{ font-size:clamp(40px,5.4vw,72px); font-weight:900; letter-spacing:-2px; line-height:1.03; margin:26px 0 0; } .hero h1 .b{ color:var(--accent); }
+    .hero .lead{ color:#b7c6dc; font-size:19px; line-height:1.6; max-width:620px; margin:20px auto 0; }
+    .badges{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:28px; }
+    .bdg{ display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.13); border-radius:999px; padding:8px 15px; font-size:13.5px; font-weight:700; color:#d7e2f2; } .bdg svg{ width:16px; height:16px; color:var(--green); }
+    .hero-cta{ display:flex; gap:14px; justify-content:center; margin-top:30px; flex-wrap:wrap; }
 
-    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px;align-items:start;}
-    @media(max-width:1080px){ .cards{grid-template-columns:repeat(2,1fr);} }
-    @media(max-width:560px){ .cards{grid-template-columns:1fr;} }
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px 22px;box-shadow:var(--shadow);display:flex;flex-direction:column;position:relative;transition:.18s;}
-    .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
-    .card.pop{border:2px solid var(--blue);box-shadow:0 30px 70px -30px rgba(37,99,235,.5);}
-    .card.pop::before{content:"Most Popular";position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--grad);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:.4px;padding:6px 14px;border-radius:999px;box-shadow:0 10px 22px -10px rgba(37,99,235,.8);white-space:nowrap;}
-    .card .pname{font-size:16px;font-weight:800;}
-    .card .pdesc{font-size:13px;color:var(--muted);margin-top:6px;min-height:38px;line-height:1.45;}
-    .card .price{display:flex;align-items:baseline;gap:5px;margin:18px 0 4px;}
-    .card .price .amt{font-size:38px;font-weight:900;letter-spacing:-1.5px;} .card .price .per{font-size:14px;color:var(--muted);font-weight:600;}
-    .card .billed{font-size:12px;color:var(--faint);font-weight:600;min-height:16px;}
-    .card .cbtn{margin:20px 0 18px;width:100%;}
-    .card .feat{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--faint);margin-bottom:12px;}
-    .card ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
-    .card li{display:flex;gap:9px;font-size:13.5px;color:var(--ink2);align-items:flex-start;}
-    .card li svg{width:16px;height:16px;color:var(--blue);flex:none;margin-top:1px;}
+    .toggle-wrap{ display:flex; align-items:center; justify-content:center; gap:14px; margin-top:42px; }
+    .toggle{ display:inline-flex; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:13px; padding:4px; position:relative; }
+    .toggle button{ border:none; background:none; padding:9px 22px; font-size:14px; font-weight:700; color:var(--muted); border-radius:10px; position:relative; z-index:1; transition:color .2s; }
+    .toggle button.on{ color:#0a1424; }
+    .toggle .slider{ position:absolute; top:4px; bottom:4px; left:4px; width:calc(50% - 4px); background:#fff; border-radius:10px; transition:transform .25s cubic-bezier(.4,0,.2,1); }
+    .toggle.annual .slider{ transform:translateX(100%); }
+    .save-tag{ font-size:12.5px; font-weight:800; color:var(--green); background:rgba(74,222,128,.14); border:1px solid rgba(74,222,128,.3); border-radius:999px; padding:5px 12px; }
 
-    .cmp{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);background:#fff;}
-    table.ct{width:100%;border-collapse:collapse;min-width:760px;}
-    table.ct th,table.ct td{padding:14px 18px;text-align:center;border-bottom:1px solid var(--line);font-size:13.5px;}
-    table.ct thead th{background:#fff;font-size:14px;font-weight:800;padding-top:20px;padding-bottom:16px;}
-    table.ct thead th.pop{color:var(--blue);}
-    table.ct th:first-child,table.ct td:first-child{text-align:left;font-weight:600;color:var(--ink);}
-    table.ct tbody tr:hover{background:#fafcff;}
-    table.ct td .ck{color:var(--green);width:18px;height:18px;display:inline-block;} table.ct td .dash{color:#cdd6e4;}
-    table.ct .colpop{background:#f4f8ff;}
-    .ct-val{font-weight:700;}
+    section{ padding:80px 0; }
+    .section-head{ text-align:center; max-width:640px; margin:0 auto; }
+    .section-head h2{ font-size:clamp(28px,3.4vw,40px); font-weight:900; letter-spacing:-1px; line-height:1.1; margin-top:12px; }
+    .section-head p{ color:var(--muted); font-size:18px; margin-top:16px; }
+    .alt{ background:var(--ink2); }
 
-    .inc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:36px;}
-    @media(max-width:900px){ .inc-grid{grid-template-columns:repeat(2,1fr);} }
-    .inc{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow);text-align:left;}
-    .inc svg{width:18px;height:18px;color:var(--green);flex:none;}
+    /* pricing cards */
+    .cards{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:44px; align-items:start; }
+    .card{ background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:26px 22px; display:flex; flex-direction:column; position:relative; transition:transform .18s,border-color .18s,box-shadow .18s; }
+    .card:hover{ transform:translateY(-5px); border-color:rgba(255,255,255,.2); box-shadow:0 40px 80px -40px rgba(0,0,0,.7); }
+    .card.pop{ border:1.5px solid rgba(43,143,255,.6); background:linear-gradient(180deg,rgba(43,143,255,.09),rgba(43,143,255,.02)); box-shadow:0 40px 90px -40px rgba(37,99,235,.6); }
+    .card.pop::before{ content:"Most Popular"; position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:linear-gradient(180deg,var(--blue-2),var(--blue)); color:#fff; font-size:11.5px; font-weight:800; letter-spacing:.4px; padding:6px 14px; border-radius:999px; box-shadow:0 12px 24px -10px rgba(37,99,235,.9); white-space:nowrap; }
+    .card .pname{ font-size:16px; font-weight:800; color:#fff; }
+    .card .pdesc{ font-size:13px; color:var(--muted); margin-top:6px; min-height:38px; line-height:1.45; }
+    .card .price{ display:flex; align-items:baseline; gap:5px; margin:18px 0 4px; }
+    .card .price .amt{ font-size:40px; font-weight:900; letter-spacing:-1.5px; color:#fff; } .card .price .per{ font-size:14px; color:var(--muted); font-weight:600; }
+    .card .billed{ font-size:12px; color:var(--faint); font-weight:600; min-height:16px; }
+    .card .cbtn{ margin:20px 0 18px; width:100%; }
+    .card .feat{ font-size:11px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; color:var(--faint); margin-bottom:12px; }
+    .card ul{ list-style:none; display:flex; flex-direction:column; gap:10px; }
+    .card li{ display:flex; gap:9px; font-size:13.5px; color:#c7d4e6; align-items:flex-start; }
+    .card li svg{ width:16px; height:16px; color:#4f8dff; flex:none; margin-top:1px; }
 
-    .mig{background:var(--ink);color:#eef3fa;border-radius:26px;padding:52px 40px;position:relative;overflow:hidden;}
-    .mig::after{content:"";position:absolute;right:-60px;top:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.35),transparent 70%);}
-    .mig h2{color:#fff;} .mig .lead{color:#a9bcda;margin-left:0;}
-    .mig .plats{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px;}
-    .mig .plat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:8px 14px;font-size:13px;font-weight:700;color:#cdd9ec;}
-    .mig-flow{display:flex;align-items:center;gap:10px;margin-top:30px;flex-wrap:wrap;}
-    .mig-step{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:11px 16px;font-weight:700;font-size:13.5px;}
-    .mig-step .n{width:24px;height:24px;border-radius:50%;background:var(--grad);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;}
-    .mig-flow .arr{color:#3a5578;}
-    .mig .promise{display:flex;gap:26px;margin-top:30px;flex-wrap:wrap;}
-    .mig .promise .p{display:flex;align-items:center;gap:9px;font-weight:800;font-size:14.5px;color:#fff;} .mig .promise .p svg{width:18px;height:18px;color:#6ee7b7;}
+    /* comparison */
+    .cmp{ overflow-x:auto; border:1px solid var(--line); border-radius:20px; background:var(--panel); margin-top:44px; }
+    table.ct{ width:100%; border-collapse:collapse; min-width:780px; }
+    table.ct th, table.ct td{ padding:14px 18px; text-align:center; border-bottom:1px solid rgba(255,255,255,.07); font-size:13.5px; color:#c7d4e6; }
+    table.ct thead th{ font-size:14px; font-weight:800; color:#fff; padding-top:20px; padding-bottom:16px; } table.ct thead th.pop{ color:var(--accent); }
+    table.ct th:first-child, table.ct td:first-child{ text-align:left; font-weight:600; color:#eaf1fb; }
+    table.ct tbody tr:hover{ background:rgba(255,255,255,.02); }
+    table.ct td .ck{ color:var(--green); width:18px; height:18px; display:inline-block; } table.ct td .dash{ color:#3a4b63; }
+    table.ct .colpop{ background:rgba(43,143,255,.06); } .ct-val{ font-weight:700; color:#fff; }
 
-    .roi{display:grid;grid-template-columns:1fr 1.1fr;gap:26px;align-items:stretch;}
-    @media(max-width:900px){ .roi{grid-template-columns:1fr;} }
-    .roi-in{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);}
-    .roi-field{margin-bottom:18px;} .roi-field label{font-size:13px;font-weight:700;display:flex;justify-content:space-between;margin-bottom:9px;} .roi-field label b{color:var(--blue);font-variant-numeric:tabular-nums;}
-    .roi-field input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:5px;background:linear-gradient(90deg,var(--blue),#c9dcfb);outline:none;}
-    .roi-field input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--blue);box-shadow:0 3px 8px rgba(37,99,235,.4);cursor:pointer;}
-    .roi-field input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid var(--blue);cursor:pointer;}
-    .roi-out{background:var(--grad);border-radius:var(--radius);padding:26px;color:#fff;display:flex;flex-direction:column;justify-content:center;box-shadow:var(--shadow-lg);}
-    .roi-out .ro{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.18);}
-    .roi-out .ro:last-child{border-bottom:none;}
-    .roi-out .ro .rl{font-size:14px;font-weight:600;color:#dbe8ff;} .roi-out .ro .rv{font-size:28px;font-weight:900;letter-spacing:-1px;font-variant-numeric:tabular-nums;}
-    .roi-out .big{background:rgba(255,255,255,.14);border-radius:15px;padding:18px 20px;margin-top:8px;display:flex;align-items:center;justify-content:space-between;}
-    .roi-out .big .rl{font-size:14px;font-weight:700;} .roi-out .big .rv{font-size:34px;font-weight:900;letter-spacing:-1.5px;}
+    /* included */
+    .inc-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:36px; }
+    .inc{ display:flex; align-items:center; gap:11px; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px 16px; font-size:13.5px; font-weight:600; color:#dbe6f5; }
+    .inc svg{ width:18px; height:18px; color:var(--green); flex:none; }
 
-    .fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px;}
-    @media(max-width:1000px){ .fgrid{grid-template-columns:repeat(2,1fr);} } @media(max-width:520px){ .fgrid{grid-template-columns:1fr;} }
-    .fcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow);transition:.15s;text-align:left;} .fcard:hover{transform:translateY(-3px);border-color:#cfe0f7;}
-    .fcard .fi{width:44px;height:44px;border-radius:13px;background:#eef4ff;color:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:14px;} .fcard .fi svg{width:22px;height:22px;}
-    .fcard b{font-size:15px;font-weight:800;} .fcard p{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5;}
-    .ai-tag{display:inline-flex;align-items:center;gap:8px;background:#f1eafe;border:1px solid #e4d5fb;color:#7c3aed;border-radius:999px;padding:7px 15px;font-size:13px;font-weight:800;margin-bottom:20px;}
+    /* migration */
+    .mig{ border:1px solid var(--line); border-radius:24px; padding:46px 40px; background:radial-gradient(700px 340px at 88% -20%, rgba(37,99,235,.22), transparent 60%), var(--panel); }
+    .mig .plats{ display:flex; flex-wrap:wrap; gap:9px; margin-top:22px; }
+    .plat{ background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:8px 14px; font-size:13px; font-weight:700; color:#cdd9ec; }
+    .mig-flow{ display:flex; align-items:center; gap:10px; margin-top:28px; flex-wrap:wrap; }
+    .mig-step{ display:flex; align-items:center; gap:11px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:11px 16px; font-weight:700; font-size:13.5px; color:#dbe6f5; }
+    .mig-step .n{ width:24px; height:24px; border-radius:50%; background:linear-gradient(180deg,var(--blue-2),var(--blue)); color:#fff; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+    .mig-flow .arr{ color:#3a5578; }
+    .mig .promise{ display:flex; gap:26px; margin-top:28px; flex-wrap:wrap; } .mig .promise .p{ display:flex; align-items:center; gap:9px; font-weight:800; font-size:14.5px; color:#fff; } .mig .promise .p svg{ width:18px; height:18px; color:var(--green); }
 
-    .faqlist{max-width:800px;margin:40px auto 0;}
-    .qa{border:1px solid var(--line);border-radius:15px;background:#fff;margin-bottom:12px;box-shadow:var(--shadow);overflow:hidden;}
-    .qa .q{display:flex;align-items:center;gap:14px;padding:19px 22px;cursor:pointer;font-size:15.5px;font-weight:700;text-align:left;}
-    .qa .q .cv{margin-left:auto;color:var(--faint);transition:.2s;flex:none;} .qa.open .q .cv{transform:rotate(45deg);color:var(--blue);}
-    .qa .a{max-height:0;overflow:hidden;transition:max-height .28s ease;} .qa.open .a{max-height:220px;} .qa .a p{padding:0 22px 20px;color:var(--muted);font-size:14px;line-height:1.6;text-align:left;}
+    /* ROI */
+    .roi{ display:grid; grid-template-columns:1fr 1.1fr; gap:26px; align-items:stretch; margin-top:44px; }
+    .roi-in{ background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:28px; }
+    .roi-field{ margin-bottom:20px; } .roi-field label{ font-size:13.5px; font-weight:700; color:#dbe6f5; display:flex; justify-content:space-between; margin-bottom:11px; } .roi-field label b{ color:var(--accent); font-variant-numeric:tabular-nums; }
+    .roi-field input[type=range]{ width:100%; -webkit-appearance:none; appearance:none; height:6px; border-radius:5px; background:linear-gradient(90deg,var(--blue),rgba(255,255,255,.14)); outline:none; }
+    .roi-field input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:#fff; border:3px solid var(--blue); box-shadow:0 3px 10px rgba(37,99,235,.6); cursor:pointer; }
+    .roi-field input[type=range]::-moz-range-thumb{ width:17px; height:17px; border-radius:50%; background:#fff; border:3px solid var(--blue); cursor:pointer; }
+    .roi-out{ background:linear-gradient(160deg,var(--blue-2),var(--blue)); border-radius:20px; padding:28px; color:#fff; display:flex; flex-direction:column; justify-content:center; box-shadow:0 40px 90px -40px rgba(37,99,235,.8); }
+    .roi-out .ro{ display:flex; align-items:center; justify-content:space-between; padding:17px 0; border-bottom:1px solid rgba(255,255,255,.2); } .roi-out .ro:last-child{ border-bottom:none; }
+    .roi-out .ro .rl{ font-size:14px; font-weight:600; color:#dbe8ff; } .roi-out .ro .rv{ font-size:28px; font-weight:900; letter-spacing:-1px; font-variant-numeric:tabular-nums; }
+    .roi-out .big{ background:rgba(255,255,255,.16); border-radius:15px; padding:18px 20px; margin-top:8px; display:flex; align-items:center; justify-content:space-between; } .roi-out .big .rl{ font-size:14px; font-weight:700; } .roi-out .big .rv{ font-size:34px; font-weight:900; letter-spacing:-1.5px; }
 
-    .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px;}
-    @media(max-width:900px){ .tgrid{grid-template-columns:1fr;} }
-    .tcard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--shadow);display:flex;flex-direction:column;text-align:left;}
-    .tcard .stars{color:#f5b638;font-size:14px;letter-spacing:2px;}
-    .tcard .quote{font-size:15px;line-height:1.6;color:var(--ink2);margin:14px 0 18px;flex:1;}
-    .tcard .who{display:flex;align-items:center;gap:12px;} .tcard .av{width:44px;height:44px;border-radius:50%;color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;flex:none;} .tcard .who b{font-size:14px;font-weight:800;display:block;} .tcard .who span{font-size:12.5px;color:var(--muted);}
+    /* feature grids (AI + security) */
+    .fgrid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:40px; }
+    .fcard{ background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:22px; text-align:left; transition:.15s; } .fcard:hover{ transform:translateY(-3px); border-color:rgba(255,255,255,.2); }
+    .fcard .fi{ width:44px; height:44px; border-radius:13px; background:rgba(43,143,255,.13); color:#6ea8ff; display:flex; align-items:center; justify-content:center; margin-bottom:14px; box-shadow:0 0 30px -8px rgba(43,143,255,.5); } .fcard .fi svg{ width:22px; height:22px; }
+    .fcard.pur .fi{ background:rgba(168,85,247,.14); color:#c084fc; box-shadow:0 0 30px -8px rgba(168,85,247,.5); }
+    .fcard b{ font-size:15px; font-weight:800; color:#fff; } .fcard p{ font-size:13px; color:var(--muted); margin-top:6px; line-height:1.5; }
+    .ai-tag{ display:inline-flex; align-items:center; gap:8px; background:rgba(168,85,247,.14); border:1px solid rgba(168,85,247,.3); color:#c084fc; border-radius:999px; padding:8px 16px; font-size:13px; font-weight:800; }
 
-    .final{background:radial-gradient(800px 400px at 50% 120%,#1e3a8a,#0b1524 70%),#0b1524;border-radius:28px;padding:64px 40px;text-align:center;color:#fff;position:relative;overflow:hidden;}
-    .final h2{color:#fff;} .final .lead{color:#a9bcda;} .final .cta{display:flex;gap:12px;justify-content:center;margin-top:30px;flex-wrap:wrap;}
-    .final .btn-ghost{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff;} .final .btn-ghost:hover{background:rgba(255,255,255,.16);}
+    /* testimonials */
+    .tgrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:40px; }
+    .tcard{ background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:24px; display:flex; flex-direction:column; }
+    .tcard .stars{ color:#f5b638; font-size:14px; letter-spacing:2px; } .tcard .quote{ font-size:15px; line-height:1.6; color:#dbe6f5; margin:14px 0 18px; flex:1; }
+    .tcard .who{ display:flex; align-items:center; gap:12px; } .tcard .av{ width:44px; height:44px; border-radius:50%; color:#fff; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:center; flex:none; } .tcard .who b{ font-size:14px; font-weight:800; color:#fff; display:block; } .tcard .who span{ font-size:12.5px; color:var(--muted); }
 
-    footer{border-top:1px solid var(--line);padding:34px 0;color:var(--muted);font-size:13px;}
-    .foot-in{display:flex;align-items:center;gap:16px;flex-wrap:wrap;} .foot-in a:hover{color:var(--blue);} .foot-in .sp{margin-left:auto;}
+    /* FAQ */
+    .faqlist{ max-width:800px; margin:40px auto 0; }
+    .qa{ border:1px solid var(--line); border-radius:15px; background:var(--panel); margin-bottom:12px; overflow:hidden; }
+    .qa .q{ display:flex; align-items:center; gap:14px; padding:19px 22px; cursor:pointer; font-size:15.5px; font-weight:700; color:#fff; }
+    .qa .q .cv{ margin-left:auto; color:var(--faint); transition:.2s; flex:none; } .qa.open .q .cv{ transform:rotate(45deg); color:var(--accent); }
+    .qa .a{ max-height:0; overflow:hidden; transition:max-height .28s ease; } .qa.open .a{ max-height:240px; } .qa .a p{ padding:0 22px 20px; color:var(--muted); font-size:14px; line-height:1.6; }
 
-    .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:13px 22px;border-radius:13px;font-weight:700;font-size:14px;box-shadow:var(--shadow-lg);opacity:0;transition:.28s;z-index:90;}
-    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-    .reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;} .reveal.in{opacity:1;transform:none;}
+    /* final CTA */
+    .final{ text-align:center; background:radial-gradient(800px 400px at 50% -20%, rgba(37,99,235,.35), transparent 65%), var(--panel); border:1px solid var(--line); border-radius:26px; padding:64px 40px; }
+    .final h2{ font-size:clamp(28px,3.6vw,42px); font-weight:900; letter-spacing:-1px; } .final p{ color:var(--muted); font-size:18px; margin-top:14px; } .final .hero-cta{ margin-top:30px; }
+
+    footer{ border-top:1px solid var(--line); padding:34px 0; color:var(--muted); font-size:13px; }
+    .foot-in{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; } .foot-in a:hover{ color:#fff; } .foot-in .sp{ margin-left:auto; }
+
+    .toast{ position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(20px); background:#0b1626; border:1px solid var(--line); color:#fff; padding:13px 22px; border-radius:13px; font-weight:700; font-size:14px; box-shadow:0 30px 70px -30px rgba(0,0,0,.8); opacity:0; transition:.28s; z-index:90; } .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+    @media (max-width:1080px){ .cards{ grid-template-columns:repeat(2,1fr); } .fgrid{ grid-template-columns:repeat(2,1fr); } .inc-grid{ grid-template-columns:repeat(2,1fr); } .roi{ grid-template-columns:1fr; } .tgrid{ grid-template-columns:1fr; } .nav-links{ display:none; } .hamb{ display:inline-flex; } }
+    @media (max-width:620px){ .container{ padding:0 22px; } .cards{ grid-template-columns:1fr; } .fgrid{ grid-template-columns:1fr; } .inc-grid{ grid-template-columns:1fr; } }
   </style>
 </head>
-<body>
-  <header class="nav">
-    <div class="nav-in">
-      <a class="logo" href="#top"><span class="mk">A</span>Auto<b>Dealer</b></a>
-      <nav class="nav-links">
-        <a href="#plans">Plans</a><a href="#compare">Compare</a><a href="#roi">ROI</a><a href="#migration">Migration</a><a href="#faq">FAQ</a>
+<body id="top">
+  <section class="hero">
+    <div class="container">
+      <nav class="nav">
+        <div class="nav-in">
+          <a class="wm" href="/"><svg class="sw" viewBox="0 0 96 8"><path d="M2 6 C24 1, 72 1, 94 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg>AUTO<b>DEALER</b></a>
+          <div class="nav-links" id="navLinks">
+            <a href="/features">Features</a>
+            <div class="ni" data-drop>
+              <a href="/solutions">Solutions <svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              <div class="drop" id="dropSolutions"></div>
+            </div>
+            <a href="/pricing" class="on">Pricing</a>
+            <div class="ni" data-drop>
+              <a href="/resources">Resources <svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              <div class="drop" id="dropResources"></div>
+            </div>
+            <a href="/about">About</a>
+            <a href="#">Contact</a>
+          </div>
+          <div class="nav-right">
+            <a class="login" href="/dashboard">Log In</a>
+            <button class="btn-primary" onclick="toast('Demo scheduler opened')">Request Demo</button>
+          </div>
+        </div>
       </nav>
-      <div class="nav-cta">
-        <a class="btn btn-ghost" href="/dashboard">Sign in</a>
-        <button class="btn btn-pri" onclick="toast('Demo scheduler opened')">Schedule Demo</button>
-      </div>
-    </div>
-  </header>
 
-  <section class="hero center" id="top">
-    <div class="wrap">
-      <span class="pill-tag"><span class="d"></span>The AI Dealership Operating System</span>
-      <h1>Pricing that grows<br>with your dealership</h1>
-      <p class="lead">Everything you need to run a modern dealership in one AI-powered platform — not another disconnected CRM.</p>
-      <div class="badges">
-        <span class="bdg"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>No setup fees</span>
-        <span class="bdg"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Free migration</span>
-        <span class="bdg"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited updates</span>
-        <span class="bdg"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>AI included</span>
+      <div class="hero-in">
+        <span class="eyebrow"><span class="sp">✦</span> The AI Dealership Operating System</span>
+        <h1>Pricing that grows<br /><span class="b">with your dealership.</span></h1>
+        <p class="lead">Everything you need to run a modern dealership in one AI-powered platform — not another disconnected CRM.</p>
+        <div class="badges">
+          <span class="bdg"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>No setup fees</span>
+          <span class="bdg"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Free migration</span>
+          <span class="bdg"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited updates</span>
+          <span class="bdg"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>AI included</span>
+        </div>
+        <div class="hero-cta">
+          <button class="btn-primary btn-lg" onclick="toast('Demo scheduler opened')">Request Demo <svg class="arrow" viewBox="0 0 22 16"><path d="M1 8h18M13 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="btn-ghost btn-lg" onclick="toast('Connecting you to sales')">Contact Sales</button>
+        </div>
+        <div class="toggle-wrap" id="plans">
+          <div class="toggle" id="toggle"><div class="slider"></div><button class="on" data-b="monthly">Monthly</button><button data-b="annual">Annual</button></div>
+          <span class="save-tag">Save 15%</span>
+        </div>
+        <div class="cards" id="cards"></div>
       </div>
-      <div class="cta">
-        <button class="btn btn-pri" onclick="toast('Demo scheduler opened')"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>Schedule Demo</button>
-        <button class="btn btn-ghost" onclick="toast('Connecting you to sales')">Contact Sales</button>
-      </div>
-
-      <div class="toggle-wrap" id="plans">
-        <div class="toggle" id="toggle"><div class="slider"></div><button class="on" data-b="monthly">Monthly</button><button data-b="annual">Annual</button></div>
-        <span class="save-tag">Save 15%</span>
-      </div>
-
-      <div class="cards" id="cards"></div>
     </div>
   </section>
 
-  <section id="compare" style="background:#fff;">
-    <div class="wrap">
-      <div class="center"><span class="eyebrow">Compare plans</span><h2 style="margin-top:12px;">Find the right fit</h2><p class="lead">Every plan is a complete operating system. Higher tiers add automation, AI depth, and scale.</p></div>
-      <div class="cmp reveal" style="margin-top:40px;"><table class="ct" id="ctable"></table></div>
+  <section class="alt" id="compare">
+    <div class="container">
+      <div class="section-head"><span class="kicker">Compare plans</span><h2>Find the right fit</h2><p>Every plan is a complete operating system. Higher tiers add automation, AI depth, and scale.</p></div>
+      <div class="cmp"><table class="ct" id="ctable"></table></div>
     </div>
   </section>
 
-  <section style="background:var(--bg2);">
-    <div class="wrap center">
-      <span class="eyebrow">Included in every plan</span>
-      <h2 style="margin-top:12px;">The essentials are never an upsell</h2>
+  <section>
+    <div class="container">
+      <div class="section-head"><span class="kicker">Included in every plan</span><h2>The essentials are never an upsell</h2></div>
       <div class="inc-grid" id="incGrid"></div>
     </div>
   </section>
 
-  <section id="migration">
-    <div class="wrap">
-      <div class="mig reveal">
-        <span class="eyebrow" style="color:#7db5ff;">Migration promise</span>
-        <h2 style="margin-top:12px;">Switch without the headache</h2>
-        <p class="lead">We migrate your dealership from your existing CRM — records, deals, and history — with our guided, AI-assisted importer.</p>
+  <section class="alt" id="migration">
+    <div class="container">
+      <div class="mig">
+        <span class="kicker">Migration promise</span>
+        <h2 style="font-size:clamp(26px,3.2vw,38px);font-weight:900;letter-spacing:-1px;margin-top:12px;">Switch without the headache</h2>
+        <p class="muted" style="font-size:17px;max-width:640px;margin-top:14px;">We migrate your dealership from your existing CRM — records, deals, and history — with our guided, AI-assisted importer.</p>
         <div class="plats" id="migPlats"></div>
         <div class="mig-flow" id="migFlow"></div>
         <div class="promise">
@@ -222,14 +247,14 @@
     </div>
   </section>
 
-  <section style="background:var(--bg2);" id="roi">
-    <div class="wrap">
-      <div class="center"><span class="eyebrow">ROI calculator</span><h2 style="margin-top:12px;">See what AutoDealer returns</h2><p class="lead">Adjust the sliders to estimate your savings and upside. Most dealerships see payback in the first month.</p></div>
-      <div class="roi reveal" style="margin-top:40px;">
+  <section id="roi">
+    <div class="container">
+      <div class="section-head"><span class="kicker">ROI calculator</span><h2>See what AutoDealer returns</h2><p>Adjust the sliders to estimate your savings and upside. Most dealerships see payback in the first month.</p></div>
+      <div class="roi">
         <div class="roi-in">
           <div class="roi-field"><label>Salespeople <b id="lReps">8</b></label><input type="range" id="reps" min="2" max="60" value="8" /></div>
           <div class="roi-field"><label>Monthly leads <b id="lLeads">400</b></label><input type="range" id="leads" min="50" max="2000" step="10" value="400" /></div>
-          <div class="roi-field"><label>Current CRM cost / mo <b id="lCost">$1,200</b></label><input type="range" id="cost" min="0" max="5000" step="50" value="1200" /></div>
+          <div class="roi-field"><label>Current CRM cost / mo <b id="lCost">$1,200</b></label><input type="range" id="cost" min="0" max="15000" step="100" value="1200" /></div>
           <div class="roi-field" style="margin-bottom:0;"><label>Vehicles sold / mo <b id="lUnits">60</b></label><input type="range" id="units" min="10" max="400" step="5" value="60" /></div>
         </div>
         <div class="roi-out">
@@ -239,57 +264,55 @@
           <div class="big"><span class="rl">Potential annual ROI</span><span class="rv" id="oRoi">$0</span></div>
         </div>
       </div>
+      <p class="plan-note" style="text-align:center;color:var(--faint);font-size:12.5px;margin-top:20px;max-width:720px;margin-left:auto;margin-right:auto;">Estimates assume ~$2,600 average total gross per unit, ~5 reclaimed hours per rep each week, and consolidation of point tools. Additional sales are capped relative to your current volume. Actual results vary by dealership.</p>
     </div>
   </section>
 
-  <section>
-    <div class="wrap center">
-      <span class="ai-tag">✦ AI in every workflow</span>
-      <h2>AI built in — not a $500 add-on</h2>
-      <p class="lead">Every plan includes the full AI platform. It drafts, coaches, summarizes, and takes action across the whole dealership.</p>
+  <section class="alt">
+    <div class="container">
+      <div class="section-head"><span class="ai-tag">✦ AI in every workflow</span><h2 style="margin-top:16px;">AI built in — not a $500 add-on</h2><p>Every plan includes the full AI platform. It drafts, coaches, summarizes, and takes action across the whole dealership.</p></div>
       <div class="fgrid" id="aiGrid"></div>
     </div>
   </section>
 
-  <section style="background:var(--bg2);">
-    <div class="wrap center">
-      <span class="eyebrow">Enterprise-grade security</span>
-      <h2 style="margin-top:12px;">Your data, protected</h2>
+  <section>
+    <div class="container">
+      <div class="section-head"><span class="kicker">Enterprise-grade security</span><h2>Your data, protected</h2></div>
       <div class="fgrid" id="secGrid"></div>
     </div>
   </section>
 
-  <section>
-    <div class="wrap">
-      <div class="center"><span class="eyebrow">Loved by dealerships</span><h2 style="margin-top:12px;">Built for the people who run the store</h2></div>
+  <section class="alt">
+    <div class="container">
+      <div class="section-head"><span class="kicker">Loved by dealerships</span><h2>Built for the people who run the store</h2></div>
       <div class="tgrid" id="tGrid"></div>
     </div>
   </section>
 
-  <section style="background:var(--bg2);" id="faq">
-    <div class="wrap">
-      <div class="center"><span class="eyebrow">FAQ</span><h2 style="margin-top:12px;">Questions, answered</h2></div>
+  <section id="faq">
+    <div class="container">
+      <div class="section-head"><span class="kicker">FAQ</span><h2>Questions, answered</h2></div>
       <div class="faqlist" id="faqList"></div>
     </div>
   </section>
 
   <section>
-    <div class="wrap">
-      <div class="final reveal">
+    <div class="container">
+      <div class="final">
         <h2>Ready to modernize your dealership?</h2>
-        <p class="lead">See how AutoDealer helps your team sell more vehicles, respond faster, and simplify daily operations.</p>
-        <div class="cta">
-          <button class="btn btn-pri" onclick="toast('Demo scheduler opened')"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>Schedule Demo</button>
-          <button class="btn btn-ghost" onclick="toast('Connecting you to sales')">Contact Sales</button>
-          <button class="btn btn-ghost" onclick="toast('Loading product tour')">Watch Product Tour</button>
+        <p>See how AutoDealer helps your team sell more vehicles, respond faster, and simplify daily operations.</p>
+        <div class="hero-cta" style="justify-content:center;">
+          <button class="btn-primary btn-lg" onclick="toast('Demo scheduler opened')">Schedule Demo <svg class="arrow" viewBox="0 0 22 16"><path d="M1 8h18M13 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="btn-ghost btn-lg" onclick="toast('Connecting you to sales')">Contact Sales</button>
+          <button class="btn-ghost btn-lg" onclick="toast('Loading product tour')"><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>Watch Tour</button>
         </div>
       </div>
     </div>
   </section>
 
   <footer>
-    <div class="wrap foot-in">
-      <a class="logo" href="#top" style="font-size:15px;"><span class="mk" style="width:26px;height:26px;font-size:13px;">A</span>Auto<b>Dealer</b></a>
+    <div class="container foot-in">
+      <span class="wm" style="font-size:18px;"><svg class="sw" viewBox="0 0 96 8" style="width:72px;height:6px;"><path d="M2 6 C24 1, 72 1, 94 5" fill="none" stroke="#2b8fff" stroke-width="2.2" stroke-linecap="round"/></svg>AUTO<b>DEALER</b></span>
       <span class="muted">The AI dealership operating system</span>
       <span class="sp muted">© 2026 AutoDealer · <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Security</a></span>
     </div>
@@ -297,140 +320,115 @@
 
   <div class="toast" id="toast">Done</div>
 
+  <script src="/anim.js" defer></script>
   <script>
     var $ = function(id){ return document.getElementById(id); };
     var ck='<svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
+    /* ---- nav dropdowns ---- */
+    var DROP_SOL=[
+      ['BDC & Internet Sales','Respond faster, book more appointments','<circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 18c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7"/>'],
+      ['Sales & Deal Desk','Structure deals and close with confidence','<path d="M4 7h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 12h16" stroke="currentColor" stroke-width="1.6"/>'],
+      ['Finance & F&I','Move deals from approval to delivery','<path d="M12 3v18M8 7h6a2.5 2.5 0 0 1 0 5H9a2.5 2.5 0 0 0 0 5h7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'],
+      ['Management & Execs','The whole store in one command center','<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'],
+      ['Dealer Groups','Multi-store management and reporting','<path d="M4 9l1.4-3.6A1 1 0 0 1 6.3 5h11.4a1 1 0 0 1 .9.6L20 9M5 9v10h14V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>']
+    ];
+    var DROP_RES=[
+      ['Knowledge Center','Guides, playbooks & OEM docs','<path d="M5 4h9a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M17 7a3 3 0 0 1 3-3v13.5a2.5 2.5 0 0 0-2.5-2.5H17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'],
+      ['Product Tour','See the platform in action','<path d="M8 5v14l11-7z" fill="currentColor"/>'],
+      ['Migration Guide','Switch from any CRM, free','<path d="M12 3v10m0 0l-4-4m4 4l4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'],
+      ['ROI Calculator','Estimate your return','<path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M7 15l3.5-4 3 2.5L20 7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>'],
+      ['Help & Support','Docs, training & live chat','<path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 1 1.9h5c.1-.9.4-1.4 1-1.9A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 19h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>']
+    ];
+    function dropItem(d,href){ return '<a href="'+href+'"><span class="di"><svg viewBox="0 0 24 24">'+d[2]+'</svg></span><span><b>'+d[0]+'</b><span>'+d[1]+'</span></span></a>'; }
+    $('dropSolutions').innerHTML=DROP_SOL.map(function(d){ return dropItem(d,'/solutions'); }).join('');
+    var resHref={'Product Tour':'#','Migration Guide':'/migration','ROI Calculator':'#roi','Knowledge Center':'/knowledge','Help & Support':'/feedback'};
+    $('dropResources').innerHTML=DROP_RES.map(function(d){ return dropItem(d,resHref[d[0]]||'/resources'); }).join('');
+    // click-to-toggle for touch
+    document.querySelectorAll('.ni').forEach(function(ni){ ni.querySelector('a').addEventListener('click', function(e){ if(window.matchMedia('(hover: none)').matches){ e.preventDefault(); ni.classList.toggle('open'); } }); });
+    document.addEventListener('click', function(e){ if(!e.target.closest('.ni')) document.querySelectorAll('.ni.open').forEach(function(n){ n.classList.remove('open'); }); });
+
+    /* ---- plans ---- */
     var billing='monthly';
     var PLANS=[
-      {name:'Essentials',price:995,desc:'For independent dealerships and smaller teams.',cta:'Start Demo',pop:false,
-       feat:'What\'s included',items:['Up to 10 users','Full CRM & pipeline','Prospects & customers','Communications hub','Inventory','Appointments & tasks','Reports','Customer Portal','AI Assistant','Mobile access','Free migration','Email support']},
-      {name:'Growth',price:1795,desc:'For growing dealerships that need automation and advanced AI.',cta:'Schedule Demo',pop:true,
-       feat:'Everything in Essentials, plus',items:['Up to 25 users','Digital Deal Jackets','AI Sales Coach','Workflow automation','AI Workflow Builder','Inventory Intelligence','Equity Mining','Customer Journey tracking','Document management','Advanced reports','Priority support']},
-      {name:'Enterprise',price:2995,desc:'Designed for high-volume dealerships.',cta:'Talk to Sales',pop:false,
-       feat:'Everything in Growth, plus',items:['Unlimited users','Advanced AI insights','Executive dashboards','White-label portal','API access','Marketplace','Premium support','Dedicated success manager','Custom integrations','Advanced security','Multi-department analytics']},
-      {name:'Dealer Groups',price:null,desc:'For organizations with multiple rooftops.',cta:'Contact Enterprise Sales',pop:false,
-       feat:'Everything in Enterprise, plus',items:['Multi-store management','Shared inventory','Shared customers','Centralized reporting','Enterprise security','Single sign-on (SSO)','Advanced user management','Dealer-group analytics','Custom integrations','Enterprise onboarding']}
+      {name:'Essentials',price:995,desc:'For independent dealerships and smaller teams.',cta:'Start Demo',pop:false,feat:'What\'s included',items:['Up to 10 users','Full CRM & pipeline','Prospects & customers','Communications hub','Inventory','Appointments & tasks','Reports','Customer Portal','AI Assistant','Mobile access','Free migration','Email support']},
+      {name:'Growth',price:1795,desc:'For growing dealerships that need automation and advanced AI.',cta:'Schedule Demo',pop:true,feat:'Everything in Essentials, plus',items:['Up to 25 users','Digital Deal Jackets','AI Sales Coach','Workflow automation','AI Workflow Builder','Inventory Intelligence','Equity Mining','Customer Journey tracking','Document management','Advanced reports','Priority support']},
+      {name:'Enterprise',price:2995,desc:'Designed for high-volume dealerships.',cta:'Talk to Sales',pop:false,feat:'Everything in Growth, plus',items:['Unlimited users','Advanced AI insights','Executive dashboards','White-label portal','API access','Marketplace','Premium support','Dedicated success manager','Custom integrations','Advanced security','Multi-department analytics']},
+      {name:'Dealer Groups',price:null,desc:'For organizations with multiple rooftops.',cta:'Contact Sales',pop:false,feat:'Everything in Enterprise, plus',items:['Multi-store management','Shared inventory','Shared customers','Centralized reporting','Enterprise security','Single sign-on (SSO)','Advanced user management','Dealer-group analytics','Custom integrations','Enterprise onboarding']}
     ];
     function fmtPrice(p){ if(p===null) return {amt:'Custom',per:'',billed:'Tailored to your group'}; if(billing==='annual'){ var m=Math.round(p*0.85/5)*5; return {amt:'$'+m.toLocaleString(),per:'/mo',billed:'billed annually · save 15%'}; } return {amt:'$'+p.toLocaleString(),per:'/mo',billed:'billed monthly'}; }
     function renderCards(){
       $('cards').innerHTML=PLANS.map(function(p){ var f=fmtPrice(p.price);
         return '<div class="card'+(p.pop?' pop':'')+'"><div class="pname">'+p.name+'</div><div class="pdesc">'+p.desc+'</div>'+
           '<div class="price"><span class="amt">'+f.amt+'</span><span class="per">'+f.per+'</span></div><div class="billed">'+f.billed+'</div>'+
-          '<button class="btn '+(p.pop?'btn-pri':'btn-dark')+' cbtn" onclick="toast(\''+p.cta+' · '+p.name+'\')">'+p.cta+'</button>'+
+          '<button class="'+(p.pop?'btn-primary':'btn-dark')+' cbtn" onclick="toast(\''+p.cta+' · '+p.name+'\')">'+p.cta+'</button>'+
           '<div class="feat">'+p.feat+'</div><ul>'+p.items.map(function(i){ return '<li>'+ck+i+'</li>'; }).join('')+'</ul></div>';
       }).join('');
     }
     $('toggle').querySelectorAll('button').forEach(function(b){ b.addEventListener('click',function(){ billing=b.getAttribute('data-b'); $('toggle').classList.toggle('annual',billing==='annual'); $('toggle').querySelectorAll('button').forEach(function(x){x.classList.remove('on');}); b.classList.add('on'); renderCards(); }); });
 
-    var CMP=[
-      ['Users','10','25','Unlimited','Unlimited'],
-      ['AI Assistant',true,true,true,true],
-      ['Prospects & Customers',true,true,true,true],
-      ['Appointments & Tasks',true,true,true,true],
-      ['Inventory',true,true,true,true],
-      ['Communications',true,true,true,true],
-      ['Customer Portal',true,true,true,'White-label'],
-      ['Reports','Standard','Advanced','Executive','Group'],
-      ['Deal Jackets',false,true,true,true],
-      ['AI Workflow Builder',false,true,true,true],
-      ['AI Sales Coach',false,true,true,true],
-      ['Equity Mining',false,true,true,true],
-      ['Executive Analytics',false,false,true,true],
-      ['API Access',false,false,true,true],
-      ['Marketplace',false,false,true,true],
-      ['Multi-Store',false,false,false,true],
-      ['SSO & Advanced Security',false,false,true,true],
-      ['Dedicated Success Manager',false,false,true,true]
-    ];
+    /* ---- comparison ---- */
+    var CMP=[['Users','10','25','Unlimited','Unlimited'],['AI Assistant',true,true,true,true],['Prospects & Customers',true,true,true,true],['Appointments & Tasks',true,true,true,true],['Inventory',true,true,true,true],['Communications',true,true,true,true],['Customer Portal',true,true,true,'White-label'],['Reports','Standard','Advanced','Executive','Group'],['Deal Jackets',false,true,true,true],['AI Workflow Builder',false,true,true,true],['AI Sales Coach',false,true,true,true],['Equity Mining',false,true,true,true],['Executive Analytics',false,false,true,true],['API Access',false,false,true,true],['Marketplace',false,false,true,true],['Multi-Store',false,false,false,true],['SSO & Advanced Security',false,false,true,true],['Dedicated Success Manager',false,false,true,true]];
     function cell(v,pop){ var c=pop?' class="colpop"':''; if(v===true) return '<td'+c+'><span class="ck">'+ck+'</span></td>'; if(v===false) return '<td'+c+'><span class="dash">—</span></td>'; return '<td'+c+'><span class="ct-val">'+v+'</span></td>'; }
-    function renderCmp(){
-      var head='<thead><tr><th>Feature</th><th>Essentials</th><th class="pop colpop">Growth</th><th>Enterprise</th><th>Dealer Groups</th></tr></thead>';
-      var body='<tbody>'+CMP.map(function(r){ return '<tr><td>'+r[0]+'</td>'+cell(r[1])+cell(r[2],true)+cell(r[3])+cell(r[4])+'</tr>'; }).join('')+'</tbody>';
-      $('ctable').innerHTML=head+body;
-    }
+    $('ctable').innerHTML='<thead><tr><th>Feature</th><th>Essentials</th><th class="pop colpop">Growth</th><th>Enterprise</th><th>Dealer Groups</th></tr></thead><tbody>'+CMP.map(function(r){ return '<tr><td>'+r[0]+'</td>'+cell(r[1])+cell(r[2],true)+cell(r[3])+cell(r[4])+'</tr>'; }).join('')+'</tbody>';
 
+    /* ---- included ---- */
     var INC=['Unlimited customer records','Unlimited prospects','Unlimited appointments','Unlimited tasks','Unlimited communications','Automatic backups','Secure cloud hosting','Mobile responsive access','Free product updates','AI Assistant','Customer Portal','Free data migration','Role-based workspaces','Enterprise security'];
     $('incGrid').innerHTML=INC.map(function(i){ return '<div class="inc"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'+i+'</div>'; }).join('');
 
+    /* ---- migration ---- */
     ['CDK','VinSolutions','DealerSocket','Tekion','DriveCentric','Reynolds & Reynolds','CSV','Excel'].forEach(function(p){ $('migPlats').innerHTML+='<span class="plat">'+p+'</span>'; });
     var FLOW=['Planning','Import','Validation','Launch','Training'];
     $('migFlow').innerHTML=FLOW.map(function(s,i){ return '<div class="mig-step"><span class="n">'+(i+1)+'</span>'+s+'</div>'+(i<FLOW.length-1?'<span class="arr">→</span>':''); }).join('');
 
+    /* ---- ROI ---- */
     function money(n){ return '$'+Math.round(n).toLocaleString(); }
-    var displayed={oSave:0,oSales:0,oTime:0,oRoi:0};
-    function animateTo(id,target,suffix,isMoney){
-      var start=displayed[id]||0, t0=null, dur=520;
-      function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur); var e=1-Math.pow(1-p,3); var val=start+(target-start)*e;
-        $(id).textContent=isMoney?money(val):(Math.round(val).toLocaleString()+(suffix||''));
-        if(p<1) requestAnimationFrame(step); else { displayed[id]=target; } }
+    var displayed={oSave:0,oSales:0,oTime:0,oRoi:0}, roiStarted=false;
+    function animateTo(id,target,suffix,isMoney){ var start=displayed[id]||0,t0=null,dur=520;
+      function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur); var e=1-Math.pow(1-p,3); var val=start+(target-start)*e; $(id).textContent=isMoney?money(val):(Math.round(val).toLocaleString()+(suffix||'')); if(p<1) requestAnimationFrame(step); else displayed[id]=target; }
       requestAnimationFrame(step);
     }
     function calc(animate){
       var reps=+$('reps').value, leads=+$('leads').value, cost=+$('cost').value, units=+$('units').value;
       $('lReps').textContent=reps; $('lLeads').textContent=leads; $('lCost').textContent=money(cost); $('lUnits').textContent=units;
-      var plan = reps<=10?995:reps<=25?1795:2995;
-      var addlUnits = Math.max(1, Math.round(leads*0.028));
-      var grossPerUnit = 2600;
-      var addlRevenue = addlUnits*grossPerUnit;
-      var timeSaved = Math.round(reps*21.5);
-      var laborValue = timeSaved*34;
-      var toolSavings = Math.max(0, cost-plan) + 450;
-      var monthlySavings = toolSavings + laborValue;
-      var annualRoi = (addlRevenue + monthlySavings)*12;
+      var plan = reps<=10?995:reps<=25?1795:2995;              // what you'd pay AutoDealer /mo
+      // Extra units from faster response & follow-up — capped at ~18% of your current volume so it stays realistic.
+      var addlUnits = Math.max(1, Math.round(Math.min(leads*0.028, units*0.18)));
+      var addlGross = addlUnits*2600;                          // ~$2,600 avg total gross per unit
+      var timeSaved = Math.round(reps*21.5);                   // hrs/mo (~5 hrs/rep per week)
+      var laborValue = timeSaved*34;                           // value of reclaimed time @ ~$34/hr
+      var softwareRaw = cost + 450 - plan;                     // retire old CRM + point tools, minus AutoDealer (may be negative)
+      var monthlySavings = Math.max(0, softwareRaw) + laborValue;              // shown as "monthly savings"
+      var annualRoi = Math.max(0, (addlGross + laborValue + softwareRaw)*12);  // net of AutoDealer's cost
       if(animate){ animateTo('oSave',monthlySavings,'',true); animateTo('oSales',addlUnits,''); animateTo('oTime',timeSaved,' hrs'); animateTo('oRoi',annualRoi,'',true); }
       else { $('oSave').textContent=money(monthlySavings); $('oSales').textContent=addlUnits; $('oTime').textContent=timeSaved+' hrs'; $('oRoi').textContent=money(annualRoi); displayed={oSave:monthlySavings,oSales:addlUnits,oTime:timeSaved,oRoi:annualRoi}; }
     }
     ['reps','leads','cost','units'].forEach(function(id){ $(id).addEventListener('input', function(){ calc(false); }); });
 
+    /* ---- AI + security ---- */
     var spark='<path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/>';
-    var AI=[
-      ['AI Assistant','Drafts messages, books appointments, and answers anything — on every page.'],
-      ['AI Sales Coach','Scores every call, text, and email and turns it into personalized coaching.'],
-      ['AI Manager','An always-on GM that surfaces what needs attention and what to do next.'],
-      ['AI Reports','Explains the numbers in plain English — with recommendations, not just charts.'],
-      ['AI Follow-ups','Writes and prioritizes the right outreach so no lead goes cold.'],
-      ['AI Deal Insights','Structures deals to a target payment and flags what\'s blocking delivery.'],
-      ['AI Customer Summaries','Instant 360° recaps so every rep is prepared in seconds.'],
-      ['AI Workflow Builder','Describe an automation in words and AI builds the workflow.']
-    ];
-    $('aiGrid').innerHTML=AI.map(function(a){ return '<div class="fcard"><div class="fi"><svg viewBox="0 0 24 24">'+spark+'</svg></div><b>'+a[0]+'</b><p>'+a[1]+'</p></div>'; }).join('');
+    var AI=[['AI Assistant','Drafts messages, books appointments, and answers anything — on every page.'],['AI Sales Coach','Scores every call, text, and email and turns it into personalized coaching.'],['AI Manager','An always-on GM that surfaces what needs attention and what to do next.'],['AI Reports','Explains the numbers in plain English — with recommendations, not just charts.'],['AI Follow-ups','Writes and prioritizes the right outreach so no lead goes cold.'],['AI Deal Insights','Structures deals to a target payment and flags what\'s blocking delivery.'],['AI Customer Summaries','Instant 360° recaps so every rep is prepared in seconds.'],['AI Workflow Builder','Describe an automation in words and AI builds the workflow.']];
+    $('aiGrid').innerHTML=AI.map(function(a){ return '<div class="fcard pur"><div class="fi"><svg viewBox="0 0 24 24">'+spark+'</svg></div><b>'+a[0]+'</b><p>'+a[1]+'</p></div>'; }).join('');
     var SIC={ perm:'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>', lock:'<rect x="5" y="11" width="14" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.7"/>', backup:'<path d="M4 4v6h6M20 20v-6h-6M20 9a8 8 0 0 0-14-3M4 15a8 8 0 0 0 14 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>', audit:'<path d="M6 3h8l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 13h6M9 16h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>', cloud:'<path d="M7 18a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.5A3.5 3.5 0 0 1 17 18z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>', mfa:'<rect x="5" y="4" width="14" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M9 8h6M9 12h6M10 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>', sso:'<circle cx="9" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 12h7M18 9l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>', comp:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>' };
     var SEC=[['perm','Role-based permissions'],['lock','Data encryption'],['backup','Automatic backups'],['audit','Audit logs'],['cloud','Secure cloud hosting'],['mfa','Multi-factor authentication'],['sso','SSO support'],['comp','Compliance monitoring']];
     $('secGrid').innerHTML=SEC.map(function(s){ return '<div class="fcard"><div class="fi"><svg viewBox="0 0 24 24">'+SIC[s[0]]+'</svg></div><b>'+s[1]+'</b></div>'; }).join('');
 
-    var T=[
-      ['Jared M.','Dealer Principal','Summit Toyota','#2563eb','We replaced three tools with AutoDealer. The team actually enjoys using it — and our internet close rate is up 22%.'],
-      ['Dana R.','General Manager','Premier Auto','#db2777','The AI Manager gives me the whole store in one screen every morning. I know exactly where to spend my time.'],
-      ['Marcus B.','Sales Manager','Northgate Auto','#16a34a','Migration was painless — they moved everything over a weekend. My reps were selling on Monday with zero downtime.'],
-      ['Priya N.','BDC Director','Westside Group','#7c3aed','Speed-to-lead went from 9 minutes to under 4. The lead inbox and AI follow-ups changed how my team works.'],
-      ['Tom F.','Finance Director','Summit Toyota','#0891b2','F&I penetration is up 8%. The finance workspace keeps every deal moving from approval to delivery.'],
-      ['Gloria V.','Dealer Principal','Vance Automotive','#d97706','It finally feels like one platform instead of ten. Multi-store reporting alone paid for the whole thing.']
-    ];
+    /* ---- testimonials ---- */
+    var T=[['Jared M.','Dealer Principal','Summit Toyota','#2563eb','We replaced three tools with AutoDealer. The team actually enjoys using it — and our internet close rate is up 22%.'],['Dana R.','General Manager','Premier Auto','#db2777','The AI Manager gives me the whole store in one screen every morning. I know exactly where to spend my time.'],['Marcus B.','Sales Manager','Northgate Auto','#16a34a','Migration was painless — they moved everything over a weekend. My reps were selling on Monday with zero downtime.'],['Priya N.','BDC Director','Westside Group','#7c3aed','Speed-to-lead went from 9 minutes to under 4. The lead inbox and AI follow-ups changed how my team works.'],['Tom F.','Finance Director','Summit Toyota','#0891b2','F&I penetration is up 8%. The finance workspace keeps every deal moving from approval to delivery.'],['Gloria V.','Dealer Principal','Vance Automotive','#d97706','It finally feels like one platform instead of ten. Multi-store reporting alone paid for the whole thing.']];
     function ini(n){ return n.split(' ').map(function(x){return x[0];}).slice(0,2).join('').toUpperCase(); }
     $('tGrid').innerHTML=T.map(function(t){ return '<div class="tcard"><div class="stars">★★★★★</div><div class="quote">“'+t[4]+'”</div><div class="who"><span class="av" style="background:'+t[3]+'">'+ini(t[0])+'</span><div><b>'+t[0]+'</b><span>'+t[1]+' · '+t[2]+'</span></div></div></div>'; }).join('');
 
-    var FAQ=[
-      ['Can you migrate my existing CRM?','Yes — free of charge. We support CDK, VinSolutions, DealerSocket, Tekion, DriveCentric, Reynolds & Reynolds, plus CSV/Excel. Our guided importer cleans and de-dupes as it goes.'],
-      ['How long does implementation take?','Most single-rooftop dealerships are live in 1–2 weeks, including migration, validation, and team training. Dealer groups get a dedicated onboarding plan.'],
-      ['Can I add more users later?','Absolutely. Upgrade tiers or add seats anytime — changes prorate automatically and take effect immediately.'],
-      ['Do you charge setup fees?','No setup fees and no migration fees. The price you see is the price you pay.'],
-      ['Is AI included?','Yes. The full AI platform — Assistant, Sales Coach, Manager, workflow builder, and insights — is included in every plan. It is never a paid add-on.'],
-      ['Can I cancel anytime?','Monthly plans can be cancelled anytime. Annual plans run for the term and save you 15%.'],
-      ['Can I integrate with my DMS?','Yes — connect CDK, Reynolds, Tekion, and more through the Marketplace, plus lenders (RouteOne, Dealertrack) and communication tools.'],
-      ['Does it support multiple rooftops?','The Dealer Groups plan adds multi-store management, shared inventory and customers, centralized reporting, and SSO.'],
-      ['Do you offer onboarding and training?','Every plan includes onboarding and training resources, plus the built-in Knowledge Center. Enterprise and Groups get a dedicated success manager.']
-    ];
+    /* ---- FAQ ---- */
+    var FAQ=[['Can you migrate my existing CRM?','Yes — free of charge. We support CDK, VinSolutions, DealerSocket, Tekion, DriveCentric, Reynolds & Reynolds, plus CSV/Excel. Our guided importer cleans and de-dupes as it goes.'],['How long does implementation take?','Most single-rooftop dealerships are live in 1–2 weeks, including migration, validation, and team training. Dealer groups get a dedicated onboarding plan.'],['Can I add more users later?','Absolutely. Upgrade tiers or add seats anytime — changes prorate automatically and take effect immediately.'],['Do you charge setup fees?','No setup fees and no migration fees. The price you see is the price you pay.'],['Is AI included?','Yes. The full AI platform — Assistant, Sales Coach, Manager, workflow builder, and insights — is included in every plan. It is never a paid add-on.'],['Can I cancel anytime?','Monthly plans can be cancelled anytime. Annual plans run for the term and save you 15%.'],['Can I integrate with my DMS?','Yes — connect CDK, Reynolds, Tekion, and more through the Marketplace, plus lenders (RouteOne, Dealertrack) and communication tools.'],['Does it support multiple rooftops?','The Dealer Groups plan adds multi-store management, shared inventory and customers, centralized reporting, and SSO.'],['Do you offer onboarding and training?','Every plan includes onboarding and training resources, plus the built-in Knowledge Center. Enterprise and Groups get a dedicated success manager.']];
     $('faqList').innerHTML=FAQ.map(function(f){ return '<div class="qa"><div class="q">'+f[0]+'<svg class="cv" viewBox="0 0 24 24" width="20" height="20"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div class="a"><p>'+f[1]+'</p></div></div>'; }).join('');
     document.querySelectorAll('.qa .q').forEach(function(q){ q.addEventListener('click', function(){ q.parentNode.classList.toggle('open'); }); });
 
+    /* ---- toast + ROI reveal ---- */
     var tTimer; function toast(m){ var t=$('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ t.classList.remove('show'); },2200); }
-    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:.12});
-    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
-    var roiIo=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ calc(true); roiIo.unobserve(e.target); } }); },{threshold:.35});
+    var roiIo=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && !roiStarted){ roiStarted=true; calc(true); roiIo.disconnect(); } }); },{threshold:.35});
     roiIo.observe($('roi'));
 
-    renderCards(); renderCmp(); calc(false);
+    renderCards(); calc(false);
   </script>
 </body>
 </html>
