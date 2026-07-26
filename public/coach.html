@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Sales Coach — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:420px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#f1eafe; color:#7c3aed; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; max-width:560px; }
+    .btn-primary { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; border-radius:11px; padding:11px 18px; font-size:13.5px; font-weight:600; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); } .btn-primary svg { width:16px; height:16px; }
+
+    .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:13px; margin:22px 0 20px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:12px;} .kp .kv{font-size:24px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kd{font-size:11.5px;font-weight:700;margin-top:5px;color:var(--green);} .kp .kd.down{color:var(--red);} .kp .kd.warn{color:var(--amber);}
+
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:24px 0 14px; }
+    .grid2 { display:grid; grid-template-columns:1fr 380px; gap:18px; align-items:start; }
+    @media(max-width:1100px){ .grid2{grid-template-columns:1fr;} }
+
+    /* rep cards */
+    .reps { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+    .rep { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); cursor:pointer; transition:transform .12s,box-shadow .12s; } .rep:hover{transform:translateY(-2px);box-shadow:0 18px 38px -22px rgba(16,32,60,.45);border-color:#cfe0f7;}
+    .rep .rh{display:flex;align-items:center;gap:13px;}
+    .ring{width:56px;height:56px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;position:relative;}
+    .ring .ri{width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;letter-spacing:-.5px;}
+    .rep .rn b{font-size:15px;font-weight:800;} .rep .rn span{display:block;font-size:12px;color:var(--muted);}
+    .grade{margin-left:auto;font-size:11px;font-weight:800;padding:4px 10px;border-radius:8px;} .g-a{background:#e7f7ee;color:var(--green);} .g-b{background:#eef4ff;color:var(--accent);} .g-c{background:#fdf0dc;color:var(--amber);}
+    .skills{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+    .sk{display:flex;align-items:center;gap:10px;} .sk .sn{width:104px;font-size:11.5px;color:var(--muted);font-weight:600;flex:none;} .sk .sb{flex:1;height:7px;background:var(--bg);border-radius:5px;overflow:hidden;} .sk .sb>i{display:block;height:100%;border-radius:5px;width:0;transition:width .9s cubic-bezier(.2,.7,.3,1);} .sk .sv{width:28px;text-align:right;font-size:11.5px;font-weight:700;flex:none;}
+    .rep .rflag{margin-top:13px;font-size:12px;color:var(--muted);background:var(--bg);border-radius:10px;padding:9px 12px;display:flex;gap:8px;align-items:flex-start;} .rep .rflag svg{width:15px;height:15px;flex:none;margin-top:1px;} .rep .rflag.warn{background:#fff8ee;color:#a86414;} .rep .rflag.good{background:#eefaf2;color:#15803d;}
+
+    /* interactions list */
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .card-h { display:flex; align-items:center; gap:10px; padding:16px 20px; border-bottom:1px solid var(--line); } .card-h h2{font-size:15px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);} .card-h .r{margin-left:auto;font-size:12.5px;color:var(--muted);font-weight:600;}
+    .ix{display:flex;align-items:center;gap:13px;padding:14px 20px;border-top:1px solid var(--line);cursor:pointer;} .ix:first-of-type{border-top:none;} .ix:hover{background:#fafbff;}
+    .ix .ici{width:38px;height:38px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;} .ix .ici svg{width:18px;height:18px;}
+    .ic-call{background:#e7f7ee;color:var(--green);} .ic-text{background:#e2f5fb;color:#0891b2;} .ic-email{background:#eef0fe;color:#6366f1;}
+    .ix .ixm{flex:1;min-width:0;} .ix .ixm b{font-size:13.5px;font-weight:700;} .ix .ixm span{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .score{flex:none;text-align:center;width:46px;} .score b{font-size:17px;font-weight:900;letter-spacing:-.5px;} .score span{font-size:9.5px;color:var(--faint);font-weight:700;text-transform:uppercase;display:block;}
+    .score.hi b{color:var(--green);} .score.mid b{color:var(--amber);} .score.lo b{color:var(--red);}
+
+    /* focus areas */
+    .focus{padding:14px 18px;border-top:1px solid var(--line);display:flex;gap:12px;align-items:flex-start;} .focus:first-of-type{border-top:none;}
+    .focus .fi{width:32px;height:32px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;background:#f1eafe;color:var(--purple);} .focus .fi svg{width:16px;height:16px;}
+    .focus .fm b{font-size:13.5px;font-weight:700;} .focus .fm p{font-size:12.5px;color:var(--muted);line-height:1.5;margin-top:3px;}
+
+    /* personal hero */
+    .phero{background:radial-gradient(900px 400px at 90% -40%,#4c1d95,#0f1b2d 62%),#0f1b2d;border-radius:20px;color:#eaf1fb;padding:26px 30px;display:flex;align-items:center;gap:34px;box-shadow:var(--shadow);flex-wrap:wrap;}
+    .phero .bigring{width:130px;height:130px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;position:relative;} .phero .bigring .ri{width:104px;height:104px;border-radius:50%;background:#0f1b2d;display:flex;flex-direction:column;align-items:center;justify-content:center;} .phero .bigring .ri b{font-size:38px;font-weight:900;letter-spacing:-2px;color:#c4b5fd;} .phero .bigring .ri span{font-size:10.5px;color:#8fa6c6;font-weight:700;text-transform:uppercase;}
+    .phero .pd{flex:1;min-width:220px;} .phero .pd h2{font-size:21px;font-weight:800;} .phero .pd p{color:#a9bcda;font-size:13.5px;margin-top:7px;line-height:1.55;max-width:440px;}
+    .phero .pstat{display:flex;gap:26px;margin-top:16px;} .phero .pstat b{font-size:22px;font-weight:900;display:block;} .phero .pstat span{font-size:11.5px;color:#8fa6c6;font-weight:600;}
+
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show{opacity:1;pointer-events:auto;}
+    .panel { position:fixed; top:0; right:0; bottom:0; width:520px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open{transform:none;}
+    .panel-hd { display:flex; align-items:center; gap:14px; padding:20px 22px; background:var(--card); border-bottom:1px solid var(--line); } .panel-hd h2{font-size:17px;font-weight:800;} .panel-hd .pm{color:var(--muted);font-size:12.5px;margin-top:3px;} .panel-close{margin-left:auto;border:none;background:none;color:var(--muted);width:34px;height:34px;border-radius:9px;} .panel-close svg{width:18px;height:18px;}
+    .panel-body { overflow-y:auto; padding:18px 22px 20px; display:flex; flex-direction:column; gap:16px; }
+    .sect { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px; } .sect h3{font-size:12.5px;font-weight:800;margin-bottom:12px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;} .sect h3 svg{width:15px;height:15px;color:var(--accent);}
+    .transcript{display:flex;flex-direction:column;gap:9px;} .tl{display:flex;gap:9px;font-size:13px;line-height:1.45;} .tl .sp{font-weight:800;flex:none;width:52px;color:var(--muted);} .tl.cust .sp{color:var(--accent);} .tl .tx{color:#33445c;} .tl .hl{background:#fff4c9;border-radius:4px;padding:0 3px;}
+    .moment{display:flex;gap:10px;padding:10px 0;border-top:1px solid var(--line);} .moment:first-child{border-top:none;} .moment .mk{width:22px;height:22px;border-radius:7px;flex:none;display:flex;align-items:center;justify-content:center;} .moment .mk svg{width:14px;height:14px;} .mk.good{background:#e7f7ee;color:var(--green);} .mk.bad{background:#fdeaea;color:var(--red);} .moment .mt{font-size:13px;color:#33445c;line-height:1.5;}
+    .coach-note{background:#f1eafe;border:1px solid #e4d5fb;border-radius:11px;padding:14px;font-size:13.5px;line-height:1.6;color:#4c2889;}
+    textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:12px 14px;font:inherit;font-size:13.5px;resize:vertical;min-height:84px;outline:none;} textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12);}
+    .p-actions{display:flex;gap:10px;} .p-actions button{flex:1;border-radius:11px;padding:12px;font-size:13.5px;font-weight:700;} .pa-ghost{background:#fff;border:1px solid var(--line);color:var(--text);} .pa-ghost:hover{border-color:#cfe0f7;color:var(--accent);} .pa-primary{background:linear-gradient(180deg,var(--accent-2),var(--accent));border:none;color:#fff;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" placeholder="Search interactions..." /></div>
+        <span class="role-badge" id="roleBadge">AI Sales Coach</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content" id="content"></main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    function avColor(s){ var c=['#3b82f6','#8b5cf6','#ec4899','#f59e0b','#10b981','#06b6d4','#6366f1']; var h=0; for(var i=0;i<s.length;i++) h=(h+s.charCodeAt(i))%c.length; return c[h]; }
+    function initials(n){ return n.split(' ').map(function(x){return x[0];}).slice(0,2).join('').toUpperCase(); }
+    function ringStyle(score,size){ var col=score>=85?'#16a34a':score>=70?'#2563eb':'#d97706'; var deg=score*3.6; return 'background:conic-gradient('+col+' '+deg+'deg,#e9edf4 '+deg+'deg);'; }
+    function ringCol(score){ return score>=85?'#16a34a':score>=70?'#2563eb':'#d97706'; }
+    function grade(score){ return score>=85?['A','g-a']:score>=75?['B','g-b']:['C','g-c']; }
+
+    var SKILLS = ['Rapport','Discovery','Product','Objections','Closing','Follow-up'];
+    var REPS = [
+      {name:'Marcus Bell',title:'Senior Advisor',score:91,sk:[95,90,92,88,90,88],flag:['good','Consistently strong closes — model his objection handling for the team.']},
+      {name:'Cameron Miller',title:'Sales Representative',score:84,sk:[90,82,88,74,80,88],flag:['warn','Objection handling dips when customers push on price — see coaching plan.']},
+      {name:'Sarah Lin',title:'Sales Representative',score:78,sk:[85,72,80,70,74,80],flag:['warn','Discovery is rushed — asking 40% fewer needs questions than top reps.']},
+      {name:'Devon Wright',title:'Sales Representative',score:72,sk:[78,68,74,64,70,72],flag:['warn','Follow-up gaps: 3 warm leads went 5+ days without contact.']},
+      {name:'Priya Nair',title:'Junior Advisor',score:69,sk:[74,66,62,60,66,74],flag:['warn','Product knowledge on EVs is the biggest opportunity — assign training.']}
+    ];
+    var IX = [
+      {id:1,rep:'Cameron Miller',type:'call',cust:'Robert Chen',score:88,dur:'8:42 call',summary:'Strong discovery, closed for appointment',when:'Today 2:14 PM'},
+      {id:2,rep:'Cameron Miller',type:'text',cust:'Ashley Patel',score:72,dur:'SMS thread',summary:'Slow to address price objection',when:'Today 11:03 AM'},
+      {id:3,rep:'Sarah Lin',type:'call',cust:'Thomas Reed',score:64,dur:'5:10 call',summary:'Skipped needs discovery, jumped to inventory',when:'Yesterday 4:30 PM'},
+      {id:4,rep:'Marcus Bell',type:'email',cust:'David Okafor',score:94,dur:'Email',summary:'Excellent value framing on trade-in',when:'Yesterday 1:12 PM'},
+      {id:5,rep:'Devon Wright',type:'call',cust:'Lisa Moore',score:69,dur:'6:28 call',summary:'Good rapport, weak next-step ask',when:'Yesterday 10:44 AM'}
+    ];
+
+    function scoreClass(s){ return s>=85?'hi':s>=70?'mid':'lo'; }
+    function typeIcon(t){ var p=t==='call'?'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>':t==='text'?'<path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>':'<rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/>'; return '<svg viewBox="0 0 24 24">'+p+'</svg>'; }
+    function ixRow(x,showRep){
+      return '<div class="ix" onclick="openIx('+x.id+')"><span class="ici ic-'+x.type+'">'+typeIcon(x.type)+'</span>'+
+        '<div class="ixm"><b>'+(showRep?x.rep:x.cust)+(showRep?' · '+x.cust:'')+'</b><span>'+x.summary+' · '+x.dur+' · '+x.when+'</span></div>'+
+        '<div class="score '+scoreClass(x.score)+'"><b>'+x.score+'</b><span>score</span></div></div>';
+    }
+    function skillBars(sk,animate){ return '<div class="skills">'+SKILLS.map(function(n,i){ var v=sk[i]; return '<div class="sk"><span class="sn">'+n+'</span><div class="sb"><i style="background:'+ringCol(v)+'" data-w="'+v+'"></i></div><span class="sv">'+v+'</span></div>'; }).join('')+'</div>'; }
+
+    /* ---------- MANAGER VIEW ---------- */
+    function managerView(){
+      return ''+
+      '<div class="phead"><div><h1>AI Sales Coach</h1><p class="sub">AI listens to every call, text and email, scores the selling skills, and turns patterns into coaching — so you know exactly where to spend your bench time.</p></div>'+
+        '<button class="btn-primary" onclick="toast(\'AI re-analyzed 214 interactions\')"><svg viewBox="0 0 24 24"><path d="M4 4v6h6M20 20v-6h-6M20 9a8 8 0 0 0-14-3M4 15a8 8 0 0 0 14 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Re-analyze</button></div>'+
+      '<div class="kpis">'+
+        '<div class="kp"><div class="kl">Team Coaching Score</div><div class="kv">79</div><div class="kd">▲ 4 pts this month</div></div>'+
+        '<div class="kp"><div class="kl">Interactions Analyzed</div><div class="kv">214</div><div class="kd">This week</div></div>'+
+        '<div class="kp"><div class="kl">Avg Call Score</div><div class="kv">76</div><div class="kd warn">Objections weakest</div></div>'+
+        '<div class="kp"><div class="kl">Reps Needing Focus</div><div class="kv">3</div><div class="kd down">Below 80</div></div>'+
+        '<div class="kp"><div class="kl">AI Recommendations</div><div class="kv">12</div><div class="kd">Ready to assign</div></div>'+
+      '</div>'+
+      '<div class="sec-label">Team Scorecards</div>'+
+      '<div class="reps">'+REPS.map(repCard).join('')+'</div>'+
+      '<div class="sec-label">Recent Analyzed Interactions</div>'+
+      '<div class="grid2">'+
+        '<div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><h2>Interactions</h2><span class="r">AI-scored</span></div><div>'+IX.map(function(x){return ixRow(x,true);}).join('')+'</div></div>'+
+        '<div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 1 1.9h5c.1-.9.4-1.4 1-1.9A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><h2>Team Focus Areas</h2></div><div>'+
+          focusRow('Objection handling','5 of 6 reps lose momentum on price pushback. AI suggests a group role-play on the "feel-felt-found" method.')+
+          focusRow('Needs discovery','Discovery scores trail closing by 11 pts. Reps average 4 discovery questions; top performers ask 7+.')+
+          focusRow('EV product knowledge','Confidence drops on EV range & charging questions. Assign the EV certification module.')+
+        '</div></div>'+
+      '</div>';
+    }
+    function repCard(r){
+      var g=grade(r.score);
+      return '<div class="rep" onclick="openRep(\''+r.name+'\')"><div class="rh"><div class="ring" style="'+ringStyle(r.score)+'"><div class="ri" style="color:'+ringCol(r.score)+'">'+r.score+'</div></div>'+
+        '<div class="rn"><b>'+r.name+'</b><span>'+r.title+'</span></div><span class="grade '+g[1]+'">'+g[0]+'</span></div>'+
+        skillBars(r.sk)+
+        '<div class="rflag '+(r.flag[0]==='good'?'good':'warn')+'"><svg viewBox="0 0 24 24">'+(r.flag[0]==='good'?'<path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>':'<path d="M12 8v5M12 16.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 3l9 16H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>')+'</svg><span>'+r.flag[1]+'</span></div></div>';
+    }
+    function focusRow(t,s){ return '<div class="focus"><span class="fi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></span><div class="fm"><b>'+t+'</b><p>'+s+'</p></div></div>'; }
+
+    /* ---------- PERSONAL VIEW ---------- */
+    function personalView(){
+      var me=REPS[1]; // Cameron
+      var mine=IX.filter(function(x){return x.rep==='Cameron Miller';});
+      return ''+
+      '<div class="phead"><div><h1>My Sales Coach</h1><p class="sub">AI reviews your calls, texts and emails and turns them into personalized coaching — private to you.</p></div></div>'+
+      '<div class="phero" style="margin-top:22px;">'+
+        '<div class="bigring" style="'+ringStyle(me.score)+'"><div class="ri"><b>'+me.score+'</b><span>Coaching</span></div></div>'+
+        '<div class="pd"><h2>You\'re trending up — nice work 📈</h2><p>Your coaching score rose 4 points this week. Your rapport and follow-up are team-leading. The one thing holding you back from an A: handling price objections without discounting too early.</p>'+
+          '<div class="pstat"><div><b>#2</b><span>Team rank</span></div><div><b>B+</b><span>Grade</span></div><div><b>+4</b><span>This week</span></div><div><b>88</b><span>Best call</span></div></div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="sec-label">Your Skills</div>'+
+      '<div class="card"><div class="card-b" style="padding:20px;">'+skillBars(me.sk)+'<div style="font-size:12px;color:var(--muted);margin-top:14px;">Bars show your 30-day average vs. an 85+ target. Objection handling is your biggest growth lever.</div></div></div>'+
+      '<div class="grid2" style="margin-top:24px;">'+
+        '<div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><h2>My Recent Interactions</h2></div><div>'+mine.map(function(x){return ixRow(x,false);}).join('')+'</div></div>'+
+        '<div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 1 1.9h5c.1-.9.4-1.4 1-1.9A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><h2>Your Coaching Plan</h2></div><div>'+
+          focusRow('Hold on price 30 seconds longer','When Ashley pushed on price, you offered a discount in 12 seconds. Try acknowledging value first — "Let me show you what\'s included" — before any number moves.')+
+          focusRow('Ask 2 more discovery questions','Your best call (Robert, 88) had 7 discovery questions. Aim for that on every first conversation.')+
+          focusRow('Practice the trade-in framing','Watch Marcus\'s email to David — study how he frames trade value as "equity you can use today."')+
+        '</div></div>'+
+      '</div>';
+    }
+
+    /* ---------- slide-overs ---------- */
+    function openRep(name){
+      var r=REPS.find(function(x){return x.name===name;}); if(!r) return;
+      var p=$('panel');
+      p.innerHTML=''+
+      '<div class="panel-hd"><div class="ring" style="width:48px;height:48px;'+ringStyle(r.score)+'"><div class="ri" style="width:38px;height:38px;font-size:14px;color:'+ringCol(r.score)+'">'+r.score+'</div></div>'+
+        '<div><h2>'+r.name+'</h2><div class="pm">'+r.title+' · Coaching score '+r.score+'</div></div>'+
+        '<button class="panel-close" onclick="closePanel()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button></div>'+
+      '<div class="panel-body">'+
+        '<div class="sect"><h3>Skill Breakdown</h3>'+skillBars(r.sk)+'</div>'+
+        '<div class="sect"><h3><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 1 1.9h5c.1-.9.4-1.4 1-1.9A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>AI Coaching Recommendation</h3><div class="coach-note">'+coachText(r)+'</div></div>'+
+        '<div class="sect"><h3>Send a Coaching Note</h3><textarea id="note" placeholder="Add a personal note...">'+(r.name.split(' ')[0])+', great progress this week. Let\'s spend 15 minutes on price-objection role-play before your next up.</textarea>'+
+          '<div class="p-actions" style="margin-top:12px;"><button class="pa-ghost" onclick="closePanel()">Cancel</button><button class="pa-primary" onclick="closePanel();toast(\'Coaching note sent to '+r.name.split(' ')[0]+'\')">Send &amp; assign drill</button></div></div>'+
+      '</div>';
+      setTimeout(animateBars,60);
+      $('scrim').classList.add('show'); p.classList.add('open');
+    }
+    function coachText(r){
+      var low=SKILLS[r.sk.indexOf(Math.min.apply(null,r.sk))];
+      return 'Biggest lever: <b>'+low+'</b>. '+r.flag[1]+' Recommended: assign the "'+low+' Mastery" micro-drill (12 min) and pair on the next 3 live ups. Projected +6 pts in 30 days.';
+    }
+    var IXDATA={
+      1:{good:['Opened with a warm, personal question about Robert\'s current vehicle.','Asked 7 discovery questions before pitching — textbook.','Closed cleanly for a Tuesday appointment.'],bad:['Could have confirmed budget earlier to save time.'],note:'Excellent call. This is your model for first conversations — 88 is your season best.',t:[['Cameron','Hi Robert! Before we talk numbers, tell me — what\'s got you thinking about a change from the RAV4?',0],['Robert','Honestly the family\'s outgrown it, need a third row.',1],['Cameron','That makes total sense. How often are you carrying more than four people?',0]]},
+      2:{good:['Friendly, responsive tone throughout.'],bad:['Offered a $500 discount 12 seconds after the first price objection.','Didn\'t reframe value before moving the number.'],note:'You caved on price too fast. Next time, acknowledge and show value for 30 seconds before any discount.',t:[['Ashley','Can you do any better on the price?',1],['Cameron','I can knock $500 off right now for you.',0],['Ashley','Ok let me think about it.',1]]},
+      3:{good:['Polite and professional.'],bad:['Skipped needs discovery entirely.','Jumped straight to reciting inventory.'],note:'Slow down — discovery first. Reed left without a clear next step.',t:[['Sarah','We\'ve got three SUVs on the lot in your range.',0],['Thomas','Ok... I\'m not sure what I need yet.',1]]},
+      4:{good:['Framed trade value as usable equity.','Clear, confident, no filler.'],bad:[],note:'Model example of value framing — sharing with the team.',t:[['Marcus','David, your RAV4 has $21,400 of equity — that\'s real money you can put to work today.',0]]},
+      5:{good:['Built genuine rapport.'],bad:['Weak next-step ask at the end.'],note:'Great warmth — just ask for the appointment directly next time.',t:[['Devon','It was great talking, Lisa — feel free to swing by anytime!',0]]}
+    };
+    function openIx(id){
+      var x=IX.find(function(i){return i.id===id;}); if(!x) return; var d=IXDATA[id]||{good:[],bad:[],note:'',t:[]};
+      var p=$('panel');
+      p.innerHTML=''+
+      '<div class="panel-hd"><span class="ici ic-'+x.type+'" style="width:44px;height:44px;">'+typeIcon(x.type)+'</span>'+
+        '<div><h2>'+x.rep+' → '+x.cust+'</h2><div class="pm">'+x.dur+' · '+x.when+'</div></div>'+
+        '<div class="score '+scoreClass(x.score)+'" style="margin-left:auto;margin-right:8px;"><b>'+x.score+'</b><span>score</span></div>'+
+        '<button class="panel-close" onclick="closePanel()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button></div>'+
+      '<div class="panel-body">'+
+        (d.t.length?'<div class="sect"><h3>Transcript Highlights</h3><div class="transcript">'+d.t.map(function(l){return '<div class="tl'+(l[2]?' cust':'')+'"><span class="sp">'+l[0]+'</span><span class="tx">'+l[1]+'</span></div>';}).join('')+'</div></div>':'')+
+        '<div class="sect"><h3>Key Moments</h3>'+
+          d.good.map(function(g){return '<div class="moment"><span class="mk good"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div class="mt">'+g+'</div></div>';}).join('')+
+          d.bad.map(function(b){return '<div class="moment"><span class="mk bad"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><div class="mt">'+b+'</div></div>';}).join('')+
+        '</div>'+
+        '<div class="sect"><h3><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 1 1.9h5c.1-.9.4-1.4 1-1.9A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>AI Coaching Takeaway</h3><div class="coach-note">'+d.note+'</div></div>'+
+        '<div class="p-actions"><button class="pa-ghost" onclick="closePanel()">Close</button><button class="pa-primary" onclick="closePanel();toast(\'Saved to coaching plan\')">Add to coaching plan</button></div>'+
+      '</div>';
+      $('scrim').classList.add('show'); p.classList.add('open');
+    }
+    function closePanel(){ $('scrim').classList.remove('show'); $('panel').classList.remove('open'); }
+
+    function animateBars(){ setTimeout(function(){ document.querySelectorAll('.sk .sb>i').forEach(function(el){ if(!el.style.width || el.style.width==='0px') el.style.width=el.getAttribute('data-w')+'%'; }); },200); }
+    var tTimer;
+    function toast(m){ $('toastMsg').textContent=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2400); }
+
+    document.addEventListener('DOMContentLoaded', function(){
+      var role = (window.ADRoles && window.ADRoles.getRole()) || 'manager';
+      if(role==='manager'){ $('content').innerHTML=managerView(); $('roleBadge').textContent='AI Sales Coach'; }
+      else { $('content').innerHTML=personalView(); $('roleBadge').textContent='My Coach'; }
+      $('scrim').addEventListener('click', closePanel);
+      animateBars();
+    });
+  </script>
+</body>
+</html>

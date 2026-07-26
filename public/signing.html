@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>e-Signature — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:420px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#e7f7ee; color:#16a34a; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; max-width:560px; }
+    .btn-primary { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; border-radius:11px; padding:11px 18px; font-size:13.5px; font-weight:600; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); } .btn-primary svg { width:16px; height:16px; }
+
+    .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:13px; margin:22px 0 20px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:12px;} .kp .kv{font-size:24px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kd{font-size:11.5px;font-weight:700;margin-top:5px;color:var(--green);} .kp .kd.warn{color:var(--amber);}
+
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:24px 0 14px; }
+
+    /* templates */
+    .tpls { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+    .tpl { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px; box-shadow:var(--shadow); cursor:pointer; transition:transform .12s,box-shadow .12s; } .tpl:hover{transform:translateY(-2px);box-shadow:0 16px 34px -20px rgba(16,32,60,.4);border-color:#cfe0f7;}
+    .tpl .ti{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:11px;background:var(--accent-soft);color:var(--accent);} .tpl .ti svg{width:20px;height:20px;} .tpl b{font-size:13.5px;font-weight:700;display:block;} .tpl span{font-size:11.5px;color:var(--muted);} .tpl .tsend{margin-top:11px;font-size:12px;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:5px;} .tpl .tsend svg{width:13px;height:13px;}
+
+    /* filter pills */
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 14px; } .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; } .pill.on{background:var(--accent);color:#fff;border-color:var(--accent);} .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;} .pill .c{opacity:.7;margin-left:3px;}
+
+    /* envelopes list */
+    .list { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .lhead { display:grid; grid-template-columns:2.4fr 1.5fr 1.2fr 1.3fr auto; gap:14px; padding:13px 20px; font-size:11px; color:var(--faint); font-weight:700; letter-spacing:.3px; border-bottom:1px solid var(--line); }
+    .erow { display:grid; grid-template-columns:2.4fr 1.5fr 1.2fr 1.3fr auto; gap:14px; align-items:center; padding:15px 20px; border-top:1px solid var(--line); cursor:pointer; } .erow:first-of-type{border-top:none;} .erow:hover{background:#fafbff;}
+    .edoc{display:flex;align-items:center;gap:12px;} .edoc .di{width:38px;height:38px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);color:var(--accent);} .edoc .di svg{width:18px;height:18px;} .edoc b{font-weight:700;font-size:13.5px;} .edoc span{display:block;color:var(--muted);font-size:11.5px;}
+    .ecust{display:flex;align-items:center;gap:10px;} .ecust .av{width:30px;height:30px;border-radius:50%;flex:none;color:#fff;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;} .ecust b{font-size:13px;font-weight:600;} .ecust span{display:block;font-size:11px;color:var(--muted);}
+    .prog{display:flex;align-items:center;gap:8px;} .prog .pbar{flex:1;height:6px;background:var(--bg);border-radius:4px;overflow:hidden;min-width:50px;} .prog .pbar>i{display:block;height:100%;background:linear-gradient(90deg,#16a34a,#22c55e);border-radius:4px;} .prog .pt{font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap;}
+    .est{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:7px;display:inline-flex;align-items:center;gap:5px;} .est::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;}
+    .e-draft{background:#eef1f6;color:#64748b;} .e-sent{background:#eef4ff;color:#2563eb;} .e-viewed{background:#fdf0dc;color:#b7791f;} .e-signed{background:#e7f7ee;color:#16a34a;} .e-void{background:#fdeaea;color:#dc2626;}
+    .rowbtn{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:9px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;} .rowbtn:hover{border-color:#cfe0f7;color:var(--accent);} .rowbtn svg{width:16px;height:16px;}
+
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show{opacity:1;pointer-events:auto;}
+    .panel { position:fixed; top:0; right:0; bottom:0; width:520px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open{transform:none;}
+    .panel-hd { display:flex; align-items:center; gap:14px; padding:20px 22px; background:var(--card); border-bottom:1px solid var(--line); } .panel-hd .di{width:44px;height:44px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);color:var(--accent);} .panel-hd .di svg{width:21px;height:21px;} .panel-hd h2{font-size:17px;font-weight:800;} .panel-hd .pm{color:var(--muted);font-size:12.5px;margin-top:3px;} .panel-close{margin-left:auto;border:none;background:none;color:var(--muted);width:34px;height:34px;border-radius:9px;} .panel-close svg{width:18px;height:18px;}
+    .panel-body { overflow-y:auto; padding:18px 22px 20px; display:flex; flex-direction:column; gap:16px; }
+    .sect { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px; } .sect h3{font-size:12.5px;font-weight:800;margin-bottom:14px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;} .sect h3 svg{width:15px;height:15px;color:var(--accent);} .sect h3 .r{margin-left:auto;font-weight:700;}
+
+    /* signer rows */
+    .signer{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line);} .signer:first-child{border-top:none;}
+    .signer .av{width:34px;height:34px;border-radius:50%;flex:none;color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;}
+    .signer .si b{font-size:13.5px;font-weight:700;} .signer .si span{display:block;font-size:11.5px;color:var(--muted);}
+    .signer .sst{margin-left:auto;flex:none;}
+    .order{width:22px;height:22px;border-radius:50%;background:var(--bg);color:var(--muted);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;}
+
+    /* audit trail */
+    .trail{position:relative;padding-left:8px;}
+    .tev{display:flex;gap:13px;padding-bottom:16px;position:relative;} .tev:last-child{padding-bottom:0;}
+    .tev::before{content:"";position:absolute;left:6px;top:16px;bottom:0;width:2px;background:var(--line);} .tev:last-child::before{display:none;}
+    .tev .td{width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 0 1px var(--line);flex:none;margin-top:2px;z-index:1;} .tev.done .td{background:var(--green);} .tev.wait .td{background:#cbd5e1;}
+    .tev .tc b{font-size:13px;font-weight:700;} .tev .tc span{display:block;font-size:11.5px;color:var(--muted);margin-top:1px;} .tev .tc .ip{font-size:10.5px;color:var(--faint);margin-top:2px;font-family:monospace;}
+
+    /* doc preview */
+    .docpv{border:1px solid var(--line);border-radius:11px;background:#fff;padding:16px;position:relative;overflow:hidden;}
+    .docpv .ln{height:7px;background:#eef1f6;border-radius:4px;margin-bottom:8px;} .docpv .ln.s{width:60%;} .docpv .ln.m{width:85%;}
+    .docpv .field{border:1.5px dashed #f5b638;background:#fffbf0;border-radius:7px;height:34px;display:flex;align-items:center;padding:0 10px;font-size:11.5px;font-weight:700;color:#b7791f;margin:12px 0;} .docpv .field.signed{border-style:solid;border-color:#16a34a;background:#f0faf3;color:#15803d;} .docpv .field.signed .sig{font-family:"Segoe Script","Brush Script MT",cursive;font-size:19px;}
+
+    .p-actions{display:flex;gap:10px;flex-wrap:wrap;} .p-actions button{flex:1;min-width:130px;border-radius:11px;padding:12px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:7px;} .p-actions button svg{width:15px;height:15px;} .pa-ghost{background:#fff;border:1px solid var(--line);color:var(--text);} .pa-ghost:hover{border-color:#cfe0f7;color:var(--accent);} .pa-primary{background:linear-gradient(180deg,var(--accent-2),var(--accent));border:none;color:#fff;} .pa-danger{background:#fff;border:1px solid #f3d0d0;color:var(--red);}
+
+    .secure{display:flex;align-items:center;gap:10px;background:#eefaf2;border:1px solid #cdeed9;border-radius:11px;padding:12px 14px;font-size:12px;color:#15803d;} .secure svg{width:18px;height:18px;flex:none;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .lhead{display:none;} .erow{grid-template-columns:1fr auto;} .erow .l-hide{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" placeholder="Search signature requests..." /></div>
+        <span class="role-badge">e-Signature</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>Digital Signing</h1><p class="sub">Send any document for legally-binding e-signature, track every signer in real time, and keep a tamper-proof audit trail — all in the deal.</p></div>
+          <button class="btn-primary" onclick="toast('New signature request started')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>New Request</button>
+        </div>
+        <div class="kpis">
+          <div class="kp"><div class="kl">Awaiting Signature</div><div class="kv">5</div><div class="kd warn">2 sent today</div></div>
+          <div class="kp"><div class="kl">Completed (30d)</div><div class="kv">148</div><div class="kd">▲ 22 vs last month</div></div>
+          <div class="kp"><div class="kl">Avg Time to Sign</div><div class="kv">14m</div><div class="kd">Fastest this quarter</div></div>
+          <div class="kp"><div class="kl">Completion Rate</div><div class="kv">96%</div><div class="kd">Industry-leading</div></div>
+          <div class="kp"><div class="kl">Sent This Week</div><div class="kv">37</div><div class="kd">Across 12 deals</div></div>
+        </div>
+
+        <div class="sec-label">Send for Signature</div>
+        <div class="tpls" id="tpls"></div>
+
+        <div class="sec-label" style="margin-top:26px;">Signature Requests</div>
+        <div class="pills" id="pills"></div>
+        <div class="list">
+          <div class="lhead"><span>DOCUMENT</span><span class="l-hide">RECIPIENT</span><span class="l-hide">SIGNERS</span><span>STATUS</span><span></span></div>
+          <div id="rows"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    function avColor(s){ var c=['#3b82f6','#8b5cf6','#ec4899','#f59e0b','#10b981','#06b6d4','#6366f1']; var h=0; for(var i=0;i<s.length;i++) h=(h+s.charCodeAt(i))%c.length; return c[h]; }
+    function initials(n){ return n.split(' ').map(function(x){return x[0];}).slice(0,2).join('').toUpperCase(); }
+
+    var TEMPLATES = [
+      ['Purchase Agreement','Vehicle buyer\'s order'],
+      ['Retail Installment Contract','Financing terms'],
+      ['Trade-In Agreement','Appraisal & payoff'],
+      ['Insurance Authorization','Add vehicle to policy'],
+      ['Credit Application','F&I submission'],
+      ['We-Owe / Due Bill','Post-sale promises'],
+      ['Privacy Notice','GLBA disclosure'],
+      ['Odometer Disclosure','Federal statement']
+    ];
+    function docIcon(){ return '<svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v4h4M9 13h6M9 16.5h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'; }
+
+    var ENV = [
+      {id:1,doc:'Retail Installment Contract',pack:'4 documents',cust:'Sarah Whitfield',deal:'Deal #D-4471',status:'viewed',signers:[['Sarah Whitfield','buyer','viewed'],['Premier Auto F&I','dealer','signed']],sent:'Today 9:14 AM'},
+      {id:2,doc:'Purchase Agreement',pack:'Buyer\'s order',cust:'Robert Chen',deal:'Deal #D-4468',status:'sent',signers:[['Robert Chen','buyer','sent'],['Amanda Chen','co-buyer','sent']],sent:'Today 8:02 AM'},
+      {id:3,doc:'Trade-In Agreement',pack:'2019 RAV4',cust:'Sarah Whitfield',deal:'Deal #D-4471',status:'signed',signers:[['Sarah Whitfield','buyer','signed']],sent:'Yesterday 5:40 PM'},
+      {id:4,doc:'Insurance Authorization',pack:'1 document',cust:'Maria Gonzalez',deal:'Deal #D-4460',status:'viewed',signers:[['Maria Gonzalez','buyer','viewed']],sent:'Yesterday 2:10 PM'},
+      {id:5,doc:'Full Delivery Package',pack:'7 documents',cust:'David Okafor',deal:'Deal #D-4455',status:'signed',signers:[['David Okafor','buyer','signed'],['Premier Auto F&I','dealer','signed']],sent:'Jul 24'},
+      {id:6,doc:'Credit Application',pack:'F&I submission',cust:'Thomas Reed',deal:'Deal #D-4472',status:'draft',signers:[['Thomas Reed','buyer','draft']],sent:'Draft'},
+      {id:7,doc:'We-Owe / Due Bill',pack:'Floor mats + tint',cust:'Ashley Patel',deal:'Deal #D-4463',status:'sent',signers:[['Ashley Patel','buyer','sent']],sent:'Jul 24'}
+    ];
+    var STATUS={draft:'Draft',sent:'Sent',viewed:'Viewed',signed:'Completed',void:'Voided'};
+    function estClass(s){ return 'e-'+(s==='signed'?'signed':s); }
+    function signerProgress(e){ var t=e.signers.length, d=e.signers.filter(function(s){return s[2]==='signed';}).length; return {done:d,total:t,pct:Math.round(d/t*100)}; }
+
+    function tplCard(t,i){ return '<div class="tpl" onclick="sendTpl(\''+t[0].replace(/\x27/g,"")+'\')"><div class="ti">'+docIcon()+'</div><b>'+t[0]+'</b><span>'+t[1]+'</span><div class="tsend"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-3-6-7-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Send</div></div>'; }
+    function renderTpls(){ $('tpls').innerHTML=TEMPLATES.map(tplCard).join(''); }
+
+    var filter='all';
+    function renderPills(){
+      var counts={all:ENV.length,sent:0,viewed:0,signed:0,draft:0};
+      ENV.forEach(function(e){ if(counts[e.status]!=null) counts[e.status]++; });
+      var defs=[['all','All'],['sent','Awaiting'],['viewed','Viewed'],['signed','Completed'],['draft','Drafts']];
+      $('pills').innerHTML=defs.map(function(d){ var c=d[0]==='sent'?(counts.sent+counts.viewed):counts[d[0]]; return '<button class="pill'+(filter===d[0]?' on':'')+'" data-f="'+d[0]+'">'+d[1]+'<span class="c">'+c+'</span></button>'; }).join('');
+      $('pills').querySelectorAll('.pill').forEach(function(b){ b.addEventListener('click',function(){ filter=b.getAttribute('data-f'); renderPills(); renderRows(); }); });
+    }
+    function renderRows(){
+      var list=ENV.filter(function(e){ if(filter==='all') return true; if(filter==='sent') return e.status==='sent'||e.status==='viewed'; return e.status===filter; });
+      $('rows').innerHTML=list.map(function(e){
+        var p=signerProgress(e);
+        return '<div class="erow" onclick="openEnv('+e.id+')">'+
+          '<div class="edoc"><span class="di">'+docIcon()+'</span><div><b>'+e.doc+'</b><span>'+e.pack+' · '+e.deal+'</span></div></div>'+
+          '<div class="ecust l-hide"><span class="av" style="background:'+avColor(e.cust)+'">'+initials(e.cust)+'</span><div><b>'+e.cust+'</b><span>Sent '+e.sent+'</span></div></div>'+
+          '<div class="prog l-hide"><div class="pbar"><i style="width:'+p.pct+'%"></i></div><span class="pt">'+p.done+'/'+p.total+'</span></div>'+
+          '<div><span class="est '+estClass(e.status)+'">'+STATUS[e.status]+'</span></div>'+
+          '<button class="rowbtn" title="Remind" onclick="remind('+e.id+');event.stopPropagation();"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 4-2 6-2 6h16s-2-2-2-6a6 6 0 0 0-6-6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 20a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>'+
+        '</div>';
+      }).join('') || '<div style="padding:40px;text-align:center;color:var(--muted);">No requests in this view.</div>';
+    }
+
+    function sendTpl(name){ toast('"'+name+'" prepared — choose a recipient to send'); }
+    function remind(id){ var e=ENV.find(function(x){return x.id===id;}); toast('Reminder sent to '+(e?e.cust:'signer')); }
+
+    /* ---------- envelope detail ---------- */
+    var sstMap={draft:['e-draft','Not sent'],sent:['e-sent','Sent'],viewed:['e-viewed','Viewed'],signed:['e-signed','Signed']};
+    function signerRow(s,i){ var st=sstMap[s[2]]||sstMap.sent; return '<div class="signer"><span class="order">'+(i+1)+'</span><span class="av" style="background:'+avColor(s[0])+'">'+initials(s[0])+'</span><div class="si"><b>'+s[0]+'</b><span>'+s[1]+'</span></div><span class="sst"><span class="est '+st[0]+'">'+st[1]+'</span></span></div>'; }
+    function buildTrail(e){
+      var evs=[['Envelope created','by Dana Morales',e.sent==='Draft'?'':e.sent,'done']];
+      if(e.status!=='draft'){ evs.push(['Sent to '+e.cust,'Email + SMS delivered',e.sent,'done']); }
+      if(e.status==='viewed'||e.status==='signed'){ evs.push([e.cust+' opened the document','Identity verified','Today','done','198.51.100.24']); }
+      if(e.status==='signed'){ evs.push([e.cust+' signed all fields','Electronic signature applied','Today','done','198.51.100.24']); evs.push(['Completed & sealed','Tamper-proof certificate generated','Today','done']); }
+      else if(e.status!=='draft'){ evs.push(['Awaiting signature','Reminder scheduled in 24h','','wait']); }
+      else { evs.push(['Ready to send','Add recipient and send','','wait']); }
+      return '<div class="trail">'+evs.map(function(v){ return '<div class="tev '+(v[3]==='wait'?'wait':'done')+'"><span class="td"></span><div class="tc"><b>'+v[0]+'</b><span>'+v[1]+(v[2]?' · '+v[2]:'')+'</span>'+(v[4]?'<div class="ip">IP '+v[4]+'</div>':'')+'</div></div>'; }).join('')+'</div>';
+    }
+    function openEnv(id){
+      var e=ENV.find(function(x){return x.id===id;}); if(!e) return;
+      var signed=e.status==='signed';
+      var p=$('panel');
+      p.innerHTML=''+
+      '<div class="panel-hd"><span class="di">'+docIcon()+'</span><div><h2>'+e.doc+'</h2><div class="pm">'+e.pack+' · '+e.deal+'</div></div>'+
+        '<span class="est '+estClass(e.status)+'" style="margin-left:auto;margin-right:8px;">'+STATUS[e.status]+'</span>'+
+        '<button class="panel-close" onclick="closePanel()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button></div>'+
+      '<div class="panel-body">'+
+        '<div class="sect"><h3>Signers <span class="r">Signing order</span></h3>'+e.signers.map(signerRow).join('')+'</div>'+
+        '<div class="sect"><h3>Document</h3><div class="docpv"><div class="ln"></div><div class="ln m"></div><div class="ln s"></div><div class="field'+(signed?' signed':'')+'">'+(signed?'<span class="sig">'+e.cust+'</span>':'Signature — '+e.cust)+'</div><div class="ln m"></div><div class="ln"></div><div class="ln s"></div></div></div>'+
+        '<div class="sect"><h3><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 12l3 3 5-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Audit Trail</h3>'+buildTrail(e)+'</div>'+
+        '<div class="secure"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Encrypted end-to-end · ESIGN &amp; UETA compliant · Certificate of completion attached</div>'+
+        '<div class="p-actions">'+
+          (signed
+            ? '<button class="pa-primary" onclick="toast(\'Downloading signed PDF + certificate\')"><svg viewBox="0 0 24 24"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Download signed</button><button class="pa-ghost" onclick="toast(\'Copy sent to customer portal\')">Send copy</button>'
+            : e.status==='draft'
+              ? '<button class="pa-primary" onclick="markSent('+e.id+')"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-3-6-7-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Send now</button><button class="pa-ghost" onclick="toast(\'Opening editor\')">Edit fields</button>'
+              : '<button class="pa-primary" onclick="remind('+e.id+')"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 4-2 6-2 6h16s-2-2-2-6a6 6 0 0 0-6-6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Send reminder</button><button class="pa-danger" onclick="voidEnv('+e.id+')">Void</button>')+
+        '</div>'+
+      '</div>';
+      $('scrim').classList.add('show'); p.classList.add('open');
+    }
+    function markSent(id){ var e=ENV.find(function(x){return x.id===id;}); if(e){ e.status='sent'; e.signers.forEach(function(s){ if(s[2]==='draft') s[2]='sent'; }); e.sent='Just now'; } closePanel(); renderPills(); renderRows(); toast('Sent to '+(e?e.cust:'recipient')); }
+    function voidEnv(id){ var e=ENV.find(function(x){return x.id===id;}); if(e){ e.status='void'; } closePanel(); renderPills(); renderRows(); toast('Request voided'); }
+    function closePanel(){ $('scrim').classList.remove('show'); $('panel').classList.remove('open'); }
+
+    var tTimer;
+    function toast(m){ $('toastMsg').textContent=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2400); }
+
+    document.addEventListener('DOMContentLoaded', function(){
+      renderTpls(); renderPills(); renderRows();
+      $('scrim').addEventListener('click', closePanel);
+    });
+  </script>
+</body>
+</html>
