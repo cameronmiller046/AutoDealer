@@ -22,6 +22,7 @@
     migrate:'<path d="M12 3v10m0 0l-4-4m4 4l4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
     equity:'<path d="M4 16l5-5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
     tv:'<rect x="3" y="4" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M9 20h6M12 16v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+    feedback:'<path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 1 1.9h5c.1-.9.4-1.4 1-1.9A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 19h5M10.5 21.5h3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
     settings:'<circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
     phone:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
     eye:'<path d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7-10-7-10-7z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.7" fill="none" stroke="currentColor" stroke-width="1.7"/>'
@@ -45,6 +46,7 @@
         {label:'Inventory', href:'/inventory', icon:'inventory', tag:'Read-only'},
         {label:'Communications', href:'/communications', icon:'comms', badge:'3'},
         {label:'Reports', href:'/reports', icon:'reports'},
+        {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
         {label:'Settings', href:'#', icon:'settings'}
       ]
     },
@@ -69,6 +71,7 @@
         {label:'Automation Builder', href:'/automations', icon:'automations'},
         {label:'CRM Administration', href:'/admin', icon:'admin'},
         {label:'Data Migration', href:'/migration', icon:'migrate'},
+        {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
         {label:'Settings', href:'#', icon:'settings'}
       ]
     },
@@ -82,6 +85,7 @@
         {label:'Delivery Center', href:'/delivery', icon:'delivery', badge:'4'},
         {label:'Inventory Lookup', href:'/inventory', icon:'inventory'},
         {label:'Visitor Check-In', href:'/checkin', icon:'checkin', badge:'2'},
+        {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
         {label:'Settings', href:'#', icon:'settings'}
       ]
     }
@@ -98,7 +102,7 @@
   ];
 
   /* Every known in-app route. Anything here that is NOT in the active role's nav is blocked. */
-  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity'];
+  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback'];
 
   function getRole(){ var r = localStorage.getItem('ad_role'); return ROLES[r] ? r : 'salesperson'; }
   function cfg(){ return ROLES[getRole()]; }

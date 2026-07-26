@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help &amp; Feedback — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#eef4ff; color:#2563eb; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; margin-left:auto; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:8px; }
+    .content { padding:26px 30px 60px; max-width:1120px; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; }
+    .tabs { display:flex; gap:4px; margin:22px 0 20px; border-bottom:1px solid var(--line); overflow-x:auto; }
+    .tab { border:none; background:none; padding:12px 15px; font-size:14px; font-weight:600; color:var(--muted); border-bottom:2px solid transparent; white-space:nowrap; display:inline-flex; align-items:center; gap:8px; } .tab svg{width:16px;height:16px;} .tab:hover{color:var(--text);} .tab.on { color:var(--accent); border-bottom-color:var(--accent); }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; margin-bottom:16px; }
+    .card h3 { font-size:14px; font-weight:700; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+    .grid2 { display:grid; grid-template-columns:1.4fr 1fr; gap:16px; align-items:start; }
+    /* form */
+    .fld { display:flex; flex-direction:column; gap:7px; margin-bottom:16px; } .fld label { font-size:13px; font-weight:600; color:#33445c; } .fld label .req{color:#dc2626;}
+    .fld select, .fld input, .fld textarea { font:inherit; font-size:13.5px; padding:11px 13px; border:1px solid var(--line); border-radius:10px; background:#fff; outline:none; } .fld select:focus, .fld input:focus, .fld textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); } .fld textarea { resize:vertical; min-height:78px; }
+    .prio { display:flex; gap:8px; flex-wrap:wrap; } .prio button { border:1px solid var(--line); background:#fff; border-radius:9px; padding:8px 15px; font-size:13px; font-weight:700; color:var(--muted); display:inline-flex; align-items:center; gap:7px; } .prio button::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pc);} .prio button.on{border-color:var(--pc);color:var(--pc);background:var(--pb);}
+    .p-low{--pc:#64748b;--pb:#f1f4f8;} .p-med{--pc:#2563eb;--pb:#eef4ff;} .p-high{--pc:#ea8a0b;--pb:#fdf0dc;} .p-crit{--pc:#dc2626;--pb:#fdeaea;}
+    .attach { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:8px; } .att { border:1px dashed var(--line); background:#fafbfd; border-radius:11px; padding:14px 16px; display:flex; align-items:center; gap:9px; font-size:12.5px; font-weight:600; color:var(--muted); flex:1; min-width:150px; } .att:hover{border-color:var(--accent);color:var(--accent);} .att svg{width:17px;height:17px;}
+    .annot { display:flex; gap:6px; flex-wrap:wrap; margin-top:2px; } .annot .at { border:1px solid var(--line); background:#fff; border-radius:8px; padding:6px 11px; font-size:11.5px; font-weight:600; color:var(--muted); display:inline-flex; align-items:center; gap:6px; } .annot .at:hover{border-color:var(--accent);color:var(--accent);} .annot .at svg{width:13px;height:13px;}
+    .submit { width:100%; border:none; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border-radius:11px; padding:13px; font-size:14px; font-weight:700; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); } .submit:hover{filter:brightness(1.06);}
+    /* diagnostics */
+    .diag { background:linear-gradient(180deg,#f7fbff,#fff); }
+    .diag .dh { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; margin-bottom:6px; } .diag .dh .auto{margin-left:auto;font-size:10.5px;font-weight:800;color:#16a34a;background:#e7f7ee;padding:2px 8px;border-radius:6px;}
+    .diag .dsub { color:var(--muted); font-size:12px; margin-bottom:12px; }
+    .drow { display:flex; justify-content:space-between; padding:7px 0; border-top:1px solid var(--line); font-size:12.5px; } .drow:first-of-type{border-top:none;} .drow .k{color:var(--muted);} .drow .v{font-weight:600;font-family:ui-monospace,monospace;font-size:12px;}
+    .myrep { display:flex; align-items:center; gap:11px; padding:11px 0; border-top:1px solid var(--line); } .myrep:first-of-type{border-top:none;} .myrep .id{font-family:ui-monospace,monospace;font-size:11.5px;color:var(--faint);font-weight:700;} .myrep b{font-weight:600;font-size:13px;} .myrep .st{margin-left:auto;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:6px;} .st-open{background:#eef4ff;color:#2563eb;} .st-rev{background:#fdf0dc;color:#b45309;} .st-fix{background:#e7f7ee;color:#16a34a;}
+    /* feature requests */
+    .fr-top { display:flex; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap; } .fr-search{flex:1;min-width:220px;display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:10px 14px;box-shadow:var(--shadow);} .fr-search svg{width:16px;height:16px;color:var(--muted);} .fr-search input{border:none;outline:none;width:100%;font-size:13.5px;background:none;} .fr-new{border:none;background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;border-radius:11px;padding:11px 18px;font-size:13.5px;font-weight:700;box-shadow:0 12px 26px -14px rgba(37,99,235,.9);display:inline-flex;gap:8px;align-items:center;} .fr-new svg{width:15px;height:15px;}
+    .fr { display:flex; gap:16px; align-items:flex-start; padding:16px; border:1px solid var(--line); border-radius:13px; background:var(--card); box-shadow:var(--shadow); margin-bottom:12px; }
+    .vote { display:flex; flex-direction:column; align-items:center; gap:2px; border:1px solid var(--line); border-radius:11px; padding:9px 13px; min-width:62px; cursor:pointer; flex:none; } .vote:hover{border-color:var(--accent);} .vote.on{background:var(--accent);border-color:var(--accent);color:#fff;} .vote svg{width:16px;height:16px;} .vote b{font-size:17px;font-weight:800;} .vote span{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--faint);} .vote.on span{color:#dbe7ff;}
+    .fr-body{flex:1;min-width:0;} .fr-body .ft{display:flex;align-items:center;gap:9px;flex-wrap:wrap;} .fr-body h4{font-size:15.5px;font-weight:700;} .fr-body p{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5;} .fr-body .fm{display:flex;gap:16px;margin-top:10px;font-size:12px;color:var(--faint);} .fr-body .fm span{display:inline-flex;align-items:center;gap:5px;} .fr-body .fm svg{width:13px;height:13px;}
+    .fchip{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:6px;} .fc-ai{background:#f1eafe;color:#7c3aed;} .fc-crm{background:#eaf1fe;color:#2563eb;} .fc-mob{background:#e2f5fb;color:#0891b2;} .fc-inv{background:#fdf0dc;color:#b45309;} .fc-rep{background:#e7f7ee;color:#16a34a;}
+    .sflag{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:6px;} .sf-plan{background:#eef1f6;color:#64748b;} .sf-prog{background:#eef4ff;color:#2563eb;} .sf-rel{background:#e7f7ee;color:#16a34a;} .sf-rev{background:#fdf0dc;color:#b45309;}
+    /* roadmap */
+    .road { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .rcol { background:#f0f3f8; border-radius:14px; padding:14px; }
+    .rcol .rh { display:flex; align-items:center; gap:8px; margin-bottom:12px; padding:0 4px; } .rcol .rh .dot{width:9px;height:9px;border-radius:50%;} .rcol .rh b{font-size:13px;font-weight:800;} .rcol .rh .cn{margin-left:auto;color:var(--faint);font-size:12px;font-weight:700;}
+    .rc-card{background:#fff;border:1px solid var(--line);border-radius:11px;padding:13px;margin-bottom:9px;} .rc-card b{font-size:14px;font-weight:700;} .rc-card p{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.45;} .rc-card .rf{display:flex;align-items:center;gap:8px;margin-top:9px;} .rc-card .rf .fchip{font-size:9.5px;} .rc-card .rf .vc{margin-left:auto;font-size:11.5px;color:var(--faint);font-weight:700;display:inline-flex;gap:4px;align-items:center;} .rc-card .rf .vc svg{width:12px;height:12px;} .rc-card .follow{margin-top:9px;width:100%;border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px;font-size:11.5px;font-weight:700;color:var(--accent);} .rc-card .follow.on{background:#e7f7ee;color:#16a34a;border-color:#cdebd8;}
+    /* release notes */
+    .rel { border-left:2px solid var(--line); padding-left:20px; margin-left:6px; }
+    .rel-item { position:relative; padding-bottom:22px; } .rel-item::before{content:"";position:absolute;left:-27px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid #fff;box-shadow:0 0 0 2px var(--accent-soft);} .rel-item.old::before{background:#cbd5e1;box-shadow:0 0 0 2px #eef1f6;}
+    .rel-item .rv{font-size:16px;font-weight:800;} .rel-item .rd{color:var(--faint);font-size:12px;margin-bottom:10px;}
+    .relgrp{margin-bottom:10px;} .relgrp .rgl{font-size:11px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;margin-bottom:6px;} .rg-new{color:#16a34a;} .rg-imp{color:#2563eb;} .rg-fix{color:#ea8a0b;} .relgrp ul{margin:0;padding-left:18px;} .relgrp li{font-size:13px;color:#334155;margin:3px 0;}
+    /* help */
+    .help-search{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#eef4ff,#f6f8fb);border:1px solid #dbe7fb;border-radius:14px;padding:16px 18px;margin-bottom:18px;} .help-search svg{width:20px;height:20px;color:var(--accent);} .help-search input{border:none;outline:none;background:none;flex:1;font-size:15px;}
+    .help-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;}
+    .hcard{border:1px solid var(--line);border-radius:12px;padding:15px;background:var(--card);cursor:pointer;} .hcard:hover{border-color:#cfe0f7;} .hcard .hi{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:11px;} .hcard .hi svg{width:18px;height:18px;} .hcard b{font-size:13.5px;font-weight:700;display:block;} .hcard span{font-size:12px;color:var(--muted);}
+    .i-blue{background:#eaf1fe;color:#2563eb;} .i-purple{background:#f1eafe;color:#7c3aed;} .i-teal{background:#e2f5fb;color:#0891b2;} .i-green{background:#e7f7ee;color:#16a34a;} .i-amber{background:#fdf0dc;color:#ea8a0b;}
+    .contact{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+    .ct{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;} .ct:hover{border-color:#cfe0f7;} .ct .ci{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex:none;} .ct .ci svg{width:18px;height:18px;} .ct b{font-size:13.5px;font-weight:700;display:block;} .ct span{font-size:12px;color:var(--muted);}
+    .emergency{background:linear-gradient(135deg,#fdeaea,#fff);border:1px solid #f5c2c2;border-radius:13px;padding:16px;display:flex;align-items:center;gap:14px;margin-top:16px;} .emergency .ei{width:42px;height:42px;border-radius:11px;background:#dc2626;color:#fff;display:flex;align-items:center;justify-content:center;flex:none;} .emergency .ei svg{width:20px;height:20px;} .emergency b{font-size:14px;font-weight:700;} .emergency p{font-size:12.5px;color:#7a3a3a;margin-top:2px;} .emergency button{margin-left:auto;border:none;background:#dc2626;color:#fff;border-radius:10px;padding:11px 18px;font-size:13px;font-weight:700;flex:none;}
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1000px){ .grid2{grid-template-columns:1fr;} .road{grid-template-columns:1fr;} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <span class="role-badge">Help &amp; Feedback</span>
+        <span class="tb-avatar"><span class="av">CM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead"><h1>Help &amp; Feedback</h1><p class="sub">Report bugs, request features, follow the roadmap, and get help — all in one place.</p></div>
+        <div class="tabs" id="tabs"></div>
+        <div id="tabBody"></div>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var TABS=[["bug","Report a Bug","warn"],["feature","Feature Requests","bulb"],["roadmap","Roadmap","map"],["notes","Release Notes","tag"],["help","Help & Support","life"]];
+    var TIC={ warn:'<path d="M12 4l9 15H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10v4M12 16.5v.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>', bulb:'<path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 1 1.9h5c.1-.9.4-1.4 1-1.9A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 19h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>', map:'<path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2-6-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 4v14M15 6v14" fill="none" stroke="currentColor" stroke-width="1.7"/>', tag:'<path d="M4 12V5a1 1 0 0 1 1-1h7l8 8-8 8-8-8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/>', life:'<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4.5 4.5l4 4M15.5 15.5l4 4M19.5 4.5l-4 4M8.5 15.5l-4 4" stroke="currentColor" stroke-width="1.6"/>' };
+    var state={tab:"bug", prio:"med", voted:{}, followed:{}};
+
+    /* diagnostics collected live */
+    function browser(){ var u=navigator.userAgent; if(/Edg\//.test(u))return "Microsoft Edge"; if(/Chrome\//.test(u))return "Google Chrome"; if(/Firefox\//.test(u))return "Firefox"; if(/Safari\//.test(u))return "Safari"; return "Browser"; }
+    function os(){ var p=navigator.platform||""; if(/Win/.test(p))return "Windows"; if(/Mac/.test(p))return "macOS"; if(/Linux/.test(p))return "Linux"; return p||"—"; }
+    function role(){ try{ return (window.ADRoles&&window.ADRoles.cfg&&window.ADRoles.cfg().title)||"User"; }catch(e){ return "User"; } }
+    function fromPage(){ try{ if(document.referrer){ var u=new URL(document.referrer); return u.pathname; } }catch(e){} return "/feedback"; }
+    function stamp(){ var d=new Date(); return d.toLocaleDateString()+" "+d.toLocaleTimeString(); }
+
+    function renderTabs(){ $("tabs").innerHTML=TABS.map(function(t){ return '<button class="tab '+(state.tab===t[0]?"on":"")+'" data-t="'+t[0]+'"><svg viewBox="0 0 24 24">'+TIC[t[2]]+'</svg>'+t[1]+'</button>'; }).join(""); document.querySelectorAll(".tab").forEach(function(b){ b.addEventListener("click",function(){ state.tab=b.dataset.t; renderTabs(); renderTab(); }); }); }
+
+    var MYREPS=[["ADX-2041","Inventory photos not loading on grid","st-fix","Resolved"],["ADX-2038","Text composer emoji picker overlaps send","st-rev","In Review"],["ADX-2035","Report export PDF cut off on Safari","st-open","Open"]];
+
+    function bugTab(){
+      var CATS=["UI / Layout","Performance","Inventory","Communications","Appointments","Reports","AI Assistant","Other"];
+      return '<div class="grid2"><div>'+
+        '<div class="card"><h3>Report a Bug</h3>'+
+          '<div class="fld"><label>Category <span class="req">*</span></label><select id="bCat">'+CATS.map(function(c){return '<option>'+c+'</option>';}).join("")+'</select></div>'+
+          '<div class="fld"><label>Priority</label><div class="prio">'+[["low","p-low","Low"],["med","p-med","Medium"],["high","p-high","High"],["crit","p-crit","Critical"]].map(function(p){return '<button class="'+p[1]+' '+(state.prio===p[0]?"on":"")+'" data-prio="'+p[0]+'">'+p[2]+'</button>';}).join("")+'</div></div>'+
+          '<div class="fld"><label>Steps to Reproduce <span class="req">*</span></label><textarea id="bSteps" placeholder="1. Go to…&#10;2. Click…&#10;3. See error"></textarea></div>'+
+          '<div class="fld"><label>Expected Behavior</label><textarea id="bExp" placeholder="What should have happened?"></textarea></div>'+
+          '<div class="fld"><label>Actual Behavior</label><textarea id="bAct" placeholder="What actually happened?"></textarea></div>'+
+          '<div class="fld"><label>Attach</label><div class="attach">'+
+            '<div class="att" data-att="Screenshot"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12.5" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Screenshot</div>'+
+            '<div class="att" data-att="Screen recording"><svg viewBox="0 0 24 24"><rect x="3.5" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 10l4.5-2.5v9L16 14z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Video</div>'+
+            '<div class="att" data-att="Console logs"><svg viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 9l3 2.5L7 14M12 15h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Logs</div></div>'+
+            '<div class="annot"><span style="font-size:11.5px;color:var(--muted);font-weight:600;align-self:center;margin-right:2px">Annotate:</span>'+["Draw","Highlight","Arrow","Blur sensitive"].map(function(a){return '<button class="at" data-annot="'+a+'"><svg viewBox="0 0 24 24"><path d="M4 20l3-1 11-11-2-2L5 17z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>'+a+'</button>';}).join("")+'</div>'+
+          '</div>'+
+          '<button class="submit" id="bSubmit">Submit Bug Report</button>'+
+        '</div>'+
+        '<div class="card"><h3>My Reports</h3>'+MYREPS.map(function(r){return '<div class="myrep"><span class="id">'+r[0]+'</span><b>'+r[1]+'</b><span class="st '+r[2]+'">'+r[3]+'</span></div>';}).join("")+'</div>'+
+      '</div>'+
+      '<div><div class="card diag"><div class="dh"><svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#2563eb"><rect x="3.5" y="4.5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 9l3 2.5L7 14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Automatic Diagnostics <span class="auto">Auto-attached</span></div><div class="dsub">Captured automatically — no copy/paste needed.</div>'+
+        drow("Browser",browser())+drow("Operating System",os())+drow("Screen",screen.width+" × "+screen.height)+drow("Viewport",window.innerWidth+" × "+window.innerHeight)+drow("Reported from",fromPage())+drow("User role",role())+drow("CRM version","v1.4.0")+drow("Console logs","3 warnings captured")+drow("Network",'2 failed requests')+drow("Timestamp",stamp())+
+      '</div></div></div>';
+    }
+    function drow(k,v){ return '<div class="drow"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>'; }
+
+    var FEATURES=[
+      {id:1,t:"Native mobile app for iOS & Android",d:"Full CRM on the go with push notifications and offline sync.",cat:["fc-mob","Mobile"],votes:342,comments:47,status:["sf-prog","In Progress"]},
+      {id:2,t:"AI voice commands in the assistant",d:"“Call John Smith”, “Schedule a test drive tomorrow” — hands-free.",cat:["fc-ai","AI"],votes:288,comments:31,status:["sf-plan","Planned"]},
+      {id:3,t:"Dark mode across the whole CRM",d:"System-aware dark theme for late shifts and the showroom floor.",cat:["fc-crm","CRM"],votes:264,comments:52,status:["sf-prog","In Progress"]},
+      {id:4,t:"Bulk text / email campaigns from inventory",d:"Blast matching customers when new inventory arrives.",cat:["fc-inv","Inventory"],votes:198,comments:22,status:["sf-rev","Under Review"]},
+      {id:5,t:"Custom report builder with saved views",d:"Drag-and-drop metrics, filters, and scheduled email delivery.",cat:["fc-rep","Reports"],votes:176,comments:18,status:["sf-plan","Planned"]},
+      {id:6,t:"Two-way Google Calendar sync",d:"Appointments stay in sync both directions automatically.",cat:["fc-crm","CRM"],votes:154,comments:12,status:["sf-rel","Released"]}
+    ];
+    function featureTab(){
+      var rows=FEATURES.slice().sort(function(a,b){return (b.votes+(state.voted[b.id]?1:0))-(a.votes+(state.voted[a.id]?1:0));});
+      return '<div class="fr-top"><div class="fr-search"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search feature requests..."/></div><button class="fr-new" id="frNew"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Submit a Request</button></div>'+
+        rows.map(function(f){ var v=f.votes+(state.voted[f.id]?1:0); return '<div class="fr"><button class="vote '+(state.voted[f.id]?"on":"")+'" data-vote="'+f.id+'"><svg viewBox="0 0 24 24"><path d="M12 5l7 8h-4v6h-6v-6H5z" fill="currentColor"/></svg><b>'+v+'</b><span>Votes</span></button>'+
+          '<div class="fr-body"><div class="ft"><h4>'+f.t+'</h4><span class="fchip '+f.cat[0]+'">'+f.cat[1]+'</span><span class="sflag '+f.status[0]+'">'+f.status[1]+'</span></div><p>'+f.d+'</p><div class="fm"><span><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>'+f.comments+' comments</span><span data-follow="'+f.id+'" style="cursor:pointer;color:'+(state.followed[f.id]?"#16a34a":"var(--accent)")+'"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>'+(state.followed[f.id]?"Following":"Follow")+'</span></div></div></div>'; }).join("");
+    }
+
+    function roadmapTab(){
+      var cols=[["Planned","#64748b","sf-plan"],["In Progress","#2563eb","sf-prog"],["Released","#16a34a","sf-rel"]];
+      var map={ "Planned":["Under Review","Planned"], "In Progress":["In Progress"], "Released":["Released"] };
+      return '<div class="road">'+cols.map(function(c){ var items=FEATURES.filter(function(f){return map[c[0]].indexOf(f.status[1])!==-1;}); return '<div class="rcol"><div class="rh"><span class="dot" style="background:'+c[1]+'"></span><b>'+c[0]+'</b><span class="cn">'+items.length+'</span></div>'+items.map(function(f){ var v=f.votes+(state.voted[f.id]?1:0); return '<div class="rc-card"><b>'+f.t+'</b><p>'+f.d+'</p><div class="rf"><span class="fchip '+f.cat[0]+'">'+f.cat[1]+'</span><span class="vc"><svg viewBox="0 0 24 24"><path d="M12 5l7 8h-4v6h-6v-6H5z" fill="currentColor"/></svg>'+v+'</span></div><button class="follow '+(state.followed[f.id]?"on":"")+'" data-follow="'+f.id+'">'+(state.followed[f.id]?"Following ✓":"Follow updates")+'</button></div>'; }).join("")+'</div>'; }).join("")+'</div>';
+    }
+
+    function notesTab(){
+      var REL=[
+        ["v1.4.0","Released today",false,[["new","New",["Persistent AI Assistant on every page","Dealership Migration Center","AI Equity Mining + Digital Deal Jacket"]],["imp","Improved",["Faster inventory grid rendering","Role-based workspaces performance"]],["fix","Fixed",["Appointment timeline ordering","Report PDF export on Safari"]]]],
+        ["v1.3.2","2 weeks ago",true,[["new","New",["Dealer TV Dashboard","Automation Builder"]],["fix","Fixed",["Text composer emoji overlap","Duplicate task creation"]]]],
+        ["v1.3.0","5 weeks ago",true,[["new","New",["Deal Desk + Payment Calculator","Trade Center"]],["imp","Improved",["Communications live sync stability"]]]]
+      ];
+      return '<div class="card"><h3>What’s New in AutoDealer</h3><div class="rel">'+REL.map(function(r){ return '<div class="rel-item '+(r[2]?"old":"")+'"><div class="rv">'+r[0]+'</div><div class="rd">'+r[1]+'</div>'+r[3].map(function(g){ return '<div class="relgrp"><div class="rgl rg-'+g[0]+'">'+(g[0]==="new"?"✦ ":g[0]==="imp"?"↑ ":"✓ ")+g[1]+'</div><ul>'+g[2].map(function(li){return '<li>'+li+'</li>';}).join("")+'</ul></div>'; }).join("")+'</div>'; }).join("")+'</div></div>';
+    }
+
+    function helpTab(){
+      var ARTS=[["i-blue","play","Getting Started","Set up your workspace in 5 min"],["i-purple","spark","Using AutoDealer AI","Prompts, actions & voice"],["i-teal","car","Managing Inventory","Add, price & photograph vehicles"],["i-green","deals","Working the Deal Desk","Submit, desk & approve deals"],["i-amber","mail","Communications","Text, email, video & calls"],["i-blue","chart","Reading Reports","KPIs, dashboards & exports"]];
+      var AIC={ play:'<path d="M8 5v14l11-7z" fill="currentColor"/>', spark:'<path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/>', car:'<path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>', deals:'<path d="M4 7h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 12h16" stroke="currentColor" stroke-width="1.6"/>', mail:'<rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.6"/>', chart:'<path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/>' };
+      var CT=[["i-blue","chat","Live Chat","Avg reply < 2 min"],["i-green","mail","Email Support","support@autodealer.com"],["i-teal","phone","Call Us","(800) 555-0199"],["i-purple","cal","Schedule Training","Book a 1:1 session"]];
+      var CTC={ chat:'<path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>', mail:'<rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/>', phone:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>', cal:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>' };
+      return '<div class="help-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 16l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><input placeholder="Search help articles, videos & tutorials..."/></div>'+
+        '<div class="card"><h3>Help Center</h3><div class="help-grid">'+ARTS.map(function(a){return '<div class="hcard" data-art="'+a[2]+'"><span class="hi '+a[0]+'"><svg viewBox="0 0 24 24">'+AIC[a[1]]+'</svg></span><b>'+a[2]+'</b><span>'+a[3]+'</span></div>';}).join("")+'</div></div>'+
+        '<div class="card"><h3>Contact Support</h3><div class="contact">'+CT.map(function(c){return '<div class="ct" data-contact="'+c[2]+'"><span class="ci '+c[0]+'"><svg viewBox="0 0 24 24">'+CTC[c[1]]+'</svg></span><div><b>'+c[2]+'</b><span>'+c[3]+'</span></div></div>';}).join("")+'</div>'+
+          '<div class="emergency"><span class="ei"><svg viewBox="0 0 24 24"><path d="M12 4l9 15H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10v4M12 16.5v.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><div><b>Critical issue taking down your dealership?</b><p>Create a priority ticket — administrators are notified immediately.</p></div><button id="emBtn">Emergency Support</button></div>'+
+        '</div>';
+    }
+
+    function renderTab(){
+      var b=$("tabBody");
+      if(state.tab==="bug") b.innerHTML=bugTab();
+      else if(state.tab==="feature") b.innerHTML=featureTab();
+      else if(state.tab==="roadmap") b.innerHTML=roadmapTab();
+      else if(state.tab==="notes") b.innerHTML=notesTab();
+      else b.innerHTML=helpTab();
+      wire();
+    }
+    function wire(){
+      document.querySelectorAll("[data-prio]").forEach(function(el){ el.addEventListener("click",function(){ state.prio=el.dataset.prio; renderTab(); }); });
+      document.querySelectorAll("[data-att]").forEach(function(el){ el.addEventListener("click",function(){ toast(el.dataset.att+" attached"); }); });
+      document.querySelectorAll("[data-annot]").forEach(function(el){ el.addEventListener("click",function(){ toast(el.dataset.annot+" tool ready"); }); });
+      var bs=$("bSubmit"); if(bs) bs.addEventListener("click",function(){ var id="ADX-"+(2042+MYREPS.length); MYREPS.unshift([id,($("bSteps").value||"New bug report").slice(0,42),"st-open","Open"]); toast("Bug "+id+" submitted with diagnostics"); renderTab(); });
+      document.querySelectorAll("[data-vote]").forEach(function(el){ el.addEventListener("click",function(){ var id=+el.dataset.vote; state.voted[id]=!state.voted[id]; renderTab(); toast(state.voted[id]?"Vote counted — you'll get updates":"Vote removed"); }); });
+      document.querySelectorAll("[data-follow]").forEach(function(el){ el.addEventListener("click",function(){ var id=+el.dataset.follow; state.followed[id]=!state.followed[id]; renderTab(); toast(state.followed[id]?"Following — we'll notify you":"Unfollowed"); }); });
+      var fn=$("frNew"); if(fn) fn.addEventListener("click",function(){ toast("New feature request form opened"); });
+      document.querySelectorAll("[data-art]").forEach(function(el){ el.addEventListener("click",function(){ toast('Opening “'+el.dataset.art+'”'); }); });
+      document.querySelectorAll("[data-contact]").forEach(function(el){ el.addEventListener("click",function(){ toast(el.dataset.contact+" opened"); }); });
+      var em=$("emBtn"); if(em) em.addEventListener("click",function(){ toast("Priority ticket created — administrators notified"); });
+    }
+    var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2400); }
+    renderTabs(); renderTab();
+  </script>
+</body>
+</html>
