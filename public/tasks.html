@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tasks — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #f6f8fb; --card: #ffffff; --sidebar: #0a1628; --sidebar-2: #071120;
+      --text: #16202e; --muted: #6b7a90; --faint: #97a4b6; --line: #eef1f6;
+      --accent: #2563eb; --accent-2: #3b82f6; --accent-soft: #eef4ff;
+      --shadow: 0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28);
+      --radius: 16px;
+    }
+    * { margin: 0; box-sizing: border-box; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 14px; }
+    a { color: inherit; text-decoration: none; } button { font: inherit; cursor: pointer; }
+    .shell { display: grid; grid-template-columns: 244px 1fr; min-height: 100vh; }
+
+    .sidebar { background: linear-gradient(180deg, var(--sidebar), var(--sidebar-2)); color: #c7d4e6; padding: 22px 14px 18px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+    .brand { display: flex; flex-direction: column; align-items: flex-start; padding: 4px 8px 26px; }
+    .brand .sw { width: 108px; height: 9px; margin-bottom: 4px; } .brand .wm { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; color: #fff; } .brand .wm b { color: #2b8fff; }
+    .nav { display: flex; flex-direction: column; gap: 3px; }
+    .nav a { display: flex; align-items: center; gap: 13px; padding: 11px 14px; border-radius: 11px; color: #aebdd2; font-size: 14.5px; font-weight: 500; }
+    .nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav a.on { background: var(--accent); color: #fff; font-weight: 600; box-shadow: 0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width: 19px; height: 19px; flex: none; }
+    .nav a .nb { margin-left: auto; background: rgba(255,255,255,0.12); color: #dbe7f7; font-size: 11px; font-weight: 700; min-width: 20px; height: 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 0 6px; }
+    .nav a.on .nb { background: rgba(255,255,255,0.25); color: #fff; }
+    .side-user { margin-top: auto; display: flex; align-items: center; gap: 11px; padding: 14px 8px 4px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width: 38px; height: 38px; border-radius: 50%; flex: none; background: linear-gradient(135deg,#3f9bff,#0b57b8); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+    .side-user .meta b { color: #fff; font-size: 13.5px; font-weight: 600; display: block; } .side-user .meta span { color: #8698b0; font-size: 11.5px; }
+    .side-user .chev { margin-left: auto; color: #7e90a8; width: 14px; height: 14px; }
+
+    .main { min-width: 0; display: flex; flex-direction: column; }
+    .topbar { position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.85); backdrop-filter: saturate(180%) blur(8px); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 18px; padding: 12px 30px; }
+    .hamb { border: none; background: none; color: var(--muted); width: 36px; height: 36px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; } .hamb:hover { background: var(--bg); } .hamb svg { width: 20px; height: 20px; }
+    .tsearch { flex: 1; max-width: 460px; display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 11px; padding: 11px 14px; color: var(--muted); }
+    .tsearch svg { width: 17px; height: 17px; flex: none; } .tsearch input { border: none; background: none; outline: none; width: 100%; font-size: 13.5px; color: var(--text); }
+    .kbd { border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 11px; color: var(--faint); background: #fff; }
+    .quick-add { display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 11px; padding: 11px 18px; font-size: 14px; font-weight: 600; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .quick-add:hover { filter: brightness(1.06); }
+    .tb-icons { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+    .ib { position: relative; border: none; background: none; color: var(--muted); width: 40px; height: 40px; border-radius: 11px; display: inline-flex; align-items: center; justify-content: center; } .ib:hover { background: var(--bg); color: var(--accent); } .ib svg { width: 21px; height: 21px; }
+    .ib .dot { position: absolute; top: 6px; right: 7px; min-width: 16px; height: 16px; border-radius: 8px; background: #ef4444; color: #fff; font-size: 9.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+    .tb-avatar { width: 40px; height: 40px; border-radius: 50%; margin-left: 8px; position: relative; } .tb-avatar::after { content: ""; position: absolute; bottom: 1px; right: 1px; width: 10px; height: 10px; border-radius: 50%; background: #22c55e; border: 2px solid #fff; }
+    .tb-avatar .av { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #3f9bff, #0b57b8); color: #fff; font-weight: 700; }
+
+    .content { padding: 26px 30px 60px; }
+    .phead { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .phead h1 { font-size: 27px; font-weight: 800; letter-spacing: -0.6px; } .phead .sub { color: var(--muted); font-size: 14.5px; margin-top: 6px; }
+    .add-btn { display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 11px; padding: 12px 20px; font-size: 14.5px; font-weight: 600; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .add-btn:hover { filter: brightness(1.06); } .add-btn svg { width: 16px; height: 16px; }
+
+    .sec-label { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; color: var(--faint); text-transform: uppercase; margin: 26px 0 13px; }
+
+    /* KPI + progress */
+    .prog-wrap { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 12px; margin-top: 6px; }
+    .prog-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; box-shadow: var(--shadow); }
+    .prog-card.big { display: flex; flex-direction: column; justify-content: center; }
+    .prog-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; } .prog-top .pt-l { font-size: 13px; font-weight: 700; color: var(--muted); } .prog-top .pt-p { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; color: var(--accent); }
+    .bar { height: 12px; background: #eef2f8; border-radius: 999px; overflow: hidden; } .bar > i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #3b82f6, #2563eb); transition: width 0.5s cubic-bezier(.4,0,.2,1); }
+    .prog-card .pc-sub { color: var(--muted); font-size: 12.5px; margin-top: 10px; } .prog-card .pc-sub b { color: var(--text); }
+    .kpi { display: flex; align-items: center; gap: 13px; }
+    .kpi .k-ic { width: 40px; height: 40px; border-radius: 11px; flex: none; display: flex; align-items: center; justify-content: center; } .kpi .k-ic svg { width: 20px; height: 20px; }
+    .ic-blue { background: #eaf1fe; color: #2563eb; } .ic-green { background: #e7f7ee; color: #16a34a; } .ic-amber { background: #fdf0dc; color: #ea8a0b; } .ic-red { background: #fdeaea; color: #dc2626; }
+    .kpi .k-v { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; } .kpi .k-l { color: var(--muted); font-size: 12px; margin-top: 3px; }
+
+    /* toolbar */
+    .toolbar { display: flex; align-items: center; gap: 12px; margin: 22px 0 14px; flex-wrap: wrap; }
+    .psearch { flex: 1; min-width: 240px; display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 11px 15px; box-shadow: var(--shadow); }
+    .psearch svg { width: 17px; height: 17px; color: var(--muted); flex: none; } .psearch input { border: none; outline: none; width: 100%; font-size: 14px; color: var(--text); background: none; }
+    .segn { display: inline-flex; background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 4px; box-shadow: var(--shadow); }
+    .segn button { border: none; background: none; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--muted); } .segn button.on { background: var(--accent); color: #fff; }
+
+    .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .pill { border: 1px solid var(--line); background: var(--card); color: var(--muted); border-radius: 999px; padding: 8px 15px; font-size: 13px; font-weight: 600; box-shadow: 0 1px 2px rgba(16,32,60,0.03); } .pill:hover { color: var(--text); border-color: #cfe0f7; } .pill.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .split { display: grid; grid-template-columns: minmax(0,1fr) 340px; gap: 22px; align-items: start; }
+
+    /* queue */
+    .qsec { margin-bottom: 26px; }
+    .qsec-hd { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; }
+    .qsec-hd .dot { width: 9px; height: 9px; border-radius: 50%; } .qsec-hd b { font-size: 14px; font-weight: 700; } .qsec-hd .cn { color: var(--faint); font-size: 12.5px; font-weight: 600; }
+    .tcard { display: flex; align-items: center; gap: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 15px 18px; box-shadow: var(--shadow); margin-bottom: 10px; position: relative; overflow: hidden; cursor: pointer; transition: transform 0.12s, box-shadow 0.12s, opacity 0.28s, margin 0.28s, padding 0.28s, max-height 0.3s; max-height: 120px; }
+    .tcard::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--pc); }
+    .tcard:hover { transform: translateY(-1px); box-shadow: 0 12px 26px -16px rgba(16,32,60,0.4); border-color: #dbe7fb; }
+    .tcard.done-out { opacity: 0; transform: translateX(40px); max-height: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0; border-width: 0; }
+    .tcard.manual { background: repeating-linear-gradient(135deg,#fbfcfe,#fbfcfe 10px,#f7f9fc 10px,#f7f9fc 20px); }
+    .t-ic { width: 46px; height: 46px; border-radius: 13px; flex: none; display: flex; align-items: center; justify-content: center; } .t-ic svg { width: 22px; height: 22px; }
+    .ty-call { background: #eaf1fe; color: #2563eb; } .ty-text { background: #e2f5fb; color: #0891b2; } .ty-email { background: #eef0fe; color: #6366f1; } .ty-video { background: #f3edfe; color: #7c3aed; } .ty-appt { background: #e7f7ee; color: #16a34a; } .ty-payment { background: #fdf3e3; color: #ea8a0b; } .ty-trade { background: #fdf0e6; color: #ea6a0b; } .ty-worksheet { background: #eef1f6; color: #475569; } .ty-manual { background: #eef1f6; color: #64748b; }
+    .t-main { min-width: 0; flex: 1; }
+    .t-main .t-title { font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+    .t-meta { display: flex; gap: 16px; margin-top: 5px; flex-wrap: wrap; } .t-meta .m { font-size: 12.5px; color: var(--muted); } .t-meta .m b { color: var(--text); font-weight: 600; }
+    .pri-chip { font-size: 10px; font-weight: 800; letter-spacing: 0.3px; padding: 2px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 5px; } .pri-chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--pc); }
+    .pri-immediate { background: #fdeaea; color: #dc2626; } .pri-today { background: #fdf0dc; color: #b45309; } .pri-upcoming { background: #fef9e6; color: #a16207; } .pri-waiting { background: #eef1f6; color: #64748b; }
+    .t-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex: none; }
+    .t-est { font-size: 11.5px; color: var(--faint); font-weight: 600; }
+    .t-act { border: none; border-radius: 10px; padding: 10px 18px; font-size: 13.5px; font-weight: 700; color: #fff; background: linear-gradient(180deg, var(--accent-2), var(--accent)); box-shadow: 0 10px 22px -14px rgba(37,99,235,0.9); white-space: nowrap; } .t-act:hover { filter: brightness(1.07); }
+    .t-act.ghost { background: #fff; color: var(--accent); border: 1px solid var(--line); box-shadow: none; } .t-act.ghost:hover { background: var(--accent-soft); }
+
+    .allclear { text-align: center; padding: 48px 20px; color: var(--muted); background: var(--card); border: 1px dashed var(--line); border-radius: 16px; }
+    .allclear .ck { width: 54px; height: 54px; border-radius: 50%; background: #e7f7ee; color: #16a34a; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; } .allclear .ck svg { width: 28px; height: 28px; } .allclear h3 { color: var(--text); font-size: 17px; font-weight: 700; }
+
+    /* completed timeline */
+    .ctl { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 8px 20px; }
+    .ctl-row { display: grid; grid-template-columns: 20px 1fr auto; gap: 14px; align-items: center; padding: 13px 0; border-top: 1px solid var(--line); position: relative; } .ctl-row:first-child { border-top: none; }
+    .ctl-check { width: 20px; height: 20px; border-radius: 50%; background: #16a34a; color: #fff; display: flex; align-items: center; justify-content: center; } .ctl-check svg { width: 12px; height: 12px; }
+    .ctl-row b { font-weight: 600; font-size: 13.5px; } .ctl-row .cwho { color: var(--muted); font-size: 12px; margin-top: 1px; }
+    .ctl-row .cmeta { text-align: right; } .ctl-row .ctime { font-size: 13px; font-weight: 700; } .ctl-row .cdur { font-size: 11.5px; color: var(--faint); }
+
+    /* right rail */
+    .rail { display: flex; flex-direction: column; gap: 18px; position: sticky; top: 84px; }
+    .rc { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; }
+    .rc h3 { font-size: 13px; font-weight: 700; margin-bottom: 13px; display: flex; align-items: center; gap: 8px; }
+    .rc h3 .spark { color: #7c3aed; display: inline-flex; } .rc h3 .spark svg { width: 15px; height: 15px; }
+    .gen { border: 1px solid var(--line); border-radius: 11px; padding: 12px; margin-bottom: 10px; background: linear-gradient(180deg,#fbfcff,#fff); display: flex; gap: 11px; align-items: flex-start; } .gen:last-child { margin-bottom: 0; }
+    .gen .g-ic { width: 32px; height: 32px; border-radius: 9px; flex: none; display: flex; align-items: center; justify-content: center; } .gen .g-ic svg { width: 16px; height: 16px; }
+    .gen p { font-size: 12.5px; line-height: 1.45; color: #334155; } .gen p b { color: var(--text); } .gen .rec { color: #7c3aed; font-weight: 700; font-size: 12px; margin-top: 3px; }
+    .gen .g-add { margin-top: 8px; border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 6px 12px; font-size: 11.5px; font-weight: 700; color: var(--accent); } .gen .g-add:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .game { display: grid; gap: 12px; }
+    .g-widget { border: 1px solid var(--line); border-radius: 12px; padding: 13px 14px; }
+    .g-widget .gw-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px; } .gw-top .gw-l { font-size: 12px; color: var(--muted); font-weight: 600; } .gw-top .gw-v { font-size: 15px; font-weight: 800; }
+    .g-widget.streak, .g-widget.avg { display: flex; align-items: center; gap: 12px; }
+    .g-widget .gw-ic { width: 38px; height: 38px; border-radius: 11px; flex: none; display: flex; align-items: center; justify-content: center; } .gw-ic svg { width: 19px; height: 19px; }
+    .ic-flame { background: #fdefe3; color: #ea580c; } .ic-clock { background: #eaf1fe; color: #2563eb; }
+    .g-widget .gw-big { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; } .g-widget .gw-sm { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .bar-sm { height: 8px; background: #eef2f8; border-radius: 999px; overflow: hidden; } .bar-sm > i { display: block; height: 100%; background: linear-gradient(90deg,#3b82f6,#2563eb); border-radius: 999px; }
+
+    .rmini { display: flex; gap: 11px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--line); } .rmini:first-of-type { border-top: none; }
+    .rmini .av-xs { width: 32px; height: 32px; border-radius: 50%; flex: none; color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .rmini .rm-b { font-size: 13px; } .rmini .rm-b b { font-weight: 600; } .rmini .rm-b span { display: block; color: var(--muted); font-size: 12px; margin-top: 1px; } .rmini .rm-t { margin-left: auto; font-size: 11px; color: var(--faint); white-space: nowrap; }
+
+    /* slide-over */
+    .scrim { position: fixed; inset: 0; background: rgba(10,20,36,0.4); z-index: 45; opacity: 0; pointer-events: none; transition: opacity 0.2s; } .scrim.show { opacity: 1; pointer-events: auto; }
+    .panel { position: fixed; top: 0; right: 0; bottom: 0; width: 470px; max-width: 94vw; background: var(--bg); z-index: 46; box-shadow: -20px 0 60px -30px rgba(0,0,0,0.5); transform: translateX(100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; } .panel.open { transform: none; }
+    .panel-hd { display: flex; align-items: flex-start; gap: 14px; padding: 20px 22px; background: var(--card); border-bottom: 1px solid var(--line); }
+    .panel-hd .p-ic { width: 48px; height: 48px; border-radius: 13px; flex: none; display: flex; align-items: center; justify-content: center; } .panel-hd .p-ic svg { width: 23px; height: 23px; }
+    .panel-hd h2 { font-size: 19px; font-weight: 800; letter-spacing: -0.3px; } .panel-hd .pmeta { color: var(--muted); font-size: 13px; margin-top: 3px; }
+    .panel-close { margin-left: auto; border: none; background: none; color: var(--muted); width: 34px; height: 34px; border-radius: 9px; } .panel-close:hover { background: var(--bg); } .panel-close svg { width: 18px; height: 18px; }
+    .panel-body { overflow-y: auto; padding: 18px 22px 30px; display: flex; flex-direction: column; gap: 16px; }
+    .qa { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .qa button { border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 11px 0 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 10px; color: var(--muted); font-weight: 600; } .qa button:hover { border-color: var(--accent); color: var(--accent); } .qa button svg { width: 18px; height: 18px; color: var(--accent); }
+    .sect { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 16px; }
+    .sect h3 { font-size: 13px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 7px; } .sect h3 .spark { color: #7c3aed; display:inline-flex; } .sect h3 .spark svg { width: 15px; height: 15px; }
+    .brief { display: grid; grid-template-columns: 1fr 1fr; gap: 11px 14px; } .brief .k { color: var(--muted); font-size: 11.5px; } .brief .v { font-weight: 600; font-size: 13.5px; margin-top: 1px; }
+    .rec-box { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); } .rec-box .rl { font-size: 11.5px; color: var(--muted); font-weight: 600; } .rec-box .rv { color: #16a34a; font-weight: 600; font-size: 13.5px; margin-top: 3px; }
+    .opener { margin-top: 12px; background: linear-gradient(180deg,#f7f9fc,#fff); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 13px; line-height: 1.55; color: #334155; } .opener .ol { font-size: 11px; color: var(--faint); font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; margin-bottom: 5px; }
+    .tl2 { display: grid; grid-template-columns: 16px 1fr; gap: 12px; padding-bottom: 15px; position: relative; } .tl2:last-child { padding-bottom: 0; }
+    .tl2-dot { width: 11px; height: 11px; border-radius: 50%; margin-top: 3px; } .tl2:not(:last-child)::after { content: ""; position: absolute; left: 5px; top: 15px; bottom: 0; width: 2px; background: var(--line); }
+    .tl2 b { font-weight: 600; display: block; font-size: 13px; } .tl2 span { color: var(--muted); font-size: 12px; }
+    .comm { border: 1px solid var(--line); border-radius: 10px; padding: 11px 13px; margin-bottom: 8px; } .comm:last-child { margin-bottom: 0; } .comm .ch { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--muted); margin-bottom: 4px; } .comm .ch b { color: var(--text); font-weight: 600; } .comm p { font-size: 13px; color: #334155; line-height: 1.45; }
+    .panel-act { width: 100%; border: none; border-radius: 12px; padding: 14px; font-size: 14.5px; font-weight: 700; color: #fff; background: linear-gradient(180deg,var(--accent-2),var(--accent)); box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .panel-act:hover { filter: brightness(1.06); }
+
+    /* toast */
+    .toast { position: fixed; bottom: 26px; left: 50%; transform: translate(-50%, 30px); background: #0f1b2d; color: #fff; padding: 13px 20px; border-radius: 12px; font-size: 13.5px; font-weight: 600; display: flex; align-items: center; gap: 10px; box-shadow: 0 20px 40px -16px rgba(0,0,0,0.5); opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(.4,0,.2,1); z-index: 60; } .toast.show { opacity: 1; transform: translate(-50%, 0); } .toast .tk { width: 22px; height: 22px; border-radius: 50%; background: #16a34a; display: flex; align-items: center; justify-content: center; } .toast .tk svg { width: 13px; height: 13px; }
+
+    @media (max-width: 1240px) { .prog-wrap { grid-template-columns: 1fr 1fr; } .split { grid-template-columns: 1fr; } .rail { position: static; flex-direction: row; flex-wrap: wrap; } .rc { flex: 1; min-width: 280px; } }
+    @media (max-width: 900px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } }
+    @media (max-width: 560px) { .content { padding: 20px 14px 60px; } .prog-wrap { grid-template-columns: 1fr; } .t-right { align-items: stretch; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav">
+        <a href="/dashboard"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Home</a>
+        <a href="/prospects"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Prospects<span class="nb">18</span></a>
+        <a href="/customers"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Customers</a>
+        <a href="/appointments"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Appointments<span class="nb">5</span></a>
+        <a class="on" href="/tasks"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Tasks<span class="nb" id="navBadge">7</span></a>
+        <a href="/portal/inventory"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Inventory</a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Communications<span class="nb">3</span></a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Reports</a>
+        <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Settings</a>
+      </nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input type="text" placeholder="Search customers, vehicles, deals..." aria-label="Search" /><span class="kbd">⌘</span><span class="kbd">K</span></div>
+        <button class="quick-add"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Quick Add</button>
+        <div class="tb-icons">
+          <button class="ib" aria-label="Calls"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <button class="ib" aria-label="Messages"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <button class="ib" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="dot">4</span></button>
+          <span class="tb-avatar"><span class="av">CM</span></span>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="phead">
+          <div><h1>Tasks</h1><p class="sub">Your daily action queue. Complete customer activities to automatically finish tasks.</p></div>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Create Manual Task</button>
+        </div>
+
+        <div class="sec-label">Today's Progress</div>
+        <div class="prog-wrap">
+          <div class="prog-card big">
+            <div class="prog-top"><span class="pt-l">Today's Progress</span><span class="pt-p" id="pctText">0%</span></div>
+            <div class="bar"><i id="progBar" style="width:0%"></i></div>
+            <div class="pc-sub"><b id="doneText">0</b> of <b id="totalText">0</b> tasks completed — keep the streak going.</div>
+          </div>
+          <div class="prog-card"><div class="kpi"><span class="k-ic ic-green"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="k-v" id="kpiDone">0</div><div class="k-l">Completed</div></div></div></div>
+          <div class="prog-card"><div class="kpi"><span class="k-ic ic-blue"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><div class="k-v" id="kpiRem">0</div><div class="k-l">Remaining</div></div></div></div>
+          <div class="prog-card"><div class="kpi"><span class="k-ic ic-red"><svg viewBox="0 0 24 24"><path d="M12 4l9 15H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10v4M12 16.5v.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><div><div class="k-v" id="kpiOver">0</div><div class="k-l">Overdue</div></div></div></div>
+        </div>
+
+        <div class="toolbar">
+          <div class="psearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" type="text" placeholder="Search tasks by customer, vehicle, or reason..." /></div>
+          <div class="segn" id="teamSeg"><button data-team="mine" class="on">My Tasks</button><button data-team="team">Team</button><button data-team="unassigned">Unassigned</button><button data-team="overdue">Overdue</button></div>
+        </div>
+
+        <div class="pills" id="pills"></div>
+
+        <div class="split">
+          <section id="queue"></section>
+
+          <aside class="rail">
+            <div class="rc">
+              <h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Task Generator</h3>
+              <div id="genList"></div>
+            </div>
+            <div class="rc">
+              <h3>Your Momentum</h3>
+              <div class="game">
+                <div class="g-widget"><div class="gw-top"><span class="gw-l">Today's Goal</span><span class="gw-v" id="goalText">0 / 0</span></div><div class="bar-sm"><i id="goalBar" style="width:0%"></i></div></div>
+                <div class="g-widget streak"><span class="gw-ic ic-flame"><svg viewBox="0 0 24 24"><path d="M12 3c1 3-1 4-1 6a3 3 0 0 0 6 0c0-1-.5-2-1-2.5C17 9 18 11 18 14a6 6 0 0 1-12 0c0-4 4-6 6-11z" fill="currentColor"/></svg></span><div><div class="gw-big">14 Days</div><div class="gw-sm">Sales streak — personal best</div></div></div>
+                <div class="g-widget avg"><span class="gw-ic ic-clock"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v4.5l3 1.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><div class="gw-big">2m 48s</div><div class="gw-sm">Average completion time</div></div></div>
+              </div>
+            </div>
+            <div class="rc">
+              <h3>Recent Customer Replies</h3>
+              <div class="rmini"><span class="av-xs" style="background:#3b82f6">JS</span><div class="rm-b"><b>John Smith</b><span>"See you this afternoon!"</span></div><span class="rm-t">2m</span></div>
+              <div class="rmini"><span class="av-xs" style="background:#8b5cf6">SL</span><div class="rm-b"><b>Sarah Lewis</b><span>Appointment confirmed</span></div><span class="rm-t">18m</span></div>
+              <div class="rmini"><span class="av-xs" style="background:#14b8a6">RB</span><div class="rm-b"><b>Robert Brown</b><span>"What's the APR?"</span></div><span class="rm-t">1h</span></div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="sec-label">Completed Today</div>
+        <div class="ctl" id="completed"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Task completed</span></div>
+
+  <script>
+    const TYPE = {
+      call:["ty-call","#2563eb","Start Call","Calling"], text:["ty-text","#0891b2","Send Text","Texting"], email:["ty-email","#6366f1","Compose Email","Emailing"],
+      video:["ty-video","#7c3aed","Record Video","Recording video for"], appt:["ty-appt","#16a34a","Confirm","Confirming appointment with"], payment:["ty-payment","#ea8a0b","Send Estimate","Sending estimate to"],
+      trade:["ty-trade","#ea6a0b","Start Appraisal","Appraising trade for"], worksheet:["ty-worksheet","#475569","Send Worksheet","Sending worksheet to"], manual:["ty-manual","#64748b","Mark Done","Completed"]
+    };
+    const IC = {
+      call:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      text:'<path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      email:'<rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      video:'<rect x="3.5" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 10l4.5-2.5v9L16 14z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      appt:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3M8.5 14l2.2 2.2 4-4.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+      payment:'<rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 9v6M18 9v6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+      trade:'<path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7 13l-2 3M17 13l2 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+      worksheet:'<path d="M6 3.5h8l4 4V20.5H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3.5v4h4M9 12h6M9 16h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+      manual:'<rect x="6" y="4.5" width="12" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 4.5h6v3H9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+      schedule:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3M12 12v4M10 14h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+      check:'<path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>'
+    };
+    const svg = (k) => `<svg viewBox="0 0 24 24">${IC[k]}</svg>`;
+
+    const SECTIONS = [
+      ["now","Due Now","#dc2626"], ["today","Due Today","#ea8a0b"], ["upcoming","Upcoming","#eab308"], ["waitcust","Waiting On Customer","#64748b"], ["waitmgr","Waiting On Manager","#64748b"]
+    ];
+    const PRI = { immediate:"Immediate", today:"Today", upcoming:"Upcoming", waiting:"Waiting" };
+    const TITLE = { call:"Call ", text:"Text ", email:"Email ", video:"Record Video — ", appt:"Confirm — ", payment:"Estimate for ", trade:"Appraise ", worksheet:"Worksheet — ", manual:"" };
+    const taskTitle = (t) => t.manual ? t.who : TITLE[t.type] + t.who;
+
+    let TASKS = [
+      { id:1, type:"call", who:"John Smith", ini:"JS", c:"#3b82f6", reason:"Appointment Reminder", veh:"2026 Silverado LT", due:"Now", est:"3 min", pri:"immediate", section:"now", overdue:false,
+        ai:{interested:"2026 Silverado LT", trade:"2019 Ford F-150", last:"Yesterday", rec:"Call before 10 AM — likely discussing financing.", opener:"Hi John! Just wanted to check in before your appointment this afternoon. Everything's ready for you."},
+        timeline:[["done","Lead created","Mon, Jul 21"],["done","Test drive booked","Wed, Jul 23"],["done","Reminder sent","Today, 8:00 AM"]],
+        comms:[["Text","Yesterday, 4:12 PM","Looking forward to seeing the Silverado!"],["Call","Wed","Discussed trade-in on the F-150"]] },
+      { id:2, type:"text", who:"Sarah Lewis", ini:"SL", c:"#8b5cf6", reason:"Vehicle Arrived", veh:"2024 Tahoe RST", due:"11:30 AM", est:"1 min", pri:"immediate", section:"now", overdue:true,
+        ai:{interested:"2024 Tahoe RST", trade:"2020 Honda CR-V", last:"2 days ago", rec:"Text now — her requested vehicle just landed on the lot.", opener:"Great news Sarah — your Tahoe RST just arrived! Want to come see it this week?"},
+        timeline:[["done","Requested Tahoe RST","Jul 19"],["done","Vehicle located","Today, 9:40 AM"]],
+        comms:[["Text","Jul 19","Is the RST in yet?"]] },
+      { id:3, type:"appt", who:"David Johnson", ini:"DJ", c:"#f59e0b", reason:"Confirm Appointment · Tomorrow 11 AM", veh:"Trade Appraisal", due:"By 5 PM", est:"2 min", pri:"today", section:"today", overdue:false,
+        ai:{interested:"Upgrade to F-150 Lariat", trade:"2021 Ford F-150 XLT", last:"3 weeks ago", rec:"Confirm his 11 AM — he hasn't responded to the auto-reminder.", opener:"Hi David, confirming your trade appraisal tomorrow at 11 AM. Reply YES and I'll have everything ready."},
+        timeline:[["done","Appraisal booked","Wed, Jul 23"],["done","Auto-reminder sent","Today, 8:00 AM"],["pending","Customer confirmation",""]],
+        comms:[["Email","Jul 23","Interested in what my F-150 is worth"]] },
+      { id:4, type:"email", who:"Michael Williams", ini:"MW", c:"#a855f7", reason:"Payment Estimate", veh:"2025 Trailblazer", due:"Today", est:"5 min", pri:"today", section:"today", overdue:false,
+        ai:{interested:"2025 Chevrolet Trailblazer", trade:"None", last:"14 months ago", rec:"Send payment options — he re-engaged after a long gap.", opener:"Hi Michael! Here are a few payment options on the Trailblazer we discussed. Happy to walk through them anytime."},
+        timeline:[["done","Re-engaged via web","Today, 7:50 AM"],["pending","Estimate sent",""]],
+        comms:[["Web","Today","Viewed Trailblazer pricing 2x"]] },
+      { id:5, type:"video", who:"Amanda Harris", ini:"AH", c:"#ec4899", reason:"Vehicle Walkaround", veh:"2024 Colorado Trail Boss", due:"Today", est:"8 min", pri:"today", section:"today", overdue:false,
+        ai:{interested:"2024 Colorado Trail Boss", trade:"None", last:"1 week ago", rec:"Record a personalized walkaround — she's comparing two trims.", opener:"Hi Amanda! Made you a quick video walking through the Trail Boss features you asked about."},
+        timeline:[["done","Requested video","Yesterday"],["pending","Video recorded",""]],
+        comms:[["Text","Yesterday","Can you show me the Trail Boss interior?"]] },
+      { id:6, type:"payment", who:"Priya Nair", ini:"PN", c:"#f43f5e", reason:"Payment Estimate", veh:"2024 Cadillac XT5 Sport", due:"Today", est:"4 min", pri:"today", section:"today", overdue:false,
+        ai:{interested:"2024 Cadillac XT5 Sport", trade:"None", last:"3 days ago", rec:"Send lease vs finance breakdown before her Thursday visit.", opener:"Hi Priya! Attached are your XT5 payment options — lease and finance side by side."},
+        timeline:[["done","Quote requested","3 days ago"],["pending","Estimate sent",""]],
+        comms:[["Call","3 days ago","Asked about loyalty pricing"]] },
+      { id:7, type:"manual", who:"Call Bank — Robert Brown loan", ini:"$", c:"#64748b", reason:"Verify payoff amount", veh:"Internal task", due:"Today", est:"5 min", pri:"today", section:"today", overdue:false, manual:true,
+        ai:{interested:"—", trade:"2020 Honda CR-V", last:"—", rec:"Confirm the CR-V payoff before Robert's finance appointment.", opener:""},
+        timeline:[["done","Task created","Today, 8:30 AM"]], comms:[] },
+      { id:8, type:"trade", who:"Kevin Anderson", ini:"KA", c:"#0ea5e9", reason:"Trade Appraisal", veh:"2022 GMC Sierra 1500", due:"Tomorrow", est:"10 min", pri:"upcoming", section:"upcoming", overdue:false,
+        ai:{interested:"2022 Sierra Denali", trade:"2022 GMC Sierra 1500", last:"2 months ago", rec:"Prep the appraisal — his trade equity increased $1,400 this week.", opener:"Hi Kevin! Good news — your Sierra's trade value went up. Let's talk about the Denali upgrade."},
+        timeline:[["done","Upgrade interest logged","2 months ago"],["done","Trade value updated","This week"]],
+        comms:[["Call","2 months ago","Curious about Denali trims"]] },
+      { id:9, type:"text", who:"Robert Brown", ini:"RB", c:"#14b8a6", reason:"Awaiting APR question reply", veh:"2023 Tahoe Premier", due:"Waiting", est:"1 min", pri:"waiting", section:"waitcust", overdue:false,
+        ai:{interested:"Finance completion", trade:"None", last:"1 hour ago", rec:"He asked about APR — send the rate sheet to keep momentum.", opener:"Hi Robert! Your approved APR is 6.9%. Want me to lock it in for the Tahoe?"},
+        timeline:[["done","Finance submitted","Today, 10:00 AM"],["done","Customer asked about APR","1 hour ago"],["pending","Customer reply",""]],
+        comms:[["Text","1 hour ago","What's the APR?"]] },
+      { id:10, type:"manual", who:"Manager Approval — Grace Kim deal", ini:"GK", c:"#eab308", reason:"Discount sign-off needed", veh:"2025 Telluride", due:"Waiting", est:"—", pri:"waiting", section:"waitmgr", overdue:false, manual:true,
+        ai:{interested:"2025 Kia Telluride", trade:"2020 Kia Telluride SX", last:"Today", rec:"Waiting on manager approval for the loyalty discount.", opener:""},
+        timeline:[["done","Deal submitted","Today, 11:15 AM"],["pending","Manager approval",""]], comms:[] },
+    ];
+
+    let COMPLETED = [
+      { type:"call", label:"Called Amanda Harris", who:"Walkaround follow-up", time:"9:32 AM", dur:"4 min" },
+      { type:"text", label:"Texted Jessica Davis", who:"Service reminder", time:"10:15 AM", dur:"" },
+      { type:"email", label:"Sent pricing email — Marcus Webb", who:"Corvette Z06 estimate", time:"11:40 AM", dur:"" },
+      { type:"appt", label:"Confirmed appointment — Ethan Ross", who:"Lease-end review", time:"1:05 PM", dur:"2 min" },
+      { type:"video", label:"Recorded video — Priya Nair", who:"XT5 feature tour", time:"2:14 PM", dur:"6 min" },
+    ];
+
+    const GEN = [
+      ["call","#2563eb","ty-call","John Smith viewed <b>Silverado pricing</b> 3× today.","Call now",{ type:"call", who:"John Smith", ini:"JS", c:"#3b82f6", reason:"Viewed pricing 3× today", veh:"2026 Silverado LT", due:"Now", est:"3 min", pri:"immediate", section:"now" }],
+      ["text","#0891b2","ty-text","<b>Marcus Webb</b> hasn't responded in 4 days.","Send follow-up text",{ type:"text", who:"Marcus Webb", ini:"MB", c:"#10b981", reason:"No response in 4 days", veh:"2023 Corvette Z06", due:"Now", est:"1 min", pri:"today", section:"today" }],
+      ["appt","#16a34a","ty-appt","<b>Grace Kim</b> has an appointment tomorrow.","Confirmation call",{ type:"call", who:"Grace Kim", ini:"GK", c:"#eab308", reason:"Confirm appointment tomorrow", veh:"2025 Telluride", due:"Today", est:"2 min", pri:"today", section:"today" }],
+      ["video","#7c3aed","ty-video","<b>Tahoe RST</b> arrived for Sarah Lewis.","Send walkaround video",{ type:"video", who:"Sarah Lewis", ini:"SL", c:"#8b5cf6", reason:"Vehicle arrived", veh:"2024 Tahoe RST", due:"Today", est:"8 min", pri:"today", section:"today" }],
+    ];
+
+    const PILLS = [["all","All"],["now","Due Now"],["overdue","Overdue"],["call","Calls"],["text","Texts"],["email","Emails"],["video","Videos"],["appt","Appointments"],["manual","Manual"],["immediate","High Priority"],["today","Today"],["upcoming","Upcoming"]];
+
+    const state = { filter:"all", q:"", team:"mine", nid:100 };
+    function matchFilter(t) {
+      const f = state.filter;
+      if (f === "all") return true;
+      if (f === "now") return t.section === "now";
+      if (f === "overdue") return t.overdue;
+      if (f === "manual") return !!t.manual;
+      if (["call","text","email","video","appt"].includes(f)) return t.type === f;
+      if (f === "immediate") return t.pri === "immediate";
+      if (f === "today") return t.section === "today" || t.section === "now";
+      if (f === "upcoming") return t.section === "upcoming";
+      return true;
+    }
+    function matchTeam(t) { if (state.team === "overdue") return t.overdue; if (state.team === "unassigned") return false; return true; }
+    function matchSearch(t) { const q = state.q.trim().toLowerCase(); if (!q) return true; return [t.who,t.veh,t.reason].join(" ").toLowerCase().includes(q); }
+    const active = () => TASKS.filter((t) => matchFilter(t) && matchTeam(t) && matchSearch(t));
+
+    function renderStats() {
+      const done = COMPLETED.length, rem = TASKS.length, total = done + rem, over = TASKS.filter((t)=>t.overdue).length;
+      const pct = total ? Math.round(done/total*100) : 0;
+      document.getElementById("pctText").textContent = pct + "%";
+      document.getElementById("progBar").style.width = pct + "%";
+      document.getElementById("doneText").textContent = done;
+      document.getElementById("totalText").textContent = total;
+      document.getElementById("kpiDone").textContent = done;
+      document.getElementById("kpiRem").textContent = rem;
+      document.getElementById("kpiOver").textContent = over;
+      document.getElementById("navBadge").textContent = rem;
+      document.getElementById("goalText").textContent = `${done} / ${total}`;
+      document.getElementById("goalBar").style.width = pct + "%";
+    }
+
+    function card(t) {
+      const [cls, pc, actLabel] = TYPE[t.type];
+      const meta = [];
+      if (!t.manual) meta.push(`<span class="m">Reason · <b>${t.reason}</b></span>`);
+      else meta.push(`<span class="m">${t.reason}</span>`);
+      if (t.veh && t.veh !== "Internal task") meta.push(`<span class="m">Vehicle · <b>${t.veh}</b></span>`);
+      meta.push(`<span class="m">Due · <b>${t.due}</b></span>`);
+      const waiting = t.pri === "waiting";
+      return `<div class="tcard ${t.manual?"manual":""}" data-id="${t.id}" style="--pc:${pc}">
+        <span class="t-ic ${cls}">${svg(t.type)}</span>
+        <div class="t-main">
+          <div class="t-title">${taskTitle(t)}<span class="pri-chip pri-${t.pri}">${PRI[t.pri]}</span></div>
+          <div class="t-meta">${meta.join("")}</div>
+        </div>
+        <div class="t-right">
+          ${t.est && t.est !== "—" ? `<span class="t-est">~ ${t.est}</span>` : ""}
+          <button class="t-act ${waiting?"ghost":""}" data-act="${t.id}">${waiting?"Send Reminder":actLabel}</button>
+        </div>
+      </div>`;
+    }
+
+    function renderQueue() {
+      const rows = active(), q = document.getElementById("queue");
+      if (!rows.length) { q.innerHTML = `<div class="allclear"><span class="ck">${svg("check")}</span><h3>You're all caught up</h3><p>Every customer activity for this view is done. Nice work.</p></div>`; return; }
+      let html = "";
+      SECTIONS.forEach(([key,label,color]) => {
+        const items = rows.filter((t) => t.section === key);
+        if (!items.length) return;
+        html += `<div class="qsec"><div class="qsec-hd"><span class="dot" style="background:${color}"></span><b>${label}</b><span class="cn">${items.length}</span></div>${items.map(card).join("")}</div>`;
+      });
+      q.innerHTML = html;
+      q.querySelectorAll(".tcard").forEach((el) => el.addEventListener("click", (e) => { if (e.target.closest(".t-act")) return; openPanel(+el.dataset.id); }));
+      q.querySelectorAll(".t-act").forEach((b) => b.addEventListener("click", (e) => { e.stopPropagation(); completeTask(+b.dataset.act); }));
+    }
+
+    function renderCompleted() {
+      const c = document.getElementById("completed");
+      c.innerHTML = COMPLETED.slice().reverse().map((x) => `<div class="ctl-row"><span class="ctl-check">${svg("check")}</span><div><b>${x.label}</b><div class="cwho">${x.who}</div></div><div class="cmeta"><div class="ctime">${x.time}</div>${x.dur?`<div class="cdur">${x.dur}</div>`:""}</div></div>`).join("");
+    }
+
+    function renderGen() {
+      document.getElementById("genList").innerHTML = GEN.map((g,i) => `<div class="gen"><span class="g-ic ${g[2]}">${svg(g[0])}</span><div><p>${g[3]}</p><div class="rec">→ ${g[4]}</div><button class="g-add" data-gen="${i}">Add Task</button></div></div>`).join("");
+      document.querySelectorAll(".g-add").forEach((b) => b.addEventListener("click", () => addGenerated(+b.dataset.gen)));
+    }
+
+    function renderPills() {
+      document.getElementById("pills").innerHTML = PILLS.map(([t,l]) => `<button class="pill ${state.filter===t?"on":""}" data-t="${t}">${l}</button>`).join("");
+      document.querySelectorAll(".pill").forEach((b) => b.addEventListener("click", () => { state.filter = b.dataset.t; renderPills(); renderQueue(); }));
+    }
+
+    function nowTime() { const d = new Date(); let h = d.getHours(), m = d.getMinutes(); const ap = h>=12?"PM":"AM"; h=((h+11)%12)+1; return `${h}:${m.toString().padStart(2,"0")} ${ap}`; }
+
+    function completeTask(id) {
+      const t = TASKS.find((x) => x.id === id); if (!t) return;
+      const el = document.querySelector(`.tcard[data-id="${id}"]`);
+      const label = t.manual ? t.who : `${TYPE[t.type][3]} ${t.who}`;
+      const doIt = () => {
+        TASKS = TASKS.filter((x) => x.id !== id);
+        COMPLETED.push({ type:t.type, label:label.replace(/^Completed /,"Completed: "), who:t.manual?t.reason:(t.veh||t.reason), time:nowTime(), dur:t.est && t.est!=="—" ? t.est : "" });
+        renderStats(); renderQueue(); renderCompleted();
+        showToast(`${TYPE[t.type][3]} ${t.manual?"task":t.who} — done`);
+        closeAll();
+      };
+      if (el) { el.classList.add("done-out"); setTimeout(doIt, 280); } else doIt();
+    }
+
+    function addGenerated(i) {
+      const base = GEN[i][5];
+      const nt = Object.assign({ id: ++state.nid, overdue:false, ai:{interested:base.veh, trade:"—", last:"Just now", rec:GEN[i][4]+" — AI generated.", opener:""}, timeline:[["done","AI generated this task","Just now"]], comms:[] }, base);
+      TASKS.unshift(nt);
+      renderStats(); renderQueue(); showToast("AI task added to your queue");
+    }
+
+    let toastT;
+    function showToast(msg) { const el = document.getElementById("toast"); document.getElementById("toastMsg").textContent = msg; el.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove("show"), 2600); }
+
+    const scrim = document.getElementById("scrim"), panel = document.getElementById("panel");
+    function openPanel(id) {
+      const t = TASKS.find((x) => x.id === id); if (!t) return;
+      const [cls, pc, actLabel] = TYPE[t.type];
+      panel.innerHTML = `
+        <div class="panel-hd">
+          <span class="p-ic ${cls}">${svg(t.type)}</span>
+          <div><h2>${t.manual?t.who:t.who}</h2><div class="pmeta">${t.reason}${t.veh&&t.veh!=="Internal task"?` · ${t.veh}`:""}</div></div>
+          <button class="panel-close" id="panelClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        </div>
+        <div class="panel-body">
+          <div class="qa">
+            <button>${svg("call")}Call</button><button>${svg("text")}Text</button><button>${svg("email")}Email</button><button>${svg("video")}Video</button>
+            <button>${svg("schedule")}Schedule</button><button>${svg("payment")}Estimate</button><button>${svg("trade")}Appraise</button><button>${svg("worksheet")}Worksheet</button>
+          </div>
+          <div class="sect">
+            <h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Summary</h3>
+            <div class="brief">
+              <div><div class="k">Interested In</div><div class="v">${t.ai.interested}</div></div>
+              <div><div class="k">Trade</div><div class="v">${t.ai.trade}</div></div>
+              <div><div class="k">Last Contact</div><div class="v">${t.ai.last}</div></div>
+              <div><div class="k">Due</div><div class="v">${t.due}</div></div>
+            </div>
+            <div class="rec-box"><div class="rl">Recommended Action</div><div class="rv">${t.ai.rec}</div></div>
+            ${t.ai.opener ? `<div class="opener"><div class="ol">Suggested Opener</div>${t.ai.opener}</div>` : ""}
+          </div>
+          ${t.comms && t.comms.length ? `<div class="sect"><h3>Previous Communication</h3>${t.comms.map((c)=>`<div class="comm"><div class="ch"><b>${c[0]}</b><span>${c[1]}</span></div><p>${c[2]}</p></div>`).join("")}</div>` : ""}
+          <div class="sect">
+            <h3>Timeline</h3>
+            ${t.timeline.map((x)=>`<div class="tl2 ${x[0]==="pending"?"pending":""}"><span class="tl2-dot" style="background:${x[0]==="done"?pc:"#dfe4ec"};box-shadow:0 0 0 4px ${x[0]==="done"?pc+"22":"transparent"}"></span><div><b>${x[1]}</b>${x[2]?`<span>${x[2]}</span>`:""}</div></div>`).join("")}
+          </div>
+          <button class="panel-act" id="panelAct">${t.pri==="waiting"?"Send Reminder":actLabel} & Complete Task</button>
+        </div>`;
+      panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
+      panel.querySelector("#panelClose").addEventListener("click", closeAll);
+      panel.querySelector("#panelAct").addEventListener("click", () => completeTask(id));
+    }
+    function closeAll() { panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
+    scrim.addEventListener("click", closeAll);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeAll(); if (e.key === "/" && document.activeElement.tagName !== "INPUT") { e.preventDefault(); document.getElementById("search").focus(); } });
+
+    document.querySelectorAll("#teamSeg button").forEach((b) => b.addEventListener("click", () => { document.querySelectorAll("#teamSeg button").forEach((x)=>x.classList.remove("on")); b.classList.add("on"); state.team = b.dataset.team; renderQueue(); }));
+    document.getElementById("search").addEventListener("input", (e) => { state.q = e.target.value; renderQueue(); });
+
+    renderStats(); renderPills(); renderQueue(); renderCompleted(); renderGen();
+  </script>
+</body>
+</html>
