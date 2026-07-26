@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Front Desk — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 26px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:11px 14px; border-radius:11px; color:#aebdd2; font-size:14.5px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; }
+    .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:19px; height:19px; flex:none; }
+    .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; }
+    .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:14px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:38px; height:38px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13.5px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11.5px; }
+    .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:460px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; flex:none; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; color:var(--text); }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#e2f5fb; color:#0891b2; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-icons { display:flex; align-items:center; gap:4px; margin-left:auto; }
+    .ib { position:relative; border:none; background:none; color:var(--muted); width:40px; height:40px; border-radius:11px; display:inline-flex; align-items:center; justify-content:center; } .ib:hover { background:var(--bg); color:var(--accent); } .ib svg { width:21px; height:21px; }
+    .ib .dot { position:absolute; top:6px; right:7px; min-width:16px; height:16px; border-radius:8px; background:#ef4444; color:#fff; font-size:9.5px; font-weight:700; display:flex; align-items:center; justify-content:center; padding:0 4px; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:8px; }
+    .content { padding:26px 30px 60px; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .summary { color:var(--muted); font-size:14.5px; margin-top:7px; } .phead .summary b { color:var(--text); }
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:24px 0 13px; display:flex; align-items:center; gap:10px; } .sec-label .ln { flex:1; height:1px; background:var(--line); }
+    .stat-row { display:grid; grid-template-columns:repeat(5,1fr); gap:13px; margin-top:20px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; box-shadow:var(--shadow); display:flex; align-items:center; gap:12px; }
+    .kp .ki { width:36px; height:36px; border-radius:10px; flex:none; display:flex; align-items:center; justify-content:center; } .kp .ki svg { width:18px; height:18px; }
+    .i-teal{background:#e2f5fb;color:#0891b2;} .i-green{background:#e7f7ee;color:#16a34a;} .i-amber{background:#fdf0dc;color:#ea8a0b;} .i-blue{background:#eaf1fe;color:#2563eb;} .i-purple{background:#f1eafe;color:#7c3aed;}
+    .kp .kv { font-size:21px; font-weight:800; letter-spacing:-0.5px; line-height:1; } .kp .kl { color:var(--muted); font-size:11.5px; margin-top:3px; }
+    .grid2 { display:grid; grid-template-columns:1.15fr 1fr; gap:16px; } .grid2b { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; }
+    .card h3 { font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px; margin-bottom:14px; } .card h3 .spark { color:#7c3aed; display:inline-flex; } .card h3 .spark svg { width:16px; height:16px; } .card h3 .cn { margin-left:auto; background:var(--accent-soft); color:var(--accent); font-size:11px; font-weight:700; padding:2px 9px; border-radius:8px; }
+    /* walk-in queue */
+    .wq { border:1px solid var(--line); border-radius:12px; padding:13px; margin-bottom:10px; } .wq:last-child{margin-bottom:0;}
+    .wq-top { display:flex; align-items:center; gap:11px; } .wq .av { width:38px; height:38px; border-radius:50%; flex:none; color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; }
+    .wq b { font-weight:700; font-size:14px; } .wq .wait { margin-left:auto; text-align:right; } .wq .wait .badge { background:#fdf0dc; color:#b45309; font-size:10px; font-weight:800; padding:2px 8px; border-radius:7px; } .wq .wait small { display:block; color:var(--faint); font-size:11px; margin-top:2px; }
+    .wq-meta { display:flex; gap:20px; margin:11px 0; font-size:12.5px; } .wq-meta .k { color:var(--faint); font-size:11px; } .wq-meta .v { font-weight:600; }
+    .wq-assign { width:100%; border:none; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border-radius:9px; padding:9px; font-size:12.5px; font-weight:700; } .wq-assign:hover { filter:brightness(1.06); } .wq-assign.done { background:#e7f7ee; color:#16a34a; }
+    /* appointment desk */
+    .ad-row { display:flex; align-items:center; gap:12px; padding:11px 4px; border-top:1px solid var(--line); } .ad-row:first-child{border-top:none;}
+    .ad-time { font-size:13px; font-weight:700; width:60px; flex:none; } .ad-row .av { width:34px; height:34px; border-radius:50%; color:#fff; font-weight:700; font-size:11px; display:flex; align-items:center; justify-content:center; flex:none; } .ad-nm b { font-weight:600; font-size:13.5px; } .ad-nm span { color:var(--muted); font-size:12px; } .ad-act { margin-left:auto; display:flex; gap:5px; } .ad-btn { border:1px solid var(--line); background:#fff; border-radius:8px; padding:6px 11px; font-size:11.5px; font-weight:700; color:var(--accent); } .ad-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); } .ad-btn.gray{color:var(--muted);} .ad-btn.gray:hover{background:var(--muted);border-color:var(--muted);color:#fff;} .ad-btn.done{background:#e7f7ee;color:#16a34a;border-color:#cdebd8;}
+    /* check-in form */
+    .fgrid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .fld { display:flex; flex-direction:column; gap:6px; } .fld.full { grid-column:span 2; } .fld label { font-size:12px; font-weight:600; color:#33445c; }
+    .fld input, .fld select { font:inherit; font-size:13.5px; padding:10px 12px; border:1px solid var(--line); border-radius:9px; background:#fff; color:var(--text); outline:none; } .fld input:focus, .fld select:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
+    .chk-submit { margin-top:14px; width:100%; border:none; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border-radius:11px; padding:13px; font-size:14px; font-weight:700; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); } .chk-submit:hover { filter:brightness(1.06); }
+    /* phone queue */
+    .pq-row { display:flex; align-items:center; gap:11px; padding:10px 4px; border-top:1px solid var(--line); } .pq-row:first-child{border-top:none;} .pq-ic { width:32px; height:32px; border-radius:9px; flex:none; display:flex; align-items:center; justify-content:center; } .pq-ic svg{width:15px;height:15px;} .pq-in{background:#e7f7ee;color:#16a34a;} .pq-miss{background:#fdeaea;color:#dc2626;} .pq-vm{background:#f1eafe;color:#7c3aed;}
+    .pq-nm b { font-weight:600; font-size:13px; } .pq-nm span { color:var(--muted); font-size:11.5px; } .pq-act { margin-left:auto; display:flex; gap:5px; } .pq-btn { border:1px solid var(--line); background:#fff; border-radius:8px; padding:6px 11px; font-size:11.5px; font-weight:700; color:var(--accent); } .pq-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+    .live-blip { display:inline-flex; align-items:center; gap:6px; font-size:11px; color:#16a34a; font-weight:700; } .live-blip .ld{width:7px;height:7px;border-radius:50%;background:#16a34a;animation:pulse 1.6s infinite;} @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(22,163,74,.5)}70%{box-shadow:0 0 0 6px rgba(22,163,74,0)}100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+    /* delivery / message / notif rows */
+    .mrow { display:flex; align-items:center; gap:11px; padding:10px 4px; border-top:1px solid var(--line); } .mrow:first-child{border-top:none;} .mrow .av { width:32px; height:32px; border-radius:50%; color:#fff; font-weight:700; font-size:11px; display:flex; align-items:center; justify-content:center; flex:none; } .mrow .mn b { font-weight:600; font-size:13px; } .mrow .mn span { color:var(--muted); font-size:11.5px; } .mrow .mt { margin-left:auto; font-size:11px; color:var(--faint); }
+    .airec { border:1px solid var(--line); border-radius:11px; padding:12px; margin-bottom:9px; background:linear-gradient(180deg,#fbfcff,#fff); } .airec:last-child{margin-bottom:0;} .airec p { font-size:12.5px; line-height:1.45; color:#334155; } .airec p b { color:var(--text); } .airec .rec { color:#7c3aed; font-weight:700; font-size:12px; margin-top:4px; }
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:13px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:11px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;} .toast small{display:block;color:#9fb0c7;font-weight:500;font-size:11.5px;}
+    @media (max-width:1240px){ .stat-row{grid-template-columns:repeat(3,1fr);} .grid2,.grid2b{grid-template-columns:1fr;} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .stat-row{grid-template-columns:repeat(2,1fr);} .fgrid{grid-template-columns:1fr;} .fld.full{grid-column:span 1;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">RB</span><span class="meta"><b>Riley Brooks</b><span>Receptionist</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input type="text" placeholder="Look up customer by name, phone, or appointment..." /></div>
+        <span class="role-badge"><svg viewBox="0 0 24 24" style="width:14px;height:14px"><rect x="5" y="4" width="14" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M9 4h6v2.5H9zM8.5 13l2 2 4-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Front Desk</span>
+        <div class="tb-icons">
+          <button class="ib"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="dot">4</span></button>
+          <span class="tb-avatar"><span class="av">RB</span></span>
+        </div>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <h1>Front Desk</h1>
+          <p class="summary"><b>12 appointments</b> today · <b>2 guests</b> in the walk-in queue · <b>3 calls</b> waiting. <span class="live-blip"><span class="ld"></span>Live</span></p>
+        </div>
+
+        <div class="stat-row" id="stats"></div>
+
+        <div class="sec-label">Lobby &amp; Check-In<span class="ln"></span></div>
+        <div class="grid2">
+          <div class="card"><h3>Walk-In Queue <span class="cn" id="wqCount">2</span></h3><div id="walkins"></div></div>
+          <div class="card"><h3>Visitor Check-In</h3>
+            <div class="fgrid">
+              <div class="fld"><label>Name</label><input id="ci-name" placeholder="Full name" /></div>
+              <div class="fld"><label>Phone</label><input id="ci-phone" placeholder="(555) 000-0000" /></div>
+              <div class="fld"><label>Interested Vehicle</label><input id="ci-veh" placeholder="e.g. Silverado LT" /></div>
+              <div class="fld"><label>Trade-In?</label><select><option>No</option><option>Yes — needs appraisal</option></select></div>
+              <div class="fld"><label>Has Appointment?</label><select><option>Walk-in (no appointment)</option><option>Has appointment</option></select></div>
+              <div class="fld"><label>Assign Salesperson</label><select id="ci-rep"><option>Auto-assign (recommended)</option><option>Cameron Miller</option><option>Sarah Johnson</option><option>Michael Davis</option></select></div>
+            </div>
+            <button class="chk-submit" id="ciSubmit">Check In &amp; Route to Salesperson</button>
+          </div>
+        </div>
+
+        <div class="sec-label">Appointment Desk<span class="ln"></span></div>
+        <div class="card"><h3>Today's Appointments <span style="margin-left:auto;font-size:12px;color:var(--faint);font-weight:600">12 scheduled</span></h3><div id="appts"></div></div>
+
+        <div class="sec-label">Phones &amp; Messages<span class="ln"></span></div>
+        <div class="grid2b">
+          <div class="card"><h3>Phone Queue <span class="cn">3 waiting</span></h3><div id="phones"></div></div>
+          <div class="card"><h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Front-Desk Assistant</h3><div id="ai"></div></div>
+        </div>
+
+        <div class="sec-label">Deliveries, Messages &amp; Manager Notes<span class="ln"></span></div>
+        <div class="grid2b" style="grid-template-columns:1fr 1fr 1fr">
+          <div class="card"><h3>Upcoming Deliveries</h3><div id="deliveries"></div></div>
+          <div class="card"><h3>Messages Waiting</h3><div id="messages"></div></div>
+          <div class="card"><h3>Manager Notifications</h3><div id="notifs"></div></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><span id="toastMsg">Checked in</span><small id="toastSub">Routed to salesperson</small></div></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var STATS = [
+      ["teal","cal","12","Appointments Today"],["amber","user","2","Walk-Ins Waiting"],["green","check","5","Checked In"],["blue","phone","3","Calls Waiting"],["purple","truck","4","Deliveries Today"]
+    ];
+    var SIC = { cal:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>', user:'<circle cx="12" cy="9" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 19c0-2.8 2.7-4.5 6-4.5s6 1.7 6 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>', check:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>', phone:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>', truck:'<path d="M2 8h11v9H2zM13 11h4l3 3v3h-7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="6" cy="17.5" r="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="17.5" r="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/>' };
+    $("stats").innerHTML = STATS.map(function(s){ return '<div class="kp"><span class="ki i-'+s[0]+'"><svg viewBox="0 0 24 24">'+SIC[s[1]]+'</svg></span><div><div class="kv">'+s[2]+'</div><div class="kl">'+s[3]+'</div></div></div>'; }).join("");
+
+    var WALKINS = [["Michael Williams","MW","#a855f7","7 min","Tahoe","None"],["Jessica Davis","JD","#6366f1","3 min","Accord","None"]];
+    function renderWalkins(){ $("walkins").innerHTML = WALKINS.map(function(w,i){ return '<div class="wq"><div class="wq-top"><span class="av" style="background:'+w[2]+'">'+w[1]+'</span><b>'+w[0]+'</b><div class="wait"><span class="badge">Waiting</span><small>'+w[3]+'</small></div></div><div class="wq-meta"><div><div class="k">Looking At</div><div class="v">'+w[4]+'</div></div><div><div class="k">Assigned</div><div class="v">'+w[5]+'</div></div></div><button class="wq-assign" data-i="'+i+'">Assign Salesperson</button></div>'; }).join("");
+      document.querySelectorAll(".wq-assign").forEach(function(b){ b.addEventListener("click", function(){ b.textContent="✓ Assigned to Cameron"; b.classList.add("done"); toast("Customer routed to Cameron", "Now on their dashboard"); }); }); }
+    renderWalkins();
+
+    var APPTS = [["9:00","John Smith","JS","#3b82f6","Test Drive · Cameron",true],["10:30","Amanda Harris","AH","#ec4899","Sales · Cameron",true],["11:30","David Johnson","DJ","#f59e0b","Trade Appraisal · Sarah",false],["1:00","Robert Brown","RB","#14b8a6","Finance · Cameron",true],["2:00","Sarah Lewis","SL","#8b5cf6","Delivery · Cameron",true],["3:30","Kevin Anderson","KA","#0ea5e9","Test Drive · Michael",false]];
+    $("appts").innerHTML = APPTS.map(function(a,i){ return '<div class="ad-row"><span class="ad-time">'+a[0]+'</span><span class="av" style="background:'+a[3]+'">'+a[2]+'</span><div class="ad-nm"><b>'+a[1]+'</b><span>'+a[4]+'</span></div><div class="ad-act">'+(a[5]?'<button class="ad-btn" data-ci="'+i+'">Check In</button>':'<button class="ad-btn" data-cf="'+i+'">Confirm</button>')+'<button class="ad-btn gray">Reschedule</button></div></div>'; }).join("");
+    document.querySelectorAll("[data-ci]").forEach(function(b){ b.addEventListener("click", function(){ b.textContent="✓ Checked In"; b.classList.add("done"); toast("Guest checked in", "Salesperson notified"); }); });
+    document.querySelectorAll("[data-cf]").forEach(function(b){ b.addEventListener("click", function(){ b.textContent="✓ Confirmed"; b.classList.add("done"); toast("Appointment confirmed"); }); });
+
+    var PHONES = [["pq-in","phone","Incoming — (678) 555-0142","John Smith · existing customer",["Transfer","Notes"]],["pq-in","phone","Incoming — Unknown","New caller · 0:42 waiting",["Transfer","Notes"]],["pq-miss","phone","Missed — (404) 555-0198","Michael Williams · 3 min ago",["Call Back","VM"]]];
+    $("phones").innerHTML = PHONES.map(function(p){ return '<div class="pq-row"><span class="pq-ic '+p[0]+'"><svg viewBox="0 0 24 24">'+SIC[p[1]]+'</svg></span><div class="pq-nm"><b>'+p[2]+'</b><span>'+p[3]+'</span></div><div class="pq-act">'+p[4].map(function(a){return '<button class="pq-btn">'+a+'</button>';}).join("")+'</div></div>'; }).join("");
+
+    $("ai").innerHTML = [
+      ['<b>John Smith</b> arrived 12 minutes early for his 9:00.','Notify Cameron to prepare the Silverado'],
+      ["<b>Sarah's</b> 2:00 delivery hasn't checked in yet.",'Call the customer to confirm arrival'],
+      ['Walk-in interested in a <b>Tahoe</b> — Cameron sold 4 this month.','Recommended salesperson: Cameron']
+    ].map(function(a){ return '<div class="airec"><p>'+a[0]+'</p><div class="rec">→ '+a[1]+'</div></div>'; }).join("");
+
+    var DELIV = [["Sarah Lewis","SL","#8b5cf6","Tahoe · 2:00 PM"],["Marcus Webb","MB","#10b981","Corvette · 4:00 PM"],["Priya Nair","PN","#f43f5e","XT5 · 5:15 PM"]];
+    $("deliveries").innerHTML = DELIV.map(function(d){ return '<div class="mrow"><span class="av" style="background:'+d[2]+'">'+d[1]+'</span><div class="mn"><b>'+d[0]+'</b><span>'+d[3]+'</span></div></div>'; }).join("");
+    var MSGS = [["Robert Brown","RB","#14b8a6","Asked about APR","1h"],["Grace Kim","GK","#eab308","Is it still available?","2h"],["Amanda Harris","AH","#ec4899","Callback requested","3h"]];
+    $("messages").innerHTML = MSGS.map(function(m){ return '<div class="mrow"><span class="av" style="background:'+m[2]+'">'+m[1]+'</span><div class="mn"><b>'+m[0]+'</b><span>'+m[3]+'</span></div><span class="mt">'+m[4]+'</span></div>'; }).join("");
+    var NOTIF = [["#7c3aed","Dana","Send the 2 PM delivery to bay 3","20m"],["#2563eb","Dana","Hold walk-ins for Cameron until 10","45m"],["#ea8a0b","Service","Loaner ready for Mr. Johnson","1h"]];
+    $("notifs").innerHTML = NOTIF.map(function(n){ return '<div class="mrow"><span class="av" style="background:'+n[0]+'">'+n[1].slice(0,2).toUpperCase()+'</span><div class="mn"><b>'+n[1]+'</b><span>'+n[2]+'</span></div><span class="mt">'+n[3]+'</span></div>'; }).join("");
+
+    $("ciSubmit").addEventListener("click", function(){
+      var nm = ($("ci-name").value || "Guest").trim();
+      var rep = $("ci-rep").value.indexOf("Auto")===0 ? "Cameron (auto)" : $("ci-rep").value;
+      WALKINS.unshift([nm, nm.split(" ").map(function(x){return x[0];}).join("").slice(0,2).toUpperCase(), "#0891b2", "just now", $("ci-veh").value||"Browsing", "None"]);
+      $("wqCount").textContent = WALKINS.length; renderWalkins();
+      $("ci-name").value=""; $("ci-phone").value=""; $("ci-veh").value="";
+      toast(nm+" checked in", "Routed to "+rep+" · now on their dashboard");
+    });
+
+    var toastT; function toast(msg, sub){ $("toastMsg").textContent=msg; $("toastSub").textContent=sub||"Just now"; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2600); }
+  </script>
+</body>
+</html>

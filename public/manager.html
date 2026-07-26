@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manager Dashboard — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 26px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:11px 14px; border-radius:11px; color:#aebdd2; font-size:14.5px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; }
+    .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:19px; height:19px; flex:none; }
+    .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; }
+    .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:14px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:38px; height:38px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13.5px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11.5px; }
+    .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:460px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; flex:none; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; color:var(--text); }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#ede9fe; color:#6d28d9; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-icons { display:flex; align-items:center; gap:4px; margin-left:auto; }
+    .ib { position:relative; border:none; background:none; color:var(--muted); width:40px; height:40px; border-radius:11px; display:inline-flex; align-items:center; justify-content:center; } .ib:hover { background:var(--bg); color:var(--accent); } .ib svg { width:21px; height:21px; }
+    .ib .dot { position:absolute; top:6px; right:7px; min-width:16px; height:16px; border-radius:8px; background:#ef4444; color:#fff; font-size:9.5px; font-weight:700; display:flex; align-items:center; justify-content:center; padding:0 4px; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:8px; }
+    .content { padding:26px 30px 60px; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .summary { color:var(--muted); font-size:14.5px; margin-top:7px; } .phead .summary b { color:var(--text); } .c-green{color:#16a34a;} .c-red{color:#dc2626;} .c-blue{color:var(--accent);}
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:26px 0 14px; display:flex; align-items:center; gap:10px; } .sec-label .ln { flex:1; height:1px; background:var(--line); }
+    .kpis { display:grid; grid-template-columns:repeat(6,1fr); gap:13px; margin-top:20px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); }
+    .kp .kl { color:var(--muted); font-size:12px; } .kp .kv { font-size:23px; font-weight:800; letter-spacing:-0.6px; margin-top:4px; } .kp .kd { font-size:11.5px; font-weight:700; margin-top:6px; } .kp .kd.up{color:#16a34a;} .kp .kd.down{color:#dc2626;} .kp .kd.warn{color:#ea8a0b;}
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; } .grid3 { display:grid; grid-template-columns:1.4fr 1fr; gap:16px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; }
+    .card h3 { font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px; margin-bottom:14px; } .card h3 .spark { color:#7c3aed; display:inline-flex; } .card h3 .spark svg { width:16px; height:16px; } .card h3 .cn { margin-left:auto; font-size:11.5px; color:#dc2626; font-weight:700; background:#fdeaea; padding:2px 9px; border-radius:8px; }
+    .alert { display:flex; gap:12px; align-items:flex-start; padding:11px 0; border-top:1px solid var(--line); } .alert:first-child { border-top:none; }
+    .alert .ai { width:32px; height:32px; border-radius:9px; flex:none; display:flex; align-items:center; justify-content:center; } .alert .ai svg { width:16px; height:16px; }
+    .a-red{background:#fdeaea;color:#dc2626;} .a-amber{background:#fdf0dc;color:#ea8a0b;} .a-blue{background:#eaf1fe;color:#2563eb;} .a-purple{background:#f1eafe;color:#7c3aed;}
+    .alert .at { font-size:13.5px; font-weight:600; } .alert .as { font-size:12px; color:var(--muted); margin-top:1px; } .alert .abtn { margin-left:auto; border:1px solid var(--line); background:#fff; border-radius:8px; padding:6px 12px; font-size:12px; font-weight:700; color:var(--accent); flex:none; } .alert .abtn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+    .airec { border:1px solid var(--line); border-radius:11px; padding:12px; margin-bottom:9px; background:linear-gradient(180deg,#fbfcff,#fff); } .airec:last-child { margin-bottom:0; } .airec p { font-size:12.5px; line-height:1.45; color:#334155; } .airec p b { color:var(--text); } .airec .rec { color:#7c3aed; font-weight:700; font-size:12px; margin-top:4px; }
+    .lb-row { display:flex; align-items:center; gap:13px; padding:11px 4px; border-top:1px solid var(--line); } .lb-row:first-child { border-top:none; }
+    .lb-rank { width:24px; height:24px; border-radius:7px; flex:none; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; background:var(--bg); color:var(--muted); } .lb-row.top1 .lb-rank{background:linear-gradient(180deg,#fde68a,#f59e0b);color:#7a4a05;} .lb-row.top2 .lb-rank{background:#e5e9f0;color:#475569;} .lb-row.top3 .lb-rank{background:#fbdcc4;color:#9a4a1a;}
+    .lb-av { width:34px; height:34px; border-radius:50%; flex:none; color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; }
+    .lb-nm { flex:1; } .lb-nm b { font-weight:700; font-size:13.5px; } .lb-nm span { display:block; color:var(--muted); font-size:11.5px; }
+    .lb-stat { text-align:right; } .lb-stat .s1 { font-weight:800; font-size:15px; } .lb-stat .s2 { font-size:11px; color:#16a34a; font-weight:700; }
+    .goal-ring { width:130px; height:130px; margin:4px auto 12px; border-radius:50%; position:relative; display:flex; align-items:center; justify-content:center; } .goal-ring::after { content:""; position:absolute; inset:15px; background:var(--card); border-radius:50%; } .goal-ring .gr { position:relative; z-index:1; text-align:center; } .goal-ring .gr b { font-size:26px; font-weight:800; } .goal-ring .gr span { font-size:11px; color:var(--muted); display:block; }
+    .goal-sub { display:flex; justify-content:space-around; border-top:1px solid var(--line); padding-top:13px; } .goal-sub .gs b { font-size:16px; font-weight:800; display:block; text-align:center; } .goal-sub .gs span { font-size:11px; color:var(--muted); }
+    .drow { display:flex; align-items:center; gap:12px; padding:11px 4px; border-top:1px solid var(--line); } .drow:first-child { border-top:none; } .drow .dav { width:34px; height:34px; border-radius:50%; flex:none; color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; } .drow .dn b { font-weight:600; font-size:13.5px; } .drow .dn span { display:block; color:var(--muted); font-size:12px; } .drow .dv { margin-left:auto; text-align:right; } .drow .dv .p { font-weight:800; } .drow .dv .r { font-size:11px; color:var(--muted); }
+    .appt-row { display:flex; align-items:center; gap:12px; padding:10px 4px; border-top:1px solid var(--line); } .appt-row:first-child{border-top:none;} .appt-time { font-size:12.5px; font-weight:700; width:62px; flex:none; } .appt-row .dav { width:32px; height:32px; border-radius:50%; color:#fff; font-weight:700; font-size:11px; display:flex; align-items:center; justify-content:center; flex:none; } .appt-row .an b { font-weight:600; font-size:13px; } .appt-row .an span { color:var(--muted); font-size:11.5px; } .appt-row .st { margin-left:auto; font-size:10.5px; font-weight:800; padding:3px 9px; border-radius:7px; } .st-c{background:#e7f7ee;color:#16a34a;} .st-p{background:#fdf0dc;color:#b45309;}
+    .inv-al { display:flex; align-items:center; gap:11px; padding:10px 4px; border-top:1px solid var(--line); font-size:13px; } .inv-al:first-child{border-top:none;} .inv-al .dot { width:8px; height:8px; border-radius:50%; flex:none; } .inv-al b { font-weight:600; } .inv-al .r { margin-left:auto; color:var(--muted); font-size:12px; }
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} .grid2,.grid3{grid-template-columns:1fr;} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .kpis{grid-template-columns:repeat(2,1fr);} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input type="text" placeholder="Search team, customers, deals..." /></div>
+        <span class="role-badge"><svg viewBox="0 0 24 24" style="width:14px;height:14px"><circle cx="7" cy="9" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="9" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M2.5 18c0-2.4 2-4 4.5-4s4.5 1.6 4.5 4M12.5 18c0-2.4 2-4 4.5-4s4.5 1.6 4.5 4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Manager Workspace</span>
+        <div class="tb-icons">
+          <button class="ib"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="dot">7</span></button>
+          <span class="tb-avatar"><span class="av">DM</span></span>
+        </div>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <h1>Good morning, Dana</h1>
+          <p class="summary">Your team is <b class="c-green">14% ahead</b> of last month. <b>12 follow-ups</b> are overdue and <b>5 appointments</b> remain unconfirmed. <b class="c-blue">Michael</b> hasn't logged in today.</p>
+        </div>
+
+        <div class="kpis" id="kpis"></div>
+
+        <div class="sec-label">Needs Your Attention<span class="ln"></span></div>
+        <div class="grid3">
+          <div class="card"><h3>Manager Alerts <span class="cn" id="alertCount">5</span></h3><div id="alerts"></div></div>
+          <div class="card"><h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Manager Insights</h3><div id="aiInsights"></div></div>
+        </div>
+
+        <div class="sec-label">Team Performance &amp; Goals<span class="ln"></span></div>
+        <div class="grid3">
+          <div class="card"><h3>Sales Leaderboard <span style="margin-left:auto;font-size:12px;color:var(--faint);font-weight:600">This month</span></h3><div id="leaderboard"></div></div>
+          <div class="card"><h3>Dealership Goal</h3><div id="goal"></div></div>
+        </div>
+
+        <div class="sec-label">Today at the Store<span class="ln"></span></div>
+        <div class="grid2">
+          <div class="card"><h3>Appointments Today <span style="margin-left:auto;font-size:12px;color:var(--faint);font-weight:600">23 scheduled</span></h3><div id="appts"></div></div>
+          <div class="card"><h3>Recent Deals</h3><div id="deals"></div></div>
+        </div>
+
+        <div class="sec-label">Inventory Alerts<span class="ln"></span></div>
+        <div class="card"><div id="invAlerts"></div></div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var KPI = [
+      ["Team Vehicles Sold","142","up","+14% vs last month"],
+      ["Appointments Today","23","up","8 confirmed"],
+      ["Team Show Rate","78%","down","-6% this week"],
+      ["Closing Ratio","34%","up","+4 pts"],
+      ["Overdue Follow-ups","12","warn","across 4 reps"],
+      ["Unconfirmed Appts","5","warn","needs action"]
+    ];
+    $("kpis").innerHTML = KPI.map(function(k){ return '<div class="kp"><div class="kl">'+k[0]+'</div><div class="kv">'+k[1]+'</div><div class="kd '+k[2]+'">'+k[3]+'</div></div>'; }).join("");
+
+    var ALERTS = [
+      ["a-red","warn12","12 overdue follow-ups","Concentrated in Michael and Priya's queues","Review"],
+      ["a-amber","user","Sarah has 18 untouched leads","Assigned yesterday, none contacted","Reassign"],
+      ["a-red","login","Michael hasn't logged into CRM today","Last active 6:12 PM yesterday","Nudge"],
+      ["a-blue","car","3 customers waiting on appraisal","Trade appraisals pending over 2 hours","Assign"],
+      ["a-amber","cal","5 appointments unconfirmed","Two are within the next 3 hours","Confirm"]
+    ];
+    var AIC = {
+      warn12:'<path d="M12 4l9 15H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10v4M12 16.5v.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+      user:'<circle cx="12" cy="9" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 19c0-2.8 2.7-4.5 6-4.5s6 1.7 6 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+      login:'<path d="M14 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 8l-4 4 4 4M6 12h9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+      car:'<path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      cal:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>'
+    };
+    $("alerts").innerHTML = ALERTS.map(function(a){ return '<div class="alert"><span class="ai '+a[0]+'"><svg viewBox="0 0 24 24">'+AIC[a[1]]+'</svg></span><div><div class="at">'+a[2]+'</div><div class="as">'+a[3]+'</div></div><button class="abtn">'+a[4]+'</button></div>'; }).join("");
+
+    $("aiInsights").innerHTML = [
+      ['<b>Cameron</b> converts internet leads <b>27% better</b> than team average.','Assign incoming Silverado leads to Cameron'],
+      ["<b>Sarah's</b> response time increased to 6m today (usual 2m).",'Check her workload — she has 18 open leads'],
+      ['<b>Michael</b> has the highest appointment show rate at <b>88%</b>.','Have him mentor the two newest reps'],
+      ['Silverado closes <b>41%</b> this week — your hottest model.','Prioritize Silverado leads and keep pricing firm']
+    ].map(function(a){ return '<div class="airec"><p>'+a[0]+'</p><div class="rec">→ '+a[1]+'</div></div>'; }).join("");
+
+    var LEADER = [["Cameron Miller","CM","#3b82f6",18,"+3"],["Sarah Johnson","SJ","#8b5cf6",16,"+2"],["Michael Davis","MD","#14b8a6",15,"+1"],["Priya Nair","PN","#f43f5e",13,"+4"],["Marcus Webb","MB","#10b981",11,"+1"],["Grace Kim","GK","#eab308",9,"+2"]];
+    $("leaderboard").innerHTML = LEADER.map(function(p,i){ return '<div class="lb-row '+(i===0?"top1":i===1?"top2":i===2?"top3":"")+'"><span class="lb-rank">'+(i+1)+'</span><span class="lb-av" style="background:'+p[2]+'">'+p[1]+'</span><div class="lb-nm"><b>'+p[0].split(" ")[0]+'</b><span>Last activity '+(i===2?"yesterday · flag":(i*4+2)+"m ago")+'</span></div><div class="lb-stat"><div class="s1">'+p[3]+'</div><div class="s2">'+p[4]+' today</div></div></div>'; }).join("");
+
+    var pct = Math.round(142/180*100);
+    $("goal").innerHTML = '<div class="goal-ring" style="background:conic-gradient(var(--accent) '+(pct*3.6)+'deg,#eef2f8 0)"><div class="gr"><b>'+pct+'%</b><span>to goal</span></div></div>'+
+      '<div style="text-align:center;font-size:13px;color:var(--muted)"><b style="color:var(--text);font-size:20px">142</b> / 180 vehicles</div>'+
+      '<div class="goal-sub" style="margin-top:12px"><div class="gs"><b>38</b><span>remaining</span></div><div class="gs"><b>9</b><span>days left</span></div><div class="gs"><b style="color:#16a34a">On Track</b><span>pace</span></div></div>';
+
+    var APPTS = [["9:00","John Smith","JS","#3b82f6","Test Drive · Cameron","st-c","Confirmed"],["10:30","Amanda Harris","AH","#ec4899","Sales · Cameron","st-c","Confirmed"],["11:30","David Johnson","DJ","#f59e0b","Trade Appraisal · Sarah","st-p","Pending"],["1:00","Robert Brown","RB","#14b8a6","Finance · Cameron","st-c","Confirmed"],["3:30","Kevin Anderson","KA","#0ea5e9","Test Drive · Michael","st-p","Pending"]];
+    $("appts").innerHTML = APPTS.map(function(a){ return '<div class="appt-row"><span class="appt-time">'+a[0]+'</span><span class="dav" style="background:'+a[3]+'">'+a[2]+'</span><div class="an"><b>'+a[1]+'</b><span>'+a[4]+'</span></div><span class="st '+a[5]+'">'+a[6]+'</span></div>'; }).join("");
+
+    var DEALS = [["Sarah Lewis","SL","#8b5cf6","Tahoe High Country","$74,995","Cameron"],["Priya Nair","PN","#f43f5e","Cadillac XT5","$49,995","Cameron"],["Ethan Ross","ER","#64748b","Buick Enclave","$56,900","Michael"],["Marcus Webb","MB","#10b981","Corvette Z06","$92,000","Sarah"]];
+    $("deals").innerHTML = DEALS.map(function(d){ return '<div class="drow"><span class="dav" style="background:'+d[2]+'">'+d[1]+'</span><div class="dn"><b>'+d[0]+'</b><span>'+d[3]+'</span></div><div class="dv"><div class="p">'+d[4]+'</div><div class="r">'+d[5]+'</div></div></div>'; }).join("");
+
+    var INV = [["#dc2626","Tahoe inventory low","likely depleted in 14 days"],["#ea8a0b","18 units aged 60+ days","concentrated in used trucks"],["#ea8a0b","F-150 XLT — 52 days in stock","recommend $500 price drop"],["#2563eb","6 vehicles missing photos","blocking online listings"],["#dc2626","4 vehicles awaiting inspection","cannot be sold until cleared"]];
+    $("invAlerts").innerHTML = INV.map(function(v){ return '<div class="inv-al"><span class="dot" style="background:'+v[0]+'"></span><b>'+v[1]+'</b><span class="r">'+v[2]+'</span></div>'; }).join("");
+  </script>
+</body>
+</html>

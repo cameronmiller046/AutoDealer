@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visitor Check-In — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 26px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:11px 14px; border-radius:11px; color:#aebdd2; font-size:14.5px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:19px; height:19px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:14px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:38px; height:38px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13.5px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11.5px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; } .hamb svg { width:20px; height:20px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#e2f5fb; color:#0891b2; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; margin-left:auto; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:8px; }
+    .content { padding:26px 30px 60px; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:7px; }
+    .layout { display:grid; grid-template-columns:1.2fr 1fr; gap:18px; margin-top:22px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; }
+    .card h3 { font-size:15px; font-weight:700; margin-bottom:16px; }
+    .fgrid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .fld { display:flex; flex-direction:column; gap:6px; } .fld.full { grid-column:span 2; } .fld label { font-size:12.5px; font-weight:600; color:#33445c; }
+    .fld input, .fld select { font:inherit; font-size:14px; padding:11px 13px; border:1px solid var(--line); border-radius:10px; background:#fff; outline:none; } .fld input:focus, .fld select:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
+    .chk-submit { margin-top:18px; width:100%; border:none; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border-radius:12px; padding:14px; font-size:14.5px; font-weight:700; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); } .chk-submit:hover { filter:brightness(1.06); }
+    .rec-row { display:flex; align-items:center; gap:12px; padding:12px 4px; border-top:1px solid var(--line); } .rec-row:first-child{border-top:none;}
+    .rec-av { width:38px; height:38px; border-radius:50%; color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; flex:none; } .rec-nm b { font-weight:600; font-size:13.5px; } .rec-nm span { color:var(--muted); font-size:12px; } .rec-t { margin-left:auto; text-align:right; } .rec-t .rep { font-size:12px; font-weight:700; color:var(--accent); } .rec-t small { color:var(--faint); font-size:11px; }
+    .note { margin-top:14px; background:linear-gradient(180deg,#f5f9ff,#fff); border:1px solid #dbe9fb; border-radius:11px; padding:12px 14px; font-size:12.5px; color:#375177; display:flex; gap:9px; } .note svg { width:16px; height:16px; flex:none; color:var(--accent); margin-top:1px; }
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:13px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:11px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;} .toast small{display:block;color:#9fb0c7;font-weight:500;font-size:11.5px;}
+    @media (max-width:1100px){ .layout{grid-template-columns:1fr;} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .fgrid{grid-template-columns:1fr;} .fld.full{grid-column:span 1;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">RB</span><span class="meta"><b>Riley Brooks</b><span>Receptionist</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <span class="role-badge">Front Desk</span>
+        <span class="tb-avatar"><span class="av">RB</span></span>
+      </header>
+      <main class="content">
+        <div class="phead"><h1>Visitor Check-In</h1><p class="sub">Greet the guest, capture the essentials, and route them to a salesperson — they appear instantly on that rep's dashboard.</p></div>
+        <div class="layout">
+          <div class="card">
+            <h3>New Visitor</h3>
+            <div class="fgrid">
+              <div class="fld"><label>Name</label><input id="v-name" placeholder="Full name" /></div>
+              <div class="fld"><label>Phone</label><input id="v-phone" placeholder="(555) 000-0000" /></div>
+              <div class="fld"><label>Interested Vehicle</label><input id="v-veh" placeholder="e.g. 2026 Silverado LT" /></div>
+              <div class="fld"><label>Trade-In?</label><select id="v-trade"><option>No trade</option><option>Yes — needs appraisal</option></select></div>
+              <div class="fld"><label>Has an Appointment?</label><select><option>Walk-in (no appointment)</option><option>Yes — scheduled</option></select></div>
+              <div class="fld"><label>Salesperson Requested?</label><select id="v-rep"><option>Auto-assign (recommended)</option><option>Cameron Miller</option><option>Sarah Johnson</option><option>Michael Davis</option><option>Priya Nair</option></select></div>
+              <div class="fld full"><label>Arrival Time</label><input value="Now — auto-stamped on check-in" disabled style="color:var(--muted)" /></div>
+            </div>
+            <button class="chk-submit" id="submit">Check In &amp; Route to Salesperson</button>
+            <div class="note"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg><div>AI suggests <b>Cameron</b> for Silverado/Tahoe walk-ins — he leads truck sales this month with an 88% show rate.</div></div>
+          </div>
+          <div class="card">
+            <h3>Recent Check-Ins</h3>
+            <div id="recent"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><span id="toastMsg">Checked in</span><small id="toastSub">Routed to salesperson</small></div></div>
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var RECENT = [
+      ["John Smith","JS","#3b82f6","Silverado LT · appointment","Cameron","9:02 AM"],
+      ["Michael Williams","MW","#a855f7","Tahoe · walk-in","Cameron","10:41 AM"],
+      ["Jessica Davis","JD","#6366f1","Accord · walk-in","Sarah","11:05 AM"]
+    ];
+    function render(){ $("recent").innerHTML = RECENT.map(function(r){ return '<div class="rec-row"><span class="rec-av" style="background:'+r[2]+'">'+r[1]+'</span><div class="rec-nm"><b>'+r[0]+'</b><span>'+r[3]+'</span></div><div class="rec-t"><div class="rep">'+r[4]+'</div><small>'+r[5]+'</small></div></div>'; }).join(""); }
+    render();
+    $("submit").addEventListener("click", function(){
+      var nm = ($("v-name").value||"Guest").trim();
+      var ini = nm.split(" ").map(function(x){return x[0];}).join("").slice(0,2).toUpperCase();
+      var rep = $("v-rep").value.indexOf("Auto")===0 ? "Cameron" : $("v-rep").value.split(" ")[0];
+      var veh = ($("v-veh").value||"Browsing") + " · walk-in";
+      RECENT.unshift([nm, ini, "#0891b2", veh, rep, "just now"]); render();
+      $("v-name").value=""; $("v-phone").value=""; $("v-veh").value="";
+      $("toastMsg").textContent = nm+" checked in";
+      $("toastSub").textContent = "Routed to "+rep+" — now on their dashboard";
+      var el=$("toast"); el.classList.add("show"); setTimeout(function(){el.classList.remove("show");},2800);
+    });
+  </script>
+</body>
+</html>

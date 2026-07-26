@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRM Administration — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 26px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:11px 14px; border-radius:11px; color:#aebdd2; font-size:14.5px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:19px; height:19px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:14px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:38px; height:38px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13.5px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11.5px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; } .hamb svg { width:20px; height:20px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#ede9fe; color:#6d28d9; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; margin-left:auto; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:8px; }
+    .content { padding:26px 30px 60px; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:7px; }
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:26px 0 14px; display:flex; align-items:center; gap:10px; } .sec-label .ln { flex:1; height:1px; background:var(--line); }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:0; overflow:hidden; }
+    .thead, .trow { display:grid; grid-template-columns:2fr 1.6fr 1fr 1fr auto; gap:14px; align-items:center; padding:13px 20px; } .thead { font-size:11px; color:var(--faint); font-weight:700; letter-spacing:.3px; border-bottom:1px solid var(--line); } .trow { border-top:1px solid var(--line); } .trow:first-of-type{border-top:none;}
+    .u-nm { display:flex; align-items:center; gap:11px; } .u-av { width:36px; height:36px; border-radius:50%; color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; flex:none; } .u-nm b { font-weight:600; } .u-nm span { display:block; color:var(--muted); font-size:12px; }
+    .rchip { font-size:11px; font-weight:700; padding:4px 11px; border-radius:8px; display:inline-block; } .r-sales{background:#eaf1fe;color:#2563eb;} .r-mgr{background:#ede9fe;color:#6d28d9;} .r-recep{background:#e2f5fb;color:#0891b2;} .r-fin{background:#e7f7ee;color:#16a34a;}
+    .u-stat { font-size:12.5px; color:var(--muted); } .u-on { color:#16a34a; font-weight:700; } .u-off{color:#94a3b8;font-weight:700;}
+    .u-edit { border:1px solid var(--line); background:#fff; border-radius:8px; padding:6px 12px; font-size:12px; font-weight:700; color:var(--accent); } .u-edit:hover{background:var(--accent-soft);}
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .pad { padding:18px; }
+    .pad h3 { font-size:14px; font-weight:700; margin-bottom:14px; }
+    .rule { display:flex; align-items:center; gap:11px; padding:11px 0; border-top:1px solid var(--line); font-size:13px; } .rule:first-of-type{border-top:none;} .rule .rk { color:var(--muted); } .rule .rv { margin-left:auto; font-weight:700; } .rule .tgl { width:38px; height:22px; border-radius:999px; background:#16a34a; position:relative; flex:none; } .rule .tgl::after{content:"";position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#fff;} .rule .tgl.off{background:#cbd5e1;} .rule .tgl.off::after{right:auto;left:2px;}
+    .note { padding:18px; } .note .nb { background:linear-gradient(180deg,#f5f0ff,#faf8ff); border:1px solid #ece3fb; border-radius:12px; padding:14px 16px; font-size:13px; line-height:1.6; color:#4b3a72; } .note .nb b{color:#5b21b6;}
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .grid2{grid-template-columns:1fr;} .thead{display:none;} .trow{grid-template-columns:1fr auto;} .trow .u-hide{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <span class="role-badge">Manager Workspace</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead"><h1>CRM Administration</h1><p class="sub">Manage sales-team users, roles, and lead-routing rules. Payroll, accounting, and HR remain restricted to executives.</p></div>
+
+        <div class="sec-label">Users &amp; Roles<span class="ln"></span></div>
+        <div class="card">
+          <div class="thead"><span>USER</span><span>ROLE / WORKSPACE</span><span>STATUS</span><span>LAST ACTIVE</span><span></span></div>
+          <div id="users"></div>
+        </div>
+
+        <div class="sec-label">Automation<span class="ln"></span></div>
+        <div class="grid2">
+          <div class="card pad"><h3>Lead Routing Rules</h3><div id="rules"></div></div>
+          <div class="card note"><h3 style="font-size:14px;font-weight:700;margin-bottom:14px">Role-Based Workspaces</h3><div class="nb">Every employee is provisioned a <b>role-based workspace</b>, not just filtered menus. Navigation, homepage, KPIs, and permitted routes are driven by one <b>role configuration</b> — so adding <b>BDC Agent</b>, <b>Finance Manager</b>, or <b>Service Advisor</b> takes a single config entry with no code changes. Restricted routes are blocked even via direct URL. Use <b>View As</b> in the sidebar to preview any workspace.</div></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="/roles.js"></script>
+  <script>
+    var USERS = [
+      ["Cameron Miller","CM","#3b82f6","cameron@autodealer.com","r-sales","Salesperson",true,"2m ago"],
+      ["Sarah Johnson","SJ","#8b5cf6","sarah@autodealer.com","r-sales","Salesperson",true,"9m ago"],
+      ["Michael Davis","MD","#14b8a6","michael@autodealer.com","r-sales","Salesperson",false,"Yesterday"],
+      ["Dana Morales","DM","#7c3aed","dana@autodealer.com","r-mgr","Sales Manager",true,"now"],
+      ["Riley Brooks","RB","#0891b2","riley@autodealer.com","r-recep","Receptionist",true,"5m ago"],
+      ["Tom Fielder","TF","#16a34a","tom@autodealer.com","r-fin","Finance Manager",false,"1h ago"]
+    ];
+    document.getElementById("users").innerHTML = USERS.map(function(u){
+      return '<div class="trow"><div class="u-nm"><span class="u-av" style="background:'+u[2]+'">'+u[1]+'</span><div><b>'+u[0]+'</b><span>'+u[3]+'</span></div></div>'+
+        '<span class="u-hide"><span class="rchip '+u[4]+'">'+u[5]+'</span></span>'+
+        '<span class="u-stat u-hide">'+(u[6]?'<span class="u-on">● Online</span>':'<span class="u-off">● Offline</span>')+'</span>'+
+        '<span class="u-stat u-hide">'+u[7]+'</span>'+
+        '<button class="u-edit">Manage</button></div>';
+    }).join("");
+    var RULES = [["Internet leads","Cameron Miller",false],["Silverado / truck inquiries","Cameron Miller",false],["Facebook / Messenger","Round-robin",false],["Walk-ins","Auto by availability",false],["After-hours leads","BDC queue",true]];
+    document.getElementById("rules").innerHTML = RULES.map(function(r){ return '<div class="rule"><span class="rk">'+r[0]+'</span><span class="rv">'+r[1]+'</span><span class="tgl'+(r[2]?" off":"")+'"></span></div>'; }).join("");
+  </script>
+</body>
+</html>

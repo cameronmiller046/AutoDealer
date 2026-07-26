@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sales Team — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 26px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:11px 14px; border-radius:11px; color:#aebdd2; font-size:14.5px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:19px; height:19px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:14px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:38px; height:38px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13.5px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11.5px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:460px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); } .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#ede9fe; color:#6d28d9; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:7px; }
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin:20px 0 18px; }
+    .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; box-shadow:0 1px 2px rgba(16,32,60,0.03); } .pill.on { background:var(--accent); color:#fff; border-color:var(--accent); } .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;}
+    .team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; }
+    .tcard { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; }
+    .tc-hd { display:flex; align-items:center; gap:13px; margin-bottom:15px; }
+    .tc-av { width:48px; height:48px; border-radius:50%; color:#fff; font-weight:700; font-size:15px; display:flex; align-items:center; justify-content:center; flex:none; position:relative; }
+    .tc-av .st { position:absolute; bottom:0; right:0; width:13px; height:13px; border-radius:50%; border:2px solid #fff; } .st-on{background:#22c55e;} .st-off{background:#94a3b8;}
+    .tc-nm b { font-weight:700; font-size:15px; } .tc-nm .role { font-size:12px; color:var(--muted); }
+    .tc-login { margin-left:auto; text-align:right; } .tc-login .lg { font-size:10.5px; font-weight:800; letter-spacing:.3px; padding:3px 8px; border-radius:6px; } .lg-on{background:#e7f7ee;color:#16a34a;} .lg-off{background:#fdeaea;color:#dc2626;} .tc-login small { display:block; color:var(--faint); font-size:10.5px; margin-top:3px; }
+    .act-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; padding:13px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .act { text-align:center; } .act b { font-size:17px; font-weight:800; letter-spacing:-0.4px; display:block; } .act span { font-size:10.5px; color:var(--muted); }
+    .tc-foot { display:flex; align-items:center; gap:10px; margin-top:13px; }
+    .wl { flex:1; } .wl .wl-t { display:flex; justify-content:space-between; font-size:11.5px; color:var(--muted); margin-bottom:5px; } .wl .bar { height:7px; background:#eef2f8; border-radius:999px; overflow:hidden; } .wl .bar > i { display:block; height:100%; border-radius:999px; }
+    .coach { font-size:10.5px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; padding:4px 9px; border-radius:7px; flex:none; } .coach-y{background:#fdf0dc;color:#b45309;} .coach-n{background:#e7f7ee;color:#16a34a;}
+    .tc-actions { display:flex; gap:8px; margin-top:13px; } .tc-actions button { flex:1; border:1px solid var(--line); background:#fff; border-radius:9px; padding:9px; font-size:12.5px; font-weight:700; color:var(--accent); } .tc-actions button:hover { background:var(--accent-soft); } .tc-actions button.primary { background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search team members..." /></div>
+        <span class="role-badge">Manager Workspace</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead"><h1>Sales Team</h1><p class="sub">Live activity, CRM adoption, and coaching flags across your team.</p></div>
+        <div class="pills"><button class="pill on">All Reps</button><button class="pill">Logged In</button><button class="pill">Needs Coaching</button><button class="pill">Behind on Goal</button></div>
+        <div class="team-grid" id="team"></div>
+      </main>
+    </div>
+  </div>
+  <script src="/roles.js"></script>
+  <script>
+    var TEAM = [
+      // name,ini,color,online,lastActive,calls,texts,emails,appts,sold,coaching,workloadPct,workloadColor
+      ["Cameron Miller","CM","#3b82f6",true,"2m ago",22,41,18,6,18,false,72,"#16a34a"],
+      ["Sarah Johnson","SJ","#8b5cf6",true,"9m ago",15,38,24,5,16,false,88,"#ea8a0b"],
+      ["Michael Davis","MD","#14b8a6",false,"Yesterday 6:12 PM",4,9,3,2,15,true,41,"#2563eb"],
+      ["Priya Nair","PN","#f43f5e",true,"18m ago",19,27,12,4,13,false,64,"#16a34a"],
+      ["Marcus Webb","MB","#10b981",true,"just now",12,22,9,3,11,false,55,"#16a34a"],
+      ["Grace Kim","GK","#eab308",false,"3h ago",6,11,5,1,9,true,34,"#2563eb"]
+    ];
+    document.getElementById("team").innerHTML = TEAM.map(function(t){
+      return '<div class="tcard"><div class="tc-hd"><span class="tc-av" style="background:'+t[2]+'">'+t[1]+'<span class="st '+(t[3]?"st-on":"st-off")+'"></span></span>'+
+        '<div class="tc-nm"><b>'+t[0]+'</b><div class="role">Sales Representative</div></div>'+
+        '<div class="tc-login"><span class="lg '+(t[3]?"lg-on":"lg-off")+'">'+(t[3]?"Logged In":"Offline")+'</span><small>'+t[4]+'</small></div></div>'+
+        '<div class="act-grid"><div class="act"><b>'+t[5]+'</b><span>Calls</span></div><div class="act"><b>'+t[6]+'</b><span>Texts</span></div><div class="act"><b>'+t[7]+'</b><span>Emails</span></div><div class="act"><b>'+t[8]+'</b><span>Appts</span></div><div class="act"><b>'+t[9]+'</b><span>Sold</span></div></div>'+
+        '<div class="tc-foot"><div class="wl"><div class="wl-t"><span>Current workload</span><span>'+t[11]+'%</span></div><div class="bar"><i style="width:'+t[11]+'%;background:'+t[12]+'"></i></div></div><span class="coach '+(t[10]?"coach-y":"coach-n")+'">'+(t[10]?"Needs Coaching":"On Track")+'</span></div>'+
+        '<div class="tc-actions"><button>Message</button><button>Assign Lead</button><button class="primary">View Activity</button></div></div>';
+    }).join("");
+  </script>
+</body>
+</html>
