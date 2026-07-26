@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer 360 — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 26px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:11px 14px; border-radius:11px; color:#aebdd2; font-size:14.5px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:19px; height:19px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:14px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:38px; height:38px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13.5px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11.5px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:16px; padding:12px 30px; }
+    .back { display:inline-flex; align-items:center; gap:8px; color:var(--muted); font-size:13.5px; font-weight:600; padding:8px 12px; border-radius:9px; } .back:hover { background:var(--bg); color:var(--accent); } .back svg { width:16px; height:16px; }
+    .crumb { color:var(--faint); font-size:13px; } .crumb b { color:var(--text); font-weight:600; }
+    .tb-icons { display:flex; align-items:center; gap:4px; margin-left:auto; }
+    .ib { position:relative; border:none; background:none; color:var(--muted); width:40px; height:40px; border-radius:11px; display:inline-flex; align-items:center; justify-content:center; } .ib:hover { background:var(--bg); color:var(--accent); } .ib svg { width:21px; height:21px; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:8px; }
+    .content { padding:24px 30px 60px; }
+
+    /* hero */
+    .hero { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:22px 24px; }
+    .hero-top { display:flex; align-items:flex-start; gap:18px; }
+    .hero .av-lg { width:74px; height:74px; border-radius:50%; flex:none; color:#fff; font-weight:800; font-size:26px; display:flex; align-items:center; justify-content:center; }
+    .hero h1 { font-size:24px; font-weight:800; letter-spacing:-0.5px; display:flex; align-items:center; gap:10px; } .vip { background:linear-gradient(180deg,#fef3c7,#fde68a); color:#92600a; font-size:10px; font-weight:800; letter-spacing:0.5px; padding:2px 8px; border-radius:6px; }
+    .stars { color:#f5b638; letter-spacing:1px; font-size:13px; } .stars .off { color:#dfe4ec; }
+    .hero .contact { color:var(--muted); font-size:13.5px; margin-top:6px; display:flex; flex-wrap:wrap; gap:6px 16px; } .hero .contact span { display:inline-flex; align-items:center; gap:6px; } .hero .contact svg { width:14px; height:14px; color:var(--faint); }
+    .hero-actions { margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; }
+    .ha { display:inline-flex; align-items:center; gap:7px; border:1px solid var(--line); background:#fff; color:var(--text); border-radius:10px; padding:9px 14px; font-size:13px; font-weight:600; } .ha:hover { border-color:#cfe0f7; color:var(--accent); } .ha svg { width:15px; height:15px; color:var(--accent); } .ha.primary { background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border-color:transparent; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); } .ha.primary svg { color:#fff; }
+    .hstats { display:grid; grid-template-columns:repeat(6,1fr); gap:14px; margin-top:20px; padding-top:18px; border-top:1px solid var(--line); }
+    .hstat .hv { font-size:19px; font-weight:800; letter-spacing:-0.4px; } .hstat .hl { color:var(--muted); font-size:11.5px; margin-top:2px; }
+
+    /* tabs */
+    .tabs { display:flex; gap:4px; margin:22px 0 18px; border-bottom:1px solid var(--line); overflow-x:auto; }
+    .tab { border:none; background:none; padding:12px 16px; font-size:14px; font-weight:600; color:var(--muted); border-bottom:2px solid transparent; white-space:nowrap; display:inline-flex; align-items:center; gap:8px; } .tab svg { width:16px; height:16px; } .tab:hover { color:var(--text); } .tab.on { color:var(--accent); border-bottom-color:var(--accent); }
+    .tab .tc { font-size:11px; font-weight:700; background:var(--bg); color:var(--muted); border-radius:8px; padding:1px 7px; } .tab.on .tc { background:var(--accent-soft); color:var(--accent); }
+
+    .layout { display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:20px; align-items:start; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; margin-bottom:16px; }
+    .card h3 { font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px; margin-bottom:14px; } .card h3 .spark { color:#7c3aed; display:inline-flex; } .card h3 .spark svg { width:16px; height:16px; } .card h3 .more { margin-left:auto; font-size:12px; color:var(--accent); font-weight:600; }
+    .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:13px 20px; } .info-grid .k { color:var(--muted); font-size:11.5px; } .info-grid .v { font-weight:600; font-size:13.5px; margin-top:2px; }
+    .chips { display:flex; flex-wrap:wrap; gap:7px; } .chips span { background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:6px 11px; font-size:12.5px; font-weight:500; }
+
+    /* vehicle cards */
+    .veh { display:flex; gap:16px; padding:15px 0; border-top:1px solid var(--line); } .veh:first-child { border-top:none; padding-top:0; }
+    .veh .vph { width:120px; height:80px; border-radius:11px; overflow:hidden; flex:none; background:linear-gradient(180deg,#f2f6fc,#e7edf6); display:flex; align-items:center; justify-content:center; } .veh .vph svg { width:88%; }
+    .veh .vt { font-weight:700; font-size:14.5px; display:flex; align-items:center; gap:9px; } .veh .vbadge { font-size:10px; font-weight:800; padding:2px 8px; border-radius:6px; } .vb-cur{background:#e7f7ee;color:#16a34a;} .vb-trade{background:#fdf0dc;color:#b45309;} .vb-prev{background:#eef1f6;color:#64748b;}
+    .veh .vspec { color:var(--muted); font-size:12.5px; margin-top:3px; }
+    .veh .vmeta { display:flex; gap:22px; margin-top:10px; } .veh .vmeta .k { color:var(--faint); font-size:10.5px; text-transform:uppercase; letter-spacing:0.3px; } .veh .vmeta .v { font-weight:700; font-size:13px; margin-top:1px; }
+
+    /* timeline */
+    .tl { display:grid; grid-template-columns:20px 1fr; gap:14px; padding-bottom:20px; position:relative; } .tl:last-child { padding-bottom:0; }
+    .tl-dot { width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; z-index:1; } .tl-dot svg { width:11px; height:11px; } .tl:not(:last-child)::after { content:""; position:absolute; left:9px; top:22px; bottom:0; width:2px; background:var(--line); }
+    .tl b { font-weight:600; font-size:13.5px; display:block; } .tl .td { color:var(--muted); font-size:12px; margin-top:2px; } .tl .tx { color:#334155; font-size:12.5px; margin-top:4px; }
+
+    /* comms list */
+    .cm { display:flex; gap:12px; padding:13px 0; border-top:1px solid var(--line); } .cm:first-child { border-top:none; }
+    .cm .ci { width:34px; height:34px; border-radius:10px; flex:none; display:flex; align-items:center; justify-content:center; } .cm .ci svg { width:16px; height:16px; }
+    .cm .cb { flex:1; min-width:0; } .cm .ch { display:flex; align-items:baseline; gap:8px; } .cm .ch b { font-weight:600; font-size:13px; } .cm .ch .dir { font-size:11px; color:var(--faint); } .cm .ch .t { margin-left:auto; font-size:11.5px; color:var(--faint); } .cm .cp { font-size:12.5px; color:var(--muted); margin-top:2px; } .cm .cs { font-size:11px; font-weight:700; margin-top:4px; display:inline-flex; align-items:center; gap:4px; } .cs-ok{color:#16a34a;} .cs-ok svg{width:12px;height:12px;}
+
+    /* documents */
+    .doc-search { display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:10px 14px; margin-bottom:14px; } .doc-search svg { width:16px; height:16px; color:var(--muted); } .doc-search input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .doc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+    .doc { border:1px solid var(--line); border-radius:12px; padding:14px; cursor:pointer; } .doc:hover { border-color:#cfe0f7; }
+    .doc .di { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:11px; } .doc .di svg { width:18px; height:18px; }
+    .doc b { font-size:13px; font-weight:700; display:block; } .doc span { font-size:11.5px; color:var(--muted); } .doc .dstat { margin-top:8px; font-size:10.5px; font-weight:800; padding:2px 8px; border-radius:6px; display:inline-block; } .ds-signed{background:#e7f7ee;color:#16a34a;} .ds-file{background:#eaf1fe;color:#2563eb;} .ds-pending{background:#fdf0dc;color:#b45309;}
+
+    /* finance */
+    .fin-row { display:flex; align-items:center; gap:13px; padding:13px 0; border-top:1px solid var(--line); } .fin-row:first-child { border-top:none; } .fin-row .fi { width:36px; height:36px; border-radius:10px; flex:none; display:flex; align-items:center; justify-content:center; } .fin-row .fi svg { width:17px; height:17px; } .fin-row .fn b { font-weight:600; font-size:13.5px; } .fin-row .fn span { display:block; color:var(--muted); font-size:12px; } .fin-row .fv { margin-left:auto; text-align:right; } .fin-row .fv .p { font-weight:800; } .fin-row .fv .s { font-size:11px; font-weight:700; }
+    .i-blue{background:#eaf1fe;color:#2563eb;} .i-green{background:#e7f7ee;color:#16a34a;} .i-amber{background:#fdf0dc;color:#ea8a0b;} .i-purple{background:#f1eafe;color:#7c3aed;} .i-teal{background:#e2f5fb;color:#0891b2;} .i-indigo{background:#eef0fe;color:#6366f1;} .i-red{background:#fdeaea;color:#dc2626;} .i-gray{background:#eef1f6;color:#64748b;} .i-pink{background:#fdeaf3;color:#db2777;}
+
+    /* rail */
+    .rail { display:flex; flex-direction:column; gap:16px; position:sticky; top:80px; }
+    .ai-sum p { font-size:13px; line-height:1.6; color:#334155; } .ai-sum p b { color:var(--text); }
+    .prob-wrap { display:flex; align-items:center; gap:12px; margin:14px 0 4px; } .prob-ring { width:48px; height:48px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; } .prob-ring span { background:var(--card); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:#16a34a; }
+    .rec-box { margin-top:12px; padding-top:12px; border-top:1px solid var(--line); } .rec-box .rl { font-size:11px; color:var(--muted); font-weight:600; } .rec-box .rv { color:#16a34a; font-weight:700; font-size:13px; margin-top:3px; }
+    .gl-row { display:flex; justify-content:space-between; padding:8px 0; border-top:1px solid var(--line); font-size:13px; } .gl-row:first-child { border-top:none; } .gl-row .k { color:var(--muted); } .gl-row .v { font-weight:700; }
+    .up-row { display:flex; gap:11px; align-items:center; padding:9px 0; border-top:1px solid var(--line); } .up-row:first-child{border-top:none;} .up-ic { width:30px; height:30px; border-radius:9px; flex:none; display:flex; align-items:center; justify-content:center; } .up-ic svg{width:15px;height:15px;} .up-row b { font-weight:600; font-size:13px; } .up-row span { display:block; color:var(--muted); font-size:11.5px; }
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1200px){ .layout{grid-template-columns:1fr;} .rail{position:static;flex-direction:row;flex-wrap:wrap;} .rail .card{flex:1;min-width:260px;} .hstats{grid-template-columns:repeat(3,1fr);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .hero-top{flex-wrap:wrap;} .hstats{grid-template-columns:repeat(2,1fr);} .info-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <a class="back" href="/customers"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Customers</a>
+        <span class="crumb">Customer 360 · <b id="crumbName">John Smith</b></span>
+        <div class="tb-icons">
+          <button class="ib"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+          <span class="tb-avatar"><span class="av">CM</span></span>
+        </div>
+      </header>
+      <main class="content">
+        <section class="hero">
+          <div class="hero-top">
+            <span class="av-lg" style="background:#3b82f6">JS</span>
+            <div>
+              <h1>John Smith <span class="vip">VIP</span> <span class="stars">★★★★★</span></h1>
+              <div class="contact">
+                <span><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>(678) 555-0142</span>
+                <span><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>jsmith@email.com</span>
+                <span><svg viewBox="0 0 24 24"><path d="M12 21s-6-5.5-6-10a6 6 0 1 1 12 0c0 4.5-6 10-6 10z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="11" r="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>2140 Peachtree Rd, Atlanta, GA</span>
+              </div>
+            </div>
+            <div class="hero-actions">
+              <button class="ha" data-act="Call"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Call</button>
+              <button class="ha" data-act="Text"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Text</button>
+              <button class="ha" data-act="Email"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Email</button>
+              <button class="ha" data-act="Schedule"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Schedule</button>
+              <button class="ha primary" data-act="New Deal"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>New Deal</button>
+            </div>
+          </div>
+          <div class="hstats">
+            <div class="hstat"><div class="hv">$148,300</div><div class="hl">Lifetime Value</div></div>
+            <div class="hstat"><div class="hv">3</div><div class="hl">Vehicles Owned</div></div>
+            <div class="hstat"><div class="hv">Jun 2019</div><div class="hl">Customer Since</div></div>
+            <div class="hstat"><div class="hv">2 days ago</div><div class="hl">Last Contact</div></div>
+            <div class="hstat"><div class="hv">Tomorrow 3 PM</div><div class="hl">Next Appointment</div></div>
+            <div class="hstat"><div class="hv">4</div><div class="hl">Referrals</div></div>
+          </div>
+        </section>
+
+        <div class="tabs" id="tabs"></div>
+
+        <div class="layout">
+          <div id="tabBody"></div>
+          <aside class="rail">
+            <div class="card ai-sum">
+              <h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Summary</h3>
+              <p><b>John</b> is a loyal, high-value repeat buyer (3 vehicles since 2019). Currently in a <b>2024 Silverado High Country</b> with a lease ending in 9 months. Engagement is high — opened pricing 3× this week and confirmed tomorrow's appointment. Sentiment: <b style="color:#16a34a">Positive</b>.</p>
+              <div class="prob-wrap"><span class="prob-ring" style="background:conic-gradient(#16a34a 302deg,#e7f7ee 0)"><span>84%</span></span><div><b style="font-size:13px">Close / Upgrade Probability</b><p style="color:var(--muted);font-size:12px;margin-top:2px">Based on engagement & equity</p></div></div>
+              <div class="rec-box"><div class="rl">Recommended Next Action</div><div class="rv">→ Start the lease-upgrade conversation before his 3 PM.</div></div>
+            </div>
+            <div class="card">
+              <h3>At a Glance</h3>
+              <div class="gl-row"><span class="k">Lifetime Value</span><span class="v">$148,300</span></div>
+              <div class="gl-row"><span class="k">Total Deals</span><span class="v">3</span></div>
+              <div class="gl-row"><span class="k">Referrals Sent</span><span class="v">4</span></div>
+              <div class="gl-row"><span class="k">Satisfaction (CSAT)</span><span class="v">4.9 / 5</span></div>
+              <div class="gl-row"><span class="k">Avg Trade Cycle</span><span class="v">2.6 yrs</span></div>
+              <div class="gl-row"><span class="k">Assigned Rep</span><span class="v">Cameron</span></div>
+            </div>
+            <div class="card">
+              <h3>Upcoming</h3>
+              <div class="up-row"><span class="up-ic i-teal"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></span><div><b>Test Drive — Silverado</b><span>Tomorrow, 3:00 PM</span></div></div>
+              <div class="up-row"><span class="up-ic i-amber"><svg viewBox="0 0 24 24"><path d="M14.5 5.5a3.5 3.5 0 0 1-4.6 4.6L5 15l2 2 4.9-4.9a3.5 3.5 0 0 0 4.6-4.6l-2.2 2.2-1.8-1.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div><b>Service — Oil change due</b><span>In 21 days</span></div></div>
+              <div class="up-row"><span class="up-ic i-pink"><svg viewBox="0 0 24 24"><path d="M5 20h14v-6H5zM7 14v-3a5 5 0 0 1 10 0v3M12 3v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div><b>Birthday</b><span>March 14</span></div></div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var IC = {
+      call:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      text:'<path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      email:'<rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      video:'<rect x="3.5" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 10l4.5-2.5v9L16 14z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      appt:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      car:'<path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      swap:'<path d="M4 8h13l-3-3M20 16H7l3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+      dollar:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5v9M14 9.5c0-1-1-1.5-2-1.5s-2 .5-2 1.5 1 1.4 2 1.6 2 .6 2 1.6-1 1.5-2 1.5-2-.5-2-1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+      key:'<circle cx="8" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 11l7 7-2 2M15 15l2-2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+      wrench:'<path d="M14.5 5.5a3.5 3.5 0 0 1-4.6 4.6L5 15l2 2 4.9-4.9a3.5 3.5 0 0 0 4.6-4.6l-2.2 2.2-1.8-1.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      user:'<circle cx="12" cy="9" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 19c0-2.8 2.7-4.5 6-4.5s6 1.7 6 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+      gift:'<path d="M5 20h14v-6H5zM7 14v-3a5 5 0 0 1 10 0v3M12 3v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      doc:'<path d="M6 3.5h8l4 4V20.5H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3.5v4h4M9 12h6M9 16h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+      id:'<rect x="3.5" y="6" width="17" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="8.5" cy="12" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M13 10h4M13 13.5h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+      shield:'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      check:'<path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
+      checks:'<path d="M2 12.5l4 4 8-8M12 16.5l1 1 8-8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>',
+      credit:'<rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.7"/>',
+      search:'<circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'
+    };
+    var svg = function(k){ return '<svg viewBox="0 0 24 24">'+IC[k]+'</svg>'; };
+    function carStage(hex){ return '<div class="vph"><svg viewBox="0 0 162 52"><path d="M12 40 L12 31 C12 29 14 28 18 27 L32 17 C35 14 39 13 46 13 L74 13 L79 27 L150 27 L150 40 Z" fill="'+hex+'"/><path d="M40 26 L48 18 L70 18 L73 26 Z" fill="#dbe6f5" opacity="0.85"/><g><circle cx="46" cy="41" r="10" fill="#1c2330"/><circle cx="46" cy="41" r="4.6" fill="#cbd5e1"/><circle cx="122" cy="41" r="10" fill="#1c2330"/><circle cx="122" cy="41" r="4.6" fill="#cbd5e1"/></g></svg></div>'; }
+
+    var TABS = [["overview","Overview"],["vehicles","Vehicles",3],["timeline","Timeline"],["comms","Communications"],["documents","Documents",7],["finance","Finance & Credit"]];
+    var state = { tab:"overview" };
+
+    function renderTabs(){
+      $("tabs").innerHTML = TABS.map(function(t){ return '<button class="tab '+(state.tab===t[0]?"on":"")+'" data-t="'+t[0]+'">'+t[1]+(t[2]?'<span class="tc">'+t[2]+'</span>':"")+'</button>'; }).join("");
+      document.querySelectorAll(".tab").forEach(function(b){ b.addEventListener("click", function(){ state.tab=b.dataset.t; renderTabs(); renderTab(); }); });
+    }
+
+    function renderTab(){
+      var b = $("tabBody");
+      if (state.tab==="overview") b.innerHTML = ovOverview();
+      else if (state.tab==="vehicles") b.innerHTML = ovVehicles();
+      else if (state.tab==="timeline") b.innerHTML = ovTimeline();
+      else if (state.tab==="comms") b.innerHTML = ovComms();
+      else if (state.tab==="documents") { b.innerHTML = ovDocuments(); wireDocs(); }
+      else if (state.tab==="finance") b.innerHTML = ovFinance();
+    }
+
+    function ovOverview(){
+      return '<div class="card"><h3>Personal Information <span class="more">Edit</span></h3><div class="info-grid">'+
+        [["Full Name","John A. Smith"],["Date of Birth","March 14, 1985"],["Phone","(678) 555-0142"],["Email","jsmith@email.com"],["Address","2140 Peachtree Rd, Atlanta, GA 30309"],["Preferred Contact","Text message"],["Occupation","General Contractor"],["Language","English"],["Spouse","Maria Smith"],["Lead Source","Website — Internet"]].map(function(r){ return '<div><div class="k">'+r[0]+'</div><div class="v">'+r[1]+'</div></div>'; }).join("")+'</div></div>'+
+      '<div class="card"><h3>Preferences &amp; Interests</h3><div class="chips">'+["Trucks / Full-size","Off-road (Z71)","Tow package","Budget ~$650/mo","Prefers texts","Loyal to Chevrolet","Weekend service"].map(function(c){ return '<span>'+c+'</span>'; }).join("")+'</div></div>'+
+      '<div class="card"><h3>Current Vehicle</h3><div class="veh">'+carStage("#2f5fb0")+'<div><div class="vt">2024 Chevrolet Silverado High Country <span class="vbadge vb-cur">Current</span></div><div class="vspec">Northsky Blue · 5.3L V8 · 4WD · VIN 3GCUKDED5SG145281</div><div class="vmeta"><div><div class="k">Purchased</div><div class="v">Jul 2025</div></div><div><div class="k">Mileage</div><div class="v">18,200</div></div><div><div class="k">Warranty</div><div class="v">2028</div></div><div><div class="k">Est. Value</div><div class="v">$48,300</div></div></div></div></div></div>'+
+      '<div class="card"><h3>Recent Activity <span class="more" data-goto="timeline">View full timeline</span></h3>'+miniTimeline()+'</div>';
+    }
+
+    var TIMELINE = [
+      ["#2563eb","user","Lead created","Jun 8, 2019","Submitted an internet inquiry on a 2019 Silverado."],
+      ["#0891b2","call","First call","Jun 8, 2019","Connected — scheduled a Saturday visit."],
+      ["#2563eb","text","Text conversation","Jun 10, 2019","Confirmed trim and color preferences."],
+      ["#0891b2","appt","Appointment scheduled","Jun 12, 2019","Showroom visit + test drive booked."],
+      ["#16a34a","car","Test drive — 2019 Silverado","Jun 15, 2019","Loved the truck; discussed financing."],
+      ["#ea8a0b","swap","Trade appraisal — 2016 F-150","Jun 15, 2019","Appraised at $19,400."],
+      ["#7c3aed","dollar","Finance approved","Jun 16, 2019","Approved at 4.9% APR through Ally."],
+      ["#16a34a","key","Vehicle delivered — 2019 Silverado","Jun 18, 2019","First purchase. Full delivery walkthrough."],
+      ["#ea8a0b","wrench","First service visit","Dec 2019","Oil change + tire rotation."],
+      ["#7c3aed","key","Upgraded — 2021 Silverado LTZ","May 2022","Second purchase; traded the 2019."],
+      ["#2563eb","key","Upgraded — 2024 High Country","Jul 2025","Third purchase; traded the 2021 F-150 XLT."],
+      ["#db2777","gift","Birthday text sent","Mar 14, 2026","Personalized birthday message."],
+      ["#0891b2","video","Walkaround video watched","This week","Watched 83% of the Silverado LT feature tour."],
+      ["#2563eb","text","Reply received","Today","“Can I come in tomorrow? Is the tow package included?”"]
+    ];
+    function tlItem(t){ return '<div class="tl"><span class="tl-dot" style="background:'+t[0]+'">'+svg(t[1])+'</span><div><b>'+t[2]+'</b><div class="td">'+t[3]+'</div>'+(t[4]?'<div class="tx">'+t[4]+'</div>':"")+'</div></div>'; }
+    function miniTimeline(){ return TIMELINE.slice(-4).reverse().map(tlItem).join(""); }
+    function ovTimeline(){ return '<div class="card"><h3>Activity Timeline <span class="more">Full history</span></h3>'+TIMELINE.slice().reverse().map(tlItem).join("")+'</div>'; }
+
+    function ovVehicles(){
+      var V = [
+        ["#2f5fb0","2024 Chevrolet Silverado High Country","vb-cur","Current","Northsky Blue · 5.3L V8 · 4WD",[["Purchased","Jul 2025"],["Mileage","18,200"],["Warranty","2028"],["Est. Value","$48,300"]]],
+        ["#8a6a3a","2021 Chevrolet Silverado LTZ","vb-trade","Traded","Oxford Brown · 6.2L V8 · 4WD",[["Owned","2022–2025"],["Traded","Jul 2025"],["Trade Value","$41,200"],["Deal","Upgrade"]]],
+        ["#c0c4ca","2016 Ford F-150 XLT","vb-prev","Previous","Ingot Silver · 3.5L EcoBoost",[["Owned","2016–2019"],["Traded","Jun 2019"],["Trade Value","$19,400"],["Deal","First buy"]]]
+      ];
+      return '<div class="card"><h3>Vehicles Owned &amp; Traded <span class="more">3 vehicles</span></h3>'+V.map(function(v){ return '<div class="veh">'+carStage(v[0])+'<div style="flex:1"><div class="vt">'+v[1]+' <span class="vbadge '+v[2]+'">'+v[3]+'</span></div><div class="vspec">'+v[4]+'</div><div class="vmeta">'+v[5].map(function(m){ return '<div><div class="k">'+m[0]+'</div><div class="v">'+m[1]+'</div></div>'; }).join("")+'</div></div></div>'; }).join("")+'</div>'+
+      '<div class="card"><h3>Service History</h3>'+[["Oil change + tire rotation","Oct 2025","2024 Silverado · 8,100 mi"],["Multi-point inspection","Jul 2025","Delivery prep"],["Oil change","Mar 2025","2021 Silverado"],["Brake service","Aug 2024","2021 Silverado · 34,000 mi"]].map(function(s){ return '<div class="fin-row"><span class="fi i-amber">'+svg("wrench")+'</span><div class="fn"><b>'+s[0]+'</b><span>'+s[2]+'</span></div><div class="fv"><div class="s" style="color:var(--muted)">'+s[1]+'</div></div></div>'; }).join("")+'</div>';
+    }
+
+    function ovComms(){
+      var C = [
+        ["i-teal","text","in","John Smith","Today","“Can I come in tomorrow? Is the tow package included?”",""],
+        ["i-purple","video","out","You","Yesterday","Sent: Silverado LT Walkaround (1:30)","Watched · 83%"],
+        ["i-indigo","email","out","You","Yesterday","Your Silverado LT Payment Estimate","Opened · 2 clicks · PDF downloaded"],
+        ["i-blue","text","out","You","Yesterday","“Hi John! Just checking in on the Silverado LT.”","Delivered"],
+        ["i-green","call","out","You","Yesterday","Outbound call — 3:22 PM","No answer"],
+        ["i-blue","text","in","John Smith","Jul 20","“Looking forward to seeing the Silverado!”",""],
+        ["i-green","call","out","You","Jul 18","Outbound call — discussed trade on F-150","4m 12s"]
+      ];
+      return '<div class="card"><h3>All Communications <span class="more">Open in inbox</span></h3>'+C.map(function(c){ return '<div class="cm"><span class="ci '+c[0]+'">'+svg(c[1])+'</span><div class="cb"><div class="ch"><b>'+c[3]+'</b><span class="dir">'+(c[2]==="in"?"received":"sent")+'</span><span class="t">'+c[4]+'</span></div><div class="cp">'+c[5]+'</div>'+(c[6]?'<div class="cs cs-ok">'+svg("checks")+c[6]+'</div>':"")+'</div></div>'; }).join("")+'</div>';
+    }
+
+    var DOCS = [
+      ["i-blue","id","Driver's License","Verified · Jun 2019","ds-file","File"],
+      ["i-teal","shield","Insurance Card","State Farm · valid 2026","ds-file","File"],
+      ["i-green","doc","Buyer's Order — Silverado HC","Signed Jul 2025","ds-signed","Signed"],
+      ["i-indigo","credit","Credit Application","Approved Jul 2025","ds-signed","Signed"],
+      ["i-purple","doc","Finance Contract — Ally","6.9% · 72 mo","ds-signed","Signed"],
+      ["i-amber","swap","Trade Paperwork — F-150 XLT","Jul 2025","ds-signed","Signed"],
+      ["i-gray","doc","Extended Warranty Agreement","Pending signature","ds-pending","Pending"]
+    ];
+    function ovDocuments(){
+      return '<div class="card"><h3>Document Center <span class="more">Upload</span></h3><div class="doc-search">'+svg("search")+'<input id="docSearch" placeholder="Search documents by name or type..." /></div><div class="doc-grid" id="docGrid"></div></div>';
+    }
+    function renderDocs(q){
+      q = (q||"").toLowerCase();
+      var rows = DOCS.filter(function(d){ return !q || (d[2]+" "+d[5]).toLowerCase().indexOf(q)!==-1; });
+      $("docGrid").innerHTML = rows.map(function(d){ return '<div class="doc" data-doc="'+d[2]+'"><span class="di '+d[0]+'">'+svg(d[1])+'</span><b>'+d[2]+'</b><span>'+d[3]+'</span><div><span class="dstat '+d[4]+'">'+d[5]+'</span></div></div>'; }).join("") || '<div style="color:var(--muted);font-size:13px;padding:10px">No documents match.</div>';
+      document.querySelectorAll("[data-doc]").forEach(function(el){ el.addEventListener("click", function(){ toast('Opening “'+el.dataset.doc+'”'); }); });
+    }
+    function wireDocs(){ renderDocs(""); var s=$("docSearch"); if(s) s.addEventListener("input", function(e){ renderDocs(e.target.value); }); }
+
+    function ovFinance(){
+      return '<div class="card"><h3>Credit Applications</h3>'+
+        [["i-green","credit","Ally Financial — Approved","Score band 720–759 · 6.9% APR","Jul 2025","Approved","#16a34a"],["i-green","credit","Chase Auto — Approved","4.9% APR · 60 mo","May 2022","Approved","#16a34a"],["i-blue","credit","Ally Financial — Approved","4.9% APR · first purchase","Jun 2019","Approved","#16a34a"]].map(function(f){ return '<div class="fin-row"><span class="fi '+f[0]+'">'+svg(f[1])+'</span><div class="fn"><b>'+f[2]+'</b><span>'+f[3]+' · '+f[4]+'</span></div><div class="fv"><div class="s" style="color:'+f[6]+'">'+f[5]+'</div></div></div>'; }).join("")+'</div>'+
+      '<div class="card"><h3>Purchase History</h3>'+
+        [["2024 Silverado High Country","Jul 2025","$74,300","Finance · Ally"],["2021 Silverado LTZ","May 2022","$61,900","Finance · Chase"],["2019 Silverado LT","Jun 2019","$52,995","Finance · Ally"]].map(function(p){ return '<div class="fin-row"><span class="fi i-blue">'+svg("car")+'</span><div class="fn"><b>'+p[0]+'</b><span>'+p[1]+' · '+p[3]+'</span></div><div class="fv"><div class="p">'+p[2]+'</div></div></div>'; }).join("")+'</div>'+
+      '<div class="card"><h3>Finance Products</h3>'+
+        [["i-purple","shield","Extended Warranty (7yr/100k)","Active","$2,400"],["i-teal","shield","GAP Insurance","Active","$695"],["i-amber","wrench","Prepaid Maintenance (3yr)","Active","$1,150"]].map(function(x){ return '<div class="fin-row"><span class="fi '+x[0]+'">'+svg(x[1])+'</span><div class="fn"><b>'+x[2]+'</b><span>'+x[3]+'</span></div><div class="fv"><div class="p">'+x[4]+'</div></div></div>'; }).join("")+'</div>';
+    }
+
+    document.querySelectorAll(".ha").forEach(function(b){ b.addEventListener("click", function(){ toast(b.dataset.act+" launched for John Smith"); }); });
+    $("tabBody").addEventListener("click", function(e){ var g=e.target.closest("[data-goto]"); if(g){ state.tab=g.dataset.goto; renderTabs(); renderTab(); window.scrollTo({top:0,behavior:"smooth"}); } });
+
+    var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2200); }
+
+    renderTabs(); renderTab();
+  </script>
+</body>
+</html>
