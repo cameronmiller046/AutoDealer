@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lost Customer Recovery — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:420px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#fdf0dc; color:#b45309; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; display:flex; align-items:center; gap:10px; } .phead .aitag{font-size:10.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#7c3aed;background:#f1eafe;padding:3px 9px;border-radius:7px;} .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; }
+    .btn-primary { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; border-radius:11px; padding:11px 18px; font-size:13.5px; font-weight:600; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); } .btn-primary svg { width:16px; height:16px; }
+    .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:13px; margin:22px 0 20px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:12px;} .kp .kv{font-size:23px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kv.g{color:#16a34a;} .kp .kv.a{color:#ea8a0b;}
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:6px 0 14px; }
+    .camps { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:12px; margin-bottom:8px; }
+    .camp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px; box-shadow:var(--shadow); }
+    .camp .ct{display:flex;align-items:center;gap:10px;margin-bottom:10px;} .camp .ci{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;} .camp .ci svg{width:16px;height:16px;} .camp b{font-size:13.5px;font-weight:700;} .camp .on2{margin-left:auto;font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px;background:#e7f7ee;color:#16a34a;}
+    .camp .cm{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);padding-top:10px;border-top:1px solid var(--line);} .camp .cm b{font-weight:800;color:var(--text);font-size:14px;display:block;}
+    .i-indigo{background:#eef0fe;color:#6366f1;} .i-teal{background:#e2f5fb;color:#0891b2;} .i-amber{background:#fdf0dc;color:#ea8a0b;} .i-purple{background:#f1eafe;color:#7c3aed;} .i-blue{background:#eaf1fe;color:#2563eb;} .i-green{background:#e7f7ee;color:#16a34a;} .i-red{background:#fdeaea;color:#dc2626;} .i-gray{background:#eef1f6;color:#64748b;}
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin:20px 0 14px; } .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; } .pill.on{background:var(--accent);color:#fff;border-color:var(--accent);} .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;}
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:16px; }
+    .rcard { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; cursor:pointer; transition:transform .12s,box-shadow .12s; border-left:3px solid var(--rc); } .rcard:hover{transform:translateY(-2px);box-shadow:0 18px 40px -22px rgba(16,32,60,.4);}
+    .rc-top{display:flex;align-items:center;gap:12px;} .rc-top .av{width:42px;height:42px;border-radius:50%;color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex:none;} .rc-top b{font-weight:700;font-size:15px;} .rc-top .veh{font-size:12px;color:var(--muted);} .rc-top .sc{margin-left:auto;text-align:right;} .rc-top .sc .n{font-size:19px;font-weight:800;} .rc-top .sc .l{font-size:9.5px;font-weight:700;color:var(--faint);text-transform:uppercase;}
+    .rc-reason{margin-top:12px;display:flex;align-items:center;gap:9px;font-size:12.5px;} .rc-reason .rt{font-size:10px;font-weight:800;padding:3px 9px;border-radius:6px;} .rt-lostdeal{background:#fdeaea;color:#dc2626;} .rt-inactive{background:#eef1f6;color:#64748b;} .rt-noresponse{background:#fdf0dc;color:#b45309;} .rt-oldprospect{background:#eef4ff;color:#2563eb;} .rt-expiredappt{background:#f1eafe;color:#7c3aed;} .rc-reason span{color:var(--muted);}
+    .rc-rec{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);} .rc-rec .ri{width:32px;height:32px;border-radius:9px;background:#eaf1fe;color:#2563eb;display:flex;align-items:center;justify-content:center;flex:none;} .rc-rec .ri svg{width:16px;height:16px;} .rc-rec .rl{font-size:11px;color:var(--muted);} .rc-rec b{font-weight:700;font-size:13px;}
+    .rc-meta{display:flex;justify-content:space-between;margin-top:11px;font-size:12px;color:var(--faint);} .rc-meta b{color:var(--text);}
+    .rc-actions{display:flex;gap:8px;margin-top:13px;} .rc-actions button{flex:1;border-radius:10px;padding:9px;font-size:12.5px;font-weight:700;} .ra-add{border:1px solid var(--line);background:#fff;color:var(--accent);} .ra-add:hover{background:var(--accent-soft);} .ra-add.on{background:#e7f7ee;color:#16a34a;border-color:#cdebd8;} .ra-start{border:none;background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;}
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show{opacity:1;pointer-events:auto;}
+    .panel { position:fixed; top:0; right:0; bottom:0; width:470px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open{transform:none;}
+    .panel-hd{display:flex;align-items:center;gap:14px;padding:20px 22px;background:var(--card);border-bottom:1px solid var(--line);} .panel-hd .av{width:46px;height:46px;border-radius:50%;color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex:none;} .panel-hd h2{font-size:18px;font-weight:800;} .panel-hd .pm{color:var(--muted);font-size:13px;margin-top:2px;} .panel-close{margin-left:auto;border:none;background:none;color:var(--muted);width:34px;height:34px;border-radius:9px;} .panel-close svg{width:18px;height:18px;}
+    .panel-body{overflow-y:auto;padding:18px 22px 20px;display:flex;flex-direction:column;gap:16px;}
+    .sect{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px;} .sect h3{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px;} .sect h3 .si{color:#7c3aed;display:inline-flex;} .sect h3 .si svg{width:15px;height:15px;}
+    .kv2{display:grid;grid-template-columns:1fr 1fr;gap:11px 16px;} .kv2 .k{color:var(--muted);font-size:11.5px;} .kv2 .v{font-weight:600;font-size:13.5px;margin-top:1px;}
+    .opener{background:linear-gradient(180deg,#f7f9fc,#fff);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.55;color:#334155;} .opener .ol{font-size:11px;color:var(--faint);font-weight:700;text-transform:uppercase;margin-bottom:5px;}
+    .p-actions{display:flex;gap:10px;} .p-actions button{flex:1;border-radius:11px;padding:12px;font-size:13.5px;font-weight:700;} .pa-ghost{background:#fff;border:1px solid var(--line);color:var(--text);} .pa-ghost:hover{border-color:#cfe0f7;color:var(--accent);} .pa-primary{background:linear-gradient(180deg,var(--accent-2),var(--accent));border:none;color:#fff;}
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(2,1fr);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" placeholder="Search lost opportunities..." /></div>
+        <span class="role-badge">Recovery</span>
+        <span class="tb-avatar"><span class="av">CM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>Lost Customer Recovery <span class="aitag">AI</span></h1><p class="sub">AutoDealer finds the deals slipping away — inactive owners, lost sales, cold leads, and missed appointments — and builds the win-back.</p></div>
+          <button class="btn-primary" id="launch"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Launch Recovery Campaign</button>
+        </div>
+        <div class="kpis" id="kpis"></div>
+        <div class="sec-label">Automated Recovery Campaigns</div>
+        <div class="camps" id="camps"></div>
+        <div class="sec-label" style="margin-top:26px">Recovery Opportunities</div>
+        <div class="pills" id="pills"></div>
+        <div class="grid" id="grid"></div>
+      </main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var money=function(n){ return n>=1000000?"$"+(n/1000000).toFixed(1)+"M":n>=1000?"$"+Math.round(n/1000)+"K":"$"+n; };
+    var IC={ mail:'<rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/>', text:'<path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>', call:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>', video:'<rect x="3.5" y="6" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 10l4.5-2.5v9L16 14z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>', appt:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>', swap:'<path d="M4 8h13l-3-3M20 16H7l3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>' };
+    function svg(k){ return '<svg viewBox="0 0 24 24">'+IC[k]+'</svg>'; }
+    var REASON={ lostdeal:["rt-lostdeal","Lost Deal","#dc2626"], inactive:["rt-inactive","Inactive","#94a3b8"], noresponse:["rt-noresponse","No Response","#ea8a0b"], oldprospect:["rt-oldprospect","Old Prospect","#2563eb"], expiredappt:["rt-expiredappt","Expired Appt","#7c3aed"] };
+
+    var CAMPS=[["i-indigo","mail","90-Day Win-back Series","Email · 4 touches",1820,42],["i-teal","text","No-Response Nudge","Text · single send",240,31],["i-purple","appt","Missed-Appt Reschedule","Text + Email",42,14],["i-blue","mail","Old-Lead Re-qualification","Email · new inventory",610,26]];
+    function renderCamps(){ $("camps").innerHTML=CAMPS.map(function(c){ return '<div class="camp"><div class="ct"><span class="ci '+c[0]+'">'+svg(c[1])+'</span><b>'+c[2]+'</b><span class="on2">Active</span></div><div style="font-size:11.5px;color:var(--muted);margin:-4px 0 10px">'+c[3]+'</div><div class="cm"><div><b>'+c[4].toLocaleString()+'</b>enrolled</div><div style="text-align:right"><b style="color:#16a34a">'+c[5]+'</b>recovered</div></div></div>'; }).join(""); }
+
+    // name, ini, color, reason, veh, value, score, action, actionIc, last, opener
+    var R=[
+      {n:"Ethan Ross",i:"ER",c:"#64748b",reason:"lostdeal",veh:"2022 Buick Enclave Avenir",value:56900,score:72,act:"Match a stronger lease offer",aic:"swap",last:"Lost 3 weeks ago",op:"Hi Ethan — I know you went another direction, but I found a lease number I think changes the math. Worth two minutes?"},
+      {n:"Marcus Webb",i:"MB",c:"#10b981",reason:"noresponse",veh:"2023 Corvette Z06",value:92000,score:68,act:"Send a personalized walkaround video",aic:"video",last:"Cold after test drive · 6d",op:"Hey Marcus! Made you a quick video on the Z06 — plus a first-look incentive if you're still deciding."},
+      {n:"Nora Patel",i:"NP",c:"#f43f5e",reason:"expiredappt",veh:"2023 Tahoe Premier",value:74000,score:61,act:"Offer easy reschedule + hold the vehicle",aic:"appt",last:"Missed appt, never rebooked",op:"Hi Nora, sorry we missed you! I can hold the Tahoe and get you in whenever works — even after hours."},
+      {n:"Grace Kim",i:"GK",c:"#eab308",reason:"noresponse",veh:"2025 Telluride SX",value:46900,score:58,act:"Send a final follow-up text",aic:"text",last:"No reply in 8 days",op:"Hi Grace — still happy to help with the Telluride. Want me to send updated numbers, or is now not the time?"},
+      {n:"Jessica Davis",i:"JD",c:"#6366f1",reason:"inactive",veh:"2019 Honda Accord (owner)",value:28000,score:45,act:"Service + trade win-back",aic:"mail",last:"No visit in 2 years",op:"Hi Jessica — it's been a while! Your Accord may be worth more than you think. Want a free trade estimate?"},
+      {n:"Nora & Sons Fleet",i:"NS",c:"#0ea5e9",reason:"lostdeal",veh:"3× Silverado (commercial)",value:186000,score:64,act:"Re-quote fleet pricing",aic:"call",last:"Lost to competitor · 1mo",op:"Hi — I'd love another shot at your fleet order. I can sharpen the pricing and add priority service."},
+      {n:"Tyler Brooks",i:"TB",c:"#a855f7",reason:"oldprospect",veh:"2026 Silverado LT",value:52000,score:38,act:"Re-qualify with new inventory",aic:"mail",last:"Lead from 5 months ago",op:"Hi Tyler — new Silverados just landed that match what you wanted. Still in the market?"},
+      {n:"Diane Cole",i:"DC",c:"#ec4899",reason:"inactive",veh:"2020 Equinox (owner)",value:31000,score:41,act:"Lease-end upgrade outreach",aic:"call",last:"Warranty ends soon · quiet 14mo",op:"Hi Diane — your warranty's coming up. Great moment to upgrade for a similar payment. Can I run numbers?"}
+    ];
+
+    function renderKPIs(){
+      var val=R.reduce(function(a,r){return a+r.value;},0);
+      $("kpis").innerHTML=[["Lost Opportunities",R.length+" of 214","",""],["Recoverable Value",money(val),"g",""],["Recovery Rate","28%","a","+5 pts this qtr"],["Re-engaged This Month","19","",""]].map(function(k){ return '<div class="kp"><div class="kl">'+k[0]+'</div><div class="kv '+(k[2]||"")+'">'+k[1]+'</div></div>'; }).join("");
+    }
+    var filter="all", q="", added={};
+    var PILLS=[["all","All"],["lostdeal","Lost Deals"],["noresponse","No Response"],["inactive","Inactive"],["oldprospect","Old Prospects"],["expiredappt","Expired Appts"]];
+    function renderPills(){ $("pills").innerHTML=PILLS.map(function(p){ return '<button class="pill '+(filter===p[0]?"on":"")+'" data-f="'+p[0]+'">'+p[1]+'</button>'; }).join(""); document.querySelectorAll(".pill").forEach(function(b){ b.addEventListener("click",function(){ filter=b.dataset.f; renderPills(); renderGrid(); }); }); }
+    function renderGrid(){
+      var rows=R.map(function(r,i){return [r,i];}).filter(function(x){ return (filter==="all"||x[0].reason===filter) && (!q||(x[0].n+" "+x[0].veh).toLowerCase().indexOf(q.toLowerCase())!==-1); }).sort(function(a,b){return b[0].score-a[0].score;});
+      $("grid").innerHTML=rows.map(function(x){ var r=x[0], rm=REASON[r.reason]; return '<div class="rcard" data-r="'+x[1]+'" style="--rc:'+rm[2]+'"><div class="rc-top"><span class="av" style="background:'+r.c+'">'+r.i+'</span><div><b>'+r.n+'</b><div class="veh">'+r.veh+'</div></div><div class="sc"><div class="n" style="color:'+rm[2]+'">'+r.score+'</div><div class="l">recover</div></div></div>'+
+        '<div class="rc-reason"><span class="rt '+rm[0]+'">'+rm[1]+'</span><span>'+r.last+'</span></div>'+
+        '<div class="rc-rec"><span class="ri">'+svg(r.aic)+'</span><div><div class="rl">Recommended recovery</div><b>'+r.act+'</b></div></div>'+
+        '<div class="rc-meta"><span>Est. deal value</span><b>'+money(r.value)+'</b></div>'+
+        '<div class="rc-actions"><button class="ra-add '+(added[x[1]]?"on":"")+'" data-add="'+x[1]+'">'+(added[x[1]]?"In campaign ✓":"Add to Campaign")+'</button><button class="ra-start" data-open="'+x[1]+'">Start Recovery</button></div></div>'; }).join("");
+      document.querySelectorAll("[data-open]").forEach(function(b){ b.addEventListener("click",function(e){ e.stopPropagation(); openR(+b.dataset.open); }); });
+      document.querySelectorAll(".rcard").forEach(function(el){ el.addEventListener("click",function(e){ if(e.target.closest("[data-add]"))return; openR(+el.dataset.r); }); });
+      document.querySelectorAll("[data-add]").forEach(function(b){ b.addEventListener("click",function(e){ e.stopPropagation(); added[b.dataset.add]=true; renderGrid(); toast("Added to recovery campaign"); }); });
+    }
+
+    var scrim=$("scrim"), panel=$("panel");
+    function openR(i){
+      var r=R[i], rm=REASON[r.reason];
+      panel.innerHTML='<div class="panel-hd"><span class="av" style="background:'+r.c+'">'+r.i+'</span><div><h2>'+r.n+'</h2><div class="pm"><span class="rt '+rm[0]+'" style="font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px">'+rm[1]+'</span> · '+r.last+'</div></div><button class="panel-close" id="pClose"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>'+
+        '<div class="panel-body"><div class="sect"><h3>Why they slipped</h3><div class="kv2"><div><div class="k">Reason</div><div class="v">'+rm[1]+'</div></div><div><div class="k">Vehicle Interest</div><div class="v">'+r.veh+'</div></div><div><div class="k">Est. Deal Value</div><div class="v">'+money(r.value)+'</div></div><div><div class="k">Recovery Score</div><div class="v" style="color:'+rm[2]+'">'+r.score+'/100</div></div></div></div>'+
+        '<div class="sect"><h3><span class="si"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Recovery Plan</h3><div style="font-size:13px;color:#16a34a;font-weight:700;margin-bottom:10px">→ '+r.act+'</div><div class="opener"><div class="ol">Suggested opener</div>'+r.op+'</div></div>'+
+        '<div class="p-actions"><button class="pa-ghost" id="pAdd">Add to Campaign</button><button class="pa-primary" id="pSend">Send Now</button></div></div>';
+      panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
+      $("pClose").addEventListener("click", closeAll);
+      $("pAdd").addEventListener("click", function(){ added[i]=true; renderGrid(); toast(r.n+" added to recovery campaign"); });
+      $("pSend").addEventListener("click", function(){ toast("Recovery message sent to "+r.n.split(" ")[0]); closeAll(); });
+    }
+    function closeAll(){ panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
+    scrim.addEventListener("click", closeAll);
+    document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeAll(); });
+    $("search").addEventListener("input", function(e){ q=e.target.value; renderGrid(); });
+    $("launch").addEventListener("click", function(){ toast("Recovery campaign builder opened"); });
+    var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2400); }
+    renderKPIs(); renderCamps(); renderPills(); renderGrid();
+  </script>
+</body>
+</html>

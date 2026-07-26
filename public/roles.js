@@ -25,6 +25,8 @@
     feedback:'<path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 1 1.9h5c.1-.9.4-1.4 1-1.9A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 19h5M10.5 21.5h3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
     health:'<path d="M3 12h4l2-5 4 10 2-5h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
     marketing:'<path d="M3 11l13-6v14L3 13v4H1v-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M16 8a3 3 0 0 1 0 8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+    recovery:'<path d="M3.5 12a8 8 0 1 0 2.3-5.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M3 4v4h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+    sentiment:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 14a4 4 0 0 0 7 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/>',
     settings:'<circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
     phone:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
     eye:'<path d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7-10-7-10-7z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.7" fill="none" stroke="currentColor" stroke-width="1.7"/>'
@@ -43,6 +45,7 @@
         {label:'Tasks', href:'/tasks', icon:'tasks', badge:'7'},
         {label:'Deal Desk', href:'/deals', icon:'deals', badge:'4'},
         {label:'Equity Mining', href:'/equity', icon:'equity', badge:'11'},
+        {label:'Recovery', href:'/recovery', icon:'recovery', badge:'8'},
         {label:'Trade Center', href:'/trades', icon:'trades'},
         {label:'Delivery Center', href:'/delivery', icon:'delivery', badge:'2'},
         {label:'Inventory', href:'/inventory', icon:'inventory', tag:'Read-only'},
@@ -62,6 +65,7 @@
         {label:'Appointments', href:'/appointments', icon:'appt', badge:'23'},
         {label:'Deal Desk', href:'/deals', icon:'deals', badge:'3'},
         {label:'Equity Mining', href:'/equity', icon:'equity', badge:'11'},
+        {label:'Recovery', href:'/recovery', icon:'recovery', badge:'8'},
         {label:'Trade Center', href:'/trades', icon:'trades', badge:'2'},
         {label:'Delivery Center', href:'/delivery', icon:'delivery'},
         {label:'Tasks', href:'/tasks', icon:'tasks'},
@@ -72,6 +76,7 @@
         {label:'Dealer TV', href:'/tv', icon:'tv'},
         {label:'Sales Team', href:'/team', icon:'team', badge:'6'},
         {label:'CRM Health', href:'/health', icon:'health'},
+        {label:'Customer Sentiment', href:'/sentiment', icon:'sentiment', badge:'4'},
         {label:'Document Center', href:'/documents', icon:'documents'},
         {label:'Automation Builder', href:'/automations', icon:'automations'},
         {label:'CRM Administration', href:'/admin', icon:'admin'},
@@ -107,7 +112,7 @@
   ];
 
   /* Every known in-app route. Anything here that is NOT in the active role's nav is blocked. */
-  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing'];
+  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment'];
 
   function getRole(){ var r = localStorage.getItem('ad_role'); return ROLES[r] ? r : 'salesperson'; }
   function cfg(){ return ROLES[getRole()]; }
