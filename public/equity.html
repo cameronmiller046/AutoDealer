@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Equity Mining — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:420px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#e7f7ee; color:#16a34a; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; display:flex; align-items:center; gap:10px; } .phead .aitag { font-size:10.5px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; color:#7c3aed; background:#f1eafe; padding:3px 9px; border-radius:7px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; }
+    .btn { display:inline-flex; align-items:center; gap:8px; border-radius:11px; padding:11px 17px; font-size:13.5px; font-weight:600; box-shadow:var(--shadow); } .btn svg { width:16px; height:16px; }
+    .btn-ghost { background:var(--card); border:1px solid var(--line); color:var(--text); } .btn-ghost:hover { border-color:#cfe0f7; color:var(--accent); }
+    .btn-primary { background:linear-gradient(180deg,#7c3aed,#6d28d9); color:#fff; border:none; box-shadow:0 12px 26px -14px rgba(124,58,237,0.9); }
+    .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:13px; margin:22px 0 18px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:12px;} .kp .kv{font-size:23px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kv.g{color:#16a34a;}
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+    .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; } .pill.on { background:var(--accent); color:#fff; border-color:var(--accent); } .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;}
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:16px; }
+    .ecard { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; cursor:pointer; transition:transform .12s, box-shadow .12s; position:relative; overflow:hidden; } .ecard:hover { transform:translateY(-2px); box-shadow:0 18px 40px -22px rgba(16,32,60,.4); }
+    .ecard::before { content:""; position:absolute; top:0; left:0; right:0; height:3px; background:var(--sc); }
+    .ec-top { display:flex; align-items:center; gap:12px; margin-bottom:13px; } .ec-top .av { width:42px; height:42px; border-radius:50%; color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center; flex:none; } .ec-top b { font-weight:700; font-size:15px; } .ec-top .veh { font-size:12px; color:var(--muted); }
+    .escore { margin-left:auto; text-align:right; } .escore .sc-n { font-size:20px; font-weight:800; letter-spacing:-0.5px; } .escore .stars { color:#f5b638; font-size:12px; letter-spacing:1px; } .escore .stars .off{color:#dfe4ec;}
+    .ec-eq { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:13px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .ec-eq .k { color:var(--faint); font-size:10.5px; text-transform:uppercase; letter-spacing:.3px; } .ec-eq .v { font-weight:800; font-size:17px; margin-top:2px; } .ec-eq .v.g{color:#16a34a;} .ec-eq .v.b{color:var(--accent);}
+    .ec-rec { display:flex; align-items:center; gap:10px; margin-top:12px; } .ec-rec .ri { width:34px; height:34px; border-radius:9px; background:#eaf1fe; color:#2563eb; display:flex; align-items:center; justify-content:center; flex:none; } .ec-rec .ri svg{width:17px;height:17px;} .ec-rec .rl { font-size:11px; color:var(--muted); } .ec-rec b { font-weight:700; font-size:13.5px; }
+    .ec-tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:12px; } .etag { font-size:10.5px; font-weight:700; padding:3px 8px; border-radius:6px; background:var(--bg); color:var(--muted); } .etag.hot{background:#fdeaea;color:#dc2626;} .etag.lease{background:#f1eafe;color:#7c3aed;} .etag.svc{background:#e2f5fb;color:#0891b2;}
+    .ec-actions { display:flex; gap:8px; margin-top:13px; } .ec-actions button { flex:1; border-radius:10px; padding:9px; font-size:12.5px; font-weight:700; } .ea-task { border:1px solid var(--line); background:#fff; color:var(--accent); } .ea-task:hover{background:var(--accent-soft);} .ea-task.done{background:#e7f7ee;color:#16a34a;border-color:#cdebd8;} .ea-send { border:none; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; }
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show { opacity:1; pointer-events:auto; }
+    .panel { position:fixed; top:0; right:0; bottom:0; width:480px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open { transform:none; }
+    .panel-hd { display:flex; align-items:flex-start; gap:14px; padding:20px 22px; background:var(--card); border-bottom:1px solid var(--line); } .panel-hd .av { width:46px; height:46px; border-radius:50%; color:#fff; font-weight:700; font-size:15px; display:flex; align-items:center; justify-content:center; flex:none; } .panel-hd h2 { font-size:18px; font-weight:800; } .panel-hd .pm { color:var(--muted); font-size:13px; margin-top:2px; } .panel-close { margin-left:auto; border:none; background:none; color:var(--muted); width:34px; height:34px; border-radius:9px; } .panel-close svg { width:18px; height:18px; }
+    .panel-body { overflow-y:auto; padding:18px 22px 20px; display:flex; flex-direction:column; gap:16px; }
+    .score-hero { background:linear-gradient(135deg,#0f2c1e,#0a1c38); color:#fff; border-radius:14px; padding:18px; display:flex; align-items:center; gap:16px; } .score-hero .ring { width:66px; height:66px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; } .score-hero .ring span { background:#0f2233; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:17px; font-weight:800; } .score-hero b { font-size:15px; font-weight:700; display:block; } .score-hero .sh-s { color:#9db4d6; font-size:12.5px; margin-top:2px; }
+    .sect { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px; } .sect h3 { font-size:13px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:7px; } .sect h3 .si{color:#7c3aed;display:inline-flex;} .sect h3 .si svg{width:15px;height:15px;}
+    .fac { display:flex; align-items:center; gap:10px; padding:9px 0; border-top:1px solid var(--line); } .fac:first-child{border-top:none;} .fac .fl { font-size:12.5px; color:var(--muted); width:130px; flex:none; } .fac .bar { flex:1; height:8px; background:#eef2f8; border-radius:999px; overflow:hidden; } .fac .bar > i { display:block; height:100%; border-radius:999px; } .fac .fv { font-size:12px; font-weight:700; width:44px; text-align:right; }
+    .eq-rows .er { display:flex; justify-content:space-between; padding:8px 0; border-top:1px solid var(--line); font-size:13px; } .eq-rows .er:first-child{border-top:none;} .eq-rows .er .k{color:var(--muted);} .eq-rows .er .v{font-weight:600;} .eq-rows .er.tot{border-top:2px solid var(--line);margin-top:4px;padding-top:10px;} .eq-rows .er.tot .k{font-weight:700;color:var(--text);} .eq-rows .er.tot .v{font-size:16px;font-weight:800;color:#16a34a;}
+    .rec-veh { display:flex; gap:14px; align-items:center; } .rec-veh .vph { width:96px; height:64px; border-radius:10px; background:linear-gradient(180deg,#f2f6fc,#e7edf6); display:flex; align-items:center; justify-content:center; flex:none; } .rec-veh .vph svg{width:84%;} .rec-veh b { font-weight:700; font-size:14px; } .rec-veh span { font-size:12.5px; color:var(--muted); }
+    .p-actions { display:flex; gap:10px; } .p-actions button { flex:1; border-radius:11px; padding:12px; font-size:13.5px; font-weight:700; } .pa-ghost{background:#fff;border:1px solid var(--line);color:var(--text);} .pa-ghost:hover{border-color:#cfe0f7;color:var(--accent);} .pa-primary{background:linear-gradient(180deg,#7c3aed,#6d28d9);border:none;color:#fff;}
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(2,1fr);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" placeholder="Search equity opportunities..." /></div>
+        <span class="role-badge">Equity Mining</span>
+        <span class="tb-avatar"><span class="av">CM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>AI Equity Mining <span class="aitag">Live</span></h1><p class="sub">AutoDealer continuously scores every customer for upgrade readiness — equity, mileage, market demand, and engagement.</p></div>
+          <button class="btn btn-primary" id="refresh"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-.6 3M20 5v6h-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Re-run Scores</button>
+        </div>
+        <div class="kpis" id="kpis"></div>
+        <div class="pills" id="pills"></div>
+        <div class="grid" id="grid"></div>
+      </main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var money = function(n){ return "$"+Math.round(n).toLocaleString(); };
+    function car(hex){ return '<svg viewBox="0 0 162 52" style="width:100%"><path d="M12 40 L12 31 C12 29 14 28 18 27 L32 17 C35 14 39 13 46 13 L74 13 L79 27 L150 27 L150 40 Z" fill="'+hex+'"/><path d="M40 26 L48 18 L70 18 L73 26 Z" fill="#dbe6f5" opacity="0.85"/><g><circle cx="46" cy="41" r="10" fill="#1c2330"/><circle cx="46" cy="41" r="4.6" fill="#cbd5e1"/><circle cx="122" cy="41" r="10" fill="#1c2330"/><circle cx="122" cy="41" r="4.6" fill="#cbd5e1"/></g></svg>'; }
+    function stars(n){ return '<span class="stars">'+"★".repeat(n)+'<span class="off">'+"★".repeat(5-n)+'</span></span>'; }
+    function scoreColor(s){ return s>=85?"#16a34a":s>=70?"#2563eb":s>=55?"#ea8a0b":"#94a3b8"; }
+
+    // customer, current vehicle, equity, monthlyInc, score(1-5 stars), scoreN, recommended, tags, factors, payoff, value, currentPay, newPay
+    var E = [
+      {id:1,cust:"John Smith",ini:"JS",color:"#3b82f6",veh:"2023 Silverado LT",hex:"#2f5fb0",equity:9200,monthly:36,stars:5,scoreN:92,rec:"2026 Silverado High Country",tags:[["hot","In-Market"],["lease","Lease ends 9mo"]],payoff:38100,value:47300,curPay:614,newPay:650,miles:"18,200",age:"3 yrs",demand:"High",
+        factors:[["Equity position",92],["Vehicle age",78],["Market demand",95],["Payment fit",88],["Engagement",96],["Service loyalty",84]]},
+      {id:2,cust:"Priya Nair",ini:"PN",color:"#f43f5e",veh:"2024 Cadillac XT5",hex:"#eceef1",equity:6400,monthly:52,stars:5,scoreN:88,rec:"2026 Cadillac XT6",tags:[["hot","In-Market"],["svc","Service-active"]],payoff:42600,value:49000,curPay:788,newPay:840,miles:"7,800",age:"1.5 yrs",demand:"High",
+        factors:[["Equity position",78],["Vehicle age",62],["Market demand",90],["Payment fit",84],["Engagement",98],["Service loyalty",92]]},
+      {id:3,cust:"Kevin Anderson",ini:"KA",color:"#0ea5e9",veh:"2022 GMC Sierra 1500",hex:"#e6e7ea",equity:11300,monthly:28,stars:4,scoreN:81,rec:"2026 Sierra Denali",tags:[["svc","Service-active"]],payoff:22000,value:33300,curPay:642,newPay:670,miles:"38,900",age:"2.5 yrs",demand:"Normal",
+        factors:[["Equity position",96],["Vehicle age",70],["Market demand",72],["Payment fit",80],["Engagement",68],["Service loyalty",88]]},
+      {id:4,cust:"Robert Brown",ini:"RB",color:"#14b8a6",veh:"2023 Tahoe Premier",hex:"#23262b",equity:8900,monthly:44,stars:4,scoreN:79,rec:"2026 Tahoe High Country",tags:[["lease","Lease ends 5mo"]],payoff:54000,value:62900,curPay:736,newPay:780,miles:"29,400",age:"1.5 yrs",demand:"High",
+        factors:[["Equity position",82],["Vehicle age",60],["Market demand",88],["Payment fit",76],["Engagement",74],["Service loyalty",80]]},
+      {id:5,cust:"Amanda Harris",ini:"AH",color:"#ec4899",veh:"2021 Equinox LT",hex:"#3a7ca5",equity:4100,monthly:22,stars:3,scoreN:66,rec:"2026 Equinox RS",tags:[],payoff:16800,value:20900,curPay:398,newPay:420,miles:"41,200",age:"4 yrs",demand:"Normal",
+        factors:[["Equity position",64],["Vehicle age",84],["Market demand",60],["Payment fit",70],["Engagement",58],["Service loyalty",62]]},
+      {id:6,cust:"Grace Kim",ini:"GK",color:"#eab308",veh:"2020 Telluride SX",hex:"#3a7ca5",equity:6800,monthly:18,stars:3,scoreN:61,rec:"2026 Telluride SX-P",tags:[["svc","Service-active"]],payoff:6800,value:13600,curPay:512,newPay:530,miles:"62,000",age:"5 yrs",demand:"Normal",
+        factors:[["Equity position",72],["Vehicle age",92],["Market demand",58],["Payment fit",66],["Engagement",52],["Service loyalty",70]]}
+    ];
+
+    function renderKPIs(){
+      var avgEq = Math.round(E.reduce(function(a,e){return a+e.equity;},0)/E.length);
+      var inMarket = E.filter(function(e){return e.tags.some(function(t){return t[0]==="hot";});}).length;
+      $("kpis").innerHTML = [["Equity Opportunities",E.length+" of 1,245","",""],["Avg Positive Equity",money(avgEq),"g",""],["In-Market Now",inMarket,"",""],["Follow-up Tasks Created","3","",""]].map(function(k){ return '<div class="kp"><div class="kl">'+k[0]+'</div><div class="kv '+(k[2]||"")+'">'+k[1]+'</div></div>'; }).join("");
+    }
+    var filter="all", q="";
+    var PILLS=[["all","All"],["5star","5-Star Opportunities"],["market","In-Market Now"],["lease","Lease Ending"],["svc","Service-Active"],["equity","Positive Equity"]];
+    function match(e){ if(filter==="5star") return e.stars===5; if(filter==="market") return e.tags.some(function(t){return t[0]==="hot";}); if(filter==="lease") return e.tags.some(function(t){return t[0]==="lease";}); if(filter==="svc") return e.tags.some(function(t){return t[0]==="svc";}); if(filter==="equity") return e.equity>0; return true; }
+    function renderPills(){ $("pills").innerHTML=PILLS.map(function(p){ return '<button class="pill '+(filter===p[0]?"on":"")+'" data-f="'+p[0]+'">'+p[1]+'</button>'; }).join(""); document.querySelectorAll(".pill").forEach(function(b){ b.addEventListener("click",function(){ filter=b.dataset.f; renderPills(); renderGrid(); }); }); }
+
+    var created={};
+    function renderGrid(){
+      var rows = E.filter(function(e){ return match(e) && (!q || (e.cust+" "+e.veh+" "+e.rec).toLowerCase().indexOf(q.toLowerCase())!==-1); }).sort(function(a,b){return b.scoreN-a.scoreN;});
+      $("grid").innerHTML = rows.map(function(e){ var sc=scoreColor(e.scoreN); return '<div class="ecard" data-id="'+e.id+'" style="--sc:'+sc+'"><div class="ec-top"><span class="av" style="background:'+e.color+'">'+e.ini+'</span><div><b>'+e.cust+'</b><div class="veh">Currently in '+e.veh+'</div></div><div class="escore"><div class="sc-n" style="color:'+sc+'">'+e.scoreN+'</div>'+stars(e.stars)+'</div></div>'+
+        '<div class="ec-eq"><div><div class="k">Estimated Equity</div><div class="v g">'+money(e.equity)+'</div></div><div><div class="k">Payment Change</div><div class="v b">+'+money(e.monthly)+'/mo</div></div></div>'+
+        '<div class="ec-rec"><span class="ri"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div><div class="rl">Recommended upgrade</div><b>'+e.rec+'</b></div></div>'+
+        (e.tags.length?'<div class="ec-tags">'+e.tags.map(function(t){return '<span class="etag '+t[0]+'">'+t[1]+'</span>';}).join("")+'</div>':"")+
+        '<div class="ec-actions"><button class="ea-task '+(created[e.id]?"done":"")+'" data-task="'+e.id+'">'+(created[e.id]?"Task created ✓":"Create Follow-up")+'</button><button class="ea-send" data-open="'+e.id+'">View Analysis</button></div></div>'; }).join("");
+      document.querySelectorAll("[data-open]").forEach(function(b){ b.addEventListener("click",function(e){ e.stopPropagation(); openEq(+b.dataset.open); }); });
+      document.querySelectorAll(".ecard").forEach(function(el){ el.addEventListener("click",function(e){ if(e.target.closest("[data-task]")) return; openEq(+el.dataset.id); }); });
+      document.querySelectorAll("[data-task]").forEach(function(b){ b.addEventListener("click",function(e){ e.stopPropagation(); created[b.dataset.task]=true; renderGrid(); toast("Follow-up task created & assigned to you"); }); });
+    }
+
+    var scrim=$("scrim"), panel=$("panel");
+    function openEq(id){
+      var e=E.find(function(x){return x.id===id;}); if(!e) return; var sc=scoreColor(e.scoreN);
+      panel.innerHTML=''+
+      '<div class="panel-hd"><span class="av" style="background:'+e.color+'">'+e.ini+'</span><div><h2>'+e.cust+'</h2><div class="pm">Currently in '+e.veh+' · '+e.miles+' mi</div></div><button class="panel-close" id="pClose"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>'+
+      '<div class="panel-body">'+
+        '<div class="score-hero"><span class="ring" style="background:conic-gradient('+sc+' '+(e.scoreN*3.6)+'deg,#1c3350 0)"><span style="color:'+sc+'">'+e.scoreN+'</span></span><div><b>Equity Score · '+e.scoreN+'/100 '+stars(e.stars)+'</b><div class="sh-s">Upgrade readiness is <b style="color:#6fe0a0">'+(e.scoreN>=85?"very high":e.scoreN>=70?"high":"moderate")+'</b> — recommend reaching out this week.</div></div></div>'+
+        '<div class="sect"><h3><span class="si"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>Score factors</h3>'+
+          e.factors.map(function(f){ var col=f[1]>=80?"#16a34a":f[1]>=65?"#2563eb":"#ea8a0b"; return '<div class="fac"><span class="fl">'+f[0]+'</span><div class="bar"><i style="width:'+f[1]+'%;background:'+col+'"></i></div><span class="fv">'+f[1]+'</span></div>'; }).join("")+'</div>'+
+        '<div class="sect"><h3>Equity calculation</h3><div class="eq-rows">'+
+          row("Current market value (ACV)",money(e.value))+row("Estimated payoff","-"+money(e.payoff))+
+          '<div class="er tot"><span class="k">Positive Equity</span><span class="v">+'+money(e.equity)+'</span></div>'+
+          row("Current payment",money(e.curPay)+"/mo")+row("New payment (recommended)",money(e.newPay)+"/mo")+
+          '<div class="er"><span class="k">Payment difference</span><span class="v" style="color:var(--accent)">+'+money(e.monthly)+'/mo</span></div>'+
+        '</div></div>'+
+        '<div class="sect"><h3>Recommended upgrade</h3><div class="rec-veh"><div class="vph">'+car(e.hex)+'</div><div><b>'+e.rec+'</b><span>Market demand: '+e.demand+' · newer trim, similar payment</span></div></div></div>'+
+        '<div class="p-actions"><button class="pa-ghost" id="paTask">Create Follow-up Task</button><button class="pa-primary" id="paSend">Send Upgrade Offer</button></div>'+
+      '</div>';
+      panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
+      $("pClose").addEventListener("click", closeAll);
+      $("paTask").addEventListener("click", function(){ created[id]=true; renderGrid(); toast("Follow-up task created for "+e.cust); });
+      $("paSend").addEventListener("click", function(){ toast("Upgrade offer drafted for "+e.cust+" · "+e.rec); });
+    }
+    function row(k,v){ return '<div class="er"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>'; }
+    function closeAll(){ panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
+    scrim.addEventListener("click", closeAll);
+    document.addEventListener("keydown", function(ev){ if(ev.key==="Escape") closeAll(); });
+    $("search").addEventListener("input", function(ev){ q=ev.target.value; renderGrid(); });
+    $("refresh").addEventListener("click", function(){ toast("Re-scored 1,245 customers · 11 new opportunities surfaced"); });
+    var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2400); }
+    renderKPIs(); renderPills(); renderGrid();
+  </script>
+</body>
+</html>

@@ -20,6 +20,7 @@
     documents:'<path d="M4 6a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
     automations:'<circle cx="6" cy="6" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="18" cy="12" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="6" cy="18" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.4 6H14a2 2 0 0 1 2 2v1.6M8.4 18H14a2 2 0 0 0 2-2v-1.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
     migrate:'<path d="M12 3v10m0 0l-4-4m4 4l4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+    equity:'<path d="M4 16l5-5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
     settings:'<circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
     phone:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
     eye:'<path d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7-10-7-10-7z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.7" fill="none" stroke="currentColor" stroke-width="1.7"/>'
@@ -37,6 +38,7 @@
         {label:'Appointments', href:'/appointments', icon:'appt', badge:'5'},
         {label:'Tasks', href:'/tasks', icon:'tasks', badge:'7'},
         {label:'Deal Desk', href:'/deals', icon:'deals', badge:'4'},
+        {label:'Equity Mining', href:'/equity', icon:'equity', badge:'11'},
         {label:'Trade Center', href:'/trades', icon:'trades'},
         {label:'Delivery Center', href:'/delivery', icon:'delivery', badge:'2'},
         {label:'Inventory', href:'/inventory', icon:'inventory', tag:'Read-only'},
@@ -53,6 +55,7 @@
         {label:'Customers', href:'/customers', icon:'customers'},
         {label:'Appointments', href:'/appointments', icon:'appt', badge:'23'},
         {label:'Deal Desk', href:'/deals', icon:'deals', badge:'3'},
+        {label:'Equity Mining', href:'/equity', icon:'equity', badge:'11'},
         {label:'Trade Center', href:'/trades', icon:'trades', badge:'2'},
         {label:'Delivery Center', href:'/delivery', icon:'delivery'},
         {label:'Tasks', href:'/tasks', icon:'tasks'},
@@ -93,7 +96,7 @@
   ];
 
   /* Every known in-app route. Anything here that is NOT in the active role's nav is blocked. */
-  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration'];
+  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity'];
 
   function getRole(){ var r = localStorage.getItem('ad_role'); return ROLES[r] ? r : 'salesperson'; }
   function cfg(){ return ROLES[getRole()]; }

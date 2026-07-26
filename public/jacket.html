@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deal Jacket — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:14px; padding:12px 30px; }
+    .back { display:inline-flex; align-items:center; gap:8px; color:var(--muted); font-size:13.5px; font-weight:600; padding:8px 12px; border-radius:9px; } .back:hover { background:var(--bg); color:var(--accent); } .back svg { width:16px; height:16px; }
+    .crumb { color:var(--faint); font-size:13px; } .crumb b { color:var(--text); font-weight:600; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:24px 30px 60px; }
+    /* header */
+    .jhead { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:20px 22px; }
+    .jh-top { display:flex; align-items:center; gap:15px; flex-wrap:wrap; }
+    .jh-top .av { width:52px; height:52px; border-radius:50%; color:#fff; font-weight:800; font-size:18px; display:flex; align-items:center; justify-content:center; flex:none; }
+    .jh-top h1 { font-size:22px; font-weight:800; letter-spacing:-0.4px; } .jh-top .sub { color:var(--muted); font-size:13.5px; margin-top:2px; }
+    .jh-top .dealno { margin-left:auto; text-align:right; } .jh-top .dealno .dn { font-size:11px; color:var(--faint); font-weight:700; letter-spacing:.3px; } .jh-top .dealno .pv { font-size:20px; font-weight:800; }
+    .stepper { display:flex; align-items:center; margin-top:20px; padding-top:18px; border-top:1px solid var(--line); }
+    .step { flex:1; display:flex; flex-direction:column; align-items:center; position:relative; }
+    .step .sc { width:26px; height:26px; border-radius:50%; background:#e6ebf3; color:var(--faint); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; z-index:1; } .step.done .sc { background:#16a34a; color:#fff; } .step.cur .sc { background:var(--accent); color:#fff; box-shadow:0 0 0 4px var(--accent-soft); } .step .sc svg{width:13px;height:13px;}
+    .step .sl { font-size:9.5px; font-weight:700; color:var(--muted); margin-top:6px; text-align:center; } .step.cur .sl{color:var(--accent);}
+    .step:not(:last-child)::after { content:""; position:absolute; top:13px; left:60%; right:-40%; height:2px; background:#e6ebf3; } .step.done:not(:last-child)::after { background:#16a34a; }
+    /* tabs */
+    .tabs { display:flex; gap:4px; margin:20px 0 16px; border-bottom:1px solid var(--line); overflow-x:auto; }
+    .tab { border:none; background:none; padding:12px 15px; font-size:13.5px; font-weight:600; color:var(--muted); border-bottom:2px solid transparent; white-space:nowrap; } .tab:hover{color:var(--text);} .tab.on { color:var(--accent); border-bottom-color:var(--accent); }
+    .layout { display:grid; grid-template-columns:minmax(0,1fr) 310px; gap:20px; align-items:start; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; margin-bottom:16px; }
+    .card h3 { font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px; margin-bottom:14px; } .card h3 .si{color:#7c3aed;display:inline-flex;} .card h3 .si svg{width:16px;height:16px;} .card h3 .rt{margin-left:auto;font-size:12px;font-weight:800;}
+    .kv2 { display:grid; grid-template-columns:1fr 1fr; gap:12px 18px; } .kv2 .k{color:var(--muted);font-size:11.5px;} .kv2 .v{font-weight:600;font-size:13.5px;margin-top:1px;}
+    .veh-card { display:flex; gap:15px; } .veh-card .vph { width:120px; height:80px; border-radius:11px; flex:none; background:linear-gradient(180deg,#f2f6fc,#e7edf6); display:flex; align-items:center; justify-content:center; } .veh-card .vph svg{width:86%;} .veh-card .vt{font-weight:700;font-size:15px;} .veh-card .vs{color:var(--muted);font-size:12.5px;margin-top:3px;} .veh-card .vmeta{display:flex;gap:20px;margin-top:10px;} .veh-card .vmeta .k{color:var(--faint);font-size:10.5px;text-transform:uppercase;} .veh-card .vmeta .v{font-weight:700;font-size:13px;margin-top:1px;}
+    .nums .nr { display:flex; justify-content:space-between; padding:8px 0; border-top:1px solid var(--line); font-size:13px; } .nums .nr:first-child{border-top:none;} .nums .nr .k{color:var(--muted);} .nums .nr .v{font-weight:600;} .nums .nr.tot{border-top:2px solid var(--line);margin-top:4px;padding-top:10px;} .nums .nr.tot .k{font-weight:700;} .nums .nr.tot .v{font-size:16px;font-weight:800;} .nums .eq{color:#16a34a;}
+    .prod { display:flex; align-items:center; gap:12px; padding:12px 0; border-top:1px solid var(--line); } .prod:first-of-type{border-top:none;} .prod .pi { width:36px; height:36px; border-radius:10px; flex:none; display:flex; align-items:center; justify-content:center; } .prod .pi svg{width:17px;height:17px;} .prod .pn b{font-weight:600;font-size:13.5px;} .prod .pn span{color:var(--muted);font-size:12px;} .prod .pp{margin-left:auto;font-weight:700;} .prod .add{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:12px;font-weight:700;color:var(--accent);} .prod .add.on{background:#e7f7ee;color:#16a34a;border-color:#cdebd8;}
+    .i-blue{background:#eaf1fe;color:#2563eb;} .i-green{background:#e7f7ee;color:#16a34a;} .i-amber{background:#fdf0dc;color:#ea8a0b;} .i-purple{background:#f1eafe;color:#7c3aed;} .i-teal{background:#e2f5fb;color:#0891b2;} .i-gray{background:#eef1f6;color:#64748b;} .i-indigo{background:#eef0fe;color:#6366f1;}
+    .doc-row { display:flex; align-items:center; gap:12px; padding:11px 0; border-top:1px solid var(--line); } .doc-row:first-of-type{border-top:none;} .doc-row .di{width:34px;height:34px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;} .doc-row .di svg{width:16px;height:16px;} .doc-row b{font-weight:600;font-size:13.5px;} .doc-row span{color:var(--muted);font-size:12px;} .doc-row .ds{margin-left:auto;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:6px;} .ds-signed{background:#e7f7ee;color:#16a34a;} .ds-pending{background:#fdf0dc;color:#b45309;}
+    .appr-row { display:flex; align-items:center; gap:12px; padding:11px 0; border-top:1px solid var(--line); } .appr-row:first-of-type{border-top:none;} .appr-row .as{width:26px;height:26px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;} .appr-row .as svg{width:14px;height:14px;} .as-ok{background:#16a34a;color:#fff;} .as-wait{background:#fdf0dc;color:#b45309;} .as-todo{background:#eef1f6;color:#94a3b8;} .appr-row b{font-weight:600;font-size:13.5px;} .appr-row span{color:var(--muted);font-size:12px;} .appr-row .at{margin-left:auto;font-size:11.5px;color:var(--faint);}
+    .ck { display:flex; align-items:center; gap:11px; padding:10px 2px; border-top:1px solid var(--line); cursor:pointer; } .ck:first-of-type{border-top:none;} .ck .box{width:20px;height:20px;border-radius:6px;border:2px solid #cdd6e3;flex:none;display:flex;align-items:center;justify-content:center;} .ck .box svg{width:12px;height:12px;color:#fff;opacity:0;} .ck.on .box{background:#16a34a;border-color:#16a34a;} .ck.on .box svg{opacity:1;} .ck .lbl{font-size:13.5px;font-weight:500;} .ck.on .lbl{color:var(--muted);text-decoration:line-through;}
+    .tl { display:grid; grid-template-columns:16px 1fr; gap:12px; padding-bottom:15px; position:relative; } .tl:last-child{padding-bottom:0;} .tl-dot{width:11px;height:11px;border-radius:50%;margin-top:3px;} .tl:not(:last-child)::after{content:"";position:absolute;left:5px;top:15px;bottom:0;width:2px;background:var(--line);} .tl b{font-weight:600;font-size:13px;display:block;} .tl span{color:var(--muted);font-size:12px;} .tl.pending b{color:var(--faint);font-weight:500;}
+    /* rail */
+    .rail { display:flex; flex-direction:column; gap:16px; position:sticky; top:80px; }
+    .airec { border:1px solid var(--line); border-radius:11px; padding:12px; margin-bottom:10px; background:linear-gradient(180deg,#fbfcff,#fff); } .airec:last-child{margin-bottom:0;} .airec p{font-size:12.5px;line-height:1.45;color:#334155;} .airec p b{color:var(--text);} .airec .rec{color:#7c3aed;font-weight:700;font-size:12px;margin-top:4px;} .airec .ab{margin-top:8px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 11px;font-size:11px;font-weight:700;color:var(--accent);} .airec .ab:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+    .sum-row { display:flex; justify-content:space-between; padding:8px 0; border-top:1px solid var(--line); font-size:13px; } .sum-row:first-of-type{border-top:none;} .sum-row .k{color:var(--muted);} .sum-row .v{font-weight:700;} .sum-row .v.g{color:#16a34a;}
+    body[data-role="salesperson"] .mgr-only{display:none!important;}
+    .note-add { display:flex; gap:8px; margin-top:10px; } .note-add input{flex:1;border:1px solid var(--line);border-radius:9px;padding:9px 11px;font:inherit;font-size:13px;outline:none;} .note-add input:focus{border-color:var(--accent);} .note-add button{border:none;background:var(--accent);color:#fff;border-radius:9px;padding:9px 14px;font-size:12.5px;font-weight:700;}
+    .note { background:#fff9ec; border:1px solid #f5e4bd; border-radius:10px; padding:10px 12px; font-size:12.5px; color:#7a5b16; margin-bottom:8px; } .note .nh{font-size:10.5px;font-weight:800;color:#b7861a;margin-bottom:3px;}
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1140px){ .layout{grid-template-columns:1fr;} .rail{position:static;} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .kv2{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <a class="back" href="/deals"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Deal Desk</a>
+        <span class="crumb">Deal Jacket · <b>#DJ-4021</b></span>
+        <span class="tb-avatar"><span class="av">CM</span></span>
+      </header>
+      <main class="content">
+        <section class="jhead">
+          <div class="jh-top">
+            <span class="av" style="background:#3b82f6">JS</span>
+            <div><h1>John Smith</h1><div class="sub">2024 Chevrolet Silverado High Country · Stock T45281 · Cameron Miller</div></div>
+            <div class="dealno"><div class="dn">DEAL #DJ-4021 · MONTHLY</div><div class="pv">$1,140<span style="font-size:13px;color:var(--muted)">/mo</span></div></div>
+          </div>
+          <div class="stepper" id="stepper"></div>
+        </section>
+        <div class="tabs" id="tabs"></div>
+        <div class="layout">
+          <div id="tabBody"></div>
+          <aside class="rail">
+            <div class="card"><h3><span class="si"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Recommendations</h3>
+              <div class="airec"><p><b>High approval odds</b> — customer has $4,800 trade equity and strong credit.</p><div class="rec">→ Present extended warranty + GAP</div><button class="ab" data-t="Add protection">Add to deal</button></div>
+              <div class="airec"><p>Lease ends in 9 months — great loyalty moment.</p><div class="rec">→ Lock delivery this week</div></div>
+              <div class="airec"><p>Missing signature on the extended warranty.</p><div class="rec">→ Send for e-signature</div><button class="ab" data-t="Send e-sign">Send</button></div>
+            </div>
+            <div class="card"><h3>Deal Summary</h3>
+              <div class="sum-row"><span class="k">Sale Price</span><span class="v">$74,300</span></div>
+              <div class="sum-row"><span class="k">Trade Equity</span><span class="v g">+$4,800</span></div>
+              <div class="sum-row"><span class="k">Amount Financed</span><span class="v">$67,077</span></div>
+              <div class="sum-row"><span class="k">Monthly Payment</span><span class="v">$1,140</span></div>
+              <div class="sum-row mgr-only"><span class="k">Front + Back Gross</span><span class="v g">$4,910</span></div>
+            </div>
+            <div class="card"><h3>Manager Notes</h3><div id="notes"></div><div class="note-add"><input id="noteInp" placeholder="Add a note…" /><button id="noteBtn">Add</button></div></div>
+          </aside>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    var check='<svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    function car(hex){ return '<svg viewBox="0 0 162 52" style="width:100%"><path d="M12 40 L12 31 C12 29 14 28 18 27 L32 17 C35 14 39 13 46 13 L74 13 L79 27 L150 27 L150 40 Z" fill="'+hex+'"/><path d="M40 26 L48 18 L70 18 L73 26 Z" fill="#dbe6f5" opacity="0.85"/><g><circle cx="46" cy="41" r="10" fill="#1c2330"/><circle cx="46" cy="41" r="4.6" fill="#cbd5e1"/><circle cx="122" cy="41" r="10" fill="#1c2330"/><circle cx="122" cy="41" r="4.6" fill="#cbd5e1"/></g></svg>'; }
+    var IC={ shield:'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>', wrench:'<path d="M14.5 5.5a3.5 3.5 0 0 1-4.6 4.6L5 15l2 2 4.9-4.9a3.5 3.5 0 0 0 4.6-4.6l-2.2 2.2-1.8-1.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>', spray:'<rect x="8" y="7" width="8" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 7V4h4M17 6h2M17 9h2M17 12h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>', doc:'<path d="M6 3.5h8l4 4V20.5H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3.5v4h4M9 12h6M9 16h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>', tire:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/>', link:'<path d="M9 15l6-6M8 12l-2 2a3 3 0 0 0 4 4l2-2M16 12l2-2a3 3 0 0 0-4-4l-2 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>' };
+    function svg(k){ return '<svg viewBox="0 0 24 24">'+IC[k]+'</svg>'; }
+
+    var STAGES=["Submitted","Manager Review","Desk","Trade","Finance","Delivery"]; var CUR=4; // in Finance
+    $("stepper").innerHTML=STAGES.map(function(s,i){ var cls=i<CUR?"done":i===CUR?"cur":""; return '<div class="step '+cls+'"><span class="sc">'+(i<CUR?check:(i+1))+'</span><span class="sl">'+s+'</span></div>'; }).join("");
+
+    var TABS=[["overview","Overview"],["trade","Trade"],["finance","Finance & Products"],["docs","Documents & Approvals"],["delivery","Delivery"],["timeline","Timeline"]];
+    var state={tab:"overview"};
+    function renderTabs(){ $("tabs").innerHTML=TABS.map(function(t){ return '<button class="tab '+(state.tab===t[0]?"on":"")+'" data-t="'+t[0]+'">'+t[1]+'</button>'; }).join(""); document.querySelectorAll(".tab").forEach(function(b){ b.addEventListener("click",function(){ state.tab=b.dataset.t; renderTabs(); renderTab(); }); }); }
+
+    var products=[false,false,false,false]; // warranty, gap, maint, ceramic (checked = added)
+    function renderTab(){
+      var b=$("tabBody");
+      if(state.tab==="overview"){
+        b.innerHTML='<div class="card"><h3>Customer</h3><div class="kv2">'+[["Name","John A. Smith"],["Phone","(678) 555-0142"],["Email","jsmith@email.com"],["Credit","Pre-Approved · 720+"],["Buying stage","Negotiation"],["Assigned rep","Cameron Miller"]].map(function(r){return '<div><div class="k">'+r[0]+'</div><div class="v">'+r[1]+'</div></div>';}).join("")+'</div></div>'+
+          '<div class="card"><h3>Vehicle</h3><div class="veh-card"><div class="vph">'+car("#2f5fb0")+'</div><div><div class="vt">2024 Chevrolet Silverado High Country</div><div class="vs">Northsky Blue · 5.3L V8 · 4WD · VIN 3GCUKDED5SG145281</div><div class="vmeta"><div><div class="k">Stock</div><div class="v">T45281</div></div><div><div class="k">Mileage</div><div class="v">14</div></div><div><div class="k">MSRP</div><div class="v">$76,900</div></div><div><div class="k">Sale Price</div><div class="v">$74,300</div></div></div></div></div></div>'+
+          '<div class="card nums"><h3>Deal Numbers <span class="rt mgr-only" style="color:#16a34a">Gross $4,910</span></h3>'+nr("Sale Price","$74,300")+nr("Net Trade (equity)",'<span class="eq">+$4,800</span>')+nr("Sales Tax","$3,178")+nr("Doc & Fees","$899")+nr("Rebates","-$1,500")+nr("Cash Down","-$5,000")+'<div class="nr tot"><span class="k">Amount Financed</span><span class="v">$67,077</span></div><div class="nr"><span class="k">72 mo @ 6.9% APR</span><span class="v" style="color:var(--accent)">$1,140/mo</span></div></div>';
+      } else if(state.tab==="trade"){
+        b.innerHTML='<div class="card"><h3>Trade-In</h3><div class="veh-card"><div class="vph">'+car("#b6bac0")+'</div><div><div class="vt">2019 Ford F-150 XLT</div><div class="vs">Iconic Silver · 3.5L EcoBoost · 4WD · VIN 1FTFW1E80NF139820</div><div class="vmeta"><div><div class="k">Mileage</div><div class="v">52,300</div></div><div><div class="k">Grade</div><div class="v">B</div></div><div><div class="k">Title</div><div class="v">Clean</div></div></div></div></div></div>'+
+          '<div class="card nums"><h3>Trade Equity</h3>'+nr("Appraised Value (ACV)","$28,900")+nr("Loan Payoff","-$24,100")+'<div class="nr tot"><span class="k">Customer Equity</span><span class="v eq">+$4,800</span></div></div>'+
+          '<div class="card"><h3>Condition Report</h3><div class="kv2">'+[["Exterior","Good"],["Interior","Good"],["Tires","Fair"],["Mechanical","Good"],["Frame","Clean"],["Recon Est.","$780"]].map(function(r){return '<div><div class="k">'+r[0]+'</div><div class="v">'+r[1]+'</div></div>';}).join("")+'</div></div>';
+      } else if(state.tab==="finance"){
+        var PROD=[["i-purple","shield","Extended Warranty","7 yr / 100k miles","$2,400"],["i-teal","shield","GAP Insurance","Loan/value protection","$695"],["i-amber","wrench","Prepaid Maintenance","3 years","$1,150"],["i-blue","spray","Ceramic Coating","Paint & interior","$999"]];
+        b.innerHTML='<div class="card"><h3>Finance Terms</h3><div class="kv2">'+[["Lender","Ally Financial"],["Status","Approved"],["APR","6.9%"],["Term","72 months"],["Amount Financed","$67,077"],["Payment","$1,140 / mo"]].map(function(r){return '<div><div class="k">'+r[0]+'</div><div class="v">'+r[1]+'</div></div>';}).join("")+'</div></div>'+
+          '<div class="card"><h3>Protection Plans &amp; Accessories</h3>'+PROD.map(function(p,i){return '<div class="prod"><span class="pi '+p[0]+'">'+svg(p[1])+'</span><div class="pn"><b>'+p[2]+'</b><span>'+p[3]+'</span></div><span class="pp">'+p[4]+'</span><button class="add '+(products[i]?"on":"")+'" data-prod="'+i+'">'+(products[i]?"Added ✓":"Add")+'</button></div>';}).join("")+'</div>';
+      } else if(state.tab==="docs"){
+        var DOCS=[["i-green","doc","Buyer's Order","Generated today","ds-signed","Signed"],["i-indigo","doc","Credit Application","Ally · approved","ds-signed","Signed"],["i-purple","doc","Retail Installment Contract","72 mo @ 6.9%","ds-pending","Awaiting Sig"],["i-amber","doc","Trade Paperwork — F-150","Payoff verified","ds-signed","Signed"],["i-gray","doc","Extended Warranty Agreement","7yr/100k","ds-pending","Awaiting Sig"],["i-teal","doc","Privacy & Disclosure Forms","Federal + state","ds-pending","Awaiting Sig"]];
+        b.innerHTML='<div class="card"><h3>Documents <span class="rt" style="color:var(--muted);font-weight:600;font-size:12px">3 of 6 signed</span></h3>'+DOCS.map(function(d){return '<div class="doc-row"><span class="di '+d[0]+'">'+svg(d[1])+'</span><div><b>'+d[2]+'</b><span>'+d[3]+'</span></div><span class="ds '+d[4]+'">'+d[5]+'</span></div>';}).join("")+'</div>'+
+          '<div class="card"><h3>Approval Chain</h3>'+
+            '<div class="appr-row"><span class="as as-ok">'+check+'</span><div><b>Salesperson submitted</b><span>Cameron Miller</span></div><span class="at">2h ago</span></div>'+
+            '<div class="appr-row"><span class="as as-ok">'+check+'</span><div><b>Sales Manager approved</b><span>Dana Morales · desk numbers signed off</span></div><span class="at">1h ago</span></div>'+
+            '<div class="appr-row"><span class="as as-wait"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><b>Finance manager review</b><span>Tom Fielder · F&amp;I products offered</span></div><span class="at">In progress</span></div>'+
+            '<div class="appr-row"><span class="as as-todo">'+check+'</span><div><b>Ready for delivery</b><span>Pending finance completion</span></div></div>'+
+          '</div>';
+      } else if(state.tab==="delivery"){
+        var CK=["Vehicle detailed","Full tank of fuel","Temporary tag applied","Registration prepared","Finance paperwork signed","Delivery photos taken","Feature walkthrough","Connected services activated"];
+        b.innerHTML='<div class="card"><h3>Pre-Delivery Checklist <span class="rt" style="color:var(--muted);font-weight:600;font-size:12px">Hands off from “Ready for Delivery”</span></h3>'+CK.map(function(l,i){return '<div class="ck '+(i<2?"on":"")+'" data-ck="'+i+'"><span class="box">'+check+'</span><span class="lbl">'+l+'</span></div>';}).join("")+'</div>';
+        setTimeout(function(){ b.querySelectorAll(".ck").forEach(function(ck){ ck.addEventListener("click",function(){ ck.classList.toggle("on"); }); }); },0);
+      } else if(state.tab==="timeline"){
+        var TL=[["#2563eb","Deal jacket created","2h ago · from Silverado sale"],["#7c3aed","Trade appraised — F-150","2h ago · +$4,800 equity"],["#ea8a0b","Desk numbers set","1h ago · $1,140/mo @ 72"],["#16a34a","Manager approved","1h ago · Dana Morales"],["#0891b2","Sent to finance","40m ago · Ally approved 6.9%"],["#94a3b8","F&I products offered","In progress"],["#94a3b8","Delivery scheduled","Pending"]];
+        b.innerHTML='<div class="card"><h3>Deal Timeline</h3>'+TL.map(function(t,i){ var pend=i>=5; return '<div class="tl '+(pend?"pending":"")+'"><span class="tl-dot" style="background:'+(pend?"#dfe4ec":t[0])+';box-shadow:0 0 0 4px '+(pend?"transparent":t[0]+"22")+'"></span><div><b>'+t[1]+'</b><span>'+t[2]+'</span></div></div>';}).join("")+'</div>';
+      }
+      if(state.tab==="finance"){ b.querySelectorAll("[data-prod]").forEach(function(btn){ btn.addEventListener("click",function(){ var i=+btn.dataset.prod; products[i]=!products[i]; renderTab(); toast(products[i]?"Added to deal — gross updated":"Removed from deal"); }); }); }
+    }
+    function nr(k,v){ return '<div class="nr"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>'; }
+
+    var NOTES=[["Dana Morales","Approved desk. Push warranty + GAP, strong equity deal."]];
+    function renderNotes(){ $("notes").innerHTML=NOTES.map(function(n){ return '<div class="note"><div class="nh">'+n[0]+'</div>'+n[1]+'</div>'; }).join(""); }
+    $("noteBtn").addEventListener("click", function(){ var v=$("noteInp").value.trim(); if(!v)return; NOTES.push(["You",v]); $("noteInp").value=""; renderNotes(); toast("Note added to deal jacket"); });
+    document.querySelectorAll(".airec .ab").forEach(function(b){ b.addEventListener("click",function(){ toast(b.dataset.t+" ✓"); }); });
+
+    var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2200); }
+    renderTabs(); renderTab(); renderNotes();
+  </script>
+</body>
+</html>

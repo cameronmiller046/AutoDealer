@@ -219,7 +219,8 @@
           '</div>'+
           '<div class="sect"><h3><svg viewBox="0 0 24 24" style="width:15px;height:15px;color:var(--accent)"><rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 7h8M8 11h.01M16 15v3M8 18h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Desking &amp; Payment Calculator</h3><div id="calcArea"></div></div>'+
           '<div class="sect"><h3>Deal Timeline</h3>'+timelineFor(d,si)+'</div>'+
-          '<div class="approve-row"><button class="ap-send" id="apSend">Send Back</button><button class="ap-ok" id="apOk">'+(si>=STAGES.length-1?"Complete Delivery":"Approve → "+STAGES[si+1][1])+'</button></div>'+
+          '<a href="/jacket?id='+d.id+'" style="display:flex;align-items:center;justify-content:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13.5px;font-weight:700;color:var(--accent)"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M4 7h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 7V5.5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2V7M4 12h16" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Open Full Deal Jacket</a>'+
+        '<div class="approve-row"><button class="ap-send" id="apSend">Send Back</button><button class="ap-ok" id="apOk">'+(si>=STAGES.length-1?"Complete Delivery":"Approve → "+STAGES[si+1][1])+'</button></div>'+
         '</div>';
       panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
       $("pClose").addEventListener("click", closeAll);
