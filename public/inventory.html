@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inventory — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #f6f8fb; --card: #ffffff; --sidebar: #0a1628; --sidebar-2: #071120;
+      --text: #16202e; --muted: #6b7a90; --faint: #97a4b6; --line: #eef1f6;
+      --accent: #2563eb; --accent-2: #3b82f6; --accent-soft: #eef4ff;
+      --shadow: 0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28);
+      --radius: 16px;
+    }
+    * { margin: 0; box-sizing: border-box; }
+    body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 14px; }
+    a { color: inherit; text-decoration: none; } button { font: inherit; cursor: pointer; }
+    .shell { display: grid; grid-template-columns: 244px 1fr; min-height: 100vh; }
+
+    .sidebar { background: linear-gradient(180deg, var(--sidebar), var(--sidebar-2)); color: #c7d4e6; padding: 22px 14px 18px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+    .brand { display: flex; flex-direction: column; align-items: flex-start; padding: 4px 8px 26px; }
+    .brand .sw { width: 108px; height: 9px; margin-bottom: 4px; } .brand .wm { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; color: #fff; } .brand .wm b { color: #2b8fff; }
+    .nav { display: flex; flex-direction: column; gap: 3px; }
+    .nav a { display: flex; align-items: center; gap: 13px; padding: 11px 14px; border-radius: 11px; color: #aebdd2; font-size: 14.5px; font-weight: 500; }
+    .nav a:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav a.on { background: var(--accent); color: #fff; font-weight: 600; box-shadow: 0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width: 19px; height: 19px; flex: none; }
+    .nav a .nb { margin-left: auto; background: rgba(255,255,255,0.12); color: #dbe7f7; font-size: 11px; font-weight: 700; min-width: 20px; height: 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 0 6px; }
+    .nav a.on .nb { background: rgba(255,255,255,0.25); color: #fff; }
+    .side-user { margin-top: auto; display: flex; align-items: center; gap: 11px; padding: 14px 8px 4px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width: 38px; height: 38px; border-radius: 50%; flex: none; background: linear-gradient(135deg,#3f9bff,#0b57b8); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+    .side-user .meta b { color: #fff; font-size: 13.5px; font-weight: 600; display: block; } .side-user .meta span { color: #8698b0; font-size: 11.5px; }
+    .side-user .chev { margin-left: auto; color: #7e90a8; width: 14px; height: 14px; }
+
+    .main { min-width: 0; display: flex; flex-direction: column; }
+    .topbar { position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.85); backdrop-filter: saturate(180%) blur(8px); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 18px; padding: 12px 30px; }
+    .hamb { border: none; background: none; color: var(--muted); width: 36px; height: 36px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; } .hamb:hover { background: var(--bg); } .hamb svg { width: 20px; height: 20px; }
+    .tsearch { flex: 1; max-width: 460px; display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 11px; padding: 11px 14px; color: var(--muted); }
+    .tsearch svg { width: 17px; height: 17px; flex: none; } .tsearch input { border: none; background: none; outline: none; width: 100%; font-size: 13.5px; color: var(--text); }
+    .kbd { border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 11px; color: var(--faint); background: #fff; }
+    .live-chip { display: inline-flex; align-items: center; gap: 7px; background: #e7f7ee; color: #16a34a; border-radius: 999px; padding: 7px 13px; font-size: 12px; font-weight: 700; } .live-chip .ld { width: 8px; height: 8px; border-radius: 50%; background: #16a34a; animation: pulse 1.6s infinite; }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(22,163,74,0.5)} 70%{box-shadow:0 0 0 6px rgba(22,163,74,0)} 100%{box-shadow:0 0 0 0 rgba(22,163,74,0)} }
+    .tb-icons { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+    .ib { position: relative; border: none; background: none; color: var(--muted); width: 40px; height: 40px; border-radius: 11px; display: inline-flex; align-items: center; justify-content: center; } .ib:hover { background: var(--bg); color: var(--accent); } .ib svg { width: 21px; height: 21px; }
+    .ib .dot { position: absolute; top: 6px; right: 7px; min-width: 16px; height: 16px; border-radius: 8px; background: #ef4444; color: #fff; font-size: 9.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+    .tb-avatar { width: 40px; height: 40px; border-radius: 50%; margin-left: 8px; position: relative; } .tb-avatar::after { content: ""; position: absolute; bottom: 1px; right: 1px; width: 10px; height: 10px; border-radius: 50%; background: #22c55e; border: 2px solid #fff; }
+    .tb-avatar .av { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #3f9bff, #0b57b8); color: #fff; font-weight: 700; }
+
+    .content { padding: 26px 30px 60px; }
+    .phead { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .phead h1 { font-size: 27px; font-weight: 800; letter-spacing: -0.6px; } .phead .sub { color: var(--muted); font-size: 14.5px; margin-top: 6px; }
+    .add-btn { display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 11px; padding: 12px 20px; font-size: 14.5px; font-weight: 600; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .add-btn:hover { filter: brightness(1.06); } .add-btn svg { width: 16px; height: 16px; }
+    .sec-label { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; color: var(--faint); text-transform: uppercase; margin: 26px 0 13px; }
+
+    .kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 6px; }
+    .kp { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 15px 16px; box-shadow: var(--shadow); }
+    .kp .kp-ic { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; } .kp .kp-ic svg { width: 17px; height: 17px; }
+    .ic-blue { background: #eaf1fe; color: #2563eb; } .ic-purple { background: #f1eafe; color: #7c3aed; } .ic-amber { background: #fdf0dc; color: #ea8a0b; } .ic-green { background: #e7f7ee; color: #16a34a; } .ic-teal { background: #e2f5fb; color: #0891b2; } .ic-red { background: #fdeaea; color: #dc2626; }
+    .kp .kp-v { font-size: 24px; font-weight: 800; letter-spacing: -0.6px; line-height: 1; transition: color 0.3s; } .kp .kp-v.flash { color: #16a34a; } .kp .kp-l { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+    .toolbar { display: flex; align-items: center; gap: 12px; margin: 22px 0 14px; flex-wrap: wrap; }
+    .psearch { flex: 1; min-width: 240px; display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 11px 15px; box-shadow: var(--shadow); }
+    .psearch svg { width: 17px; height: 17px; color: var(--muted); flex: none; } .psearch input { border: none; outline: none; width: 100%; font-size: 14px; color: var(--text); background: none; }
+    .segn { display: inline-flex; background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 4px; box-shadow: var(--shadow); }
+    .segn button { border: none; background: none; padding: 8px 12px; border-radius: 8px; font-size: 12.5px; font-weight: 600; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; } .segn button svg { width: 15px; height: 15px; } .segn button.on { background: var(--accent); color: #fff; }
+
+    .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .pill { border: 1px solid var(--line); background: var(--card); color: var(--muted); border-radius: 999px; padding: 8px 15px; font-size: 13px; font-weight: 600; box-shadow: 0 1px 2px rgba(16,32,60,0.03); } .pill:hover { color: var(--text); border-color: #cfe0f7; } .pill.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .split { display: grid; grid-template-columns: minmax(0,1fr) 330px; gap: 22px; align-items: start; }
+
+    /* photo stage */
+    .stage { position: relative; background: linear-gradient(180deg,#f4f7fc 0%,#e8eef7 100%); overflow: hidden; }
+    .stage::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: 12%; height: 12px; border-radius: 50%; background: radial-gradient(ellipse, rgba(16,32,60,0.18), transparent 70%); }
+    .stage svg.car { position: relative; z-index: 1; width: 84%; height: auto; display: block; margin: 0 auto; }
+
+    /* grid cards */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    .vcard { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; cursor: pointer; transition: transform 0.14s, box-shadow 0.14s, opacity 0.5s; display: flex; flex-direction: column; }
+    .vcard:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -22px rgba(16,32,60,0.4); border-color: #dbe7fb; }
+    .vcard.sold-out { opacity: 0; transform: scale(0.94); }
+    .vcard.arrive-in { animation: arriveIn 0.6s cubic-bezier(.2,.7,.3,1); }
+    @keyframes arriveIn { from { opacity: 0; transform: translateY(14px) scale(0.97); } to { opacity: 1; transform: none; } }
+    .vphoto { position: relative; height: 170px; }
+    .vphoto .stage { height: 100%; display: flex; align-items: center; }
+    .badges { position: absolute; top: 11px; left: 11px; display: flex; gap: 6px; flex-wrap: wrap; z-index: 3; max-width: 70%; }
+    .bdg { font-size: 10px; font-weight: 800; letter-spacing: 0.3px; padding: 3px 9px; border-radius: 7px; backdrop-filter: blur(4px); }
+    .bdg-new { background: rgba(37,99,235,0.92); color: #fff; } .bdg-reduced { background: rgba(22,163,74,0.92); color: #fff; } .bdg-hot { background: rgba(220,38,38,0.92); color: #fff; } .bdg-popular { background: rgba(219,39,119,0.92); color: #fff; } .bdg-manager { background: rgba(99,102,241,0.92); color: #fff; } .bdg-limited { background: rgba(190,24,93,0.92); color: #fff; } .bdg-detailed { background: rgba(8,145,178,0.92); color: #fff; }
+    .stat-pill { position: absolute; top: 11px; right: 11px; z-index: 3; font-size: 10.5px; font-weight: 800; letter-spacing: 0.3px; padding: 4px 10px; border-radius: 8px; display: inline-flex; align-items: center; gap: 5px; background: #fff; box-shadow: 0 4px 10px -4px rgba(16,32,60,0.3); } .stat-pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--sd); }
+    .s-available { --sd:#16a34a; color: #16a34a; } .s-reserved { --sd:#7c3aed; color: #7c3aed; } .s-transit { --sd:#ea8a0b; color: #b45309; } .s-service { --sd:#64748b; color: #475569; } .s-hold { --sd:#94a3b8; color: #64748b; } .s-sold { --sd:#dc2626; color: #dc2626; }
+    .vhover { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; display: flex; gap: 4px; padding: 10px; background: linear-gradient(0deg, rgba(232,238,247,0.96), rgba(232,238,247,0)); opacity: 0; transform: translateY(6px); transition: all 0.16s; }
+    .vcard:hover .vhover { opacity: 1; transform: none; }
+    .vhb { width: 34px; height: 34px; border-radius: 9px; border: 1px solid var(--line); background: #fff; color: var(--muted); display: inline-flex; align-items: center; justify-content: center; } .vhb:hover { background: var(--accent); color: #fff; border-color: var(--accent); } .vhb svg { width: 16px; height: 16px; }
+    .vbody { padding: 15px 16px 16px; flex: 1; display: flex; flex-direction: column; }
+    .vtitle { font-size: 15.5px; font-weight: 700; letter-spacing: -0.2px; } .vspec { color: var(--muted); font-size: 12.5px; margin-top: 3px; display: flex; gap: 7px; flex-wrap: wrap; } .vspec .sw { display: inline-flex; align-items: center; gap: 5px; } .vspec .swp { width: 11px; height: 11px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.12); }
+    .vmeta { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 13px 0; padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .vmeta .k { color: var(--faint); font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; } .vmeta .v { font-weight: 700; font-size: 13.5px; margin-top: 2px; }
+    .vprice { display: flex; align-items: baseline; gap: 8px; } .vprice .p { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; } .vprice .op { font-size: 13px; color: var(--faint); text-decoration: line-through; }
+    .vlive { display: flex; gap: 14px; margin-top: 11px; font-size: 12px; color: var(--muted); } .vlive .li { display: inline-flex; align-items: center; gap: 5px; } .vlive .li svg { width: 13px; height: 13px; } .vlive .li b { color: var(--text); font-weight: 700; }
+    .vopen { margin-top: 13px; width: 100%; border: 1px solid var(--line); background: #fff; color: var(--accent); border-radius: 10px; padding: 10px; font-size: 13px; font-weight: 700; } .vopen:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* list view */
+    .lhead { display: grid; grid-template-columns: 70px 2fr 1fr 1fr 0.9fr 0.9fr 0.8fr; gap: 14px; padding: 4px 18px 10px; font-size: 11px; color: var(--faint); font-weight: 600; letter-spacing: 0.3px; }
+    .list { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .lrow { display: grid; grid-template-columns: 70px 2fr 1fr 1fr 0.9fr 0.9fr 0.8fr; gap: 14px; align-items: center; padding: 12px 18px; border-top: 1px solid var(--line); cursor: pointer; position: relative; } .lrow:first-child { border-top: none; } .lrow:hover { background: #fafbff; }
+    .lthumb { width: 62px; height: 44px; border-radius: 9px; overflow: hidden; } .lthumb .stage { height: 100%; display: flex; align-items: center; }
+    .lrow .lv b { font-weight: 700; } .lrow .lv span { display: block; color: var(--muted); font-size: 12px; margin-top: 1px; }
+    .lrow .muted-2 { color: var(--muted); font-size: 13px; } .lrow .price-2 { font-weight: 700; }
+    .lrow .lactions { position: absolute; right: 16px; display: flex; gap: 3px; opacity: 0; transition: opacity 0.12s; background: #fafbff; padding-left: 30px; } .lrow:hover .lactions { opacity: 1; }
+    .lrow .lactions .vhb { width: 32px; height: 32px; }
+
+    /* kanban */
+    .kanban { display: grid; grid-auto-flow: column; grid-auto-columns: 280px; gap: 14px; overflow-x: auto; padding-bottom: 8px; }
+    .kcol { background: #f0f3f8; border-radius: 14px; padding: 12px; }
+    .kcol-hd { display: flex; align-items: center; gap: 8px; margin-bottom: 11px; padding: 0 4px; } .kcol-hd .dot { width: 8px; height: 8px; border-radius: 50%; } .kcol-hd b { font-size: 13px; font-weight: 700; } .kcol-hd .cn { margin-left: auto; color: var(--faint); font-size: 12px; font-weight: 700; }
+    .kcard { background: #fff; border: 1px solid var(--line); border-radius: 11px; padding: 11px; margin-bottom: 9px; cursor: pointer; box-shadow: 0 1px 2px rgba(16,32,60,0.04); } .kcard:hover { border-color: #cfe0f7; }
+    .kcard .kthumb { height: 76px; border-radius: 8px; overflow: hidden; margin-bottom: 9px; } .kcard .kthumb .stage { height: 100%; display: flex; align-items: center; }
+    .kcard b { font-weight: 700; font-size: 13px; } .kcard .kp2 { font-weight: 800; margin-top: 3px; } .kcard .km { color: var(--muted); font-size: 11.5px; margin-top: 2px; }
+
+    /* gallery */
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px,1fr)); gap: 16px; }
+    .gtile { border-radius: var(--radius); overflow: hidden; position: relative; cursor: pointer; box-shadow: var(--shadow); border: 1px solid var(--line); } .gtile:hover { transform: translateY(-2px); } .gtile .stage { height: 230px; display: flex; align-items: center; }
+    .gtile .gcap { position: absolute; left: 0; right: 0; bottom: 0; padding: 16px; background: linear-gradient(0deg, rgba(9,16,28,0.82), transparent); color: #fff; }
+    .gtile .gcap b { font-size: 16px; font-weight: 700; } .gtile .gcap .gp { font-size: 15px; font-weight: 800; margin-top: 2px; } .gtile .gcap span { opacity: 0.85; font-size: 12.5px; }
+
+    /* map */
+    .mapv { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
+    .lot { background: linear-gradient(135deg,#eef3fa,#e3eaf5); border-radius: 14px; padding: 22px; position: relative; min-height: 340px; }
+    .lot-zone { position: absolute; border: 1.5px dashed #b9c6da; border-radius: 12px; padding: 10px; } .lot-zone .zl { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.4px; }
+    .lot-dots { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; } .lot-dots i { width: 15px; height: 22px; border-radius: 3px; display: inline-block; }
+    .map-legend { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; } .map-legend .lg { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); } .map-legend .lg i { width: 12px; height: 12px; border-radius: 3px; }
+
+    /* rail */
+    .rail { display: flex; flex-direction: column; gap: 18px; position: sticky; top: 84px; }
+    .rc { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; }
+    .rc h3 { font-size: 13px; font-weight: 700; margin-bottom: 13px; display: flex; align-items: center; gap: 8px; } .rc h3 .spark { color: #7c3aed; display: inline-flex; } .rc h3 .spark svg { width: 15px; height: 15px; } .rc h3 .live-mini { margin-left: auto; display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; color: #16a34a; font-weight: 700; } .rc h3 .live-mini .ld { width: 7px; height: 7px; border-radius: 50%; background: #16a34a; animation: pulse 1.6s infinite; }
+    .feed { display: flex; flex-direction: column; }
+    .fitem { display: flex; gap: 11px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--line); } .fitem:first-child { border-top: none; }
+    .fitem.new-flash { animation: flashIn 0.6s ease; } @keyframes flashIn { from { background: #eff8f2; } to { background: transparent; } }
+    .fitem .f-ic { width: 30px; height: 30px; border-radius: 9px; flex: none; display: flex; align-items: center; justify-content: center; } .fitem .f-ic svg { width: 15px; height: 15px; }
+    .fitem .f-b { font-size: 13px; } .fitem .f-b b { font-weight: 600; } .fitem .f-b span { display: block; color: var(--faint); font-size: 11.5px; margin-top: 1px; }
+    .airec { border: 1px solid var(--line); border-radius: 11px; padding: 12px; margin-bottom: 10px; background: linear-gradient(180deg,#fbfcff,#fff); } .airec:last-child { margin-bottom: 0; } .airec p { font-size: 12.5px; line-height: 1.45; color: #334155; } .airec p b { color: var(--text); } .airec .rec { color: #7c3aed; font-weight: 700; font-size: 12px; margin-top: 4px; }
+    .health-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 13px; } .health-row:first-child { border-top: none; } .health-row .hl { color: var(--muted); } .health-row .hv { margin-left: auto; font-weight: 700; } .health-row .hv.warn { color: #ea8a0b; } .health-row .hv.bad { color: #dc2626; }
+
+    /* slide-over */
+    .scrim { position: fixed; inset: 0; background: rgba(10,20,36,0.4); z-index: 45; opacity: 0; pointer-events: none; transition: opacity 0.2s; } .scrim.show { opacity: 1; pointer-events: auto; }
+    .panel { position: fixed; top: 0; right: 0; bottom: 0; width: 500px; max-width: 96vw; background: var(--bg); z-index: 46; box-shadow: -20px 0 60px -30px rgba(0,0,0,0.5); transform: translateX(100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; } .panel.open { transform: none; }
+    .panel-body { overflow-y: auto; display: flex; flex-direction: column; }
+    .p-hero { position: relative; height: 230px; } .p-hero .stage { height: 100%; display: flex; align-items: center; } .p-close { position: absolute; top: 16px; right: 16px; z-index: 5; border: none; background: rgba(255,255,255,0.9); color: var(--text); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px -4px rgba(0,0,0,0.3); } .p-close svg { width: 18px; height: 18px; }
+    .p-thumbs { display: flex; gap: 8px; padding: 12px 22px; background: var(--card); border-bottom: 1px solid var(--line); }
+    .p-thumb { width: 66px; height: 46px; border-radius: 8px; overflow: hidden; border: 2px solid transparent; cursor: pointer; } .p-thumb.on { border-color: var(--accent); } .p-thumb .stage { height: 100%; display: flex; align-items: center; }
+    .p-thumb.addph { border: 2px dashed var(--line); display: flex; align-items: center; justify-content: center; color: var(--faint); } .p-thumb.addph svg { width: 18px; height: 18px; }
+    .p-sec { padding: 18px 22px; display: flex; flex-direction: column; gap: 16px; }
+    .p-tophd { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .p-tophd h2 { font-size: 20px; font-weight: 800; letter-spacing: -0.4px; } .p-tophd .pspec { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .p-tophd .pprice { text-align: right; } .p-tophd .pprice .pp { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; } .p-tophd .pprice .op { font-size: 13px; color: var(--faint); text-decoration: line-through; }
+    .interest { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+    .int { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 13px 12px; text-align: center; } .int .iv { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; } .int .il { color: var(--muted); font-size: 11px; margin-top: 3px; }
+    .sect { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 16px; }
+    .sect h3 { font-size: 13px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 7px; } .sect h3 .spark { color: #7c3aed; display:inline-flex; } .sect h3 .spark svg { width: 15px; height: 15px; }
+    .ov { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; } .ov .k { color: var(--muted); font-size: 11.5px; } .ov .v { font-weight: 600; font-size: 13.5px; margin-top: 1px; }
+    .feat { display: flex; flex-wrap: wrap; gap: 7px; } .feat span { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 11px; font-size: 12.5px; font-weight: 500; }
+    .ai-card { border: 1px solid var(--line); border-radius: 11px; padding: 12px; margin-bottom: 9px; background: linear-gradient(180deg,#fbfcff,#fff); } .ai-card:last-child { margin-bottom: 0; } .ai-card p { font-size: 13px; line-height: 1.5; color: #334155; } .ai-card p b { color: var(--text); } .ai-card .rec { color: #16a34a; font-weight: 600; font-size: 12.5px; margin-top: 5px; }
+    .ph { display: grid; grid-template-columns: 70px 1fr auto; gap: 12px; align-items: center; padding: 9px 0; border-top: 1px solid var(--line); } .ph:first-child { border-top: none; } .ph .phd { font-size: 12px; color: var(--muted); } .ph .phl { font-weight: 600; font-size: 13px; } .ph .phv { font-weight: 700; } .ph .phv.down { color: #16a34a; }
+    .tl2 { display: grid; grid-template-columns: 16px 1fr; gap: 12px; padding-bottom: 14px; position: relative; } .tl2:last-child { padding-bottom: 0; } .tl2-dot { width: 11px; height: 11px; border-radius: 50%; margin-top: 3px; } .tl2:not(:last-child)::after { content: ""; position: absolute; left: 5px; top: 15px; bottom: 0; width: 2px; background: var(--line); } .tl2 b { font-weight: 600; display: block; font-size: 13px; } .tl2 span { color: var(--muted); font-size: 12px; }
+    .p-actions { position: sticky; bottom: 0; background: var(--card); border-top: 1px solid var(--line); padding: 14px 22px; display: flex; gap: 10px; }
+    .p-actions button { flex: 1; border-radius: 11px; padding: 12px; font-size: 13.5px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 8px; } .p-actions button svg { width: 16px; height: 16px; flex: none; } .pa-ghost { background: #fff; border: 1px solid var(--line); color: var(--text); } .pa-ghost:hover { border-color: #cfe0f7; color: var(--accent); } .pa-primary { background: linear-gradient(180deg,var(--accent-2),var(--accent)); border: none; color: #fff; } .pa-primary:hover { filter: brightness(1.06); }
+
+    .toast { position: fixed; bottom: 26px; right: 26px; background: #0f1b2d; color: #fff; padding: 13px 18px; border-radius: 12px; font-size: 13.5px; font-weight: 600; display: flex; align-items: center; gap: 11px; box-shadow: 0 20px 40px -16px rgba(0,0,0,0.5); opacity: 0; transform: translateY(20px); transition: all 0.3s cubic-bezier(.4,0,.2,1); z-index: 60; } .toast.show { opacity: 1; transform: none; } .toast .tk { width: 24px; height: 24px; border-radius: 50%; background: #16a34a; display: flex; align-items: center; justify-content: center; flex: none; } .toast .tk svg { width: 14px; height: 14px; } .toast small { display: block; color: #9fb0c7; font-weight: 500; font-size: 11.5px; }
+
+    @media (max-width: 1240px) { .kpis { grid-template-columns: repeat(3,1fr); } .split { grid-template-columns: 1fr; } .rail { position: static; flex-direction: row; flex-wrap: wrap; } .rc { flex: 1; min-width: 280px; } }
+    @media (max-width: 900px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .kpis { grid-template-columns: repeat(2,1fr); } .lhead { display: none; } .lrow { grid-template-columns: 60px 1fr auto; } .lrow .l-hide { display: none; } }
+    @media (max-width: 560px) { .content { padding: 20px 14px 60px; } .kpis { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav">
+        <a href="/dashboard"><svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Home</a>
+        <a href="/prospects"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Prospects<span class="nb">18</span></a>
+        <a href="/customers"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Customers</a>
+        <a href="/appointments"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Appointments<span class="nb">5</span></a>
+        <a href="/tasks"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 12.5l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Tasks<span class="nb">7</span></a>
+        <a class="on" href="/inventory"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Inventory</a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Communications<span class="nb">3</span></a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Reports</a>
+        <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Settings</a>
+      </nav>
+      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input type="text" placeholder="Search customers, vehicles, deals..." aria-label="Search" /><span class="kbd">⌘</span><span class="kbd">K</span></div>
+        <span class="live-chip"><span class="ld"></span>Live</span>
+        <div class="tb-icons">
+          <button class="ib" aria-label="Calls"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <button class="ib" aria-label="Messages"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <button class="ib" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="dot">4</span></button>
+          <span class="tb-avatar"><span class="av">CM</span></span>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="phead">
+          <div><h1>Inventory</h1><p class="sub">View and manage dealership inventory in real time.</p></div>
+          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Add Vehicle</button>
+        </div>
+
+        <div class="sec-label">Inventory Overview</div>
+        <div class="kpis" id="kpis"></div>
+
+        <div class="toolbar">
+          <div class="psearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" type="text" placeholder="Search by VIN, stock #, year, make, model, color, mileage..." /></div>
+          <div class="segn" id="viewSeg">
+            <button data-v="grid" class="on"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Grid</button>
+            <button data-v="list"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>List</button>
+            <button data-v="kanban"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="4.5" height="16" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="10" y="4" width="4.5" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="16" y="4" width="4.5" height="14" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Kanban</button>
+            <button data-v="gallery"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="10" r="1.6" fill="currentColor"/><path d="M5 17l4-4 3 2.5L16 11l3 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Gallery</button>
+            <button data-v="map"><svg viewBox="0 0 24 24"><path d="M9 4L4 6v14l5-2 6 2 5-2V4l-5 2-6-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 4v14M15 6v14" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Map</button>
+          </div>
+        </div>
+
+        <div class="pills" id="pills"></div>
+
+        <div class="split">
+          <section id="inv"></section>
+          <aside class="rail">
+            <div class="rc">
+              <h3>Real-Time Activity <span class="live-mini"><span class="ld"></span>LIVE</span></h3>
+              <div class="feed" id="feed"></div>
+            </div>
+            <div class="rc">
+              <h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Recommendations</h3>
+              <div class="airec"><p><b>4 customers</b> match today's inventory arrival (Colorado Trail Boss).</p><div class="rec">→ Send arrival notifications</div></div>
+              <div class="airec"><p>This <b>Tahoe</b> has 51 views but no inquiries.</p><div class="rec">→ Record a walkaround video</div></div>
+              <div class="airec"><p><b>Silverado</b> inventory is running low in your market.</p><div class="rec">→ Acquire additional units</div></div>
+            </div>
+            <div class="rc">
+              <h3>Inventory Health</h3>
+              <div class="health-row"><span class="hl">Average Days in Stock</span><span class="hv">38 days</span></div>
+              <div class="health-row"><span class="hl">Price Drops This Week</span><span class="hv">12</span></div>
+              <div class="health-row"><span class="hl">Aged Inventory (60+ days)</span><span class="hv warn">18</span></div>
+              <div class="health-row"><span class="hl">Vehicles Without Photos</span><span class="hv warn">6</span></div>
+              <div class="health-row"><span class="hl">Missing Window Stickers</span><span class="hv warn">9</span></div>
+              <div class="health-row"><span class="hl">Needing Detail</span><span class="hv">7</span></div>
+              <div class="health-row"><span class="hl">Waiting Inspection</span><span class="hv bad">4</span></div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><span id="toastMsg">Vehicle sold</span><small id="toastSub">Just now</small></div></div>
+
+  <script>
+    /* ---- vehicle silhouette (studio photo stand-in) ---- */
+    function shade(hex, amt) { const n = parseInt(hex.slice(1),16); let r=(n>>16)+amt, g=((n>>8)&255)+amt, b=(n&255)+amt; r=Math.max(0,Math.min(255,r)); g=Math.max(0,Math.min(255,g)); b=Math.max(0,Math.min(255,b)); return "#"+(r<<16|g<<8|b).toString(16).padStart(6,"0"); }
+    const BODIES = {
+      truck: 'M12 40 L12 31 C12 29 14 28 18 27 L32 17 C35 14 39 13 46 13 L74 13 L79 27 L150 27 L150 40 Z',
+      suv:   'M12 40 L12 32 C12 30 14 29 18 28 L32 16 C35 13 40 12 48 12 L112 12 C122 12 128 14 134 21 L147 29 C152 31 152 38 150 40 Z',
+      sedan: 'M10 40 C10 34 14 33 20 32 L40 21 C46 17 60 16 80 16 C102 16 122 20 134 27 L147 31 C153 33 153 39 150 40 Z'
+    };
+    const WINDOWS = {
+      truck: 'M40 26 L48 18 L70 18 L73 26 Z',
+      suv:   'M40 26 L50 16 L108 16 L124 26 Z',
+      sedan: 'M46 30 L58 20 L104 21 L120 29 Z'
+    };
+    function carSVG(body, hex) {
+      const b = BODIES[body], w = WINDOWS[body];
+      return `<div class="stage"><svg class="car" viewBox="0 0 162 52" xmlns="http://www.w3.org/2000/svg">
+        <path d="${b}" fill="${hex}" stroke="${shade(hex,-30)}" stroke-width="1"/>
+        <path d="${w}" fill="${shade(hex,55)}" opacity="0.85"/>
+        <path d="${b}" fill="url(#gl)" opacity="0.18"/>
+        <defs><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+        <g><circle cx="46" cy="41" r="10" fill="#1c2330"/><circle cx="46" cy="41" r="4.6" fill="#cbd5e1"/><circle cx="46" cy="41" r="2" fill="#8b98ab"/><circle cx="122" cy="41" r="10" fill="#1c2330"/><circle cx="122" cy="41" r="4.6" fill="#cbd5e1"/><circle cx="122" cy="41" r="2" fill="#8b98ab"/></g>
+      </svg></div>`;
+    }
+    const IC = {
+      eye:'<path d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7-10-7-10-7z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.7" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      tag:'<path d="M4 12V5a1 1 0 0 1 1-1h7l8 8-8 8-8-8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/>',
+      pin:'<path d="M12 21s-6-5.5-6-10a6 6 0 1 1 12 0c0 4.5-6 10-6 10z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="11" r="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      calc:'<rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 7h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15v3M8 18h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+      swap:'<path d="M4 8h13l-3-3M20 16H7l3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+      share:'<circle cx="6" cy="12" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="6" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="18" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.2 11l6.6-3.6M8.2 13l6.6 3.6" stroke="currentColor" stroke-width="1.7"/>',
+      print:'<path d="M7 8V3.5h10V8M7 17H5a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-2M7 14h10v6.5H7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      clock:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v4.5l3 1.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+      dots:'<circle cx="6" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="18" cy="12" r="1.6" fill="currentColor"/>',
+      heart:'<path d="M12 20s-7-4.5-7-9.5A3.5 3.5 0 0 1 12 8a3.5 3.5 0 0 1 7 2.5C19 15.5 12 20 12 20z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      deal:'<path d="M4 7h16v10H4z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 5 8-5" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      car:'<path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      dollar:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5v9M14 9.5c0-1-1-1.5-2-1.5s-2 .5-2 1.5 1 1.4 2 1.6 2 .6 2 1.6-1 1.5-2 1.5-2-.5-2-1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+      truck:'<path d="M2 8h11v9H2zM13 11h4l3 3v3h-7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="6" cy="17.5" r="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="17.5" r="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/>',
+      check:'<path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
+      sticker:'<rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 7h8M8 11h8M8 15h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+      wrench:'<path d="M15 5a3.5 3.5 0 0 1-4.6 4.6L5 15l2 2 5.4-5.4A3.5 3.5 0 0 0 17 7l-2 2-1.5-1.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      plus:'<path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'
+    };
+    const svg = (k) => `<svg viewBox="0 0 24 24">${IC[k]}</svg>`;
+    const $ = (id) => document.getElementById(id);
+    const money = (n) => "$" + n.toLocaleString();
+
+    const STATUS = { available:["s-available","Available"], reserved:["s-reserved","Reserved"], transit:["s-transit","In Transit"], service:["s-service","In Service"], hold:["s-hold","On Hold"], sold:["s-sold","Sold"] };
+    const BDG = { new:["bdg-new","New Arrival"], reduced:["bdg-reduced","Price Reduced"], hot:["bdg-hot","Hot Vehicle"], popular:["bdg-popular","Popular"], manager:["bdg-manager","Manager Special"], limited:["bdg-limited","Limited"], detailed:["bdg-detailed","Recently Detailed"] };
+
+    let V = [
+      { id:1, year:2026, make:"Chevrolet", model:"Silverado", trim:"LT", body:"truck", color:"Northsky Blue", hex:"#2f5fb0", engine:"5.3L V8", drive:"4WD", trans:"10-Speed Auto", stock:"T45281", vin:"3GCUKDED5SG145281", miles:14, price:52995, prev:54995, days:18, status:"available", cond:"new", badges:["new","hot"], views:213, saved:14, inquiries:8, deals:2, rep:"Cameron", demand:"high",
+        features:["Z71 Off-Road","Heated Seats","Tow Package","Bose Audio","Wireless CarPlay","360 Camera"],
+        priceHist:[["May 1","Listed",54995,false],["May 22","Reduced",53995,true],["Jun 12","Reduced",52995,true]],
+        ai:[["This Silverado has <b>127 online views</b> this week — demand is rising.","Keep current pricing."],["<b>3 customers</b> currently match this vehicle.","Send a personalized walkaround video."]],
+        activity:[["#2563eb","Listed to inventory","Jun 12"],["#7c3aed","Window sticker generated","Jun 13"],["#16a34a","Viewed 21 times today","Today"]] },
+      { id:2, year:2025, make:"Chevrolet", model:"Tahoe", trim:"High Country", body:"suv", color:"Black", hex:"#23262b", engine:"6.2L V8", drive:"4WD", trans:"10-Speed Auto", stock:"T44102", vin:"1GNSKTKL8SR144102", miles:9, price:74995, prev:0, days:12, status:"available", cond:"new", badges:["popular"], views:188, saved:22, inquiries:6, deals:1, rep:"Cameron", demand:"high",
+        features:["Panoramic Roof","Captain's Chairs","Max Trailering","Head-Up Display","Rear Entertainment"],
+        priceHist:[["Jun 20","Listed",74995,false]],
+        ai:[["This Tahoe has <b>51 views but no inquiries.</b>","Record a walkaround video to convert interest."]],
+        activity:[["#2563eb","Listed to inventory","Jun 20"],["#0891b2","Recently detailed","Jun 22"]] },
+      { id:3, year:2024, make:"Chevrolet", model:"Colorado", trim:"Trail Boss", body:"truck", color:"Harvest Bronze", hex:"#8a6a3a", engine:"2.7L Turbo", drive:"4WD", trans:"8-Speed Auto", stock:"T43880", vin:"1GCPTEEK9R1143880", miles:6, price:41995, prev:0, days:1, status:"transit", cond:"new", badges:["new"], views:44, saved:5, inquiries:2, deals:0, rep:"Unassigned", demand:"normal",
+        features:["Off-Road Suspension","Skid Plates","Bed Liner","Remote Start"],
+        priceHist:[["Today","Listed",41995,false]],
+        ai:[["<b>4 customers</b> match this arriving Trail Boss.","Send arrival notifications now."]],
+        activity:[["#ea8a0b","On transport truck","Today"],["#2563eb","VIN decoded","Today"]] },
+      { id:4, year:2023, make:"Chevrolet", model:"Corvette", trim:"Stingray 3LT", body:"sedan", color:"Torch Red", hex:"#c62b2b", engine:"6.2L V8", drive:"RWD", trans:"8-Speed DCT", stock:"S41290", vin:"1G1YC2D40P5141290", miles:3120, price:76995, prev:79995, days:64, status:"available", cond:"used", badges:["reduced","limited"], views:301, saved:38, inquiries:11, deals:1, rep:"Cameron", demand:"high",
+        features:["Z51 Package","Carbon Interior","Magnetic Ride","Front Lift","Performance Exhaust"],
+        priceHist:[["Apr 18","Listed",79995,false],["May 20","Reduced",78995,true],["Jun 15","Reduced",76995,true]],
+        ai:[["This Corvette has been in inventory <b>64 days.</b>","Reduce price by $500 to accelerate sale."],["Low inventory of this trim in your market.","Consider holding firm on price."]],
+        activity:[["#2563eb","Listed to inventory","Apr 18"],["#16a34a","Price reduced to $76,995","Jun 15"]] },
+      { id:5, year:2024, make:"GMC", model:"Sierra", trim:"Denali", body:"truck", color:"White Frost", hex:"#e6e7ea", engine:"6.2L V8", drive:"4WD", trans:"10-Speed Auto", stock:"T42551", vin:"3GTUUGEL8RG142551", miles:11240, price:68995, prev:0, days:29, status:"reserved", cond:"certified", badges:["detailed"], views:142, saved:17, inquiries:5, deals:1, rep:"Cameron", demand:"normal",
+        features:["Denali Ultimate","Super Cruise","MultiPro Tailgate","Massaging Seats"],
+        priceHist:[["May 25","Listed",68995,false]],
+        ai:[["Reserved by a customer with financing pending.","Follow up to finalize the deal."]],
+        activity:[["#7c3aed","Reserved by customer","2 days ago"],["#0891b2","Recently detailed","3 days ago"]] },
+      { id:6, year:2024, make:"Chevrolet", model:"Equinox", trim:"RS", body:"suv", color:"Riptide Blue", hex:"#3a7ca5", engine:"1.5L Turbo", drive:"AWD", trans:"CVT", stock:"S43011", vin:"3GNAXWEG7RL143011", miles:8900, price:31995, prev:32995, days:41, status:"available", cond:"certified", badges:["reduced"], views:97, saved:9, inquiries:3, deals:0, rep:"Cameron", demand:"normal",
+        features:["RS Appearance","Panoramic Roof","Adaptive Cruise","Wireless Charging"],
+        priceHist:[["May 12","Listed",32995,false],["Jun 18","Reduced",31995,true]],
+        ai:[["Steady interest at current price.","Highlight the certified warranty in listings."]],
+        activity:[["#2563eb","Listed to inventory","May 12"],["#16a34a","Price reduced","Jun 18"]] },
+      { id:7, year:2025, make:"Chevrolet", model:"Traverse", trim:"RS", body:"suv", color:"Sterling Gray", hex:"#6b7280", engine:"2.5L Turbo", drive:"AWD", trans:"8-Speed Auto", stock:"T44780", vin:"1GNEVJKS4SJ144780", miles:7, price:47995, prev:0, days:3, status:"available", cond:"new", badges:["new","detailed"], views:76, saved:11, inquiries:4, deals:0, rep:"Cameron", demand:"normal",
+        features:["RS Package","Third Row","Google Built-In","Panoramic Roof","Hands-Free Liftgate"],
+        priceHist:[["Jun 28","Listed",47995,false]],
+        ai:[["Fresh arrival gaining early views.","Feature on the homepage carousel."]],
+        activity:[["#2563eb","Listed to inventory","Jun 28"],["#7c3aed","Window sticker generated","Jun 28"]] },
+      { id:8, year:2022, make:"Ford", model:"F-150", trim:"XLT", body:"truck", color:"Iconic Silver", hex:"#b6bac0", engine:"3.5L EcoBoost", drive:"4WD", trans:"10-Speed Auto", stock:"S39820", vin:"1FTFW1E80NF139820", miles:34110, price:38995, prev:0, days:52, status:"service", cond:"used", badges:["manager"], views:64, saved:6, inquiries:2, deals:0, rep:"Cameron", demand:"low",
+        features:["XLT Sport","Trailer Tow","Twin Panel Moonroof","B&O Audio"],
+        priceHist:[["May 8","Listed",38995,false]],
+        ai:[["In service for reconditioning — brakes and detail.","Relist once inspection clears (est. 2 days)."]],
+        activity:[["#64748b","Entered service","Yesterday"],["#dc2626","Awaiting inspection","Today"]] },
+      { id:9, year:2024, make:"Cadillac", model:"XT5", trim:"Sport", body:"suv", color:"Crystal White", hex:"#eceef1", engine:"3.6L V6", drive:"AWD", trans:"9-Speed Auto", stock:"S43550", vin:"1GYKNGRS4RZ143550", miles:12600, price:49995, prev:0, days:22, status:"available", cond:"certified", badges:["popular"], views:129, saved:19, inquiries:6, deals:1, rep:"Cameron", demand:"high",
+        features:["Sport AWD","Panoramic Roof","AKG Studio Audio","Super Cruise Ready"],
+        priceHist:[["Jun 5","Listed",49995,false]],
+        ai:[["Strong favorites-to-views ratio.","Great candidate for a limited-time offer."]],
+        activity:[["#2563eb","Listed to inventory","Jun 5"],["#db2777","Saved by 19 customers","This week"]] },
+    ];
+
+    let FEED = [
+      ["#7c3aed","tag","<b>Silverado LT</b> reserved","2 minutes ago"],
+      ["#16a34a","check","<b>Tahoe High Country</b> sold","5 minutes ago"],
+      ["#ea8a0b","truck","<b>Colorado Trail Boss</b> arrived","12 minutes ago"],
+      ["#2563eb","dollar","Price updated — <b>Silverado RST</b>","24 minutes ago"],
+      ["#0891b2","sticker","Window sticker generated — <b>Traverse RS</b>","31 minutes ago"],
+      ["#64748b","truck","Transport truck arrived — <b>8 vehicles added</b>","48 minutes ago"],
+    ];
+
+    let KPI = { available:236, reserved:12, transit:27, sold:9, avgdays:38, attention:14 };
+    function renderKPI(flashKey) {
+      const cards = [
+        ["available","Available Vehicles","blue","car"], ["reserved","Reserved","purple","tag"], ["transit","In Transit","amber","truck"],
+        ["sold","Sold Today","green","check"], ["avgdays","Avg Days in Stock","teal","clock"], ["attention","Requires Attention","red","wrench"]
+      ];
+      $("kpis").innerHTML = cards.map(([k,l,c,ic]) => `<div class="kp"><span class="kp-ic ic-${c}">${svg(ic)}</span><div class="kp-v ${flashKey===k?"flash":""}" data-k="${k}">${KPI[k].toLocaleString()}</div><div class="kp-l">${l}</div></div>`).join("");
+      if (flashKey) setTimeout(() => { const el = document.querySelector(`.kp-v[data-k="${flashKey}"]`); if (el) el.classList.remove("flash"); }, 700);
+    }
+
+    const PILLS = [["all","All"],["new","New"],["used","Used"],["certified","Certified"],["reserved","Reserved"],["transit","In Transit"],["service","Service"],["reduced","Price Reduced"],["aged","Aged Inventory"],["recent","Recently Added"],["hot","High Demand"],["truck","Truck"],["suv","SUV"],["sedan","Sedan"]];
+    const state = { view:"grid", filter:"all", q:"" };
+    function matchFilter(v) {
+      const f = state.filter;
+      if (f === "all") return true;
+      if (["new","used","certified"].includes(f)) return v.cond === f;
+      if (["reserved","transit","service"].includes(f)) return v.status === f;
+      if (f === "reduced") return v.badges.includes("reduced");
+      if (f === "aged") return v.days >= 50;
+      if (f === "recent") return v.days <= 5;
+      if (f === "hot") return v.demand === "high";
+      if (["truck","suv","sedan"].includes(f)) return v.body === f;
+      return true;
+    }
+    function matchSearch(v) { const q = state.q.trim().toLowerCase(); if (!q) return true; return [v.year,v.make,v.model,v.trim,v.color,v.stock,v.vin,v.miles,v.engine,v.trans].join(" ").toLowerCase().includes(q); }
+    const vis = () => V.filter((v) => matchFilter(v) && matchSearch(v) && v.status !== "sold");
+
+    function hoverBar(id) {
+      const acts = [["eye","View"],["tag","Reserve"],["pin","Locate"],["calc","Payment"],["swap","Trade"],["print","Sticker"],["dots","More"]];
+      return `<div class="vhover">${acts.map(([i,t]) => `<button class="vhb" title="${t}" data-hover="${i}" data-vid="${id}">${svg(i)}</button>`).join("")}</div>`;
+    }
+    function gridCard(v) {
+      const st = STATUS[v.status];
+      const bdgs = v.badges.slice(0,2).map((b) => `<span class="bdg ${BDG[b][0]}">${BDG[b][1]}</span>`).join("");
+      return `<div class="vcard" data-id="${v.id}">
+        <div class="vphoto">${carSVG(v.body, v.hex)}<div class="badges">${bdgs}</div><span class="stat-pill ${st[0]}">${st[1]}</span>${hoverBar(v.id)}</div>
+        <div class="vbody">
+          <div class="vtitle">${v.year} ${v.make} ${v.model} ${v.trim}</div>
+          <div class="vspec"><span class="sw"><span class="swp" style="background:${v.hex}"></span>${v.color}</span><span>·</span><span>${v.engine}</span><span>·</span><span>${v.drive}</span></div>
+          <div class="vmeta">
+            <div><div class="k">Stock</div><div class="v">${v.stock}</div></div>
+            <div><div class="k">Mileage</div><div class="v">${v.miles.toLocaleString()}</div></div>
+            <div><div class="k">Days</div><div class="v">${v.days}</div></div>
+          </div>
+          <div class="vprice"><span class="p">${money(v.price)}</span>${v.prev?`<span class="op">${money(v.prev)}</span>`:""}</div>
+          <div class="vlive"><span class="li">${svg("eye")}<b>${v.views}</b> views today</span><span class="li">${svg("heart")}<b>${v.saved}</b> saved</span></div>
+          <button class="vopen" data-id="${v.id}">Open Vehicle</button>
+        </div>
+      </div>`;
+    }
+
+    function renderInv() {
+      const el = $("inv"), rows = vis();
+      if (state.view === "grid") el.innerHTML = `<div class="grid">${rows.map(gridCard).join("")}</div>`;
+      else if (state.view === "list") el.innerHTML = listView(rows);
+      else if (state.view === "kanban") el.innerHTML = kanbanView();
+      else if (state.view === "gallery") el.innerHTML = `<div class="gallery">${rows.map(galleryTile).join("")}</div>`;
+      else el.innerHTML = mapView();
+      el.querySelectorAll("[data-id]").forEach((n) => n.addEventListener("click", (e) => { if (e.target.closest("[data-hover]")) return; openPanel(+n.dataset.id); }));
+      el.querySelectorAll("[data-hover]").forEach((b) => b.addEventListener("click", (e) => { e.stopPropagation(); const i = b.dataset.hover; if (i === "eye" || i === "dots") openPanel(+b.dataset.vid); else if (i === "tag") reserveVehicle(+b.dataset.vid); else showToast(b.title + " opened", "Launching workflow"); }));
+    }
+
+    function listView(rows) {
+      return `<div class="lhead"><span>PHOTO</span><span>VEHICLE</span><span>PRICE</span><span>STOCK / VIN</span><span>STATUS</span><span>DAYS</span><span>VIEWS</span></div>
+      <div class="list">${rows.map((v) => { const st = STATUS[v.status]; return `<div class="lrow" data-id="${v.id}">
+        <div class="lthumb">${carSVG(v.body, v.hex)}</div>
+        <div class="lv"><b>${v.year} ${v.make} ${v.model} ${v.trim}</b><span>${v.color} · ${v.engine} · ${v.miles.toLocaleString()} mi</span></div>
+        <div class="price-2">${money(v.price)}</div>
+        <div class="muted-2 l-hide">${v.stock}<br><span style="font-size:11px">${v.vin.slice(0,11)}…</span></div>
+        <div class="l-hide"><span class="stat-pill ${st[0]}" style="position:static;box-shadow:none;border:1px solid var(--line)">${st[1]}</span></div>
+        <div class="muted-2 l-hide">${v.days} days</div>
+        <div class="muted-2 l-hide">${v.views}</div>
+        <div class="lactions"><button class="vhb" title="View" data-hover="eye" data-vid="${v.id}">${svg("eye")}</button><button class="vhb" title="Reserve" data-hover="tag" data-vid="${v.id}">${svg("tag")}</button><button class="vhb" title="Sticker" data-hover="print" data-vid="${v.id}">${svg("print")}</button></div>
+      </div>`; }).join("")}</div>`;
+    }
+    function kanbanView() {
+      const cols = [["available","Available","#16a34a"],["reserved","Reserved","#7c3aed"],["transit","In Transit","#ea8a0b"],["service","Service","#64748b"]];
+      return `<div class="kanban">${cols.map(([k,label,color]) => { const items = V.filter((v)=>v.status===k && matchSearch(v) && matchFilter(v)); return `<div class="kcol"><div class="kcol-hd"><span class="dot" style="background:${color}"></span><b>${label}</b><span class="cn">${items.length}</span></div>${items.map((v)=>`<div class="kcard" data-id="${v.id}"><div class="kthumb">${carSVG(v.body,v.hex)}</div><b>${v.year} ${v.model} ${v.trim}</b><div class="kp2">${money(v.price)}</div><div class="km">${v.stock} · ${v.days} days · ${v.views} views</div></div>`).join("")||`<div style="color:var(--faint);font-size:12.5px;padding:10px 4px">No vehicles</div>`}</div>`; }).join("")}</div>`;
+    }
+    function galleryTile(v) {
+      return `<div class="gtile" data-id="${v.id}">${carSVG(v.body,v.hex)}<div class="gcap"><b>${v.year} ${v.make} ${v.model} ${v.trim}</b><span>${v.color} · ${v.miles.toLocaleString()} mi · ${v.stock}</span><div class="gp">${money(v.price)}</div></div></div>`;
+    }
+    function mapView() {
+      const zones = [["Front Lot",6,"5%","6%","42%",["#16a34a","#16a34a","#2563eb","#16a34a","#db2777","#16a34a"]],["Showroom",3,"5%","54%","20%",["#7c3aed","#16a34a","#16a34a"]],["Service Bay",2,"30%","54%","20%",["#64748b","#dc2626"]],["In Transit",4,"57%","6%","36%",["#ea8a0b","#ea8a0b","#ea8a0b","#ea8a0b"]]];
+      return `<div class="mapv"><div class="lot" style="min-height:360px">${zones.map(([label,n,top,left,w,cols]) => `<div class="lot-zone" style="top:${top};left:${left};width:${w}"><div class="zl">${label} · ${n}</div><div class="lot-dots">${cols.map((c)=>`<i style="background:${c}"></i>`).join("")}</div></div>`).join("")}</div>
+      <div class="map-legend"><span class="lg"><i style="background:#16a34a"></i>Available</span><span class="lg"><i style="background:#7c3aed"></i>Reserved</span><span class="lg"><i style="background:#ea8a0b"></i>In Transit</span><span class="lg"><i style="background:#64748b"></i>Service</span><span class="lg"><i style="background:#dc2626"></i>Inspection</span></div></div>`;
+    }
+
+    function renderPills() {
+      $("pills").innerHTML = PILLS.map(([t,l]) => `<button class="pill ${state.filter===t?"on":""}" data-t="${t}">${l}</button>`).join("");
+      document.querySelectorAll(".pill").forEach((b) => b.addEventListener("click", () => { state.filter = b.dataset.t; renderPills(); renderInv(); }));
+    }
+    function renderFeed(flash) {
+      $("feed").innerHTML = FEED.slice(0,7).map((f,i) => `<div class="fitem ${flash&&i===0?"new-flash":""}"><span class="f-ic" style="background:${f[0]}18;color:${f[0]}">${svg(f[1])}</span><div class="f-b"><b>${f[2].replace(/<\/?b>/g,(m)=>m)}</b>${f[3]?`<span>${f[3]}</span>`:""}</div></div>`).join("");
+    }
+
+    /* ---- slide-over ---- */
+    const scrim = $("scrim"), panel = $("panel");
+    function openPanel(id) {
+      const v = V.find((x) => x.id === id); if (!v) return;
+      const st = STATUS[v.status];
+      const angles = [v.hex, shade(v.hex,-18), shade(v.hex,20)];
+      panel.innerHTML = `<div class="panel-body">
+        <div class="p-hero">${carSVG(v.body, v.hex)}<button class="p-close" id="pClose">${'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'}</button><span class="stat-pill ${st[0]}" style="top:16px;left:16px">${st[1]}</span></div>
+        <div class="p-thumbs">${angles.map((h,i)=>`<div class="p-thumb ${i===0?"on":""}">${carSVG(v.body,h)}</div>`).join("")}<div class="p-thumb addph" title="Drag &amp; drop to upload">${svg("plus")}</div></div>
+        <div class="p-sec">
+          <div class="p-tophd"><div><h2>${v.year} ${v.make} ${v.model} ${v.trim}</h2><div class="pspec">${v.color} · ${v.engine} · ${v.drive} · ${v.trans}</div></div><div class="pprice"><div class="pp">${money(v.price)}</div>${v.prev?`<div class="op">${money(v.prev)}</div>`:""}</div></div>
+          <div class="interest">
+            <div class="int"><div class="iv">${v.inquiries}</div><div class="il">Interested</div></div>
+            <div class="int"><div class="iv">${v.deals}</div><div class="il">Open Deals</div></div>
+            <div class="int"><div class="iv">${v.saved}</div><div class="il">Saved</div></div>
+            <div class="int"><div class="iv">${v.views}</div><div class="il">Views Today</div></div>
+          </div>
+          <div class="sect"><h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Insights</h3>${v.ai.map((a)=>`<div class="ai-card"><p>${a[0]}</p><div class="rec">→ ${a[1]}</div></div>`).join("")}</div>
+          <div class="sect"><h3>Overview</h3><div class="ov">
+            <div><div class="k">Stock Number</div><div class="v">${v.stock}</div></div>
+            <div><div class="k">VIN</div><div class="v">${v.vin}</div></div>
+            <div><div class="k">Mileage</div><div class="v">${v.miles.toLocaleString()} mi</div></div>
+            <div><div class="k">Condition</div><div class="v" style="text-transform:capitalize">${v.cond}</div></div>
+            <div><div class="k">Days in Stock</div><div class="v">${v.days} days</div></div>
+            <div><div class="k">Assigned Rep</div><div class="v">${v.rep}</div></div>
+          </div></div>
+          <div class="sect"><h3>Features</h3><div class="feat">${v.features.map((f)=>`<span>${f}</span>`).join("")}</div></div>
+          <div class="sect"><h3>Price History</h3>${v.priceHist.map((p)=>`<div class="ph"><div class="phd">${p[0]}</div><div class="phl">${p[1]}</div><div class="phv ${p[3]?"down":""}">${money(p[2])}</div></div>`).join("")}</div>
+          <div class="sect"><h3>Activity Timeline</h3>${v.activity.map((a)=>`<div class="tl2"><span class="tl2-dot" style="background:${a[0]};box-shadow:0 0 0 4px ${a[0]}22"></span><div><b>${a[1]}</b><span>${a[2]}</span></div></div>`).join("")}</div>
+        </div>
+        <div class="p-actions"><button class="pa-ghost" id="pStick">${svg("print")} Window Sticker</button><button class="pa-primary" id="pReserve">${v.status==="reserved"?"View Deal":"Reserve Vehicle"}</button></div>
+      </div>`;
+      panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
+      $("pClose").addEventListener("click", closeAll);
+      $("pReserve").addEventListener("click", () => { if (v.status !== "reserved") reserveVehicle(id); closeAll(); });
+      $("pStick").addEventListener("click", () => showToast("Window sticker generated", `${v.year} ${v.model} ${v.trim}`));
+      panel.querySelectorAll(".p-thumb:not(.addph)").forEach((t) => t.addEventListener("click", () => { panel.querySelectorAll(".p-thumb").forEach((x)=>x.classList.remove("on")); t.classList.add("on"); }));
+    }
+    function closeAll() { panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
+    scrim.addEventListener("click", closeAll);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeAll(); if (e.key === "/" && document.activeElement.tagName !== "INPUT") { e.preventDefault(); $("search").focus(); } });
+
+    /* ---- actions ---- */
+    let toastT;
+    function showToast(msg, sub) { $("toastMsg").textContent = msg; $("toastSub").textContent = sub || "Just now"; const el = $("toast"); el.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(()=>el.classList.remove("show"), 2800); }
+    function reserveVehicle(id) {
+      const v = V.find((x)=>x.id===id); if (!v || v.status==="reserved") return;
+      v.status = "reserved"; if (!v.badges.includes("popular")) {}
+      KPI.reserved++; if (KPI.available>0) KPI.available--; renderKPI("reserved");
+      FEED.unshift(["#7c3aed","tag",`<b>${v.model} ${v.trim}</b> reserved`,"just now"]); renderFeed(true);
+      renderInv(); showToast(`${v.model} ${v.trim} reserved`, "Removed from available inventory");
+    }
+
+    /* ---- real-time simulation (SSE / WebSocket stand-in) ---- */
+    let tickN = 0;
+    function tick() {
+      tickN++;
+      const avail = V.filter((v)=>v.status==="available");
+      const mode = tickN % 5;
+      if (mode === 0 && avail.length > 3) {
+        const v = avail[Math.floor(tickN/5) % avail.length];
+        const cardEl = document.querySelector(`.vcard[data-id="${v.id}"]`);
+        v.status = "sold";
+        KPI.sold++; if (KPI.available>0) KPI.available--; renderKPI("sold");
+        FEED.unshift(["#16a34a","check",`<b>${v.model} ${v.trim}</b> sold`,"just now"]); renderFeed(true);
+        showToast(`✓ ${v.model} ${v.trim} sold`, "Just now — removed from inventory");
+        if (cardEl) { cardEl.classList.add("sold-out"); setTimeout(renderInv, 480); } else renderInv();
+      } else if (mode === 1) {
+        const v = avail.find((x)=>!x.prev && x.status==="available") || avail[0];
+        if (v) { v.prev = v.price; v.price -= 500; if (!v.badges.includes("reduced")) v.badges.unshift("reduced");
+          KPI.attention = Math.max(0, KPI.attention); FEED.unshift(["#2563eb","dollar",`Price updated — <b>${v.model} ${v.trim}</b>`,"just now"]); renderFeed(true); renderInv(); showToast(`Price reduced — ${v.model} ${v.trim}`, `Now ${money(v.price)}`); }
+      } else if (mode === 2) {
+        const t = V.find((x)=>x.status==="transit");
+        FEED.unshift(["#ea8a0b","truck",`Transport update — <b>${t?t.model:"Colorado"} en route</b>`,"just now"]); renderFeed(true);
+      } else if (mode === 3) {
+        const v = avail[tickN % avail.length]; if (v) { v.views += Math.floor(3 + tickN%5); FEED.unshift(["#0891b2","eye",`<b>${v.model} ${v.trim}</b> viewed ${v.views}× today`,"just now"]); renderFeed(true); if (state.view==="grid"||state.view==="list") renderInv(); }
+      } else {
+        FEED.unshift(["#7c3aed","sticker",`Window sticker generated — <b>${avail[tickN%avail.length]?.model||"Traverse"} RS</b>`,"just now"]); renderFeed(true);
+      }
+      FEED = FEED.slice(0, 12);
+    }
+
+    document.querySelectorAll("#viewSeg button").forEach((b) => b.addEventListener("click", () => { document.querySelectorAll("#viewSeg button").forEach((x)=>x.classList.remove("on")); b.classList.add("on"); state.view = b.dataset.v; renderInv(); }));
+    $("search").addEventListener("input", (e) => { state.q = e.target.value; renderInv(); });
+
+    renderKPI(); renderPills(); renderInv(); renderFeed();
+    setInterval(tick, 5000);
+  </script>
+</body>
+</html>
