@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Service Retention — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:420px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#e7f7ee; color:#16a34a; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; max-width:580px; }
+    .btn-primary { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; border-radius:11px; padding:11px 18px; font-size:13.5px; font-weight:600; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); } .btn-primary svg { width:16px; height:16px; }
+
+    .kpis { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin:22px 0 20px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 15px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:11.5px;} .kp .kv{font-size:22px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kd{font-size:11px;font-weight:700;margin-top:4px;color:var(--green);} .kp .kd.down{color:var(--red);} .kp .kd.warn{color:var(--amber);}
+
+    .grid { display:grid; grid-template-columns:1fr 1.3fr; gap:18px; align-items:start; }
+    @media(max-width:1080px){ .grid{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .card-h { display:flex; align-items:center; gap:10px; padding:16px 20px; border-bottom:1px solid var(--line); } .card-h h2{font-size:15px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);} .card-h .r{margin-left:auto;font-size:12.5px;color:var(--muted);font-weight:700;}
+    .card-b { padding:18px 20px; }
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:24px 0 14px; }
+
+    /* retention gauge */
+    .gauge{display:flex;align-items:center;gap:22px;}
+    .gring{width:130px;height:130px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;position:relative;} .gring .gi{width:100px;height:100px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;} .gring .gi b{font-size:32px;font-weight:900;letter-spacing:-1.5px;color:#16a34a;} .gring .gi span{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;}
+    .gd h3{font-size:15px;font-weight:800;} .gd p{font-size:12.5px;color:var(--muted);line-height:1.5;margin-top:5px;}
+    .gbreak{margin-top:14px;} .gbreak .gb{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12.5px;} .gbreak .gb .gl{width:100px;color:var(--muted);flex:none;} .gbreak .gb .gbar{flex:1;height:7px;background:var(--bg);border-radius:5px;overflow:hidden;} .gbreak .gb .gbar>i{display:block;height:100%;border-radius:5px;} .gbreak .gb .gv{width:34px;text-align:right;font-weight:700;flex:none;}
+
+    /* campaigns */
+    .camp{display:flex;align-items:center;gap:13px;padding:13px 20px;border-top:1px solid var(--line);} .camp:first-child{border-top:none;}
+    .camp .ci{width:38px;height:38px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;} .camp .ci svg{width:19px;height:19px;}
+    .camp .cm{flex:1;min-width:0;} .camp .cm b{font-size:13.5px;font-weight:700;} .camp .cm span{display:block;font-size:11.5px;color:var(--muted);}
+    .camp .cs{text-align:right;flex:none;} .camp .cs b{font-size:15px;font-weight:800;} .camp .cs span{display:block;font-size:10.5px;color:var(--muted);}
+    .tog{width:40px;height:23px;border-radius:999px;background:var(--green);position:relative;flex:none;border:none;} .tog::after{content:"";position:absolute;top:2.5px;right:2.5px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);} .tog.off{background:#cbd5e1;} .tog.off::after{right:auto;left:2.5px;}
+
+    /* filter pills */
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; } .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; } .pill.on{background:var(--accent);color:#fff;border-color:var(--accent);} .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;} .pill .c{opacity:.7;margin-left:3px;}
+
+    /* opportunity rows */
+    .op{display:grid;grid-template-columns:2fr 1.3fr 1.1fr 1.2fr auto;gap:14px;align-items:center;padding:14px 20px;border-top:1px solid var(--line);cursor:pointer;} .op:first-of-type{border-top:none;} .op:hover{background:#fafbff;}
+    .cust{display:flex;align-items:center;gap:12px;} .cust .av{width:38px;height:38px;border-radius:50%;flex:none;color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;} .cust b{font-weight:700;font-size:13.5px;} .cust span{display:block;color:var(--muted);font-size:11.5px;}
+    .reason{font-size:11px;font-weight:800;padding:4px 10px;border-radius:7px;display:inline-block;} .r-due{background:#eef4ff;color:#2563eb;} .r-declined{background:#fdf0dc;color:#b7791f;} .r-risk{background:#fdeaea;color:#dc2626;} .r-upgrade{background:#e7f7ee;color:#16a34a;} .r-warranty{background:#f1eafe;color:#7c3aed;}
+    .last{font-size:12.5px;color:var(--muted);}
+    .val{font-weight:800;font-variant-numeric:tabular-nums;} .val.risk{color:var(--red);}
+    .opbtn{border:1px solid var(--line);background:#fff;color:var(--accent);border-radius:9px;padding:8px 13px;font-size:12px;font-weight:700;flex:none;} .opbtn:hover{background:var(--accent-soft);}
+
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show{opacity:1;pointer-events:auto;}
+    .panel { position:fixed; top:0; right:0; bottom:0; width:500px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open{transform:none;}
+    .panel-hd { display:flex; align-items:center; gap:14px; padding:20px 22px; background:var(--card); border-bottom:1px solid var(--line); } .panel-hd .av{width:46px;height:46px;border-radius:50%;flex:none;color:#fff;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;} .panel-hd h2{font-size:17px;font-weight:800;} .panel-hd .pm{color:var(--muted);font-size:12.5px;margin-top:3px;} .panel-close{margin-left:auto;border:none;background:none;color:var(--muted);width:34px;height:34px;border-radius:9px;} .panel-close svg{width:18px;height:18px;}
+    .panel-body { overflow-y:auto; padding:18px 22px 20px; display:flex; flex-direction:column; gap:16px; }
+    .sect { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px; } .sect h3{font-size:12px;font-weight:800;margin-bottom:14px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;} .sect h3 svg{width:15px;height:15px;color:var(--accent);}
+    .hist{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line);} .hist:first-child{border-top:none;} .hist .hd{width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:4px;flex:none;} .hist .hi b{font-size:13px;font-weight:700;} .hist .hi span{display:block;font-size:11.5px;color:var(--muted);} .hist .hv{margin-left:auto;font-weight:800;font-size:13px;flex:none;}
+    .risk-factors .rf{display:flex;align-items:center;gap:9px;font-size:13px;padding:7px 0;} .risk-factors .rf svg{width:15px;height:15px;color:var(--red);flex:none;} .risk-factors .rf.ok svg{color:var(--green);}
+    .reco{background:var(--accent-soft);border:1px solid #d7e6fc;border-radius:12px;padding:15px;font-size:13.5px;line-height:1.55;color:#1e3a5f;}
+    .p-actions{display:flex;gap:10px;} .p-actions button{flex:1;border-radius:11px;padding:12px;font-size:13.5px;font-weight:700;} .pa-ghost{background:#fff;border:1px solid var(--line);color:var(--text);} .pa-ghost:hover{border-color:#cfe0f7;color:var(--accent);} .pa-primary{background:linear-gradient(180deg,var(--accent-2),var(--accent));border:none;color:#fff;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .op{grid-template-columns:1fr auto;} .op .o-hide{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search customers..." /></div>
+        <span class="role-badge">Service Retention</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>Service Retention</h1><p class="sub">Keep customers coming back — spot who's due, who's slipping away, and which service visits are ready to become the next sale.</p></div>
+          <button class="btn-primary" onclick="toast('We-Miss-You campaign launched to 42 customers')"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-3-6-7-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Launch Campaign</button>
+        </div>
+        <div class="kpis">
+          <div class="kp"><div class="kl">Service Retention</div><div class="kv">68%</div><div class="kd">▲ 4% vs last yr</div></div>
+          <div class="kp"><div class="kl">Due This Month</div><div class="kv">84</div><div class="kd">Reminders sent</div></div>
+          <div class="kp"><div class="kl">Defection Risk</div><div class="kv">23</div><div class="kd down">Haven't returned</div></div>
+          <div class="kp"><div class="kl">Service → Sale</div><div class="kv">9</div><div class="kd">Upgrade-ready</div></div>
+          <div class="kp"><div class="kl">Avg RO Value</div><div class="kv">$412</div><div class="kd">▲ 6%</div></div>
+          <div class="kp"><div class="kl">Retention Revenue</div><div class="kv">$1.9M</div><div class="kd">Trailing 12mo</div></div>
+        </div>
+
+        <div class="grid">
+          <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v4l3 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h2>Retention Rate</h2></div><div class="card-b">
+            <div class="gauge"><div class="gring" id="gring"><div class="gi"><b>68%</b><span>retained</span></div></div>
+              <div class="gd"><h3>2 of 3 buyers still service with you</h3><p>Industry average is 54%. You're ahead — but 23 customers are drifting. Winning them back protects ~$340K in annual service revenue.</p></div></div>
+            <div class="gbreak" style="margin-top:18px;">
+              <div class="gb"><span class="gl">First year</span><div class="gbar"><i style="width:84%;background:#16a34a"></i></div><span class="gv">84%</span></div>
+              <div class="gb"><span class="gl">Years 2–3</span><div class="gbar"><i style="width:61%;background:#2563eb"></i></div><span class="gv">61%</span></div>
+              <div class="gb"><span class="gl">Years 4+</span><div class="gbar"><i style="width:43%;background:#d97706"></i></div><span class="gv">43%</span></div>
+            </div>
+          </div></div>
+          <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="12" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 6H14a2 2 0 0 1 2 2v1.6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg><h2>Automated Retention</h2><span class="r">3 active</span></div><div>
+            <div class="camp"><span class="ci" style="background:#eef4ff;color:#2563eb"><svg viewBox="0 0 24 24"><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span><div class="cm"><b>Maintenance reminders</b><span>Auto-text at mileage & time intervals</span></div><div class="cs"><b>84</b><span>sent/mo</span></div><button class="tog" onclick="this.classList.toggle('off');toast('Reminders updated')"></button></div>
+            <div class="camp"><span class="ci" style="background:#fdeaea;color:#dc2626"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div class="cm"><b>We-miss-you win-back</b><span>Triggers after 8 months no visit</span></div><div class="cs"><b>42</b><span>sent/mo</span></div><button class="tog" onclick="this.classList.toggle('off');toast('Win-back updated')"></button></div>
+            <div class="camp"><span class="ci" style="background:#fdf0dc;color:#b7791f"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 9v4M12 16v.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div class="cm"><b>Recall & declined-service</b><span>Follow up on open recalls + declined work</span></div><div class="cs"><b>28</b><span>sent/mo</span></div><button class="tog" onclick="this.classList.toggle('off');toast('Recall follow-up updated')"></button></div>
+            <div class="camp"><span class="ci" style="background:#e7f7ee;color:#16a34a"><svg viewBox="0 0 24 24"><path d="M4 16l5-5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div class="cm"><b>Service-to-sale alerts</b><span>Flags equity + upgrade-ready in the lane</span></div><div class="cs"><b>9</b><span>this mo</span></div><button class="tog off" onclick="this.classList.toggle('off');toast('Service-to-sale enabled')"></button></div>
+          </div></div>
+        </div>
+
+        <div class="sec-label">Retention Opportunities</div>
+        <div class="pills" id="pills"></div>
+        <div class="card"><div id="rows"></div></div>
+      </main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    function avColor(s){ var c=['#3b82f6','#8b5cf6','#ec4899','#f59e0b','#10b981','#06b6d4','#6366f1']; var h=0; for(var i=0;i<s.length;i++) h=(h+s.charCodeAt(i))%c.length; return c[h]; }
+    function initials(n){ return n.split(' ').map(function(x){return x[0];}).slice(0,2).join('').toUpperCase(); }
+    function money(n){ return '$'+n.toLocaleString(); }
+
+    var REASON={due:['r-due','Due for service'],declined:['r-declined','Declined service'],risk:['r-risk','Defection risk'],upgrade:['r-upgrade','Upgrade-ready'],warranty:['r-warranty','Warranty ending']};
+    var OPS=[
+      {id:1,name:'Gregory Hall',veh:'2022 Highlander · 38k mi',reason:'risk',last:'11 months ago',val:0,risk:82,action:'Call + $59 oil-change offer'},
+      {id:2,name:'Denise Park',veh:'2021 RAV4 · 46k mi',reason:'declined',last:'6 weeks ago',val:640,action:'Follow up on declined brakes'},
+      {id:3,name:'The Foster Family',veh:'2020 Sienna · 61k mi',reason:'upgrade',last:'3 weeks ago',val:0,equity:6800,action:'Present 2025 upgrade — $6.8k equity'},
+      {id:4,name:'Marcus Webb',veh:'2023 Tacoma · 22k mi',reason:'due',last:'5 months ago',val:280,action:'30k service reminder'},
+      {id:5,name:'Angela Ruiz',veh:'2019 Corolla · 72k mi',reason:'risk',last:'14 months ago',val:0,risk:91,action:'Win-back — high defection risk'},
+      {id:6,name:'The Nguyen Family',veh:'2022 4Runner · 34k mi',reason:'warranty',last:'2 months ago',val:0,action:'Offer extended service plan'},
+      {id:7,name:'Priya Shah',veh:'2021 Camry · 41k mi',reason:'declined',last:'2 months ago',val:420,action:'Declined tires — seasonal offer'},
+      {id:8,name:'Robert Chen',veh:'2020 Highlander · 58k mi',reason:'upgrade',last:'1 week ago',val:0,equity:5200,action:'Equity mining — upgrade candidate'},
+      {id:9,name:'Lena Brooks',veh:'2018 RAV4 · 84k mi',reason:'due',last:'7 months ago',val:390,action:'Timing belt + major service due'}
+    ];
+    var filter='all';
+    function inF(o){ return filter==='all'||o.reason===filter; }
+    function renderPills(){
+      var defs=[['all','All'],['risk','Defection Risk'],['due','Due'],['declined','Declined'],['upgrade','Upgrade-Ready'],['warranty','Warranty']];
+      $('pills').innerHTML=defs.map(function(d){ var c=d[0]==='all'?OPS.length:OPS.filter(function(o){return o.reason===d[0];}).length; return '<button class="pill'+(filter===d[0]?' on':'')+'" data-f="'+d[0]+'">'+d[1]+'<span class="c">'+c+'</span></button>'; }).join('');
+      $('pills').querySelectorAll('.pill').forEach(function(b){ b.addEventListener('click',function(){ filter=b.getAttribute('data-f'); renderPills(); renderRows(); }); });
+    }
+    function valCell(o){ if(o.reason==='risk') return '<span class="val risk">'+o.risk+'% risk</span>'; if(o.reason==='upgrade') return '<span class="val" style="color:#16a34a">'+money(o.equity)+' equity</span>'; if(o.val) return '<span class="val">'+money(o.val)+' RO</span>'; return '<span class="val" style="color:var(--faint)">—</span>'; }
+    function renderRows(){
+      var list=OPS.filter(inF);
+      $('rows').innerHTML=list.map(function(o){ var rc=REASON[o.reason];
+        return '<div class="op" onclick="openOp('+o.id+')"><div class="cust"><span class="av" style="background:'+avColor(o.name)+'">'+initials(o.name)+'</span><div><b>'+o.name+'</b><span>'+o.veh+'</span></div></div>'+
+          '<span class="o-hide"><span class="reason '+rc[0]+'">'+rc[1]+'</span></span>'+
+          '<span class="last o-hide">Last: '+o.last+'</span>'+
+          '<span>'+valCell(o)+'</span>'+
+          '<button class="opbtn" onclick="openOp('+o.id+');event.stopPropagation();">Outreach</button></div>';
+      }).join('') || '<div style="padding:36px;text-align:center;color:var(--muted);">No opportunities in this view.</div>';
+    }
+
+    /* slide-over */
+    var HIST=[['Oil change & inspection','8 months ago','$79'],['30k mile service','1 year ago','$420'],['Tire rotation','1 year ago','$0'],['Purchased vehicle','3 years ago','—']];
+    function riskFactors(o){
+      if(o.reason==='risk') return [[0,'No visit in '+o.last],[0,'Opened 2 competitor service emails'],[0,'Declined last recommended service'],[1,'Still within drivable range']];
+      if(o.reason==='upgrade') return [[1,'Positive equity of '+money(o.equity||6000)],[1,'Vehicle 3+ years / high demand model'],[1,'In service lane this month'],[0,'Payment likely similar on upgrade']];
+      if(o.reason==='declined') return [[0,'Declined '+money(o.val)+' of recommended work'],[1,'Regular servicing customer'],[0,'Safety item (brakes/tires) outstanding']];
+      return [[0,'Service interval reached'],[1,'Loyal repeat customer'],[1,'Reminder deliverable via text']];
+    }
+    function openOp(id){
+      var o=OPS.find(function(x){return x.id===id;}); if(!o) return; var rc=REASON[o.reason];
+      $('panel').innerHTML=''+
+      '<div class="panel-hd"><span class="av" style="background:'+avColor(o.name)+'">'+initials(o.name)+'</span><div><h2>'+o.name+'</h2><div class="pm">'+o.veh+'</div></div><button class="panel-close" onclick="closePanel()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button></div>'+
+      '<div class="panel-body">'+
+        '<div style="display:flex;gap:9px;align-items:center;"><span class="reason '+rc[0]+'">'+rc[1]+'</span><span style="font-size:12.5px;color:var(--muted)">Last visit: '+o.last+'</span></div>'+
+        '<div class="sect"><h3>Service History</h3>'+HIST.map(function(h){ return '<div class="hist"><span class="hd"></span><div class="hi"><b>'+h[0]+'</b><span>'+h[1]+'</span></div><span class="hv">'+h[2]+'</span></div>'; }).join('')+'</div>'+
+        '<div class="sect"><h3>'+(o.reason==='upgrade'?'Upgrade Signals':o.reason==='risk'?'Risk Factors':'Signals')+'</h3><div class="risk-factors">'+riskFactors(o).map(function(f){ return '<div class="rf'+(f[0]?' ok':'')+'"><svg viewBox="0 0 24 24">'+(f[0]?'<path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>':'<path d="M12 8v5M12 16.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 3l9 16H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>')+'</svg>'+f[1]+'</div>'; }).join('')+'</div></div>'+
+        '<div class="sect"><h3><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 1 1.9h5c.1-.9.4-1.4 1-1.9A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Recommended Outreach</h3><div class="reco">'+o.action+'. '+(o.reason==='risk'?'A personal call plus a small service incentive recovers ~40% of at-risk customers.':o.reason==='upgrade'?'Loop in their salesperson — trade equity makes this an easy upgrade conversation.':'Send now while it\'s top of mind.')+'</div></div>'+
+        '<div class="p-actions"><button class="pa-ghost" onclick="closePanel()">Close</button><button class="pa-primary" onclick="doOutreach('+o.id+')">'+(o.reason==='upgrade'?'Create sales task':'Send outreach')+'</button></div>'+
+      '</div>';
+      $('scrim').classList.add('show'); $('panel').classList.add('open');
+    }
+    function doOutreach(id){ var o=OPS.find(function(x){return x.id===id;}); OPS=OPS.filter(function(x){return x.id!==id;}); closePanel(); renderPills(); renderRows(); toast(o&&o.reason==='upgrade'?'Sales task created for '+o.name.split(' ')[0]:'Outreach sent to '+(o?o.name.split(' ')[0]:'customer')); }
+    function closePanel(){ $('scrim').classList.remove('show'); $('panel').classList.remove('open'); }
+
+    function renderGauge(){ $('gring').style.background='conic-gradient(#16a34a '+(68*3.6)+'deg,#e9edf4 '+(68*3.6)+'deg)'; }
+    var tTimer; function toast(m){ $('toastMsg').innerHTML=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2400); }
+
+    document.addEventListener('DOMContentLoaded', function(){ renderGauge(); renderPills(); renderRows(); $('scrim').addEventListener('click', closePanel); });
+  </script>
+</body>
+</html>

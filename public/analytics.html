@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workflow Analytics — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:360px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .range{display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px;} .range button{border:none;background:none;color:var(--muted);border-radius:7px;padding:7px 13px;font-size:12.5px;font-weight:700;} .range button.on{background:#fff;color:var(--accent);box-shadow:var(--shadow);}
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; max-width:600px; }
+    .btn-ghost { display:inline-flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--line); color:var(--text); border-radius:11px; padding:11px 16px; font-size:13.5px; font-weight:600; } .btn-ghost:hover{border-color:#cfe0f7;color:var(--accent);} .btn-ghost svg{width:16px;height:16px;}
+
+    .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:13px; margin:22px 0 20px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:12px;} .kp .kv{font-size:24px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kd{font-size:11.5px;font-weight:700;margin-top:5px;color:var(--green);} .kp .kd.down{color:var(--red);} .kp .kd.warn{color:var(--amber);}
+
+    .grid { display:grid; grid-template-columns:1.35fr 1fr; gap:18px; align-items:start; }
+    @media(max-width:1080px){ .grid{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .card-h { display:flex; align-items:center; gap:10px; padding:16px 20px; border-bottom:1px solid var(--line); } .card-h h2{font-size:15px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);} .card-h .r{margin-left:auto;font-size:12.5px;color:var(--muted);font-weight:700;}
+    .card-b { padding:18px 20px; }
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:24px 0 14px; }
+
+    /* funnel */
+    .funnel{display:flex;flex-direction:column;gap:3px;}
+    .fstage{position:relative;}
+    .fbar{border-radius:9px;padding:13px 16px;color:#fff;display:flex;align-items:center;justify-content:space-between;transition:width 1s cubic-bezier(.2,.7,.3,1);min-width:120px;}
+    .fbar .fl{font-weight:700;font-size:13.5px;} .fbar .fr{font-weight:900;font-size:17px;font-variant-numeric:tabular-nums;}
+    .fdrop{display:flex;align-items:center;gap:8px;padding:5px 16px;font-size:11.5px;color:var(--muted);font-weight:600;} .fdrop b{color:var(--green);font-weight:800;} .fdrop .dn{color:var(--red);}
+
+    /* bottleneck / stage time */
+    .stg{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line);} .stg:first-child{border-top:none;}
+    .stg .sl{width:120px;font-size:12.5px;font-weight:600;color:var(--muted);flex:none;}
+    .stg .sbar{flex:1;height:22px;background:var(--bg);border-radius:6px;overflow:hidden;position:relative;} .stg .sbar>i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#93c5fd,#3b82f6);} .stg.slow .sbar>i{background:linear-gradient(90deg,#fca5a5,#ef4444);}
+    .stg .sv{width:56px;text-align:right;font-size:13px;font-weight:800;flex:none;font-variant-numeric:tabular-nums;} .stg.slow .sv{color:var(--red);}
+
+    /* source table */
+    .lhead,.lrow{display:grid;grid-template-columns:1.6fr .8fr .9fr .8fr 1fr 1fr;gap:12px;align-items:center;padding:13px 20px;}
+    .lhead{font-size:11px;color:var(--faint);font-weight:700;letter-spacing:.3px;border-bottom:1px solid var(--line);}
+    .lrow{border-top:1px solid var(--line);} .lrow:first-of-type{border-top:none;} .lrow:hover{background:#fafbff;}
+    .src{display:flex;align-items:center;gap:11px;} .src .si{width:32px;height:32px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;} .src .si svg{width:16px;height:16px;} .src b{font-weight:700;font-size:13.5px;}
+    .num{font-weight:700;font-variant-numeric:tabular-nums;} .num.g{color:var(--green);} .num.r{color:var(--red);}
+    .roibar{height:6px;background:var(--bg);border-radius:4px;overflow:hidden;margin-top:5px;} .roibar>i{display:block;height:100%;border-radius:4px;}
+    .conv-pill{font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:6px;background:var(--accent-soft);color:var(--accent);display:inline-block;}
+
+    /* activity bars */
+    .actbars{display:flex;align-items:flex-end;gap:10px;height:150px;padding-top:10px;}
+    .actcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;}
+    .actcol .stack{width:100%;max-width:34px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;flex:1;}
+    .actcol .seg{border-radius:3px;width:100%;} .seg.call{background:#16a34a;} .seg.text{background:#0891b2;} .seg.email{background:#6366f1;}
+    .actcol .lb{font-size:11px;color:var(--muted);font-weight:700;}
+    .legend{display:flex;gap:16px;margin-top:12px;} .legend span{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);font-weight:600;} .legend i{width:10px;height:10px;border-radius:3px;}
+
+    /* insights */
+    .ins{display:flex;gap:12px;padding:14px 20px;border-top:1px solid var(--line);align-items:flex-start;} .ins:first-child{border-top:none;}
+    .ins .ii{width:34px;height:34px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;} .ins .ii svg{width:17px;height:17px;} .ins.warn .ii{background:#fdf0dc;color:#b7791f;} .ins.good .ii{background:#e7f7ee;color:#16a34a;} .ins.info .ii{background:var(--accent-soft);color:var(--accent);}
+    .ins .it b{font-size:13.5px;font-weight:700;} .ins .it p{font-size:12.5px;color:var(--muted);line-height:1.5;margin-top:2px;}
+
+    /* trend chart */
+    .chart{height:150px;position:relative;padding:6px 0;} .chart svg{width:100%;height:100%;overflow:visible;}
+    .chart .gl{stroke:var(--line);stroke-width:1;} .chart .ln{fill:none;stroke:#2563eb;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;} .chart .ar{fill:url(#ag);opacity:.5;} .chart .dot{fill:#2563eb;} .chart .xl{font-size:10px;fill:var(--faint);font-weight:600;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .lhead{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input placeholder="Search metrics..." /></div>
+        <div class="range" id="range"><button data-r="7d">7 days</button><button class="on" data-r="30d">30 days</button><button data-r="qtd">QTD</button></div>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <div><h1>Workflow Analytics</h1><p class="sub">See exactly where deals convert and where they stall — pipeline velocity, stage bottlenecks, lead-source ROI, and activity effectiveness.</p></div>
+          <button class="btn-ghost" onclick="toast('Report exported to PDF')"><svg viewBox="0 0 24 24"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Export</button>
+        </div>
+        <div class="kpis">
+          <div class="kp"><div class="kl">Lead → Sale</div><div class="kv">14.2%</div><div class="kd">▲ 1.8 pts</div></div>
+          <div class="kp"><div class="kl">Avg Deal Cycle</div><div class="kv">6.4 days</div><div class="kd">▼ 0.7 faster</div></div>
+          <div class="kp"><div class="kl">Speed to Lead</div><div class="kv">4m 12s</div><div class="kd warn">Target &lt; 5m</div></div>
+          <div class="kp"><div class="kl">Pipeline Velocity</div><div class="kv">$182K<span style="font-size:13px;color:var(--muted)">/day</span></div><div class="kd">▲ 9%</div></div>
+          <div class="kp"><div class="kl">Activities Logged</div><div class="kv">3,847</div><div class="kd">This period</div></div>
+        </div>
+
+        <div class="grid">
+          <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><h2>Sales Pipeline Funnel</h2><span class="r">Lead → Sold</span></div><div class="card-b"><div class="funnel" id="funnel"></div></div></div>
+          <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h2>Time in Stage</h2><span class="r">avg days</span></div><div class="card-b"><div id="stages"></div><div style="font-size:12px;color:var(--muted);margin-top:12px;">🔴 Deals sit longest in <b>Negotiation</b> — your biggest velocity leak.</div></div></div>
+        </div>
+
+        <div class="sec-label">Lead Source Performance</div>
+        <div class="card">
+          <div class="lhead"><span>SOURCE</span><span>LEADS</span><span>COST</span><span>SALES</span><span>CONVERSION</span><span>COST / SALE</span></div>
+          <div id="sources"></div>
+        </div>
+
+        <div class="grid" style="margin-top:24px;">
+          <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><h2>Activity Volume</h2><span class="r">by day</span></div><div class="card-b"><div class="actbars" id="actbars"></div><div class="legend"><span><i style="background:#16a34a"></i>Calls</span><span><i style="background:#0891b2"></i>Texts</span><span><i style="background:#6366f1"></i>Emails</span></div></div></div>
+          <div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5.9 1 1 1.9h5c.1-.9.4-1.4 1-1.9A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><h2>AI Insights</h2></div><div id="insights"></div></div>
+        </div>
+
+        <div class="sec-label">Conversion Trend</div>
+        <div class="card"><div class="card-b"><div class="chart" id="chart"></div></div></div>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+
+    var FUNNEL=[
+      ['Leads',2140,'#1e3a8a'],['Contacted',1518,'#1d4ed8'],['Appointment Set',742,'#2563eb'],
+      ['Showed',518,'#3b82f6'],['Test Drive',389,'#0891b2'],['Write-Up',321,'#0e7490'],['Sold',304,'#16a34a']
+    ];
+    function renderFunnel(){
+      var max=FUNNEL[0][1];
+      $('funnel').innerHTML=FUNNEL.map(function(s,i){
+        var w=Math.max(18,Math.round(s[1]/max*100));
+        var drop='';
+        if(i>0){ var conv=Math.round(s[1]/FUNNEL[i-1][1]*100); var dn=FUNNEL[i-1][1]-s[1]; drop='<div class="fdrop"><b>'+conv+'%</b> advance <span class="dn">· '+dn.toLocaleString()+' dropped</span></div>'; }
+        return drop+'<div class="fstage"><div class="fbar" style="width:'+w+'%;background:linear-gradient(90deg,'+s[2]+','+s[2]+'cc)"><span class="fl">'+s[0]+'</span><span class="fr">'+s[1].toLocaleString()+'</span></div></div>';
+      }).join('');
+    }
+
+    var STAGES=[
+      ['New → Contact',0.3,false],['Contact → Appt',1.1,false],['Appt → Show',0.8,false],
+      ['Show → Demo',0.5,false],['Demo → Write-up',1.4,false],['Negotiation',2.1,true],['F&I → Delivery',0.9,false]
+    ];
+    function renderStages(){
+      var max=Math.max.apply(null,STAGES.map(function(s){return s[1];}));
+      $('stages').innerHTML=STAGES.map(function(s){ return '<div class="stg'+(s[2]?' slow':'')+'"><span class="sl">'+s[0]+'</span><div class="sbar"><i style="width:'+Math.round(s[1]/max*100)+'%"></i></div><span class="sv">'+s[1].toFixed(1)+'d</span></div>'; }).join('');
+    }
+
+    var SRC=[
+      ['Website',['#2563eb','globe'],612,'$8,400',96,'15.7%',18400,72],
+      ['AutoTrader',['#d97706','car'],428,'$11,200',54,'12.6%',20740,52],
+      ['Referral',['#16a34a','users'],218,'$1,100',61,'28.0%',1803,100],
+      ['Walk-in',['#7c3aed','door'],356,'$0',72,'20.2%',0,88],
+      ['Facebook',['#0891b2','share'],298,'$4,600',31,'10.4%',14839,40],
+      ['CarGurus',['#db2777','tag'],228,'$6,900',19,'8.3%',36316,26]
+    ];
+    function srcIcon(k){ var p={globe:'<circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 12h16M12 4c2.5 2.5 2.5 13 0 16M12 4c-2.5 2.5-2.5 13 0 16" fill="none" stroke="currentColor" stroke-width="1.4"/>',car:'<path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',users:'<circle cx="9" cy="9" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 18c0-2.6 2.2-4 5-4s5 1.4 5 4" fill="none" stroke="currentColor" stroke-width="1.6"/>',door:'<path d="M6 3h12v18H6zM14 12v.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',share:'<circle cx="7" cy="12" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="6" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="18" r="2.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 11l6-3.5M9 13l6 3.5" stroke="currentColor" stroke-width="1.4"/>',tag:'<path d="M4 12l8-8 8 8-8 8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'}; return '<svg viewBox="0 0 24 24">'+(p[k]||p.globe)+'</svg>'; }
+    function renderSources(){
+      var maxRoi=Math.max.apply(null,SRC.map(function(s){return s[7];}));
+      $('sources').innerHTML=SRC.map(function(s){
+        var cps=s[6]===0?'Free':'$'+s[6].toLocaleString();
+        var eff=s[7]>=70?'#16a34a':s[7]>=45?'#2563eb':'#d97706';
+        return '<div class="lrow"><div class="src"><span class="si" style="background:'+s[1][0]+'22;color:'+s[1][0]+'">'+srcIcon(s[1][1])+'</span><b>'+s[0]+'</b></div>'+
+          '<span class="num">'+s[2]+'</span><span class="num">'+s[3]+'</span><span class="num g">'+s[4]+'</span>'+
+          '<span><span class="conv-pill">'+s[5]+'</span></span>'+
+          '<div><span class="num'+(s[6]===0?' g':s[6]>30000?' r':'')+'">'+cps+'</span><div class="roibar"><i style="width:'+Math.round(s[7]/maxRoi*100)+'%;background:'+eff+'"></i></div></div></div>';
+      }).join('');
+    }
+
+    var ACT=[
+      [42,28,16],[51,34,19],[38,25,14],[47,31,18],[55,38,22],[29,18,11],[12,8,5]
+    ];
+    var ACTDAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    function renderAct(){
+      var max=Math.max.apply(null,ACT.map(function(d){return d[0]+d[1]+d[2];}));
+      $('actbars').innerHTML=ACT.map(function(d,i){
+        var tot=d[0]+d[1]+d[2];
+        function h(v){ return Math.round(v/max*120); }
+        return '<div class="actcol"><div class="stack"><div class="seg email" style="height:'+h(d[2])+'px"></div><div class="seg text" style="height:'+h(d[1])+'px"></div><div class="seg call" style="height:'+h(d[0])+'px"></div></div><span class="lb">'+ACTDAYS[i]+'</span></div>';
+      }).join('');
+    }
+
+    var INS=[
+      ['warn','Negotiation is your bottleneck','Deals average 2.1 days in negotiation — 3× your next-slowest stage. Reps offering discounts before value framing stall longest. Assign the objection-handling drill.'],
+      ['good','Referrals convert 2× better','At 28% they crush paid sources and cost almost nothing. Push the referral program — a 10% volume lift adds ~$140K/mo in gross.'],
+      ['info','CarGurus ROI is underwater','$36K cost-per-sale vs $1.8K for referrals. Reallocating half its spend to referrals & website would net more units.'],
+      ['warn','Speed-to-lead slipping Fri–Sat','Response time jumps to 9m on weekends. A BDC coverage tweak could recover ~6 appointments/week.']
+    ];
+    function renderInsights(){
+      $('insights').innerHTML=INS.map(function(x){ var ic=x[0]==='warn'?'<path d="M12 3l9 16H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 9v4M12 16v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>':x[0]==='good'?'<path d="M4 13l4 4L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>':'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 11v5M12 8v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'; return '<div class="ins '+x[0]+'"><span class="ii"><svg viewBox="0 0 24 24">'+ic+'</svg></span><div class="it"><b>'+x[1]+'</b><p>'+x[2]+'</p></div></div>'; }).join('');
+    }
+
+    var TREND=[11.4,12.1,11.8,12.9,13.2,12.7,13.8,14.2];
+    var TRENDL=['','','','','','','',''];
+    function renderChart(){
+      var w=760,h=140,pad=8; var max=16,min=9;
+      var pts=TREND.map(function(v,i){ var x=pad+i*((w-2*pad)/(TREND.length-1)); var y=h-((v-min)/(max-min))*(h-20)-10; return [x,y]; });
+      var line=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+      var area=line+' L'+pts[pts.length-1][0].toFixed(1)+' '+h+' L'+pts[0][0].toFixed(1)+' '+h+' Z';
+      var grid=''; for(var g=0;g<4;g++){ var gy=10+g*((h-20)/3); grid+='<line class="gl" x1="0" y1="'+gy+'" x2="'+w+'" y2="'+gy+'"/>'; }
+      var dots=pts.map(function(p,i){ return '<circle class="dot" cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="'+(i===pts.length-1?4:3)+'"/>'; }).join('');
+      var lbl='<text class="xl" x="4" y="'+(h-2)+'">8 weeks ago</text><text class="xl" x="'+(w-40)+'" y="'+(h-2)+'">now</text>';
+      $('chart').innerHTML='<svg viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none"><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#2563eb" stop-opacity="0"/></linearGradient></defs>'+grid+'<path class="ar" d="'+area+'"/><path class="ln" d="'+line+'"/>'+dots+lbl+'</svg>';
+    }
+
+    $('range').querySelectorAll('button').forEach(function(b){ b.addEventListener('click',function(){ $('range').querySelectorAll('button').forEach(function(x){x.classList.remove('on');}); b.classList.add('on'); toast('Range: '+b.textContent); }); });
+    var tTimer; function toast(m){ $('toastMsg').innerHTML=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2200); }
+
+    document.addEventListener('DOMContentLoaded', function(){ renderFunnel(); renderStages(); renderSources(); renderAct(); renderInsights(); renderChart(); });
+  </script>
+</body>
+</html>

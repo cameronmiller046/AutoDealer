@@ -33,7 +33,12 @@
     portal:'<rect x="3" y="4" width="18" height="14" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 8h18M7 21h10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="6" cy="6" r="0.9" fill="currentColor"/>',
     reviews:'<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.6l1-5.8L3.5 9.7l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
     coach:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4.4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/>',
-    signing:'<path d="M4 19c3-1 4-8 6-8s1 4 3 4 2.5-3 4-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 6l3 3-8 8H7v-3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>'
+    signing:'<path d="M4 19c3-1 4-8 6-8s1 4 3 4 2.5-3 4-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 6l3 3-8 8H7v-3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+    showroom:'<path d="M4 10l1.6-4A2 2 0 0 1 7.5 5h9a2 2 0 0 1 1.9 1.4L20 10M4 10h16v9H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 19v-4h8v4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7" cy="13" r="0.9" fill="currentColor"/><circle cx="17" cy="13" r="0.9" fill="currentColor"/>',
+    training:'<path d="M12 4L2.5 9 12 14l9.5-5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 11v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5M21.5 9v5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+    analytics:'<path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M7 15l3.5-4 3 2.5L20 7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="7" r="1.4" fill="currentColor"/>',
+    invintel:'<path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="11.5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M13.6 13.1L15 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+    service:'<path d="M14.5 5.5a3.5 3.5 0 0 1-4.6 4.6L5 15l2 2 4.9-4.9a3.5 3.5 0 0 0 4.6-4.6l-2.2 2.2-1.8-1.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'
   };
   function svg(k){ return '<svg viewBox="0 0 24 24">'+(IC[k]||'')+'</svg>'; }
 
@@ -53,10 +58,12 @@
         {label:'Trade Center', href:'/trades', icon:'trades'},
         {label:'Delivery Center', href:'/delivery', icon:'delivery', badge:'2'},
         {label:'Inventory', href:'/inventory', icon:'inventory', tag:'Read-only'},
+        {label:'Inventory Intel', href:'/invintel', icon:'invintel'},
         {label:'Communications', href:'/communications', icon:'comms', badge:'3'},
         {label:'Reports', href:'/reports', icon:'reports'},
         {label:'CRM Health', href:'/health', icon:'health'},
         {label:'Sales Coach', href:'/coach', icon:'coach'},
+        {label:'Training', href:'/training', icon:'training', badge:'2'},
         {label:'My Reviews', href:'/reviews', icon:'reviews'},
         {label:'e-Signature', href:'/signing', icon:'signing'},
         {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
@@ -67,6 +74,7 @@
       name:'Dana Morales', title:'Sales Manager', avatar:'DM', home:'/manager',
       nav:[
         {label:'Dashboard', href:'/manager', icon:'home'},
+        {label:'Showroom Ops', href:'/showroom', icon:'showroom', tag:'Live'},
         {label:'Prospects', href:'/prospects', icon:'prospects', badge:'64'},
         {label:'Customers', href:'/customers', icon:'customers'},
         {label:'Appointments', href:'/appointments', icon:'appt', badge:'23'},
@@ -77,8 +85,11 @@
         {label:'Delivery Center', href:'/delivery', icon:'delivery'},
         {label:'Tasks', href:'/tasks', icon:'tasks'},
         {label:'Inventory', href:'/inventory', icon:'inventory'},
+        {label:'Inventory Intel', href:'/invintel', icon:'invintel'},
         {label:'Communications', href:'/communications', icon:'comms'},
         {label:'Reports', href:'/reports', icon:'reports'},
+        {label:'Workflow Analytics', href:'/analytics', icon:'analytics'},
+        {label:'Service Retention', href:'/service', icon:'service', badge:'9'},
         {label:'Marketing Hub', href:'/marketing', icon:'marketing'},
         {label:'Dealer TV', href:'/tv', icon:'tv'},
         {label:'Sales Team', href:'/team', icon:'team', badge:'6'},
@@ -86,6 +97,7 @@
         {label:'Customer Sentiment', href:'/sentiment', icon:'sentiment', badge:'4'},
         {label:'Reputation', href:'/reviews', icon:'reviews', badge:'6'},
         {label:'AI Sales Coach', href:'/coach', icon:'coach'},
+        {label:'Training Center', href:'/training', icon:'training'},
         {label:'e-Signature', href:'/signing', icon:'signing', badge:'5'},
         {label:'Customer Portal', href:'/portal', icon:'portal', tag:'Preview'},
         {label:'Document Center', href:'/documents', icon:'documents'},
@@ -100,12 +112,14 @@
       name:'Riley Brooks', title:'Receptionist', avatar:'RB', home:'/reception',
       nav:[
         {label:'Home', href:'/reception', icon:'home'},
+        {label:'Showroom Ops', href:'/showroom', icon:'showroom', tag:'Live'},
         {label:'Appointments', href:'/appointments', icon:'appt', badge:'12'},
         {label:'Customers', href:'/customers', icon:'customers'},
         {label:'Communications', href:'/communications', icon:'comms', badge:'4'},
         {label:'Delivery Center', href:'/delivery', icon:'delivery', badge:'4'},
         {label:'Inventory Lookup', href:'/inventory', icon:'inventory'},
         {label:'Visitor Check-In', href:'/checkin', icon:'checkin', badge:'2'},
+        {label:'Training', href:'/training', icon:'training', badge:'1'},
         {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
         {label:'Settings', href:'#', icon:'settings'}
       ]
@@ -123,7 +137,7 @@
   ];
 
   /* Every known in-app route. Anything here that is NOT in the active role's nav is blocked. */
-  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing'];
+  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing','/showroom','/training','/analytics','/invintel','/service'];
 
   function getRole(){ var r = localStorage.getItem('ad_role'); return ROLES[r] ? r : 'salesperson'; }
   function cfg(){ return ROLES[getRole()]; }

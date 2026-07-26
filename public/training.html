@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Training Center — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --gold:#f5b638; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:420px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch svg { width:17px; height:17px; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; }
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#e2f5fb; color:#0891b2; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:auto; }
+    .content { padding:26px 30px 60px; }
+    .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; max-width:560px; }
+    .btn-primary { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; border-radius:11px; padding:11px 18px; font-size:13.5px; font-weight:600; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); } .btn-primary svg { width:16px; height:16px; }
+
+    .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:13px; margin:22px 0 20px; }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:12px;} .kp .kv{font-size:24px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kd{font-size:11.5px;font-weight:700;margin-top:5px;color:var(--green);}
+
+    .grid { display:grid; grid-template-columns:1fr 340px; gap:18px; align-items:start; }
+    @media(max-width:1080px){ .grid{grid-template-columns:1fr;} }
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:24px 0 14px; }
+
+    /* continue learning hero */
+    .hero{background:radial-gradient(800px 340px at 88% -40%,#0e7490,#0f1b2d 60%),#0f1b2d;border-radius:20px;color:#eaf1fb;padding:24px 28px;display:flex;gap:26px;align-items:center;box-shadow:var(--shadow);flex-wrap:wrap;}
+    .hero .thumb{width:150px;height:96px;border-radius:14px;flex:none;background:linear-gradient(150deg,#155e75,#0e7490);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+    .hero .thumb .play{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;} .hero .thumb .play svg{width:20px;height:20px;color:#0e7490;margin-left:2px;}
+    .hero .hi{flex:1;min-width:220px;} .hero .hcat{font-size:11.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#67e8f9;} .hero h2{font-size:20px;font-weight:800;margin-top:5px;} .hero .hl{font-size:13px;color:#a9bcda;margin-top:6px;}
+    .hero .pbar{height:8px;background:rgba(255,255,255,.14);border-radius:5px;overflow:hidden;margin-top:14px;max-width:420px;} .hero .pbar>i{display:block;height:100%;background:linear-gradient(90deg,#22d3ee,#06b6d4);border-radius:5px;}
+    .hero .hbtn{background:#fff;color:#0e7490;border:none;border-radius:11px;padding:11px 20px;font-weight:800;font-size:13.5px;display:inline-flex;align-items:center;gap:8px;flex:none;} .hero .hbtn svg{width:16px;height:16px;}
+
+    /* assigned */
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .card-h { display:flex; align-items:center; gap:10px; padding:15px 18px; border-bottom:1px solid var(--line); } .card-h h2{font-size:14.5px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);} .card-h .r{margin-left:auto;font-size:12px;color:var(--muted);font-weight:700;}
+    .as{display:flex;align-items:center;gap:13px;padding:13px 18px;border-top:1px solid var(--line);} .as:first-child{border-top:none;}
+    .as .ai{width:38px;height:38px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;} .as .ai svg{width:19px;height:19px;}
+    .as .am{flex:1;min-width:0;} .as .am b{font-size:13.5px;font-weight:700;} .as .am span{display:block;font-size:11.5px;color:var(--muted);}
+    .due{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:7px;flex:none;} .due.soon{background:#fdf0dc;color:#b7791f;} .due.over{background:#fdeaea;color:#dc2626;} .due.ok{background:#e7f7ee;color:#16a34a;}
+    .asbtn{border:none;border-radius:9px;padding:8px 14px;font-size:12px;font-weight:700;background:var(--accent-soft);color:var(--accent);flex:none;} .asbtn:hover{background:#dfeafd;}
+
+    /* catalog */
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; } .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; } .pill.on{background:var(--accent);color:#fff;border-color:var(--accent);} .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;}
+    .courses { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; }
+    .course{background:var(--card);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow);cursor:pointer;overflow:hidden;transition:transform .12s,box-shadow .12s;} .course:hover{transform:translateY(-3px);box-shadow:0 18px 38px -20px rgba(16,32,60,.42);border-color:#cfe0f7;}
+    .course .cimg{height:96px;display:flex;align-items:center;justify-content:center;position:relative;} .course .cimg svg{width:34px;height:34px;color:#fff;opacity:.92;} .course .lvl{position:absolute;top:10px;right:10px;font-size:10px;font-weight:800;background:rgba(255,255,255,.9);padding:3px 8px;border-radius:6px;color:#334155;}
+    .course .cb{padding:14px;} .course .ccat{font-size:10.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--accent);} .course .ct{font-size:14.5px;font-weight:800;margin-top:4px;line-height:1.3;} .course .cmeta{font-size:11.5px;color:var(--muted);margin-top:6px;display:flex;gap:10px;}
+    .cprog{display:flex;align-items:center;gap:9px;margin-top:12px;} .cprog .cbar{flex:1;height:6px;background:var(--bg);border-radius:4px;overflow:hidden;} .cprog .cbar>i{display:block;height:100%;background:linear-gradient(90deg,#3b82f6,#2563eb);border-radius:4px;} .cprog .cpct{font-size:11px;font-weight:800;color:var(--muted);} .course.done .cprog .cbar>i{background:linear-gradient(90deg,#22c55e,#16a34a);} .course.done .cpct{color:var(--green);}
+
+    /* certifications */
+    .certs{display:flex;flex-direction:column;gap:0;}
+    .cert{display:flex;align-items:center;gap:12px;padding:12px 18px;border-top:1px solid var(--line);} .cert:first-child{border-top:none;}
+    .cert .cb2{width:42px;height:42px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#fde68a,#f5b638);color:#7a5a08;} .cert .cb2 svg{width:22px;height:22px;} .cert.lock .cb2{background:#eef1f6;color:#b6c2d2;}
+    .cert .ci{flex:1;min-width:0;} .cert .ci b{font-size:13.5px;font-weight:700;} .cert .ci span{display:block;font-size:11.5px;color:var(--muted);}
+    .cert .cdate{font-size:11px;color:var(--faint);font-weight:700;flex:none;}
+
+    /* team progress (manager) */
+    .tp{display:flex;align-items:center;gap:12px;padding:11px 18px;border-top:1px solid var(--line);} .tp:first-child{border-top:none;}
+    .tp .av{width:32px;height:32px;border-radius:50%;flex:none;color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;}
+    .tp .ti{flex:1;min-width:0;} .tp .ti b{font-size:13px;font-weight:700;} .tp .tbar{height:6px;background:var(--bg);border-radius:4px;overflow:hidden;margin-top:5px;} .tp .tbar>i{display:block;height:100%;border-radius:4px;}
+    .tp .tv{font-size:13px;font-weight:800;flex:none;width:38px;text-align:right;}
+
+    /* slide-over */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show{opacity:1;pointer-events:auto;}
+    .panel { position:fixed; top:0; right:0; bottom:0; width:500px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open{transform:none;}
+    .panel-hero{height:150px;display:flex;align-items:flex-end;padding:18px;position:relative;} .panel-hero .pclose{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:9px;border:none;background:rgba(255,255,255,.9);color:#334155;display:flex;align-items:center;justify-content:center;} .panel-hero .pclose svg{width:18px;height:18px;} .panel-hero .ph-t{color:#fff;} .panel-hero .ph-cat{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;opacity:.9;} .panel-hero h2{font-size:20px;font-weight:800;margin-top:3px;text-shadow:0 1px 8px rgba(0,0,0,.3);}
+    .panel-body { overflow-y:auto; padding:18px 22px 20px; display:flex; flex-direction:column; gap:16px; }
+    .sect { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px; } .sect h3{font-size:12px;font-weight:800;margin-bottom:12px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;} .sect h3 .r{margin-left:auto;font-weight:700;}
+    .lesson{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line);cursor:pointer;} .lesson:first-child{border-top:none;} .lesson .lc{width:24px;height:24px;border-radius:50%;flex:none;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:transparent;} .lesson.done .lc{background:var(--green);border-color:var(--green);color:#fff;} .lesson.cur .lc{border-color:var(--accent);color:var(--accent);} .lesson .lc svg{width:13px;height:13px;} .lesson .li{flex:1;min-width:0;} .lesson .li b{font-size:13.5px;font-weight:600;} .lesson.done .li b{color:var(--muted);} .lesson .li span{font-size:11px;color:var(--faint);} .lesson .ldur{font-size:11px;color:var(--faint);font-weight:700;flex:none;}
+    .p-actions{display:flex;gap:10px;} .p-actions button{flex:1;border-radius:11px;padding:12px;font-size:13.5px;font-weight:700;} .pa-ghost{background:#fff;border:1px solid var(--line);color:var(--text);} .pa-ghost:hover{border-color:#cfe0f7;color:var(--accent);} .pa-primary{background:linear-gradient(180deg,var(--accent-2),var(--accent));border:none;color:#fff;}
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
+    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">DM</span><span class="meta"><b>Dana Morales</b><span>Sales Manager</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" placeholder="Search courses..." /></div>
+        <span class="role-badge">Training Center</span>
+        <span class="tb-avatar"><span class="av">DM</span></span>
+      </header>
+      <main class="content" id="content"></main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+    var $ = function(id){ return document.getElementById(id); };
+    function avColor(s){ var c=['#3b82f6','#8b5cf6','#ec4899','#f59e0b','#10b981','#06b6d4','#6366f1']; var h=0; for(var i=0;i<s.length;i++) h=(h+s.charCodeAt(i))%c.length; return c[h]; }
+    function initials(n){ return n.split(' ').map(function(x){return x[0];}).slice(0,2).join('').toUpperCase(); }
+
+    var CATCOLOR={ 'Sales Process':'#2563eb','Product Knowledge':'#0891b2','F&I':'#7c3aed','CRM & Tools':'#16a34a','Compliance':'#d97706','Customer Experience':'#db2777' };
+    function catGrad(c){ var col=CATCOLOR[c]||'#2563eb'; return 'background:linear-gradient(150deg,'+col+',rgba(0,0,0,.25));'; }
+    function catIcon(c){ var p={'Sales Process':'<path d="M4 16l5-5 3 3 6-7" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>','Product Knowledge':'<path d="M5 8l7-4 7 4v8l-7 4-7-4z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>','F&I':'<path d="M12 3v18M8 7h6a2.5 2.5 0 0 1 0 5H9a2.5 2.5 0 0 0 0 5h7" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/>','CRM & Tools':'<circle cx="12" cy="12" r="3.2" fill="none" stroke="#fff" stroke-width="1.9"/><path d="M12 4v3M12 17v3M4 12h3M17 12h3" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/>','Compliance':'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>','Customer Experience':'<path d="M12 20s-7-4.5-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.5-7 9-7 9z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>'}; return '<svg viewBox="0 0 24 24">'+(p[c]||p['Sales Process'])+'</svg>'; }
+
+    var COURSES=[
+      {id:1,cat:'Sales Process',title:'The Perfect First 10 Minutes',lvl:'Core',lessons:6,dur:'42m',prog:100},
+      {id:2,cat:'Sales Process',title:'Handling Price Objections',lvl:'Core',lessons:5,dur:'38m',prog:60},
+      {id:3,cat:'Product Knowledge',title:'2025 SUV Lineup Deep-Dive',lvl:'New',lessons:8,dur:'1h 05m',prog:35},
+      {id:4,cat:'Product Knowledge',title:'EV & Hybrid Essentials',lvl:'New',lessons:7,dur:'55m',prog:0},
+      {id:5,cat:'F&I',title:'Presenting Protection Products',lvl:'Advanced',lessons:6,dur:'48m',prog:0},
+      {id:6,cat:'CRM & Tools',title:'Mastering AutoDealer CRM',lvl:'Core',lessons:9,dur:'1h 12m',prog:100},
+      {id:7,cat:'Compliance',title:'Adverse Action & Privacy',lvl:'Required',lessons:4,dur:'30m',prog:75},
+      {id:8,cat:'Customer Experience',title:'Delivering a 5-Star Handoff',lvl:'Core',lessons:5,dur:'34m',prog:20}
+    ];
+    var LESSONS={
+      2:[['Why price objections happen','video','7m',1],['Acknowledge before you answer','video','8m',1],['The feel-felt-found method','video','9m',1],['Reframing value over price','interactive','8m',0],['Practice scenarios & quiz','quiz','6m',0]],
+      3:[['Lineup overview','video','9m',1],['Highlander & Grand Highlander','video','11m',1],['RAV4 family','video','10m',1],['4Runner & Sequoia','video','9m',0],['Tacoma & Tundra','video','8m',0],['Crossover comparison','interactive','7m',0],['Competitive cross-shop','video','6m',0],['Certification quiz','quiz','5m',0]]
+    };
+    var ASSIGNED=[
+      {cid:7,title:'Adverse Action & Privacy',cat:'Compliance',due:'Due in 3 days',st:'soon'},
+      {cid:3,title:'2025 SUV Lineup Deep-Dive',cat:'Product Knowledge',due:'Due Aug 1',st:'ok'}
+    ];
+    var CERTS=[
+      ['CRM Power User','AutoDealer CRM · Passed 96%','Jul 12',1],
+      ['Certified Sales Professional','Sales Process track','Jun 28',1],
+      ['Toyota Product Expert 2025','Complete SUV lineup',null,0]
+    ];
+    var TEAM=[
+      ['Marcus Bell',94],['Cameron Miller',78],['Sarah Lin',71],['Nina Alvarez',88],['Devon Wright',54],['Priya Nair',63]
+    ];
+
+    var filter='All';
+    function courseCard(c){
+      return '<div class="course'+(c.prog===100?' done':'')+'" onclick="openCourse('+c.id+')"><div class="cimg" style="'+catGrad(c.cat)+'">'+catIcon(c.cat)+'<span class="lvl">'+c.lvl+'</span></div>'+
+        '<div class="cb"><div class="ccat">'+c.cat+'</div><div class="ct">'+c.title+'</div><div class="cmeta"><span>'+c.lessons+' lessons</span><span>'+c.dur+'</span></div>'+
+        '<div class="cprog"><div class="cbar"><i style="width:'+c.prog+'%"></i></div><span class="cpct">'+(c.prog===100?'Done':c.prog+'%')+'</span></div></div></div>';
+    }
+    function renderCourses(){
+      var list=COURSES.filter(function(c){return filter==='All'||c.cat===filter;});
+      $('courses').innerHTML=list.map(courseCard).join('');
+    }
+    function renderPills(){
+      var cats=['All'].concat(Object.keys(CATCOLOR));
+      $('pills').innerHTML=cats.map(function(c){ return '<button class="pill'+(filter===c?' on':'')+'" data-c="'+c+'">'+c+'</button>'; }).join('');
+      $('pills').querySelectorAll('.pill').forEach(function(b){ b.addEventListener('click',function(){ filter=b.getAttribute('data-c'); renderPills(); renderCourses(); }); });
+    }
+
+    function render(){
+      var role=(window.ADRoles&&window.ADRoles.getRole())||'manager';
+      var isMgr=role==='manager';
+      var cur=COURSES.find(function(c){return c.id===2;}); // continue: price objections
+      var completed=COURSES.filter(function(c){return c.prog===100;}).length;
+      var overall=Math.round(COURSES.reduce(function(a,c){return a+c.prog;},0)/COURSES.length);
+      $('content').innerHTML=''+
+      '<div class="phead"><div><h1>Training Center</h1><p class="sub">Level up your selling — bite-size courses, product certifications, and required compliance, all tracked automatically.</p></div>'+
+        (isMgr?'<button class="btn-primary" onclick="toast(\'Assign-training builder opened\')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Assign Training</button>':'<button class="btn-primary" onclick="openCourse(2)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>Resume Learning</button>')+'</div>'+
+      '<div class="kpis">'+
+        '<div class="kp"><div class="kl">My Progress</div><div class="kv">'+overall+'%</div><div class="kd">▲ 8% this month</div></div>'+
+        '<div class="kp"><div class="kl">Courses Completed</div><div class="kv">'+completed+' / '+COURSES.length+'</div><div class="kd">Keep going</div></div>'+
+        '<div class="kp"><div class="kl">Certifications</div><div class="kv">2</div><div class="kd">1 in progress</div></div>'+
+        '<div class="kp"><div class="kl">Learning Hours</div><div class="kv">12.5h</div><div class="kd">This month</div></div>'+
+        (isMgr?'<div class="kp"><div class="kl">Team Completion</div><div class="kv">75%</div><div class="kd">▲ 6% MoM</div></div>':'<div class="kp"><div class="kl">Current Streak</div><div class="kv">9 days</div><div class="kd">🔥 On a roll</div></div>')+
+      '</div>'+
+      '<div class="hero"><div class="thumb" style="'+catGrad(cur.cat)+'"><div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div></div>'+
+        '<div class="hi"><div class="hcat">Continue · '+cur.cat+'</div><h2>'+cur.title+'</h2><div class="hl">Lesson 3 of '+cur.lessons+' · The feel-felt-found method</div><div class="pbar"><i style="width:'+cur.prog+'%"></i></div></div>'+
+        '<button class="hbtn" onclick="openCourse(2)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>Resume · '+cur.prog+'%</button></div>'+
+      '<div class="grid">'+
+        '<div><div class="sec-label">Course Catalog</div><div class="pills" id="pills"></div><div class="courses" id="courses"></div></div>'+
+        '<div style="display:flex;flex-direction:column;gap:18px;">'+
+          '<div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M9 11l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="4" width="16" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><h2>Assigned to You</h2><span class="r">'+ASSIGNED.length+'</span></div><div>'+
+            ASSIGNED.map(function(a){ return '<div class="as"><span class="ai" style="'+catGrad(a.cat)+'">'+catIcon(a.cat)+'</span><div class="am"><b>'+a.title+'</b><span>'+a.cat+'</span></div><span class="due '+a.st+'">'+a.due+'</span></div>'; }).join('')+
+          '</div></div>'+
+          '<div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.6l1-5.8L3.5 9.7l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><h2>Certifications</h2></div><div class="certs">'+
+            CERTS.map(function(c){ return '<div class="cert'+(c[3]?'':' lock')+'"><span class="cb2">'+(c[3]?'<svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 13l-1.5 7 5-3 5 3-1.5-7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>':'<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>')+'</span><div class="ci"><b>'+c[0]+'</b><span>'+c[1]+'</span></div>'+(c[2]?'<span class="cdate">'+c[2]+'</span>':'<span class="cdate">Locked</span>')+'</div>'; }).join('')+
+          '</div></div>'+
+          (isMgr?'<div class="card"><div class="card-h"><svg viewBox="0 0 24 24"><circle cx="7" cy="9" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="9" r="2.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 18c0-2.2 2-3.6 4.5-3.6s4.5 1.4 4.5 3.6M12.5 18c0-2.2 2-3.6 4.5-3.6s4.5 1.4 4.5 3.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h2>Team Progress</h2></div><div>'+
+            TEAM.map(function(t){ var col=t[1]>=85?'#16a34a':t[1]>=65?'#2563eb':'#d97706'; return '<div class="tp"><span class="av" style="background:'+avColor(t[0])+'">'+initials(t[0])+'</span><div class="ti"><b>'+t[0]+'</b><div class="tbar"><i style="width:'+t[1]+'%;background:'+col+'"></i></div></div><span class="tv" style="color:'+col+'">'+t[1]+'%</span></div>'; }).join('')+
+          '</div></div>':'')+
+        '</div>'+
+      '</div>';
+      renderPills(); renderCourses();
+    }
+
+    /* ---------- course slide-over ---------- */
+    function openCourse(id){
+      var c=COURSES.find(function(x){return x.id===id;}); if(!c) return;
+      var ls=LESSONS[id]|| defaultLessons(c);
+      var doneCount=ls.filter(function(l){return l[3];}).length;
+      $('panel').innerHTML=''+
+      '<div class="panel-hero" style="'+catGrad(c.cat)+'"><button class="pclose" onclick="closePanel()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></button><div class="ph-t"><div class="ph-cat">'+c.cat+' · '+c.lvl+'</div><h2>'+c.title+'</h2></div></div>'+
+      '<div class="panel-body">'+
+        '<div class="sect"><h3>Course Content <span class="r">'+doneCount+'/'+ls.length+' complete · '+c.dur+'</span></h3>'+
+          ls.map(function(l,i){ var cur=!l[3] && ls.slice(0,i).every(function(x){return x[3];}); return '<div class="lesson'+(l[3]?' done':cur?' cur':'')+'" onclick="toast(\''+(l[3]?'Replaying':'Opening')+': '+l[0].replace(/\x27/g,"")+'\')"><span class="lc">'+(l[3]?'<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>':cur?'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>':'')+'</span><div class="li"><b>'+l[0]+'</b><span>'+l[1]+'</span></div><span class="ldur">'+l[2]+'</span></div>'; }).join('')+
+        '</div>'+
+        '<div class="p-actions"><button class="pa-ghost" onclick="closePanel()">Close</button><button class="pa-primary" onclick="markCourse('+id+')">'+(c.prog===100?'Review course':c.prog>0?'Resume course':'Start course')+'</button></div>'+
+      '</div>';
+      $('scrim').classList.add('show'); $('panel').classList.add('open');
+    }
+    function defaultLessons(c){ var out=[]; for(var i=0;i<c.lessons;i++){ out.push(['Lesson '+(i+1),'video','8m', (i/c.lessons)*100 < c.prog ?1:0]); } return out; }
+    function markCourse(id){ var c=COURSES.find(function(x){return x.id===id;}); if(c){ c.prog=Math.min(100,c.prog+ (c.prog<100?25:0)); } closePanel(); render(); toast(c && c.prog===100?'🎉 Course complete!':'Progress saved'); }
+    function closePanel(){ $('scrim').classList.remove('show'); $('panel').classList.remove('open'); }
+
+    var tTimer;
+    function toast(m){ $('toastMsg').innerHTML=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },2400); }
+
+    document.addEventListener('DOMContentLoaded', function(){ render(); $('scrim').addEventListener('click', closePanel); });
+  </script>
+</body>
+</html>
