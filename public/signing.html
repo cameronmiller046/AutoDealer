@@ -265,7 +265,39 @@
     function signerProgress(e){ var t=e.signers.length, d=e.signers.filter(function(s){return s[2]==='signed';}).length; return {done:d,total:t,pct:Math.round(d/t*100)}; }
 
     function tplCard(t,i){ return '<div class="tpl" onclick="openTplViewer('+i+')"><div class="ti">'+docIcon()+'</div><b>'+t[0]+'</b><span>'+t[1]+'</span><div class="tsend"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</div></div>'; }
-    function renderTpls(){ $('tpls').innerHTML=TEMPLATES.map(tplCard).join(''); }
+    function customCard(f){ return '<div class="tpl" onclick="openCustomViewer(\''+f.id+'\')"><div class="ti" style="background:#f3edfe;color:#7c3aed">'+docIcon()+'</div><b>'+f.name+'</b><span>'+(f.category||'Custom form')+' · uploaded</span><div class="tsend" style="color:#7c3aed"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</div></div>'; }
+    function canManageForms(){ var r=(window.ADRoles&&window.ADRoles.getRole&&window.ADRoles.getRole())||'manager'; return ['manager','gm','dealerprincipal','admin'].indexOf(r)>=0; }
+    function renderTpls(){
+      var html = TEMPLATES.map(tplCard).join('') + CUSTOM_FORMS.map(customCard).join('');
+      if (canManageForms()) html += '<div class="tpl" onclick="uploadFormModal()" style="border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;color:var(--muted);min-height:118px"><div style="width:38px;height:38px;border-radius:11px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:6px"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 16V4m0 0l-4 4m4-4l4 4M5 20h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><b style="color:var(--text)">Upload a Form</b><span>Add your dealership’s own document</span></div>';
+      $('tpls').innerHTML = html;
+    }
+    function openCustomViewer(id){ var f=customById(id); if(!f) return; openViewer(null, {doc:f.name, pack:(f.category||'Custom form'), cust:DEAL.customer, deal:'—', status:'draft', signers:[[DEAL.customer,'buyer','draft']], sent:'Just now'}); }
+    function uploadFormModal(){
+      if(!canManageForms()){ toast('Only managers can upload forms'); return; }
+      openModal(mHead('download','Upload a form','Add your dealership’s own document for your team to collect signatures on')+
+        '<div class="modal-body">'+
+          '<div class="mfield"><label>Form name</label><input id="uf_name" placeholder="e.g. Test-Drive Waiver, Cash Down Receipt"></div>'+
+          '<div class="mrow"><div class="mfield"><label>Category</label><select id="uf_cat"><option>Sales</option><option>Finance</option><option>Service</option><option>Compliance</option><option>Other</option></select></div>'+
+            '<div class="mfield"><label>Who can use it</label><select id="uf_who"><option>All salespeople</option><option>Finance only</option><option>Managers only</option></select></div></div>'+
+          '<div class="mfield"><label>Document file</label><label for="uf_file" id="uf_drop" style="border:1.5px dashed var(--line);border-radius:12px;padding:24px;text-align:center;cursor:pointer;display:block"><div style="font-weight:700">Drop a PDF here or click to browse</div><div style="font-size:12px;color:var(--muted);margin-top:4px" id="uf_fname">PDF or DOCX, up to 20 MB</div></label><input type="file" id="uf_file" accept=".pdf,.doc,.docx" style="display:none"></div>'+
+          '<div><label style="font-size:11.5px;font-weight:700;color:var(--muted)">Signature fields required</label><div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin-top:9px">'+
+            '<label style="display:flex;align-items:center;gap:7px"><input type="checkbox" id="uf_sig" checked style="width:auto;accent-color:#2563eb"> Buyer</label>'+
+            '<label style="display:flex;align-items:center;gap:7px"><input type="checkbox" id="uf_co" style="width:auto;accent-color:#2563eb"> Co-buyer</label>'+
+            '<label style="display:flex;align-items:center;gap:7px"><input type="checkbox" id="uf_sp" style="width:auto;accent-color:#2563eb"> Salesperson</label>'+
+            '<label style="display:flex;align-items:center;gap:7px"><input type="checkbox" id="uf_date" style="width:auto;accent-color:#2563eb"> Date</label></div></div>'+
+        '</div>'+
+        '<div class="modal-foot"><button class="mf-ghost" data-close>Cancel</button><button class="mf-primary" id="uf_save">Publish to team</button></div>');
+      var fi=$('uf_file'); if(fi) fi.addEventListener('change', function(){ var n=fi.files&&fi.files[0]?fi.files[0].name:''; if(n){ $('uf_fname').textContent=n; $('uf_drop').style.borderColor='var(--accent)'; } });
+      var sv=$('uf_save'); if(sv) sv.addEventListener('click', function(){
+        var name=($('uf_name').value||'').trim(); if(!name){ toast('Give the form a name'); $('uf_name').focus(); return; }
+        var fields=[]; if($('uf_sig').checked) fields.push({id:'cf_sig',label:'Buyer Signature'}); if($('uf_co').checked) fields.push({id:'cf_co',label:'Co-Buyer Signature'}); if($('uf_sp').checked) fields.push({id:'cf_sp',label:'Salesperson Signature'}); if($('uf_date').checked) fields.push({id:'cf_date',label:'Date'});
+        if(!fields.length) fields.push({id:'cf_sig',label:'Buyer Signature'});
+        var fn=($('uf_file').files&&$('uf_file').files[0])?$('uf_file').files[0].name:'form.pdf';
+        CUSTOM_FORMS.push({ id:'cf'+(''+Math.abs(name.length*97+CUSTOM_FORMS.length*7919)), name:name, category:$('uf_cat').value, who:$('uf_who').value, file:fn, fields:fields });
+        saveCustomForms(); closeModal(); renderTpls(); toast('“'+name+'” published — your team can now collect signatures on it');
+      });
+    }
 
     var filter='all';
     function renderPills(){
@@ -341,48 +373,170 @@
     DEAL.netTrade = DEAL.tradeAllow - DEAL.payoff;
     DEAL.financed = DEAL.price + DEAL.tax + DEAL.docFee + DEAL.title + DEAL.reg + DEAL.back - DEAL.netTrade - DEAL.down;
     DEAL.total = DEAL.price + DEAL.tax + DEAL.docFee + DEAL.title + DEAL.reg + DEAL.back;
+    // amortized monthly payment so the Truth-in-Lending figures stay internally consistent
+    (function(){ var r=DEAL.apr/1200, n=DEAL.term; DEAL.payment = Math.round(DEAL.financed * r / (1 - Math.pow(1+r,-n))); })();
 
     var pageHeader = function(title){ return '<div class="ph"><div class="pl"><b>AUTO<i>DEALER</i></b><div style="font-size:10px;color:#64748b;margin-top:3px">Premier Auto Group · 1400 Motorway Blvd</div></div><div class="pr">'+title+'<br>Deal #D-4471 · Jul 26, 2026<br>VIN '+DEAL.vin+'</div></div>'; };
-    function sigField(fid,label,signer,tappable){
-      return '<div class="sigfield" data-fid="'+fid+'"'+(tappable?' data-tap="1"':'')+'><span class="tag">'+(label.indexOf('Initial')>=0?'INITIALS':label.indexOf('Date')>=0?'DATE':'SIGN')+'</span>'+
-        '<div><span class="ph3">'+label+'</span><div class="siglabel">'+signer+'</div></div></div>';
+    /* ----- manager-uploaded custom forms (persisted per browser) ----- */
+    function loadCustomForms(){ try{ return JSON.parse(localStorage.getItem('ad_custom_forms')||'[]'); }catch(e){ return []; } }
+    function saveCustomForms(){ try{ localStorage.setItem('ad_custom_forms', JSON.stringify(CUSTOM_FORMS)); }catch(e){} }
+    var CUSTOM_FORMS = loadCustomForms();
+    function customByName(t){ for(var i=0;i<CUSTOM_FORMS.length;i++){ if(CUSTOM_FORMS[i].name===t) return CUSTOM_FORMS[i]; } return null; }
+    function customById(id){ for(var i=0;i<CUSTOM_FORMS.length;i++){ if(CUSTOM_FORMS[i].id===id) return CUSTOM_FORMS[i]; } return null; }
+
+    /* a single signature/initials/date field; sign(fid) returns the stored value or false */
+    function sigBox(fid,label,signer,sign){
+      var v = sign ? sign(fid) : false;
+      var tag = label.indexOf('Initial')>=0?'INITIALS':(label.indexOf('Date')>=0?'DATE':'SIGN');
+      var inner = v ? (v.type==='draw' ? '<img src="'+v.data+'" style="height:44px">' : '<span class="sig">'+(v.text||signer||DEAL.customer)+'</span>')
+                    : '<div><span class="ph3">'+label+'</span><div class="siglabel">'+(signer||DEAL.customer)+'</div></div>';
+      return '<div class="sigfield'+(v?' signed':'')+'" data-fid="'+fid+'"'+(v?'':' data-tap="1"')+'><span class="tag">'+tag+'</span>'+inner+'</div>';
     }
-    /* Build the 3 pages of a document. signed = map of signed field ids (viewer: all if env signed). */
-    function buildPages(title, signedAll){
-      var s = function(id){ return signedAll ? ' signed' : ''; };
-      var sig = function(id,label,signer){ return '<div class="sigfield'+s(id)+'" data-fid="'+id+'"><span class="tag">'+(label.indexOf('Initial')>=0?'INITIALS':'SIGN')+'</span>'+(signedAll?'<span class="sig">'+DEAL.customer+'</span>':'<div><span class="ph3">'+label+'</span><div class="siglabel">'+signer+'</div></div>')+'</div>'; };
-      var p1 = '<div class="page" id="pg-1">'+pageHeader(title)+
-        '<h2>'+title+'</h2><div class="sub2">This document sets out the terms of your vehicle purchase and is legally binding once signed.</div>'+
-        '<div class="grid2"><div class="kv2"><span class="k">Vehicle</span><b>'+DEAL.vehicle+'</b></div><div class="kv2"><span class="k">Stock #</span><b>'+DEAL.stock+'</b></div><div class="kv2"><span class="k">VIN</span><b>'+DEAL.vin+'</b></div><div class="kv2"><span class="k">Odometer</span><b>'+DEAL.miles+' mi</b></div></div>'+
-        '<div style="height:8px"></div>'+
-        '<div class="kv2"><span class="k">Selling Price</span><b>'+money(DEAL.price)+'</b></div>'+
-        '<div class="kv2"><span class="k">Trade Allowance ('+DEAL.tradeVeh+')</span><b>'+money(DEAL.tradeAllow)+'</b></div>'+
-        '<div class="kv2"><span class="k">Less Payoff</span><b>−'+money(DEAL.payoff)+'</b></div>'+
-        '<div class="kv2"><span class="k">Cash Down</span><b>'+money(DEAL.down)+'</b></div>'+
-        '<div class="kv2"><span class="k">Taxes &amp; Fees</span><b>'+money(DEAL.tax+DEAL.docFee+DEAL.title+DEAL.reg)+'</b></div>'+
-        '<div class="kv2"><span class="k">F&amp;I Products (Warranty + GAP)</span><b>'+money(DEAL.back)+'</b></div>'+
-        '<div class="total"><span>Total Sale Price</span><span>'+money(DEAL.total)+'</span></div>'+
-        '<p>By signing below, the buyer agrees to purchase the above vehicle under the terms stated in this agreement and any attached financing documents.</p>'+
-        sig('sig1','Buyer Signature',DEAL.customer)+
-      '</div>';
-      var p2 = '<div class="page" id="pg-2">'+pageHeader(title)+
-        '<h2>Financing Terms &amp; Disclosures</h2><div class="sub2">Retail installment — Truth in Lending disclosure.</div>'+
-        '<div class="grid2"><div class="kv2"><span class="k">Amount Financed</span><b>'+money(DEAL.financed)+'</b></div><div class="kv2"><span class="k">APR</span><b>'+DEAL.apr+'%</b></div><div class="kv2"><span class="k">Term</span><b>'+DEAL.term+' months</b></div><div class="kv2"><span class="k">Monthly Payment</span><b>'+money(DEAL.payment)+'</b></div></div>'+
-        '<p class="fine">The Annual Percentage Rate is the cost of your credit as a yearly rate. The Finance Charge is the dollar amount the credit will cost you. The Amount Financed is the amount of credit provided to you or on your behalf. Late payments, prepayment, and security-interest terms are described in your contract. You have the right to receive an itemization of the Amount Financed.</p>'+
-        '<p class="fine">Warranty coverage: '+DEAL.warranty+'. GAP waiver: '+money(DEAL.gap)+'. F&amp;I products are optional and are not required to obtain credit or purchase the vehicle.</p>'+
-        sig('ini2','Buyer Initials',DEAL.customer)+
-        sig('sig2','Buyer Signature',DEAL.customer)+
-      '</div>';
-      var p3 = '<div class="page" id="pg-3">'+pageHeader(title)+
-        '<h2>Acknowledgement &amp; Delivery</h2><div class="sub2">Odometer, privacy, and delivery acknowledgement.</div>'+
-        '<p>The buyer acknowledges receipt of the vehicle described above in acceptable condition, and confirms the odometer reading of <b>'+DEAL.miles+' miles</b> reflects the actual mileage.</p>'+
-        '<p class="fine">Privacy Notice (GLBA): We collect nonpublic personal information about you from the information you provide and from your transactions. We may disclose this information as permitted by law. You may opt out of certain disclosures by contacting us.</p>'+
-        '<div class="kv2"><span class="k">Salesperson</span><b>Cameron Miller</b></div><div class="kv2"><span class="k">Finance Manager</span><b>Tom Fielder</b></div><div class="kv2"><span class="k">Delivery Date</span><b>Jul 26, 2026</b></div>'+
-        sig('sig3','Buyer Signature — Delivery',DEAL.customer)+
-      '</div>';
-      return [p1,p2,p3];
+    function tilCell(t,d,v,hl){ return '<div style="padding:9px 11px;border-right:1px solid #16202e;'+(hl?'background:#f6f9fd;':'')+'"><div style="font-size:8.5px;font-weight:800;letter-spacing:.3px">'+t+'</div><div style="font-size:8px;color:#64748b;margin:2px 0 5px;line-height:1.3">'+d+'</div><div style="font-size:16px;font-weight:800">'+v+'</div></div>'; }
+    function chk(on,label){ return '<div style="display:flex;align-items:center;gap:9px;margin:5px 0"><span style="width:16px;height:16px;border:1.5px solid #16202e;border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex:none">'+(on?'✓':'')+'</span><span style="font-size:11.5px">'+label+'</span></div>'; }
+    function factsBox(){ return '<div style="border:1.5px solid #16202e;border-radius:6px;overflow:hidden;margin:6px 0 12px;font-size:11px"><div style="display:grid;grid-template-columns:1fr 2fr">'+
+      '<div style="padding:8px 11px;border-right:1px solid #eef1f6;border-bottom:1px solid #16202e;font-weight:800;background:#f6f9fd">WHY?</div><div style="padding:8px 11px;border-bottom:1px solid #16202e">Financial companies share customers’ personal information to run their business. Federal law gives you the right to limit some but not all sharing.</div>'+
+      '<div style="padding:8px 11px;border-right:1px solid #eef1f6;border-bottom:1px solid #eef1f6;font-weight:800;background:#f6f9fd">WHAT?</div><div style="padding:8px 11px;border-bottom:1px solid #eef1f6">Social Security number, income, credit history, and account balances.</div>'+
+      '<div style="padding:8px 11px;border-right:1px solid #eef1f6;font-weight:800;background:#f6f9fd">HOW?</div><div style="padding:8px 11px">For everyday business, for our marketing, and — unless you opt out — with nonaffiliates for their marketing.</div></div></div>'; }
+
+    /* Distinct, legally-representative content per document type. Returns {pages:[html], fields:[ids]}. */
+    function docContent(title, sign, kiosk){
+      var pc = kiosk ? 'k-page' : 'page';
+      var fields=[];
+      function SIG(fid,label,signer){ fields.push(fid); return sigBox(fid,label,signer,sign); }
+      function PG(n,html){ return '<div class="'+pc+'" id="pg-'+n+'">'+pageHeader(title)+html+'</div>'; }
+      var t=(title||'').toLowerCase(); var pages=[];
+      var LENDER='Premier Auto Financial (Ally Bank, assignee)';
+
+      var cf = customByName(title);
+      if(cf){
+        var lines=''; var ws=['72%','92%','84%','88%','66%','90%','80%'];
+        for(var li=0; li<7; li++){ lines+='<div style="height:8px;background:#eef1f6;border-radius:4px;margin-bottom:9px;width:'+ws[li]+'"></div>'; }
+        var sigs = (cf.fields||[{id:'cf_sig',label:'Signature'}]).map(function(f){ return SIG(f.id, f.label, DEAL.customer); }).join('');
+        pages.push(PG(1,'<h2>'+cf.name+'</h2><div class="sub2">Uploaded dealership form'+(cf.category?' · '+cf.category:'')+' · signature required.</div>'+
+          '<div style="display:inline-flex;align-items:center;gap:8px;font-size:10.5px;color:#64748b;background:#f6f9fd;border:1px solid #eef1f6;border-radius:7px;padding:5px 10px;margin-bottom:14px">Uploaded PDF · '+(cf.file||'form.pdf')+'</div>'+
+          lines+'<div style="height:6px"></div>'+sigs));
+        return { pages: pages, fields: fields };
+      }
+
+      if(t.indexOf('retail installment')>=0 || (t.indexOf('financ')>=0 && t.indexOf('insur')<0)){
+        var totalPayments = DEAL.payment*DEAL.term, financeCharge = totalPayments - DEAL.financed;
+        var tilBox = '<div style="border:1.5px solid #16202e;border-radius:6px;overflow:hidden;margin:8px 0 14px"><div style="display:grid;grid-template-columns:repeat(4,1fr)">'+
+          tilCell('ANNUAL PERCENTAGE RATE','The cost of your credit as a yearly rate',DEAL.apr+'%',true)+
+          tilCell('FINANCE CHARGE','The dollar amount the credit will cost you',money(financeCharge),false)+
+          tilCell('AMOUNT FINANCED','Credit provided to you or on your behalf',money(DEAL.financed),false)+
+          tilCell('TOTAL OF PAYMENTS','What you will have paid after all payments',money(totalPayments),true)+'</div></div>';
+        pages.push(PG(1,'<h2>Retail Installment Sale Contract</h2><div class="sub2">Federal Truth-in-Lending disclosures (15 U.S.C. §1601; Reg Z).</div>'+
+          tilBox+
+          '<div class="kv2"><span class="k">Payment Schedule</span><b>'+DEAL.term+' monthly payments of '+money(DEAL.payment)+'</b></div>'+
+          '<div class="kv2"><span class="k">First Payment Due</span><b>Aug 26, 2026</b></div>'+
+          '<div class="kv2"><span class="k">Security Interest</span><b>You are giving a security interest in the vehicle purchased</b></div>'+
+          '<div class="kv2"><span class="k">Late Charge</span><b>5% of the payment or $25, whichever is less</b></div>'+
+          '<div class="kv2"><span class="k">Prepayment</span><b>You will not have to pay a penalty</b></div>'+
+          '<p class="fine">By signing, you (the Buyer) agree to pay the Seller (Premier Auto Group) the Amount Financed and Finance Charge under the schedule above. This contract will be assigned to '+LENDER+'. See both sides for additional terms, including any warranty and arbitration provisions.</p>'+
+          SIG('ril_sig','Buyer Signature')));
+        pages.push(PG(2,'<h2>Itemization of Amount Financed</h2><div class="sub2">Reg Z §226.18(c).</div>'+
+          '<div class="kv2"><span class="k">Cash Price (incl. sales tax)</span><b>'+money(DEAL.price+DEAL.tax)+'</b></div>'+
+          '<div class="kv2"><span class="k">Documentation Fee</span><b>'+money(DEAL.docFee)+'</b></div>'+
+          '<div class="kv2"><span class="k">Title &amp; Registration Fees</span><b>'+money(DEAL.title+DEAL.reg)+'</b></div>'+
+          '<div class="kv2"><span class="k">Optional Service Contract</span><b>'+money(DEAL.back-DEAL.gap)+'</b></div>'+
+          '<div class="kv2"><span class="k">Optional GAP Waiver</span><b>'+money(DEAL.gap)+'</b></div>'+
+          '<div class="kv2"><span class="k">Less: Net Trade-In</span><b>−'+money(DEAL.netTrade)+'</b></div>'+
+          '<div class="kv2"><span class="k">Less: Cash Down Payment</span><b>−'+money(DEAL.down)+'</b></div>'+
+          '<div class="total"><span>Amount Financed</span><span>'+money(DEAL.financed)+'</span></div>'+
+          '<p class="fine">Credit insurance and a service contract are NOT required to obtain credit and are not factors in the credit decision. Your initials confirm these products are optional and that you have read both sides of this contract.</p>'+
+          SIG('ril_ini','Buyer Initials')+
+          '<div class="grid2" style="margin-top:6px"><div>'+SIG('ril_sig2','Buyer Signature','Sarah Whitfield, Buyer')+'</div><div>'+SIG('ril_cosig','Co-Buyer Signature','Co-Buyer (if any)')+'</div></div>'+
+          SIG('ril_seller','Seller / Dealer Signature','Tom Fielder, Finance Mgr')));
+      }
+      else if(t.indexOf('trade')>=0){
+        var negEq = DEAL.payoff - DEAL.tradeAllow;
+        pages.push(PG(1,'<h2>Trade-In Vehicle Agreement</h2><div class="sub2">Appraisal, payoff authorization &amp; title warranty.</div>'+
+          '<div class="grid2"><div class="kv2"><span class="k">Trade Vehicle</span><b>'+DEAL.tradeVeh+'</b></div><div class="kv2"><span class="k">Trade VIN</span><b>JTMWFREV6JD350192</b></div><div class="kv2"><span class="k">Odometer</span><b>41,320 mi</b></div><div class="kv2"><span class="k">Condition</span><b>Good — recon required</b></div></div>'+
+          '<div style="height:8px"></div>'+
+          '<div class="kv2"><span class="k">Agreed Trade Allowance</span><b>'+money(DEAL.tradeAllow)+'</b></div>'+
+          '<div class="kv2"><span class="k">Estimated Payoff (Toyota Financial Services)</span><b>'+money(DEAL.payoff)+'</b></div>'+
+          '<div class="kv2"><span class="k">Payoff Good-Through Date</span><b>Aug 5, 2026</b></div>'+
+          '<div class="total"><span>Net Trade Equity</span><span>'+money(DEAL.netTrade)+'</span></div>'+
+          '<p class="fine">The payoff shown is an estimate provided by the lienholder and is valid only through the good-through date. Buyer authorizes the Dealer to pay off the lien and remains responsible for any difference if the actual payoff is higher. Buyer warrants clear title, that the odometer reading is accurate, and that no undisclosed damage exists.</p>'+
+          (negEq>0?'<p class="fine"><b>Negative-equity notice:</b> the payoff exceeds the trade allowance by '+money(negEq)+', which is added to the Amount Financed.</p>':'')+
+          '<div class="grid2" style="margin-top:6px"><div>'+SIG('trd_sig','Buyer Signature','Sarah Whitfield, Buyer')+'</div><div>'+SIG('trd_cosig','Co-Buyer Signature','Co-Buyer (if any)')+'</div></div>'+
+          SIG('trd_appr','Dealer Appraiser Signature','Dana Morales, Sales Mgr')));
+      }
+      else if(t.indexOf('odometer')>=0){
+        pages.push(PG(1,'<h2>Federal Odometer Disclosure Statement</h2><div class="sub2">Required by federal law (49 CFR Part 580).</div>'+
+          '<p>Federal and State law require that you state the mileage upon transfer of ownership. Failure to complete or providing a false statement may result in fines and/or imprisonment.</p>'+
+          '<div class="kv2"><span class="k">Vehicle</span><b>'+DEAL.vehicle+'</b></div><div class="kv2"><span class="k">VIN</span><b>'+DEAL.vin+'</b></div>'+
+          '<div class="kv2"><span class="k">Odometer now reads</span><b>'+DEAL.miles+' miles (no tenths)</b></div>'+
+          '<div style="margin:14px 0;font-size:12px">I certify to the best of my knowledge that the odometer reading:'+
+            '<div style="margin-top:8px">'+chk(true,'reflects the ACTUAL MILEAGE.')+chk(false,'is in EXCESS of its mechanical limits.')+chk(false,'is NOT the actual mileage. WARNING — ODOMETER DISCREPANCY.')+'</div></div>'+
+          '<div class="grid2" style="margin-top:6px"><div>'+SIG('odo_txr','Transferor (Dealer) Signature','Premier Auto Group')+'</div><div>'+SIG('odo_txe','Transferee (Buyer) Signature')+'</div></div>'));
+      }
+      else if(t.indexOf('privacy')>=0){
+        pages.push(PG(1,'<h2>Privacy Notice</h2><div class="sub2">Gramm-Leach-Bliley Act (GLBA) — what we do with your personal information.</div>'+
+          factsBox()+
+          '<p class="fine">To limit our sharing with nonaffiliates for their marketing, call (800) 555-1180. You cannot limit sharing for everyday business purposes, to service your account, or as otherwise permitted by law. Your initials acknowledge receipt of this notice; they do not obligate you to purchase.</p>'+
+          SIG('prv_ini','Acknowledgement — Buyer Initials')));
+      }
+      else if(t.indexOf('credit')>=0){
+        pages.push(PG(1,'<h2>Credit Application</h2><div class="sub2">Equal Credit Opportunity Act (ECOA) authorization.</div>'+
+          '<div class="grid2"><div class="kv2"><span class="k">Applicant</span><b>'+DEAL.customer+'</b></div><div class="kv2"><span class="k">Date of Birth</span><b>04 / 18 / 1988</b></div><div class="kv2"><span class="k">SSN</span><b>***-**-4821</b></div><div class="kv2"><span class="k">Housing</span><b>Own · $2,150 / mo</b></div></div>'+
+          '<div class="kv2"><span class="k">Current Address</span><b>82 Lakeshore Dr, Springfield 62704 · 6 yrs</b></div>'+
+          '<div class="kv2"><span class="k">Employer</span><b>Mercy Regional Health · RN · 7 yrs</b></div>'+
+          '<div class="kv2"><span class="k">Gross Monthly Income</span><b>$7,400</b></div>'+
+          '<p class="fine">You certify the information is true and authorize Premier Auto Group and its assignee lenders to obtain and use your consumer credit report to evaluate this application and any future updates, renewals, or collection of the resulting account. This application is not a commitment to lend. Alimony, child support, or separate maintenance income need not be disclosed unless you want it considered.</p>'+
+          SIG('cra_sig','Applicant Signature')));
+      }
+      else if(t.indexOf('insurance')>=0){
+        pages.push(PG(1,'<h2>Insurance Authorization</h2><div class="sub2">Proof of coverage &amp; lienholder (loss-payee) designation.</div>'+
+          '<div class="grid2"><div class="kv2"><span class="k">Insurer</span><b>State Farm Mutual</b></div><div class="kv2"><span class="k">Policy #</span><b>SF-772-449-118</b></div><div class="kv2"><span class="k">Agent</span><b>L. Ramirez · (217) 555-0143</b></div><div class="kv2"><span class="k">Effective Date</span><b>Jul 26, 2026</b></div></div>'+
+          '<div class="kv2"><span class="k">Comprehensive Deductible</span><b>$500</b></div><div class="kv2"><span class="k">Collision Deductible</span><b>$500</b></div>'+
+          '<div class="kv2"><span class="k">Lienholder / Loss Payee</span><b>'+LENDER+'</b></div>'+
+          '<p class="fine">I authorize my insurer to add the vehicle above to my policy with the lienholder named as loss payee, and to release coverage information to the Dealer and lienholder. I understand physical-damage (full) coverage is required for the full term of the loan.</p>'+
+          SIG('ins_sig','Buyer Signature')));
+      }
+      else if(t.indexOf('we-owe')>=0 || t.indexOf('due bill')>=0){
+        pages.push(PG(1,'<h2>We-Owe / Due Bill</h2><div class="sub2">The only promises made outside the printed purchase documents.</div>'+
+          '<p>The Dealer agrees to provide the following at no additional charge to the buyer:</p>'+
+          '<div class="kv2"><span class="k">1. All-weather floor mats</span><b>Ordered · ETA Jul 30</b></div>'+
+          '<div class="kv2"><span class="k">2. Window tint (front two)</span><b>Scheduled · Aug 2</b></div>'+
+          '<div class="kv2"><span class="k">3. Second key fob</span><b>On order</b></div>'+
+          '<div class="kv2"><span class="k">4. Full tank of fuel</span><b>Delivered</b></div>'+
+          '<p class="fine">No verbal promises outside this Due Bill are binding on the Dealer. The items above will be completed by the dates shown at no cost to the buyer.</p>'+
+          '<div class="grid2" style="margin-top:6px"><div>'+SIG('owe_sig','Buyer Signature')+'</div><div>'+SIG('owe_mgr','Manager Approval','Dana Morales, Sales Mgr')+'</div></div>'));
+      }
+      else if(t.indexOf('delivery package')>=0){
+        pages.push(PG(1,'<h2>Delivery Document Package</h2><div class="sub2">Cover sheet · '+DEAL.customer+' · '+DEAL.vehicle+'</div>'+
+          '<p>This package bundles the following documents into one signing session:</p>'+
+          ['Purchase Agreement / Buyer’s Order','Retail Installment Sale Contract','Trade-In Vehicle Agreement','Insurance Authorization','Federal Odometer Disclosure','Privacy Notice (GLBA)','We-Owe / Due Bill'].map(function(d,i){ return '<div class="kv2"><span class="k">'+(i+1)+'. '+d+'</span><b>Included</b></div>'; }).join('')+
+          '<p class="fine">Each document is signed individually. A certificate of completion covering all documents is generated when the session is finished.</p>'+
+          SIG('pkg_ack','Acknowledge &amp; Begin — Buyer Initials')));
+      }
+      else {
+        pages.push(PG(1,'<h2>'+title+'</h2><div class="sub2">Vehicle Buyer’s Order — binding when accepted by both parties.</div>'+
+          '<div class="grid2"><div class="kv2"><span class="k">Vehicle</span><b>'+DEAL.vehicle+'</b></div><div class="kv2"><span class="k">Stock #</span><b>'+DEAL.stock+'</b></div><div class="kv2"><span class="k">VIN</span><b>'+DEAL.vin+'</b></div><div class="kv2"><span class="k">Odometer</span><b>'+DEAL.miles+' mi</b></div></div>'+
+          '<div style="height:8px"></div>'+
+          '<div class="kv2"><span class="k">Selling Price</span><b>'+money(DEAL.price)+'</b></div>'+
+          '<div class="kv2"><span class="k">Trade Allowance ('+DEAL.tradeVeh+')</span><b>'+money(DEAL.tradeAllow)+'</b></div>'+
+          '<div class="kv2"><span class="k">Less Payoff</span><b>−'+money(DEAL.payoff)+'</b></div>'+
+          '<div class="kv2"><span class="k">Cash Down</span><b>'+money(DEAL.down)+'</b></div>'+
+          '<div class="kv2"><span class="k">Taxes &amp; Fees</span><b>'+money(DEAL.tax+DEAL.docFee+DEAL.title+DEAL.reg)+'</b></div>'+
+          '<div class="kv2"><span class="k">F&amp;I Products (Warranty + GAP)</span><b>'+money(DEAL.back)+'</b></div>'+
+          '<div class="total"><span>Total Sale Price</span><span>'+money(DEAL.total)+'</span></div>'+
+          '<p class="fine">This order is not binding until accepted by an authorized manager. The vehicle carries the manufacturer’s warranty; no other warranty is expressed or implied except as stated. Disputes are subject to the arbitration provision on the reverse.</p>'+
+          '<div class="grid2" style="margin-top:6px"><div>'+SIG('po_sig','Buyer Signature','Sarah Whitfield, Buyer')+'</div><div>'+SIG('po_cosig','Co-Buyer Signature','Co-Buyer (if any)')+'</div></div>'+
+          SIG('po_sp','Salesperson Signature','Cameron Miller, Salesperson')));
+        pages.push(PG(2,'<h2>Terms &amp; Acknowledgements</h2><div class="sub2">Delivery, arbitration &amp; acceptance.</div>'+
+          '<p>The buyer acknowledges receipt of the vehicle in acceptable condition and confirms the odometer reading of <b>'+DEAL.miles+' miles</b>. Salesperson: Cameron Miller · Finance Manager: Tom Fielder · Delivery: Jul 26, 2026.</p>'+
+          '<p class="fine">Arbitration: the parties agree any claim arising from this purchase will be resolved by binding arbitration and not in court, except as prohibited by law. You may reject this provision by written notice within 30 days.</p>'+
+          SIG('po_ini','Buyer Initials — Arbitration')+
+          '<div class="grid2" style="margin-top:6px"><div>'+SIG('po_sig2','Buyer Signature','Sarah Whitfield, Buyer')+'</div><div>'+SIG('po_mgr','Manager Acceptance','Dana Morales, Sales Mgr')+'</div></div>'));
+      }
+      return { pages: pages, fields: fields };
     }
-    function pageFieldIds(){ return ['sig1','ini2','sig2','sig3']; }
+    /* viewer wrapper: all fields render signed when the envelope is complete */
+    function buildPages(title, signedAll){ return docContent(title, signedAll?function(){return {type:'type',text:DEAL.customer};}:null, false).pages; }
+    function docFieldIds(title){ return docContent(title, null, false).fields; }
 
     /* ---------- Fullscreen Viewer ---------- */
     var VW = { env:null, zoom:1 };
@@ -493,18 +647,11 @@
       $('kStart').addEventListener('click', function(){ renderKioskDoc(); });
     }
     function currentDoc(){ return KIOSK.docs[KIOSK.idx]; }
-    function docComplete(i){ var need=pageFieldIds(); return need.every(function(f){ return KIOSK.signed[i+':'+f]; }); }
+    function docComplete(i){ var need=docFieldIds(KIOSK.docs[i].title); return need.length>0 && need.every(function(f){ return KIOSK.signed[i+':'+f]; }); }
     function renderKioskDoc(){
       var i=KIOSK.idx, doc=currentDoc();
-      var need=pageFieldIds();
-      var body='<div class="k-page">'+pageHeader(doc.title)+'<h2>'+doc.title+'</h2><div class="sub2">Please review and sign the highlighted fields.</div>'+
-        '<div class="kv2"><span class="k">Vehicle</span><b>'+DEAL.vehicle+'</b></div>'+
-        '<div class="kv2"><span class="k">Monthly Payment</span><b>'+money(DEAL.payment)+' · '+DEAL.apr+'% · '+DEAL.term+'mo</b></div>'+
-        '<div class="kv2"><span class="k">Amount Financed</span><b>'+money(DEAL.financed)+'</b></div>'+
-        '<p>By signing, you agree to the terms of this '+doc.title.toLowerCase()+' as reviewed with your finance manager.</p>'+
-        need.map(function(f){ var key=i+':'+f; var lab=f.indexOf('ini')>=0?'Buyer Initials':'Buyer Signature'; var done=KIOSK.signed[key];
-          return '<div class="sigfield'+(done?' signed':'')+'" data-fid="'+f+'"'+(done?'':' data-tap="1"')+'><span class="tag">'+(f.indexOf('ini')>=0?'INITIALS':'SIGN')+'</span>'+(done?(done.type==='draw'?'<img src="'+done.data+'" style="height:44px">':'<span class="sig">'+done.text+'</span>'):'<div><span class="ph3">'+lab+'</span><div class="siglabel">'+DEAL.customer+'</div></div>')+'</div>'; }).join('')+
-      '</div>';
+      var content=docContent(doc.title, function(fid){ return KIOSK.signed[i+':'+fid]||false; }, true);
+      var body=content.pages.join('');
       var total=KIOSK.docs.length, doneDocs=0; for(var d=0;d<total;d++){ if(docComplete(d)) doneDocs++; }
       var complete=docComplete(i);
       var pct=Math.round(((doneDocs)+(complete?0:0))/total*100);

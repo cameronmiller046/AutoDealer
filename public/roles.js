@@ -381,6 +381,27 @@
     document.querySelectorAll('[data-requires]').forEach(function(el){ if(!can(el.getAttribute('data-requires'))){ el.setAttribute('data-denied',''); el.style.display='none'; } });
   }
 
+  /* Demo affordance: click your profile picture (topbar top-right or sidebar bottom-left)
+     to switch which workspace you're viewing. Sets the base role (not impersonation). */
+  function switchAccount(r){ if(!ROLES[r]) return; try{ localStorage.setItem('ad_role', r); localStorage.setItem('ad_real_role', r); }catch(e){} location.href = ROLES[r].home; }
+  function mountAccountSwitcher(){
+    var triggers=[document.querySelector('.tb-avatar'), document.querySelector('.side-user')].filter(Boolean);
+    if(!triggers.length || document.getElementById('adAcctMenu')) return;
+    var menu=document.createElement('div'); menu.className='ad-acct'; menu.id='adAcctMenu';
+    var ck='<svg class="aa-ck" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    menu.innerHTML='<div class="aa-h">Demo · Switch workspace</div>'+ROLE_MENU.map(function(m){ var on=m[0]===getRole();
+      return '<button class="aa-opt'+(on?' on':'')+'" data-r="'+m[0]+'"><span class="aa-av">'+ROLES[m[0]].avatar+'</span><span class="aa-i"><b>'+m[1]+'</b><span>'+m[2]+'</span></span>'+(on?ck:'')+'</button>'; }).join('');
+    document.body.appendChild(menu);
+    menu.addEventListener('click', function(e){ e.stopPropagation(); });
+    menu.querySelectorAll('.aa-opt').forEach(function(b){ b.addEventListener('click', function(){ switchAccount(b.getAttribute('data-r')); }); });
+    function place(trigger){ var r=trigger.getBoundingClientRect(), mw=264;
+      if(trigger.classList.contains('side-user')){ menu.style.left=Math.max(10,r.left)+'px'; menu.style.top='auto'; menu.style.bottom=(window.innerHeight-r.top+8)+'px'; }
+      else { menu.style.left=Math.max(10, Math.min(r.right-mw, window.innerWidth-mw-10))+'px'; menu.style.bottom='auto'; menu.style.top=(r.bottom+8)+'px'; } }
+    triggers.forEach(function(t){ t.style.cursor='pointer'; t.setAttribute('title','Switch workspace (demo)');
+      t.addEventListener('click', function(e){ e.stopPropagation(); if(menu.classList.contains('open')){ menu.classList.remove('open'); return; } place(t); menu.classList.add('open'); }); });
+    document.addEventListener('click', function(){ menu.classList.remove('open'); });
+  }
+
   function injectCSS(){
     var css =
     '.nav a .ro-tag{margin-left:auto;font-size:8.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#8aa0bd;background:rgba(255,255,255,.09);padding:2px 6px;border-radius:5px;}'+
@@ -402,6 +423,15 @@
     '#adImpBanner .imp-ic{display:flex;}#adImpBanner .imp-ic svg{width:16px;height:16px;}'+
     '#adImpBanner b{font-weight:800;}'+
     '#adImpBanner button{border:none;background:rgba(0,0,0,.16);color:#241a03;font:700 12px Inter,system-ui,sans-serif;padding:7px 13px;border-radius:999px;cursor:pointer;white-space:nowrap;}#adImpBanner button:hover{background:rgba(0,0,0,.26);}'+
+    /* profile-picture account switcher (demo) */
+    '.ad-acct{position:fixed;z-index:10000;width:264px;max-height:70vh;overflow-y:auto;background:#0e1c33;border:1px solid rgba(255,255,255,.12);border-radius:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7);padding:6px;display:none;}'+
+    '.ad-acct.open{display:block;animation:vaIn .16s ease;}'+
+    '.aa-h{font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#6f83a0;padding:9px 11px 6px;}'+
+    '.aa-opt{width:100%;display:flex;align-items:center;gap:11px;text-align:left;background:none;border:none;border-radius:10px;padding:9px 10px;cursor:pointer;color:#c7d4e6;}'+
+    '.aa-opt:hover{background:rgba(255,255,255,.07);}.aa-opt.on{background:rgba(37,99,235,.22);}'+
+    '.aa-av{width:32px;height:32px;border-radius:50%;flex:none;background:linear-gradient(135deg,#3f9bff,#0b57b8);color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;}'+
+    '.aa-i{flex:1;min-width:0;}.aa-i b{display:block;font-size:13px;font-weight:600;color:#fff;}.aa-i span{font-size:11px;color:#8aa0bd;}'+
+    '.aa-ck{width:16px;height:16px;color:#6ea8ff;flex:none;}'+
     /* read-only role gating on shared pages */
     'body[data-role="salesperson"] .add-btn, body[data-role="receptionist"] .add-btn{display:none!important;}'+
     'body[data-role="receptionist"] .vhb[data-hover="tag"], body[data-role="salesperson"] .vhb[data-hover="tag"]{display:none;}'+
@@ -428,6 +458,6 @@
   function loadNotify(){ if(document.getElementById('ad-notify-script')) return; var s=document.createElement('script'); s.id='ad-notify-script'; s.src='/notify.js'; s.async=true; document.body.appendChild(s); }
   function loadCmdK(){ if(document.getElementById('ad-cmdk-script')) return; var s=document.createElement('script'); s.id='ad-cmdk-script'; s.src='/cmdk.js'; s.async=true; document.body.appendChild(s); }
   function loadTheme(){ if(window.__adTheme||document.getElementById('ad-theme-script')) return; var s=document.createElement('script'); s.id='ad-theme-script'; s.src='/theme.js'; document.head.appendChild(s); }
-  function init(){ loadTheme(); applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); mountBanner(); applyGates(); loadAI(); loadNotify(); loadCmdK(); }
+  function init(){ loadTheme(); applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); mountBanner(); mountAccountSwitcher(); applyGates(); loadAI(); loadNotify(); loadCmdK(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
