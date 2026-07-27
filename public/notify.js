@@ -127,9 +127,9 @@
         '<div class="ad-nt-list" id="adNtList"></div>'+
         '<div class="ad-nt-f"><a href="/notifications">View all notifications →</a></div>'+
       '</div>';
-    // place before the avatar in the topbar
+    // place before the avatar in the topbar (avatar may be nested in a wrapper, so anchor to its parent)
     var av = bar.querySelector('.tb-avatar');
-    if (av) bar.insertBefore(wrap, av); else bar.appendChild(wrap);
+    if (av && av.parentNode) av.parentNode.insertBefore(wrap, av); else bar.appendChild(wrap);
 
     pop = document.getElementById('adNtPop');
     badge = document.getElementById('adNtBadge');

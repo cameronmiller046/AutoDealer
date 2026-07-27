@@ -458,6 +458,7 @@
   function loadNotify(){ if(document.getElementById('ad-notify-script')) return; var s=document.createElement('script'); s.id='ad-notify-script'; s.src='/notify.js'; s.async=true; document.body.appendChild(s); }
   function loadCmdK(){ if(document.getElementById('ad-cmdk-script')) return; var s=document.createElement('script'); s.id='ad-cmdk-script'; s.src='/cmdk.js'; s.async=true; document.body.appendChild(s); }
   function loadTheme(){ if(window.__adTheme||document.getElementById('ad-theme-script')) return; var s=document.createElement('script'); s.id='ad-theme-script'; s.src='/theme.js'; document.head.appendChild(s); }
-  function init(){ loadTheme(); applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); mountBanner(); mountAccountSwitcher(); applyGates(); loadAI(); loadNotify(); loadCmdK(); }
+  function loadWire(){ if(window.__adWire||document.getElementById('ad-wire-script')) return; var s=document.createElement('script'); s.id='ad-wire-script'; s.src='/wire.js'; s.async=true; document.body.appendChild(s); }
+  function init(){ loadTheme(); applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); mountBanner(); mountAccountSwitcher(); applyGates(); loadAI(); loadNotify(); loadCmdK(); loadWire(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
