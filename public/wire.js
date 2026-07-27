@@ -259,6 +259,19 @@
     vm('BMW','X5','SUV',[2019,2025],['xDrive40i','M50i','X5 M'],{lux:1,tow:1,rows3:1}),
     vm('BMW','X3','SUV',[2018,2025],['xDrive30i','M40i'],{lux:1})
   ];
+  /* The full 2000-onward catalog (50+ brands, hundreds of models) lives in /vehicles.js and is
+     loaded on demand; the array above is only a fallback if that file can't be fetched. */
+  function cat(){ return (window.AD_VEHICLES && window.AD_VEHICLES.length) ? window.AD_VEHICLES : VMODELS; }
+  var __vehCbs = [];
+  function ensureVehicles(cb){
+    if (window.AD_VEHICLES){ if(cb) cb(); return; }
+    if (cb) __vehCbs.push(cb);
+    if (window.__adVehLoading) return; window.__adVehLoading = true;
+    var s = document.createElement('script'); s.src='/vehicles.js';
+    s.onload = function(){ __vehCbs.splice(0).forEach(function(f){ try{ f(); }catch(e){} }); };
+    s.onerror = function(){ window.__adVehLoading = false; };
+    document.head.appendChild(s);
+  }
   var VFEATURES = [
     {id:'carplay',name:'Apple CarPlay / Android Auto'},{id:'bt',name:'Bluetooth & hands-free'},
     {id:'camera',name:'Backup camera'},{id:'remote',name:'Remote start'},
@@ -297,25 +310,31 @@
   }
   function vehiclePicker(mount, values){
     values.vfeatures = values.vfeatures || [];
-    function allowed(skip){ return VMODELS.filter(function(mm){
+    function allowed(skip){ return cat().filter(function(mm){
       if(skip!=='make' && values.vmake && mm.make!==values.vmake) return false;
       if(skip!=='body' && values.vbody && mm.body!==values.vbody) return false;
       if(skip!=='model' && values.vmodel && mm.model!==values.vmodel) return false;
       if(skip!=='year' && values.vyear && !(mm.years[0]<=+values.vyear && +values.vyear<=mm.years[1])) return false;
       return true; }); }
-    function modelObj(){ if(!values.vmodel) return null; var c=VMODELS.filter(function(mm){ return mm.model===values.vmodel && (!values.vmake||mm.make===values.vmake); }); return c[0]||null; }
+    function modelObj(){ if(!values.vmodel) return null; var c=cat().filter(function(mm){ return mm.model===values.vmodel && (!values.vmake||mm.make===values.vmake); }); return c[0]||null; }
     function draw(){
-      var makes=vUniq(allowed('make').map(function(x){return x.make;})).sort();
-      var bodies=vUniq(allowed('body').map(function(x){return x.body;})).sort();
-      var models=vUniq(allowed('model').map(function(x){return x.model;})).sort();
-      var yset={}; allowed('year').forEach(function(x){ for(var y=x.years[1];y>=x.years[0];y--) yset[y]=1; });
+      // If the body type was auto-derived from a model and that model is no longer valid
+      // (e.g. the user switched make), drop the stale body so it doesn't over-filter.
+      if(!modelObj() && values.__bodyAuto){ values.vbody=''; values.__bodyAuto=false; }
+      function yr(mm){ return !values.vyear || (mm.years[0]<=+values.vyear && +values.vyear<=mm.years[1]); }
+      // Make/Model/Trim is a hierarchy — an upstream field is never narrowed by a downstream one;
+      // Body <-> Year are cross-constraints. So Make ignores the chosen model; Model respects make+body+year.
+      var makes=vUniq(cat().filter(function(mm){ return (!values.vbody||mm.body===values.vbody)&&yr(mm); }).map(function(x){return x.make;})).sort();
+      var models=vUniq(cat().filter(function(mm){ return (!values.vmake||mm.make===values.vmake)&&(!values.vbody||mm.body===values.vbody)&&yr(mm); }).map(function(x){return x.model;})).sort();
+      var bodies=vUniq(cat().filter(function(mm){ return (!values.vmake||mm.make===values.vmake)&&(!values.vmodel||mm.model===values.vmodel)&&yr(mm); }).map(function(x){return x.body;})).sort();
+      var yset={}; cat().filter(function(mm){ return (!values.vmake||mm.make===values.vmake)&&(!values.vbody||mm.body===values.vbody)&&(!values.vmodel||mm.model===values.vmodel); }).forEach(function(x){ for(var y=x.years[1];y>=x.years[0];y--) if(y>=2000) yset[y]=1; });
       var years=Object.keys(yset).map(Number).sort(function(a,b){return b-a;});
       if(values.vmake&&makes.indexOf(values.vmake)<0) values.vmake='';
       if(values.vbody&&bodies.indexOf(values.vbody)<0) values.vbody='';
       if(values.vmodel&&models.indexOf(values.vmodel)<0) values.vmodel='';
       if(values.vyear&&years.indexOf(+values.vyear)<0) values.vyear='';
       var mo=modelObj(); var trims=mo?mo.trims:[]; if(values.vtrim&&trims.indexOf(values.vtrim)<0) values.vtrim='';
-      if(mo) values.vbody = mo.body;   // body type is implied by the model (a Model 3 is a Sedan)
+      if(mo){ values.vbody = mo.body; values.__bodyAuto = true; values.vmake = mo.make; }   // model implies its make & body (a Model 3 is a Tesla Sedan)
       var ti = mo&&values.vtrim ? trims.indexOf(values.vtrim) : null;
       if(mo) values.vfeatures = values.vfeatures.filter(function(id){ return vAvail(id,mo,ti,trims.length); });
       function sel(key,label,opts,req){
@@ -343,10 +362,24 @@
         feat='<div style="margin-top:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;gap:10px"><span style="'+LBL+';margin:0">Requested features'+(count?' · '+count+' selected':'')+'</span><span style="font-size:11px;color:var(--faint,#aab4c2)">Grayed = not available on this trim</span></div><div style="display:flex;flex-wrap:wrap;gap:8px">'+chips+'</div></div>';
       }
       mount.innerHTML = selects + feat;
-      mount.querySelectorAll('select[data-key]').forEach(function(s){ s.addEventListener('change', function(){ values[s.getAttribute('data-key')]=s.value; draw(); }); });
+      mount.querySelectorAll('select[data-key]').forEach(function(s){ s.addEventListener('change', function(){
+        var k=s.getAttribute('data-key'); values[k]=s.value;
+        if(k==='vbody') values.__bodyAuto=false;
+        // the just-changed field is authoritative: drop a now-conflicting model/trim so it can't fight the new choice
+        if(k!=='vmodel' && k!=='vtrim' && values.vmodel){
+          var ok = cat().some(function(mm){ return mm.model===values.vmodel
+            && (!values.vmake || mm.make===values.vmake)
+            && (!values.vbody || mm.body===values.vbody)
+            && (!values.vyear || (mm.years[0]<=+values.vyear && +values.vyear<=mm.years[1])); });
+          if(!ok){ values.vmodel=''; values.vtrim=''; }
+        }
+        if(k==='vmodel') values.vtrim='';
+        draw();
+      }); });
       mount.querySelectorAll('.vf-chip').forEach(function(c){ if(c.getAttribute('data-av')!=='1') return; c.addEventListener('click', function(){ var id=c.getAttribute('data-fid'); var i=values.vfeatures.indexOf(id); if(i>=0) values.vfeatures.splice(i,1); else values.vfeatures.push(id); draw(); }); });
     }
     draw();
+    ensureVehicles(function(){ draw(); });   // upgrade to the full catalog when it loads
   }
 
   /* ---------------- action registry (label -> wizard spec) ---------------- */
@@ -637,7 +670,7 @@
     btn.addEventListener('click', function(){ handle(btn); });
     if (!btn.style.cursor) btn.style.cursor = 'pointer';
   }
-  function wireAll(){ collectScripts(); injectCSS(); document.querySelectorAll('button').forEach(wireOne); }
+  function wireAll(){ collectScripts(); injectCSS(); document.querySelectorAll('button').forEach(wireOne); ensureVehicles(); }
   function boot(){ wireAll();
     var mo = new MutationObserver(function(muts){ var add=false; muts.forEach(function(m){ if(m.addedNodes&&m.addedNodes.length) add=true; });
       if(add){ clearTimeout(boot._t); boot._t=setTimeout(function(){ collectScripts(); document.querySelectorAll('button').forEach(wireOne); }, 120); } });
