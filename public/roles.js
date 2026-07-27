@@ -427,6 +427,7 @@
   function loadAI(){ if(document.getElementById('ad-ai-script')) return; var s=document.createElement('script'); s.id='ad-ai-script'; s.src='/ai.js'; s.async=true; document.body.appendChild(s); }
   function loadNotify(){ if(document.getElementById('ad-notify-script')) return; var s=document.createElement('script'); s.id='ad-notify-script'; s.src='/notify.js'; s.async=true; document.body.appendChild(s); }
   function loadCmdK(){ if(document.getElementById('ad-cmdk-script')) return; var s=document.createElement('script'); s.id='ad-cmdk-script'; s.src='/cmdk.js'; s.async=true; document.body.appendChild(s); }
-  function init(){ applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); mountBanner(); applyGates(); loadAI(); loadNotify(); loadCmdK(); }
+  function loadTheme(){ if(window.__adTheme||document.getElementById('ad-theme-script')) return; var s=document.createElement('script'); s.id='ad-theme-script'; s.src='/theme.js'; document.head.appendChild(s); }
+  function init(){ loadTheme(); applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); mountBanner(); applyGates(); loadAI(); loadNotify(); loadCmdK(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
