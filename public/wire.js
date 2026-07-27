@@ -48,7 +48,7 @@
   function shell(opts){
     var scrim = document.createElement('div');
     scrim.style.cssText = 'position:fixed;inset:0;z-index:99998;background:rgba(8,15,28,.5);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;transition:opacity .2s;';
-    var card = document.createElement('div');
+    var card = document.createElement('div'); card.setAttribute('data-adui','');
     card.style.cssText = 'width:100%;max-width:'+(opts.width||560)+'px;max-height:92vh;display:flex;flex-direction:column;background:var(--card,#fff);color:var(--text,#16202e);border:1px solid var(--line,rgba(15,27,45,.1));'
       + 'border-radius:18px;box-shadow:0 40px 90px -40px rgba(0,0,0,.55);overflow:hidden;transform:translateY(10px) scale(.98);transition:transform .24s cubic-bezier(.2,.8,.2,1);';
     scrim.appendChild(card); document.body.appendChild(scrim);
@@ -144,9 +144,16 @@
     function summaryHTML(){
       var rows=[];
       steps.forEach(function(st){ if(st.summary) return; (st.fields||[]).forEach(function(f){
-        if(f.type==='summary'||f.type==='toggle'&&false) return;
-        var v = f.type==='toggle' ? (values[f.key]?'Yes':'No') : values[f.key];
-        if(f.type==='toggle') { rows.push([f.label, values[f.key]?'Yes':'No']); return; }
+        if(f.type==='summary') return;
+        if(f.type==='vehicle'){
+          var veh=[values.vyear,values.vmake,values.vmodel,values.vtrim].filter(Boolean).join(' ');
+          if(veh) rows.push(['Vehicle of interest', veh]);
+          if(values.vbody) rows.push(['Body type', values.vbody]);
+          if(values.vfeatures && values.vfeatures.length) rows.push(['Requested features', vFeatNames(values.vfeatures).join(', ')]);
+          return;
+        }
+        if(f.type==='toggle'){ rows.push([f.label, values[f.key]?'Yes':'No']); return; }
+        var v = values[f.key];
         if(v!=null && v!=='' && shown(f)) rows.push([f.label, (f.type==='money'?'$':'')+v]);
       }); });
       if(!rows.length) rows.push(['—','No details entered']);
@@ -165,11 +172,14 @@
         var vis = (st.fields||[]).filter(shown);
         bodyEl.innerHTML = (st.intro?'<div style="font-size:12.5px;color:var(--muted,#6b7a90);margin:2px 0 12px">'+esc(st.intro)+'</div>':'')
           + '<div style="display:flex;flex-wrap:wrap;gap:12px">' + vis.map(function(f){
+            if(f.type==='vehicle') return '<div style="flex:0 0 100%;max-width:100%" data-vehicle></div>';
             var w = f.half ? 'calc(50% - 6px)' : '100%';
             var lab = f.type==='toggle' ? '' : '<span style="'+LBL+'">'+esc(f.label)+(f.req?' <span style="color:#e5484d">*</span>':'')+'</span>';
             return '<label style="flex:0 0 '+w+';max-width:'+w+';display:block">'+lab+fieldCtl(f, values[f.key])+(f.note?'<span style="display:block;font-size:11.5px;color:var(--muted,#94a3b8);margin-top:5px">'+esc(f.note)+'</span>':'')+'</label>';
           }).join('') + '</div>';
       }
+      // vehicle composite picker(s)
+      bodyEl.querySelectorAll('[data-vehicle]').forEach(function(el){ vehiclePicker(el, values); });
       // toggles
       bodyEl.querySelectorAll('[data-toggle]').forEach(function(b){ b.addEventListener('click', function(){ var k=b.getAttribute('data-toggle'); values[k]=values[k]?'':'1'; collect(); render(); }); });
       // footer
@@ -197,6 +207,7 @@
       var missing=[];
       (steps[idx].fields||[]).filter(shown).forEach(function(f){
         if(!f.req) return;
+        if(f.type==='vehicle'){ ['vmake','vmodel'].forEach(function(k){ var el=bodyEl.querySelector('[data-key="'+k+'"]'); if(el && !String(values[k]||'').trim()){ missing.push(el); el.style.borderColor='#e5484d'; el.style.boxShadow='0 0 0 3px rgba(229,72,77,.12)'; } }); return; }
         var el=bodyEl.querySelector('[data-key="'+f.key+'"]');
         if(el && !String(values[f.key]||'').trim()){ missing.push(el); el.style.borderColor='#e5484d'; el.style.boxShadow='0 0 0 3px rgba(229,72,77,.12)'; }
       });
@@ -204,6 +215,138 @@
       return true;
     }
     render();
+  }
+
+  /* ================= VEHICLE CATALOG + CASCADING PICKER =================
+     Real-world cascading logic: Body / Make / Model / Year / Trim all constrain
+     one another (choosing a body type narrows the makes, models AND the year
+     range, and choosing a year narrows the bodies/models — and vice versa).
+     Requested-features grid lists 19 options and grays out any not available on
+     the chosen model/trim (higher trims unlock more; body type & drivetrain gate
+     the rest). */
+  function vUniq(a){ var s={},o=[]; a.forEach(function(x){ if(!s[x]){s[x]=1;o.push(x);} }); return o; }
+  function vm(make,model,body,years,trims,fl){ fl=fl||{}; return {make:make,model:model,body:body,years:years,trims:trims,ev:!!fl.ev,lux:!!fl.lux,tow:!!fl.tow,rows3:!!fl.rows3,sport:!!fl.sport}; }
+  var VMODELS = [
+    vm('Toyota','RAV4','SUV',[2019,2025],['LE','XLE','XLE Premium','Adventure','TRD Off-Road','Limited'],{tow:1}),
+    vm('Toyota','Camry','Sedan',[2018,2025],['LE','SE','XSE','XLE','TRD']),
+    vm('Toyota','Corolla','Sedan',[2020,2025],['L','LE','SE','XSE']),
+    vm('Toyota','Highlander','SUV',[2020,2025],['L','LE','XLE','Limited','Platinum'],{rows3:1,tow:1}),
+    vm('Toyota','Tacoma','Truck',[2016,2025],['SR','SR5','TRD Sport','TRD Off-Road','Limited','TRD Pro'],{tow:1}),
+    vm('Toyota','Tundra','Truck',[2022,2025],['SR','SR5','Limited','Platinum','1794','TRD Pro'],{tow:1}),
+    vm('Toyota','bZ4X','SUV',[2023,2025],['XLE','Limited'],{ev:1}),
+    vm('Honda','Civic','Sedan',[2016,2025],['LX','Sport','EX','Touring']),
+    vm('Honda','Accord','Sedan',[2018,2025],['LX','Sport','EX-L','Touring']),
+    vm('Honda','CR-V','SUV',[2017,2025],['LX','EX','EX-L','Touring'],{tow:1}),
+    vm('Honda','Pilot','SUV',[2016,2025],['Sport','EX-L','Touring','Elite'],{rows3:1,tow:1}),
+    vm('Honda','Ridgeline','Truck',[2017,2025],['Sport','RTL','TrailSport','Black Edition'],{tow:1}),
+    vm('Ford','F-150','Truck',[2015,2025],['XL','XLT','Lariat','King Ranch','Platinum','Raptor'],{tow:1}),
+    vm('Ford','Explorer','SUV',[2020,2025],['Base','XLT','Limited','ST','Platinum'],{rows3:1,tow:1}),
+    vm('Ford','Escape','SUV',[2020,2025],['Base','SE','SEL','Titanium']),
+    vm('Ford','Mustang','Coupe',[2015,2025],['EcoBoost','GT','Mach 1','Dark Horse'],{sport:1}),
+    vm('Ford','Bronco','SUV',[2021,2025],['Base','Big Bend','Badlands','Wildtrak','Raptor'],{tow:1}),
+    vm('Ford','Mustang Mach-E','SUV',[2021,2025],['Select','Premium','GT'],{ev:1}),
+    vm('Chevrolet','Silverado 1500','Truck',[2019,2025],['WT','Custom','LT','RST','LTZ','High Country'],{tow:1}),
+    vm('Chevrolet','Equinox','SUV',[2018,2025],['LS','LT','RS','Premier']),
+    vm('Chevrolet','Tahoe','SUV',[2021,2025],['LS','LT','RST','Z71','Premier','High Country'],{rows3:1,tow:1}),
+    vm('Chevrolet','Corvette','Coupe',[2020,2025],['Stingray','Z06'],{sport:1}),
+    vm('Chevrolet','Malibu','Sedan',[2019,2024],['LS','LT','RS','Premier']),
+    vm('Jeep','Wrangler','SUV',[2018,2025],['Sport','Sahara','Rubicon'],{tow:1}),
+    vm('Jeep','Grand Cherokee','SUV',[2022,2025],['Laredo','Limited','Overland','Summit'],{rows3:1,tow:1}),
+    vm('Jeep','Gladiator','Truck',[2020,2025],['Sport','Willys','Rubicon','Mojave'],{tow:1}),
+    vm('Tesla','Model 3','Sedan',[2018,2025],['Standard','Long Range','Performance'],{ev:1,sport:1}),
+    vm('Tesla','Model Y','SUV',[2020,2025],['Long Range','Performance'],{ev:1}),
+    vm('BMW','3 Series','Sedan',[2019,2025],['330i','M340i','M3'],{lux:1,sport:1}),
+    vm('BMW','X5','SUV',[2019,2025],['xDrive40i','M50i','X5 M'],{lux:1,tow:1,rows3:1}),
+    vm('BMW','X3','SUV',[2018,2025],['xDrive30i','M40i'],{lux:1})
+  ];
+  var VFEATURES = [
+    {id:'carplay',name:'Apple CarPlay / Android Auto'},{id:'bt',name:'Bluetooth & hands-free'},
+    {id:'camera',name:'Backup camera'},{id:'remote',name:'Remote start'},
+    {id:'powergate',name:'Power liftgate'},{id:'heated',name:'Heated front seats'},
+    {id:'lane',name:'Lane-keep assist'},{id:'blindspot',name:'Blind-spot monitor'},
+    {id:'adcruise',name:'Adaptive cruise control'},{id:'nav',name:'Built-in navigation'},
+    {id:'wireless',name:'Wireless phone charging'},{id:'audio',name:'Premium audio (JBL/Bose)'},
+    {id:'leather',name:'Leather upholstery'},{id:'sunroof',name:'Panoramic sunroof'},
+    {id:'cam360',name:'360° camera'},{id:'vented',name:'Ventilated seats'},
+    {id:'awd',name:'AWD / 4x4'},{id:'tow',name:'Tow package'},
+    {id:'thirdrow',name:'Third-row seating'},{id:'evfast',name:'DC fast charging'}
+  ];
+  function vFeatNames(ids){ return (ids||[]).map(function(id){ var f=VFEATURES.filter(function(x){return x.id===id;})[0]; return f?f.name:id; }); }
+  function vAvail(fid, mo, ti, tc){
+    var tier = (ti==null) ? 1 : (tc>1 ? ti/(tc-1) : 1);
+    switch(fid){
+      case 'carplay': case 'bt': case 'camera': case 'remote': return true;
+      case 'powergate': return mo.body==='SUV'||mo.body==='Truck';
+      case 'lane': return tier>=0.2;
+      case 'heated': return tier>=0.25;
+      case 'blindspot': return tier>=0.3;
+      case 'adcruise': return mo.ev||mo.lux ? true : tier>=0.34;
+      case 'nav': return tier>=0.34;
+      case 'wireless': return tier>=0.34;
+      case 'audio': return mo.lux ? true : tier>=0.5;
+      case 'leather': return mo.lux ? true : tier>=0.5;
+      case 'sunroof': return tier>=0.5;
+      case 'cam360': return mo.lux ? tier>=0.5 : tier>=0.7;
+      case 'vented': return mo.lux ? tier>=0.5 : tier>=0.8;
+      case 'awd': return (mo.body==='SUV'||mo.body==='Truck'||mo.ev) ? true : (mo.lux ? tier>=0.5 : false);
+      case 'tow': return mo.body==='Truck' ? true : (mo.tow ? tier>=0.25 : false);
+      case 'thirdrow': return !!mo.rows3;
+      case 'evfast': return !!mo.ev;
+    }
+    return false;
+  }
+  function vehiclePicker(mount, values){
+    values.vfeatures = values.vfeatures || [];
+    function allowed(skip){ return VMODELS.filter(function(mm){
+      if(skip!=='make' && values.vmake && mm.make!==values.vmake) return false;
+      if(skip!=='body' && values.vbody && mm.body!==values.vbody) return false;
+      if(skip!=='model' && values.vmodel && mm.model!==values.vmodel) return false;
+      if(skip!=='year' && values.vyear && !(mm.years[0]<=+values.vyear && +values.vyear<=mm.years[1])) return false;
+      return true; }); }
+    function modelObj(){ if(!values.vmodel) return null; var c=VMODELS.filter(function(mm){ return mm.model===values.vmodel && (!values.vmake||mm.make===values.vmake); }); return c[0]||null; }
+    function draw(){
+      var makes=vUniq(allowed('make').map(function(x){return x.make;})).sort();
+      var bodies=vUniq(allowed('body').map(function(x){return x.body;})).sort();
+      var models=vUniq(allowed('model').map(function(x){return x.model;})).sort();
+      var yset={}; allowed('year').forEach(function(x){ for(var y=x.years[1];y>=x.years[0];y--) yset[y]=1; });
+      var years=Object.keys(yset).map(Number).sort(function(a,b){return b-a;});
+      if(values.vmake&&makes.indexOf(values.vmake)<0) values.vmake='';
+      if(values.vbody&&bodies.indexOf(values.vbody)<0) values.vbody='';
+      if(values.vmodel&&models.indexOf(values.vmodel)<0) values.vmodel='';
+      if(values.vyear&&years.indexOf(+values.vyear)<0) values.vyear='';
+      var mo=modelObj(); var trims=mo?mo.trims:[]; if(values.vtrim&&trims.indexOf(values.vtrim)<0) values.vtrim='';
+      if(mo) values.vbody = mo.body;   // body type is implied by the model (a Model 3 is a Sedan)
+      var ti = mo&&values.vtrim ? trims.indexOf(values.vtrim) : null;
+      if(mo) values.vfeatures = values.vfeatures.filter(function(id){ return vAvail(id,mo,ti,trims.length); });
+      function sel(key,label,opts,req){
+        var ph = req?'Select…':'Any';
+        var o='<option value="">'+ph+'</option>'+opts.map(function(v){ return '<option'+(String(v)===String(values[key]||'')?' selected':'')+'>'+esc(v)+'</option>'; }).join('');
+        return '<label style="flex:0 0 calc(50% - 6px);max-width:calc(50% - 6px);display:block"><span style="'+LBL+'">'+esc(label)+(req?' <span style="color:#e5484d">*</span>':'')+'</span><select data-key="'+key+'"'+(req?' data-req="1"':'')+' style="'+CTL+'">'+o+'</select></label>';
+      }
+      var trimOpts = mo ? ('<option value="">Any trim</option>'+trims.map(function(v){return '<option'+(v===values.vtrim?' selected':'')+'>'+esc(v)+'</option>';}).join('')) : '<option value="">Select a model first</option>';
+      var trimSel='<label style="flex:0 0 calc(50% - 6px);max-width:calc(50% - 6px);display:block"><span style="'+LBL+'">Trim</span><select data-key="vtrim"'+(mo?'':' disabled')+' style="'+CTL+(mo?'':';opacity:.55')+'">'+trimOpts+'</select></label>';
+      var selects='<div style="display:flex;flex-wrap:wrap;gap:12px">'
+        + sel('vbody','Body type',bodies,false) + sel('vmake','Make',makes,true)
+        + sel('vmodel','Model',models,true) + sel('vyear','Year',years,false) + trimSel + '</div>';
+      var feat;
+      if(!mo){ feat='<div style="margin-top:16px;padding:14px;border:1px dashed var(--line,#dfe6ef);border-radius:12px;font-size:12.5px;color:var(--muted,#94a3b8)">Select a make &amp; model to choose requested features available for that vehicle.</div>'; }
+      else {
+        var chips=VFEATURES.map(function(f){ var av=vAvail(f.id,mo,ti,trims.length); var onSel=values.vfeatures.indexOf(f.id)>=0;
+          var base='display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;font-size:12.5px;font-weight:600;border:1px solid ';
+          var st = !av ? base+'var(--line,#e5eaf1);color:var(--faint,#aab4c2);background:repeating-linear-gradient(45deg,transparent,transparent 5px,rgba(120,130,150,.06) 5px,rgba(120,130,150,.06) 10px);cursor:not-allowed;opacity:.7'
+            : onSel ? base+'transparent;color:#fff;background:linear-gradient(180deg,#3b82f6,#2563eb);cursor:pointer;box-shadow:0 6px 14px -8px rgba(37,99,235,.8)'
+            : base+'var(--line,#dbe4f0);color:var(--text,#16202e);background:var(--bg,#fff);cursor:pointer';
+          var mark = !av ? '<span style="font-size:9.5px;font-weight:700;letter-spacing:.3px;opacity:.85">N/A</span>' : '<span style="font-size:11px">'+(onSel?'✓':'+')+'</span>';
+          return '<span class="vf-chip" data-av="'+(av?1:0)+'" data-fid="'+f.id+'" title="'+(av?'Click to request':'Not available on this model/trim')+'" style="'+st+'">'+mark+esc(f.name)+'</span>';
+        }).join('');
+        var count=values.vfeatures.length;
+        feat='<div style="margin-top:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;gap:10px"><span style="'+LBL+';margin:0">Requested features'+(count?' · '+count+' selected':'')+'</span><span style="font-size:11px;color:var(--faint,#aab4c2)">Grayed = not available on this trim</span></div><div style="display:flex;flex-wrap:wrap;gap:8px">'+chips+'</div></div>';
+      }
+      mount.innerHTML = selects + feat;
+      mount.querySelectorAll('select[data-key]').forEach(function(s){ s.addEventListener('change', function(){ values[s.getAttribute('data-key')]=s.value; draw(); }); });
+      mount.querySelectorAll('.vf-chip').forEach(function(c){ if(c.getAttribute('data-av')!=='1') return; c.addEventListener('click', function(){ var id=c.getAttribute('data-fid'); var i=values.vfeatures.indexOf(id); if(i>=0) values.vfeatures.splice(i,1); else values.vfeatures.push(id); draw(); }); });
+    }
+    draw();
   }
 
   /* ---------------- action registry (label -> wizard spec) ---------------- */
@@ -220,11 +363,8 @@
         {key:'pref',label:'Preferred contact',type:'select',half:true,opts:['Phone','Text','Email']},
         {key:'source',label:'Lead source',type:'select',req:true,half:true,opts:SRC} ]},
       { title:'Vehicle of Interest', fields:[
+        {key:'vehicle',type:'vehicle',req:true},
         {key:'vcond',label:'New or used',type:'select',half:true,opts:['New','Used','Certified','Either']},
-        {key:'vyear',label:'Year',type:'number',half:true,ph:'2024'},
-        {key:'vmake',label:'Make',type:'text',req:true,half:true,ph:'Toyota'},
-        {key:'vmodel',label:'Model',type:'text',req:true,half:true,ph:'RAV4'},
-        {key:'vtrim',label:'Trim',type:'text',half:true,ph:'XLE Premium'},
         {key:'budget',label:'Budget',type:'money',half:true,ph:'35,000'},
         {key:'ftype',label:'Purchase type',type:'select',half:true,opts:['Finance','Lease','Cash']},
         {key:'timeframe',label:'Buying timeframe',type:'select',half:true,opts:['This week','This month','1–3 months','Just looking']} ]},
@@ -460,7 +600,7 @@
     var existing = document.getElementById('adQAMenu'); if(existing){ existing.remove(); return; }
     var r = btn.getBoundingClientRect();
     var items = [['New Prospect','👤','crm.create'],['New Appointment','📅','crm.create'],['New Deal','🤝','crm.create'],['Add Vehicle','🚗','inventory.edit'],['Create Task','✅','crm.create'],['New Message','✉️','comms.email']].filter(function(it){ return can(it[2]); });
-    var m = document.createElement('div'); m.id='adQAMenu';
+    var m = document.createElement('div'); m.id='adQAMenu'; m.setAttribute('data-adui','');
     m.style.cssText='position:fixed;z-index:99997;top:'+(r.bottom+8)+'px;left:'+r.left+'px;min-width:220px;background:var(--card,#fff);border:1px solid var(--line,rgba(15,27,45,.1));border-radius:14px;box-shadow:0 24px 60px -24px rgba(10,22,40,.5);overflow:hidden;padding:6px;';
     m.innerHTML = items.map(function(it){ return '<button class="ad-qa-i" data-l="'+it[0]+'" style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:none;background:none;padding:10px 12px;border-radius:9px;font:600 13.5px system-ui;color:var(--text,#16202e);cursor:pointer"><span style="font-size:16px">'+it[1]+'</span>'+it[0]+'</button>'; }).join('');
     document.body.appendChild(m);
@@ -490,6 +630,7 @@
   /* ---------------- boot ---------------- */
   function wireOne(btn){
     if (btn.__adSeen) return; btn.__adSeen = true;
+    if (btn.closest && btn.closest('[data-adui]')) return;   // wire.js's own modal / menu UI
     if (gate(btn)) return;              // hidden for this role → no handler needed
     if (isWired(btn)) return;
     btn.__adWired = true;
