@@ -204,21 +204,77 @@
         {label:'Knowledge Center', href:'/knowledge', icon:'knowledge'},
         {label:'Data Quality', href:'/dataquality', icon:'dataquality', badge:'12'},
         {label:'System Health', href:'/status', icon:'status'},
-        {label:'Developer Platform', href:'/developers', icon:'developers'},
         {label:'CRM Administration', href:'/admin', icon:'admin'},
+        {label:'Settings', href:'/settings', icon:'settings'}
+      ]
+    },
+    dealerprincipal: {
+      name:'Grant Whitfield', title:'Dealer Principal', avatar:'GW', home:'/gm',
+      nav:[
+        {label:'Executive Dashboard', href:'/gm', icon:'aimanager'},
+        {label:'AI Manager', href:'/aimanager', icon:'aimanager', tag:'AI'},
+        {label:'Sales', href:'/manager', icon:'deals'},
+        {label:'Finance', href:'/finance', icon:'signing'},
+        {label:'Inventory', href:'/invintel', icon:'invintel'},
+        {label:'Workflow Analytics', href:'/analytics', icon:'analytics'},
+        {label:'Customers', href:'/customers', icon:'customers'},
+        {label:'Reports', href:'/reports', icon:'reports'},
+        {label:'Employees', href:'/team', icon:'team'},
+        {label:'Multi-Store', href:'/stores', icon:'stores'},
+        {label:'Reputation', href:'/reviews', icon:'reviews', badge:'6'},
+        {label:'Customer Sentiment', href:'/sentiment', icon:'sentiment'},
+        {label:'CRM Health', href:'/health', icon:'health'},
+        {label:'Knowledge Center', href:'/knowledge', icon:'knowledge'},
+        {label:'Data Quality', href:'/dataquality', icon:'dataquality', badge:'12'},
+        {label:'System Health', href:'/status', icon:'status'},
+        {label:'CRM Administration', href:'/admin', icon:'admin'},
+        {label:'Settings', href:'/settings', icon:'settings'}
+      ]
+    },
+    admin: {
+      name:'Alex Chen', title:'System Administrator', avatar:'AC', home:'/admin',
+      nav:[
+        {label:'Admin Center', href:'/admin', icon:'admin'},
+        {label:'CRM Dashboard', href:'/manager', icon:'home'},
+        {label:'Data Quality', href:'/dataquality', icon:'dataquality', badge:'12'},
+        {label:'System Health', href:'/status', icon:'status'},
+        {label:'Developer Platform', href:'/developers', icon:'developers'},
+        {label:'Marketplace', href:'/marketplace', icon:'marketplace'},
+        {label:'Multi-Store', href:'/stores', icon:'stores'},
+        {label:'AI Manager', href:'/aimanager', icon:'aimanager', tag:'AI'},
+        {label:'Automation Builder', href:'/automations', icon:'automations'},
+        {label:'Data Migration', href:'/migration', icon:'migrate'},
+        {label:'Knowledge Center', href:'/knowledge', icon:'knowledge'},
+        {label:'Reports', href:'/reports', icon:'reports'},
+        {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
         {label:'Settings', href:'/settings', icon:'settings'}
       ]
     }
   };
+
+  /* ---- Centralized permission model (module.action; "cat.*" = whole module; "*" = superuser). ----
+     Field-level keys (field.X) gate sensitive data across pages via [data-requires="field.X"]. */
+  var PERMS = {
+    salesperson:    ['crm.view','crm.create','crm.edit','crm.assign','customers.personal','inventory.view','reports.personal','comms.call','comms.text','comms.email','comms.video','comms.templates','comms.history'],
+    bdc:            ['crm.view','crm.create','crm.edit','crm.assign','customers.personal','inventory.view','reports.personal','comms.call','comms.text','comms.email','comms.templates','comms.bulk','comms.history'],
+    receptionist:   ['crm.view','customers.personal','inventory.view','comms.call','comms.text','comms.email','comms.history'],
+    manager:        ['crm.*','customers.department','inventory.view','inventory.edit','inventory.price','inventory.cost','inventory.profit','inventory.transfer','inventory.export','reports.personal','reports.department','reports.custom','reports.export','reports.schedule','comms.*','field.vehicleCost','field.grossProfit','view.revenue','admin.automation'],
+    finance:        ['crm.view','crm.edit','crm.export','customers.department','inventory.view','reports.department','reports.financial','reports.export','comms.call','comms.text','comms.email','comms.history','finance.*','field.creditScore','field.ssn','field.grossProfit'],
+    gm:             ['crm.*','customers.all','inventory.*','reports.*','comms.*','finance.*','exec.dashboard','exec.profitability','exec.forecast','view.revenue','field.vehicleCost','field.grossProfit','field.creditScore','field.ssn','admin.users','admin.roles','admin.settings','admin.audit','admin.automation','admin.marketplace','admin.branding','admin.ai'],
+    dealerprincipal:['crm.*','customers.all','inventory.*','reports.*','comms.*','finance.*','exec.dashboard','exec.profitability','exec.forecast','view.revenue','field.vehicleCost','field.grossProfit','field.creditScore','field.ssn','field.employeeComp','admin.users','admin.roles','admin.settings','admin.audit','admin.automation','admin.marketplace','admin.branding','admin.ai'],
+    admin:          ['*']
+  };
   /* Future roles plug in here with zero architectural change: */
   var COMING = ['bdc','finance','service','gm','marketing','admin'];
   var ROLE_MENU = [
-    ['salesperson','Salesperson','Focused selling workspace', true],
-    ['manager','Sales Manager','Team coaching & performance', true],
-    ['receptionist','Receptionist','Front-desk & check-in', true],
+    ['salesperson','Sales Representative','Focused selling workspace', true],
     ['bdc','BDC Agent','Lead handling & appointments', true],
+    ['receptionist','Receptionist','Front-desk & check-in', true],
+    ['manager','Sales Manager','Team coaching & performance', true],
     ['finance','Finance Manager','F&I & penetration', true],
-    ['gm','General Manager','Executive overview', true]
+    ['gm','General Manager','Executive overview', true],
+    ['dealerprincipal','Dealer Principal','Full dealership visibility', true],
+    ['admin','System Administrator','Unrestricted platform access', true]
   ];
 
   /* Every known in-app route. Anything here that is NOT in the active role's nav is blocked. */
@@ -230,11 +286,52 @@
   function allowed(role){ var s={}; ROLES[role].nav.forEach(function(n){ if(n.href!=='#') s[n.href]=1; }); return s; }
   function path(){ return (location.pathname.replace(/\/$/,'')||'/'); }
 
-  /* RBAC guard — blocks restricted routes even via direct URL. */
+  /* ---- Permission service ---- */
+  function can(perm){ if(!perm) return true; var set=PERMS[getRole()]||[]; if(set.indexOf('*')>=0) return true; if(set.indexOf(perm)>=0) return true; var cat=perm.split('.')[0]+'.*'; return set.indexOf(cat)>=0; }
+  function canField(f){ return can('field.'+f); }
+
+  /* ---- Real identity vs "View As" impersonation ---- */
+  function getRealRole(){ var r=localStorage.getItem('ad_real_role'); if(ROLES[r]) return r; var cur=getRole(); try{ localStorage.setItem('ad_real_role',cur); }catch(e){} return cur; }
+  function isImpersonating(){ return getRole()!==getRealRole(); }
+  function canImpersonate(){ return ['manager','gm','dealerprincipal','admin'].indexOf(getRealRole())>=0; }
+  function returnToAccount(){ var real=getRealRole(); try{ localStorage.setItem('ad_role',real); }catch(e){} location.href = ROLES[real] ? ROLES[real].home : '/dashboard'; }
+
+  /* RBAC guard — blocks restricted routes even via direct URL. System Administrator bypasses. */
   function guard(){
     var role=getRole(), p=path();
-    if (KNOWN.indexOf(p) !== -1 && !allowed(role)[p]) { location.replace(ROLES[role].home); return false; }
+    if (KNOWN.indexOf(p) !== -1 && !allowed(role)[p] && !can('*')) { showAccessDenied(p, role); return false; }
     return true;
+  }
+
+  /* Premium full-screen Access Denied — shown when a role opens a restricted URL directly. */
+  function showAccessDenied(p, role){
+    var home = ROLES[role] ? ROLES[role].home : '/dashboard';
+    var title = ROLES[role] ? ROLES[role].title : role;
+    var st=document.createElement('style'); st.textContent=
+      '#adDenied{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:24px;'+
+        'background:radial-gradient(900px 500px at 50% -10%,#eaf2ff,transparent 60%),#f6f8fb;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}'+
+      '@media(prefers-color-scheme:dark){#adDenied{background:radial-gradient(900px 500px at 50% -10%,rgba(43,143,255,.14),transparent 60%),#0a1322;}}'+
+      '#adDenied .dc{max-width:440px;text-align:center;}'+
+      '#adDenied .di{width:76px;height:76px;border-radius:22px;margin:0 auto 22px;display:flex;align-items:center;justify-content:center;color:#dc2626;background:#fdeceb;box-shadow:0 20px 44px -20px rgba(220,38,38,.5);}'+
+      '#adDenied .di svg{width:38px;height:38px;}'+
+      '#adDenied h1{font-size:26px;font-weight:800;letter-spacing:-.6px;color:#16202e;}'+
+      '@media(prefers-color-scheme:dark){#adDenied h1{color:#e8eef9;}}'+
+      '#adDenied p{color:#6b7a90;font-size:15.5px;line-height:1.6;margin:12px 0 6px;}'+
+      '#adDenied .meta{display:inline-flex;gap:8px;align-items:center;font-size:12.5px;color:#97a4b6;background:rgba(120,140,170,.12);border-radius:999px;padding:6px 14px;margin:8px 0 26px;font-weight:600;}'+
+      '#adDenied .meta code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#dc2626;}'+
+      '#adDenied a{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(180deg,#3b82f6,#2563eb);color:#fff;text-decoration:none;border-radius:12px;padding:14px 26px;font-size:15px;font-weight:700;box-shadow:0 16px 34px -16px rgba(37,99,235,.75);}'+
+      '#adDenied a:hover{filter:brightness(1.06);}';
+    document.head.appendChild(st);
+    var el=document.createElement('div'); el.id='adDenied';
+    el.innerHTML='<div class="dc">'+
+      '<div class="di"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg></div>'+
+      '<h1>Access restricted</h1>'+
+      '<p>You don’t have permission to access this page.</p>'+
+      '<div class="meta"><code>'+p+'</code><span>·</span><span>Signed in as '+title+'</span></div><br>'+
+      '<a href="'+home+'">Return to Dashboard</a>'+
+    '</div>';
+    function mount(){ if(document.getElementById('adDenied')) return; document.body.appendChild(el); }
+    if(document.body) mount(); else document.addEventListener('DOMContentLoaded', mount);
   }
 
   function renderNav(){
@@ -252,6 +349,7 @@
   }
 
   function mountViewAs(){
+    if(!canImpersonate()) return; /* Only Sales Managers, GMs, Dealer Principals & System Admins can View As */
     var sb=document.querySelector('.sidebar'); if(!sb || document.getElementById('vaWrap')) return;
     var su=document.querySelector('.side-user');
     var wrap=document.createElement('div'); wrap.className='va-wrap'; wrap.id='vaWrap';
@@ -267,6 +365,20 @@
     document.getElementById('vaBtn').addEventListener('click', function(e){ e.stopPropagation(); menu.classList.toggle('open'); });
     document.addEventListener('click', function(){ menu.classList.remove('open'); });
     menu.querySelectorAll('.va-opt').forEach(function(b){ b.addEventListener('click', function(){ setRole(b.getAttribute('data-r')); }); });
+  }
+
+  /* Persistent banner while a privileged user is impersonating another role. */
+  function mountBanner(){
+    if(!isImpersonating() || document.getElementById('adImpBanner')) return;
+    var b=document.createElement('div'); b.id='adImpBanner';
+    b.innerHTML='<span class="imp-ic">'+svg('eye')+'</span><span>Viewing as <b>'+cfg().title+'</b></span><button id="impReturn" type="button">Return to My Account</button>';
+    document.body.appendChild(b);
+    var rb=document.getElementById('impReturn'); if(rb) rb.addEventListener('click', returnToAccount);
+  }
+
+  /* Field/widget-level gating: hide any element declaring a permission the role lacks. */
+  function applyGates(){
+    document.querySelectorAll('[data-requires]').forEach(function(el){ if(!can(el.getAttribute('data-requires'))){ el.setAttribute('data-denied',''); el.style.display='none'; } });
   }
 
   function injectCSS(){
@@ -285,9 +397,15 @@
     '.va-opt:hover{background:rgba(255,255,255,.07);}.va-opt.on{background:rgba(37,99,235,.22);}'+
     '.va-opt b{display:block;font-size:13px;font-weight:600;color:#fff;}.va-opt span{font-size:11px;color:#8aa0bd;}'+
     '.va-opt.soon{opacity:.55;}.va-opt .soon-t{font-size:8.5px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#8aa0bd;background:rgba(255,255,255,.1);padding:1px 5px;border-radius:4px;vertical-align:1px;}'+
+    /* impersonation banner */
+    '#adImpBanner{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:9998;display:flex;align-items:center;gap:11px;background:linear-gradient(180deg,#fbbf24,#f59e0b);color:#3a2a05;padding:8px 9px 8px 16px;border-radius:999px;box-shadow:0 16px 34px -14px rgba(245,158,11,.7);font:600 13px Inter,system-ui,sans-serif;max-width:calc(100vw - 24px);}'+
+    '#adImpBanner .imp-ic{display:flex;}#adImpBanner .imp-ic svg{width:16px;height:16px;}'+
+    '#adImpBanner b{font-weight:800;}'+
+    '#adImpBanner button{border:none;background:rgba(0,0,0,.16);color:#241a03;font:700 12px Inter,system-ui,sans-serif;padding:7px 13px;border-radius:999px;cursor:pointer;white-space:nowrap;}#adImpBanner button:hover{background:rgba(0,0,0,.26);}'+
     /* read-only role gating on shared pages */
     'body[data-role="salesperson"] .add-btn, body[data-role="receptionist"] .add-btn{display:none!important;}'+
-    'body[data-role="receptionist"] .vhb[data-hover="tag"], body[data-role="salesperson"] .vhb[data-hover="tag"]{display:none;}';
+    'body[data-role="receptionist"] .vhb[data-hover="tag"], body[data-role="salesperson"] .vhb[data-hover="tag"]{display:none;}'+
+    '[data-denied]{display:none!important;}';
     var s=document.createElement('style'); s.textContent=css; document.head.appendChild(s);
   }
 
@@ -298,16 +416,17 @@
     clearTimeout(toastEl._t); toastEl._t=setTimeout(function(){ toastEl.style.opacity='0'; toastEl.style.transform='translateX(-50%) translateY(20px)'; }, 2200);
   }
 
-  window.ADRoles = { getRole:getRole, setRole:setRole, cfg:cfg, ROLES:ROLES };
+  window.ADRoles = { getRole:getRole, getRealRole:getRealRole, isImpersonating:isImpersonating, canImpersonate:canImpersonate, setRole:setRole, returnToAccount:returnToAccount, cfg:cfg, can:can, canField:canField, applyGates:applyGates, ROLES:ROLES, PERMS:PERMS };
 
+  /* ?as=<role> sets the account's REAL role (not impersonation) and clears any View-As. */
   function applyQueryRole(){
     var m = location.search.match(/[?&]as=([a-z]+)/i);
-    if (m && ROLES[m[1]]) { localStorage.setItem('ad_role', m[1]);
+    if (m && ROLES[m[1]]) { try { localStorage.setItem('ad_role', m[1]); localStorage.setItem('ad_real_role', m[1]); } catch(e){}
       try { history.replaceState(null, '', location.pathname); } catch(e){} }
   }
   function loadAI(){ if(document.getElementById('ad-ai-script')) return; var s=document.createElement('script'); s.id='ad-ai-script'; s.src='/ai.js'; s.async=true; document.body.appendChild(s); }
   function loadNotify(){ if(document.getElementById('ad-notify-script')) return; var s=document.createElement('script'); s.id='ad-notify-script'; s.src='/notify.js'; s.async=true; document.body.appendChild(s); }
   function loadCmdK(){ if(document.getElementById('ad-cmdk-script')) return; var s=document.createElement('script'); s.id='ad-cmdk-script'; s.src='/cmdk.js'; s.async=true; document.body.appendChild(s); }
-  function init(){ applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); loadAI(); loadNotify(); loadCmdK(); }
+  function init(){ applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); mountBanner(); applyGates(); loadAI(); loadNotify(); loadCmdK(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
