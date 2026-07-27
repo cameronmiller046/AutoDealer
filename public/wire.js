@@ -1,16 +1,22 @@
-/* AutoDealer — universal button wiring.
-   Gives every otherwise-inert control real behavior so the whole product is demo-ready:
+/* AutoDealer — universal button wiring + role-gated multi-step create flows.
+   Gives every otherwise-inert control real, role-aware behavior so the whole product is demo-ready:
      • hamburger  -> slide the sidebar (mobile) with a dismiss backdrop
-     • segmented filters / tabs / pills -> real active-state toggle (+ optional filter hook)
+     • segmented filters / tabs / pills -> real active-state toggle
      • top-bar icon buttons (calls / messages / notifications) -> route to the right workspace
-     • "New / Add / Create / Compose / Upload" -> a working create modal with a success toast
+     • "New / Add / Create / Compose / Upload …" -> a guided multi-step WIZARD that collects every
+       field required to complete the action, ending in a Confirmation step (e.g. New Prospect =
+       Customer Info -> Vehicle of Interest -> Trade Vehicle -> Confirmation)
      • quick actions (Call / Text / Email / Video …) -> contextual toast feedback
      • anything still inert -> a graceful toast so nothing feels dead
-   To stay safe it classifies each <button> with the SAME test as the offline audit: a button is
-   considered already-wired (and left untouched) if it has an onclick attribute or any of its
-   id / class tokens appear in the page's own inline scripts.  Loaded by roles.js on every app page. */
+   ROLE GATING: actions map to permission keys and are hidden for roles that lack them
+   (via window.ADRoles.can), so a Sales Rep never sees "Add Vehicle" / "Create Dashboard" / "Export".
+   SAFETY: a <button> is left completely untouched if it has an onclick, if its id/class/data-*
+   tokens appear in the page's inline scripts, or if an ancestor id is referenced in script — so it
+   never double-fires on already-wired / container-delegated buttons.  Loaded by roles.js. */
 (function(){
   if (window.__adWire) return; window.__adWire = true;
+
+  function can(perm){ try { return !perm || (window.ADRoles && window.ADRoles.can ? window.ADRoles.can(perm) : true); } catch(e){ return true; } }
 
   /* ---------------- toast ---------------- */
   function ensureToastHost(){
@@ -36,104 +42,343 @@
   }
   window.adToast = toast;
 
-  /* ---------------- generic modal ---------------- */
-  function modal(opts){
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  /* ---------------- base modal shell ---------------- */
+  function shell(opts){
     var scrim = document.createElement('div');
     scrim.style.cssText = 'position:fixed;inset:0;z-index:99998;background:rgba(8,15,28,.5);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;transition:opacity .2s;';
     var card = document.createElement('div');
-    card.style.cssText = 'width:100%;max-width:'+(opts.width||460)+'px;background:var(--card,#fff);color:var(--text,#16202e);border:1px solid var(--line,rgba(15,27,45,.1));'
+    card.style.cssText = 'width:100%;max-width:'+(opts.width||560)+'px;max-height:92vh;display:flex;flex-direction:column;background:var(--card,#fff);color:var(--text,#16202e);border:1px solid var(--line,rgba(15,27,45,.1));'
       + 'border-radius:18px;box-shadow:0 40px 90px -40px rgba(0,0,0,.55);overflow:hidden;transform:translateY(10px) scale(.98);transition:transform .24s cubic-bezier(.2,.8,.2,1);';
-    var head = '<div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line,rgba(15,27,45,.08))">'
-      + '<div><div style="font-size:16px;font-weight:700">'+esc(opts.title||'Action')+'</div>'
-      + (opts.sub?'<div style="font-size:12.5px;color:var(--muted,#6b7a90);margin-top:2px">'+esc(opts.sub)+'</div>':'')+'</div>'
-      + '<button data-x style="border:none;background:var(--bg,#f1f5f9);width:32px;height:32px;border-radius:9px;color:var(--muted,#6b7a90);font-size:18px;cursor:pointer">&times;</button></div>';
-    card.innerHTML = head + '<div style="padding:20px">'+(opts.body||'')+'</div>'
-      + '<div style="display:flex;gap:10px;justify-content:flex-end;padding:14px 20px;border-top:1px solid var(--line,rgba(15,27,45,.08));background:var(--bg,#f8fafc)">'
-      + '<button data-x style="padding:10px 16px;border-radius:10px;border:1px solid var(--line,rgba(15,27,45,.12));background:var(--card,#fff);color:var(--text,#16202e);font-weight:600;font-size:13.5px;cursor:pointer">Cancel</button>'
-      + '<button data-ok style="padding:10px 18px;border-radius:10px;border:none;background:linear-gradient(180deg,#3b82f6,#2563eb);color:#fff;font-weight:600;font-size:13.5px;cursor:pointer">'+esc(opts.okLabel||'Save')+'</button></div>';
     scrim.appendChild(card); document.body.appendChild(scrim);
     requestAnimationFrame(function(){ scrim.style.opacity='1'; card.style.transform='translateY(0) scale(1)'; });
-    var first = card.querySelector('input,select,textarea'); if(first) setTimeout(function(){ first.focus(); }, 60);
     function close(){ scrim.style.opacity='0'; card.style.transform='translateY(10px) scale(.98)'; setTimeout(function(){ scrim.remove(); }, 200); document.removeEventListener('keydown', onKey); }
     function onKey(e){ if(e.key==='Escape') close(); }
     document.addEventListener('keydown', onKey);
     scrim.addEventListener('click', function(e){ if(e.target===scrim) close(); });
-    card.querySelectorAll('[data-x]').forEach(function(b){ b.addEventListener('click', close); });
-    card.querySelector('[data-ok]').addEventListener('click', function(){ if(opts.onOk && opts.onOk(card)===false) return; close(); if(opts.done) opts.done(); });
-    return { card:card, close:close };
+    return { scrim:scrim, card:card, close:close };
   }
+
+  /* ---------------- generic single modal (fallback for unknown labels) ---------------- */
   function field(label, attrs, tag){
     tag = tag||'input';
-    var ctl = tag==='textarea' ? '<textarea '+(attrs||'')+' style="width:100%;box-sizing:border-box;min-height:84px;resize:vertical;padding:10px 12px;border:1px solid var(--line,rgba(15,27,45,.14));border-radius:10px;background:var(--bg,#fff);color:var(--text,#16202e);font:inherit;font-size:14px"></textarea>'
-      : tag==='select' ? '<select '+(attrs||'')+' style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--line,rgba(15,27,45,.14));border-radius:10px;background:var(--bg,#fff);color:var(--text,#16202e);font:inherit;font-size:14px"></select>'
-      : '<input '+(attrs||'')+' style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--line,rgba(15,27,45,.14));border-radius:10px;background:var(--bg,#fff);color:var(--text,#16202e);font:inherit;font-size:14px">';
-    return '<label style="display:block;margin-bottom:13px"><span style="display:block;font-size:12.5px;font-weight:600;color:var(--muted,#6b7a90);margin-bottom:6px">'+esc(label)+'</span>'+ctl+'</label>';
+    var ctl = tag==='textarea' ? '<textarea '+(attrs||'')+' style="'+CTL+';min-height:84px;resize:vertical"></textarea>'
+      : tag==='select' ? '<select '+(attrs||'')+' style="'+CTL+'"></select>'
+      : '<input '+(attrs||'')+' style="'+CTL+'">';
+    return '<label style="display:block;margin-bottom:13px"><span style="'+LBL+'">'+esc(label)+'</span>'+ctl+'</label>';
   }
-  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  var CTL = 'width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--line,rgba(15,27,45,.14));border-radius:10px;background:var(--bg,#fff);color:var(--text,#16202e);font:inherit;font-size:14px';
+  var LBL = 'display:block;font-size:12.5px;font-weight:600;color:var(--muted,#6b7a90);margin-bottom:6px';
+  function simpleModal(title, bodyHTML, okLabel){
+    var s = shell({width:460});
+    s.card.innerHTML = header(title,'Demo workspace') + '<div style="padding:20px;overflow:auto">'+bodyHTML+'</div>' + footer([['Cancel','x'],[okLabel||'Save','ok']]);
+    wireFooter(s, function(){ s.close(); toast('✓ '+title+' saved'); });
+    var f=s.card.querySelector('input,select,textarea'); if(f) setTimeout(function(){f.focus();},60);
+  }
+  function header(title, sub){
+    return '<div style="display:flex;align-items:flex-start;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line,rgba(15,27,45,.08));flex:none">'
+      + '<div><div style="font-size:16px;font-weight:700">'+esc(title)+'</div>'
+      + (sub?'<div id="adWzSub" style="font-size:12.5px;color:var(--muted,#6b7a90);margin-top:2px">'+esc(sub)+'</div>':'')+'</div>'
+      + '<button data-x style="border:none;background:var(--bg,#f1f5f9);width:32px;height:32px;border-radius:9px;color:var(--muted,#6b7a90);font-size:18px;cursor:pointer;flex:none">&times;</button></div>';
+  }
+  function footer(btns){
+    return '<div id="adWzFoot" style="display:flex;gap:10px;justify-content:flex-end;padding:14px 20px;border-top:1px solid var(--line,rgba(15,27,45,.08));background:var(--bg,#f8fafc);flex:none">'
+      + btns.map(function(b){ var ok=b[1]==='ok'; return '<button data-'+b[1]+' style="padding:10px '+(ok?'18':'16')+'px;border-radius:10px;font-weight:600;font-size:13.5px;cursor:pointer;border:'+(ok?'none':'1px solid var(--line,rgba(15,27,45,.12))')+';background:'+(ok?'linear-gradient(180deg,#3b82f6,#2563eb)':'var(--card,#fff)')+';color:'+(ok?'#fff':'var(--text,#16202e)')+'">'+esc(b[0])+'</button>'; }).join('') + '</div>';
+  }
+  function wireFooter(s, onOk){
+    s.card.querySelectorAll('[data-x]').forEach(function(b){ b.addEventListener('click', s.close); });
+    var ok=s.card.querySelector('[data-ok]'); if(ok) ok.addEventListener('click', onOk);
+  }
 
-  /* ---------------- create-modal presets by keyword ---------------- */
-  function createModal(label){
-    var L = label.toLowerCase(), body, title = label, ok = 'Create';
-    if (/prospect|lead/.test(L)){
-      body = field('Full name','placeholder="Jordan Blake"') + field('Phone','placeholder="(555) 000-1234"') + field('Email','type="email" placeholder="jordan@email.com"')
-        + field('Interested in','placeholder="2024 RAV4 XLE"') + field('Source','','select');
-      title='New Prospect';
-    } else if (/appointment|schedule|book/.test(L)){
-      body = field('Customer','placeholder="Search customer…"') + field('Date','type="date"') + field('Time','type="time"') + field('Type','','select') + field('Notes','','textarea');
-      title='New Appointment'; ok='Schedule';
-    } else if (/vehicle|inventory|stock/.test(L)){
-      body = field('Year / Make / Model','placeholder="2024 Toyota RAV4"') + field('VIN','placeholder="1HGBH41JXMN109186"') + field('Stock #','placeholder="T4821"') + field('Asking price','placeholder="$32,995"');
-      title='Add Vehicle'; ok='Add to inventory';
-    } else if (/appraisal|trade/.test(L)){
-      body = field('Year / Make / Model','placeholder="2019 Honda Civic"') + field('VIN','') + field('Mileage','placeholder="48,200"') + field('Condition','','select');
-      title='New Appraisal'; ok='Start appraisal';
-    } else if (/compose|message|email|new email|send/.test(L)){
-      body = field('To','placeholder="customer@email.com"') + field('Subject','placeholder="Following up on your visit"') + field('Message','','textarea');
-      title='New Message'; ok='Send';
-    } else if (/upload|import|document|file/.test(L)){
-      body = '<div style="border:2px dashed var(--line,rgba(15,27,45,.2));border-radius:14px;padding:30px;text-align:center;color:var(--muted,#6b7a90);font-size:13.5px">Drag files here, or <label style="color:#2563eb;font-weight:600;cursor:pointer">browse<input type="file" multiple style="display:none"></label></div>'
-        + '<div style="margin-top:12px">'+field('Category','','select')+'</div>';
-      title='Upload'; ok='Upload';
-    } else if (/task|to-?do/.test(L)){
-      body = field('Task','placeholder="Call back about financing"') + field('Assign to','','select') + field('Due','type="date"') + field('Priority','','select');
-      title='Create Task'; ok='Create task';
-    } else if (/dashboard|report|widget/.test(L)){
-      body = field('Dashboard name','placeholder="Sales Performance — Q3"') + field('Audience','','select') + field('Layout','','select');
-      title='Create Dashboard'; ok='Create';
-    } else if (/deal|submit/.test(L)){
-      body = field('Customer','placeholder="Search customer…"') + field('Vehicle','placeholder="2024 RAV4 XLE — Stk T4821"') + field('Sale price','placeholder="$32,995"') + field('Type','','select');
-      title='New Deal'; ok='Submit deal';
-    } else if (/campaign/.test(L)){
-      body = field('Campaign name','') + field('Channel','','select') + field('Audience','','select');
-      ok='Launch';
-    } else {
-      body = field(label, '') + '<div style="font-size:12.5px;color:var(--muted,#6b7a90)">This is a live demo — no data is saved.</div>';
+  /* ================= MULTI-STEP WIZARD ================= */
+  /* field spec: {key,label,type,req,ph,opts:[],half,dep,note}
+     types: text tel email number date time money select textarea toggle summary */
+  function fieldCtl(f, val){
+    var base = 'data-key="'+f.key+'"' + (f.req?' data-req="1"':'');
+    var v = val==null?'':val;
+    if (f.type==='select'){
+      var opts = (f.opts||[]).map(function(o){ return '<option'+(o===v?' selected':'')+'>'+esc(o)+'</option>'; }).join('');
+      if (!f.req) opts = '<option value=""'+(v?'':' selected')+'>Select…</option>'+opts;
+      return '<select '+base+' style="'+CTL+'">'+opts+'</select>';
     }
-    var m = modal({ title:title, sub:'Demo workspace', okLabel:ok, body:body, done:function(){ toast('✓ '+title+' saved'); } });
-    // populate any empty selects with sensible options
-    m.card.querySelectorAll('select').forEach(function(sel){
-      if (sel.options.length) return;
-      var opts = /source/i.test(prevLabel(sel)) ? ['Walk-in','Web lead','Phone-up','Referral','Marketplace']
-        : /type/i.test(prevLabel(sel)) ? ['Sales consult','Test drive','Delivery','Service','Follow-up']
-        : /priority/i.test(prevLabel(sel)) ? ['High','Normal','Low']
-        : /condition/i.test(prevLabel(sel)) ? ['Excellent','Good','Fair','Rough']
-        : /audience|assign/i.test(prevLabel(sel)) ? ['Me','Sales team','BDC','Managers']
-        : /channel/i.test(prevLabel(sel)) ? ['Email','SMS','Both']
-        : /layout/i.test(prevLabel(sel)) ? ['Grid','Columns','Single']
-        : /category/i.test(prevLabel(sel)) ? ['Contract','ID / License','Insurance','Trade docs','Other']
-        : ['Option 1','Option 2','Option 3'];
-      sel.innerHTML = opts.map(function(o){ return '<option>'+o+'</option>'; }).join('');
-    });
+    if (f.type==='textarea') return '<textarea '+base+' placeholder="'+esc(f.ph||'')+'" style="'+CTL+';min-height:80px;resize:vertical">'+esc(v)+'</textarea>';
+    if (f.type==='toggle'){
+      var on = !!v;
+      return '<button type="button" data-toggle="'+f.key+'" '+base+' aria-pressed="'+on+'" style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:1px solid var(--line,rgba(15,27,45,.14));border-radius:11px;padding:11px 13px;background:'+(on?'rgba(59,130,246,.08)':'var(--bg,#fff)')+';color:var(--text,#16202e);font:inherit;font-weight:600;font-size:13.5px;cursor:pointer">'
+        + '<span style="width:40px;height:23px;border-radius:999px;flex:none;background:'+(on?'#2563eb':'#cbd5e1')+';position:relative;transition:background .18s"><span style="position:absolute;top:2px;left:'+(on?'19':'2')+'px;width:19px;height:19px;border-radius:50%;background:#fff;transition:left .18s;box-shadow:0 1px 3px rgba(0,0,0,.3)"></span></span>'
+        + esc(f.label)+'</button>';
+    }
+    var itype = f.type==='money'||f.type==='number' ? 'text' : (f.type||'text');
+    var im = f.type==='money'||f.type==='number' ? ' inputmode="numeric"' : (f.type==='tel'?' inputmode="tel"':'');
+    var pre = f.type==='money' ? '<span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted,#6b7a90);font-size:14px;pointer-events:none">$</span>' : '';
+    var pad = f.type==='money' ? ';padding-left:22px' : '';
+    return '<div style="position:relative">'+pre+'<input '+base+' type="'+itype+'"'+im+' placeholder="'+esc(f.ph||'')+'" value="'+esc(v)+'" style="'+CTL+pad+'"></div>';
   }
-  function prevLabel(el){ var l = el.closest('label'); return l ? l.textContent : ''; }
+  function wizard(spec){
+    var steps = spec.steps.slice(), idx = 0, values = {};
+    var s = shell({width:580});
+    s.card.innerHTML = header(spec.title, '') + '<div id="adWzSteps" style="padding:16px 20px 4px;flex:none"></div>'
+      + '<div id="adWzBody" style="padding:6px 20px 18px;overflow:auto;flex:1 1 auto"></div>'
+      + '<div id="adWzFoot"></div>';
+    var stepsEl = s.card.querySelector('#adWzSteps'), bodyEl = s.card.querySelector('#adWzBody'), footEl = s.card.querySelector('#adWzFoot');
+    s.card.querySelectorAll('[data-x]').forEach(function(b){ b.addEventListener('click', s.close); });
 
-  /* ---------------- classification ---------------- */
-  var inlineScript = '';
-  function collectScripts(){
-    var out = [];
-    document.querySelectorAll('script:not([src])').forEach(function(s){ out.push(s.textContent||''); });
-    inlineScript = out.join('\n');
+    function shown(f){ if(f.dep) return !!values[f.dep]; return true; }
+    function collect(){
+      bodyEl.querySelectorAll('[data-key]').forEach(function(el){
+        if (el.getAttribute('data-toggle')) return; // toggles update on click
+        values[el.getAttribute('data-key')] = el.value;
+      });
+    }
+    function indicator(){
+      return '<div style="display:flex;align-items:center;gap:6px">'+steps.map(function(st,i){
+        var done=i<idx, cur=i===idx;
+        var circle='<span style="width:24px;height:24px;border-radius:50%;flex:none;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;'
+          +(cur?'background:linear-gradient(180deg,#3b82f6,#2563eb);color:#fff':done?'background:#16a34a;color:#fff':'background:var(--bg,#eef2f7);color:var(--muted,#94a3b8)')+'">'+(done?'✓':(i+1))+'</span>';
+        var lab='<span style="font-size:11.5px;font-weight:'+(cur?'700':'600')+';color:'+(cur?'var(--text,#16202e)':'var(--muted,#94a3b8)')+';white-space:nowrap">'+esc(st.title)+'</span>';
+        var line=i<steps.length-1?'<span style="flex:1;height:2px;min-width:10px;background:'+(done?'#16a34a':'var(--line,#e5eaf1)')+'"></span>':'';
+        return '<span style="display:inline-flex;align-items:center;gap:6px">'+circle+lab+'</span>'+line;
+      }).join('')+'</div>';
+    }
+    function summaryHTML(){
+      var rows=[];
+      steps.forEach(function(st){ if(st.summary) return; (st.fields||[]).forEach(function(f){
+        if(f.type==='summary'||f.type==='toggle'&&false) return;
+        var v = f.type==='toggle' ? (values[f.key]?'Yes':'No') : values[f.key];
+        if(f.type==='toggle') { rows.push([f.label, values[f.key]?'Yes':'No']); return; }
+        if(v!=null && v!=='' && shown(f)) rows.push([f.label, (f.type==='money'?'$':'')+v]);
+      }); });
+      if(!rows.length) rows.push(['—','No details entered']);
+      return '<div style="border:1px solid var(--line,rgba(15,27,45,.1));border-radius:12px;overflow:hidden">'
+        + rows.map(function(r,i){ return '<div style="display:flex;justify-content:space-between;gap:14px;padding:10px 14px;'+(i?'border-top:1px solid var(--line,rgba(15,27,45,.07))':'')+'">'
+          + '<span style="font-size:12.5px;color:var(--muted,#6b7a90);font-weight:600">'+esc(r[0])+'</span>'
+          + '<span style="font-size:13.5px;font-weight:600;text-align:right">'+esc(r[1])+'</span></div>'; }).join('')
+        + '</div><div style="margin-top:12px;font-size:12.5px;color:var(--muted,#6b7a90)">Review the details above, then confirm. This is a live demo — no data is saved.</div>';
+    }
+    function render(){
+      stepsEl.innerHTML = indicator();
+      var st = steps[idx];
+      if (st.fields && st.fields.length===1 && st.fields[0].type==='summary'){
+        bodyEl.innerHTML = '<div style="font-size:14px;font-weight:700;margin:6px 0 12px">'+esc(st.title)+'</div>'+summaryHTML();
+      } else {
+        var vis = (st.fields||[]).filter(shown);
+        bodyEl.innerHTML = (st.intro?'<div style="font-size:12.5px;color:var(--muted,#6b7a90);margin:2px 0 12px">'+esc(st.intro)+'</div>':'')
+          + '<div style="display:flex;flex-wrap:wrap;gap:12px">' + vis.map(function(f){
+            var w = f.half ? 'calc(50% - 6px)' : '100%';
+            var lab = f.type==='toggle' ? '' : '<span style="'+LBL+'">'+esc(f.label)+(f.req?' <span style="color:#e5484d">*</span>':'')+'</span>';
+            return '<label style="flex:0 0 '+w+';max-width:'+w+';display:block">'+lab+fieldCtl(f, values[f.key])+(f.note?'<span style="display:block;font-size:11.5px;color:var(--muted,#94a3b8);margin-top:5px">'+esc(f.note)+'</span>':'')+'</label>';
+          }).join('') + '</div>';
+      }
+      // toggles
+      bodyEl.querySelectorAll('[data-toggle]').forEach(function(b){ b.addEventListener('click', function(){ var k=b.getAttribute('data-toggle'); values[k]=values[k]?'':'1'; collect(); render(); }); });
+      // footer
+      var btns = [];
+      if (idx>0) btns.push(['‹ Back','back']);
+      btns.push(['Cancel','x']);
+      if (idx<steps.length-1) btns.push(['Next ›','next']);
+      else btns.push([spec.okLabel||'Create','ok']);
+      footEl.innerHTML = '<div style="display:flex;gap:10px;justify-content:space-between;align-items:center;padding:14px 20px;border-top:1px solid var(--line,rgba(15,27,45,.08));background:var(--bg,#f8fafc)">'
+        + '<div>'+(idx>0?'<button data-back style="padding:10px 15px;border-radius:10px;border:1px solid var(--line,rgba(15,27,45,.12));background:var(--card,#fff);color:var(--text,#16202e);font-weight:600;font-size:13.5px;cursor:pointer">‹ Back</button>':'')+'</div>'
+        + '<div style="display:flex;gap:10px">'
+        + '<button data-x style="padding:10px 16px;border-radius:10px;border:1px solid var(--line,rgba(15,27,45,.12));background:var(--card,#fff);color:var(--text,#16202e);font-weight:600;font-size:13.5px;cursor:pointer">Cancel</button>'
+        + (idx<steps.length-1
+            ? '<button data-next style="padding:10px 20px;border-radius:10px;border:none;background:linear-gradient(180deg,#3b82f6,#2563eb);color:#fff;font-weight:600;font-size:13.5px;cursor:pointer">Next ›</button>'
+            : '<button data-ok style="padding:10px 20px;border-radius:10px;border:none;background:linear-gradient(180deg,#16a34a,#15803d);color:#fff;font-weight:600;font-size:13.5px;cursor:pointer">'+esc(spec.okLabel||'Create')+'</button>')
+        + '</div></div>';
+      footEl.querySelectorAll('[data-x]').forEach(function(b){ b.addEventListener('click', s.close); });
+      var bk=footEl.querySelector('[data-back]'); if(bk) bk.addEventListener('click', function(){ collect(); idx--; render(); });
+      var nx=footEl.querySelector('[data-next]'); if(nx) nx.addEventListener('click', function(){ if(validate()){ collect(); idx++; render(); } });
+      var okb=footEl.querySelector('[data-ok]'); if(okb) okb.addEventListener('click', function(){ if(validate()){ collect(); s.close(); toast('✓ '+(spec.done||spec.title+' created')); if(spec.onDone) spec.onDone(values); } });
+      var first=bodyEl.querySelector('input,select,textarea'); if(first) setTimeout(function(){ try{first.focus();}catch(e){} },50);
+    }
+    function validate(){
+      collect();
+      var missing=[];
+      (steps[idx].fields||[]).filter(shown).forEach(function(f){
+        if(!f.req) return;
+        var el=bodyEl.querySelector('[data-key="'+f.key+'"]');
+        if(el && !String(values[f.key]||'').trim()){ missing.push(el); el.style.borderColor='#e5484d'; el.style.boxShadow='0 0 0 3px rgba(229,72,77,.12)'; }
+      });
+      if(missing.length){ toast('Please complete the required field'+(missing.length>1?'s':''), 'error'); try{missing[0].focus();}catch(e){} return false; }
+      return true;
+    }
+    render();
   }
+
+  /* ---------------- action registry (label -> wizard spec) ---------------- */
+  var SRC=['Walk-in','Web lead','Phone-up','Referral','Marketplace','Service drive','Trade-in','Repeat customer'];
+  var COND=['Excellent','Good','Fair','Rough'];
+  var CONFIRM = { title:'Confirmation', fields:[{type:'summary'}] };
+  var ACTIONS = {
+    prospect: { perm:'crm.create', title:'New Prospect', okLabel:'Create Prospect', done:'Prospect created', steps:[
+      { title:'Customer Info', fields:[
+        {key:'first',label:'First name',type:'text',req:true,half:true,ph:'Jordan'},
+        {key:'last',label:'Last name',type:'text',req:true,half:true,ph:'Blake'},
+        {key:'phone',label:'Mobile phone',type:'tel',req:true,half:true,ph:'(555) 000-1234'},
+        {key:'email',label:'Email',type:'email',half:true,ph:'jordan@email.com'},
+        {key:'pref',label:'Preferred contact',type:'select',half:true,opts:['Phone','Text','Email']},
+        {key:'source',label:'Lead source',type:'select',req:true,half:true,opts:SRC} ]},
+      { title:'Vehicle of Interest', fields:[
+        {key:'vcond',label:'New or used',type:'select',half:true,opts:['New','Used','Certified','Either']},
+        {key:'vyear',label:'Year',type:'number',half:true,ph:'2024'},
+        {key:'vmake',label:'Make',type:'text',req:true,half:true,ph:'Toyota'},
+        {key:'vmodel',label:'Model',type:'text',req:true,half:true,ph:'RAV4'},
+        {key:'vtrim',label:'Trim',type:'text',half:true,ph:'XLE Premium'},
+        {key:'budget',label:'Budget',type:'money',half:true,ph:'35,000'},
+        {key:'ftype',label:'Purchase type',type:'select',half:true,opts:['Finance','Lease','Cash']},
+        {key:'timeframe',label:'Buying timeframe',type:'select',half:true,opts:['This week','This month','1–3 months','Just looking']} ]},
+      { title:'Trade Vehicle', intro:'Does the customer have a vehicle to trade in?', fields:[
+        {key:'has_trade',label:'This customer has a trade-in',type:'toggle'},
+        {key:'tyear',label:'Year',type:'number',half:true,dep:'has_trade',ph:'2019'},
+        {key:'tmake',label:'Make',type:'text',half:true,dep:'has_trade',ph:'Honda'},
+        {key:'tmodel',label:'Model',type:'text',half:true,dep:'has_trade',ph:'Civic'},
+        {key:'tmileage',label:'Mileage',type:'number',half:true,dep:'has_trade',ph:'48,200'},
+        {key:'tpayoff',label:'Estimated payoff',type:'money',half:true,dep:'has_trade',ph:'12,500'},
+        {key:'tcond',label:'Condition',type:'select',half:true,dep:'has_trade',opts:COND} ]},
+      CONFIRM ] },
+    appointment: { perm:'crm.create', title:'New Appointment', okLabel:'Schedule', done:'Appointment scheduled', steps:[
+      { title:'Details', fields:[
+        {key:'cust',label:'Customer',type:'text',req:true,ph:'Search or enter name'},
+        {key:'date',label:'Date',type:'date',req:true,half:true},
+        {key:'time',label:'Time',type:'time',req:true,half:true},
+        {key:'type',label:'Appointment type',type:'select',req:true,half:true,opts:['Sales consult','Test drive','Delivery','Trade appraisal','Service','Follow-up']},
+        {key:'dur',label:'Duration',type:'select',half:true,opts:['30 min','45 min','60 min','90 min']} ]},
+      { title:'Assignment', fields:[
+        {key:'rep',label:'Assigned to',type:'select',half:true,opts:['Me','Sales team','BDC','Assign later']},
+        {key:'loc',label:'Location',type:'select',half:true,opts:['Showroom','Virtual','Off-site']},
+        {key:'vehicle',label:'Vehicle (optional)',type:'text',ph:'2024 RAV4 XLE — Stk T4821'},
+        {key:'notes',label:'Notes',type:'textarea',ph:'Anything the team should know…'} ]},
+      CONFIRM ] },
+    deal: { perm:'crm.create', title:'New Deal', okLabel:'Submit Deal', done:'Deal submitted to desk', steps:[
+      { title:'Customer & Vehicle', fields:[
+        {key:'cust',label:'Customer',type:'text',req:true,ph:'Search customer…'},
+        {key:'vehicle',label:'Vehicle',type:'text',req:true,ph:'2024 RAV4 XLE — Stk T4821'},
+        {key:'dtype',label:'Deal type',type:'select',req:true,half:true,opts:['Finance','Lease','Cash']},
+        {key:'stock',label:'Stock #',type:'text',half:true,ph:'T4821'} ]},
+      { title:'Numbers', fields:[
+        {key:'price',label:'Sale price',type:'money',req:true,half:true,ph:'32,995'},
+        {key:'trade',label:'Trade allowance',type:'money',half:true,ph:'0'},
+        {key:'down',label:'Cash down',type:'money',half:true,ph:'3,000'},
+        {key:'apr',label:'APR %',type:'text',half:true,ph:'6.9'},
+        {key:'term',label:'Term',type:'select',half:true,opts:['36 mo','48 mo','60 mo','72 mo','84 mo']},
+        {key:'monthly',label:'Est. payment',type:'money',half:true,ph:'549'} ]},
+      CONFIRM ] },
+    vehicle: { perm:'inventory.edit', title:'Add Vehicle', okLabel:'Add to Inventory', done:'Vehicle added to inventory', steps:[
+      { title:'Identity', fields:[
+        {key:'year',label:'Year',type:'number',req:true,half:true,ph:'2024'},
+        {key:'make',label:'Make',type:'text',req:true,half:true,ph:'Toyota'},
+        {key:'model',label:'Model',type:'text',req:true,half:true,ph:'RAV4'},
+        {key:'trim',label:'Trim',type:'text',half:true,ph:'XLE Premium'},
+        {key:'vin',label:'VIN',type:'text',req:true,ph:'1HGBH41JXMN109186'},
+        {key:'stock',label:'Stock #',type:'text',half:true,ph:'T4821'},
+        {key:'body',label:'Body style',type:'select',half:true,opts:['Sedan','SUV','Truck','Coupe','Van','Hatchback']} ]},
+      { title:'Pricing & Details', fields:[
+        {key:'mileage',label:'Mileage',type:'number',half:true,ph:'12'},
+        {key:'ext',label:'Exterior color',type:'text',half:true,ph:'Blueprint'},
+        {key:'intc',label:'Interior color',type:'text',half:true,ph:'Black'},
+        {key:'ask',label:'Asking price',type:'money',req:true,half:true,ph:'34,995'},
+        {key:'cost',label:'Unit cost',type:'money',half:true,ph:'30,100',note:'Visible to managers only'},
+        {key:'status',label:'Status',type:'select',half:true,opts:['Available','In transit','In recon','On hold','Sold']} ]},
+      CONFIRM ] },
+    appraisal: { perm:'crm.create', title:'New Appraisal', okLabel:'Start Appraisal', done:'Appraisal started', steps:[
+      { title:'Vehicle', fields:[
+        {key:'year',label:'Year',type:'number',req:true,half:true,ph:'2019'},
+        {key:'make',label:'Make',type:'text',req:true,half:true,ph:'Honda'},
+        {key:'model',label:'Model',type:'text',req:true,half:true,ph:'Civic'},
+        {key:'trim',label:'Trim',type:'text',half:true,ph:'EX'},
+        {key:'vin',label:'VIN',type:'text',ph:'2HGFC…'},
+        {key:'mileage',label:'Mileage',type:'number',req:true,half:true,ph:'48,200'} ]},
+      { title:'Condition', fields:[
+        {key:'ext',label:'Exterior',type:'select',half:true,opts:COND},
+        {key:'intc',label:'Interior',type:'select',half:true,opts:COND},
+        {key:'mech',label:'Mechanical',type:'select',half:true,opts:COND},
+        {key:'tires',label:'Tires',type:'select',half:true,opts:['New','Good','50%','Worn']},
+        {key:'accidents',label:'Accidents',type:'select',half:true,opts:['None reported','1 minor','1 major','2+']},
+        {key:'notes',label:'Reconditioning notes',type:'textarea',ph:'Needs front bumper, detail…'} ]},
+      { title:'Valuation', fields:[
+        {key:'source',label:'Value source',type:'select',half:true,opts:['MMR','KBB','Black Book','Manual']},
+        {key:'value',label:'Appraised value',type:'money',req:true,half:true,ph:'16,750'},
+        {key:'payoff',label:'Payoff owed',type:'money',half:true,ph:'12,500'},
+        {key:'offer',label:'Customer offer',type:'money',half:true,ph:'16,000'} ]},
+      CONFIRM ] },
+    task: { perm:'crm.create', title:'Create Task', okLabel:'Create Task', done:'Task created', steps:[
+      { title:'Details', fields:[
+        {key:'task',label:'Task',type:'text',req:true,ph:'Call back about financing'},
+        {key:'assign',label:'Assign to',type:'select',half:true,opts:['Me','Sales team','BDC','Manager']},
+        {key:'due',label:'Due date',type:'date',req:true,half:true},
+        {key:'time',label:'Time',type:'time',half:true},
+        {key:'priority',label:'Priority',type:'select',half:true,opts:['High','Normal','Low']},
+        {key:'related',label:'Related to',type:'text',ph:'Customer / deal (optional)'} ]},
+      CONFIRM ] },
+    message: { perm:'comms.email', title:'New Message', okLabel:'Send', done:'Message sent', steps:[
+      { title:'Recipient', fields:[
+        {key:'channel',label:'Channel',type:'select',req:true,half:true,opts:['Email','SMS','Both']},
+        {key:'to',label:'To',type:'text',req:true,half:true,ph:'customer@email.com'},
+        {key:'template',label:'Template',type:'select',half:true,opts:['— None —','Follow-up','Appointment reminder','Thank you','We-owe']} ]},
+      { title:'Compose', fields:[
+        {key:'subject',label:'Subject',type:'text',ph:'Following up on your visit'},
+        {key:'body',label:'Message',type:'textarea',req:true,ph:'Hi Jordan, thanks for stopping by…'} ]},
+      CONFIRM ] },
+    upload: { perm:'crm.create', title:'Upload Document', okLabel:'Upload', done:'Document uploaded', steps:[
+      { title:'File', fields:[
+        {key:'fname',label:'Document name',type:'text',req:true,ph:'Driver license — front'},
+        {key:'category',label:'Category',type:'select',req:true,half:true,opts:['Contract','ID / License','Insurance','Trade docs','Credit app','Other']},
+        {key:'related',label:'Related customer',type:'text',half:true,ph:'Search customer…'} ]},
+      { title:'Details', fields:[
+        {key:'signers',label:'Requires signature from',type:'select',half:true,opts:['No signature','Buyer','Buyer + Co-buyer','Buyer + Salesperson','All parties']},
+        {key:'notes',label:'Notes',type:'textarea',ph:'Optional notes…'} ]},
+      CONFIRM ] },
+    dashboard: { perm:'reports.custom', title:'Create Dashboard', okLabel:'Create Dashboard', done:'Dashboard created', steps:[
+      { title:'Basics', fields:[
+        {key:'name',label:'Dashboard name',type:'text',req:true,ph:'Sales Performance — Q3'},
+        {key:'audience',label:'Audience',type:'select',half:true,opts:['Just me','Sales team','Managers','Executives']},
+        {key:'layout',label:'Layout',type:'select',half:true,opts:['Grid','Columns','Single column']} ]},
+      { title:'Widgets', fields:[
+        {key:'metrics',label:'Primary metric',type:'select',half:true,opts:['Units sold','Gross profit','Lead conversion','Appointments','F&I penetration']},
+        {key:'range',label:'Default range',type:'select',half:true,opts:['Today','7 days','MTD','QTD','YTD']} ]},
+      CONFIRM ] },
+    campaign: { perm:'admin.automation', title:'New Campaign', okLabel:'Launch Campaign', done:'Campaign launched', steps:[
+      { title:'Basics', fields:[
+        {key:'name',label:'Campaign name',type:'text',req:true,ph:'Spring Sales Event'},
+        {key:'channel',label:'Channel',type:'select',req:true,half:true,opts:['Email','SMS','Both']},
+        {key:'audience',label:'Audience',type:'select',req:true,half:true,opts:['All customers','Equity owners','Lapsed leads','Service customers']} ]},
+      { title:'Schedule', fields:[
+        {key:'start',label:'Start date',type:'date',half:true},
+        {key:'send',label:'Send time',type:'time',half:true},
+        {key:'msg',label:'Message',type:'textarea',req:true,ph:'Your offer message…'} ]},
+      CONFIRM ] }
+  };
+
+  function actionKey(label){
+    var L = (label||'').toLowerCase();
+    if (/prospect|lead/.test(L)) return 'prospect';
+    if (/appraisal/.test(L)) return 'appraisal';
+    if (/trade/.test(L)) return 'appraisal';
+    if (/appointment|schedule|book/.test(L)) return 'appointment';
+    if (/deal/.test(L)) return 'deal';
+    if (/vehicle|inventory|stock unit/.test(L)) return 'vehicle';
+    if (/task|to-?do/.test(L)) return 'task';
+    if (/compose|message|email|text|sms/.test(L)) return 'message';
+    if (/upload|import file|document|attach/.test(L)) return 'upload';
+    if (/dashboard|report|widget/.test(L)) return 'dashboard';
+    if (/campaign|blast|broadcast/.test(L)) return 'campaign';
+    return null;
+  }
+  function openAction(label){
+    var k = actionKey(label);
+    if (k && ACTIONS[k]){
+      if (!can(ACTIONS[k].perm)){ toast('You don’t have permission for this action', 'error'); return; }
+      wizard(ACTIONS[k]); return;
+    }
+    simpleModal(label||'New', field(label||'Details','placeholder="…"') + '<div style="font-size:12.5px;color:var(--muted,#6b7a90)">Live demo — no data is saved.</div>', 'Save');
+  }
+  // expose the create-modal name kept from earlier API
+  function createModal(label){ openAction(label); }
+
+  /* ---------------- classification (same test as offline audit) ---------------- */
+  var inlineScript = '';
+  function collectScripts(){ var out=[]; document.querySelectorAll('script:not([src])').forEach(function(s){ out.push(s.textContent||''); }); inlineScript = out.join('\n'); }
   var GENERIC = {btn:1,'btn-primary':1,'btn-sm':1,'btn-lg':1,'btn-ghost':1,on:1,active:1,sel:1,primary:1,ghost:1,pill:1,tab:1};
   function isWired(btn){
     if (btn.hasAttribute('onclick')) return true;
@@ -142,20 +387,15 @@
     var toks = [];
     if (btn.id) toks.push(btn.id);
     btn.classList.forEach(function(c){ if(!GENERIC[c]) toks.push(c); });
-    // data-* attributes signal a container-delegated handler (e.g. <button data-v="grid"> read by a parent)
     for (var a=0;a<btn.attributes.length;a++){ var an=btn.attributes[a].name; if (an.indexOf('data-')===0) toks.push(an); }
     for (var i=0;i<toks.length;i++){ if (inlineScript.indexOf(toks[i]) !== -1) return true; }
-    // sits inside a control whose own id is referenced in script (parent-level delegation)
     var p = btn.parentElement, hops = 0;
     while (p && hops < 3){ if (p.id && inlineScript.indexOf(p.id) !== -1) return true; hops++; p = p.parentElement; }
     return false;
   }
 
   var ACTIVE = ['on','active','sel','selected','current','is-active','tab-on','seg-on'];
-  function activeClassIn(group){
-    for (var i=0;i<group.length;i++){ for (var j=0;j<ACTIVE.length;j++){ if (group[i].classList.contains(ACTIVE[j])) return ACTIVE[j]; } }
-    return null;
-  }
+  function activeClassIn(group){ for (var i=0;i<group.length;i++){ for (var j=0;j<ACTIVE.length;j++){ if (group[i].classList.contains(ACTIVE[j])) return ACTIVE[j]; } } return null; }
   function segInfo(btn){
     var p = btn.parentElement; if(!p) return null;
     var sibs = Array.prototype.filter.call(p.children, function(c){ return c.tagName==='BUTTON'; });
@@ -181,86 +421,88 @@
       requestAnimationFrame(function(){ bd.style.opacity='1'; });
     } else if (bd){ bd.style.opacity='0'; setTimeout(function(){ bd.remove(); },250); }
   }
-  function injectSidebarCSS(){
+  function injectCSS(){
     if (document.getElementById('adWireCSS')) return;
     var s = document.createElement('style'); s.id='adWireCSS';
     s.textContent = '@media(max-width:900px){.sidebar.ad-open{display:flex!important;position:fixed;top:0;left:0;bottom:0;z-index:40;width:min(80vw,300px);animation:adSlide .28s cubic-bezier(.2,.8,.2,1)}}'
       + '@keyframes adSlide{from{transform:translateX(-100%)}to{transform:translateX(0)}}'
-      + '.ad-seg-on-anim{transition:background .2s,color .2s,border-color .2s}';
+      + '[data-ad-hidden]{display:none!important}';
     document.head.appendChild(s);
   }
 
   var TOPBAR_ROUTE = { 'calls':'/communications','messages':'/communications','notifications':'/notifications' };
-  function labelOf(btn){
-    var t = (btn.getAttribute('aria-label')||btn.getAttribute('title')||btn.textContent||'').replace(/\s+/g,' ').trim();
-    return t;
-  }
+  function labelOf(btn){ return (btn.getAttribute('aria-label')||btn.getAttribute('title')||btn.textContent||'').replace(/\s+/g,' ').trim(); }
 
-  function handle(btn, e){
+  function handle(btn){
     var lbl = labelOf(btn);
-    // 1) hamburger
     if (btn.classList.contains('hamb')){ sidebarToggle(); return; }
-    // 2) segmented / tab / pill toggle
     var seg = segInfo(btn);
-    if (seg){ seg.sibs.forEach(function(s){ ACTIVE.forEach(function(a){ s.classList.remove(a); }); }); btn.classList.add(seg.active);
-      if (lbl) toast('Showing: '+lbl, 'info'); return; }
-    // 3) top-bar icon buttons
+    if (seg){ seg.sibs.forEach(function(s){ ACTIVE.forEach(function(a){ s.classList.remove(a); }); }); btn.classList.add(seg.active); if (lbl) toast('Showing: '+lbl, 'info'); return; }
     if (btn.classList.contains('ib')){
-      var key = (btn.getAttribute('aria-label')||'').toLowerCase();
-      for (var k in TOPBAR_ROUTE){ if (key.indexOf(k)!==-1){ location.href = TOPBAR_ROUTE[k]; return; } }
-      toast(lbl||'Notifications', 'info'); return;
+      var key=(btn.getAttribute('aria-label')||'').toLowerCase();
+      for (var k in TOPBAR_ROUTE){ if (key.indexOf(k)!==-1){ location.href=TOPBAR_ROUTE[k]; return; } }
+      toast(lbl||'Notifications','info'); return;
     }
-    // 4) quick-add menu
     if (btn.classList.contains('quick-add')){ quickAddMenu(btn); return; }
-    // 5) create / primary actions
-    if (/^(new|add|create|compose|upload|import|schedule|book|submit|start|launch)\b/i.test(lbl) || /add-btn|compose-btn/.test(btn.className) || (btn.classList.contains('qbtn')&&btn.classList.contains('primary'))){
-      createModal(lbl||'New'); return;
+    if (actionKey(lbl) || /^(new|add|create|compose|upload|import|schedule|book|submit|start|launch)\b/i.test(lbl) || /add-btn|compose-btn/.test(btn.className) || (btn.classList.contains('qbtn')&&btn.classList.contains('primary'))){
+      openAction(lbl||'New'); return;
     }
-    // 6) quick-action verbs
     var verb = lbl.toLowerCase();
     var VERBS = { call:'📞 Starting call…', text:'💬 Opening SMS…', email:'✉️ Composing email…', video:'🎥 Launching video call…',
       export:'⬇️ Preparing export…', assign:'✅ Assigned', 'follow-up':'⏰ Follow-up set', reminder:'🔔 Reminder sent',
       'send reminder':'🔔 Reminder sent', note:'📝 Note added', service:'🔧 Opening service…', upgrade:'⬆️ Upgrade path opened' };
     for (var v in VERBS){ if (verb===v || verb.indexOf(v)===0){ toast(VERBS[v]); return; } }
-    // 7) graceful fallback
     if (lbl) toast(lbl);
-    else { btn.animate&&btn.animate([{transform:'scale(.94)'},{transform:'scale(1)'}],{duration:160}); }
+    else if (btn.animate){ btn.animate([{transform:'scale(.94)'},{transform:'scale(1)'}],{duration:160}); }
   }
 
   function quickAddMenu(btn){
     var existing = document.getElementById('adQAMenu'); if(existing){ existing.remove(); return; }
     var r = btn.getBoundingClientRect();
+    var items = [['New Prospect','👤','crm.create'],['New Appointment','📅','crm.create'],['New Deal','🤝','crm.create'],['Add Vehicle','🚗','inventory.edit'],['Create Task','✅','crm.create'],['New Message','✉️','comms.email']].filter(function(it){ return can(it[2]); });
     var m = document.createElement('div'); m.id='adQAMenu';
     m.style.cssText='position:fixed;z-index:99997;top:'+(r.bottom+8)+'px;left:'+r.left+'px;min-width:220px;background:var(--card,#fff);border:1px solid var(--line,rgba(15,27,45,.1));border-radius:14px;box-shadow:0 24px 60px -24px rgba(10,22,40,.5);overflow:hidden;padding:6px;';
-    var items = [['New Prospect','👤'],['New Appointment','📅'],['New Deal','🤝'],['Add Vehicle','🚗'],['Create Task','✅'],['New Message','✉️']];
     m.innerHTML = items.map(function(it){ return '<button class="ad-qa-i" data-l="'+it[0]+'" style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:none;background:none;padding:10px 12px;border-radius:9px;font:600 13.5px system-ui;color:var(--text,#16202e);cursor:pointer"><span style="font-size:16px">'+it[1]+'</span>'+it[0]+'</button>'; }).join('');
     document.body.appendChild(m);
     m.querySelectorAll('.ad-qa-i').forEach(function(b){ b.addEventListener('mouseenter',function(){ b.style.background='var(--bg,#f1f5f9)'; }); b.addEventListener('mouseleave',function(){ b.style.background='none'; });
-      b.addEventListener('click', function(){ m.remove(); createModal(b.getAttribute('data-l')); }); });
+      b.addEventListener('click', function(){ m.remove(); openAction(b.getAttribute('data-l')); }); });
     setTimeout(function(){ document.addEventListener('click', function off(ev){ if(!m.contains(ev.target)&&ev.target!==btn){ m.remove(); document.removeEventListener('click', off); } }); }, 0);
   }
 
-  /* ---------------- boot ---------------- */
-  function wireAll(){
-    collectScripts(); injectSidebarCSS();
-    document.querySelectorAll('button').forEach(function(btn){
-      if (isWired(btn)) return;
-      btn.__adWired = true;
-      btn.addEventListener('click', function(e){ handle(btn, e); });
-      if (!btn.style.cursor) btn.style.cursor = 'pointer';
-    });
+  /* ---------------- role gating: hide action buttons the role can't perform ---------------- */
+  var VERB_PERM = { export:'reports.export' };
+  function permForButton(btn){
+    var lbl = labelOf(btn); if(!lbl) return null;
+    var k = actionKey(lbl);
+    if (k && ACTIONS[k] && /^(new|add|create|compose|upload|import|schedule|book|submit|start|launch|quick add)\b/i.test(lbl)) return ACTIONS[k].perm;
+    // "Quick Add" and generic "New X" create entrypoints
+    if (/quick add/i.test(lbl)) return 'crm.create';
+    var lc = lbl.toLowerCase();
+    for (var v in VERB_PERM){ if (lc===v || lc.indexOf(v)===0) return VERB_PERM[v]; }
+    return null;
   }
+  function gate(btn){
+    var perm = permForButton(btn);
+    if (perm && !can(perm)){ btn.setAttribute('data-ad-hidden',''); return true; }
+    return false;
+  }
+
+  /* ---------------- boot ---------------- */
+  function wireOne(btn){
+    if (btn.__adSeen) return; btn.__adSeen = true;
+    if (gate(btn)) return;              // hidden for this role → no handler needed
+    if (isWired(btn)) return;
+    btn.__adWired = true;
+    btn.addEventListener('click', function(){ handle(btn); });
+    if (!btn.style.cursor) btn.style.cursor = 'pointer';
+  }
+  function wireAll(){ collectScripts(); injectCSS(); document.querySelectorAll('button').forEach(wireOne); }
   function boot(){ wireAll();
-    // re-wire buttons added later by page scripts (lightweight, debounced)
-    var mo = new MutationObserver(function(muts){
-      var add=false; muts.forEach(function(m){ if(m.addedNodes&&m.addedNodes.length) add=true; });
-      if(add){ clearTimeout(boot._t); boot._t=setTimeout(function(){
-        document.querySelectorAll('button:not([onclick])').forEach(function(btn){ if(btn.__adWired) return; if(isWired(btn)) { btn.__adWired=true; return; } btn.__adWired=true; btn.addEventListener('click', function(e){ handle(btn,e); }); if(!btn.style.cursor) btn.style.cursor='pointer'; });
-      }, 120); }
-    });
+    var mo = new MutationObserver(function(muts){ var add=false; muts.forEach(function(m){ if(m.addedNodes&&m.addedNodes.length) add=true; });
+      if(add){ clearTimeout(boot._t); boot._t=setTimeout(function(){ collectScripts(); document.querySelectorAll('button').forEach(wireOne); }, 120); } });
     try { mo.observe(document.body, {childList:true, subtree:true}); } catch(e){}
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 
-  window.ADWire = { toast:toast, modal:modal, createModal:createModal };
+  window.ADWire = { toast:toast, wizard:wizard, openAction:openAction, createModal:createModal, ACTIONS:ACTIONS };
 })();
