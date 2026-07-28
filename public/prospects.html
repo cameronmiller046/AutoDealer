@@ -424,6 +424,7 @@
           <div class="qa">
             <button data-act="call">${svg("call")}Call</button><button data-act="text">${svg("text")}Text</button><button data-act="email">${svg("email")}Email</button><button data-act="video">${svg("video")}Video</button><button data-act="appt">${svg("appt")}Appt</button><button data-act="payment">${svg("payment")}Payment</button><button data-act="trade">${svg("trade")}Trade</button>
           </div>
+          <a class="c360-btn" href="/customer.html?id=${p.id}&name=${encodeURIComponent(p.name)}&phone=${encodeURIComponent(p.phone)}&email=${encodeURIComponent(p.email||"")}&veh=${encodeURIComponent(p.veh||"")}&ini=${encodeURIComponent(p.ini)}&c=${encodeURIComponent(p.c)}" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;border-radius:12px;padding:12px;font-size:13.5px;font-weight:700;box-shadow:0 12px 26px -14px rgba(37,99,235,0.9)"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><circle cx="12" cy="9" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 19c0-2.8 2.7-4.5 6-4.5s6 1.7 6 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Open Customer 360 — Full Profile</a>
           <div class="sect">
             <h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Summary</h3>
             <div class="ai-grid">
