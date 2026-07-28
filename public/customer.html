@@ -390,7 +390,12 @@
   <!-- ===================== CUSTOMER WORKSPACE ===================== -->
   <script>
   (function(){
-    var CUST = { id:1, name:"John Smith", first:"John", phone:"(678) 555-0142", email:"jsmith@email.com", rep:"Jordan Avery" };
+    function qp(k){ try{ return new URLSearchParams(location.search).get(k); }catch(e){ return null; } }
+    var _name = qp("name");
+    var CUST = { id:(parseInt(qp("id"),10)||1), name:_name||"John Smith", first:(_name||"John Smith").split(" ")[0],
+      phone:qp("phone")||"(678) 555-0142", email:qp("email")||"jsmith@email.com", rep:"Jordan Avery",
+      veh:qp("veh")||"", ini:qp("ini")||"", color:qp("c")||"#3b82f6" };
+    if(!CUST.ini) CUST.ini = CUST.name.split(" ").map(function(w){return w[0];}).join("").slice(0,2).toUpperCase();
     var AKEY = "ad_cust"+CUST.id+"_acts";
     var ICX = {
       clock:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
@@ -740,8 +745,12 @@
     function boot(){ buildBar(); buildFC(); renderAll();
       // re-point the legacy hero .ha buttons to the workspace drawers too
       document.querySelectorAll(".ha").forEach(function(b){ var map={Call:"call",Text:"text",Email:"email",Schedule:"appt","New Deal":"deal"}; var k=map[b.dataset.act]; if(k){ var c=b.cloneNode(true); b.parentNode.replaceChild(c,b); c.addEventListener("click", function(){ route(k); }); } });
-      // update crumb name to CUST
+      // personalize the header from the customer we arrived with
       var cn=document.getElementById("crumbName"); if(cn) cn.textContent=CUST.name;
+      var h1=document.querySelector(".hero h1"); if(h1 && h1.firstChild && h1.firstChild.nodeType===3) h1.firstChild.nodeValue=CUST.name+" ";
+      var avlg=document.querySelector(".hero .av-lg"); if(avlg){ avlg.textContent=CUST.ini; avlg.style.background=CUST.color; }
+      var cs=document.querySelectorAll(".hero .contact span"); if(cs[0]&&cs[0].lastChild) cs[0].lastChild.nodeValue=" "+CUST.phone; if(cs[1]&&cs[1].lastChild) cs[1].lastChild.nodeValue=" "+CUST.email;
+      document.title = CUST.name + " — Customer 360";
     }
     if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", boot); else boot();
     window.ADCustomer = { log:log, route:route };
