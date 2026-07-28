@@ -153,6 +153,7 @@
           return;
         }
         if(f.type==='toggle'){ rows.push([f.label, values[f.key]?'Yes':'No']); return; }
+        if(f.type==='budget'){ var amt=values[f.key]; if(amt){ var mon=(values[f.key+'_basis']||'Total')==='Monthly'; rows.push([f.label, '$'+amt+(mon?' / month':' total')]); } return; }
         var v = values[f.key];
         if(v!=null && v!=='' && shown(f)) rows.push([f.label, (f.type==='money'?'$':'')+v]);
       }); });
@@ -173,6 +174,17 @@
         bodyEl.innerHTML = (st.intro?'<div style="font-size:12.5px;color:var(--muted,#6b7a90);margin:2px 0 12px">'+esc(st.intro)+'</div>':'')
           + '<div style="display:flex;flex-wrap:wrap;gap:12px">' + vis.map(function(f){
             if(f.type==='vehicle') return '<div style="flex:0 0 100%;max-width:100%" data-vehicle></div>';
+            if(f.type==='budget'){
+              var basis = values[f.key+'_basis'] || 'Total', mon = basis==='Monthly';
+              var segBtn = function(b){ var on=b===basis; return '<button type="button" data-bbasis="'+b+'" data-bkey="'+f.key+'" style="border:none;background:'+(on?'linear-gradient(180deg,#3b82f6,#2563eb)':'transparent')+';color:'+(on?'#fff':'var(--muted,#6b7a90)')+';font:inherit;font-weight:600;font-size:12.5px;padding:8px 14px;border-radius:8px;cursor:pointer">'+b+'</button>'; };
+              return '<label style="flex:0 0 100%;max-width:100%;display:block"><span style="'+LBL+'">'+esc(f.label)+'</span>'
+                + '<div style="display:flex;gap:10px;align-items:stretch">'
+                + '<div style="display:inline-flex;flex:none;background:var(--bg,#f1f5f9);border:1px solid var(--line,rgba(15,27,45,.12));border-radius:10px;padding:3px;gap:2px">'+segBtn('Total')+segBtn('Monthly')+'</div>'
+                + '<div style="position:relative;flex:1"><span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted,#6b7a90);font-size:14px;pointer-events:none">$</span>'
+                + '<input data-key="'+f.key+'" type="text" inputmode="numeric" placeholder="'+(mon?'450':'35,000')+'" value="'+esc(values[f.key]||'')+'" style="'+CTL+';padding-left:22px'+(mon?';padding-right:44px':'')+'">'
+                + (mon?'<span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted,#6b7a90);font-size:12.5px;pointer-events:none">/mo</span>':'')
+                + '</div></div></label>';
+            }
             var w = f.half ? 'calc(50% - 6px)' : '100%';
             var lab = f.type==='toggle' ? '' : '<span style="'+LBL+'">'+esc(f.label)+(f.req?' <span style="color:#e5484d">*</span>':'')+'</span>';
             return '<label style="flex:0 0 '+w+';max-width:'+w+';display:block">'+lab+fieldCtl(f, values[f.key])+(f.note?'<span style="display:block;font-size:11.5px;color:var(--muted,#94a3b8);margin-top:5px">'+esc(f.note)+'</span>':'')+'</label>';
@@ -180,6 +192,8 @@
       }
       // vehicle composite picker(s)
       bodyEl.querySelectorAll('[data-vehicle]').forEach(function(el){ vehiclePicker(el, values); });
+      // budget Total/Monthly toggle
+      bodyEl.querySelectorAll('[data-bbasis]').forEach(function(b){ b.addEventListener('click', function(){ collect(); values[b.getAttribute('data-bkey')+'_basis']=b.getAttribute('data-bbasis'); render(); }); });
       // toggles
       bodyEl.querySelectorAll('[data-toggle]').forEach(function(b){ b.addEventListener('click', function(){ var k=b.getAttribute('data-toggle'); values[k]=values[k]?'':'1'; collect(); render(); }); });
       // footer
@@ -397,10 +411,10 @@
         {key:'source',label:'Lead source',type:'select',req:true,half:true,opts:SRC} ]},
       { title:'Vehicle of Interest', fields:[
         {key:'vehicle',type:'vehicle',req:true},
+        {key:'budget',label:'Budget',type:'budget'},
         {key:'vcond',label:'New or used',type:'select',half:true,opts:['New','Used','Certified','Either']},
-        {key:'budget',label:'Budget',type:'money',half:true,ph:'35,000'},
         {key:'ftype',label:'Purchase type',type:'select',half:true,opts:['Finance','Lease','Cash']},
-        {key:'timeframe',label:'Buying timeframe',type:'select',half:true,opts:['This week','This month','1–3 months','Just looking']} ]},
+        {key:'timeframe',label:'Buying timeframe',type:'select',opts:['This week','This month','1–3 months','Just looking']} ]},
       { title:'Trade Vehicle', intro:'Does the customer have a vehicle to trade in?', fields:[
         {key:'has_trade',label:'This customer has a trade-in',type:'toggle'},
         {key:'tyear',label:'Year',type:'number',half:true,dep:'has_trade',ph:'2019'},
