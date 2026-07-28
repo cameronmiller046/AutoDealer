@@ -182,7 +182,7 @@
     scrim.addEventListener("click", closeAll);
     document.addEventListener("keydown", function(ev){ if(ev.key==="Escape") closeAll(); });
     $("search").addEventListener("input", function(ev){ q=ev.target.value; page=1; renderGrid(); });
-    $("refresh").addEventListener("click", function(){ toast("Re-scored 1,245 customers · 11 new opportunities surfaced"); });
+    $("refresh").addEventListener("click", function(){ toast("Re-scored "+TOTALC+" customers · "+KP.opportunities+" opportunities surfaced"); });
     var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2400); }
     renderPills();
     $("grid").innerHTML = '<div class="empty-eq">Loading equity opportunities…</div>';

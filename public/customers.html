@@ -267,7 +267,7 @@
     ];
 
     const RSUM = [
-      ["all","Customers","1,245","blue",'<circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/>'],
+      ["all","Customers","200","blue",'<circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"/>'],
       ["needsfollowup","Needs Follow-up","42","amber",'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'],
       ["birthday","Upcoming Birthdays","6","pink",'<path d="M5 20h14v-6H5zM7 14v-3a5 5 0 0 1 10 0v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 3v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'],
       ["lease","Lease Expiring","18","purple",'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>'],
@@ -290,6 +290,10 @@
         `<button class="rs ${state.filter===tag?"active":""}" data-tag="${tag}"><span class="rs-ic ic-${color}"><svg viewBox="0 0 24 24">${icon}</svg></span><div class="rs-v">${val}</div><div class="rs-l">${label}</div></button>`).join("");
       document.querySelectorAll(".rs").forEach((b) => b.addEventListener("click", () => setFilter(b.dataset.tag)));
     }
+    /* Use the real customer count from the Postgres-backed API (keeps the total accurate). */
+    fetch("/api/equity").then(function(r){ return r.json(); }).then(function(d){
+      if (d && d.totalCustomers) { RSUM[0][2] = d.totalCustomers.toLocaleString(); renderSummary(); }
+    }).catch(function(){});
     function renderPills() {
       document.getElementById("pills").innerHTML = PILLS.map(([t,l]) => `<button class="pill ${state.filter===t?"on":""}" data-t="${t}">${l}</button>`).join("") + `<button class="pill" id="customPill">+ Custom Filter</button>`;
       document.querySelectorAll(".pill[data-t]").forEach((b) => b.addEventListener("click", () => setFilter(b.dataset.t)));
