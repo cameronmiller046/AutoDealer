@@ -582,13 +582,10 @@
       const avail = V.filter((v)=>v.status==="available");
       const mode = tickN % 5;
       if (mode === 0 && avail.length > 3) {
+        /* Real sales are driven by the server (pollSales); this is just ambient interest. */
         const v = avail[Math.floor(tickN/5) % avail.length];
-        const cardEl = document.querySelector(`.vcard[data-id="${v.id}"]`);
-        v.status = "sold";
-        KPI.sold++; if (KPI.available>0) KPI.available--; renderKPI("sold");
-        FEED.unshift(["#16a34a","check",`<b>${v.model} ${v.trim}</b> sold`,"just now"]); renderFeed(true);
-        showToast(`✓ ${v.model} ${v.trim} sold`, "Just now — removed from inventory");
-        if (cardEl) { cardEl.classList.add("sold-out"); setTimeout(renderInv, 480); } else renderInv();
+        v.inquiries = (v.inquiries||0)+1;
+        FEED.unshift(["#2563eb","tag",`New inquiry — <b>${v.model} ${v.trim}</b>`,"just now"]); renderFeed(true);
       } else if (mode === 1) {
         const v = avail.find((x)=>!x.prev && x.status==="available") || avail[0];
         if (v) { v.prev = v.price; v.price -= 500; if (!v.badges.includes("reduced")) v.badges.unshift("reduced");
@@ -736,9 +733,42 @@
     function saveOverride(v){ var o=invOverrides(); o[v.id]={ year:v.year,make:v.make,model:v.model,trim:v.trim,body:v.body,cond:v.cond,status:v.status,color:v.color,miles:v.miles,vin:v.vin,stock:v.stock,price:v.price,prev:v.prev,badges:v.badges }; try { localStorage.setItem("ad_inv_overrides", JSON.stringify(o)); } catch(e){} }
     function applyOverrides(){ var o=invOverrides(); V.forEach(function(v){ if(o[v.id]) for(var k in o[v.id]) v[k]=o[v.id][k]; }); }
 
+    /* ---- live inventory from the Postgres-backed API (120 vehicles, sold in real time) ---- */
+    var lastSync = new Date().toISOString();
+    function loadInventory(){
+      return fetch("/api/inventory").then(function(r){ return r.json(); }).then(function(d){
+        if (!d || !d.cars || !d.cars.length) return;
+        V = d.cars; applyOverrides();
+        KPI.available = d.available; KPI.sold = d.soldToday;
+        renderKPI(); renderInv();
+      }).catch(function(){});
+    }
+    function pollSales(){
+      fetch("/api/inventory/updates?since=" + encodeURIComponent(lastSync)).then(function(r){ return r.json(); }).then(function(d){
+        if (!d) return;
+        lastSync = d.now || lastSync;
+        KPI.available = d.available; KPI.sold = d.soldToday;
+        if (d.sales && d.sales.length){
+          d.sales.forEach(function(s){
+            var v = V.find(function(x){ return x.stock === s.stock; });
+            if (v){ v.status = "sold"; var el = document.querySelector('.vcard[data-id="'+v.id+'"]'); if (el) el.classList.add("sold-out"); }
+            var label = s.name.replace(/^\d{4}\s+/, "");
+            FEED.unshift(["#16a34a","check","<b>"+label+"</b> sold — "+money(s.price),"just now"]);
+          });
+          FEED = FEED.slice(0,12); renderFeed(true);
+          var last = d.sales[d.sales.length-1];
+          showToast("✓ "+last.name+" sold", "Live · "+d.soldToday+" sold today");
+          renderKPI("sold");
+          setTimeout(loadInventory, 650); // resync grid: drop sold, show new arrival
+        } else { renderKPI(); }
+      }).catch(function(){});
+    }
+
     applyOverrides(); ensureCat(function(){}); setupUndoBtn();
     renderKPI(); renderPills(); renderInv(); renderFeed();
+    loadInventory();
     setInterval(tick, 5000);
+    setInterval(pollSales, 8000);
   </script>
   <script src="/roles.js"></script>
 </body>

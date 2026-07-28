@@ -113,60 +113,15 @@
     function stars(n){ return '<span class="stars">'+"★".repeat(n)+'<span class="off">'+"★".repeat(5-n)+'</span></span>'; }
     function scoreColor(s){ return s>=85?"#16a34a":s>=70?"#2563eb":s>=55?"#ea8a0b":"#94a3b8"; }
 
-    // customer, current vehicle, equity, monthlyInc, score(1-5 stars), scoreN, recommended, tags, factors, payoff, value, currentPay, newPay
-    var E = [
-      {id:1,cust:"John Smith",ini:"JS",color:"#3b82f6",veh:"2023 Silverado LT",hex:"#2f5fb0",equity:9200,monthly:36,stars:5,scoreN:92,rec:"2026 Silverado High Country",tags:[["hot","In-Market"],["lease","Lease ends 9mo"]],payoff:38100,value:47300,curPay:614,newPay:650,miles:"18,200",age:"3 yrs",demand:"High",
-        factors:[["Equity position",92],["Vehicle age",78],["Market demand",95],["Payment fit",88],["Engagement",96],["Service loyalty",84]]},
-      {id:2,cust:"Priya Nair",ini:"PN",color:"#f43f5e",veh:"2024 Cadillac XT5",hex:"#eceef1",equity:6400,monthly:52,stars:5,scoreN:88,rec:"2026 Cadillac XT6",tags:[["hot","In-Market"],["svc","Service-active"]],payoff:42600,value:49000,curPay:788,newPay:840,miles:"7,800",age:"1.5 yrs",demand:"High",
-        factors:[["Equity position",78],["Vehicle age",62],["Market demand",90],["Payment fit",84],["Engagement",98],["Service loyalty",92]]},
-      {id:3,cust:"Kevin Anderson",ini:"KA",color:"#0ea5e9",veh:"2022 GMC Sierra 1500",hex:"#e6e7ea",equity:11300,monthly:28,stars:4,scoreN:81,rec:"2026 Sierra Denali",tags:[["svc","Service-active"]],payoff:22000,value:33300,curPay:642,newPay:670,miles:"38,900",age:"2.5 yrs",demand:"Normal",
-        factors:[["Equity position",96],["Vehicle age",70],["Market demand",72],["Payment fit",80],["Engagement",68],["Service loyalty",88]]},
-      {id:4,cust:"Robert Brown",ini:"RB",color:"#14b8a6",veh:"2023 Tahoe Premier",hex:"#23262b",equity:8900,monthly:44,stars:4,scoreN:79,rec:"2026 Tahoe High Country",tags:[["lease","Lease ends 5mo"]],payoff:54000,value:62900,curPay:736,newPay:780,miles:"29,400",age:"1.5 yrs",demand:"High",
-        factors:[["Equity position",82],["Vehicle age",60],["Market demand",88],["Payment fit",76],["Engagement",74],["Service loyalty",80]]},
-      {id:5,cust:"Amanda Harris",ini:"AH",color:"#ec4899",veh:"2021 Equinox LT",hex:"#3a7ca5",equity:4100,monthly:22,stars:3,scoreN:66,rec:"2026 Equinox RS",tags:[],payoff:16800,value:20900,curPay:398,newPay:420,miles:"41,200",age:"4 yrs",demand:"Normal",
-        factors:[["Equity position",64],["Vehicle age",84],["Market demand",60],["Payment fit",70],["Engagement",58],["Service loyalty",62]]},
-      {id:6,cust:"Grace Kim",ini:"GK",color:"#eab308",veh:"2020 Telluride SX",hex:"#3a7ca5",equity:6800,monthly:18,stars:3,scoreN:61,rec:"2026 Telluride SX-P",tags:[["svc","Service-active"]],payoff:6800,value:13600,curPay:512,newPay:530,miles:"62,000",age:"5 yrs",demand:"Normal",
-        factors:[["Equity position",72],["Vehicle age",92],["Market demand",58],["Payment fit",66],["Engagement",52],["Service loyalty",70]]}
-    ];
-
-    /* AutoDealer scores 1,245 customers; 87 currently surface as equity opportunities.
-       The 6 above are hand-authored; generate the remaining 81 with consistent data. */
-    (function(){
-      var FN=["Michael","Sarah","David","Jennifer","James","Linda","Robert","Patricia","Daniel","Emily","Christopher","Ashley","Matthew","Jessica","Andrew","Amanda","Joshua","Megan","Ryan","Nicole","Brandon","Stephanie","Justin","Rachel","Tyler","Lauren","Kevin","Hannah","Eric","Olivia","Aaron","Sophia","Adam","Grace","Nathan","Chloe","Sean","Victoria","Jordan","Madison","Carlos","Maria","Luis","Ana","Wei","Mei","Raj","Priya","Omar","Fatima","Andre","Aaliyah","Diego","Bella","Hiro","Yuki","Ivan","Elena","Marcus","Naomi"];
-      var LN=["Johnson","Williams","Brown","Jones","Garcia","Miller","Davis","Rodriguez","Martinez","Hernandez","Lopez","Gonzalez","Wilson","Anderson","Thomas","Taylor","Moore","Jackson","Martin","Lee","Perez","Thompson","White","Harris","Sanchez","Clark","Ramirez","Lewis","Robinson","Walker","Young","Allen","King","Wright","Scott","Torres","Nguyen","Hill","Flores","Green","Adams","Nelson","Baker","Hall","Rivera","Campbell","Mitchell","Carter","Roberts","Patel"];
-      var VH=[["2022 Toyota RAV4","2026 RAV4 Limited","#3a7ca5"],["2021 Honda CR-V EX","2026 CR-V Hybrid","#2f5fb0"],["2023 Ford F-150 XLT","2026 F-150 Lariat","#23262b"],["2020 Nissan Rogue SL","2026 Rogue Platinum","#4b5563"],["2022 Jeep Grand Cherokee","2026 Grand Cherokee L","#5b3b2e"],["2021 Chevrolet Equinox","2026 Equinox RS","#3a7ca5"],["2023 Hyundai Tucson","2026 Tucson Limited","#556070"],["2020 Subaru Outback","2026 Outback Touring","#2e4a3a"],["2022 Mazda CX-5","2026 CX-5 Signature","#7a1c1c"],["2021 Kia Sorento","2026 Sorento SX","#2f3a4a"],["2023 GMC Sierra 1500","2026 Sierra Denali","#e6e7ea"],["2020 Ram 1500 Big Horn","2026 Ram 1500 Laramie","#4a2f2f"],["2022 Volkswagen Tiguan","2026 Tiguan SEL","#2b3a55"],["2021 Toyota Camry SE","2026 Camry XSE","#1c2330"],["2023 Honda Accord","2026 Accord Touring","#2f5fb0"],["2020 Ford Explorer","2026 Explorer ST","#3a3a3a"],["2022 Chevrolet Traverse","2026 Traverse RS","#556070"],["2021 Tesla Model 3","2026 Model 3 Long Range","#8a1c1c"],["2023 BMW X3","2026 X3 xDrive30i","#2b3a55"],["2020 Lexus RX 350","2026 RX 350 F Sport","#3a7ca5"]];
-      var COL=["#3b82f6","#f43f5e","#0ea5e9","#14b8a6","#ec4899","#eab308","#8b5cf6","#f97316","#10b981","#6366f1","#ef4444","#06b6d4"];
-      function ini(n){ return n.split(" ").map(function(w){return w[0];}).join("").slice(0,2).toUpperCase(); }
-      function clamp(v){ return Math.max(45,Math.min(99,v)); }
-      var id=7;
-      for(var i=0;i<81;i++){
-        var name=FN[(i*7+3)%FN.length]+" "+LN[(i*5+1)%LN.length];
-        var v=VH[i%VH.length];
-        var score=clamp(90 - Math.floor(i*0.45) - ((i*13)%8));
-        var st=score>=85?5:score>=72?4:score>=58?3:2;
-        var payoff=12000+((i*1370)%42000);
-        var equity=1500+((i*940)%11500);
-        var monthly=15+((i*7)%55);
-        var curPay=320+((i*23)%520);
-        var miles=(9000+((i*2100)%58000)).toLocaleString();
-        var ageY=1+(i%5);
-        var demand=score>=80?"High":score>=62?"Normal":"Soft";
-        var tags=[];
-        if(score>=82 && i%2===0) tags.push(["hot","In-Market"]);
-        if(i%5===0) tags.push(["lease","Lease ends "+((i%9)+2)+"mo"]);
-        if(i%3===1) tags.push(["svc","Service-active"]);
-        var f=function(b){ return clamp(b + ((i*17)%22) - 11); };
-        E.push({ id:id++, cust:name, ini:ini(name), color:COL[i%COL.length], veh:v[0], hex:v[2],
-          equity:equity, monthly:monthly, stars:st, scoreN:score, rec:v[1], tags:tags,
-          payoff:payoff, value:payoff+equity, curPay:curPay, newPay:curPay+monthly, miles:miles, age:ageY+(ageY===1?" yr":" yrs"), demand:demand,
-          factors:[["Equity position",f(score)],["Vehicle age",f(70)],["Market demand",f(75)],["Payment fit",f(72)],["Engagement",f(68)],["Service loyalty",f(74)]] });
-      }
-    })();
+    // Data comes from the Postgres-backed API (/api/equity). Filled on load.
+    var E = [], TOTALC = 200, KP = { opportunities:0, avgEquity:0, inMarket:0, followups:0 };
 
     function renderKPIs(){
-      var avgEq = Math.round(E.reduce(function(a,e){return a+e.equity;},0)/E.length);
-      var inMarket = E.filter(function(e){return e.tags.some(function(t){return t[0]==="hot";});}).length;
-      $("kpis").innerHTML = [["Equity Opportunities",E.length+" of 1,245","",""],["Avg Positive Equity",money(avgEq),"g",""],["In-Market Now",inMarket,"",""],["Follow-up Tasks Created","3","",""]].map(function(k){ return '<div class="kp"><div class="kl">'+k[0]+'</div><div class="kv '+(k[2]||"")+'">'+k[1]+'</div></div>'; }).join("");
+      $("kpis").innerHTML = [["Equity Opportunities",KP.opportunities+" of "+TOTALC,""],["Avg Positive Equity",money(KP.avgEquity),"g"],["In-Market Now",KP.inMarket,""],["Follow-up Tasks Created",KP.followups,""]].map(function(k){ return '<div class="kp"><div class="kl">'+k[0]+'</div><div class="kv '+(k[2]||"")+'">'+k[1]+'</div></div>'; }).join("");
+    }
+    function saveFollowup(id, cust){
+      created[id]=true; renderGrid();
+      fetch("/api/equity/"+id+"/followup",{method:"POST"}).then(function(r){return r.json();}).then(function(d){ if(d&&typeof d.followups==="number"){ KP.followups=d.followups; renderKPIs(); } toast("Follow-up task created"+(cust?" for "+cust:"")+" · saved"); }).catch(function(){ toast("Follow-up task created (offline)"); });
     }
     var filter="all", q="", page=1, PER=6;
     var PILLS=[["all","All"],["5star","5-Star Opportunities"],["market","In-Market Now"],["lease","Lease Ending"],["svc","Service-Active"],["equity","Positive Equity"]];
@@ -187,7 +142,7 @@
         '<div class="ec-actions"><button class="ea-task '+(created[e.id]?"done":"")+'" data-task="'+e.id+'">'+(created[e.id]?"Task created ✓":"Create Follow-up")+'</button><button class="ea-send" data-open="'+e.id+'">View Analysis</button></div></div>'; }).join("") : '<div class="empty-eq">No opportunities match this filter.</div>';
       document.querySelectorAll("[data-open]").forEach(function(b){ b.addEventListener("click",function(e){ e.stopPropagation(); openEq(+b.dataset.open); }); });
       document.querySelectorAll(".ecard").forEach(function(el){ el.addEventListener("click",function(e){ if(e.target.closest("[data-task]")) return; openEq(+el.dataset.id); }); });
-      document.querySelectorAll("[data-task]").forEach(function(b){ b.addEventListener("click",function(e){ e.stopPropagation(); created[b.dataset.task]=true; renderGrid(); toast("Follow-up task created & assigned to you"); }); });
+      document.querySelectorAll("[data-task]").forEach(function(b){ b.addEventListener("click",function(e){ e.stopPropagation(); saveFollowup(b.dataset.task); }); });
       renderPager(rows.length, totalPages);
     }
     function pageWindow(cur,total){ var out=[]; for(var i=1;i<=total;i++){ if(i===1||i===total||(i>=cur-1&&i<=cur+1)){ out.push(i); } else if(out[out.length-1]!=="…"){ out.push("…"); } } return out; }
@@ -219,7 +174,7 @@
       '</div>';
       panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
       $("pClose").addEventListener("click", closeAll);
-      $("paTask").addEventListener("click", function(){ created[id]=true; renderGrid(); toast("Follow-up task created for "+e.cust); });
+      $("paTask").addEventListener("click", function(){ saveFollowup(id, e.cust); });
       $("paSend").addEventListener("click", function(){ toast("Upgrade offer drafted for "+e.cust+" · "+e.rec); });
     }
     function row(k,v){ return '<div class="er"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>'; }
@@ -229,7 +184,15 @@
     $("search").addEventListener("input", function(ev){ q=ev.target.value; page=1; renderGrid(); });
     $("refresh").addEventListener("click", function(){ toast("Re-scored 1,245 customers · 11 new opportunities surfaced"); });
     var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2400); }
-    renderKPIs(); renderPills(); renderGrid();
+    renderPills();
+    $("grid").innerHTML = '<div class="empty-eq">Loading equity opportunities…</div>';
+    fetch("/api/equity").then(function(r){ return r.json(); }).then(function(d){
+      TOTALC = d.totalCustomers; KP = d.kpis;
+      E = (d.opportunities||[]).map(function(o){ o.cust=o.name; o.scoreN=o.score; if(o.followup) created[o.id]=true; return o; });
+      renderKPIs(); renderGrid();
+    }).catch(function(){
+      $("grid").innerHTML = '<div class="empty-eq">Couldn’t load opportunities. Please refresh.</div>';
+    });
   </script>
 </body>
 </html>
