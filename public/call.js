@@ -51,7 +51,8 @@
     '.adc-dd-grid button:hover{background:var(--bg,#f1f5f9);} .adc-dd-grid button:active{transform:scale(.94);} .adc-dd-grid button small{display:block;font-size:8.5px;color:var(--muted,#6b7a90);font-weight:800;letter-spacing:1.2px;margin-top:2px;}',
     '.adc-dd-actions{display:flex;gap:9px;margin-top:9px;} .adc-dd-actions button{flex:1;border-radius:10px;padding:9px;font:700 12.5px Inter,system-ui,sans-serif;cursor:pointer;border:1px solid var(--line,#e7ecf3);background:var(--card,#fff);color:var(--text,#16202e);}',
     '.adc-fu-custom{display:none;margin-top:10px;gap:8px;align-items:center;} .adc-fu-custom.show{display:flex;} .adc-fu-custom input{flex:1;min-width:0;padding:9px 11px;border:1px solid var(--line,#e7ecf3);border-radius:10px;font:inherit;background:var(--bg,#fff);color:var(--text,#16202e);} .adc-fu-custom button{border:none;background:linear-gradient(180deg,#3b82f6,#2563eb);color:#fff;border-radius:10px;padding:9px 14px;font:700 12.5px Inter,system-ui,sans-serif;cursor:pointer;white-space:nowrap;}',
-    '.adc-fu-msg{font-size:12px;color:#16a34a;font-weight:700;margin-top:9px;min-height:14px;}'
+    '.adc-fu-msg{font-size:12px;color:#16a34a;font-weight:700;margin-top:9px;min-height:14px;}',
+    '.adc-tr{margin-top:10px;border-top:1px dashed var(--line,#e7ecf3);padding-top:10px;} .adc-tr-h{font-size:11px;font-weight:800;color:var(--muted,#6b7a90);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;} .adc-tr-l{font-size:12.5px;line-height:1.5;color:var(--text,#16202e);margin:4px 0;} .adc-tr-l b{color:var(--muted,#6b7a90);font-weight:800;}'
   ].join('');
   (document.head||document.documentElement).appendChild(css);
 
@@ -94,27 +95,53 @@
     requestAnimationFrame(function(){ scrim.classList.add('show'); p.classList.add('show'); });
 
     var secs=0, iv=setInterval(function(){ secs++; var el=p.querySelector('#adcTimer'); if(el) el.textContent=two(Math.floor(secs/60))+':'+two(secs%60); },1000);
-    var disp='Connected', ended=false, recording=true, muted=false;
+    var disp='Connected', ended=false, recording=true, muted=false, logged=false;
+    function first(n){ return (n||'there').split(' ')[0]; }
+    function vshort(v){ return (v||'the vehicle').replace(/^\d+\s+/,''); }
 
-    function close(){ clearInterval(iv); scrim.classList.remove('show'); p.classList.remove('show'); setTimeout(function(){ scrim.remove(); p.remove(); },300); document.removeEventListener('keydown',esc); }
-    function esc(e){ if(e.key==='Escape') finish(); }
+    // The X (top-right), Esc, or backdrop close the window — and log the call on the way out.
+    function close(){ if(!logged) logCall(); clearInterval(iv); scrim.classList.remove('show'); p.classList.remove('show'); setTimeout(function(){ scrim.remove(); p.remove(); },300); document.removeEventListener('keydown',esc); }
+    function esc(e){ if(e.key==='Escape') close(); }
     document.addEventListener('keydown',esc);
-    scrim.addEventListener('click', finish);
-    p.querySelector('[data-x]').addEventListener('click', finish);
+    scrim.addEventListener('click', close);
+    p.querySelector('[data-x]').addEventListener('click', close);
 
+    // End button ends the call and generates the summary + transcript — it does NOT close the window.
     function endCall(){ if(ended) return; ended=true; clearInterval(iv); recording=false;
       p.querySelector('#adcStat').classList.add('ended'); p.querySelector('#adcStat').innerHTML='<span class="d"></span>Call ended · '+p.querySelector('#adcTimer').textContent;
       p.querySelector('#adcWave').classList.add('off');
-      p.querySelector('#adcAi').textContent='Summary: discussed '+(contact.veh||'the vehicle of interest')+'. Customer is engaged; recommended next step — send a follow-up text with pricing, then confirm the appointment.';
+      var end=p.querySelector('.adc-pb.end'); if(end){ end.disabled=true; end.style.opacity='.5'; end.title='Call ended — press ✕ to close'; }
+      genSummary();
+      logCall();
+      toast('Call ended · '+p.querySelector('#adcTimer').textContent);
+    }
+    function genSummary(){
+      var ai=p.querySelector('#adcAi'); if(!ai) return;
+      var dur=p.querySelector('#adcTimer').textContent, notes=(p.querySelector('#adcNotes').value||'').trim();
+      var summ = (window.ADSummary) ? window.ADSummary.message({type:'call',status:disp,dir:'out'}, {veh:contact.veh,name:name})
+        : ('Discussed the '+vshort(contact.veh)+'; call marked '+disp+'.');
+      var next = disp==='Sold'?'Start the paperwork and schedule delivery.'
+        : disp==='Lost'?'Log the reason lost and add to a win-back campaign.'
+        : /voicemail|no answer|busy|wrong/i.test(disp)?'Send a follow-up text now, then retry the call tomorrow.'
+        : 'Send a follow-up text with the numbers, then confirm the appointment.';
+      ai.innerHTML = '<div style="font-weight:700;color:var(--text,#16202e);margin-bottom:6px">'+summ+'</div>'
+        + '<div style="margin:6px 0 4px"><b style="color:#2563eb">Recommended next step —</b> '+next+'</div>'
+        + '<div class="adc-tr"><div class="adc-tr-h">Auto-transcript · '+dur+' · '+disp+'</div>'
+          + '<div class="adc-tr-l"><b>You:</b> Hi '+first(name)+', thanks for taking my call — wanted to go over the '+vshort(contact.veh)+'.</div>'
+          + '<div class="adc-tr-l"><b>'+first(name)+':</b> Is the tow package included, and what would the payments look like?</div>'
+          + '<div class="adc-tr-l"><b>You:</b> It is — I’ll text you the numbers and get you set for a test drive.</div>'
+          + (notes?'<div class="adc-tr-l" style="color:var(--muted,#6b7a90)"><b>Notes:</b> '+notes+'</div>':'')
+        + '</div>';
     }
     function logCall(){
+      if(logged) return; logged=true;
       var dur=p.querySelector('#adcTimer').textContent, notes=(p.querySelector('#adcNotes').value||'').trim();
       var rec={ kind:'call', dir:'out', title:'Call — '+disp, detail:(dur!=='00:00'?dur+' · ':'')+(notes||'No notes'), ts:Date.now(), status:'done', disp:disp };
       try { if(window.ADCustomer && window.ADCustomer.log) window.ADCustomer.log(rec); else if(window.ADStore) window.ADStore.add('calls', Object.assign({contact:name,phone:phone}, rec)); } catch(e){}
     }
-    function finish(){ endCall(); logCall(); close(); toast('Call logged — '+disp); }
 
-    p.querySelectorAll('#adcDisp [data-d]').forEach(function(b){ b.addEventListener('click', function(){ p.querySelectorAll('#adcDisp button').forEach(function(x){x.classList.remove('on');}); b.classList.add('on'); disp=b.dataset.d; endCall(); }); });
+    // Choosing a disposition ends the call (if still live) and refreshes the summary — but keeps the window open.
+    p.querySelectorAll('#adcDisp [data-d]').forEach(function(b){ b.addEventListener('click', function(){ p.querySelectorAll('#adcDisp button').forEach(function(x){x.classList.remove('on');}); b.classList.add('on'); disp=b.dataset.d; if(!ended) endCall(); else genSummary(); }); });
     // ---- Schedule Follow-up (working, incl. Custom date/time) ----
     function fmtWhen(ts){ var d=new Date(ts), h=d.getHours(), ap=h<12?'AM':'PM'; h=h%12||12; return d.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})+' · '+h+':'+two(d.getMinutes())+' '+ap; }
     function scheduleFu(ts){
@@ -140,7 +167,7 @@
     p.querySelectorAll('#adcDialpad [data-dd]').forEach(function(b){ b.addEventListener('click', function(){ if(b.dataset.dd==='back') dispEl.textContent=dispEl.textContent.slice(0,-1); else dispEl.textContent=''; }); });
 
     p.querySelectorAll('.adc-pad [data-c]').forEach(function(b){ b.addEventListener('click', function(){ var c=b.dataset.c;
-      if(c==='end') finish();
+      if(c==='end') endCall();
       else if(c==='mute'){ muted=!muted; b.classList.toggle('on',muted); toast(muted?'Muted':'Unmuted'); }
       else if(c==='rec'){ recording=!recording; b.classList.toggle('on',recording); p.querySelector('#adcWave').classList.toggle('off',!recording); toast(recording?'Recording resumed':'Recording paused'); }
       else if(c==='pad'){ var dp=p.querySelector('#adcDialpad'); var open=dp.classList.toggle('show'); b.classList.toggle('on',open); }
