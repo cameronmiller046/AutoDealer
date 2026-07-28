@@ -877,7 +877,7 @@
       ['E-signature complete','Purchase agreement']
     ];
     if (note && !reduce){
-      var nb = note.querySelector('div b'), ns = note.querySelector('div span'), ni = 0;
+      var inner = note.querySelector('div'), nb = inner.querySelector('b'), ns = inner.querySelector('span'), ni = 0;
       function cycleNote(){
         note.classList.add('in');
         setTimeout(function(){

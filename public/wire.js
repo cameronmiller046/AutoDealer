@@ -146,10 +146,11 @@
       steps.forEach(function(st){ if(st.summary) return; (st.fields||[]).forEach(function(f){
         if(f.type==='summary') return;
         if(f.type==='vehicle'){
-          var veh=[values.vyear,values.vmake,values.vmodel,values.vtrim].filter(Boolean).join(' ');
-          if(veh) rows.push(['Vehicle of interest', veh]);
-          if(values.vbody) rows.push(['Body type', values.vbody]);
-          if(values.vfeatures && values.vfeatures.length) rows.push(['Requested features', vFeatNames(values.vfeatures).join(', ')]);
+          var P=f.prefix||'v', lbl=P==='t'?'Trade-in':'Vehicle of interest';
+          var veh=[values[P+'year'],values[P+'make'],values[P+'model'],values[P+'trim']].filter(Boolean).join(' ');
+          if(veh) rows.push([lbl, veh]);
+          if(values[P+'body']) rows.push([P==='t'?'Trade body type':'Body type', values[P+'body']]);
+          if(f.features!==false && values[P+'features'] && values[P+'features'].length) rows.push(['Requested features', vFeatNames(values[P+'features']).join(', ')]);
           return;
         }
         if(f.type==='toggle'){ rows.push([f.label, values[f.key]?'Yes':'No']); return; }
@@ -191,7 +192,7 @@
           }).join('') + '</div>';
       }
       // vehicle composite picker(s)
-      bodyEl.querySelectorAll('[data-vehicle]').forEach(function(el){ vehiclePicker(el, values); });
+      bodyEl.querySelectorAll('[data-vehicle]').forEach(function(el){ var vf=(steps[idx].fields||[]).filter(function(x){return x.type==='vehicle';})[0]||{}; vehiclePicker(el, values, {prefix:vf.prefix||'v', features:vf.features!==false, req:vf.req!==false}); });
       // budget Total/Monthly toggle
       bodyEl.querySelectorAll('[data-bbasis]').forEach(function(b){ b.addEventListener('click', function(){ collect(); values[b.getAttribute('data-bkey')+'_basis']=b.getAttribute('data-bbasis'); render(); }); });
       // toggles
@@ -221,7 +222,7 @@
       var missing=[];
       (steps[idx].fields||[]).filter(shown).forEach(function(f){
         if(!f.req) return;
-        if(f.type==='vehicle'){ ['vmake','vmodel'].forEach(function(k){ var el=bodyEl.querySelector('[data-key="'+k+'"]'); if(el && !String(values[k]||'').trim()){ missing.push(el); el.style.borderColor='#e5484d'; el.style.boxShadow='0 0 0 3px rgba(229,72,77,.12)'; } }); return; }
+        if(f.type==='vehicle'){ var P=f.prefix||'v'; [P+'make',P+'model'].forEach(function(k){ var el=bodyEl.querySelector('[data-key="'+k+'"]'); if(el && !String(values[k]||'').trim()){ missing.push(el); el.style.borderColor='#e5484d'; el.style.boxShadow='0 0 0 3px rgba(229,72,77,.12)'; } }); return; }
         var el=bodyEl.querySelector('[data-key="'+f.key+'"]');
         if(el && !String(values[f.key]||'').trim()){ missing.push(el); el.style.borderColor='#e5484d'; el.style.boxShadow='0 0 0 3px rgba(229,72,77,.12)'; }
       });
@@ -330,80 +331,75 @@
     }
     return false;
   }
-  function vehiclePicker(mount, values){
-    values.vfeatures = values.vfeatures || [];
-    function allowed(skip){ return cat().filter(function(mm){
-      if(skip!=='make' && values.vmake && mm.make!==values.vmake) return false;
-      if(skip!=='body' && values.vbody && mm.body!==values.vbody) return false;
-      if(skip!=='model' && values.vmodel && mm.model!==values.vmodel) return false;
-      if(skip!=='year' && values.vyear && !(mm.years[0]<=+values.vyear && +values.vyear<=mm.years[1])) return false;
-      return true; }); }
-    function modelObj(){ if(!values.vmodel) return null; var c=cat().filter(function(mm){ return mm.model===values.vmodel && (!values.vmake||mm.make===values.vmake); }); return c[0]||null; }
+  /* Cascading vehicle picker. opts.prefix ('v' interest / 't' trade) namespaces the value keys so
+     two pickers can coexist; opts.features=false hides the requested-features grid (used for trade);
+     opts.req (default true) marks Make/Model required. */
+  function vehiclePicker(mount, values, opts){
+    opts = opts || {}; var P = opts.prefix || 'v'; var showFeat = opts.features !== false; var reqMM = opts.req !== false;
+    var Kmake=P+'make', Kmodel=P+'model', Kbody=P+'body', Kyear=P+'year', Ktrim=P+'trim', Kfeat=P+'features', Kauto=P+'__bodyAuto';
+    if(showFeat) values[Kfeat] = values[Kfeat] || [];
+    function modelObj(){ if(!values[Kmodel]) return null; var c=cat().filter(function(mm){ return mm.model===values[Kmodel] && (!values[Kmake]||mm.make===values[Kmake]); }); return c[0]||null; }
     function draw(){
-      // If the body type was auto-derived from a model and that model is no longer valid
-      // (e.g. the user switched make), drop the stale body so it doesn't over-filter.
-      if(!modelObj() && values.__bodyAuto){ values.vbody=''; values.__bodyAuto=false; }
-      function yr(mm){ return !values.vyear || inYears(mm, values.vyear); }
-      // Make/Model/Trim is a hierarchy — an upstream field is never narrowed by a downstream one;
-      // Body <-> Year are cross-constraints. So Make ignores the chosen model; Model respects make+body+year.
-      var makes=vUniq(cat().filter(function(mm){ return (!values.vbody||mm.body===values.vbody)&&yr(mm); }).map(function(x){return x.make;})).sort();
-      var models=vUniq(cat().filter(function(mm){ return (!values.vmake||mm.make===values.vmake)&&(!values.vbody||mm.body===values.vbody)&&yr(mm); }).map(function(x){return x.model;})).sort();
-      var bodies=vUniq(cat().filter(function(mm){ return (!values.vmake||mm.make===values.vmake)&&(!values.vmodel||mm.model===values.vmodel)&&yr(mm); }).map(function(x){return x.body;})).sort();
-      // which years are actually released for the current make/body/model selection
-      var yset={}; cat().filter(function(mm){ return (!values.vmake||mm.make===values.vmake)&&(!values.vbody||mm.body===values.vbody)&&(!values.vmodel||mm.model===values.vmodel); }).forEach(function(x){ for(var y=endYear(x);y>=x.years[0];y--) if(y>=MIN_YEAR) yset[y]=1; });
-      if(values.vmake&&makes.indexOf(values.vmake)<0) values.vmake='';
-      if(values.vbody&&bodies.indexOf(values.vbody)<0) values.vbody='';
-      if(values.vmodel&&models.indexOf(values.vmodel)<0) values.vmodel='';
-      if(values.vyear&&!yset[+values.vyear]) values.vyear='';   // drop a year that's no longer released for this selection
-      var mo=modelObj(); var trims=mo?mo.trims:[]; if(values.vtrim&&trims.indexOf(values.vtrim)<0) values.vtrim='';
-      if(mo){ values.vbody = mo.body; values.__bodyAuto = true; values.vmake = mo.make; }   // model implies its make & body (a Model 3 is a Tesla Sedan)
-      var ti = mo&&values.vtrim ? trims.indexOf(values.vtrim) : null;
-      if(mo) values.vfeatures = values.vfeatures.filter(function(id){ return vAvail(id,mo,ti,trims.length); });
-      function sel(key,label,opts,req){
+      if(!modelObj() && values[Kauto]){ values[Kbody]=''; values[Kauto]=false; }
+      function yr(mm){ return !values[Kyear] || inYears(mm, values[Kyear]); }
+      // Make/Model/Trim is a hierarchy — an upstream field is never narrowed by a downstream one; Body <-> Year cross-constrain.
+      var makes=vUniq(cat().filter(function(mm){ return (!values[Kbody]||mm.body===values[Kbody])&&yr(mm); }).map(function(x){return x.make;})).sort();
+      var models=vUniq(cat().filter(function(mm){ return (!values[Kmake]||mm.make===values[Kmake])&&(!values[Kbody]||mm.body===values[Kbody])&&yr(mm); }).map(function(x){return x.model;})).sort();
+      var bodies=vUniq(cat().filter(function(mm){ return (!values[Kmake]||mm.make===values[Kmake])&&(!values[Kmodel]||mm.model===values[Kmodel])&&yr(mm); }).map(function(x){return x.body;})).sort();
+      var yset={}; cat().filter(function(mm){ return (!values[Kmake]||mm.make===values[Kmake])&&(!values[Kbody]||mm.body===values[Kbody])&&(!values[Kmodel]||mm.model===values[Kmodel]); }).forEach(function(x){ for(var y=endYear(x);y>=x.years[0];y--) if(y>=MIN_YEAR) yset[y]=1; });
+      if(values[Kmake]&&makes.indexOf(values[Kmake])<0) values[Kmake]='';
+      if(values[Kbody]&&bodies.indexOf(values[Kbody])<0) values[Kbody]='';
+      if(values[Kmodel]&&models.indexOf(values[Kmodel])<0) values[Kmodel]='';
+      if(values[Kyear]&&!yset[+values[Kyear]]) values[Kyear]='';
+      var mo=modelObj(); var trims=mo?mo.trims:[]; if(values[Ktrim]&&trims.indexOf(values[Ktrim])<0) values[Ktrim]='';
+      if(mo){ values[Kbody]=mo.body; values[Kauto]=true; values[Kmake]=mo.make; }
+      var ti = mo&&values[Ktrim] ? trims.indexOf(values[Ktrim]) : null;
+      if(mo && showFeat) values[Kfeat]=values[Kfeat].filter(function(id){ return vAvail(id,mo,ti,trims.length); });
+      function sel(key,label,opts2,req){
         var ph = req?'Select…':'Any';
-        var o='<option value="">'+ph+'</option>'+opts.map(function(v){ return '<option'+(String(v)===String(values[key]||'')?' selected':'')+'>'+esc(v)+'</option>'; }).join('');
+        var o='<option value="">'+ph+'</option>'+opts2.map(function(v){ return '<option'+(String(v)===String(values[key]||'')?' selected':'')+'>'+esc(v)+'</option>'; }).join('');
         return '<label style="flex:0 0 calc(50% - 6px);max-width:calc(50% - 6px);display:block"><span style="'+LBL+'">'+esc(label)+(req?' <span style="color:#e5484d">*</span>':'')+'</span><select data-key="'+key+'"'+(req?' data-req="1"':'')+' style="'+CTL+'">'+o+'</select></label>';
       }
-      var trimOpts = mo ? ('<option value="">Any trim</option>'+trims.map(function(v){return '<option'+(v===values.vtrim?' selected':'')+'>'+esc(v)+'</option>';}).join('')) : '<option value="">Select a model first</option>';
-      var trimSel='<label style="flex:0 0 calc(50% - 6px);max-width:calc(50% - 6px);display:block"><span style="'+LBL+'">Trim</span><select data-key="vtrim"'+(mo?'':' disabled')+' style="'+CTL+(mo?'':';opacity:.55')+'">'+trimOpts+'</select></label>';
-      // Year runs from MAX_YEAR down to MIN_YEAR; years not yet released (or outside a model's run) are disabled/grayed
+      var trimOpts = mo ? ('<option value="">Any trim</option>'+trims.map(function(v){return '<option'+(v===values[Ktrim]?' selected':'')+'>'+esc(v)+'</option>';}).join('')) : '<option value="">Select a model first</option>';
+      var trimSel='<label style="flex:0 0 calc(50% - 6px);max-width:calc(50% - 6px);display:block"><span style="'+LBL+'">Trim</span><select data-key="'+Ktrim+'"'+(mo?'':' disabled')+' style="'+CTL+(mo?'':';opacity:.55')+'">'+trimOpts+'</select></label>';
       var yopts='<option value="">Any</option>';
       for(var Y=MAX_YEAR; Y>=MIN_YEAR; Y--){ var en=!!yset[Y]; var sfx = (!en && Y>CURRENT_MY) ? ' — not yet released' : '';
-        yopts+='<option value="'+Y+'"'+(String(Y)===String(values.vyear||'')?' selected':'')+(en?'':' disabled style="color:var(--faint,#aab4c2)"')+'>'+Y+sfx+'</option>'; }
-      var yearSel='<label style="flex:0 0 calc(50% - 6px);max-width:calc(50% - 6px);display:block"><span style="'+LBL+'">Year</span><select data-key="vyear" style="'+CTL+'">'+yopts+'</select></label>';
+        yopts+='<option value="'+Y+'"'+(String(Y)===String(values[Kyear]||'')?' selected':'')+(en?'':' disabled style="color:var(--faint,#aab4c2)"')+'>'+Y+sfx+'</option>'; }
+      var yearSel='<label style="flex:0 0 calc(50% - 6px);max-width:calc(50% - 6px);display:block"><span style="'+LBL+'">Year</span><select data-key="'+Kyear+'" style="'+CTL+'">'+yopts+'</select></label>';
       var selects='<div style="display:flex;flex-wrap:wrap;gap:12px">'
-        + sel('vbody','Body type',bodies,false) + sel('vmake','Make',makes,true)
-        + sel('vmodel','Model',models,true) + yearSel + trimSel + '</div>';
-      var feat;
-      if(!mo){ feat='<div style="margin-top:16px;padding:14px;border:1px dashed var(--line,#dfe6ef);border-radius:12px;font-size:12.5px;color:var(--muted,#94a3b8)">Select a make &amp; model to choose requested features available for that vehicle.</div>'; }
-      else {
-        var chips=VFEATURES.map(function(f){ var av=vAvail(f.id,mo,ti,trims.length); var onSel=values.vfeatures.indexOf(f.id)>=0;
-          var base='display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;font-size:12.5px;font-weight:600;border:1px solid ';
-          var st = !av ? base+'var(--line,#e5eaf1);color:var(--faint,#aab4c2);background:repeating-linear-gradient(45deg,transparent,transparent 5px,rgba(120,130,150,.06) 5px,rgba(120,130,150,.06) 10px);cursor:not-allowed;opacity:.7'
-            : onSel ? base+'transparent;color:#fff;background:linear-gradient(180deg,#3b82f6,#2563eb);cursor:pointer;box-shadow:0 6px 14px -8px rgba(37,99,235,.8)'
-            : base+'var(--line,#dbe4f0);color:var(--text,#16202e);background:var(--bg,#fff);cursor:pointer';
-          var mark = !av ? '<span style="font-size:9.5px;font-weight:700;letter-spacing:.3px;opacity:.85">N/A</span>' : '<span style="font-size:11px">'+(onSel?'✓':'+')+'</span>';
-          return '<span class="vf-chip" data-av="'+(av?1:0)+'" data-fid="'+f.id+'" title="'+(av?'Click to request':'Not available on this model/trim')+'" style="'+st+'">'+mark+esc(f.name)+'</span>';
-        }).join('');
-        var count=values.vfeatures.length;
-        feat='<div style="margin-top:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;gap:10px"><span style="'+LBL+';margin:0">Requested features'+(count?' · '+count+' selected':'')+'</span><span style="font-size:11px;color:var(--faint,#aab4c2)">Grayed = not available on this trim</span></div><div style="display:flex;flex-wrap:wrap;gap:8px">'+chips+'</div></div>';
+        + sel(Kbody,'Body type',bodies,false) + sel(Kmake,'Make',makes,reqMM)
+        + sel(Kmodel,'Model',models,reqMM) + yearSel + trimSel + '</div>';
+      var feat='';
+      if(showFeat){
+        if(!mo){ feat='<div style="margin-top:16px;padding:14px;border:1px dashed var(--line,#dfe6ef);border-radius:12px;font-size:12.5px;color:var(--muted,#94a3b8)">Select a make &amp; model to choose requested features available for that vehicle.</div>'; }
+        else {
+          var chips=VFEATURES.map(function(f){ var av=vAvail(f.id,mo,ti,trims.length); var onSel=values[Kfeat].indexOf(f.id)>=0;
+            var base='display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;font-size:12.5px;font-weight:600;border:1px solid ';
+            var st = !av ? base+'var(--line,#e5eaf1);color:var(--faint,#aab4c2);background:repeating-linear-gradient(45deg,transparent,transparent 5px,rgba(120,130,150,.06) 5px,rgba(120,130,150,.06) 10px);cursor:not-allowed;opacity:.7'
+              : onSel ? base+'transparent;color:#fff;background:linear-gradient(180deg,#3b82f6,#2563eb);cursor:pointer;box-shadow:0 6px 14px -8px rgba(37,99,235,.8)'
+              : base+'var(--line,#dbe4f0);color:var(--text,#16202e);background:var(--bg,#fff);cursor:pointer';
+            var mark = !av ? '<span style="font-size:9.5px;font-weight:700;letter-spacing:.3px;opacity:.85">N/A</span>' : '<span style="font-size:11px">'+(onSel?'✓':'+')+'</span>';
+            return '<span class="vf-chip" data-av="'+(av?1:0)+'" data-fid="'+f.id+'" title="'+(av?'Click to request':'Not available on this model/trim')+'" style="'+st+'">'+mark+esc(f.name)+'</span>';
+          }).join('');
+          var count=values[Kfeat].length;
+          feat='<div style="margin-top:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;gap:10px"><span style="'+LBL+';margin:0">Requested features'+(count?' · '+count+' selected':'')+'</span><span style="font-size:11px;color:var(--faint,#aab4c2)">Grayed = not available on this trim</span></div><div style="display:flex;flex-wrap:wrap;gap:8px">'+chips+'</div></div>';
+        }
       }
       mount.innerHTML = selects + feat;
       mount.querySelectorAll('select[data-key]').forEach(function(s){ s.addEventListener('change', function(){
         var k=s.getAttribute('data-key'); values[k]=s.value;
-        if(k==='vbody') values.__bodyAuto=false;
-        // the just-changed field is authoritative: drop a now-conflicting model/trim so it can't fight the new choice
-        if(k!=='vmodel' && k!=='vtrim' && values.vmodel){
-          var ok = cat().some(function(mm){ return mm.model===values.vmodel
-            && (!values.vmake || mm.make===values.vmake)
-            && (!values.vbody || mm.body===values.vbody)
-            && (!values.vyear || inYears(mm, values.vyear)); });
-          if(!ok){ values.vmodel=''; values.vtrim=''; }
+        if(k===Kbody) values[Kauto]=false;
+        if(k!==Kmodel && k!==Ktrim && values[Kmodel]){
+          var ok = cat().some(function(mm){ return mm.model===values[Kmodel]
+            && (!values[Kmake] || mm.make===values[Kmake])
+            && (!values[Kbody] || mm.body===values[Kbody])
+            && (!values[Kyear] || inYears(mm, values[Kyear])); });
+          if(!ok){ values[Kmodel]=''; values[Ktrim]=''; }
         }
-        if(k==='vmodel') values.vtrim='';
+        if(k===Kmodel) values[Ktrim]='';
         draw();
       }); });
-      mount.querySelectorAll('.vf-chip').forEach(function(c){ if(c.getAttribute('data-av')!=='1') return; c.addEventListener('click', function(){ var id=c.getAttribute('data-fid'); var i=values.vfeatures.indexOf(id); if(i>=0) values.vfeatures.splice(i,1); else values.vfeatures.push(id); draw(); }); });
+      if(showFeat) mount.querySelectorAll('.vf-chip').forEach(function(c){ if(c.getAttribute('data-av')!=='1') return; c.addEventListener('click', function(){ var id=c.getAttribute('data-fid'); var i=values[Kfeat].indexOf(id); if(i>=0) values[Kfeat].splice(i,1); else values[Kfeat].push(id); draw(); }); });
     }
     draw();
     ensureVehicles(function(){ draw(); });   // upgrade to the full catalog when it loads
@@ -430,12 +426,10 @@
         {key:'timeframe',label:'Buying timeframe',type:'select',opts:['This week','This month','1–3 months','Just looking']} ]},
       { title:'Trade Vehicle', intro:'Does the customer have a vehicle to trade in?', fields:[
         {key:'has_trade',label:'This customer has a trade-in',type:'toggle'},
-        {key:'tyear',label:'Year',type:'number',half:true,dep:'has_trade',ph:'2019'},
-        {key:'tmake',label:'Make',type:'text',half:true,dep:'has_trade',ph:'Honda'},
-        {key:'tmodel',label:'Model',type:'text',half:true,dep:'has_trade',ph:'Civic'},
-        {key:'tmileage',label:'Mileage',type:'number',half:true,dep:'has_trade',ph:'48,200'},
-        {key:'tpayoff',label:'Estimated payoff',type:'money',half:true,dep:'has_trade',ph:'12,500'},
-        {key:'tcond',label:'Condition',type:'select',half:true,dep:'has_trade',opts:COND} ]},
+        {key:'tvehicle',type:'vehicle',prefix:'t',features:false,dep:'has_trade',req:true},
+        {key:'tmileage',label:'Mileage',type:'number',half:true,dep:'has_trade',req:true,ph:'48,200'},
+        {key:'tpayoff',label:'Estimated payoff',type:'money',half:true,dep:'has_trade',req:true,ph:'12,500'},
+        {key:'tcond',label:'Condition',type:'select',half:true,dep:'has_trade',req:true,opts:COND} ]},
       CONFIRM ] },
     appointment: { perm:'crm.create', title:'New Appointment', okLabel:'Schedule', done:'Appointment scheduled', steps:[
       { title:'Details', fields:[
