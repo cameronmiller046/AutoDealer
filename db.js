@@ -14,7 +14,11 @@ async function init(){
   if (process.env.DATABASE_URL) {
     try {
       var pg = require("pg");
-      pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false }, max: 5 });
+      var url = process.env.DATABASE_URL;
+      // Railway's private URL (*.railway.internal) and localhost don't use SSL;
+      // the public proxy URL does. Pick accordingly so the first connect succeeds.
+      var noSsl = /\.railway\.internal/.test(url) || /localhost|127\.0\.0\.1/.test(url);
+      pool = new pg.Pool({ connectionString: url, ssl: noSsl ? false : { rejectUnauthorized: false }, max: 5 });
       await pool.query("SELECT 1");
       await migrate();
       await seedIfEmpty();
