@@ -284,13 +284,20 @@
     var TABS = [["overview","Overview"],["vehicles","Vehicles",3],["timeline","Timeline"],["comms","Communications"],["documents","Documents",7],["finance","Finance & Credit"]];
     var state = { tab:"overview" };
 
+    /* Finance & Credit tab holds credit-application data — gate it behind the
+       field.creditScore permission (finance / GM / dealer principal / admin).
+       Salesperson, BDC, receptionist and manager lack it and never see the tab. */
+    function canCredit(){ try{ return !!(window.ADRoles && ADRoles.canField && ADRoles.canField("creditScore")); }catch(e){ return false; } }
+    function visibleTabs(){ return TABS.filter(function(t){ return t[0]!=="finance" || canCredit(); }); }
+
     function renderTabs(){
-      $("tabs").innerHTML = TABS.map(function(t){ return '<button class="tab '+(state.tab===t[0]?"on":"")+'" data-t="'+t[0]+'">'+t[1]+(t[2]?'<span class="tc">'+t[2]+'</span>':"")+'</button>'; }).join("");
+      $("tabs").innerHTML = visibleTabs().map(function(t){ return '<button class="tab '+(state.tab===t[0]?"on":"")+'" data-t="'+t[0]+'">'+t[1]+(t[2]?'<span class="tc">'+t[2]+'</span>':"")+'</button>'; }).join("");
       document.querySelectorAll(".tab").forEach(function(b){ b.addEventListener("click", function(){ state.tab=b.dataset.t; renderTabs(); renderTab(); }); });
     }
 
     function renderTab(){
       var b = $("tabBody");
+      if (state.tab==="finance" && !canCredit()) state.tab="overview";  // block direct access without permission
       if (state.tab==="overview") b.innerHTML = ovOverview();
       else if (state.tab==="vehicles") b.innerHTML = ovVehicles();
       else if (state.tab==="timeline") b.innerHTML = ovTimeline();
@@ -385,6 +392,9 @@
     var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2200); }
 
     renderTabs(); renderTab();
+    /* re-render once roles.js has resolved the active role (applyQueryRole runs on
+       DOMContentLoaded) so the credit tab reflects the real permission, not the boot default. */
+    if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", function(){ renderTabs(); renderTab(); });
   </script>
 
   <!-- ===================== CUSTOMER WORKSPACE ===================== -->
@@ -396,7 +406,12 @@
       phone:qp("phone")||"(678) 555-0142", email:qp("email")||"jsmith@email.com", rep:"Jordan Avery",
       veh:qp("veh")||"", ini:qp("ini")||"", color:qp("c")||"#3b82f6" };
     if(!CUST.ini) CUST.ini = CUST.name.split(" ").map(function(w){return w[0];}).join("").slice(0,2).toUpperCase();
-    var AKEY = "ad_cust"+CUST.id+"_acts";
+    /* Key the activity timeline by a stable per-customer id — use ?id when present,
+       otherwise a slug of the name. Prevents different customers opened without an id
+       (e.g. from dashboard/communications links) from all sharing ad_cust1_acts. */
+    var _idParam = qp("id");
+    var AKEY = "ad_cust_" + (_idParam ? ("id"+(parseInt(_idParam,10)||0))
+      : ((CUST.name||"cust").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"") || "cust")) + "_acts";
     var ICX = {
       clock:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
       note:'<path d="M6 3.5h9l4 4V20.5H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',

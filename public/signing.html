@@ -388,7 +388,7 @@
     function sigBox(fid,label,signer,sign){
       var v = sign ? sign(fid) : false;
       var tag = label.indexOf('Initial')>=0?'INITIALS':(label.indexOf('Date')>=0?'DATE':'SIGN');
-      var inner = v ? (v.type==='draw' ? '<img src="'+v.data+'" style="height:44px">' : '<span class="sig">'+(v.text||signer||DEAL.customer)+'</span>')
+      var inner = v ? (v.type==='draw' ? '<img src="'+v.data+'" alt="Signature" style="height:44px">' : '<span class="sig">'+(v.text||signer||DEAL.customer)+'</span>')
                     : '<div><span class="ph3">'+label+'</span><div class="siglabel">'+(signer||DEAL.customer)+'</div></div>';
       return '<div class="sigfield'+(v?' signed':'')+'" data-fid="'+fid+'"'+(v?'':' data-tap="1"')+'><span class="tag">'+tag+'</span>'+inner+'</div>';
     }

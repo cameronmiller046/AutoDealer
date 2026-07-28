@@ -123,14 +123,12 @@
         {label:'Knowledge Center', href:'/knowledge', icon:'knowledge'},
         {label:'Data Quality', href:'/dataquality', icon:'dataquality', badge:'12'},
         {label:'System Health', href:'/status', icon:'status'},
-        {label:'Multi-Store', href:'/stores', icon:'stores'},
-        {label:'Developer Platform', href:'/developers', icon:'developers'},
-        {label:'CRM Administration', href:'/admin', icon:'admin'},
-        {label:'Marketplace', href:'/marketplace', icon:'marketplace'},
-        {label:'Data Migration', href:'/migration', icon:'migrate'},
         {label:'Help & Feedback', href:'/feedback', icon:'feedback'},
         {label:'Settings', href:'/settings', icon:'settings'}
       ]
+      /* Note: /admin, /developers, /migration, /marketplace, /stores intentionally
+         NOT in Sales Manager nav — manager PERMS grant only admin.automation, not
+         admin.users/roles/settings. guard() now blocks those routes for this role. */
     },
     receptionist: {
       name:'Riley Brooks', title:'Receptionist', avatar:'RB', home:'/reception',
@@ -194,7 +192,7 @@
         {label:'Sales', href:'/manager', icon:'deals'},
         {label:'BDC', href:'/bdc', icon:'prospects'},
         {label:'Finance', href:'/finance', icon:'signing'},
-        {label:'Inventory', href:'/invintel', icon:'invintel'},
+        {label:'Inventory Intel', href:'/invintel', icon:'invintel'},
         {label:'Workflow Analytics', href:'/analytics', icon:'analytics'},
         {label:'Customers', href:'/customers', icon:'customers'},
         {label:'Reports', href:'/reports', icon:'reports'},
@@ -215,7 +213,7 @@
         {label:'AI Manager', href:'/aimanager', icon:'aimanager', tag:'AI'},
         {label:'Sales', href:'/manager', icon:'deals'},
         {label:'Finance', href:'/finance', icon:'signing'},
-        {label:'Inventory', href:'/invintel', icon:'invintel'},
+        {label:'Inventory Intel', href:'/invintel', icon:'invintel'},
         {label:'Workflow Analytics', href:'/analytics', icon:'analytics'},
         {label:'Customers', href:'/customers', icon:'customers'},
         {label:'Reports', href:'/reports', icon:'reports'},
@@ -278,7 +276,7 @@
   ];
 
   /* Every known in-app route. Anything here that is NOT in the active role's nav is blocked. */
-  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing','/showroom','/training','/analytics','/invintel','/service','/whiteboard','/marketplace','/referrals','/aimanager','/chat','/bdc','/finance','/gm','/settings','/knowledge','/dataquality','/status','/developers','/stores'];
+  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing','/showroom','/training','/analytics','/invintel','/service','/whiteboard','/marketplace','/referrals','/aimanager','/chat','/bdc','/finance','/gm','/settings','/knowledge','/dataquality','/status','/developers','/stores','/jacket','/portal','/tv'];
 
   function getRole(){ var r = localStorage.getItem('ad_role'); return ROLES[r] ? r : 'salesperson'; }
   function cfg(){ return ROLES[getRole()]; }
@@ -448,6 +446,8 @@
     '.aa-ck{width:16px;height:16px;color:#6ea8ff;flex:none;}'+
     /* read-only role gating on shared pages */
     'body[data-role="salesperson"] .add-btn, body[data-role="receptionist"] .add-btn{display:none!important;}'+
+    /* The hamburger only drives the ≤900px slide-in drawer; hide it on desktop where the sidebar is always open (it was a visible no-op). */
+    '@media(min-width:901px){.hamb{display:none!important;}}'+
     'body[data-role="receptionist"] .vhb[data-hover="tag"], body[data-role="salesperson"] .vhb[data-hover="tag"]{display:none;}'+
     /* Financial fields (cost / gross-profit / capital $) are manager-and-up only. Any role
        lacking field-level revenue visibility never sees .mgr-only content, app-wide. */
