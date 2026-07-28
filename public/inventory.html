@@ -176,6 +176,47 @@
     @media (max-width: 1240px) { .kpis { grid-template-columns: repeat(3,1fr); } .split { grid-template-columns: 1fr; } .rail { position: static; flex-direction: row; flex-wrap: wrap; } .rc { flex: 1; min-width: 280px; } }
     @media (max-width: 900px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .kpis { grid-template-columns: repeat(2,1fr); } .lhead { display: none; } .lrow { grid-template-columns: 60px 1fr auto; } .lrow .l-hide { display: none; } }
     @media (max-width: 560px) { .content { padding: 20px 14px 60px; } .kpis { grid-template-columns: 1fr; } }
+    /* ---- edit modal (manager/GM inline editing) ---- */
+    .em-scrim { position: fixed; inset: 0; z-index: 60; background: rgba(8,15,28,.5); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity .2s; }
+    .em-scrim.show { opacity: 1; pointer-events: auto; }
+    .em { width: 100%; max-width: 620px; max-height: 92vh; display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 40px 90px -40px rgba(0,0,0,.55); overflow: hidden; transform: translateY(10px) scale(.98); transition: transform .22s cubic-bezier(.2,.8,.2,1); }
+    .em-scrim.show .em { transform: none; }
+    .em-hd { display: flex; align-items: flex-start; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid var(--line); flex: none; }
+    .em-hd h3 { font-size: 17px; font-weight: 800; color: var(--text); } .em-hd .sub { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+    .em-hd button { border: none; background: var(--bg); width: 32px; height: 32px; border-radius: 9px; color: var(--muted); font-size: 18px; cursor: pointer; }
+    .em-body { padding: 18px 22px; overflow: auto; }
+    .em-grid { display: flex; flex-wrap: wrap; gap: 13px; }
+    .em-f { flex: 0 0 calc(50% - 7px); max-width: calc(50% - 7px); display: block; } .em-f.full { flex: 0 0 100%; max-width: 100%; }
+    .em-f label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+    .em-f input, .em-f select { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--text); font: inherit; font-size: 14px; }
+    .em-f input:focus, .em-f select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
+    .em-ft { display: flex; gap: 10px; justify-content: flex-end; padding: 14px 22px; border-top: 1px solid var(--line); background: var(--bg); flex: none; }
+    .em-ft button { padding: 10px 18px; border-radius: 10px; font-weight: 600; font-size: 13.5px; cursor: pointer; }
+    .em-cancel { border: 1px solid var(--line); background: var(--card); color: var(--text); }
+    .em-save { border: none; background: linear-gradient(180deg,var(--accent-2),var(--accent)); color: #fff; }
+    /* undo toast affordance */
+    .toast .t-undo { margin-left: 14px; border: 1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.1); color: #fff; font-weight: 700; font-size: 12.5px; padding: 5px 12px; border-radius: 8px; cursor: pointer; }
+    .p-edit { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: var(--card); color: var(--text); border-radius: 10px; padding: 11px 15px; font-size: 13.5px; font-weight: 700; cursor: pointer; }
+    .p-edit:hover { border-color: #cfe0f7; color: var(--accent); } .p-edit svg { width: 15px; height: 15px; }
+    /* live market price comparison */
+    .mkt { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+    .mkt-hd { display: flex; align-items: center; gap: 10px; padding: 13px 15px; background: linear-gradient(135deg, rgba(37,99,235,.08), rgba(124,92,255,.05)); border-bottom: 1px solid var(--line); }
+    .mkt-hd .live { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; color: #16a34a; margin-left: auto; }
+    .mkt-hd .live .d { width: 7px; height: 7px; border-radius: 50%; background: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,.18); animation: mktpulse 1.6s infinite; }
+    @keyframes mktpulse { 50% { opacity: .35; } }
+    .mkt-verdict { padding: 13px 15px; display: flex; align-items: center; gap: 12px; }
+    .mkt-verdict .vb { font-size: 22px; font-weight: 900; letter-spacing: -.5px; } .mkt-verdict .win { color: #16a34a; } .mkt-verdict .over { color: #dc2626; } .mkt-verdict .even { color: var(--text); }
+    .mkt-verdict .vt b { display: block; font-size: 13.5px; color: var(--text); } .mkt-verdict .vt span { font-size: 12px; color: var(--muted); }
+    .mkt-bar { height: 8px; border-radius: 999px; background: linear-gradient(90deg,#16a34a,#eab308,#dc2626); margin: 4px 15px 12px; position: relative; }
+    .mkt-bar .you { position: absolute; top: -4px; width: 4px; height: 16px; border-radius: 2px; background: #0b1524; box-shadow: 0 0 0 2px #fff; }
+    .mkt-list { border-top: 1px solid var(--line); }
+    .mkt-row { display: flex; align-items: center; gap: 10px; padding: 9px 15px; border-top: 1px solid var(--line); font-size: 13px; } .mkt-row:first-child { border-top: none; }
+    .mkt-row.self { background: rgba(37,99,235,.06); font-weight: 700; }
+    .mkt-row .dn { flex: 1; color: var(--text); } .mkt-row .dm { color: var(--muted); font-size: 11.5px; } .mkt-row .dp { font-weight: 700; color: var(--text); } .mkt-row .tag { font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 999px; }
+    .tag.low { background: rgba(22,163,74,.14); color: #16a34a; } .tag.you { background: rgba(37,99,235,.14); color: var(--accent); }
+    .mkt-actions { display: flex; gap: 8px; padding: 12px 15px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+    .mkt-actions button { flex: 1; min-width: 130px; border-radius: 9px; padding: 9px; font-size: 12.5px; font-weight: 700; cursor: pointer; border: 1px solid var(--line); background: var(--card); color: var(--text); }
+    .mkt-actions .beat { border: none; background: linear-gradient(180deg,#16a34a,#15803d); color: #fff; }
   </style>
 </head>
 <body>
@@ -495,14 +536,17 @@
           </div></div>
           <div class="sect"><h3>Features</h3><div class="feat">${v.features.map((f)=>`<span>${f}</span>`).join("")}</div></div>
           <div class="sect"><h3>Price History</h3>${v.priceHist.map((p)=>`<div class="ph"><div class="phd">${p[0]}</div><div class="phl">${p[1]}</div><div class="phv ${p[3]?"down":""}">${money(p[2])}</div></div>`).join("")}</div>
+          ${marketSectionHTML(v)}
           <div class="sect"><h3>Activity Timeline</h3>${v.activity.map((a)=>`<div class="tl2"><span class="tl2-dot" style="background:${a[0]};box-shadow:0 0 0 4px ${a[0]}22"></span><div><b>${a[1]}</b><span>${a[2]}</span></div></div>`).join("")}</div>
         </div>
-        <div class="p-actions"><button class="pa-ghost" id="pStick">${svg("print")} Window Sticker</button><button class="pa-primary" id="pReserve">${v.status==="reserved"?"View Deal":"Reserve Vehicle"}</button></div>
+        <div class="p-actions">${editBtnHTML()}<button class="pa-ghost" id="pStick">${svg("print")} Window Sticker</button><button class="pa-primary" id="pReserve">${v.status==="reserved"?"View Deal":"Reserve Vehicle"}</button></div>
       </div>`;
       panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
       $("pClose").addEventListener("click", closeAll);
       $("pReserve").addEventListener("click", () => { if (v.status !== "reserved") reserveVehicle(id); closeAll(); });
       $("pStick").addEventListener("click", () => showToast("Window sticker generated", `${v.year} ${v.model} ${v.trim}`));
+      var pe = $("pEdit"); if (pe) pe.addEventListener("click", () => openEdit(id));
+      panel.querySelectorAll("[data-mkt]").forEach((b) => b.addEventListener("click", () => marketAction(id, b.dataset.mkt)));
       panel.querySelectorAll(".p-thumb:not(.addph)").forEach((t) => t.addEventListener("click", () => { panel.querySelectorAll(".p-thumb").forEach((x)=>x.classList.remove("on")); t.classList.add("on"); }));
     }
     function closeAll() { panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
@@ -552,6 +596,131 @@
     document.querySelectorAll("#viewSeg button").forEach((b) => b.addEventListener("click", () => { document.querySelectorAll("#viewSeg button").forEach((x)=>x.classList.remove("on")); b.classList.add("on"); state.view = b.dataset.v; renderInv(); }));
     $("search").addEventListener("input", (e) => { state.q = e.target.value; renderInv(); });
 
+    /* ================= Manager/GM: edit inventory, undo, live price comparison ================= */
+    function invUniq(a){ var s={},o=[]; a.forEach(function(x){ if(x!=null&&!s[x]){s[x]=1;o.push(x);} }); return o; }
+    function CAT(){ return window.AD_VEHICLES || []; }
+    function ensureCat(cb){ if (window.AD_VEHICLES) { cb(); return; } var s=document.createElement("script"); s.src="/vehicles.js"; s.onload=cb; s.onerror=cb; document.head.appendChild(s); }
+    function canEdit(){ try { return !!(window.ADRoles && ADRoles.can && ADRoles.can("inventory.edit")); } catch(e){ return false; } }
+    function cap(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : s; }
+    function modelsFor(mk){ return invUniq(CAT().filter(function(m){return m.make===mk;}).map(function(m){return m.model;})).sort(); }
+    function trimsFor(mk,md){ var e=CAT().filter(function(m){return m.make===mk&&m.model===md;})[0]; return e?e.trims.slice():[]; }
+    function bodyFor(mk,md){ var e=CAT().filter(function(m){return m.make===mk&&m.model===md;})[0]; return e?e.body:""; }
+
+    /* ---- role-gated Edit button + edit modal (all details via dropdowns) ---- */
+    function editBtnHTML(){ return canEdit() ? '<button class="p-edit" id="pEdit"><svg viewBox="0 0 24 24"><path d="M4 20h4L18.5 9.5a2.1 2.1 0 0 0-3-3L5 17v3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Edit Vehicle</button>' : ""; }
+    var editEl=null, ed=null, editId=null;
+    var INV_BODIES=["Sedan","SUV","Truck","Coupe","Convertible","Hatchback","Wagon","Minivan","Van"];
+    function opts(arr,cur){ var a=arr.slice(); if(cur&&a.indexOf(cur)<0) a.unshift(cur); return a.map(function(o){ return '<option'+(String(o)===String(cur)?" selected":"")+">"+o+"</option>"; }).join(""); }
+    function collectEdit(){ editEl.querySelectorAll("[data-ek]").forEach(function(el){ ed[el.getAttribute("data-ek")]=el.value; }); }
+    function openEdit(id){
+      var v=V.find(function(x){return x.id===id;}); if(!v) return;
+      if(!canEdit()){ showToast("You don’t have permission to edit inventory","Manager access required"); return; }
+      ensureCat(function(){
+        editId=id; ed={ year:v.year, make:v.make, model:v.model, trim:v.trim, body:cap(v.body), cond:v.cond, status:v.status, color:v.color, miles:v.miles, vin:v.vin, stock:v.stock, price:v.price };
+        if(!editEl){ editEl=document.createElement("div"); editEl.className="em-scrim"; document.body.appendChild(editEl); editEl.addEventListener("click",function(e){ if(e.target===editEl) closeEdit(); }); }
+        drawEdit(); requestAnimationFrame(function(){ editEl.classList.add("show"); });
+      });
+    }
+    function closeEdit(){ if(editEl) editEl.classList.remove("show"); }
+    function drawEdit(){
+      var makes=invUniq(CAT().map(function(m){return m.make;})).sort();
+      var models=modelsFor(ed.make), trims=trimsFor(ed.make,ed.model);
+      var years=""; for(var y=2027;y>=2000;y--){ years+='<option'+(y===+ed.year?" selected":"")+">"+y+"</option>"; }
+      function fld(label,ctrl,full){ return '<div class="em-f'+(full?" full":"")+'"><label>'+label+'</label>'+ctrl+"</div>"; }
+      function selc(k,list,cur){ return '<select data-ek="'+k+'">'+opts(list,cur)+"</select>"; }
+      function inp(k,val,extra){ return '<input data-ek="'+k+'" '+(extra||"")+' value="'+String(val==null?"":val).replace(/"/g,"&quot;")+'">'; }
+      editEl.innerHTML = '<div class="em"><div class="em-hd"><div><h3>Edit Vehicle</h3><div class="sub">Stock '+ed.stock+' · changes are undoable</div></div><button data-x>&times;</button></div>'
+        + '<div class="em-body"><div class="em-grid">'
+        + fld("Year", '<select data-ek="year">'+years+"</select>")
+        + fld("Make", selc("make",makes,ed.make))
+        + fld("Model", selc("model",models,ed.model))
+        + fld("Trim", selc("trim",trims,ed.trim))
+        + fld("Body type", selc("body",INV_BODIES,ed.body))
+        + fld("Condition", selc("cond",["new","used","certified"],ed.cond))
+        + fld("Status", selc("status",["available","reserved","transit","service","sold"],ed.status))
+        + fld("Exterior color", inp("color",ed.color))
+        + fld("Mileage", inp("miles",ed.miles,'inputmode="numeric"'))
+        + fld("Asking price ($)", inp("price",ed.price,'inputmode="numeric"'))
+        + fld("VIN", inp("vin",ed.vin), true)
+        + fld("Stock #", inp("stock",ed.stock))
+        + "</div></div>"
+        + '<div class="em-ft"><button class="em-cancel" data-x>Cancel</button><button class="em-save" data-save>Save changes</button></div></div>';
+      editEl.querySelectorAll("[data-x]").forEach(function(b){ b.addEventListener("click", closeEdit); });
+      editEl.querySelector("[data-save]").addEventListener("click", saveEdit);
+      editEl.querySelectorAll("select[data-ek]").forEach(function(s){ s.addEventListener("change", function(){
+        var k=s.getAttribute("data-ek"); collectEdit();
+        if(k==="make"){ ed.model=""; ed.trim=""; }
+        if(k==="model"){ ed.trim=""; var b=bodyFor(ed.make,ed.model); if(b) ed.body=b; }
+        drawEdit();
+      }); });
+    }
+    function saveEdit(){
+      collectEdit(); var v=V.find(function(x){return x.id===editId;}); if(!v){ closeEdit(); return; }
+      pushUndo(v.id, JSON.parse(JSON.stringify(v)), (v.make!==ed.make||v.model!==ed.model?"Vehicle details":"Vehicle")+" edit");
+      v.year=+ed.year||v.year; v.make=ed.make; v.model=ed.model; v.trim=ed.trim; v.body=String(ed.body).toLowerCase();
+      v.cond=ed.cond; v.status=ed.status; v.color=ed.color; v.vin=ed.vin; v.stock=ed.stock;
+      var mi=parseInt(String(ed.miles).replace(/[^0-9]/g,""),10); if(!isNaN(mi)) v.miles=mi;
+      var np=parseInt(String(ed.price).replace(/[^0-9]/g,""),10); if(!isNaN(np) && np!==v.price){ v.prev=v.price; v.price=np; }
+      closeEdit(); renderInv(); openPanel(editId);
+      FEED.unshift(["#2563eb","dollar","<b>"+v.year+" "+v.model+" "+v.trim+"</b> updated","just now"]); renderFeed(true);
+      showUndoToast("Vehicle updated", v.stock+" saved to inventory");
+    }
+
+    /* ---- undo stack ---- */
+    var undoStack=[];
+    function pushUndo(id, snap, label){ undoStack.push({id:id, snap:snap, label:label||"Change"}); if(undoStack.length>25) undoStack.shift(); updateUndoBtn(); }
+    function undoLast(){ var u=undoStack.pop(); if(!u) return; var v=V.find(function(x){return x.id===u.id;}); if(v){ Object.keys(u.snap).forEach(function(k){ v[k]=u.snap[k]; }); } updateUndoBtn(); renderInv(); if(panel.classList.contains("open")) openPanel(u.id); showToast("Change undone", (u.label||"Change")+" reverted"); }
+    function showUndoToast(msg, sub){ $("toastMsg").textContent=msg; $("toastSub").textContent=sub||"Just now"; var el=$("toast"); el.classList.add("show");
+      var old=el.querySelector(".t-undo"); if(old) old.remove();
+      var b=document.createElement("button"); b.className="t-undo"; b.textContent="↶ Undo"; b.addEventListener("click",function(){ undoLast(); el.classList.remove("show"); b.remove(); }); el.appendChild(b);
+      clearTimeout(toastT); toastT=setTimeout(function(){ el.classList.remove("show"); b.remove(); }, 6500); }
+    function setupUndoBtn(){ var tb=document.querySelector(".toolbar"); if(!tb||$("undoBtn")) return; var b=document.createElement("button"); b.id="undoBtn"; b.className="p-edit"; b.style.display="none"; b.style.marginLeft="auto"; b.innerHTML='<svg viewBox="0 0 24 24"><path d="M9 7L4 12l5 5M4 12h11a5 5 0 0 1 0 10h-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Undo last change'; b.addEventListener("click", undoLast); tb.appendChild(b); }
+    function updateUndoBtn(){ var b=$("undoBtn"); if(b) b.style.display=(undoStack.length && canEdit())?"inline-flex":"none"; }
+
+    /* ---- live market price comparison (competitive intelligence) ---- */
+    var RIVALS=["Metro Auto Group","Prestige Motors","Sunrise Chevrolet","Valley GMC","Northgate Auto","Riverside Cars","Summit Dealer","Cityline Motors"];
+    function rnd(seed){ var x=Math.sin(seed)*10000; return x-Math.floor(x); }
+    function marketComp(v){
+      var base=v.price, seed=v.id*97+(v.vin?v.vin.length:7)+v.miles%100;
+      var comps=[]; for(var i=0;i<5;i++){ var r=rnd(seed+i*13.7); var delta=Math.round(((r-0.4)*0.11)*base/100)*100; comps.push({ name:RIVALS[(seed+i*3)%RIVALS.length], dist:2+Math.floor(rnd(seed+i*5.3)*58), miles:Math.max(0, v.miles + Math.round((rnd(seed+i*2.1)-0.5)*8000)), price:Math.max(1000, base+delta), self:false }); }
+      var all=comps.concat([{name:"Your dealership", dist:0, miles:v.miles, price:base, self:true}]);
+      all.sort(function(a,b){ return a.price-b.price; });
+      var prices=comps.map(function(c){return c.price;}); var avg=Math.round(prices.reduce(function(s,x){return s+x;},0)/prices.length/50)*50;
+      var lo=Math.min.apply(null,prices), hi=Math.max.apply(null,prices);
+      var rank=all.findIndex(function(c){return c.self;})+1;
+      var diff=avg-base; // positive => you are below market
+      return { all:all, avg:avg, lo:lo, hi:hi, rank:rank, count:all.length, diff:diff, base:base };
+    }
+    function marketSectionHTML(v){
+      if(!canEdit()) return "";
+      var m=marketComp(v);
+      var cls = m.diff>150 ? "win" : (m.diff<-150 ? "over" : "even");
+      var head = m.diff>150 ? ("$"+Math.abs(m.diff).toLocaleString()+" below market") : (m.diff<-150 ? ("$"+Math.abs(m.diff).toLocaleString()+" above market") : "Right at market");
+      var sub = m.diff>150 ? "Most competitive — priced to win the shopper." : (m.diff<-150 ? "Rivals are undercutting you — consider a reduction." : "Matched to the local market average.");
+      var span=Math.max(1,m.hi-m.lo); var youPct=Math.max(0,Math.min(100, ((m.base-m.lo)/span)*100));
+      var rows=m.all.map(function(c){ var isLow = c.price===m.lo && !c.self; return '<div class="mkt-row'+(c.self?" self":"")+'"><span class="dn">'+c.name+(c.self?"":'  <span class="dm">· '+c.dist+' mi away · '+c.miles.toLocaleString()+' mi</span>')+'</span>'+(c.self?'<span class="tag you">YOU</span>':(isLow?'<span class="tag low">LOWEST</span>':""))+'<span class="dp">'+money(c.price)+"</span></div>"; }).join("");
+      return '<div class="sect"><h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M4 16l5-5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span>Live Market Comparison</h3>'
+        + '<div class="mkt"><div class="mkt-hd"><b style="font-size:13.5px">'+(m.count-1)+' comparable listings within 60 mi</b><span class="live"><span class="d"></span>LIVE</span></div>'
+        + '<div class="mkt-verdict"><div class="vb '+cls+'">'+(cls==="win"?"▼":cls==="over"?"▲":"=")+'</div><div class="vt"><b>'+head+'</b><span>'+sub+' · You rank #'+m.rank+' of '+m.count+' on price.</span></div></div>'
+        + '<div class="mkt-bar"><span class="you" style="left:calc('+youPct.toFixed(0)+'% - 2px)"></span></div>'
+        + '<div style="display:flex;justify-content:space-between;padding:0 15px 10px;font-size:11px;color:var(--muted)"><span>Low '+money(m.lo)+'</span><span>Market avg '+money(m.avg)+'</span><span>High '+money(m.hi)+'</span></div>'
+        + '<div class="mkt-list">'+rows+"</div>"
+        + '<div class="mkt-actions"><button class="beat" data-mkt="beat">Beat lowest by $200</button><button data-mkt="match">Match market avg</button><button data-mkt="refresh">Refresh prices</button></div>'
+        + "</div></div>";
+    }
+    function marketAction(id, action){
+      var v=V.find(function(x){return x.id===id;}); if(!v) return;
+      if(action==="refresh"){ openPanel(id); showToast("Market prices refreshed","Live comparison updated · just now"); return; }
+      var m=marketComp(v); var np = action==="beat" ? Math.max(1000, m.lo-200) : m.avg;
+      if(np===v.price){ showToast("Already best priced","No change needed"); return; }
+      pushUndo(v.id, JSON.parse(JSON.stringify(v)), "Price change");
+      v.prev=v.price; v.price=np; if(v.badges && v.badges.indexOf("reduced")<0 && np<m.base) v.badges.unshift("reduced");
+      renderInv(); openPanel(id);
+      FEED.unshift(["#16a34a","dollar","Repriced <b>"+v.model+" "+v.trim+"</b> to "+money(np),"just now"]); renderFeed(true);
+      showUndoToast(action==="beat"?"Repriced to beat the market":"Matched to market average", v.stock+" now "+money(np));
+    }
+
+    ensureCat(function(){}); setupUndoBtn();
     renderKPI(); renderPills(); renderInv(); renderFeed();
     setInterval(tick, 5000);
   </script>
