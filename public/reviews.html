@@ -146,15 +146,15 @@
 
     var REVIEWS = [
       {id:1,name:'Jennifer Adams',plat:'google',stars:5,rep:'Marcus Bell',sent:'pos',time:'2 days ago',status:'need',text:'Marcus made buying our Highlander completely stress-free. No pressure, answered every question, and the whole thing took under two hours. Best car-buying experience we\'ve ever had.'},
-      {id:2,name:'Robert Chen',plat:'dealerrater',stars:5,rep:'Cameron Miller',sent:'pos',time:'3 days ago',status:'need',text:'Cameron went above and beyond finding the exact trim I wanted. Even had it detailed and ready when I arrived. Highly recommend asking for him.'},
+      {id:2,name:'Robert Chen',plat:'dealerrater',stars:5,rep:'Jordan Avery',sent:'pos',time:'3 days ago',status:'need',text:'Jordan went above and beyond finding the exact trim I wanted. Even had it detailed and ready when I arrived. Highly recommend asking for him.'},
       {id:3,name:'Maria Gonzalez',plat:'google',stars:2,rep:'Front Desk',sent:'neg',time:'4 days ago',status:'need',text:'Waited 45 minutes past my appointment time and no one updated me. The car was great but the process felt disorganized.'},
       {id:4,name:'David Okafor',plat:'facebook',stars:5,rep:'Marcus Bell',sent:'pos',time:'5 days ago',status:'replied',text:'Second vehicle we\'ve bought here. Fair on our trade and the financing was quick. Marcus remembered us from three years ago!'},
-      {id:5,name:'Ashley Patel',plat:'cars',stars:4,rep:'Cameron Miller',sent:'pos',time:'1 week ago',status:'replied',text:'Smooth experience overall. Only knocked a star because the app for scheduling delivery was a little confusing, but the team helped me through it.'},
+      {id:5,name:'Ashley Patel',plat:'cars',stars:4,rep:'Jordan Avery',sent:'pos',time:'1 week ago',status:'replied',text:'Smooth experience overall. Only knocked a star because the app for scheduling delivery was a little confusing, but the team helped me through it.'},
       {id:6,name:'Thomas Reed',plat:'google',stars:3,rep:'Sarah Lin',sent:'neu',time:'1 week ago',status:'need',text:'Decent selection and friendly staff. The back-and-forth on price took longer than I expected. Ended up happy with the deal though.'}
     ];
     var REPS = [
       {name:'Marcus Bell',rate:4.9,count:142},
-      {name:'Cameron Miller',rate:4.8,count:96},
+      {name:'Jordan Avery',rate:4.8,count:96},
       {name:'Sarah Lin',rate:4.6,count:78},
       {name:'Devon Wright',rate:4.5,count:64},
       {name:'Priya Nair',rate:4.3,count:51}
@@ -221,7 +221,7 @@
 
     /* ---------- PERSONAL (salesperson) VIEW ---------- */
     function personalView(){
-      var mine = REVIEWS.filter(function(r){return r.rep==='Cameron Miller';});
+      var mine = REVIEWS.filter(function(r){return r.rep==='Jordan Avery';});
       if(mine.length===0) mine=REVIEWS.slice(0,3);
       return ''+
       '<div class="phead"><div><h1>My Reviews</h1><p class="sub">What customers are saying about their experience with you — and how to earn more five-star reviews.</p></div>'+
@@ -279,7 +279,7 @@
       closePanel(); rerenderFeed(); toast('Reply posted to '+(curReview?PLAT[curReview.plat][2]:'platform'));
     }
     function closePanel(){ $('scrim').classList.remove('show'); $('panel').classList.remove('open'); }
-    function rerenderFeed(){ var f=$('feed'); if(!f) return; var isMgr=window.ADRoles&&window.ADRoles.getRole()==='manager'; var list=isMgr?REVIEWS:REVIEWS.filter(function(r){return r.rep==='Cameron Miller';}); if(list.length===0) list=REVIEWS.slice(0,3); f.innerHTML=list.map(reviewRow).join(''); }
+    function rerenderFeed(){ var f=$('feed'); if(!f) return; var isMgr=window.ADRoles&&window.ADRoles.getRole()==='manager'; var list=isMgr?REVIEWS:REVIEWS.filter(function(r){return r.rep==='Jordan Avery';}); if(list.length===0) list=REVIEWS.slice(0,3); f.innerHTML=list.map(reviewRow).join(''); }
 
     function animateBars(){ setTimeout(function(){ document.querySelectorAll('.dist .bar>i').forEach(function(el){ el.style.width=el.getAttribute('data-w')+'%'; }); },250); }
     var tTimer;

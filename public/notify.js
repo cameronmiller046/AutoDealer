@@ -44,7 +44,7 @@
     ],
     _default:[
       {id:1,ic:'lead',tone:'red',t:'Hot lead just came in',d:'Jessica Tran — 2025 Highlander, financing pre-qualified',time:'2m',href:'/prospects',unread:true},
-      {id:2,ic:'deal',tone:'amber',t:'Deal waiting at the desk',d:'Nguyen Family (Cameron) has been at desk 22 min',time:'8m',href:'/showroom',unread:true},
+      {id:2,ic:'deal',tone:'amber',t:'Deal waiting at the desk',d:'Nguyen Family (Jordan) has been at desk 22 min',time:'8m',href:'/showroom',unread:true},
       {id:3,ic:'review',tone:'amber',t:'New review needs a reply',d:'Maria Gonzalez left a 2★ review on Google',time:'40m',href:'/reviews',unread:true},
       {id:4,ic:'equity',tone:'green',t:'3 customers hit positive equity',d:'AI found upgrade opportunities worth ~$14K gross',time:'1h',href:'/equity',unread:true},
       {id:5,ic:'appt',tone:'blue',t:'Delivery confirmed',d:'Sarah Whitfield confirmed Jul 29 · 4:30 PM',time:'2h',href:'/delivery',unread:false},

@@ -201,7 +201,7 @@
         <a href="/reports"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Reports</a>
         <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Settings</a>
       </nav>
-      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="side-user"><span class="av">JA</span><span class="meta"><b>Jordan Avery</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     </aside>
 
     <div class="main">
@@ -213,7 +213,7 @@
           <button class="ib" aria-label="Calls"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
           <button class="ib" aria-label="Messages"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
           <button class="ib" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="dot">4</span></button>
-          <span class="tb-avatar"><span class="av">CM</span></span>
+          <span class="tb-avatar"><span class="av">JA</span></span>
         </div>
       </header>
 
@@ -298,42 +298,42 @@
     const fmt = (t) => { const h = Math.floor(t), m = Math.round((t - h) * 60); const ap = h >= 12 ? "PM" : "AM"; const hh = ((h + 11) % 12) + 1; return `${hh}:${m.toString().padStart(2,"0")} ${ap}`; };
 
     const A = [
-      { id:1, day:"today", name:"John Smith", ini:"JS", c:"#3b82f6", start:9, end:9.75, type:"test", veh:"2026 Chevrolet Silverado LT", rep:"Cameron", status:"confirmed", trade:"2019 Ford F-150", next:"Prepare Vehicle", phone:"(678) 555-0142", email:"jsmith@email.com", budget:"$650 / month", interested:"2026 Silverado LT", last:"Yesterday",
+      { id:1, day:"today", name:"John Smith", ini:"JS", c:"#3b82f6", start:9, end:9.75, type:"test", veh:"2026 Chevrolet Silverado LT", rep:"Jordan", status:"confirmed", trade:"2019 Ford F-150", next:"Prepare Vehicle", phone:"(678) 555-0142", email:"jsmith@email.com", budget:"$650 / month", interested:"2026 Silverado LT", last:"Yesterday",
         questions:["Monthly payment","Tow package availability","Trade-in value for the F-150"],
         checklist:[["Vehicle washed",true],["Vehicle fueled",true],["Keys available",true],["Window sticker printed",false],["Trade worksheet ready",false],["Finance notified",false],["Vehicle parked up front",false]],
         timeline:[["done","Appointment scheduled","Mon, Jul 21"],["done","Customer confirmed","Tue, Jul 22"],["done","Reminder sent","Wed, Jul 23"],["pending","Customer checked in",""],["pending","Test drive started",""],["pending","Negotiation started",""]] },
-      { id:2, day:"today", name:"Amanda Harris", ini:"AH", c:"#ec4899", start:10.5, end:11.25, type:"sales", veh:"2024 Chevrolet Equinox RS", rep:"Cameron", status:"confirmed", trade:"None", next:"Prepare Quote", phone:"(404) 555-0182", email:"aharris@email.com", budget:"$480 / month", interested:"2024 Equinox RS", last:"2 days ago",
+      { id:2, day:"today", name:"Amanda Harris", ini:"AH", c:"#ec4899", start:10.5, end:11.25, type:"sales", veh:"2024 Chevrolet Equinox RS", rep:"Jordan", status:"confirmed", trade:"None", next:"Prepare Quote", phone:"(404) 555-0182", email:"aharris@email.com", budget:"$480 / month", interested:"2024 Equinox RS", last:"2 days ago",
         questions:["Available colors","Lease vs finance","Apple CarPlay"],
         checklist:[["Vehicle washed",true],["Keys available",true],["Window sticker printed",false],["Quote prepared",false],["Vehicle parked up front",false]],
         timeline:[["done","Appointment scheduled","Tue, Jul 22"],["done","Customer confirmed","Wed, Jul 23"],["pending","Customer checked in",""]] },
-      { id:3, day:"today", name:"David Johnson", ini:"DJ", c:"#f59e0b", start:11.5, end:12.25, type:"trade", veh:"Trade Appraisal", rep:"Cameron", status:"pending", trade:"2021 Ford F-150 XLT", next:"Confirm Appointment", phone:"(678) 555-0177", email:"djohnson@email.com", budget:"—", interested:"Upgrade to F-150 Lariat", last:"3 weeks ago",
+      { id:3, day:"today", name:"David Johnson", ini:"DJ", c:"#f59e0b", start:11.5, end:12.25, type:"trade", veh:"Trade Appraisal", rep:"Jordan", status:"pending", trade:"2021 Ford F-150 XLT", next:"Confirm Appointment", phone:"(678) 555-0177", email:"djohnson@email.com", budget:"—", interested:"Upgrade to F-150 Lariat", last:"3 weeks ago",
         questions:["Current trade value","Payoff amount","Upgrade options"],
         checklist:[["Trade worksheet ready",false],["Appraisal tool ready",false],["Recent comps pulled",false],["Manager notified",false]],
         timeline:[["done","Appointment scheduled","Wed, Jul 23"],["pending","Customer confirmed",""],["pending","Customer checked in",""]] },
-      { id:4, day:"today", name:"Robert Brown", ini:"RB", c:"#14b8a6", start:13, end:13.75, type:"finance", veh:"2023 Chevrolet Tahoe Premier", rep:"Cameron", status:"confirmed", trade:"None", next:"Prepare Paperwork", phone:"(770) 555-0231", email:"rbrown@email.com", budget:"$780 / month", interested:"Finance completion", last:"5 days ago",
+      { id:4, day:"today", name:"Robert Brown", ini:"RB", c:"#14b8a6", start:13, end:13.75, type:"finance", veh:"2023 Chevrolet Tahoe Premier", rep:"Jordan", status:"confirmed", trade:"None", next:"Prepare Paperwork", phone:"(770) 555-0231", email:"rbrown@email.com", budget:"$780 / month", interested:"Finance completion", last:"5 days ago",
         questions:["APR options","Extended warranty","Gap insurance"],
         checklist:[["Credit application ready",true],["Paperwork printed",true],["Finance manager notified",true],["Trade payoff confirmed",false]],
         timeline:[["done","Appointment scheduled","Mon, Jul 21"],["done","Customer confirmed","Tue, Jul 22"],["done","Reminder sent","Wed, Jul 23"],["pending","Customer checked in",""]] },
-      { id:5, day:"today", name:"Sarah Lewis", ini:"SL", c:"#8b5cf6", start:14, end:14.75, type:"delivery", veh:"2023 Chevrolet Tahoe High Country", rep:"Cameron", status:"confirmed", trade:"2020 Honda CR-V", next:"Detail Vehicle", phone:"(770) 555-0127", email:"slewis@email.com", budget:"Completed", interested:"Vehicle delivery", last:"Today",
+      { id:5, day:"today", name:"Sarah Lewis", ini:"SL", c:"#8b5cf6", start:14, end:14.75, type:"delivery", veh:"2023 Chevrolet Tahoe High Country", rep:"Jordan", status:"confirmed", trade:"2020 Honda CR-V", next:"Detail Vehicle", phone:"(770) 555-0127", email:"slewis@email.com", budget:"Completed", interested:"Vehicle delivery", last:"Today",
         questions:["Feature walkthrough","Warranty registration","First service schedule"],
         checklist:[["Documents ready",true],["Vehicle detailed",true],["Finance complete",true],["Plates / temp tag ready",true],["Full tank of fuel",true],["Bow / delivery setup",false]],
         timeline:[["done","Appointment scheduled","Fri, Jul 18"],["done","Customer confirmed","Mon, Jul 21"],["done","Finance completed","Wed, Jul 23"],["done","Reminder sent","Thu, Jul 24"],["pending","Delivery started",""]] },
-      { id:6, day:"today", name:"Kevin Anderson", ini:"KA", c:"#0ea5e9", start:15.5, end:16.25, type:"test", veh:"2022 GMC Sierra Denali", rep:"Cameron", status:"pending", trade:"2022 GMC Sierra 1500", next:"Prepare Vehicle", phone:"(678) 555-0176", email:"kanderson@email.com", budget:"$720 / month", interested:"2022 Sierra Denali", last:"2 months ago",
+      { id:6, day:"today", name:"Kevin Anderson", ini:"KA", c:"#0ea5e9", start:15.5, end:16.25, type:"test", veh:"2022 GMC Sierra Denali", rep:"Jordan", status:"pending", trade:"2022 GMC Sierra 1500", next:"Prepare Vehicle", phone:"(678) 555-0176", email:"kanderson@email.com", budget:"$720 / month", interested:"2022 Sierra Denali", last:"2 months ago",
         questions:["Denali package features","Trade equity","Towing capacity"],
         checklist:[["Vehicle washed",false],["Keys available",false],["Trade worksheet ready",false],["Vehicle parked up front",false]],
         timeline:[["done","Appointment scheduled","Wed, Jul 23"],["pending","Customer confirmed",""],["pending","Customer checked in",""]] },
-      { id:7, day:"today", name:"Priya Nair", ini:"PN", c:"#f43f5e", start:16.5, end:17.25, type:"sales", veh:"2024 Cadillac XT5 Sport", rep:"Cameron", status:"confirmed", trade:"None", next:"Prepare Presentation", phone:"(770) 555-0244", email:"pnair@email.com", budget:"$820 / month", interested:"2024 Cadillac XT5", last:"3 days ago",
+      { id:7, day:"today", name:"Priya Nair", ini:"PN", c:"#f43f5e", start:16.5, end:17.25, type:"sales", veh:"2024 Cadillac XT5 Sport", rep:"Jordan", status:"confirmed", trade:"None", next:"Prepare Presentation", phone:"(770) 555-0244", email:"pnair@email.com", budget:"$820 / month", interested:"2024 Cadillac XT5", last:"3 days ago",
         questions:["Premium package","Delivery timeline","Loyalty pricing"],
         checklist:[["Vehicle washed",true],["Keys available",true],["Presentation ready",false],["Vehicle parked up front",false]],
         timeline:[["done","Appointment scheduled","Mon, Jul 21"],["done","Customer confirmed","Wed, Jul 23"],["pending","Customer checked in",""]] },
-      { id:8, day:"today", name:"Ethan Ross", ini:"ER", c:"#dc2626", start:8.5, end:9, type:"missed", veh:"2022 Buick Enclave Avenir", rep:"Cameron", status:"noshow", trade:"None", next:"Send Follow-up", phone:"(770) 555-0361", email:"eross@email.com", budget:"$560 / month", interested:"Lease-end upgrade", last:"1 month ago",
+      { id:8, day:"today", name:"Ethan Ross", ini:"ER", c:"#dc2626", start:8.5, end:9, type:"missed", veh:"2022 Buick Enclave Avenir", rep:"Jordan", status:"noshow", trade:"None", next:"Send Follow-up", phone:"(770) 555-0361", email:"eross@email.com", budget:"$560 / month", interested:"Lease-end upgrade", last:"1 month ago",
         questions:["Lease-end options","New Enclave pricing"],
         checklist:[["Reschedule offered",false],["Follow-up text sent",false]],
         timeline:[["done","Appointment scheduled","Tue, Jul 22"],["done","Reminder sent","Wed, Jul 23"],["done","No-show recorded","Today, 8:45 AM"]] },
-      { id:9, day:"tomorrow", name:"Sarah Lewis", ini:"SL", c:"#8b5cf6", start:14, end:14.75, type:"delivery", veh:"2023 Chevrolet Tahoe High Country", rep:"Cameron", status:"confirmed", trade:"2020 Honda CR-V", next:"Detail Vehicle", phone:"(770) 555-0127", email:"slewis@email.com", budget:"Completed", interested:"Vehicle delivery", last:"Today",
+      { id:9, day:"tomorrow", name:"Sarah Lewis", ini:"SL", c:"#8b5cf6", start:14, end:14.75, type:"delivery", veh:"2023 Chevrolet Tahoe High Country", rep:"Jordan", status:"confirmed", trade:"2020 Honda CR-V", next:"Detail Vehicle", phone:"(770) 555-0127", email:"slewis@email.com", budget:"Completed", interested:"Vehicle delivery", last:"Today",
         questions:["Feature walkthrough"], checklist:[["Documents ready",true],["Vehicle detailed",false]],
         timeline:[["done","Appointment scheduled","Fri, Jul 18"],["done","Customer confirmed","Mon, Jul 21"]] },
-      { id:10, day:"friday", name:"Michael Williams", ini:"MW", c:"#a855f7", start:11, end:11.75, type:"sales", veh:"2022 Toyota RAV4 XLE", rep:"Cameron", status:"pending", trade:"None", next:"Confirm Appointment", phone:"(404) 555-0198", email:"mwilliams@email.com", budget:"$430 / month", interested:"2025 Chevrolet Trailblazer", last:"14 months ago",
+      { id:10, day:"friday", name:"Michael Williams", ini:"MW", c:"#a855f7", start:11, end:11.75, type:"sales", veh:"2022 Toyota RAV4 XLE", rep:"Jordan", status:"pending", trade:"None", next:"Confirm Appointment", phone:"(404) 555-0198", email:"mwilliams@email.com", budget:"$430 / month", interested:"2025 Chevrolet Trailblazer", last:"14 months ago",
         questions:["Trade options","Financing"], checklist:[["Vehicle washed",false]],
         timeline:[["done","Appointment scheduled","Thu, Jul 24"],["pending","Customer confirmed",""]] },
       { id:11, day:"friday", name:"Grace Kim", ini:"GK", c:"#eab308", start:15, end:15.75, type:"trade", veh:"Trade Appraisal", rep:"Mike Davis", status:"confirmed", trade:"2020 Kia Telluride SX", next:"Prepare Appraisal", phone:"(678) 555-0402", email:"gkim@email.com", budget:"—", interested:"2025 Telluride upgrade", last:"8 months ago",
@@ -364,7 +364,7 @@
       if (f === "week") return true;
       if (["confirmed","pending","noshow","completed"].includes(f)) return a.status === f;
       if (["sales","test","delivery","trade","finance","followup"].includes(f)) return a.type === f;
-      if (f === "mine") return a.rep === "Cameron";
+      if (f === "mine") return a.rep === "Jordan";
       return true;
     }
     function matchSearch(a) { const q = state.q.trim().toLowerCase(); if (!q) return true; return [a.name,a.veh,a.trade,a.interested].join(" ").toLowerCase().includes(q); }

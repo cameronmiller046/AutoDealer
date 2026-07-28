@@ -76,7 +76,7 @@
       }
       if (/book|appointment|schedul/.test(q)){
         return card('Booked it and sent the confirmation — SLA clock stopped.',
-          doneCard('Appointment set', 'Jessica Tran · Today 4:30 PM · assigned to Cameron Miller · confirmation text sent'));
+          doneCard('Appointment set', 'Jessica Tran · Today 4:30 PM · assigned to Jordan Avery · confirmation text sent'));
       }
       if (/sla|slow|behind|overdue|missed/.test(q)){
         return card('2 leads are approaching the 5-minute SLA — respond now:',

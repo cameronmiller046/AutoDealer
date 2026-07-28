@@ -127,7 +127,7 @@
     }
     function card(cls,l,v,d,up){ return '<div class="kpi '+cls+'"><div class="kl">'+l+'</div><div class="kv">'+(typeof v==="number"?v.toLocaleString():v)+'</div><div class="kd '+(up?"up":"")+'">'+d+'</div></div>'; }
 
-    var LEADER = [["Cameron Miller","CM","#3b82f6",5],["Sarah Johnson","SJ","#8b5cf6",4],["Michael Davis","MD","#14b8a6",4],["Priya Nair","PN","#f43f5e",3],["Marcus Webb","MB","#10b981",2]];
+    var LEADER = [["Jordan Avery","JA","#3b82f6",5],["Sarah Johnson","SJ","#8b5cf6",4],["Michael Davis","MD","#14b8a6",4],["Priya Nair","PN","#f43f5e",3],["Marcus Webb","MB","#10b981",2]];
     function renderLeader(){
       LEADER.sort(function(a,b){return b[3]-a[3];});
       var mx = LEADER[0][3]||1;
@@ -152,7 +152,7 @@
     }
 
     var FEED = [
-      ["ac-sale","check","Cameron sold a Silverado LT","just now"],
+      ["ac-sale","check","Jordan sold a Silverado LT","just now"],
       ["ac-appt","cal","Amanda Harris checked in","2 min ago"],
       ["ac-lead","user","New internet lead — Tahoe","5 min ago"],
       ["ac-trade","swap","Trade appraised · +$4,800 equity","8 min ago"],
@@ -162,7 +162,7 @@
     var FIC = { check:'<path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>', cal:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>', user:'<circle cx="12" cy="9" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 19c0-2.8 2.7-4.5 6-4.5s6 1.7 6 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>', swap:'<path d="M4 8h13l-3-3M20 16H7l3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>', truck:'<path d="M2 8h11v9H2zM13 11h4l3 3v3h-7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="6" cy="17.5" r="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="17.5" r="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/>' };
     function renderFeed(flash){ $("feed").innerHTML = FEED.slice(0,7).map(function(f,i){ return '<div class="fi '+(flash&&i===0?"new":"")+'"><span class="ic '+f[0]+'"><svg viewBox="0 0 24 24">'+FIC[f[1]]+'</svg></span><div><b>'+f[2]+'</b></div><span class="tm">'+f[3]+'</span></div>'; }).join(""); }
 
-    var ANN = ["<b>New arrivals:</b> 8 vehicles landed on the lot this morning","<b>Weekend Sales Event</b> — 0.9% APR on all in-stock Silverados","Congrats to <b>Cameron</b> — top salesperson 3 weeks running","<b>Service special:</b> free multi-point inspection through Friday","Team goal: <b>38 more vehicles</b> to hit the monthly target"];
+    var ANN = ["<b>New arrivals:</b> 8 vehicles landed on the lot this morning","<b>Weekend Sales Event</b> — 0.9% APR on all in-stock Silverados","Congrats to <b>Jordan</b> — top salesperson 3 weeks running","<b>Service special:</b> free multi-point inspection through Friday","Team goal: <b>38 more vehicles</b> to hit the monthly target"];
     function renderAnn(){ $("annRun").innerHTML = ANN.map(function(a){ return a; }).join('<span class="sep">•</span>'); }
 
     /* clock */
@@ -185,7 +185,7 @@
     setInterval(function(){ var e=STREAM[sIdx%STREAM.length].slice(); sIdx++; FEED.unshift(e); FEED=FEED.slice(0,10); renderFeed(true); }, 5200);
 
     /* sale celebration */
-    var SALES = [["Cameron","Silverado High Country","CM","#3b82f6"],["Sarah","Tahoe RST","SJ","#8b5cf6"],["Michael","Sierra Denali","MD","#14b8a6"],["Priya","Cadillac XT5","PN","#f43f5e"]];
+    var SALES = [["Jordan","Silverado High Country","JA","#3b82f6"],["Sarah","Tahoe RST","SJ","#8b5cf6"],["Michael","Sierra Denali","MD","#14b8a6"],["Priya","Cadillac XT5","PN","#f43f5e"]];
     var celIdx=0;
     setInterval(function(){
       var s=SALES[celIdx%SALES.length]; celIdx++;

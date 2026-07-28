@@ -126,14 +126,14 @@
     var SKILLS = ['Rapport','Discovery','Product','Objections','Closing','Follow-up'];
     var REPS = [
       {name:'Marcus Bell',title:'Senior Advisor',score:91,sk:[95,90,92,88,90,88],flag:['good','Consistently strong closes — model his objection handling for the team.']},
-      {name:'Cameron Miller',title:'Sales Representative',score:84,sk:[90,82,88,74,80,88],flag:['warn','Objection handling dips when customers push on price — see coaching plan.']},
+      {name:'Jordan Avery',title:'Sales Representative',score:84,sk:[90,82,88,74,80,88],flag:['warn','Objection handling dips when customers push on price — see coaching plan.']},
       {name:'Sarah Lin',title:'Sales Representative',score:78,sk:[85,72,80,70,74,80],flag:['warn','Discovery is rushed — asking 40% fewer needs questions than top reps.']},
       {name:'Devon Wright',title:'Sales Representative',score:72,sk:[78,68,74,64,70,72],flag:['warn','Follow-up gaps: 3 warm leads went 5+ days without contact.']},
       {name:'Priya Nair',title:'Junior Advisor',score:69,sk:[74,66,62,60,66,74],flag:['warn','Product knowledge on EVs is the biggest opportunity — assign training.']}
     ];
     var IX = [
-      {id:1,rep:'Cameron Miller',type:'call',cust:'Robert Chen',score:88,dur:'8:42 call',summary:'Strong discovery, closed for appointment',when:'Today 2:14 PM'},
-      {id:2,rep:'Cameron Miller',type:'text',cust:'Ashley Patel',score:72,dur:'SMS thread',summary:'Slow to address price objection',when:'Today 11:03 AM'},
+      {id:1,rep:'Jordan Avery',type:'call',cust:'Robert Chen',score:88,dur:'8:42 call',summary:'Strong discovery, closed for appointment',when:'Today 2:14 PM'},
+      {id:2,rep:'Jordan Avery',type:'text',cust:'Ashley Patel',score:72,dur:'SMS thread',summary:'Slow to address price objection',when:'Today 11:03 AM'},
       {id:3,rep:'Sarah Lin',type:'call',cust:'Thomas Reed',score:64,dur:'5:10 call',summary:'Skipped needs discovery, jumped to inventory',when:'Yesterday 4:30 PM'},
       {id:4,rep:'Marcus Bell',type:'email',cust:'David Okafor',score:94,dur:'Email',summary:'Excellent value framing on trade-in',when:'Yesterday 1:12 PM'},
       {id:5,rep:'Devon Wright',type:'call',cust:'Lisa Moore',score:69,dur:'6:28 call',summary:'Good rapport, weak next-step ask',when:'Yesterday 10:44 AM'}
@@ -183,8 +183,8 @@
 
     /* ---------- PERSONAL VIEW ---------- */
     function personalView(){
-      var me=REPS[1]; // Cameron
-      var mine=IX.filter(function(x){return x.rep==='Cameron Miller';});
+      var me=REPS[1]; // Jordan
+      var mine=IX.filter(function(x){return x.rep==='Jordan Avery';});
       return ''+
       '<div class="phead"><div><h1>My Sales Coach</h1><p class="sub">AI reviews your calls, texts and emails and turns them into personalized coaching — private to you.</p></div></div>'+
       '<div class="phero" style="margin-top:22px;">'+
@@ -227,8 +227,8 @@
       return 'Biggest lever: <b>'+low+'</b>. '+r.flag[1]+' Recommended: assign the "'+low+' Mastery" micro-drill (12 min) and pair on the next 3 live ups. Projected +6 pts in 30 days.';
     }
     var IXDATA={
-      1:{good:['Opened with a warm, personal question about Robert\'s current vehicle.','Asked 7 discovery questions before pitching — textbook.','Closed cleanly for a Tuesday appointment.'],bad:['Could have confirmed budget earlier to save time.'],note:'Excellent call. This is your model for first conversations — 88 is your season best.',t:[['Cameron','Hi Robert! Before we talk numbers, tell me — what\'s got you thinking about a change from the RAV4?',0],['Robert','Honestly the family\'s outgrown it, need a third row.',1],['Cameron','That makes total sense. How often are you carrying more than four people?',0]]},
-      2:{good:['Friendly, responsive tone throughout.'],bad:['Offered a $500 discount 12 seconds after the first price objection.','Didn\'t reframe value before moving the number.'],note:'You caved on price too fast. Next time, acknowledge and show value for 30 seconds before any discount.',t:[['Ashley','Can you do any better on the price?',1],['Cameron','I can knock $500 off right now for you.',0],['Ashley','Ok let me think about it.',1]]},
+      1:{good:['Opened with a warm, personal question about Robert\'s current vehicle.','Asked 7 discovery questions before pitching — textbook.','Closed cleanly for a Tuesday appointment.'],bad:['Could have confirmed budget earlier to save time.'],note:'Excellent call. This is your model for first conversations — 88 is your season best.',t:[['Jordan','Hi Robert! Before we talk numbers, tell me — what\'s got you thinking about a change from the RAV4?',0],['Robert','Honestly the family\'s outgrown it, need a third row.',1],['Jordan','That makes total sense. How often are you carrying more than four people?',0]]},
+      2:{good:['Friendly, responsive tone throughout.'],bad:['Offered a $500 discount 12 seconds after the first price objection.','Didn\'t reframe value before moving the number.'],note:'You caved on price too fast. Next time, acknowledge and show value for 30 seconds before any discount.',t:[['Ashley','Can you do any better on the price?',1],['Jordan','I can knock $500 off right now for you.',0],['Ashley','Ok let me think about it.',1]]},
       3:{good:['Polite and professional.'],bad:['Skipped needs discovery entirely.','Jumped straight to reciting inventory.'],note:'Slow down — discovery first. Reed left without a clear next step.',t:[['Sarah','We\'ve got three SUVs on the lot in your range.',0],['Thomas','Ok... I\'m not sure what I need yet.',1]]},
       4:{good:['Framed trade value as usable equity.','Clear, confident, no filler.'],bad:[],note:'Model example of value framing — sharing with the team.',t:[['Marcus','David, your RAV4 has $21,400 of equity — that\'s real money you can put to work today.',0]]},
       5:{good:['Built genuine rapport.'],bad:['Weak next-step ask at the end.'],note:'Great warmth — just ask for the appointment directly next time.',t:[['Devon','It was great talking, Lisa — feel free to swing by anytime!',0]]}

@@ -109,7 +109,7 @@
 
     var ME='Dana Morales';
     var PEOPLE={
-      'Marcus Bell':{role:'Sales',p:'on'},'Cameron Miller':{role:'Sales',p:'on'},'Sarah Lin':{role:'Sales',p:'away'},
+      'Marcus Bell':{role:'Sales',p:'on'},'Jordan Avery':{role:'Sales',p:'on'},'Sarah Lin':{role:'Sales',p:'away'},
       'Riley Brooks':{role:'Reception',p:'on'},'Marcus Reyes':{role:'BDC',p:'on'},'Tom Fielder':{role:'Finance',p:'off'},
       'Gloria Vance':{role:'GM',p:'on'},'Nina Alvarez':{role:'Sales',p:'away'}
     };
@@ -123,7 +123,7 @@
         {u:'Dana Morales',t:'8:15 AM',x:'Got it 👍 I\'ll be on the desk.'}
       ]},
       {id:'sales-floor',name:'sales-floor',members:8,unread:2,msgs:[
-        {u:'Cameron Miller',t:'9:20 AM',x:'Test driving the Highlander with the Nguyens now, looking strong 🚙'},
+        {u:'Jordan Avery',t:'9:20 AM',x:'Test driving the Highlander with the Nguyens now, looking strong 🚙'},
         {u:'Nina Alvarez',t:'9:41 AM',x:'Anyone have the keys to stock T-19110? Can\'t find them at the board'},
         {u:'Marcus Bell',t:'9:43 AM',x:'@Nina Alvarez I had them — dropping at the desk now'}
       ]},
@@ -132,7 +132,7 @@
         {u:'Marcus Reyes',t:'8:52 AM',x:'Booked 3 appointments for this afternoon already'}
       ]},
       {id:'wins',name:'wins',members:12,unread:0,msgs:[
-        {u:'Cameron Miller',t:'Yesterday',x:'SOLD the RAV4 to the Chens! 🎉 Second car they\'ve bought from us',react:['🎉',8]},
+        {u:'Jordan Avery',t:'Yesterday',x:'SOLD the RAV4 to the Chens! 🎉 Second car they\'ve bought from us',react:['🎉',8]},
         {u:'Sarah Lin',t:'Yesterday',x:'Just got a 5-star review: "best car-buying experience ever" ⭐',react:['⭐',5]},
         {u:'Gloria Vance',t:'Yesterday',x:'Marcus hit 15 units this month — new personal record! 👏',react:['👏',11]}
       ]}
@@ -189,7 +189,7 @@
     }
     function maybeReply(){
       var isDm=DMS.indexOf(cur)>=0;
-      var who = isDm ? cur.name : ['Marcus Bell','Cameron Miller','Riley Brooks','Marcus Reyes'][Math.floor((cur.msgs.length*7)%4)];
+      var who = isDm ? cur.name : ['Marcus Bell','Jordan Avery','Riley Brooks','Marcus Reyes'][Math.floor((cur.msgs.length*7)%4)];
       showTyping(who);
       setTimeout(function(){
         clearTyping();
@@ -211,7 +211,7 @@
       ['sales-floor','Nina Alvarez','Just closed the 4Runner! 🎉'],
       ['general','Riley Brooks','Two walk-ins just arrived, sending to the up board'],
       ['bdc','Marcus Reyes','Another appointment booked for 3:30 ✅'],
-      ['wins','Cameron Miller','Delivery #3 done for the day 🚗']
+      ['wins','Jordan Avery','Delivery #3 done for the day 🚗']
     ];
     var ai=0;
     function ambient(){

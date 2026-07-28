@@ -56,7 +56,7 @@
   /* ---- Role configuration: the single source of truth ---- */
   var ROLES = {
     salesperson: {
-      name:'Cameron Miller', title:'Sales Representative', avatar:'CM', home:'/dashboard',
+      name:'Jordan Avery', title:'Sales Representative', avatar:'JA', home:'/dashboard',
       nav:[
         {label:'Home', href:'/dashboard', icon:'home'},
         {label:'Prospects', href:'/prospects', icon:'prospects', badge:'18'},

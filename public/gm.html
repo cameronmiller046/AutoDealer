@@ -160,7 +160,7 @@
     function renderDepts(){ $('depts').innerHTML=DEPTS.map(function(d){ return '<div class="dept"><div class="dh"><span class="di '+d[1]+'"><svg viewBox="0 0 24 24">'+DI[d[2]]+'</svg></span><span class="dn">'+d[0]+'</span><span class="status s-'+d[7]+'"></span></div><div class="dv">'+d[3]+'</div><div class="dvs">'+d[4]+'</div><div class="dtr '+d[5]+'">'+d[6]+'</div></div>'; }).join(''); }
 
     var TEAM=[
-      ['Marcus Bell',15,4.9,'42%','3m','top'],['Cameron Miller',11,4.8,'36%','4m','ok'],['Nina Alvarez',9,4.6,'33%','5m','ok'],['Sarah Lin',7,4.4,'28%','6m','coach'],['Devon Wright',5,4.2,'24%','8m','coach']
+      ['Marcus Bell',15,4.9,'42%','3m','top'],['Jordan Avery',11,4.8,'36%','4m','ok'],['Nina Alvarez',9,4.6,'33%','5m','ok'],['Sarah Lin',7,4.4,'28%','6m','coach'],['Devon Wright',5,4.2,'24%','8m','coach']
     ];
     function renderTeam(){ $('team').innerHTML=TEAM.map(function(t){ var f=t[5]==='top'?['tf-top','Top']:t[5]==='coach'?['tf-coach','Coaching']:['tf-ok','On track']; return '<div class="trow"><div class="tm-nm"><span class="av" style="background:'+avc(t[0])+'">'+ini(t[0])+'</span><b>'+t[0]+'</b></div><span class="tnum t-hide">'+t[1]+'</span><span class="tnum t-hide">'+t[2]+'★</span><span class="tnum t-hide">'+t[3]+'</span><span class="tnum t-hide">'+t[4]+'</span><span><span class="tflag '+f[0]+'">'+f[1]+'</span></span></div>'; }).join(''); }
 

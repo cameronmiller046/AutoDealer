@@ -94,14 +94,14 @@
     <aside class="sidebar">
       <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
       <nav class="nav"></nav>
-      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="side-user"><span class="av">JA</span><span class="meta"><b>Jordan Avery</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     </aside>
     <div class="main">
       <header class="topbar">
         <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
         <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" placeholder="Search deals by customer or vehicle..." /></div>
         <span class="live-chip"><span class="ld"></span>Live</span>
-        <div class="tb-icons"><span class="tb-avatar"><span class="av">CM</span></span></div>
+        <div class="tb-icons"><span class="tb-avatar"><span class="av">JA</span></span></div>
       </header>
       <main class="content">
         <div class="phead">
@@ -138,13 +138,13 @@
 
     // deal: id,cust,ini,color,veh,stock,rep,stage,price,tradeAllow,payoff,down,apr,term,taxRate,fees,rebate,type,flag
     var D = [
-      {id:1,cust:"John Smith",ini:"JS",color:"#3b82f6",veh:"2024 Silverado High Country",stock:"T45281",rep:"Cameron",stage:"review",price:74300,tradeAllow:28900,payoff:24100,down:5000,apr:6.9,term:72,taxRate:0.07,fees:899,rebate:1500,type:"finance",flag:"fl-new"},
-      {id:2,cust:"Sarah Lewis",ini:"SL",color:"#8b5cf6",veh:"2024 Tahoe RST",stock:"T44102",rep:"Cameron",stage:"finance",price:64995,tradeAllow:22800,payoff:11000,down:8000,apr:5.9,term:60,taxRate:0.07,fees:899,rebate:1000,type:"finance",flag:""},
-      {id:3,cust:"Amanda Harris",ini:"AH",color:"#ec4899",veh:"2024 Equinox RS",stock:"S43011",rep:"Cameron",stage:"desk",price:31995,tradeAllow:0,payoff:0,down:3000,apr:7.4,term:72,taxRate:0.07,fees:799,rebate:750,type:"finance",flag:""},
-      {id:4,cust:"Robert Brown",ini:"RB",color:"#14b8a6",veh:"2023 Tahoe Premier",stock:"T44780",rep:"Cameron",stage:"ready",price:74995,tradeAllow:0,payoff:0,down:12000,apr:6.4,term:72,taxRate:0.07,fees:899,rebate:0,type:"finance",flag:""},
-      {id:5,cust:"David Johnson",ini:"DJ",color:"#f59e0b",veh:"2021 F-150 Lariat",stock:"S39820",rep:"Cameron",stage:"trade",price:44995,tradeAllow:26000,payoff:31200,down:2000,apr:8.2,term:72,taxRate:0.07,fees:799,rebate:500,type:"finance",flag:"fl-wait"},
+      {id:1,cust:"John Smith",ini:"JS",color:"#3b82f6",veh:"2024 Silverado High Country",stock:"T45281",rep:"Jordan",stage:"review",price:74300,tradeAllow:28900,payoff:24100,down:5000,apr:6.9,term:72,taxRate:0.07,fees:899,rebate:1500,type:"finance",flag:"fl-new"},
+      {id:2,cust:"Sarah Lewis",ini:"SL",color:"#8b5cf6",veh:"2024 Tahoe RST",stock:"T44102",rep:"Jordan",stage:"finance",price:64995,tradeAllow:22800,payoff:11000,down:8000,apr:5.9,term:60,taxRate:0.07,fees:899,rebate:1000,type:"finance",flag:""},
+      {id:3,cust:"Amanda Harris",ini:"AH",color:"#ec4899",veh:"2024 Equinox RS",stock:"S43011",rep:"Jordan",stage:"desk",price:31995,tradeAllow:0,payoff:0,down:3000,apr:7.4,term:72,taxRate:0.07,fees:799,rebate:750,type:"finance",flag:""},
+      {id:4,cust:"Robert Brown",ini:"RB",color:"#14b8a6",veh:"2023 Tahoe Premier",stock:"T44780",rep:"Jordan",stage:"ready",price:74995,tradeAllow:0,payoff:0,down:12000,apr:6.4,term:72,taxRate:0.07,fees:899,rebate:0,type:"finance",flag:""},
+      {id:5,cust:"David Johnson",ini:"DJ",color:"#f59e0b",veh:"2021 F-150 Lariat",stock:"S39820",rep:"Jordan",stage:"trade",price:44995,tradeAllow:26000,payoff:31200,down:2000,apr:8.2,term:72,taxRate:0.07,fees:799,rebate:500,type:"finance",flag:"fl-wait"},
       {id:6,cust:"Kevin Anderson",ini:"KA",color:"#0ea5e9",veh:"2022 Sierra Denali",stock:"T42551",rep:"Sarah",stage:"submitted",price:68995,tradeAllow:34500,payoff:22000,down:4000,apr:6.9,term:72,taxRate:0.07,fees:899,rebate:1000,type:"finance",flag:"fl-new"},
-      {id:7,cust:"Priya Nair",ini:"PN",color:"#f43f5e",veh:"2024 Cadillac XT5",stock:"S43550",rep:"Cameron",stage:"submitted",price:49995,tradeAllow:0,payoff:0,down:6000,apr:6.4,term:60,taxRate:0.07,fees:899,rebate:0,type:"lease",flag:""},
+      {id:7,cust:"Priya Nair",ini:"PN",color:"#f43f5e",veh:"2024 Cadillac XT5",stock:"S43550",rep:"Jordan",stage:"submitted",price:49995,tradeAllow:0,payoff:0,down:6000,apr:6.4,term:60,taxRate:0.07,fees:899,rebate:0,type:"lease",flag:""},
       {id:8,cust:"Marcus Webb",ini:"MB",color:"#10b981",veh:"2023 Corvette Z06",stock:"S41290",rep:"Sarah",stage:"review",price:118000,tradeAllow:0,payoff:0,down:40000,apr:5.9,term:72,taxRate:0.07,fees:899,rebate:0,type:"finance",flag:"fl-hot"},
       {id:9,cust:"Grace Kim",ini:"GK",color:"#eab308",veh:"2025 Telluride SX",stock:"S44900",rep:"Michael",stage:"desk",price:46900,tradeAllow:21000,payoff:6800,down:3000,apr:7.9,term:75,taxRate:0.07,fees:799,rebate:500,type:"finance",flag:""},
       {id:10,cust:"Ethan Ross",ini:"ER",color:"#64748b",veh:"2022 Buick Enclave",stock:"S43990",rep:"Michael",stage:"finance",price:39900,tradeAllow:0,payoff:0,down:5000,apr:7.4,term:72,taxRate:0.07,fees:799,rebate:250,type:"cash",flag:""}
@@ -178,7 +178,7 @@
     }
 
     var view = "board", q = "";
-    function visible(){ return D.filter(function(d){ var okv = view==="board" || d.rep==="Cameron"; var okq = !q || (d.cust+" "+d.veh).toLowerCase().indexOf(q.toLowerCase())!==-1; return okv && okq; }); }
+    function visible(){ return D.filter(function(d){ var okv = view==="board" || d.rep==="Jordan"; var okq = !q || (d.cust+" "+d.veh).toLowerCase().indexOf(q.toLowerCase())!==-1; return okv && okq; }); }
 
     function renderBoard(){
       var rows = visible();

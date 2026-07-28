@@ -201,7 +201,7 @@
     function renderRecent(){ $('recent').innerHTML=RECENT.map(function(a){ return '<div class="act"><span class="aa" style="background:'+a[1]+'">'+initials(a[0])+'</span><div class="ax"><b>'+a[0]+'</b> '+a[2]+'<div class="tm">'+a[3]+'</div></div></div>'; }).join(''); }
 
     var USERS=[
-      ['Cameron Miller','#3b82f6','cameron@autodealer.com','r-sales','Salesperson',true,'2m ago'],
+      ['Jordan Avery','#3b82f6','cameron@autodealer.com','r-sales','Salesperson',true,'2m ago'],
       ['Sarah Johnson','#8b5cf6','sarah@autodealer.com','r-sales','Salesperson',true,'9m ago'],
       ['Michael Davis','#14b8a6','michael@autodealer.com','r-sales','Salesperson',false,'Yesterday'],
       ['Dana Morales','#7c3aed','dana@autodealer.com','r-mgr','Sales Manager',true,'now'],
@@ -244,12 +244,12 @@
     var SIGNINS=[
       ['Gloria Vance','#db2777','General Manager','Chrome · Mac','14m ago','ok'],
       ['Marcus Reyes','#d97706','BDC Agent','Chrome · Windows','1m ago','ok'],
-      ['Cameron Miller','#3b82f6','Salesperson','Safari · iPhone','2m ago','ok'],
+      ['Jordan Avery','#3b82f6','Salesperson','Safari · iPhone','2m ago','ok'],
       ['Unknown','#dc2626','Failed attempt','Firefox · Unknown IP','3h ago','fail']
     ];
     function renderSignins(){ $('signins').innerHTML=SIGNINS.map(function(s){ return '<div class="sys"><span class="u-av" style="width:30px;height:30px;font-size:10px;background:'+s[1]+'">'+initials(s[0])+'</span><div style="flex:1;"><b style="font-weight:600;font-size:13px;">'+s[0]+'</b><div style="font-size:11px;color:var(--muted);">'+s[2]+' · '+s[3]+'</div></div><span class="'+(s[5]==='ok'?'sok':'')+'" style="font-size:11.5px;font-weight:700;'+(s[5]==='fail'?'color:var(--red)':'')+'">'+(s[5]==='fail'?'Blocked':s[4])+'</span></div>'; }).join(''); }
 
-    var RULES=[['Internet leads','Round-robin · Sales',1],['Truck inquiries','Cameron Miller',1],['Facebook / Messenger','BDC queue',1],['Walk-ins','Auto by availability',1],['After-hours leads','BDC overflow',0]];
+    var RULES=[['Internet leads','Round-robin · Sales',1],['Truck inquiries','Jordan Avery',1],['Facebook / Messenger','BDC queue',1],['Walk-ins','Auto by availability',1],['After-hours leads','BDC overflow',0]];
     function renderRules(){ $('rules').innerHTML=RULES.map(function(r,i){ return '<div class="rule"><div class="ri"><b>'+r[0]+'</b><span>Route to '+r[1]+'</span></div><button class="tog'+(r[2]?'':' off')+'" onclick="RULES['+i+'][2]=RULES['+i+'][2]?0:1;this.classList.toggle(\'off\');toast(\'Rule updated\')"></button></div>'; }).join(''); }
 
     var BIZ=[['Business hours','Mon–Sat 8a–8p · Sun 10a–6p',1],['Lead SLA timer','Alert if no response in 5 min',1],['Auto-assign new leads','Instantly on receipt',1],['Duplicate lead merge','Auto-merge on match',1],['After-hours auto-reply','Text back within 60s',1]];
@@ -258,7 +258,7 @@
     var AUDIT=[
       ['Dana Morales','#7c3aed','changed role','Riley Brooks → Receptionist','12m ago','198.51.100.24'],
       ['Gloria Vance','#db2777','approved deal','Deal #D-4471 · $32,280','40m ago','203.0.113.9'],
-      ['Marcus Reyes','#d97706','reassigned lead','Jessica Tran → Cameron','1h ago','198.51.100.31'],
+      ['Marcus Reyes','#d97706','reassigned lead','Jessica Tran → Jordan','1h ago','198.51.100.31'],
       ['Dana Morales','#7c3aed','enabled setting','2FA enforcement ON','Yesterday','198.51.100.24'],
       ['Tom Fielder','#16a34a','exported data','F&I penetration report','Yesterday','198.51.100.55'],
       ['System','#64748b','completed backup','Nightly snapshot · 2.1 GB','Yesterday','—'],

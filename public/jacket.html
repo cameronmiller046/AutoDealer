@@ -72,19 +72,19 @@
     <aside class="sidebar">
       <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
       <nav class="nav"></nav>
-      <div class="side-user"><span class="av">CM</span><span class="meta"><b>Cameron Miller</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="side-user"><span class="av">JA</span><span class="meta"><b>Jordan Avery</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     </aside>
     <div class="main">
       <header class="topbar">
         <a class="back" href="/deals"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Deal Desk</a>
         <span class="crumb">Deal Jacket · <b>#DJ-4021</b></span>
-        <span class="tb-avatar"><span class="av">CM</span></span>
+        <span class="tb-avatar"><span class="av">JA</span></span>
       </header>
       <main class="content">
         <section class="jhead">
           <div class="jh-top">
             <span class="av" style="background:#3b82f6">JS</span>
-            <div><h1>John Smith</h1><div class="sub">2024 Chevrolet Silverado High Country · Stock T45281 · Cameron Miller</div></div>
+            <div><h1>John Smith</h1><div class="sub">2024 Chevrolet Silverado High Country · Stock T45281 · Jordan Avery</div></div>
             <div class="dealno"><div class="dn">DEAL #DJ-4021 · MONTHLY</div><div class="pv">$1,140<span style="font-size:13px;color:var(--muted)">/mo</span></div></div>
           </div>
           <div class="stepper" id="stepper"></div>
@@ -132,7 +132,7 @@
     function renderTab(){
       var b=$("tabBody");
       if(state.tab==="overview"){
-        b.innerHTML='<div class="card"><h3>Customer</h3><div class="kv2">'+[["Name","John A. Smith"],["Phone","(678) 555-0142"],["Email","jsmith@email.com"],["Credit","Pre-Approved · 720+"],["Buying stage","Negotiation"],["Assigned rep","Cameron Miller"]].map(function(r){return '<div><div class="k">'+r[0]+'</div><div class="v">'+r[1]+'</div></div>';}).join("")+'</div></div>'+
+        b.innerHTML='<div class="card"><h3>Customer</h3><div class="kv2">'+[["Name","John A. Smith"],["Phone","(678) 555-0142"],["Email","jsmith@email.com"],["Credit","Pre-Approved · 720+"],["Buying stage","Negotiation"],["Assigned rep","Jordan Avery"]].map(function(r){return '<div><div class="k">'+r[0]+'</div><div class="v">'+r[1]+'</div></div>';}).join("")+'</div></div>'+
           '<div class="card"><h3>Vehicle</h3><div class="veh-card"><div class="vph">'+car("#2f5fb0")+'</div><div><div class="vt">2024 Chevrolet Silverado High Country</div><div class="vs">Northsky Blue · 5.3L V8 · 4WD · VIN 3GCUKDED5SG145281</div><div class="vmeta"><div><div class="k">Stock</div><div class="v">T45281</div></div><div><div class="k">Mileage</div><div class="v">14</div></div><div><div class="k">MSRP</div><div class="v">$76,900</div></div><div><div class="k">Sale Price</div><div class="v">$74,300</div></div></div></div></div></div>'+
           '<div class="card nums"><h3>Deal Numbers <span class="rt mgr-only" style="color:#16a34a">Gross $4,910</span></h3>'+nr("Sale Price","$74,300")+nr("Net Trade (equity)",'<span class="eq">+$4,800</span>')+nr("Sales Tax","$3,178")+nr("Doc & Fees","$899")+nr("Rebates","-$1,500")+nr("Cash Down","-$5,000")+'<div class="nr tot"><span class="k">Amount Financed</span><span class="v">$67,077</span></div><div class="nr"><span class="k">72 mo @ 6.9% APR</span><span class="v" style="color:var(--accent)">$1,140/mo</span></div></div>';
       } else if(state.tab==="trade"){
@@ -147,7 +147,7 @@
         var DOCS=[["i-green","doc","Buyer's Order","Generated today","ds-signed","Signed"],["i-indigo","doc","Credit Application","Ally · approved","ds-signed","Signed"],["i-purple","doc","Retail Installment Contract","72 mo @ 6.9%","ds-pending","Awaiting Sig"],["i-amber","doc","Trade Paperwork — F-150","Payoff verified","ds-signed","Signed"],["i-gray","doc","Extended Warranty Agreement","7yr/100k","ds-pending","Awaiting Sig"],["i-teal","doc","Privacy & Disclosure Forms","Federal + state","ds-pending","Awaiting Sig"]];
         b.innerHTML='<div class="card"><h3>Documents <span class="rt" style="color:var(--muted);font-weight:600;font-size:12px">3 of 6 signed</span></h3>'+DOCS.map(function(d){return '<div class="doc-row"><span class="di '+d[0]+'">'+svg(d[1])+'</span><div><b>'+d[2]+'</b><span>'+d[3]+'</span></div><span class="ds '+d[4]+'">'+d[5]+'</span></div>';}).join("")+'</div>'+
           '<div class="card"><h3>Approval Chain</h3>'+
-            '<div class="appr-row"><span class="as as-ok">'+check+'</span><div><b>Salesperson submitted</b><span>Cameron Miller</span></div><span class="at">2h ago</span></div>'+
+            '<div class="appr-row"><span class="as as-ok">'+check+'</span><div><b>Salesperson submitted</b><span>Jordan Avery</span></div><span class="at">2h ago</span></div>'+
             '<div class="appr-row"><span class="as as-ok">'+check+'</span><div><b>Sales Manager approved</b><span>Dana Morales · desk numbers signed off</span></div><span class="at">1h ago</span></div>'+
             '<div class="appr-row"><span class="as as-wait"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><div><b>Finance manager review</b><span>Tom Fielder · F&amp;I products offered</span></div><span class="at">In progress</span></div>'+
             '<div class="appr-row"><span class="as as-todo">'+check+'</span><div><b>Ready for delivery</b><span>Pending finance completion</span></div></div>'+

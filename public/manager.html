@@ -146,13 +146,13 @@
     $("alerts").innerHTML = ALERTS.map(function(a){ return '<div class="alert"><span class="ai '+a[0]+'"><svg viewBox="0 0 24 24">'+AIC[a[1]]+'</svg></span><div><div class="at">'+a[2]+'</div><div class="as">'+a[3]+'</div></div><button class="abtn">'+a[4]+'</button></div>'; }).join("");
 
     $("aiInsights").innerHTML = [
-      ['<b>Cameron</b> converts internet leads <b>27% better</b> than team average.','Assign incoming Silverado leads to Cameron'],
+      ['<b>Jordan</b> converts internet leads <b>27% better</b> than team average.','Assign incoming Silverado leads to Jordan'],
       ["<b>Sarah's</b> response time increased to 6m today (usual 2m).",'Check her workload — she has 18 open leads'],
       ['<b>Michael</b> has the highest appointment show rate at <b>88%</b>.','Have him mentor the two newest reps'],
       ['Silverado closes <b>41%</b> this week — your hottest model.','Prioritize Silverado leads and keep pricing firm']
     ].map(function(a){ return '<div class="airec"><p>'+a[0]+'</p><div class="rec">→ '+a[1]+'</div></div>'; }).join("");
 
-    var LEADER = [["Cameron Miller","CM","#3b82f6",18,"+3"],["Sarah Johnson","SJ","#8b5cf6",16,"+2"],["Michael Davis","MD","#14b8a6",15,"+1"],["Priya Nair","PN","#f43f5e",13,"+4"],["Marcus Webb","MB","#10b981",11,"+1"],["Grace Kim","GK","#eab308",9,"+2"]];
+    var LEADER = [["Jordan Avery","JA","#3b82f6",18,"+3"],["Sarah Johnson","SJ","#8b5cf6",16,"+2"],["Michael Davis","MD","#14b8a6",15,"+1"],["Priya Nair","PN","#f43f5e",13,"+4"],["Marcus Webb","MB","#10b981",11,"+1"],["Grace Kim","GK","#eab308",9,"+2"]];
     $("leaderboard").innerHTML = LEADER.map(function(p,i){ return '<div class="lb-row '+(i===0?"top1":i===1?"top2":i===2?"top3":"")+'"><span class="lb-rank">'+(i+1)+'</span><span class="lb-av" style="background:'+p[2]+'">'+p[1]+'</span><div class="lb-nm"><b>'+p[0].split(" ")[0]+'</b><span>Last activity '+(i===2?"yesterday · flag":(i*4+2)+"m ago")+'</span></div><div class="lb-stat"><div class="s1">'+p[3]+'</div><div class="s2">'+p[4]+' today</div></div></div>'; }).join("");
 
     var pct = Math.round(142/180*100);
@@ -160,10 +160,10 @@
       '<div style="text-align:center;font-size:13px;color:var(--muted)"><b style="color:var(--text);font-size:20px">142</b> / 180 vehicles</div>'+
       '<div class="goal-sub" style="margin-top:12px"><div class="gs"><b>38</b><span>remaining</span></div><div class="gs"><b>9</b><span>days left</span></div><div class="gs"><b style="color:#16a34a">On Track</b><span>pace</span></div></div>';
 
-    var APPTS = [["9:00","John Smith","JS","#3b82f6","Test Drive · Cameron","st-c","Confirmed"],["10:30","Amanda Harris","AH","#ec4899","Sales · Cameron","st-c","Confirmed"],["11:30","David Johnson","DJ","#f59e0b","Trade Appraisal · Sarah","st-p","Pending"],["1:00","Robert Brown","RB","#14b8a6","Finance · Cameron","st-c","Confirmed"],["3:30","Kevin Anderson","KA","#0ea5e9","Test Drive · Michael","st-p","Pending"]];
+    var APPTS = [["9:00","John Smith","JS","#3b82f6","Test Drive · Jordan","st-c","Confirmed"],["10:30","Amanda Harris","AH","#ec4899","Sales · Jordan","st-c","Confirmed"],["11:30","David Johnson","DJ","#f59e0b","Trade Appraisal · Sarah","st-p","Pending"],["1:00","Robert Brown","RB","#14b8a6","Finance · Jordan","st-c","Confirmed"],["3:30","Kevin Anderson","KA","#0ea5e9","Test Drive · Michael","st-p","Pending"]];
     $("appts").innerHTML = APPTS.map(function(a){ return '<div class="appt-row"><span class="appt-time">'+a[0]+'</span><span class="dav" style="background:'+a[3]+'">'+a[2]+'</span><div class="an"><b>'+a[1]+'</b><span>'+a[4]+'</span></div><span class="st '+a[5]+'">'+a[6]+'</span></div>'; }).join("");
 
-    var DEALS = [["Sarah Lewis","SL","#8b5cf6","Tahoe High Country","$74,995","Cameron"],["Priya Nair","PN","#f43f5e","Cadillac XT5","$49,995","Cameron"],["Ethan Ross","ER","#64748b","Buick Enclave","$56,900","Michael"],["Marcus Webb","MB","#10b981","Corvette Z06","$92,000","Sarah"]];
+    var DEALS = [["Sarah Lewis","SL","#8b5cf6","Tahoe High Country","$74,995","Jordan"],["Priya Nair","PN","#f43f5e","Cadillac XT5","$49,995","Jordan"],["Ethan Ross","ER","#64748b","Buick Enclave","$56,900","Michael"],["Marcus Webb","MB","#10b981","Corvette Z06","$92,000","Sarah"]];
     $("deals").innerHTML = DEALS.map(function(d){ return '<div class="drow"><span class="dav" style="background:'+d[2]+'">'+d[1]+'</span><div class="dn"><b>'+d[0]+'</b><span>'+d[3]+'</span></div><div class="dv"><div class="p">'+d[4]+'</div><div class="r">'+d[5]+'</div></div></div>'; }).join("");
 
     var INV = [["#dc2626","Tahoe inventory low","likely depleted in 14 days"],["#ea8a0b","18 units aged 60+ days","concentrated in used trucks"],["#ea8a0b","F-150 XLT — 52 days in stock","recommend $500 price drop"],["#2563eb","6 vehicles missing photos","blocking online listings"],["#dc2626","4 vehicles awaiting inspection","cannot be sold until cleared"]];

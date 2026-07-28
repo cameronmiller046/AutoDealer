@@ -250,28 +250,28 @@
 
     /* ---------- ADVOCATES ---------- */
     var ADVOCATES = [
-      { name:'Linda Foster',   sold:21, total:26, purchased:4, since:2016, rep:'Cameron Miller', month:2, quarter:5 },
-      { name:'Robert Chen',    sold:12, total:15, purchased:3, since:2018, rep:'Cameron Miller', month:3, quarter:6 },
+      { name:'Linda Foster',   sold:21, total:26, purchased:4, since:2016, rep:'Jordan Avery', month:2, quarter:5 },
+      { name:'Robert Chen',    sold:12, total:15, purchased:3, since:2018, rep:'Jordan Avery', month:3, quarter:6 },
       { name:'Sofia Ramirez',  sold:8,  total:11, purchased:2, since:2019, rep:'Sarah Lin',       month:2, quarter:4 },
       { name:'Jennifer Adams', sold:6,  total:9,  purchased:2, since:2020, rep:'Marcus Bell',     month:1, quarter:3 },
-      { name:'David Okafor',   sold:4,  total:6,  purchased:1, since:2021, rep:'Cameron Miller', month:1, quarter:2 },
+      { name:'David Okafor',   sold:4,  total:6,  purchased:1, since:2021, rep:'Jordan Avery', month:1, quarter:2 },
       { name:'Maria Gonzalez', sold:3,  total:5,  purchased:1, since:2022, rep:'Sarah Lin',       month:1, quarter:2 },
       { name:'Ashley Patel',   sold:2,  total:4,  purchased:1, since:2023, rep:'Marcus Bell',     month:0, quarter:1 },
-      { name:'Kevin Brooks',   sold:1,  total:2,  purchased:1, since:2024, rep:'Cameron Miller', month:1, quarter:1 }
+      { name:'Kevin Brooks',   sold:1,  total:2,  purchased:1, since:2024, rep:'Jordan Avery', month:1, quarter:1 }
     ];
     ADVOCATES.forEach(function(a){ a.tier=currentTier(a.sold); a.next=nextTier(a.sold); a.earned=tierValueSum(a.sold); });
     function advBy(name){ return ADVOCATES.find(function(a){return a.name===name;}); }
 
     /* ---------- REFERRAL PIPELINE ---------- */
     var REFERRALS = [
-      { id:1, person:'Denise Park',       adv:'Robert Chen',    veh:'2025 RAV4',        rep:'Cameron Miller', date:'Jul 26', stage:'paid' },
+      { id:1, person:'Denise Park',       adv:'Robert Chen',    veh:'2025 RAV4',        rep:'Jordan Avery', date:'Jul 26', stage:'paid' },
       { id:2, person:'Miguel Santos',     adv:'Jennifer Adams', veh:'Tacoma TRD',       rep:'Marcus Bell',    date:'Jul 24', stage:'appointment' },
-      { id:3, person:'The Wright Family', adv:'David Okafor',   veh:'Grand Highlander', rep:'Cameron Miller', date:'Jul 25', stage:'contacted' },
+      { id:3, person:'The Wright Family', adv:'David Okafor',   veh:'Grand Highlander', rep:'Jordan Avery', date:'Jul 25', stage:'contacted' },
       { id:4, person:'Karen Liu',         adv:'Ashley Patel',   veh:'Corolla Hybrid',   rep:'Unassigned',     date:'Jul 26', stage:'submitted' },
       { id:5, person:'Brandon Cole',      adv:'Robert Chen',    veh:'4Runner',          rep:'Sarah Lin',      date:'Jul 22', stage:'approved' },
-      { id:6, person:'Tanya Reyes',       adv:'Sofia Ramirez',  veh:'Sienna',           rep:'Cameron Miller', date:'Jul 23', stage:'testdrive' },
+      { id:6, person:'Tanya Reyes',       adv:'Sofia Ramirez',  veh:'Sienna',           rep:'Jordan Avery', date:'Jul 23', stage:'testdrive' },
       { id:7, person:'Peter Novak',       adv:'Jennifer Adams', veh:'Camry',            rep:'Unassigned',     date:'Jul 26', stage:'submitted' },
-      { id:8, person:'Grace Kim',         adv:'Linda Foster',   veh:'Highlander XLE',   rep:'Cameron Miller', date:'Jul 20', stage:'purchased' },
+      { id:8, person:'Grace Kim',         adv:'Linda Foster',   veh:'Highlander XLE',   rep:'Jordan Avery', date:'Jul 20', stage:'purchased' },
       { id:9, person:'Omar Haddad',       adv:'Maria Gonzalez', veh:'Tundra',           rep:'Sarah Lin',      date:'Jul 25', stage:'contacted' }
     ];
 
@@ -316,7 +316,7 @@
 
     /* ---------- EMPLOYEE RECOGNITION (separate from customer rewards) ---------- */
     var EMPLOYEES = [
-      { name:'Cameron Miller', sourced:14, closed:9,  badges:['star','shield'] },
+      { name:'Jordan Avery', sourced:14, closed:9,  badges:['star','shield'] },
       { name:'Sarah Lin',      sourced:9,  closed:6,  badges:['medal'] },
       { name:'Marcus Bell',    sourced:7,  closed:4,  badges:['medal'] },
       { name:'Dana Morales',   sourced:5,  closed:3,  badges:[] }
@@ -550,7 +550,7 @@
         kpi('Referral Revenue', '$186K', 'Generated YTD', 'dollar', '#16a34a')+
         kpi('Program ROI', '11.4×', 'Revenue vs reward cost', 'trend', '#7c3aed')+
         kpi('Avg Reward Cost', '$188', 'Per sold referral', 'gift', '#d97706')+
-        kpi('Best Salesperson', 'Cameron M.', '9 referral closes', 'star', '#2563eb')+
+        kpi('Best Salesperson', 'Jordan M.', '9 referral closes', 'star', '#2563eb')+
       '</div>'+
       '<div class="an-grid">'+
         '<div class="card"><div class="card-h">'+svg('trend')+'<h2>Referral Conversion Funnel</h2></div><div class="funnel">'+

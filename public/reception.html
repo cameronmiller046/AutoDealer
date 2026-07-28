@@ -111,7 +111,7 @@
               <div class="fld"><label>Interested Vehicle</label><input id="ci-veh" placeholder="e.g. Silverado LT" /></div>
               <div class="fld"><label>Trade-In?</label><select><option>No</option><option>Yes — needs appraisal</option></select></div>
               <div class="fld"><label>Has Appointment?</label><select><option>Walk-in (no appointment)</option><option>Has appointment</option></select></div>
-              <div class="fld"><label>Assign Salesperson</label><select id="ci-rep"><option>Auto-assign (recommended)</option><option>Cameron Miller</option><option>Sarah Johnson</option><option>Michael Davis</option></select></div>
+              <div class="fld"><label>Assign Salesperson</label><select id="ci-rep"><option>Auto-assign (recommended)</option><option>Jordan Avery</option><option>Sarah Johnson</option><option>Michael Davis</option></select></div>
             </div>
             <button class="chk-submit" id="ciSubmit">Check In &amp; Route to Salesperson</button>
           </div>
@@ -149,10 +149,10 @@
 
     var WALKINS = [["Michael Williams","MW","#a855f7","7 min","Tahoe","None"],["Jessica Davis","JD","#6366f1","3 min","Accord","None"]];
     function renderWalkins(){ $("walkins").innerHTML = WALKINS.map(function(w,i){ return '<div class="wq"><div class="wq-top"><span class="av" style="background:'+w[2]+'">'+w[1]+'</span><b>'+w[0]+'</b><div class="wait"><span class="badge">Waiting</span><small>'+w[3]+'</small></div></div><div class="wq-meta"><div><div class="k">Looking At</div><div class="v">'+w[4]+'</div></div><div><div class="k">Assigned</div><div class="v">'+w[5]+'</div></div></div><button class="wq-assign" data-i="'+i+'">Assign Salesperson</button></div>'; }).join("");
-      document.querySelectorAll(".wq-assign").forEach(function(b){ b.addEventListener("click", function(){ b.textContent="✓ Assigned to Cameron"; b.classList.add("done"); toast("Customer routed to Cameron", "Now on their dashboard"); }); }); }
+      document.querySelectorAll(".wq-assign").forEach(function(b){ b.addEventListener("click", function(){ b.textContent="✓ Assigned to Jordan"; b.classList.add("done"); toast("Customer routed to Jordan", "Now on their dashboard"); }); }); }
     renderWalkins();
 
-    var APPTS = [["9:00","John Smith","JS","#3b82f6","Test Drive · Cameron",true],["10:30","Amanda Harris","AH","#ec4899","Sales · Cameron",true],["11:30","David Johnson","DJ","#f59e0b","Trade Appraisal · Sarah",false],["1:00","Robert Brown","RB","#14b8a6","Finance · Cameron",true],["2:00","Sarah Lewis","SL","#8b5cf6","Delivery · Cameron",true],["3:30","Kevin Anderson","KA","#0ea5e9","Test Drive · Michael",false]];
+    var APPTS = [["9:00","John Smith","JS","#3b82f6","Test Drive · Jordan",true],["10:30","Amanda Harris","AH","#ec4899","Sales · Jordan",true],["11:30","David Johnson","DJ","#f59e0b","Trade Appraisal · Sarah",false],["1:00","Robert Brown","RB","#14b8a6","Finance · Jordan",true],["2:00","Sarah Lewis","SL","#8b5cf6","Delivery · Jordan",true],["3:30","Kevin Anderson","KA","#0ea5e9","Test Drive · Michael",false]];
     $("appts").innerHTML = APPTS.map(function(a,i){ return '<div class="ad-row"><span class="ad-time">'+a[0]+'</span><span class="av" style="background:'+a[3]+'">'+a[2]+'</span><div class="ad-nm"><b>'+a[1]+'</b><span>'+a[4]+'</span></div><div class="ad-act">'+(a[5]?'<button class="ad-btn" data-ci="'+i+'">Check In</button>':'<button class="ad-btn" data-cf="'+i+'">Confirm</button>')+'<button class="ad-btn gray">Reschedule</button></div></div>'; }).join("");
     document.querySelectorAll("[data-ci]").forEach(function(b){ b.addEventListener("click", function(){ b.textContent="✓ Checked In"; b.classList.add("done"); toast("Guest checked in", "Salesperson notified"); }); });
     document.querySelectorAll("[data-cf]").forEach(function(b){ b.addEventListener("click", function(){ b.textContent="✓ Confirmed"; b.classList.add("done"); toast("Appointment confirmed"); }); });
@@ -161,21 +161,21 @@
     $("phones").innerHTML = PHONES.map(function(p){ return '<div class="pq-row"><span class="pq-ic '+p[0]+'"><svg viewBox="0 0 24 24">'+SIC[p[1]]+'</svg></span><div class="pq-nm"><b>'+p[2]+'</b><span>'+p[3]+'</span></div><div class="pq-act">'+p[4].map(function(a){return '<button class="pq-btn">'+a+'</button>';}).join("")+'</div></div>'; }).join("");
 
     $("ai").innerHTML = [
-      ['<b>John Smith</b> arrived 12 minutes early for his 9:00.','Notify Cameron to prepare the Silverado'],
+      ['<b>John Smith</b> arrived 12 minutes early for his 9:00.','Notify Jordan to prepare the Silverado'],
       ["<b>Sarah's</b> 2:00 delivery hasn't checked in yet.",'Call the customer to confirm arrival'],
-      ['Walk-in interested in a <b>Tahoe</b> — Cameron sold 4 this month.','Recommended salesperson: Cameron']
+      ['Walk-in interested in a <b>Tahoe</b> — Jordan sold 4 this month.','Recommended salesperson: Jordan']
     ].map(function(a){ return '<div class="airec"><p>'+a[0]+'</p><div class="rec">→ '+a[1]+'</div></div>'; }).join("");
 
     var DELIV = [["Sarah Lewis","SL","#8b5cf6","Tahoe · 2:00 PM"],["Marcus Webb","MB","#10b981","Corvette · 4:00 PM"],["Priya Nair","PN","#f43f5e","XT5 · 5:15 PM"]];
     $("deliveries").innerHTML = DELIV.map(function(d){ return '<div class="mrow"><span class="av" style="background:'+d[2]+'">'+d[1]+'</span><div class="mn"><b>'+d[0]+'</b><span>'+d[3]+'</span></div></div>'; }).join("");
     var MSGS = [["Robert Brown","RB","#14b8a6","Asked about APR","1h"],["Grace Kim","GK","#eab308","Is it still available?","2h"],["Amanda Harris","AH","#ec4899","Callback requested","3h"]];
     $("messages").innerHTML = MSGS.map(function(m){ return '<div class="mrow"><span class="av" style="background:'+m[2]+'">'+m[1]+'</span><div class="mn"><b>'+m[0]+'</b><span>'+m[3]+'</span></div><span class="mt">'+m[4]+'</span></div>'; }).join("");
-    var NOTIF = [["#7c3aed","Dana","Send the 2 PM delivery to bay 3","20m"],["#2563eb","Dana","Hold walk-ins for Cameron until 10","45m"],["#ea8a0b","Service","Loaner ready for Mr. Johnson","1h"]];
+    var NOTIF = [["#7c3aed","Dana","Send the 2 PM delivery to bay 3","20m"],["#2563eb","Dana","Hold walk-ins for Jordan until 10","45m"],["#ea8a0b","Service","Loaner ready for Mr. Johnson","1h"]];
     $("notifs").innerHTML = NOTIF.map(function(n){ return '<div class="mrow"><span class="av" style="background:'+n[0]+'">'+n[1].slice(0,2).toUpperCase()+'</span><div class="mn"><b>'+n[1]+'</b><span>'+n[2]+'</span></div><span class="mt">'+n[3]+'</span></div>'; }).join("");
 
     $("ciSubmit").addEventListener("click", function(){
       var nm = ($("ci-name").value || "Guest").trim();
-      var rep = $("ci-rep").value.indexOf("Auto")===0 ? "Cameron (auto)" : $("ci-rep").value;
+      var rep = $("ci-rep").value.indexOf("Auto")===0 ? "Jordan (auto)" : $("ci-rep").value;
       WALKINS.unshift([nm, nm.split(" ").map(function(x){return x[0];}).join("").slice(0,2).toUpperCase(), "#0891b2", "just now", $("ci-veh").value||"Browsing", "None"]);
       $("wqCount").textContent = WALKINS.length; renderWalkins();
       $("ci-name").value=""; $("ci-phone").value=""; $("ci-veh").value="";

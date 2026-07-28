@@ -71,11 +71,11 @@
               <div class="fld"><label>Interested Vehicle</label><input id="v-veh" placeholder="e.g. 2026 Silverado LT" /></div>
               <div class="fld"><label>Trade-In?</label><select id="v-trade"><option>No trade</option><option>Yes — needs appraisal</option></select></div>
               <div class="fld"><label>Has an Appointment?</label><select><option>Walk-in (no appointment)</option><option>Yes — scheduled</option></select></div>
-              <div class="fld"><label>Salesperson Requested?</label><select id="v-rep"><option>Auto-assign (recommended)</option><option>Cameron Miller</option><option>Sarah Johnson</option><option>Michael Davis</option><option>Priya Nair</option></select></div>
+              <div class="fld"><label>Salesperson Requested?</label><select id="v-rep"><option>Auto-assign (recommended)</option><option>Jordan Avery</option><option>Sarah Johnson</option><option>Michael Davis</option><option>Priya Nair</option></select></div>
               <div class="fld full"><label>Arrival Time</label><input value="Now — auto-stamped on check-in" disabled style="color:var(--muted)" /></div>
             </div>
             <button class="chk-submit" id="submit">Check In &amp; Route to Salesperson</button>
-            <div class="note"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg><div>AI suggests <b>Cameron</b> for Silverado/Tahoe walk-ins — he leads truck sales this month with an 88% show rate.</div></div>
+            <div class="note"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg><div>AI suggests <b>Jordan</b> for Silverado/Tahoe walk-ins — he leads truck sales this month with an 88% show rate.</div></div>
           </div>
           <div class="card">
             <h3>Recent Check-Ins</h3>
@@ -90,8 +90,8 @@
   <script>
     var $ = function(id){ return document.getElementById(id); };
     var RECENT = [
-      ["John Smith","JS","#3b82f6","Silverado LT · appointment","Cameron","9:02 AM"],
-      ["Michael Williams","MW","#a855f7","Tahoe · walk-in","Cameron","10:41 AM"],
+      ["John Smith","JS","#3b82f6","Silverado LT · appointment","Jordan","9:02 AM"],
+      ["Michael Williams","MW","#a855f7","Tahoe · walk-in","Jordan","10:41 AM"],
       ["Jessica Davis","JD","#6366f1","Accord · walk-in","Sarah","11:05 AM"]
     ];
     function render(){ $("recent").innerHTML = RECENT.map(function(r){ return '<div class="rec-row"><span class="rec-av" style="background:'+r[2]+'">'+r[1]+'</span><div class="rec-nm"><b>'+r[0]+'</b><span>'+r[3]+'</span></div><div class="rec-t"><div class="rep">'+r[4]+'</div><small>'+r[5]+'</small></div></div>'; }).join(""); }
@@ -99,7 +99,7 @@
     $("submit").addEventListener("click", function(){
       var nm = ($("v-name").value||"Guest").trim();
       var ini = nm.split(" ").map(function(x){return x[0];}).join("").slice(0,2).toUpperCase();
-      var rep = $("v-rep").value.indexOf("Auto")===0 ? "Cameron" : $("v-rep").value.split(" ")[0];
+      var rep = $("v-rep").value.indexOf("Auto")===0 ? "Jordan" : $("v-rep").value.split(" ")[0];
       var veh = ($("v-veh").value||"Browsing") + " · walk-in";
       RECENT.unshift([nm, ini, "#0891b2", veh, rep, "just now"]); render();
       $("v-name").value=""; $("v-phone").value=""; $("v-veh").value="";
