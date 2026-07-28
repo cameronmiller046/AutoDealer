@@ -673,6 +673,19 @@
   var TOPBAR_ROUTE = { 'calls':'/communications','messages':'/communications','notifications':'/notifications' };
   function labelOf(btn){ return (btn.getAttribute('aria-label')||btn.getAttribute('title')||btn.textContent||'').replace(/\s+/g,' ').trim(); }
 
+  // Best-effort: derive a {name, phone} for the call screen from the button's surrounding row/card.
+  function contactFor(btn){
+    var row = btn.closest && btn.closest('tr,.pc,.vcard,.card,.row,[data-id],[data-vid],li');
+    var c = {};
+    if (row){
+      var nm = row.querySelector('.cust b, .name, h1, h2, h3, b, strong, td');
+      if (nm && nm.textContent.trim()) c.name = nm.textContent.trim().slice(0,40);
+      var txt = row.textContent || '';
+      var ph = txt.match(/\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/);
+      if (ph) c.phone = ph[0];
+    }
+    return c;
+  }
   function handle(btn){
     var lbl = labelOf(btn);
     if (btn.classList.contains('hamb')){ sidebarToggle(); return; }
@@ -690,8 +703,14 @@
       openAction(lbl||'New'); return;
     }
     var verb = lbl.toLowerCase();
-    var VERBS = { call:'📞 Starting call…', text:'💬 Opening SMS…', email:'✉️ Composing email…', video:'🎥 Launching video call…',
-      export:'⬇️ Preparing export…', assign:'✅ Assigned', 'follow-up':'⏰ Follow-up set', reminder:'🔔 Reminder sent',
+    // Call -> the shared in-call recording screen (default action everywhere)
+    if (verb==='call' || verb.indexOf('call ')===0 || verb.indexOf('call\n')===0){ if(window.ADCall){ ADCall.open(contactFor(btn)); } else { location.href='/communications'; } return; }
+    // Text / Email / Video -> the contact center
+    if (/^(text|sms|message)\b/.test(verb) || /^(e-?mail)\b/.test(verb) || /^(video|send video)\b/.test(verb)){
+      var ch = /^(e-?mail)/.test(verb) ? 'email' : /^(video)/.test(verb) ? 'video' : 'text';
+      location.href = '/communications?channel='+ch; return;
+    }
+    var VERBS = { export:'⬇️ Preparing export…', assign:'✅ Assigned', 'follow-up':'⏰ Follow-up set', reminder:'🔔 Reminder sent',
       'send reminder':'🔔 Reminder sent', note:'📝 Note added', service:'🔧 Opening service…', upgrade:'⬆️ Upgrade path opened' };
     for (var v in VERBS){ if (verb===v || verb.indexOf(v)===0){ toast(VERBS[v]); return; } }
     if (lbl) toast(lbl);

@@ -422,7 +422,7 @@
         </div>
         <div class="panel-body">
           <div class="qa">
-            <button>${svg("call")}Call</button><button>${svg("text")}Text</button><button>${svg("email")}Email</button><button>${svg("video")}Video</button><button>${svg("appt")}Appt</button><button>${svg("payment")}Payment</button><button>${svg("trade")}Trade</button>
+            <button data-act="call">${svg("call")}Call</button><button data-act="text">${svg("text")}Text</button><button data-act="email">${svg("email")}Email</button><button data-act="video">${svg("video")}Video</button><button data-act="appt">${svg("appt")}Appt</button><button data-act="payment">${svg("payment")}Payment</button><button data-act="trade">${svg("trade")}Trade</button>
           </div>
           <div class="sect">
             <h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Summary</h3>
@@ -454,7 +454,23 @@
         </div>`;
       panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
       panel.querySelector("#panelClose").addEventListener("click", closeAll);
+      panel.querySelectorAll(".qa [data-act]").forEach((b) => b.addEventListener("click", () => routeProspect(p, b.dataset.act)));
+      const sb = panel.querySelector(".send-btn"); if (sb) sb.addEventListener("click", () => { location.href = "/communications?channel=text&to=" + encodeURIComponent(p.name); });
     }
+    /* Call -> shared in-call screen; Text/Email/Video -> contact center */
+    function routeProspect(p, act) {
+      p = p || {};
+      if (act === "call") { if (window.ADCall) ADCall.open({ name:p.name, phone:p.phone, ini:p.ini, color:p.c, id:p.id, veh:p.veh }); else location.href = "/communications"; return; }
+      if (act === "text" || act === "email" || act === "video") { location.href = "/communications?channel=" + act + "&to=" + encodeURIComponent(p.name || ""); return; }
+      if (act === "appt") { location.href = "/appointments"; return; }
+      if (act === "trade") { location.href = "/trades"; return; }
+      if (window.adToast) window.adToast(act.charAt(0).toUpperCase() + act.slice(1) + " opened");
+    }
+    document.addEventListener("click", function (e) {
+      const b = e.target.closest(".pc .ra[data-act]"); if (!b) return; e.stopPropagation();
+      const row = b.closest(".pc"); const p = P.find((x) => x.id === (row ? +row.dataset.id : 0));
+      routeProspect(p, b.dataset.act);
+    });
 
     /* ---------- drawer ---------- */
     const drawer = document.getElementById("drawer");

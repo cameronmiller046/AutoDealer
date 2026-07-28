@@ -618,9 +618,13 @@
     function openDeal(){ if(window.ADWire&&ADWire.openAction){ ADWire.openAction("New Deal"); } else tst("Opening deal desk…"); }
     function openAI(){ if(window.ADAI&&window.ADAI.open){ window.ADAI.open(); } else tst("AI Assistant"); }
 
+    function toComms(ch){ location.href="/communications?channel="+ch+"&to="+encodeURIComponent(CUST.name); }
     function route(kind){
-      if(kind==="call") drawerCall(); else if(kind==="text") drawerText(); else if(kind==="email") drawerEmail();
-      else if(kind==="video") drawerVideo(); else if(kind==="appt") drawerSchedule("Appointment"); else if(kind==="followup") drawerSchedule();
+      if(kind==="call"){ if(window.ADCall) ADCall.open({name:CUST.name,phone:CUST.phone,ini:CUST.ini,color:CUST.color,id:CUST.id,veh:CUST.veh}); else drawerCall(); }
+      else if(kind==="text") toComms("text");
+      else if(kind==="email") toComms("email");
+      else if(kind==="video") toComms("video");
+      else if(kind==="appt") drawerSchedule("Appointment"); else if(kind==="followup") drawerSchedule();
       else if(kind==="note") drawerNote(); else if(kind==="deal") openDeal(); else if(kind==="task") drawerTask();
       else if(kind==="ai") openAI(); else if(kind==="more") drawerMore();
     }
