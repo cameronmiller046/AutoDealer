@@ -41,6 +41,15 @@
     .pills { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
     .pill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:8px 15px; font-size:13px; font-weight:600; } .pill.on { background:var(--accent); color:#fff; border-color:var(--accent); } .pill:hover{color:var(--text);border-color:#cfe0f7;} .pill.on:hover{color:#fff;}
     .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:16px; }
+    .empty-eq { grid-column:1/-1; text-align:center; color:var(--muted); font-size:14px; padding:40px 16px; }
+    .pager { display:flex; align-items:center; justify-content:space-between; gap:16px; margin:24px 0 8px; flex-wrap:wrap; }
+    .pg-info { color:var(--muted); font-size:13px; } .pg-info b { color:var(--text); font-weight:700; }
+    .pg-btns { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+    .pg-b { min-width:36px; height:36px; padding:0 12px; border:1px solid var(--line); background:var(--card); color:var(--text); border-radius:9px; font-size:13px; font-weight:600; box-shadow:var(--shadow); }
+    .pg-b:hover:not(:disabled) { border-color:#cfe0f7; color:var(--accent); }
+    .pg-b.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+    .pg-b:disabled { opacity:.45; cursor:default; box-shadow:none; }
+    .pg-e { color:var(--faint); padding:0 3px; }
     .ecard { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; cursor:pointer; transition:transform .12s, box-shadow .12s; position:relative; overflow:hidden; } .ecard:hover { transform:translateY(-2px); box-shadow:0 18px 40px -22px rgba(16,32,60,.4); }
     .ecard::before { content:""; position:absolute; top:0; left:0; right:0; height:3px; background:var(--sc); }
     .ec-top { display:flex; align-items:center; gap:12px; margin-bottom:13px; } .ec-top .av { width:42px; height:42px; border-radius:50%; color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center; flex:none; } .ec-top b { font-weight:700; font-size:15px; } .ec-top .veh { font-size:12px; color:var(--muted); }
@@ -88,6 +97,7 @@
         <div class="kpis" id="kpis"></div>
         <div class="pills" id="pills"></div>
         <div class="grid" id="grid"></div>
+        <div class="pager" id="pager"></div>
       </main>
     </div>
   </div>
@@ -119,27 +129,74 @@
         factors:[["Equity position",72],["Vehicle age",92],["Market demand",58],["Payment fit",66],["Engagement",52],["Service loyalty",70]]}
     ];
 
+    /* AutoDealer scores 1,245 customers; 87 currently surface as equity opportunities.
+       The 6 above are hand-authored; generate the remaining 81 with consistent data. */
+    (function(){
+      var FN=["Michael","Sarah","David","Jennifer","James","Linda","Robert","Patricia","Daniel","Emily","Christopher","Ashley","Matthew","Jessica","Andrew","Amanda","Joshua","Megan","Ryan","Nicole","Brandon","Stephanie","Justin","Rachel","Tyler","Lauren","Kevin","Hannah","Eric","Olivia","Aaron","Sophia","Adam","Grace","Nathan","Chloe","Sean","Victoria","Jordan","Madison","Carlos","Maria","Luis","Ana","Wei","Mei","Raj","Priya","Omar","Fatima","Andre","Aaliyah","Diego","Bella","Hiro","Yuki","Ivan","Elena","Marcus","Naomi"];
+      var LN=["Johnson","Williams","Brown","Jones","Garcia","Miller","Davis","Rodriguez","Martinez","Hernandez","Lopez","Gonzalez","Wilson","Anderson","Thomas","Taylor","Moore","Jackson","Martin","Lee","Perez","Thompson","White","Harris","Sanchez","Clark","Ramirez","Lewis","Robinson","Walker","Young","Allen","King","Wright","Scott","Torres","Nguyen","Hill","Flores","Green","Adams","Nelson","Baker","Hall","Rivera","Campbell","Mitchell","Carter","Roberts","Patel"];
+      var VH=[["2022 Toyota RAV4","2026 RAV4 Limited","#3a7ca5"],["2021 Honda CR-V EX","2026 CR-V Hybrid","#2f5fb0"],["2023 Ford F-150 XLT","2026 F-150 Lariat","#23262b"],["2020 Nissan Rogue SL","2026 Rogue Platinum","#4b5563"],["2022 Jeep Grand Cherokee","2026 Grand Cherokee L","#5b3b2e"],["2021 Chevrolet Equinox","2026 Equinox RS","#3a7ca5"],["2023 Hyundai Tucson","2026 Tucson Limited","#556070"],["2020 Subaru Outback","2026 Outback Touring","#2e4a3a"],["2022 Mazda CX-5","2026 CX-5 Signature","#7a1c1c"],["2021 Kia Sorento","2026 Sorento SX","#2f3a4a"],["2023 GMC Sierra 1500","2026 Sierra Denali","#e6e7ea"],["2020 Ram 1500 Big Horn","2026 Ram 1500 Laramie","#4a2f2f"],["2022 Volkswagen Tiguan","2026 Tiguan SEL","#2b3a55"],["2021 Toyota Camry SE","2026 Camry XSE","#1c2330"],["2023 Honda Accord","2026 Accord Touring","#2f5fb0"],["2020 Ford Explorer","2026 Explorer ST","#3a3a3a"],["2022 Chevrolet Traverse","2026 Traverse RS","#556070"],["2021 Tesla Model 3","2026 Model 3 Long Range","#8a1c1c"],["2023 BMW X3","2026 X3 xDrive30i","#2b3a55"],["2020 Lexus RX 350","2026 RX 350 F Sport","#3a7ca5"]];
+      var COL=["#3b82f6","#f43f5e","#0ea5e9","#14b8a6","#ec4899","#eab308","#8b5cf6","#f97316","#10b981","#6366f1","#ef4444","#06b6d4"];
+      function ini(n){ return n.split(" ").map(function(w){return w[0];}).join("").slice(0,2).toUpperCase(); }
+      function clamp(v){ return Math.max(45,Math.min(99,v)); }
+      var id=7;
+      for(var i=0;i<81;i++){
+        var name=FN[(i*7+3)%FN.length]+" "+LN[(i*5+1)%LN.length];
+        var v=VH[i%VH.length];
+        var score=clamp(90 - Math.floor(i*0.45) - ((i*13)%8));
+        var st=score>=85?5:score>=72?4:score>=58?3:2;
+        var payoff=12000+((i*1370)%42000);
+        var equity=1500+((i*940)%11500);
+        var monthly=15+((i*7)%55);
+        var curPay=320+((i*23)%520);
+        var miles=(9000+((i*2100)%58000)).toLocaleString();
+        var ageY=1+(i%5);
+        var demand=score>=80?"High":score>=62?"Normal":"Soft";
+        var tags=[];
+        if(score>=82 && i%2===0) tags.push(["hot","In-Market"]);
+        if(i%5===0) tags.push(["lease","Lease ends "+((i%9)+2)+"mo"]);
+        if(i%3===1) tags.push(["svc","Service-active"]);
+        var f=function(b){ return clamp(b + ((i*17)%22) - 11); };
+        E.push({ id:id++, cust:name, ini:ini(name), color:COL[i%COL.length], veh:v[0], hex:v[2],
+          equity:equity, monthly:monthly, stars:st, scoreN:score, rec:v[1], tags:tags,
+          payoff:payoff, value:payoff+equity, curPay:curPay, newPay:curPay+monthly, miles:miles, age:ageY+(ageY===1?" yr":" yrs"), demand:demand,
+          factors:[["Equity position",f(score)],["Vehicle age",f(70)],["Market demand",f(75)],["Payment fit",f(72)],["Engagement",f(68)],["Service loyalty",f(74)]] });
+      }
+    })();
+
     function renderKPIs(){
       var avgEq = Math.round(E.reduce(function(a,e){return a+e.equity;},0)/E.length);
       var inMarket = E.filter(function(e){return e.tags.some(function(t){return t[0]==="hot";});}).length;
       $("kpis").innerHTML = [["Equity Opportunities",E.length+" of 1,245","",""],["Avg Positive Equity",money(avgEq),"g",""],["In-Market Now",inMarket,"",""],["Follow-up Tasks Created","3","",""]].map(function(k){ return '<div class="kp"><div class="kl">'+k[0]+'</div><div class="kv '+(k[2]||"")+'">'+k[1]+'</div></div>'; }).join("");
     }
-    var filter="all", q="";
+    var filter="all", q="", page=1, PER=6;
     var PILLS=[["all","All"],["5star","5-Star Opportunities"],["market","In-Market Now"],["lease","Lease Ending"],["svc","Service-Active"],["equity","Positive Equity"]];
     function match(e){ if(filter==="5star") return e.stars===5; if(filter==="market") return e.tags.some(function(t){return t[0]==="hot";}); if(filter==="lease") return e.tags.some(function(t){return t[0]==="lease";}); if(filter==="svc") return e.tags.some(function(t){return t[0]==="svc";}); if(filter==="equity") return e.equity>0; return true; }
-    function renderPills(){ $("pills").innerHTML=PILLS.map(function(p){ return '<button class="pill '+(filter===p[0]?"on":"")+'" data-f="'+p[0]+'">'+p[1]+'</button>'; }).join(""); document.querySelectorAll(".pill").forEach(function(b){ b.addEventListener("click",function(){ filter=b.dataset.f; renderPills(); renderGrid(); }); }); }
+    function renderPills(){ $("pills").innerHTML=PILLS.map(function(p){ return '<button class="pill '+(filter===p[0]?"on":"")+'" data-f="'+p[0]+'">'+p[1]+'</button>'; }).join(""); document.querySelectorAll(".pill").forEach(function(b){ b.addEventListener("click",function(){ filter=b.dataset.f; page=1; renderPills(); renderGrid(); }); }); }
 
     var created={};
+    function filtered(){ return E.filter(function(e){ return match(e) && (!q || (e.cust+" "+e.veh+" "+e.rec).toLowerCase().indexOf(q.toLowerCase())!==-1); }).sort(function(a,b){return b.scoreN-a.scoreN;}); }
     function renderGrid(){
-      var rows = E.filter(function(e){ return match(e) && (!q || (e.cust+" "+e.veh+" "+e.rec).toLowerCase().indexOf(q.toLowerCase())!==-1); }).sort(function(a,b){return b.scoreN-a.scoreN;});
-      $("grid").innerHTML = rows.map(function(e){ var sc=scoreColor(e.scoreN); return '<div class="ecard" data-id="'+e.id+'" style="--sc:'+sc+'"><div class="ec-top"><span class="av" style="background:'+e.color+'">'+e.ini+'</span><div><b>'+e.cust+'</b><div class="veh">Currently in '+e.veh+'</div></div><div class="escore"><div class="sc-n" style="color:'+sc+'">'+e.scoreN+'</div>'+stars(e.stars)+'</div></div>'+
+      var rows = filtered();
+      var totalPages = Math.max(1, Math.ceil(rows.length/PER));
+      if(page>totalPages) page=totalPages; if(page<1) page=1;
+      var pageRows = rows.slice((page-1)*PER, page*PER);
+      $("grid").innerHTML = pageRows.length ? pageRows.map(function(e){ var sc=scoreColor(e.scoreN); return '<div class="ecard" data-id="'+e.id+'" style="--sc:'+sc+'"><div class="ec-top"><span class="av" style="background:'+e.color+'">'+e.ini+'</span><div><b>'+e.cust+'</b><div class="veh">Currently in '+e.veh+'</div></div><div class="escore"><div class="sc-n" style="color:'+sc+'">'+e.scoreN+'</div>'+stars(e.stars)+'</div></div>'+
         '<div class="ec-eq"><div><div class="k">Estimated Equity</div><div class="v g">'+money(e.equity)+'</div></div><div><div class="k">Payment Change</div><div class="v b">+'+money(e.monthly)+'/mo</div></div></div>'+
         '<div class="ec-rec"><span class="ri"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><div><div class="rl">Recommended upgrade</div><b>'+e.rec+'</b></div></div>'+
         (e.tags.length?'<div class="ec-tags">'+e.tags.map(function(t){return '<span class="etag '+t[0]+'">'+t[1]+'</span>';}).join("")+'</div>':"")+
-        '<div class="ec-actions"><button class="ea-task '+(created[e.id]?"done":"")+'" data-task="'+e.id+'">'+(created[e.id]?"Task created ✓":"Create Follow-up")+'</button><button class="ea-send" data-open="'+e.id+'">View Analysis</button></div></div>'; }).join("");
+        '<div class="ec-actions"><button class="ea-task '+(created[e.id]?"done":"")+'" data-task="'+e.id+'">'+(created[e.id]?"Task created ✓":"Create Follow-up")+'</button><button class="ea-send" data-open="'+e.id+'">View Analysis</button></div></div>'; }).join("") : '<div class="empty-eq">No opportunities match this filter.</div>';
       document.querySelectorAll("[data-open]").forEach(function(b){ b.addEventListener("click",function(e){ e.stopPropagation(); openEq(+b.dataset.open); }); });
       document.querySelectorAll(".ecard").forEach(function(el){ el.addEventListener("click",function(e){ if(e.target.closest("[data-task]")) return; openEq(+el.dataset.id); }); });
       document.querySelectorAll("[data-task]").forEach(function(b){ b.addEventListener("click",function(e){ e.stopPropagation(); created[b.dataset.task]=true; renderGrid(); toast("Follow-up task created & assigned to you"); }); });
+      renderPager(rows.length, totalPages);
+    }
+    function pageWindow(cur,total){ var out=[]; for(var i=1;i<=total;i++){ if(i===1||i===total||(i>=cur-1&&i<=cur+1)){ out.push(i); } else if(out[out.length-1]!=="…"){ out.push("…"); } } return out; }
+    function renderPager(total,totalPages){
+      var start = total ? (page-1)*PER+1 : 0, end = Math.min(page*PER, total);
+      var nums = pageWindow(page,totalPages).map(function(n){ return n==="…" ? '<span class="pg-e">…</span>' : '<button class="pg-b num'+(n===page?" on":"")+'" data-pg="'+n+'">'+n+'</button>'; }).join("");
+      $("pager").innerHTML = '<div class="pg-info">Showing <b>'+start+'–'+end+'</b> of <b>'+total+'</b> opportunities</div>'+
+        '<div class="pg-btns"><button class="pg-b" data-pg="'+(page-1)+'"'+(page<=1?" disabled":"")+'>‹ Prev</button>'+nums+'<button class="pg-b" data-pg="'+(page+1)+'"'+(page>=totalPages?" disabled":"")+'>Next ›</button></div>';
+      document.querySelectorAll("#pager .pg-b").forEach(function(b){ if(b.disabled) return; b.addEventListener("click",function(){ page=+b.dataset.pg; renderGrid(); $("grid").scrollIntoView({behavior:"smooth",block:"start"}); }); });
     }
 
     var scrim=$("scrim"), panel=$("panel");
@@ -169,7 +226,7 @@
     function closeAll(){ panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
     scrim.addEventListener("click", closeAll);
     document.addEventListener("keydown", function(ev){ if(ev.key==="Escape") closeAll(); });
-    $("search").addEventListener("input", function(ev){ q=ev.target.value; renderGrid(); });
+    $("search").addEventListener("input", function(ev){ q=ev.target.value; page=1; renderGrid(); });
     $("refresh").addEventListener("click", function(){ toast("Re-scored 1,245 customers · 11 new opportunities surfaced"); });
     var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2400); }
     renderKPIs(); renderPills(); renderGrid();
