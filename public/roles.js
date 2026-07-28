@@ -384,16 +384,28 @@
   /* Demo affordance: click your profile picture (topbar top-right or sidebar bottom-left)
      to switch which workspace you're viewing. Sets the base role (not impersonation). */
   function switchAccount(r){ if(!ROLES[r]) return; try{ localStorage.setItem('ad_role', r); localStorage.setItem('ad_real_role', r); }catch(e){} location.href = ROLES[r].home; }
+  function logout(){
+    try {
+      // wipe everything this session stored locally, keeping only appearance preference
+      var keep = {}; try { keep.theme = localStorage.getItem('ad_theme'); } catch(e){}
+      var kill = [];
+      for (var i=0;i<localStorage.length;i++){ var k=localStorage.key(i); if(k && k!=='ad_theme') kill.push(k); }
+      kill.forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
+    } catch(e){}
+    location.href = '/login';
+  }
   function mountAccountSwitcher(){
     var triggers=[document.querySelector('.tb-avatar'), document.querySelector('.side-user')].filter(Boolean);
     if(!triggers.length || document.getElementById('adAcctMenu')) return;
     var menu=document.createElement('div'); menu.className='ad-acct'; menu.id='adAcctMenu';
     var ck='<svg class="aa-ck" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     menu.innerHTML='<div class="aa-h">Demo · Switch workspace</div>'+ROLE_MENU.map(function(m){ var on=m[0]===getRole();
-      return '<button class="aa-opt'+(on?' on':'')+'" data-r="'+m[0]+'"><span class="aa-av">'+ROLES[m[0]].avatar+'</span><span class="aa-i"><b>'+m[1]+'</b><span>'+m[2]+'</span></span>'+(on?ck:'')+'</button>'; }).join('');
+      return '<button class="aa-opt'+(on?' on':'')+'" data-r="'+m[0]+'"><span class="aa-av">'+ROLES[m[0]].avatar+'</span><span class="aa-i"><b>'+m[1]+'</b><span>'+m[2]+'</span></span>'+(on?ck:'')+'</button>'; }).join('')
+      + '<div class="aa-sep"></div><button class="aa-opt aa-logout" data-logout=""><span class="aa-av" style="background:rgba(239,68,68,.18);color:#f87171"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l-5-5 5-5M5 12h11" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="aa-i"><b>Log out</b><span>Clears this session’s data</span></span></button>';
     document.body.appendChild(menu);
     menu.addEventListener('click', function(e){ e.stopPropagation(); });
-    menu.querySelectorAll('.aa-opt').forEach(function(b){ b.addEventListener('click', function(){ switchAccount(b.getAttribute('data-r')); }); });
+    menu.querySelectorAll('.aa-opt[data-r]').forEach(function(b){ b.addEventListener('click', function(){ switchAccount(b.getAttribute('data-r')); }); });
+    var lo=menu.querySelector('[data-logout]'); if(lo) lo.addEventListener('click', logout);
     function place(trigger){ var r=trigger.getBoundingClientRect(), mw=264;
       if(trigger.classList.contains('side-user')){ menu.style.left=Math.max(10,r.left)+'px'; menu.style.top='auto'; menu.style.bottom=(window.innerHeight-r.top+8)+'px'; }
       else { menu.style.left=Math.max(10, Math.min(r.right-mw, window.innerWidth-mw-10))+'px'; menu.style.bottom='auto'; menu.style.top=(r.bottom+8)+'px'; } }
@@ -419,16 +431,18 @@
     '.va-opt b{display:block;font-size:13px;font-weight:600;color:#fff;}.va-opt span{font-size:11px;color:#8aa0bd;}'+
     '.va-opt.soon{opacity:.55;}.va-opt .soon-t{font-size:8.5px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;color:#8aa0bd;background:rgba(255,255,255,.1);padding:1px 5px;border-radius:4px;vertical-align:1px;}'+
     /* impersonation banner */
-    '#adImpBanner{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:9998;display:flex;align-items:center;gap:11px;background:linear-gradient(180deg,#fbbf24,#f59e0b);color:#3a2a05;padding:8px 9px 8px 16px;border-radius:999px;box-shadow:0 16px 34px -14px rgba(245,158,11,.7);font:600 13px Inter,system-ui,sans-serif;max-width:calc(100vw - 24px);}'+
-    '#adImpBanner .imp-ic{display:flex;}#adImpBanner .imp-ic svg{width:16px;height:16px;}'+
+    '#adImpBanner{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9998;display:flex;align-items:center;gap:8px;background:linear-gradient(180deg,#fbbf24,#f59e0b);color:#3a2a05;padding:5px 6px 5px 12px;border-radius:999px;box-shadow:0 16px 34px -14px rgba(245,158,11,.7);font:600 12px Inter,system-ui,sans-serif;max-width:calc(100vw - 24px);}'+
+    '#adImpBanner .imp-ic{display:flex;}#adImpBanner .imp-ic svg{width:14px;height:14px;}'+
     '#adImpBanner b{font-weight:800;}'+
-    '#adImpBanner button{border:none;background:rgba(0,0,0,.16);color:#241a03;font:700 12px Inter,system-ui,sans-serif;padding:7px 13px;border-radius:999px;cursor:pointer;white-space:nowrap;}#adImpBanner button:hover{background:rgba(0,0,0,.26);}'+
+    '#adImpBanner button{border:none;background:rgba(0,0,0,.16);color:#241a03;font:700 11px Inter,system-ui,sans-serif;padding:5px 11px;border-radius:999px;cursor:pointer;white-space:nowrap;}#adImpBanner button:hover{background:rgba(0,0,0,.26);}'+
     /* profile-picture account switcher (demo) */
     '.ad-acct{position:fixed;z-index:10000;width:264px;max-height:70vh;overflow-y:auto;background:#0e1c33;border:1px solid rgba(255,255,255,.12);border-radius:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7);padding:6px;display:none;}'+
     '.ad-acct.open{display:block;animation:vaIn .16s ease;}'+
     '.aa-h{font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#6f83a0;padding:9px 11px 6px;}'+
     '.aa-opt{width:100%;display:flex;align-items:center;gap:11px;text-align:left;background:none;border:none;border-radius:10px;padding:9px 10px;cursor:pointer;color:#c7d4e6;}'+
     '.aa-opt:hover{background:rgba(255,255,255,.07);}.aa-opt.on{background:rgba(37,99,235,.22);}'+
+    '.aa-sep{height:1px;background:rgba(255,255,255,.1);margin:6px 4px;}'+
+    '.aa-logout b{color:#fca5a5!important;}'+
     '.aa-av{width:32px;height:32px;border-radius:50%;flex:none;background:linear-gradient(135deg,#3f9bff,#0b57b8);color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;}'+
     '.aa-i{flex:1;min-width:0;}.aa-i b{display:block;font-size:13px;font-weight:600;color:#fff;}.aa-i span{font-size:11px;color:#8aa0bd;}'+
     '.aa-ck{width:16px;height:16px;color:#6ea8ff;flex:none;}'+
@@ -446,7 +460,7 @@
     clearTimeout(toastEl._t); toastEl._t=setTimeout(function(){ toastEl.style.opacity='0'; toastEl.style.transform='translateX(-50%) translateY(20px)'; }, 2200);
   }
 
-  window.ADRoles = { getRole:getRole, getRealRole:getRealRole, isImpersonating:isImpersonating, canImpersonate:canImpersonate, setRole:setRole, returnToAccount:returnToAccount, cfg:cfg, can:can, canField:canField, applyGates:applyGates, ROLES:ROLES, PERMS:PERMS };
+  window.ADRoles = { getRole:getRole, getRealRole:getRealRole, isImpersonating:isImpersonating, canImpersonate:canImpersonate, setRole:setRole, returnToAccount:returnToAccount, logout:logout, cfg:cfg, can:can, canField:canField, applyGates:applyGates, ROLES:ROLES, PERMS:PERMS };
 
   /* ?as=<role> sets the account's REAL role (not impersonation) and clears any View-As. */
   function applyQueryRole(){

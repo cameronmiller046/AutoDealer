@@ -661,7 +661,7 @@
       v.cond=ed.cond; v.status=ed.status; v.color=ed.color; v.vin=ed.vin; v.stock=ed.stock;
       var mi=parseInt(String(ed.miles).replace(/[^0-9]/g,""),10); if(!isNaN(mi)) v.miles=mi;
       var np=parseInt(String(ed.price).replace(/[^0-9]/g,""),10); if(!isNaN(np) && np!==v.price){ v.prev=v.price; v.price=np; }
-      closeEdit(); renderInv(); openPanel(editId);
+      saveOverride(v); closeEdit(); renderInv(); openPanel(editId);
       FEED.unshift(["#2563eb","dollar","<b>"+v.year+" "+v.model+" "+v.trim+"</b> updated","just now"]); renderFeed(true);
       showUndoToast("Vehicle updated", v.stock+" saved to inventory");
     }
@@ -669,7 +669,7 @@
     /* ---- undo stack ---- */
     var undoStack=[];
     function pushUndo(id, snap, label){ undoStack.push({id:id, snap:snap, label:label||"Change"}); if(undoStack.length>25) undoStack.shift(); updateUndoBtn(); }
-    function undoLast(){ var u=undoStack.pop(); if(!u) return; var v=V.find(function(x){return x.id===u.id;}); if(v){ Object.keys(u.snap).forEach(function(k){ v[k]=u.snap[k]; }); } updateUndoBtn(); renderInv(); if(panel.classList.contains("open")) openPanel(u.id); showToast("Change undone", (u.label||"Change")+" reverted"); }
+    function undoLast(){ var u=undoStack.pop(); if(!u) return; var v=V.find(function(x){return x.id===u.id;}); if(v){ Object.keys(u.snap).forEach(function(k){ v[k]=u.snap[k]; }); saveOverride(v); } updateUndoBtn(); renderInv(); if(panel.classList.contains("open")) openPanel(u.id); showToast("Change undone", (u.label||"Change")+" reverted"); }
     function showUndoToast(msg, sub){ $("toastMsg").textContent=msg; $("toastSub").textContent=sub||"Just now"; var el=$("toast"); el.classList.add("show");
       var old=el.querySelector(".t-undo"); if(old) old.remove();
       var b=document.createElement("button"); b.className="t-undo"; b.textContent="↶ Undo"; b.addEventListener("click",function(){ undoLast(); el.classList.remove("show"); b.remove(); }); el.appendChild(b);
@@ -714,13 +714,18 @@
       var m=marketComp(v); var np = action==="beat" ? Math.max(1000, m.lo-200) : m.avg;
       if(np===v.price){ showToast("Already best priced","No change needed"); return; }
       pushUndo(v.id, JSON.parse(JSON.stringify(v)), "Price change");
-      v.prev=v.price; v.price=np; if(v.badges && v.badges.indexOf("reduced")<0 && np<m.base) v.badges.unshift("reduced");
+      v.prev=v.price; v.price=np; if(v.badges && v.badges.indexOf("reduced")<0 && np<m.base) v.badges.unshift("reduced"); saveOverride(v);
       renderInv(); openPanel(id);
       FEED.unshift(["#16a34a","dollar","Repriced <b>"+v.model+" "+v.trim+"</b> to "+money(np),"just now"]); renderFeed(true);
       showUndoToast(action==="beat"?"Repriced to beat the market":"Matched to market average", v.stock+" now "+money(np));
     }
 
-    ensureCat(function(){}); setupUndoBtn();
+    /* ---- persist edits locally (until logout) so changes survive reload ---- */
+    function invOverrides(){ try { return JSON.parse(localStorage.getItem("ad_inv_overrides")) || {}; } catch(e){ return {}; } }
+    function saveOverride(v){ var o=invOverrides(); o[v.id]={ year:v.year,make:v.make,model:v.model,trim:v.trim,body:v.body,cond:v.cond,status:v.status,color:v.color,miles:v.miles,vin:v.vin,stock:v.stock,price:v.price,prev:v.prev,badges:v.badges }; try { localStorage.setItem("ad_inv_overrides", JSON.stringify(o)); } catch(e){} }
+    function applyOverrides(){ var o=invOverrides(); V.forEach(function(v){ if(o[v.id]) for(var k in o[v.id]) v[k]=o[v.id][k]; }); }
+
+    applyOverrides(); ensureCat(function(){}); setupUndoBtn();
     renderKPI(); renderPills(); renderInv(); renderFeed();
     setInterval(tick, 5000);
   </script>

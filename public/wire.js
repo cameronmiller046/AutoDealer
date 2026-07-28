@@ -18,6 +18,51 @@
 
   function can(perm){ try { return !perm || (window.ADRoles && window.ADRoles.can ? window.ADRoles.can(perm) : true); } catch(e){ return true; } }
 
+  /* ---------------- session data store (persists locally until logout) ----------------
+     Anything the user creates or edits this session is saved under localStorage 'ad_store'
+     and survives page navigation/reload. ADRoles.logout() (or clearing ad_store) wipes it. */
+  var STORE_KEY = 'ad_store';
+  var ADStore = {
+    _read: function(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; } },
+    _write: function(o){ try { localStorage.setItem(STORE_KEY, JSON.stringify(o)); } catch(e){} },
+    all: function(ns){ return (this._read()[ns]) || []; },
+    add: function(ns, rec){ var o=this._read(); (o[ns]=o[ns]||[]); var r=Object.assign({ _id:'r'+(o.__seq=(o.__seq||0)+1), _ts:Date.now() }, rec); o[ns].unshift(r); this._write(o); try { window.dispatchEvent(new CustomEvent('adstore', {detail:{ns:ns, rec:r}})); } catch(e){} return r; },
+    setMap: function(ns, map){ var o=this._read(); o[ns]=map; this._write(o); },
+    getMap: function(ns){ return (this._read()[ns]) || {}; },
+    clear: function(){ try { localStorage.removeItem(STORE_KEY); } catch(e){} }
+  };
+  window.ADStore = ADStore;
+  var STORE_MAP = { prospect:'prospects', appointment:'appointments', deal:'deals', vehicle:'inventory', appraisal:'appraisals', task:'tasks', message:'messages', upload:'documents', dashboard:'dashboards', campaign:'campaigns' };
+
+  /* ---------------- payment calculator ---------------- */
+  function paymentCalc(){
+    var s = shell({width:460});
+    var body = '<div style="display:flex;flex-wrap:wrap;gap:13px">'
+      + fpair('Vehicle price','pc_price','32,995') + fpair('Down payment','pc_down','3,000')
+      + fpair('Trade-in value','pc_trade','0') + fpair('Amount owed on trade','pc_owed','0')
+      + fpair('APR %','pc_apr','6.9') + fpair('Term (months)','pc_term','72')
+      + '</div>'
+      + '<div id="pcOut" style="margin-top:18px;padding:18px;border-radius:14px;background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(124,92,255,.06));border:1px solid var(--line,rgba(15,27,45,.1));text-align:center">'
+      + '<div style="font-size:12.5px;color:var(--muted,#6b7a90);font-weight:700">Estimated monthly payment</div>'
+      + '<div id="pcPay" style="font-size:38px;font-weight:900;letter-spacing:-1px;color:var(--text,#16202e);margin-top:4px">$0</div>'
+      + '<div id="pcSub" style="font-size:12px;color:var(--muted,#6b7a90)"></div></div>';
+    s.card.innerHTML = header('Payment Calculator','Estimate a monthly payment') + '<div style="padding:20px;overflow:auto">'+body+'</div>'
+      + footer([['Close','x'],['Copy quote','ok']]);
+    function num(id){ return parseFloat((s.card.querySelector('[data-key="'+id+'"]').value||'0').replace(/[^0-9.]/g,''))||0; }
+    function calc(){
+      var price=num('pc_price'), down=num('pc_down'), trade=num('pc_trade'), owed=num('pc_owed'), apr=num('pc_apr'), term=Math.max(1,num('pc_term'));
+      var financed = Math.max(0, price - down - (trade-owed));
+      var r = apr/100/12, pay = r>0 ? financed*r/(1-Math.pow(1+r,-term)) : financed/term;
+      s.card.querySelector('#pcPay').textContent = '$'+Math.round(pay).toLocaleString();
+      s.card.querySelector('#pcSub').textContent = '$'+Math.round(financed).toLocaleString()+' financed over '+term+' mo at '+apr+'% APR';
+    }
+    s.card.querySelectorAll('[data-key]').forEach(function(el){ el.addEventListener('input', calc); });
+    s.card.querySelectorAll('[data-x]').forEach(function(b){ b.addEventListener('click', s.close); });
+    s.card.querySelector('[data-ok]').addEventListener('click', function(){ var p=s.card.querySelector('#pcPay').textContent; s.close(); toast('Quote copied: '+p+'/mo'); });
+    calc();
+  }
+  function fpair(label, key, ph){ return '<label style="flex:0 0 calc(50% - 7px);max-width:calc(50% - 7px);display:block"><span style="'+LBL+'">'+esc(label)+'</span><input data-key="'+key+'" inputmode="numeric" placeholder="'+ph+'" value="'+ph+'" style="'+CTL+'"></label>'; }
+
   /* ---------------- toast ---------------- */
   function ensureToastHost(){
     var h = document.getElementById('adToastHost');
@@ -214,7 +259,7 @@
       footEl.querySelectorAll('[data-x]').forEach(function(b){ b.addEventListener('click', s.close); });
       var bk=footEl.querySelector('[data-back]'); if(bk) bk.addEventListener('click', function(){ collect(); idx--; render(); });
       var nx=footEl.querySelector('[data-next]'); if(nx) nx.addEventListener('click', function(){ if(validate()){ collect(); idx++; render(); } });
-      var okb=footEl.querySelector('[data-ok]'); if(okb) okb.addEventListener('click', function(){ if(validate()){ collect(); s.close(); toast('✓ '+(spec.done||spec.title+' created')); if(spec.onDone) spec.onDone(values); } });
+      var okb=footEl.querySelector('[data-ok]'); if(okb) okb.addEventListener('click', function(){ if(validate()){ collect(); if(spec.storeKey){ try { ADStore.add(spec.storeKey, values); } catch(e){} } s.close(); toast('✓ '+(spec.done||spec.title+' created')); if(spec.onDone) spec.onDone(values); } });
       var first=bodyEl.querySelector('input,select,textarea'); if(first) setTimeout(function(){ try{first.focus();}catch(e){} },50);
     }
     function validate(){
@@ -563,6 +608,7 @@
     var k = actionKey(label);
     if (k && ACTIONS[k]){
       if (!can(ACTIONS[k].perm)){ toast('You don’t have permission for this action', 'error'); return; }
+      ACTIONS[k].storeKey = STORE_MAP[k] || null;
       wizard(ACTIONS[k]); return;
     }
     simpleModal(label||'New', field(label||'Details','placeholder="…"') + '<div style="font-size:12.5px;color:var(--muted,#6b7a90)">Live demo — no data is saved.</div>', 'Save');
@@ -638,6 +684,8 @@
       toast(lbl||'Notifications','info'); return;
     }
     if (btn.classList.contains('quick-add')){ quickAddMenu(btn); return; }
+    if (/payment calc|calculator|payment estimat/i.test(lbl)){ paymentCalc(); return; }
+    if (/ai assistant|ai copilot|ask ai/i.test(lbl)){ if(window.ADAI&&window.ADAI.open){ window.ADAI.open(); } else { var fab=document.getElementById('ad-ai-fab'); if(fab) fab.click(); else toast('🤖 AI Assistant'); } return; }
     if (actionKey(lbl) || /^(new|add|create|compose|upload|import|schedule|book|submit|start|launch)\b/i.test(lbl) || /add-btn|compose-btn/.test(btn.className) || (btn.classList.contains('qbtn')&&btn.classList.contains('primary'))){
       openAction(lbl||'New'); return;
     }
