@@ -149,6 +149,13 @@
     @media (max-width: 1360px) { .comms { grid-template-columns: 200px 300px minmax(0,1fr); } .airail { display: none; } }
     @media (max-width: 1080px) { .comms { grid-template-columns: 300px minmax(0,1fr); } .filters { display: none; } }
     @media (max-width: 820px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .comms { grid-template-columns: 1fr; } .convlist { display: none; } }
+    /* AI communication summaries */
+    .ai-conv{ margin:2px 0 14px; background:linear-gradient(135deg,rgba(79,141,255,.09),rgba(124,92,255,.06)); border:1px solid rgba(79,141,255,.22); border-radius:14px; padding:14px 16px; }
+    .ai-conv-hd{ display:flex; align-items:center; gap:9px; margin-bottom:8px; } .ai-conv-hd .spark{ color:#7c3aed; display:inline-flex; } .ai-conv-hd .spark svg{ width:16px; height:16px; } .ai-conv-hd b{ font-size:13.5px; font-weight:800; } .ai-conv-hd .sent{ margin-left:auto; font-size:11px; font-weight:800; padding:3px 10px; border-radius:999px; }
+    .ai-conv p{ font-size:13px; line-height:1.55; color:var(--text); } .ai-conv .ai-topics{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; } .ai-conv .ai-topics span{ font-size:11px; font-weight:700; background:rgba(255,255,255,.7); border:1px solid rgba(15,27,45,.08); color:#475569; border-radius:999px; padding:3px 10px; }
+    .ai-conv .ai-next{ margin-top:11px; padding-top:10px; border-top:1px solid rgba(79,141,255,.18); font-size:12.5px; color:var(--text); } .ai-conv .ai-next b{ color:#2563eb; font-weight:800; }
+    html[data-theme="dark"] .ai-conv .ai-topics span{ background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.12); color:var(--muted); }
+    .evt-ai{ font-size:11.5px; color:#7c3aed; font-weight:600; margin-top:6px; text-align:center; display:flex; align-items:center; justify-content:center; gap:5px; } .evt.out .evt-ai{ justify-content:flex-end; } .evt-ai .spark{ display:inline-flex; } .evt-ai .spark svg{ width:12px; height:12px; }
   </style>
 </head>
 <body>
@@ -196,6 +203,7 @@
   <aside class="panel" id="dialer" aria-hidden="true"></aside>
   <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Sent</span></div>
 
+  <script src="/summary.js"></script>
   <script>
     const IC = {
       call:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
@@ -362,12 +370,20 @@
       return `<span class="${m[1]}">${svg(m[0])}</span> ${s}`;
     }
 
+    const SPARK = '<svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg>';
+    function convSummaryHTML(c) {
+      if (!window.ADSummary) return "";
+      const s = ADSummary.conversation(c);
+      return `<div class="ai-conv"><div class="ai-conv-hd"><span class="spark">${SPARK}</span><b>AI Summary</b><span class="sent" style="background:${s.sentiment.c}22;color:${s.sentiment.c}">${s.sentiment.k}</span></div>`
+        + `<p>${s.overview}</p><div class="ai-topics">${s.topics.map((t)=>`<span>${t}</span>`).join("")}</div>`
+        + `<div class="ai-next"><b>Recommended next step —</b> ${s.nextStep}</div></div>`;
+    }
     function renderThread(c) {
-      let body = "";
+      let body = convSummaryHTML(c);
       let lastDay = "";
       c.msgs.forEach((m) => {
         if (m.day && m.day !== lastDay) { body += `<div class="day-div"><span>${m.day}</span></div>`; lastDay = m.day; }
-        body += msgHTML(m);
+        body += msgHTML(m, c);
       });
       $("thread").innerHTML = `
         <div class="th-hd">
@@ -396,7 +412,8 @@
       scrollThread();
     }
 
-    function msgHTML(m) {
+    function msgAI(m, c) { return window.ADSummary ? `<div class="evt-ai"><span class="spark">${SPARK}</span>${ADSummary.message(m, c)}</div>` : ""; }
+    function msgHTML(m, c) {
       if (m.type === "text" || m.type === "facebook" || m.type === "chat") {
         return `<div class="msg-wrap" style="${m.dir==="out"?"align-items:flex-end":"align-items:flex-start"}"><div class="msg ${m.dir}"><div class="bub">${m.body}</div></div>${m.time?`<div class="mstatus">${m.dir==="out"?statusIcon(m.status)+" · ":""}${m.time}</div>`:""}</div>`;
       }
@@ -405,7 +422,7 @@
       }
       if (m.type === "call") {
         const [cc,cb] = CHAN.call;
-        return `<div class="evt center"><div class="evt-pill"><span class="ei" style="background:${cb};color:${cc}">${svg("call")}</span><b>${m.dir==="out"?"Outbound":"Inbound"} Call</b><span class="em">${m.status||""}</span><span class="et">${m.time}</span></div></div>`;
+        return `<div class="evt center"><div class="evt-pill"><span class="ei" style="background:${cb};color:${cc}">${svg("call")}</span><b>${m.dir==="out"?"Outbound":"Inbound"} Call</b><span class="em">${m.status||""}</span><span class="et">${m.time}</span></div>${msgAI(m,c)}</div>`;
       }
       if (m.type === "appt") {
         const [cc,cb] = CHAN.appt;
@@ -413,10 +430,10 @@
       }
       if (m.type === "email") {
         const [cc,cb] = CHAN.email;
-        return `<div class="evt ${m.dir==="out"?"out":""}"><div class="evt-card"><div class="ec-hd"><span class="ei" style="background:${cb};color:${cc}">${svg("email")}</span><b>${m.subject}</b><span>${m.time}</span></div><div class="ec-body">${m.body}</div><div class="ec-foot">${svg("checks")}<span class="g">${m.status}</span>${m.foot?` · ${m.foot.replace(/^Opened · /,"")}`:""}</div></div></div>`;
+        return `<div class="evt ${m.dir==="out"?"out":""}"><div class="evt-card"><div class="ec-hd"><span class="ei" style="background:${cb};color:${cc}">${svg("email")}</span><b>${m.subject}</b><span>${m.time}</span></div><div class="ec-body">${m.body}</div><div class="ec-foot">${svg("checks")}<span class="g">${m.status}</span>${m.foot?` · ${m.foot.replace(/^Opened · /,"")}`:""}</div>${msgAI(m,c)}</div></div>`;
       }
       if (m.type === "video") {
-        return `<div class="evt ${m.dir==="out"?"out":""}"><div class="evt-card"><div class="vid-thumb"><span class="play">${svg("play")}</span><span class="wp">1:30</span></div><div class="ec-hd" style="border-top:1px solid var(--line)"><span class="ei" style="background:${CHAN.video[1]};color:${CHAN.video[0]}">${svg("video")}</span><b>${m.subject}</b><span>${m.time}</span></div><div class="ec-foot">${svg("check")}<span class="g">${m.status}</span> · ${m.watch}% watched</div></div></div>`;
+        return `<div class="evt ${m.dir==="out"?"out":""}"><div class="evt-card"><div class="vid-thumb"><span class="play">${svg("play")}</span><span class="wp">1:30</span></div><div class="ec-hd" style="border-top:1px solid var(--line)"><span class="ei" style="background:${CHAN.video[1]};color:${CHAN.video[0]}">${svg("video")}</span><b>${m.subject}</b><span>${m.time}</span></div><div class="ec-foot">${svg("check")}<span class="g">${m.status}</span> · ${m.watch}% watched</div>${msgAI(m,c)}</div></div>`;
       }
       return "";
     }
