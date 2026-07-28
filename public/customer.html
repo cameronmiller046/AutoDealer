@@ -418,6 +418,9 @@
     };
     function role(){ try{ return (window.ADRoles&&ADRoles.getRole&&ADRoles.getRole())||"salesperson"; }catch(e){ return "salesperson"; } }
     function viewOnly(){ return role()==="receptionist"; }
+    function isSales(){ return role()==="salesperson"; }
+    /* Salespeople can NEVER reassign a task to another salesperson — only escalate to a manager/BDC/receptionist. */
+    function assignees(){ var a=[CUST.rep+" (you)","Manager","BDC","Receptionist"]; if(!isSales()) a.push("Another Salesperson"); return a; }
 
     /* ---- data ---- */
     function at(off,h,m){ var d=new Date(); d.setDate(d.getDate()+off); d.setHours(h,m||0,0,0); return d.getTime(); }
@@ -567,7 +570,7 @@
         + f("Time",'<input type="time" id="scTime" value="'+st.time+'"><div class="chipset" style="margin-top:8px" data-g="qtime">'+["09:00","11:30","14:15","17:00"].map(function(t){ return '<button data-v="'+t+'">'+fmtTime(new Date().setHours(+t.slice(0,2),+t.slice(3),0,0))+"</button>"; }).join("")+"</div>")
         + '<div class="cw-half">'+f("Priority",'<div class="seg2" data-g="priority">'+["Low","Medium","High","Critical"].map(function(x){ return '<button data-v="'+x+'"'+(x===st.priority?' class="on"':"")+'>'+x+"</button>"; }).join("")+"</div>")+"</div>"
         + '<div class="cw-half">'+f("Reminder",'<select data-k="remind">'+sel(["5 Minutes","15 Minutes","30 Minutes","1 Hour","Tomorrow Morning","Custom"],st.remind)+"</select>")+f("Repeat",'<select data-k="repeat">'+sel(["Never","Daily","Weekly","Monthly","Custom"],st.repeat)+"</select>")+"</div>"
-        + f("Assign to",'<select data-k="assign">'+sel([CUST.rep+" (you)","Manager","BDC","Receptionist","Another Salesperson"],st.assign)+"</select>")
+        + f("Assign to",'<select data-k="assign">'+sel(assignees(),st.assign)+"</select>")
         + f("Notes",'<textarea data-k="notes" placeholder="Add context…">'+st.notes+"</textarea>");
       var foot='<button class="btn" data-x>Cancel</button><button class="btn pri" id="scSave">'+(reAct?"Reschedule":"Schedule follow-up")+"</button>";
       drawer({ title:reAct?"Reschedule activity":"Schedule Follow-Up", icon:"clock", color:"#d97706", body:body, foot:foot, onMount:function(dr,close){
@@ -596,7 +599,7 @@
       if(viewOnly()) return tst("View-only role — disabled");
       var body=f("Task",'<input id="tkT" placeholder="e.g. Follow up on financing docs" required>',true)
         + '<div class="cw-half">'+f("Due",'<input type="date" id="tkDue">')+f("Time",'<input type="time" id="tkTime" value="09:00">')+"</div>"
-        + '<div class="cw-half">'+f("Priority",'<select id="tkPri">'+sel(["Low","Medium","High","Critical"],"Medium")+"</select>")+f("Assign to",'<select id="tkAsg">'+sel([CUST.rep+" (you)","Manager","BDC"],CUST.rep+" (you)")+"</select>")+"</div>";
+        + '<div class="cw-half">'+f("Priority",'<select id="tkPri">'+sel(["Low","Medium","High","Critical"],"Medium")+"</select>")+f("Assign to",'<select id="tkAsg">'+sel(assignees(),CUST.rep+" (you)")+"</select>")+"</div>";
       drawer({ title:"Create Task", icon:"task", color:"#db2777", body:body, foot:'<button class="btn" data-x>Cancel</button><button class="btn pri" id="tkSave">Create task</button>', onMount:function(dr,close){
         dr.querySelector("#tkSave").addEventListener("click", function(){ var t=dr.querySelector("#tkT").value.trim(); if(!t){ dr.querySelector("#tkT").style.borderColor="#ef4444"; return; }
           var d=dr.querySelector("#tkDue").value, hm=(dr.querySelector("#tkTime").value||"09:00").split(":"); var base=d?new Date(d+"T00:00"):new Date(); if(!d) base.setDate(base.getDate()+1); base.setHours(+hm[0],+hm[1]||0,0,0);
@@ -665,7 +668,7 @@
         if(!nextAct()) setTimeout(function(){ drawerSchedule(); }, 300); }
       else if(act==="resched") drawerSchedule(KIND[a.kind].l, a);
       else if(act==="skip"){ a.status="done"; a.title="Skipped: "+a.title; save(); renderAll(); tst("Skipped — schedule the next step"); setTimeout(function(){ drawerSchedule(); }, 300); }
-      else if(act==="reassign"){ var who=["Manager","BDC","Receptionist","Another Salesperson",CUST.rep+" (you)"]; a.assignee=who[(who.indexOf(a.assignee)+1)%who.length]; save(); renderNext(); tst("Reassigned to "+a.assignee); }
+      else if(act==="reassign"){ var who=assignees(); a.assignee=who[(who.indexOf(a.assignee)+1)%who.length]; save(); renderNext(); tst("Reassigned to "+a.assignee); }
       else if(act==="go") route(a.kind==="appt"?"appt":a.kind);
     }
 

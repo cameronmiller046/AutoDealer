@@ -156,6 +156,7 @@
     .ai-conv .ai-next{ margin-top:11px; padding-top:10px; border-top:1px solid rgba(79,141,255,.18); font-size:12.5px; color:var(--text); } .ai-conv .ai-next b{ color:#2563eb; font-weight:800; }
     html[data-theme="dark"] .ai-conv .ai-topics span{ background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.12); color:var(--muted); }
     .evt-ai{ font-size:11.5px; color:#7c3aed; font-weight:600; margin-top:6px; text-align:center; display:flex; align-items:center; justify-content:center; gap:5px; } .evt.out .evt-ai{ justify-content:flex-end; } .evt-ai .spark{ display:inline-flex; } .evt-ai .spark svg{ width:12px; height:12px; }
+      .thn .cust-name{display:inline-block;} .thn .cust-name b{transition:color .12s;} .thn .cust-name:hover b{color:var(--accent);text-decoration:underline;text-underline-offset:2px;}
   </style>
 </head>
 <body>
@@ -388,7 +389,7 @@
       $("thread").innerHTML = `
         <div class="th-hd">
           <span class="av" style="background:${c.c}">${c.ini}</span>
-          <div class="thn"><b>${c.name}</b><div class="ths">${c.veh} · ${c.online?'<span class="on-dot">● Online now</span>':c.phone}</div></div>
+          <div class="thn"><a class="cust-name" href="/customer.html?name=${encodeURIComponent(c.name)}&phone=${encodeURIComponent(c.phone||"")}&veh=${encodeURIComponent(c.veh||"")}&ini=${encodeURIComponent(c.ini||"")}&c=${encodeURIComponent(c.c||"")}" title="Open Customer 360"><b>${c.name}</b></a><div class="ths">${c.veh} · ${c.online?'<span class="on-dot">● Online now</span>':c.phone}</div></div>
           <div class="th-actions">
             <button class="tab" title="Call" data-q="call">${svg("call")}</button>
             <button class="tab" title="Text" data-q="text">${svg("text")}</button>

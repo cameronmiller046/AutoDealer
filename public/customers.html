@@ -82,6 +82,7 @@
     .cust { display: flex; align-items: center; gap: 12px; min-width: 0; }
     .av-sm { width: 40px; height: 40px; border-radius: 50%; flex: none; color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
     .cust b { font-weight: 600; display: flex; align-items: center; gap: 7px; } .vip { background: linear-gradient(180deg,#fef3c7,#fde68a); color: #92600a; font-size: 9.5px; font-weight: 800; letter-spacing: 0.5px; padding: 1px 6px; border-radius: 5px; }
+    .cust-name { display: inline-block; } .cust-name b { transition: color .12s; } .cust-name:hover b { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
     .cust .stars-sm { font-size: 11px; margin-top: 2px; }
     .stars { color: #f5b638; letter-spacing: 1px; } .stars .off { color: #dfe4ec; }
     .veh b { font-weight: 600; display: block; } .veh span { color: var(--muted); font-size: 12px; }
@@ -300,7 +301,7 @@
       const rows = filtered(), list = document.getElementById("list");
       if (!rows.length) { list.innerHTML = `<div class="empty"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h3>No customers match your filters</h3><p>Try a different filter or add a customer.</p><div class="btns"><button class="add-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Add Customer</button></div></div>`; return; }
       list.innerHTML = rows.map((p) => `<div class="cc" data-id="${p.id}" title="${SCORE_LABEL[p.score]}">
-        <div class="cust"><span class="av-sm" style="background:${p.c}">${p.ini}</span><div><b>${p.name}${p.score===5?'<span class="vip">VIP</span>':""}</b><div class="stars-sm">${stars(p.score)}</div></div></div>
+        <div class="cust"><span class="av-sm" style="background:${p.c}">${p.ini}</span><div><a class="cust-name" href="/customer.html?id=${p.id}&name=${encodeURIComponent(p.name)}&phone=${encodeURIComponent(p.phone)}&email=${encodeURIComponent(p.email||"")}&veh=${encodeURIComponent(p.veh||"")}&ini=${encodeURIComponent(p.ini)}&c=${encodeURIComponent(p.c)}"><b>${p.name}${p.score===5?'<span class="vip">VIP</span>':""}</b></a><div class="stars-sm">${stars(p.score)}</div></div></div>
         <div class="veh"><b>${p.veh}</b><span>${p.spend} lifetime</span></div>
         <div class="muted-2 col-hideable">${p.purchaseAgo}</div>
         <div class="muted-2 col-hideable">${p.last}</div>
@@ -316,7 +317,7 @@
           <button class="ra" data-act="upgrade" title="Upgrade Opportunity">${svg("upgrade")}</button>
           <button class="ra open-btn" data-open="${p.id}">Open</button>
         </div></div>`).join("");
-      list.querySelectorAll(".cc").forEach((row) => row.addEventListener("click", (e) => { if (e.target.closest(".ra:not(.open-btn)")) return; openPanel(+row.dataset.id); }));
+      list.querySelectorAll(".cc").forEach((row) => row.addEventListener("click", (e) => { if (e.target.closest(".ra:not(.open-btn)") || e.target.closest(".cust-name")) return; openPanel(+row.dataset.id); }));
     }
 
     const scrim = document.getElementById("scrim"), panel = document.getElementById("panel");
