@@ -459,6 +459,7 @@
   function loadCmdK(){ if(document.getElementById('ad-cmdk-script')) return; var s=document.createElement('script'); s.id='ad-cmdk-script'; s.src='/cmdk.js'; s.async=true; document.body.appendChild(s); }
   function loadTheme(){ if(window.__adTheme||document.getElementById('ad-theme-script')) return; var s=document.createElement('script'); s.id='ad-theme-script'; s.src='/theme.js'; document.head.appendChild(s); }
   function loadWire(){ if(window.__adWire||document.getElementById('ad-wire-script')) return; var s=document.createElement('script'); s.id='ad-wire-script'; s.src='/wire.js'; s.async=true; document.body.appendChild(s); }
-  function init(){ loadTheme(); applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); mountBanner(); mountAccountSwitcher(); applyGates(); loadAI(); loadNotify(); loadCmdK(); loadWire(); }
+  function loadClock(){ if(window.__adClock||document.getElementById('ad-clock-script')) return; var s=document.createElement('script'); s.id='ad-clock-script'; s.src='/clock.js'; s.async=true; document.body.appendChild(s); }
+  function init(){ loadTheme(); applyQueryRole(); if(!guard()) return; injectCSS(); renderNav(); mountViewAs(); mountBanner(); mountAccountSwitcher(); applyGates(); loadAI(); loadNotify(); loadCmdK(); loadWire(); loadClock(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
