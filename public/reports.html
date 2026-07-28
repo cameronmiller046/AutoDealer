@@ -434,8 +434,29 @@
       $("askInput").value = q;
     }
 
+    /* Scope gating — a rep/BDC (reports.personal only) must not toggle into the
+       Manager (department) or Executive (dealership P&L: gross/net profit) views.
+       roles.js loads after this inline script, so run once ADRoles is available. */
+    function gateReportScopes(){
+      var R = window.ADRoles;
+      /* wait until roles.js has resolved the active role (body[data-role] is set only
+         after applyQueryRole + guard), so managers/GMs aren't mis-gated to rep. */
+      if(!R || !document.body || !document.body.getAttribute("data-role")){ return setTimeout(gateReportScopes, 30); }
+      var allowMgr = R.can("reports.department");   // department operational metrics
+      var allowExec = R.can("field.grossProfit");   // dealership gross/net profit
+      var seg = document.getElementById("roleSeg");
+      if(seg){
+        if(!allowMgr){ var mb=seg.querySelector('[data-role="manager"]'); if(mb) mb.remove(); }
+        if(!allowExec){ var eb=seg.querySelector('[data-role="exec"]'); if(eb) eb.remove(); }
+      }
+      var next = (allowExec && R.can("exec.dashboard")) ? "exec" : (allowMgr ? "manager" : "rep");
+      if(next !== role){ role = next; renderAll(); }
+      if(seg) seg.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x.dataset.role===role); });
+    }
+    gateReportScopes();
+
     /* controls */
-    document.querySelectorAll("#roleSeg button").forEach((b)=>b.addEventListener("click",()=>{ document.querySelectorAll("#roleSeg button").forEach((x)=>x.classList.remove("on")); b.classList.add("on"); role=b.dataset.role; renderAll(); toast(`Viewing as ${roleName[role]}`); }));
+    document.querySelectorAll("#roleSeg button").forEach((b)=>b.addEventListener("click",()=>{ if(!KPI[b.dataset.role]) return; document.querySelectorAll("#roleSeg button").forEach((x)=>x.classList.remove("on")); b.classList.add("on"); role=b.dataset.role; renderAll(); toast(`Viewing as ${roleName[role]}`); }));
     document.querySelectorAll("#timeSeg button").forEach((b)=>b.addEventListener("click",()=>{ document.querySelectorAll("#timeSeg button").forEach((x)=>x.classList.remove("on")); b.classList.add("on"); toast(`Range: ${b.textContent}`); }));
     document.querySelectorAll("#cmpSeg button").forEach((b)=>b.addEventListener("click",()=>{ document.querySelectorAll("#cmpSeg button").forEach((x)=>x.classList.remove("on")); b.classList.add("on"); }));
     $("askBtn").addEventListener("click",()=>askQ($("askInput").value.trim()||Object.keys(QA)[0]));

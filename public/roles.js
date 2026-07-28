@@ -449,6 +449,9 @@
     /* read-only role gating on shared pages */
     'body[data-role="salesperson"] .add-btn, body[data-role="receptionist"] .add-btn{display:none!important;}'+
     'body[data-role="receptionist"] .vhb[data-hover="tag"], body[data-role="salesperson"] .vhb[data-hover="tag"]{display:none;}'+
+    /* Financial fields (cost / gross-profit / capital $) are manager-and-up only. Any role
+       lacking field-level revenue visibility never sees .mgr-only content, app-wide. */
+    'body[data-role="salesperson"] .mgr-only, body[data-role="bdc"] .mgr-only, body[data-role="receptionist"] .mgr-only, body[data-role="internet"] .mgr-only{display:none!important;}'+
     '[data-denied]{display:none!important;}';
     var s=document.createElement('style'); s.textContent=css; document.head.appendChild(s);
   }
