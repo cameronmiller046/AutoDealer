@@ -127,6 +127,8 @@
         '<div class="ad-nt-list" id="adNtList"></div>'+
         '<div class="ad-nt-f"><a href="/notifications">View all notifications →</a></div>'+
       '</div>';
+    // remove the static placeholder notification bell so we don't show two (this one is the live one)
+    bar.querySelectorAll('.ib[aria-label="Notifications"], .ib[aria-label="Alerts"]').forEach(function(b){ b.remove(); });
     // place before the avatar in the topbar (avatar may be nested in a wrapper, so anchor to its parent)
     var av = bar.querySelector('.tb-avatar');
     if (av && av.parentNode) av.parentNode.insertBefore(wrap, av); else bar.appendChild(wrap);

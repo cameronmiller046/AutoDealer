@@ -276,6 +276,14 @@
   /* The full 2000-onward catalog (50+ brands, hundreds of models) lives in /vehicles.js and is
      loaded on demand; the array above is only a fallback if that file can't be fetched. */
   function cat(){ return (window.AD_VEHICLES && window.AD_VEHICLES.length) ? window.AD_VEHICLES : VMODELS; }
+  /* Model-year handling: the catalog marks still-in-production models with an end year of >=2025.
+     Those are available through the current model year; the Year dropdown runs up to MAX_YEAR and
+     shows any year a model isn't (yet) released for as a grayed-out, non-selectable option. */
+  var CURRENT_MY = 2026;   // latest released model year (app context is mid-2026)
+  var MAX_YEAR   = 2027;   // Year dropdown ceiling; unreleased future years render grayed
+  var MIN_YEAR   = 2000;
+  function endYear(mm){ return mm.years[1] >= 2025 ? CURRENT_MY : mm.years[1]; }   // ongoing models reach the current MY
+  function inYears(mm, y){ return mm.years[0] <= +y && +y <= endYear(mm); }
   var __vehCbs = [];
   function ensureVehicles(cb){
     if (window.AD_VEHICLES){ if(cb) cb(); return; }
@@ -335,18 +343,18 @@
       // If the body type was auto-derived from a model and that model is no longer valid
       // (e.g. the user switched make), drop the stale body so it doesn't over-filter.
       if(!modelObj() && values.__bodyAuto){ values.vbody=''; values.__bodyAuto=false; }
-      function yr(mm){ return !values.vyear || (mm.years[0]<=+values.vyear && +values.vyear<=mm.years[1]); }
+      function yr(mm){ return !values.vyear || inYears(mm, values.vyear); }
       // Make/Model/Trim is a hierarchy — an upstream field is never narrowed by a downstream one;
       // Body <-> Year are cross-constraints. So Make ignores the chosen model; Model respects make+body+year.
       var makes=vUniq(cat().filter(function(mm){ return (!values.vbody||mm.body===values.vbody)&&yr(mm); }).map(function(x){return x.make;})).sort();
       var models=vUniq(cat().filter(function(mm){ return (!values.vmake||mm.make===values.vmake)&&(!values.vbody||mm.body===values.vbody)&&yr(mm); }).map(function(x){return x.model;})).sort();
       var bodies=vUniq(cat().filter(function(mm){ return (!values.vmake||mm.make===values.vmake)&&(!values.vmodel||mm.model===values.vmodel)&&yr(mm); }).map(function(x){return x.body;})).sort();
-      var yset={}; cat().filter(function(mm){ return (!values.vmake||mm.make===values.vmake)&&(!values.vbody||mm.body===values.vbody)&&(!values.vmodel||mm.model===values.vmodel); }).forEach(function(x){ for(var y=x.years[1];y>=x.years[0];y--) if(y>=2000) yset[y]=1; });
-      var years=Object.keys(yset).map(Number).sort(function(a,b){return b-a;});
+      // which years are actually released for the current make/body/model selection
+      var yset={}; cat().filter(function(mm){ return (!values.vmake||mm.make===values.vmake)&&(!values.vbody||mm.body===values.vbody)&&(!values.vmodel||mm.model===values.vmodel); }).forEach(function(x){ for(var y=endYear(x);y>=x.years[0];y--) if(y>=MIN_YEAR) yset[y]=1; });
       if(values.vmake&&makes.indexOf(values.vmake)<0) values.vmake='';
       if(values.vbody&&bodies.indexOf(values.vbody)<0) values.vbody='';
       if(values.vmodel&&models.indexOf(values.vmodel)<0) values.vmodel='';
-      if(values.vyear&&years.indexOf(+values.vyear)<0) values.vyear='';
+      if(values.vyear&&!yset[+values.vyear]) values.vyear='';   // drop a year that's no longer released for this selection
       var mo=modelObj(); var trims=mo?mo.trims:[]; if(values.vtrim&&trims.indexOf(values.vtrim)<0) values.vtrim='';
       if(mo){ values.vbody = mo.body; values.__bodyAuto = true; values.vmake = mo.make; }   // model implies its make & body (a Model 3 is a Tesla Sedan)
       var ti = mo&&values.vtrim ? trims.indexOf(values.vtrim) : null;
@@ -358,9 +366,14 @@
       }
       var trimOpts = mo ? ('<option value="">Any trim</option>'+trims.map(function(v){return '<option'+(v===values.vtrim?' selected':'')+'>'+esc(v)+'</option>';}).join('')) : '<option value="">Select a model first</option>';
       var trimSel='<label style="flex:0 0 calc(50% - 6px);max-width:calc(50% - 6px);display:block"><span style="'+LBL+'">Trim</span><select data-key="vtrim"'+(mo?'':' disabled')+' style="'+CTL+(mo?'':';opacity:.55')+'">'+trimOpts+'</select></label>';
+      // Year runs from MAX_YEAR down to MIN_YEAR; years not yet released (or outside a model's run) are disabled/grayed
+      var yopts='<option value="">Any</option>';
+      for(var Y=MAX_YEAR; Y>=MIN_YEAR; Y--){ var en=!!yset[Y]; var sfx = (!en && Y>CURRENT_MY) ? ' — not yet released' : '';
+        yopts+='<option value="'+Y+'"'+(String(Y)===String(values.vyear||'')?' selected':'')+(en?'':' disabled style="color:var(--faint,#aab4c2)"')+'>'+Y+sfx+'</option>'; }
+      var yearSel='<label style="flex:0 0 calc(50% - 6px);max-width:calc(50% - 6px);display:block"><span style="'+LBL+'">Year</span><select data-key="vyear" style="'+CTL+'">'+yopts+'</select></label>';
       var selects='<div style="display:flex;flex-wrap:wrap;gap:12px">'
         + sel('vbody','Body type',bodies,false) + sel('vmake','Make',makes,true)
-        + sel('vmodel','Model',models,true) + sel('vyear','Year',years,false) + trimSel + '</div>';
+        + sel('vmodel','Model',models,true) + yearSel + trimSel + '</div>';
       var feat;
       if(!mo){ feat='<div style="margin-top:16px;padding:14px;border:1px dashed var(--line,#dfe6ef);border-radius:12px;font-size:12.5px;color:var(--muted,#94a3b8)">Select a make &amp; model to choose requested features available for that vehicle.</div>'; }
       else {
@@ -384,7 +397,7 @@
           var ok = cat().some(function(mm){ return mm.model===values.vmodel
             && (!values.vmake || mm.make===values.vmake)
             && (!values.vbody || mm.body===values.vbody)
-            && (!values.vyear || (mm.years[0]<=+values.vyear && +values.vyear<=mm.years[1])); });
+            && (!values.vyear || inYears(mm, values.vyear)); });
           if(!ok){ values.vmodel=''; values.vtrim=''; }
         }
         if(k==='vmodel') values.vtrim='';
