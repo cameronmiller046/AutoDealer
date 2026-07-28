@@ -15,7 +15,7 @@
       --text: #16202e; --muted: #6b7a90; --faint: #97a4b6; --line: #eef1f6;
       --accent: #2563eb; --accent-2: #3b82f6; --accent-soft: #eef4ff;
       --shadow: 0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28);
-      --radius: 16px;
+      --radius: 16px; --green:#16a34a; --amber:#ea8a0b; --violet:#7c3aed; --rose:#e11d76;
     }
     * { margin: 0; box-sizing: border-box; }
     body { font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 14px; }
@@ -44,138 +44,184 @@
     .hamb { border: none; background: none; color: var(--muted); width: 36px; height: 36px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; } .hamb:hover { background: var(--bg); } .hamb svg { width: 20px; height: 20px; }
     .tsearch { flex: 1; max-width: 460px; display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 11px; padding: 11px 14px; color: var(--muted); }
     .tsearch svg { width: 17px; height: 17px; flex: none; } .tsearch input { border: none; background: none; outline: none; width: 100%; font-size: 13.5px; color: var(--text); }
-    .kbd { border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 11px; color: var(--faint); background: #fff; }
-    .quick-add { display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 11px; padding: 11px 18px; font-size: 14px; font-weight: 600; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); }
-    .quick-add:hover { filter: brightness(1.06); }
+    .kbd { border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 11px; color: var(--faint); background: var(--card); }
     .tb-icons { display: flex; align-items: center; gap: 4px; margin-left: auto; }
     .ib { position: relative; border: none; background: none; color: var(--muted); width: 40px; height: 40px; border-radius: 11px; display: inline-flex; align-items: center; justify-content: center; } .ib:hover { background: var(--bg); color: var(--accent); } .ib svg { width: 21px; height: 21px; }
     .ib .dot { position: absolute; top: 6px; right: 7px; min-width: 16px; height: 16px; border-radius: 8px; background: #ef4444; color: #fff; font-size: 9.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
-    .tb-avatar { width: 40px; height: 40px; border-radius: 50%; margin-left: 8px; position: relative; } .tb-avatar::after { content: ""; position: absolute; bottom: 1px; right: 1px; width: 10px; height: 10px; border-radius: 50%; background: #22c55e; border: 2px solid #fff; }
+    .tb-avatar { width: 40px; height: 40px; border-radius: 50%; margin-left: 8px; position: relative; } .tb-avatar::after { content: ""; position: absolute; bottom: 1px; right: 1px; width: 10px; height: 10px; border-radius: 50%; background: #22c55e; border: 2px solid var(--card); }
     .tb-avatar .av { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #3f9bff, #0b57b8); color: #fff; font-weight: 700; }
 
     /* content */
-    .content { padding: 26px 30px 60px; }
+    .content { padding: 24px 30px 70px; }
     .phead { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-    .phead h1 { font-size: 27px; font-weight: 800; letter-spacing: -0.6px; } .phead .sub { color: var(--muted); font-size: 14.5px; margin-top: 6px; }
-    .add-btn { display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 11px; padding: 12px 20px; font-size: 14.5px; font-weight: 600; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .add-btn:hover { filter: brightness(1.06); } .add-btn svg { width: 16px; height: 16px; }
+    .phead h1 { font-size: 25px; font-weight: 800; letter-spacing: -0.6px; display:flex; align-items:center; gap:9px; } .phead h1 .spk { color: var(--violet); } .phead h1 .spk svg { width: 20px; height: 20px; }
+    .phead .sub { color: var(--muted); font-size: 14px; margin-top: 5px; }
+    .head-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .btn-p { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 10px; padding: 10px 16px; font-size: 13.5px; font-weight: 600; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .btn-p:hover { filter: brightness(1.06); } .btn-p svg { width: 15px; height: 15px; }
+    .btn-o { display: inline-flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--line); color: var(--text); border-radius: 10px; padding: 10px 15px; font-size: 13.5px; font-weight: 600; box-shadow: var(--shadow); } .btn-o:hover { border-color: #cfe0f7; color: var(--accent); } .btn-o svg { width: 15px; height: 15px; }
+    .view-sel { display: inline-flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--line); color: var(--muted); border-radius: 10px; padding: 10px 14px; font-size: 13px; font-weight: 600; box-shadow: var(--shadow); } .view-sel b { color: var(--text); } .view-sel svg { width: 13px; height: 13px; }
+    .vtoggle { display: inline-flex; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 3px; box-shadow: var(--shadow); }
+    .vtoggle button { border: none; background: none; color: var(--faint); width: 32px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; } .vtoggle button.on { background: var(--accent-soft); color: var(--accent); } .vtoggle button svg { width: 16px; height: 16px; }
 
-    /* lead queue */
-    .queue { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin: 22px 0; }
-    .q { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow); cursor: pointer; transition: border-color 0.15s, transform 0.15s; }
+    /* queue KPIs */
+    .queue { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin: 20px 0; }
+    .q { display: flex; align-items: center; gap: 13px; background: var(--card); border: 1px solid var(--line); border-radius: 15px; padding: 15px 16px; box-shadow: var(--shadow); cursor: pointer; transition: border-color 0.15s, transform 0.15s; }
     .q:hover { border-color: #cfe0f7; transform: translateY(-2px); } .q.active { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-    .q-ic { width: 40px; height: 40px; border-radius: 11px; flex: none; display: flex; align-items: center; justify-content: center; } .q-ic svg { width: 20px; height: 20px; }
-    .q-ic.red { background: #fde8e8; color: #dc2626; } .q-ic.blue { background: #eaf1fe; color: #2563eb; } .q-ic.amber { background: #fdf0dc; color: #ea8a0b; } .q-ic.purple { background: #f1eafe; color: #7c3aed; } .q-ic.gray { background: #eef1f6; color: #64748b; }
-    .q-v { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; } .q-l { color: var(--muted); font-size: 12px; margin-top: 3px; }
+    .q-ic { width: 42px; height: 42px; border-radius: 12px; flex: none; display: flex; align-items: center; justify-content: center; } .q-ic svg { width: 20px; height: 20px; }
+    .q-ic.red { background: #fde8e8; color: #dc2626; } .q-ic.blue { background: #eaf1fe; color: #2563eb; } .q-ic.amber { background: #fdf0dc; color: #ea8a0b; } .q-ic.purple { background: #f1eafe; color: #7c3aed; } .q-ic.green { background: #e7f7ee; color: #16a34a; }
+    .q-v { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; } .q-l { color: var(--muted); font-size: 12.5px; margin-top: 3px; font-weight: 500; }
+    .q-d { font-size: 11px; font-weight: 700; margin-top: 4px; display: inline-flex; align-items: center; gap: 3px; } .q-d.up { color: #16a34a; } .q-d.flat { color: var(--faint); } .q-d.val { color: var(--muted); }
 
     /* toolbar */
-    .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+    .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
     .psearch { flex: 1; min-width: 260px; display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 11px 15px; box-shadow: var(--shadow); }
     .psearch svg { width: 17px; height: 17px; color: var(--muted); flex: none; } .psearch input { border: none; outline: none; width: 100%; font-size: 14px; color: var(--text); background: none; }
-    .tb-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 11px 16px; font-size: 13.5px; font-weight: 600; box-shadow: var(--shadow); color: var(--text); }
-    .tb-btn:hover { border-color: #cfe0f7; color: var(--accent); } .tb-btn svg { width: 16px; height: 16px; }
-    .views { position: relative; }
-    .views-menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 25; background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 6px; width: 210px; display: none; }
-    .views-menu.open { display: block; }
-    .views-menu button { display: flex; width: 100%; align-items: center; gap: 9px; padding: 9px 11px; border: none; background: none; border-radius: 8px; font-size: 13.5px; color: var(--text); text-align: left; }
-    .views-menu button:hover { background: var(--accent-soft); color: var(--accent); }
-
-    /* filter pills */
-    .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
     .pill { border: 1px solid var(--line); background: var(--card); color: var(--muted); border-radius: 999px; padding: 8px 15px; font-size: 13px; font-weight: 600; box-shadow: 0 1px 2px rgba(16,32,60,0.03); }
-    .pill:hover { color: var(--text); border-color: #cfe0f7; }
-    .pill.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .pill:hover { color: var(--text); border-color: #cfe0f7; } .pill.on { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-    /* list */
-    .list-head { display: grid; grid-template-columns: 38px 2.1fr 1.5fr 1fr 1.2fr 1.3fr 1fr; gap: 14px; padding: 4px 20px 10px; font-size: 11px; color: var(--faint); font-weight: 600; letter-spacing: 0.4px; }
+    /* table */
+    .list-head { display: grid; grid-template-columns: 34px 1.9fr 1.75fr 1.35fr 0.95fr 1.15fr 1fr 0.9fr 0.65fr 40px; gap: 12px; padding: 4px 20px 10px; font-size: 10.5px; color: var(--faint); font-weight: 700; letter-spacing: 0.5px; }
     .list { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
-    .pc { display: grid; grid-template-columns: 38px 2.1fr 1.5fr 1fr 1.2fr 1.3fr 1fr; gap: 14px; align-items: center; padding: 15px 20px; border-top: 1px solid var(--line); position: relative; cursor: pointer; }
+    .pc { display: grid; grid-template-columns: 34px 1.9fr 1.75fr 1.35fr 0.95fr 1.15fr 1fr 0.9fr 0.65fr 40px; gap: 12px; align-items: center; padding: 14px 20px; border-top: 1px solid var(--line); cursor: pointer; transition: background 0.12s; }
     .pc:first-child { border-top: none; }
-    .pc:hover { background: #fafbff; }
-    .pc.sel { background: var(--accent-soft); }
-    .chk { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid var(--line); background: #fff; display: inline-block; position: relative; cursor: pointer; flex: none; }
-    .pc.sel .chk, .chk.on { background: var(--accent); border-color: var(--accent); }
+    .pc:hover { background: color-mix(in srgb, var(--accent-soft) 45%, transparent); }
+    .pc.expanded { background: color-mix(in srgb, var(--accent-soft) 60%, transparent); box-shadow: inset 3px 0 0 var(--accent); }
+    .chk { width: 17px; height: 17px; border-radius: 5px; border: 1.5px solid var(--line); background: var(--card); display: inline-block; position: relative; cursor: pointer; flex: none; }
+    .chk.on { background: var(--accent); border-color: var(--accent); }
     .chk.on::after { content: ""; position: absolute; left: 5px; top: 1.5px; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
     .cust { display: flex; align-items: center; gap: 12px; min-width: 0; }
     .av-sm { width: 40px; height: 40px; border-radius: 50%; flex: none; color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
-    .cust b { font-weight: 600; display: block; } .cust .meta2 { color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 7px; }
-    .cust-name { display: inline-block; } .cust-name b { transition: color .12s; } .cust-name:hover b { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
-    .src { font-size: 10.5px; font-weight: 700; padding: 1px 7px; border-radius: 5px; background: #eef1f6; color: #64748b; }
-    .veh b { font-weight: 600; display: block; } .veh span { color: var(--muted); font-size: 12px; } .veh .trade { color: var(--faint); font-size: 11.5px; margin-top: 2px; }
-    .muted-2 { color: var(--muted); font-size: 13px; }
-    .na { display: flex; align-items: center; gap: 8px; } .na svg { width: 15px; height: 15px; color: var(--accent); flex: none; } .na b { font-weight: 600; } .na span { color: var(--muted); font-size: 12px; display: block; } .na .ov { color: #dc2626; font-weight: 600; }
-    .stage { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-size: 12px; font-weight: 600; } .stage::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .cust b { font-weight: 600; display: flex; align-items: center; gap: 5px; } .cust b .star { color:#f5b638; font-size:11px; } .cust .meta2 { color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 7px; margin-top:2px; }
+    .cust-name b { transition: color .12s; } .cust-name:hover b { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+    .src { font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 5px; background: var(--line); color: #64748b; }
+    .veh b { font-weight: 600; display: block; font-size:13px; } .veh span { color: var(--muted); font-size: 11.5px; } .veh .trade { color: var(--faint); font-size: 11px; margin-top: 2px; }
+    .sig { display:flex; flex-direction:column; gap:3px; } .sig-top { display:flex; align-items:center; gap:7px; }
+    .sig-bars { display:inline-flex; gap:2px; } .sig-bars i { width:4px; height:11px; border-radius:1px; background:var(--line); } .sig-bars i.on { background:var(--sc,#16a34a); }
+    .sig-lbl { font-size:12px; font-weight:700; } .sig-d { font-size:11px; color:var(--muted); }
+    .muted-2 { color: var(--muted); font-size: 12.5px; }
+    .na { display: flex; align-items: center; gap: 8px; } .na svg { width: 15px; height: 15px; color: var(--accent); flex: none; } .na b { font-weight: 600; font-size:13px; } .na span { color: var(--muted); font-size: 11.5px; display: block; } .na .ov { color: #dc2626; font-weight: 600; }
+    .stage { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-size: 12px; font-weight: 600; } .stage::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; } .stage svg{width:11px;height:11px;margin-left:1px;}
     .st-new { color: #2563eb; background: #eaf1fe; } .st-contacted { color: #6366f1; background: #eef0fe; } .st-qual { color: #0d9488; background: #e4f7f4; }
     .st-appt { color: #7c3aed; background: #f1eafe; } .st-test { color: #0891b2; background: #e2f5fb; } .st-nego { color: #ea8a0b; background: #fdf0dc; }
     .st-fin { color: #0284c7; background: #e0f2fe; } .st-deliv { color: #16a34a; background: #e7f7ee; } .st-sold { color: #fff; background: #16a34a; } .st-sold::before { background: #fff; } .st-lost { color: #94a3b8; background: #eef1f6; }
-    .stars { color: #f5b638; font-size: 13px; letter-spacing: 1px; } .stars .off { color: #dfe4ec; }
-    .rep { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; } .rep .av-xs { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg,#3f9bff,#0b57b8); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; }
+    .val b { font-weight: 800; font-size: 14px; } .val span { color: var(--muted); font-size: 11px; display:block; }
+    .score-ring { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; position: relative; }
+    .score-ring::before { content:""; position:absolute; inset:0; border-radius:50%; background: conic-gradient(var(--rc) calc(var(--p)*1%), var(--line) 0); -webkit-mask: radial-gradient(farthest-side, transparent 64%, #000 65%); mask: radial-gradient(farthest-side, transparent 64%, #000 65%); }
+    .add-mini { width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--muted); display: flex; align-items: center; justify-content: center; } .add-mini:hover { border-color: var(--accent); color: var(--accent); } .add-mini svg { width: 15px; height: 15px; }
+    .stars { color: #f5b638; font-size: 12px; letter-spacing: 1px; } .stars .off { color: #dfe4ec; }
 
-    /* hover actions (Gmail-style) */
-    .row-actions { position: absolute; right: 16px; top: 0; bottom: 0; display: flex; align-items: center; gap: 3px; padding-left: 60px; background: linear-gradient(90deg, rgba(250,251,255,0) 0%, #fafbff 24%); opacity: 0; pointer-events: none; transition: opacity 0.12s; }
-    .pc:hover .row-actions { opacity: 1; pointer-events: auto; }
-    .ra { width: 34px; height: 34px; border-radius: 9px; border: 1px solid var(--line); background: #fff; color: var(--muted); display: inline-flex; align-items: center; justify-content: center; }
-    .ra:hover { background: var(--accent); color: #fff; border-color: var(--accent); } .ra svg { width: 16px; height: 16px; }
-    .ra.open-btn { width: auto; padding: 0 14px; font-size: 12.5px; font-weight: 700; color: var(--accent); }
-    .ra.open-btn:hover { color: #fff; }
+    /* ============ INLINE WORKSPACE ============ */
+    .ws-host { border-top: 1px solid var(--line); overflow: hidden; }
+    .ws { padding: 0 20px; animation: wsIn .32s cubic-bezier(.2,.7,.3,1); }
+    @keyframes wsIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+    .ws-grid { display: grid; grid-template-columns: 320px minmax(0,1fr) 320px; gap: 16px; padding: 4px 0 20px; }
+    .ws-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
+    .ws-ch { display: flex; align-items: center; gap: 8px; padding: 13px 15px 10px; font-size: 12.5px; font-weight: 700; }
+    .ws-ch .beta { font-size: 9px; font-weight: 800; letter-spacing: .5px; color: var(--violet); background: rgba(124,58,237,.12); padding: 2px 6px; border-radius: 5px; }
+    .ws-ch .spk { color: var(--violet); display: inline-flex; } .ws-ch .spk svg { width: 14px; height: 14px; }
+    .ws-ch .r { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; }
+    .mini-a { font-size: 11.5px; font-weight: 700; color: var(--accent); display: inline-flex; align-items: center; gap: 5px; border: none; background: none; cursor: pointer; } .mini-a:hover { text-decoration: underline; } .mini-a svg { width: 13px; height: 13px; flex: none; }
+    .live-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: #16a34a; } .live-badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; } @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    /* LEFT column */
+    .ws-left { background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); padding: 20px 18px; display: flex; flex-direction: column; }
+    .ws-photo { width: 92px; height: 92px; border-radius: 50%; margin: 0 auto 12px; color: #fff; font-size: 30px; font-weight: 800; display: flex; align-items: center; justify-content: center; position: relative; }
+    .ws-photo::after { content: ""; position: absolute; bottom: 4px; right: 6px; width: 16px; height: 16px; border-radius: 50%; background: #22c55e; border: 3px solid var(--card); }
+    .ws-name { text-align: center; font-size: 18px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px; } .ws-name .star { color: #f5b638; font-size: 14px; }
+    .ws-phone { text-align: center; color: var(--muted); font-size: 13px; margin-top: 3px; margin-bottom: 16px; }
+    .ws-fields { display: flex; flex-direction: column; }
+    .ws-f { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 12.5px; }
+    .ws-f:first-child { border-top: none; }
+    .ws-f .k { color: var(--muted); display: inline-flex; align-items: center; gap: 7px; } .ws-f .k svg { width: 14px; height: 14px; color: var(--faint); }
+    .ws-f .v { font-weight: 600; text-align: right; } .ws-f .v.pos { color: #16a34a; } .ws-f .v.stars { color: #f5b638; letter-spacing: 1px; }
+    .ws-qa-t { font-size: 11px; font-weight: 700; letter-spacing: .4px; color: var(--faint); text-transform: uppercase; margin: 16px 0 9px; }
+    .ws-qa { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+    .ws-qa button { border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 9px 0 6px; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 9.5px; color: var(--muted); font-weight: 600; }
+    .ws-qa button:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); } .ws-qa button svg { width: 16px; height: 16px; color: var(--accent); }
+    .c360-btn { margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(180deg,var(--accent-2),var(--accent)); color: #fff; border-radius: 11px; padding: 11px; font-size: 13px; font-weight: 700; box-shadow: 0 12px 26px -14px rgba(37,99,235,0.9); } .c360-btn:hover { filter: brightness(1.06); } .c360-btn svg { width: 15px; height: 15px; }
+
+    /* CENTER column */
+    .ws-center { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+    .ai-sum-body { display: grid; grid-template-columns: 1fr auto; gap: 16px; padding: 0 15px 12px; align-items: center; }
+    .ai-sum-body p { font-size: 13px; line-height: 1.55; color: #334155; } .ai-sum-body p b { color: var(--text); }
+    .big-ring { width: 96px; height: 96px; border-radius: 50%; flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+    .big-ring::before { content:""; position:absolute; inset:0; border-radius:50%; background: conic-gradient(#16a34a calc(var(--p)*1%), var(--line) 0); -webkit-mask: radial-gradient(farthest-side, transparent 70%, #000 71%); mask: radial-gradient(farthest-side, transparent 70%, #000 71%); }
+    .big-ring .n { font-size: 26px; font-weight: 800; line-height: 1; } .big-ring .t { font-size: 8.5px; color: var(--muted); font-weight: 600; text-align: center; margin-top: 3px; } .big-ring .e { font-size: 9px; font-weight: 800; color: #16a34a; }
+    .ai-sum-foot { border-top: 1px solid var(--line); padding: 11px 15px; font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 16px; } .ai-sum-foot b { color: var(--text); } .ai-sum-foot .rec { color: var(--accent); font-weight: 700; }
+    .ws-cta-row { display: flex; gap: 9px; padding: 4px 15px 15px; flex-wrap: wrap; }
+    .ws-cta { flex: 1; min-width: 150px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; background: linear-gradient(180deg,#3b82f6,#2563eb); color: #fff; border: none; border-radius: 11px; padding: 13px 18px; font-size: 14.5px; font-weight: 700; box-shadow: 0 14px 28px -14px rgba(37,99,235,0.95); } .ws-cta:hover { filter: brightness(1.07); } .ws-cta svg { width: 17px; height: 17px; }
+    .ws-sec { display: inline-flex; align-items: center; gap: 7px; background: var(--card); border: 1px solid var(--line); color: var(--text); border-radius: 11px; padding: 12px 15px; font-size: 13px; font-weight: 600; } .ws-sec:hover { border-color: var(--accent); color: var(--accent); } .ws-sec svg { width: 15px; height: 15px; color: var(--accent); }
+    .tp-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap: 9px; padding: 4px 15px 15px; }
+    .tp { border: 1px solid var(--line); border-radius: 11px; padding: 11px 12px; background: var(--bg); }
+    .tp .tp-t { font-size: 11.5px; font-weight: 800; color: var(--accent); margin-bottom: 4px; } .tp .tp-d { font-size: 11.5px; color: var(--muted); line-height: 1.4; }
+    .tp[contenteditable="true"] { outline: none; } .tp.editing { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .tl-tabs { display: flex; gap: 4px; padding: 0 15px 8px; overflow-x: auto; }
+    .tl-tabs button { border: none; background: none; color: var(--muted); font-size: 12px; font-weight: 600; padding: 5px 9px; border-radius: 7px; white-space: nowrap; } .tl-tabs button.on { background: var(--accent-soft); color: var(--accent); }
+    .tl-list { padding: 4px 16px 16px; }
+    .tli { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: flex-start; padding: 9px 0; border-top: 1px solid var(--line); } .tli:first-child { border-top: none; }
+    .tli .ic { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex: none; } .tli .ic svg { width: 15px; height: 15px; }
+    .tli b { font-weight: 600; font-size: 13px; display: block; } .tli span { color: var(--muted); font-size: 12px; } .tli .tm { color: var(--faint); font-size: 11px; white-space: nowrap; text-align: right; }
+
+    /* RIGHT column */
+    .ws-right { display: flex; flex-direction: column; gap: 14px; }
+    .live-feed { padding: 4px 15px 12px; }
+    .lf { display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); } .lf:first-child { border-top: none; }
+    .lf .ic { width: 24px; height: 24px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex: none; } .lf .ic svg { width: 13px; height: 13px; }
+    .lf b { font-weight: 600; font-size: 12.5px; display: block; } .lf span { color: var(--muted); font-size: 11.5px; } .lf .tm { color: var(--faint); font-size: 10.5px; }
+    .lf.fresh { animation: lfIn .5s ease; } @keyframes lfIn { from { opacity: 0; transform: translateY(-6px); background: var(--accent-soft); } to { opacity: 1; } }
+    .coach-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 15px; border-top: 1px solid var(--line); font-size: 12.5px; } .coach-row:first-of-type { border-top: none; }
+    .coach-row .k { color: var(--muted); } .coach-row .v { font-weight: 800; } .coach-row .v.g { color: #16a34a; } .coach-row .badge { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 6px; margin-left: 6px; } .badge.vhi { color: #16a34a; background: #e7f7ee; } .badge.low { color: #16a34a; background: #e7f7ee; } .badge.med { color: #ea8a0b; background: #fdf0dc; }
+    .coach-nba { margin: 4px 15px; padding: 11px 12px; border-radius: 11px; background: linear-gradient(180deg,#f0fdf4,#fff); border: 1px solid #d6f0df; }
+    .coach-nba .t { font-size: 10.5px; font-weight: 800; color: #16a34a; text-transform: uppercase; letter-spacing: .4px; } .coach-nba b { font-size: 13px; }
+    .coach-script { margin: 8px 15px 4px; padding: 11px 12px; border-radius: 11px; background: var(--bg); border: 1px solid var(--line); }
+    .coach-script .t { font-size: 10.5px; font-weight: 800; color: var(--faint); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 5px; } .coach-script p { font-size: 12px; color: #475569; line-height: 1.5; font-style: italic; }
+    .use-script { margin-top: 9px; width: 100%; background: linear-gradient(180deg,var(--accent-2),var(--accent)); color: #fff; border: none; border-radius: 9px; padding: 9px; font-size: 12.5px; font-weight: 700; } .use-script:hover { filter: brightness(1.06); }
+    .coach-obj { margin: 8px 15px 15px; padding: 10px 12px; border-radius: 11px; background: #fff7ed; border: 1px solid #fde4c8; font-size: 11.5px; color: #92400e; } .coach-obj b { display: block; margin-bottom: 3px; }
+    .note { padding: 11px 15px; border-top: 1px solid var(--line); } .note:first-of-type { border-top: none; }
+    .note .nh { display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700; color: var(--faint); margin-bottom: 4px; } .note .nh .pin { margin-left: auto; color: var(--amber); }
+    .note.ai { background: linear-gradient(180deg,#faf5ff,transparent); } .note.ai .nh { color: var(--violet); }
+    .note p { font-size: 12.5px; color: #334155; line-height: 1.45; } .note .nm { font-size: 11px; color: var(--faint); margin-top: 4px; }
+
+    /* dark-mode: adapt tinted cards + hardcoded text so nothing is a light island / unreadable */
+    html[data-theme="dark"] .ai-sum-body p, html[data-theme="dark"] .tp .tp-d, html[data-theme="dark"] .coach-script p, html[data-theme="dark"] .note p, html[data-theme="dark"] .tli span, html[data-theme="dark"] .lf span { color: var(--muted) !important; }
+    html[data-theme="dark"] .coach-nba { background: rgba(22,163,74,.13); border-color: rgba(22,163,74,.28); }
+    html[data-theme="dark"] .coach-obj { background: rgba(234,138,11,.13); border-color: rgba(234,138,11,.3); color: #f0b968; }
+    html[data-theme="dark"] .note.ai { background: rgba(124,58,237,.12); }
+    html[data-theme="dark"] .tp, html[data-theme="dark"] .coach-script { background: rgba(255,255,255,.04); }
+    html[data-theme="dark"] .ws-qa button:hover { background: rgba(37,99,235,.16); }
+    html[data-theme="dark"] .stars .off { color: #33415a; }
 
     .empty { text-align: center; padding: 60px 20px; color: var(--muted); }
     .empty svg { width: 44px; height: 44px; color: var(--faint); display: block; margin: 0 auto 14px; }
     .empty h3 { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-    .empty .btns { margin-top: 18px; display: flex; gap: 10px; justify-content: center; }
 
     /* bulk bar */
     .bulk { position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(30px); z-index: 40; background: #0e1a2e; color: #fff; border-radius: 14px; box-shadow: 0 24px 50px -18px rgba(0,0,0,0.5); padding: 10px 12px 10px 18px; display: flex; align-items: center; gap: 10px; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; }
     .bulk.show { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
     .bulk .n { font-size: 13.5px; font-weight: 600; margin-right: 6px; } .bulk .n b { color: #6ea8ff; }
     .bulk button { background: rgba(255,255,255,0.08); border: none; color: #dbe7f7; border-radius: 9px; padding: 8px 13px; font-size: 12.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 7px; }
-    .bulk button:hover { background: rgba(255,255,255,0.16); color: #fff; } .bulk button svg { width: 14px; height: 14px; }
-    .bulk .x { background: none; padding: 8px; }
+    .bulk button:hover { background: rgba(255,255,255,0.16); color: #fff; } .bulk button svg { width: 14px; height: 14px; } .bulk .x { background: none; padding: 8px; }
 
-    /* slide-over + drawer */
-    .scrim { position: fixed; inset: 0; background: rgba(10,20,36,0.4); z-index: 45; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
-    .scrim.show { opacity: 1; pointer-events: auto; }
-    .panel { position: fixed; top: 0; right: 0; bottom: 0; width: 460px; max-width: 94vw; background: var(--bg); z-index: 46; box-shadow: -20px 0 60px -30px rgba(0,0,0,0.5); transform: translateX(100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; }
-    .panel.open { transform: none; }
-    .drawer { width: 380px; }
+    /* filter drawer */
+    .scrim { position: fixed; inset: 0; background: rgba(10,20,36,0.4); z-index: 45; opacity: 0; pointer-events: none; transition: opacity 0.2s; } .scrim.show { opacity: 1; pointer-events: auto; }
+    .drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 380px; max-width: 94vw; background: var(--bg); z-index: 46; box-shadow: -20px 0 60px -30px rgba(0,0,0,0.5); transform: translateX(100%); transition: transform 0.28s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column; } .drawer.open { transform: none; }
     .panel-hd { display: flex; align-items: flex-start; gap: 14px; padding: 20px 22px; background: var(--card); border-bottom: 1px solid var(--line); }
-    .panel-hd .av-lg { width: 52px; height: 52px; border-radius: 50%; color: #fff; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; }
-    .panel-hd h2 { font-size: 19px; font-weight: 800; letter-spacing: -0.3px; } .panel-hd .pmeta { color: var(--muted); font-size: 13px; margin-top: 3px; }
+    .panel-hd h2 { font-size: 17px; font-weight: 800; } .panel-hd .pmeta { color: var(--muted); font-size: 13px; margin-top: 3px; }
     .panel-close { margin-left: auto; border: none; background: none; color: var(--muted); width: 34px; height: 34px; border-radius: 9px; } .panel-close:hover { background: var(--bg); } .panel-close svg { width: 18px; height: 18px; }
-    .panel-body { overflow-y: auto; padding: 18px 22px 30px; display: flex; flex-direction: column; gap: 16px; }
-    .qa { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-    .qa button { border: 1px solid var(--line); background: var(--card); border-radius: 10px; padding: 10px 0 7px; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 9.5px; color: var(--muted); font-weight: 600; }
-    .qa button:hover { border-color: var(--accent); color: var(--accent); } .qa button svg { width: 17px; height: 17px; color: var(--accent); }
-    .sect { background: var(--card); border: 1px solid var(--line); border-radius: 13px; padding: 16px; }
-    .sect h3 { font-size: 13px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
-    .sect h3 .spark { color: #7c3aed; } .sect h3 .spark svg { width: 15px; height: 15px; }
-    .ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; margin-bottom: 14px; }
-    .ai-grid .k { color: var(--muted); font-size: 11.5px; } .ai-grid .v { font-weight: 600; font-size: 13.5px; margin-top: 1px; }
-    .prob-wrap { background: linear-gradient(180deg,#f6faff,#fff); border: 1px solid var(--line); border-radius: 11px; padding: 12px 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
-    .prob-ring { width: 46px; height: 46px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #16a34a; }
-    .prob-wrap b { font-size: 13.5px; } .prob-wrap p { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
-    .sugg { background: #f7f9fc; border: 1px solid var(--line); border-radius: 11px; padding: 12px 14px; font-size: 13px; color: #475569; line-height: 1.5; }
-    .sugg .lbl { color: var(--faint); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
-    .send-btn { margin-top: 10px; width: 100%; background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff; border: none; border-radius: 9px; padding: 10px; font-size: 13px; font-weight: 700; }
-    .send-btn:hover { filter: brightness(1.06); }
-    .tl { display: grid; grid-template-columns: 16px 1fr; gap: 12px; padding-bottom: 16px; position: relative; }
-    .tl:last-child { padding-bottom: 0; }
-    .tl-dot { width: 11px; height: 11px; border-radius: 50%; margin-top: 3px; background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
-    .tl:not(:last-child)::after { content: ""; position: absolute; left: 5px; top: 16px; bottom: 0; width: 2px; background: var(--line); }
-    .tl b { font-weight: 600; display: block; font-size: 13px; } .tl span { color: var(--muted); font-size: 12px; }
-    .field-row { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13px; } .field-row:first-child { border-top: none; } .field-row .k { color: var(--muted); } .field-row .v { font-weight: 600; }
-
-    /* drawer filters */
-    .drawer .panel-body { gap: 18px; }
-    .fld { display: flex; flex-direction: column; gap: 7px; } .fld label { font-size: 12.5px; font-weight: 600; color: var(--text-soft, #33445c); }
-    .fld select, .fld input { font: inherit; font-size: 13.5px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--text); outline: none; }
+    .drawer .panel-body { overflow-y: auto; padding: 18px 22px; display: flex; flex-direction: column; gap: 18px; }
+    .fld { display: flex; flex-direction: column; gap: 7px; } .fld label { font-size: 12.5px; font-weight: 600; }
+    .fld select, .fld input { font: inherit; font-size: 13.5px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--card); color: var(--text); outline: none; }
     .fld select:focus, .fld input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
     .drawer-foot { padding: 16px 22px; border-top: 1px solid var(--line); background: var(--card); display: flex; gap: 10px; }
     .drawer-foot button { flex: 1; border-radius: 10px; padding: 12px; font-size: 13.5px; font-weight: 700; }
-    .df-reset { background: #fff; border: 1px solid var(--line); color: var(--text); } .df-apply { background: var(--accent); border: none; color: #fff; }
+    .df-reset { background: var(--card); border: 1px solid var(--line); color: var(--text); } .df-apply { background: var(--accent); border: none; color: #fff; }
 
-    @media (max-width: 1200px) { .queue { grid-template-columns: repeat(3, 1fr); } .list-head { display: none; } .pc { grid-template-columns: 38px 2fr 1.3fr auto; } .pc .col-hideable { display: none; } }
-    @media (max-width: 900px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .queue { grid-template-columns: repeat(2,1fr); } }
-    @media (max-width: 560px) { .content { padding: 20px 14px 60px; } .queue { grid-template-columns: 1fr; } .pc { grid-template-columns: 34px 1fr auto; } }
+    @media (max-width: 1280px) { .ws-grid { grid-template-columns: 1fr; } .queue { grid-template-columns: repeat(3,1fr); } }
+    @media (max-width: 1100px) { .list-head { display: none; } .pc { grid-template-columns: 34px 2fr 1.4fr auto; } .pc .col-hideable { display: none; } }
+    @media (max-width: 900px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .queue { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .content { padding: 18px 14px 60px; } .ws-qa { grid-template-columns: repeat(3,1fr); } }
+    @media (prefers-reduced-motion: reduce) { *,*::before { animation: none !important; transition: none !important; } }
   </style>
 </head>
 <body>
@@ -191,7 +237,7 @@
         <a href="/inventory"><svg viewBox="0 0 24 24"><path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Inventory</a>
         <a href="/communications"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Communications<span class="nb">3</span></a>
         <a href="/reports"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="7" y="12" width="3" height="5" fill="currentColor"/><rect x="12" y="8" width="3" height="9" fill="currentColor"/><rect x="17" y="5" width="3" height="12" fill="currentColor"/></svg>Reports</a>
-        <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Settings</a>
+        <a href="/settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.5 5.5l2 2M16.5 16.5l2 2M18.5 5.5l-2 2M7.5 16.5l-2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Settings</a>
       </nav>
       <div class="side-user"><span class="av">JA</span><span class="meta"><b>Jordan Avery</b><span>Sales Representative</span></span><svg class="chev" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     </aside>
@@ -199,78 +245,68 @@
     <div class="main">
       <header class="topbar">
         <button class="hamb" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input type="text" placeholder="Search customers, vehicles, deals..." aria-label="Search" /><span class="kbd">⌘</span><span class="kbd">K</span></div>
-        <button class="quick-add"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Quick Add</button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input type="text" placeholder="Search customers, vehicles, leads, stock #, VIN…" aria-label="Search" /><span class="kbd">⌘</span><span class="kbd">K</span></div>
         <div class="tb-icons">
           <button class="ib" aria-label="Calls"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
           <button class="ib" aria-label="Messages"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
-          <button class="ib" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="dot">3</span></button>
+          <button class="ib" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 13 6 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="dot">7</span></button>
           <span class="tb-avatar"><span class="av">JA</span></span>
         </div>
       </header>
 
       <main class="content">
         <div class="phead">
-          <div><h1>Prospects</h1><p class="sub">Manage every lead from first contact to delivery.</p></div>
-          <button class="add-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Add Prospect</button>
-        </div>
-
-        <!-- LEAD QUEUE -->
-        <div class="queue" id="queue"></div>
-
-        <!-- TOOLBAR -->
-        <div class="toolbar">
-          <div class="psearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" type="text" placeholder="Search name, phone, email, vehicle, stock #, VIN, or notes..." /></div>
-          <button class="tb-btn" id="advBtn"><svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Advanced Filters</button>
-          <div class="views"><button class="tb-btn" id="viewsBtn"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 15.5 7.1 18.2l.9-5.5-4-3.9L9.5 8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Saved Views</button>
-            <div class="views-menu" id="viewsMenu"></div>
+          <div><h1>Prospects <span class="spk"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span></h1><p class="sub">Every lead is a living workspace — expand to work the whole opportunity without leaving the page.</p></div>
+          <div class="head-actions">
+            <button class="btn-p" id="quickAdd"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Quick Add</button>
+            <button class="btn-o" id="importBtn"><svg viewBox="0 0 24 24"><path d="M12 15V3M8 7l4-4 4 4M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Import Leads</button>
+            <button class="view-sel" id="viewsBtn">View: <b>All Prospects</b><svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="btn-o" id="advBtn"><svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Filters</button>
           </div>
         </div>
 
-        <!-- FILTER PILLS -->
+        <div class="queue" id="queue"></div>
+
+        <div class="toolbar">
+          <div class="psearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" type="text" placeholder="Search name, phone, email, vehicle, stock #, VIN, or notes…" /></div>
+        </div>
+
         <div class="pills" id="pills"></div>
 
-        <!-- LIST -->
         <div class="list-head">
-          <span></span><span>CUSTOMER</span><span>VEHICLE / INTEREST</span><span class="col-hideable">LAST CONTACT</span><span class="col-hideable">NEXT ACTION</span><span class="col-hideable">STAGE · PRIORITY</span><span class="col-hideable">REP</span>
+          <span></span><span>PROSPECT</span><span>VEHICLE / INTEREST</span><span class="col-hideable">BUYING SIGNAL</span><span class="col-hideable">LAST CONTACT</span><span class="col-hideable">NEXT ACTION</span><span class="col-hideable">STAGE</span><span class="col-hideable">VALUE</span><span class="col-hideable">SCORE</span><span></span>
         </div>
         <div class="list" id="list"></div>
       </main>
     </div>
   </div>
 
-  <!-- BULK BAR -->
   <div class="bulk" id="bulk">
     <span class="n"><b id="bulkN">0</b> selected</span>
-    <button><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Assign</button>
-    <button><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Text</button>
-    <button><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Email</button>
-    <button><svg viewBox="0 0 24 24"><path d="M4 8h9M4 12h12M4 16h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Change Stage</button>
-    <button><svg viewBox="0 0 24 24"><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Follow-up</button>
-    <button><svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M4 19h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Export</button>
+    <button data-bulk="assign"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Assign</button>
+    <button data-bulk="text"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Text</button>
+    <button data-bulk="email"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Email</button>
+    <button data-bulk="stage"><svg viewBox="0 0 24 24"><path d="M4 8h9M4 12h12M4 16h7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Change Stage</button>
+    <button data-bulk="export"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M4 19h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Export</button>
     <button class="x" id="bulkClear" aria-label="Clear"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
   </div>
 
-  <!-- SCRIM + PANELS -->
   <div class="scrim" id="scrim"></div>
-  <aside class="panel" id="panel" aria-hidden="true"></aside>
-
-  <aside class="panel drawer" id="drawer" aria-hidden="true">
-    <div class="panel-hd"><div><h2 style="font-size:17px">Advanced Filters</h2><div class="pmeta">Narrow down your prospects</div></div><button class="panel-close" id="drawerClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="panel-hd"><div><h2>Advanced Filters</h2><div class="pmeta">Narrow down your prospects</div></div><button class="panel-close" id="drawerClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
     <div class="panel-body">
       <div class="fld"><label>Lead Source</label><select id="fSource"><option value="">All Sources</option><option>Internet</option><option>Phone</option><option>Walk-In</option><option>Facebook</option><option>Referral</option></select></div>
       <div class="fld"><label>Buying Stage</label><select id="fStage"><option value="">All Stages</option><option value="new">New Lead</option><option value="contacted">Contacted</option><option value="qualified">Qualified</option><option value="appt">Appointment Scheduled</option><option value="testdrive">Test Drive</option><option value="negotiating">Negotiating</option><option value="finance">Finance</option><option value="delivery">Ready for Delivery</option><option value="sold">Sold</option><option value="lost">Lost</option></select></div>
       <div class="fld"><label>Assigned Rep</label><select id="fRep"><option value="">Anyone</option><option>You</option><option>Sarah Johnson</option><option>Mike Davis</option></select></div>
-      <div class="fld"><label>Minimum Priority</label><select id="fPri"><option value="0">Any</option><option value="3">★★★ &amp; up</option><option value="4">★★★★ &amp; up</option><option value="5">★★★★★ only</option></select></div>
+      <div class="fld"><label>Minimum Score</label><select id="fScore"><option value="0">Any</option><option value="60">60 &amp; up</option><option value="75">75 &amp; up</option><option value="85">85 &amp; up</option></select></div>
       <div class="fld"><label>Has Trade-In</label><select id="fTrade"><option value="">Any</option><option value="yes">Yes</option><option value="no">No</option></select></div>
     </div>
     <div class="drawer-foot"><button class="df-reset" id="fReset">Reset</button><button class="df-apply" id="fApply">Apply Filters</button></div>
   </aside>
 
   <script>
-    /* ---------- data ---------- */
-    const STAGES = { new:["st-new","New Lead"], contacted:["st-contacted","Contacted"], qualified:["st-qual","Qualified"], appt:["st-appt","Appointment Scheduled"], testdrive:["st-test","Test Drive"], negotiating:["st-nego","Negotiating"], finance:["st-fin","Finance"], delivery:["st-deliv","Ready for Delivery"], sold:["st-sold","Sold"], lost:["st-lost","Lost"] };
-    const PRI_LABEL = { 5:"Needs Immediate Follow-up", 4:"Likely to Buy", 3:"Active Shopping", 2:"Long Term", 1:"Inactive" };
+    /* ================= data ================= */
+    const STAGES = { new:["st-new","New Lead"], contacted:["st-contacted","Contacted"], qualified:["st-qual","Qualified"], appt:["st-appt","Appt. Scheduled"], testdrive:["st-test","Test Drive"], negotiating:["st-nego","Negotiating"], finance:["st-fin","Finance"], delivery:["st-deliv","Ready for Delivery"], sold:["st-sold","Sold"], lost:["st-lost","Lost"] };
     const IC = {
       call:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
       text:'<path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
@@ -279,40 +315,103 @@
       appt:'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>',
       payment:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 9.2c-.5-.9-1.4-1.2-2.3-1.2-1.3 0-2.2.7-2.2 1.8 0 2.6 5 1.4 5 4 0 1.2-1 2-2.5 2-1.1 0-2-.4-2.5-1.3M12 6.5v11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
       trade:'<path d="M4 8h12l-2-3M20 16H8l2 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
-      more:'<circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/>'
+      credit:'<rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 10h18M7 15h4" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      docs:'<path d="M6 3h8l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v4h4M9 13h6M9 16h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+      note:'<path d="M6 3.5h9l4 4V20.5H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+      reminder:'<circle cx="12" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 9v4l3 2M9 3h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+      more:'<circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/>',
+      eye:'<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      globe:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 12h17M12 3.5c2.5 2.5 2.5 14 0 17M12 3.5c-2.5 2.5-2.5 14 0 17" fill="none" stroke="currentColor" stroke-width="1.4"/>',
+      spark:'<path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/>',
+      chev:'<path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
     };
     const svg = (k) => `<svg viewBox="0 0 24 24">${IC[k]}</svg>`;
 
     const P = [
-      { id:1, name:"John Smith", ini:"JS", c:"#3b82f6", phone:"(678) 555-0142", email:"jsmith@email.com", veh:"2024 Chevrolet Silverado 1500 LT", stock:"T24158", vin:"3GCUKDED5SG123456", trade:"2019 Ford F-150", source:"Phone", last:"Yesterday", next:{t:"call",l:"Call",due:"Today · 11:00 AM"}, stage:"negotiating", pri:5, rep:"You", budget:"$650/mo", timeline:"This week", prob:82, rec:"Call today — opened your pricing email this morning.", msg:"Hi John! I wanted to check in after sending pricing. Do you have any questions?", tags:["myleads","phone","needsaction","hot","manager"] },
-      { id:2, name:"Michael Williams", ini:"MW", c:"#a855f7", phone:"(404) 555-0198", email:"mwilliams@email.com", veh:"2024 Toyota RAV4 XLE", stock:"U24521", vin:"2T3P1RFV8RC123457", trade:"2021 Toyota Camry", source:"Internet", last:"2h ago", next:{t:"text",l:"Text",due:"Today · 1:00 PM"}, stage:"qualified", pri:4, rep:"You", budget:"$480/mo", timeline:"2 weeks", prob:74, rec:"Send trade numbers — comparing financing options.", msg:"Hi Michael, here are the trade-in numbers we discussed. Want to lock it in?", tags:["myleads","internet","needsaction","hot","waiting"] },
-      { id:3, name:"Sarah Lewis", ini:"SL", c:"#8b5cf6", phone:"(770) 555-0127", email:"slewis@email.com", veh:"2023 Honda CR-V EX", stock:"U23311", vin:"7FARW2H85PE123458", trade:"—", source:"Internet", last:"3h ago", next:{t:"email",l:"Email",due:"Today · 1:30 PM"}, stage:"appt", pri:4, rep:"You", budget:"$430/mo", timeline:"This month", prob:68, rec:"Confirm appointment and send financing options.", msg:"Hi Sarah! Looking forward to your visit. Here are a few financing options to review.", tags:["myleads","internet","appointments","waiting"] },
-      { id:4, name:"David Johnson", ini:"DJ", c:"#f59e0b", phone:"(678) 555-0177", email:"djohnson@email.com", veh:"2024 Ford F-150 XLT", stock:"T24211", vin:"1FTFW1E80RF123459", trade:"2018 Chevrolet Silverado", source:"Walk-In", last:"1d ago", next:{t:"video",l:"Send Video",due:"Today · 3:00 PM"}, stage:"testdrive", pri:3, rep:"You", budget:"$720/mo", timeline:"1 month", prob:59, rec:"Send a personalized walkaround video before the test drive.", msg:"Hi David, made you a quick video of the F-150 XLT ahead of your test drive!", tags:["myleads","walkin","appointments"] },
-      { id:5, name:"Amanda Harris", ini:"AH", c:"#ec4899", phone:"(404) 555-0182", email:"aharris@email.com", veh:"2024 Chevrolet Equinox RS", stock:"U24566", vin:"3GNAXWEG0RL123460", trade:"—", source:"Facebook", last:"5h ago", next:{t:"email",l:"Email",due:"Tomorrow · 10:00 AM"}, stage:"new", pri:3, rep:"You", budget:"$390/mo", timeline:"Researching", prob:41, rec:"Send intro email with Equinox availability and pricing.", msg:"Hi Amanda! Thanks for your interest in the Equinox RS — here's current availability.", tags:["myleads","internet","needsaction"] },
-      { id:6, name:"Robert Brown", ini:"RB", c:"#14b8a6", phone:"(770) 555-0231", email:"rbrown@email.com", veh:"2024 Chevrolet Tahoe Premier", stock:"U24610", vin:"1GNSKCKD6SR123461", trade:"2017 Chevrolet Tahoe", source:"Phone", last:"Yesterday", next:{t:"call",l:"Call",due:"Today · 4:00 PM"}, stage:"contacted", pri:4, rep:"You", budget:"$900/mo", timeline:"2 weeks", prob:66, rec:"Call to schedule a test drive — high trade equity.", msg:"Hi Robert, your Tahoe has strong trade value right now. Want to come take a look?", tags:["myleads","phone","hot"] },
-      { id:7, name:"Jessica Davis", ini:"JD", c:"#6366f1", phone:"(404) 555-0265", email:"jdavis@email.com", veh:"2023 Honda Accord Sport", stock:"U23880", vin:"1HGCY2F58PA123462", trade:"—", source:"Internet", last:"2d ago", next:{t:"call",l:"Call",due:"Overdue"}, stage:"contacted", pri:2, rep:"Sarah Johnson", budget:"$410/mo", timeline:"Long term", prob:34, rec:"Overdue follow-up — re-engage with a check-in.", msg:"Hi Jessica, just checking in — still interested in the Accord Sport?", tags:["internet","needsaction","overdue"] },
-      { id:8, name:"Kevin Anderson", ini:"KA", c:"#0ea5e9", phone:"(678) 555-0176", email:"kanderson@email.com", veh:"2025 GMC Sierra 1500 Denali", stock:"T25012", vin:"3GTUUGEL0SG123463", trade:"2016 GMC Sierra", source:"Walk-In", last:"4d ago", next:{t:"text",l:"Follow Up",due:"Overdue"}, stage:"negotiating", pri:5, rep:"You", budget:"$1,050/mo", timeline:"This week", prob:79, rec:"Overdue & hot — get a manager on the deal today.", msg:"Hi Kevin, I got approval to sharpen the numbers on the Denali. Can we talk today?", tags:["myleads","walkin","needsaction","overdue","hot","manager"] },
-      { id:9, name:"Priya Nair", ini:"PN", c:"#f43f5e", phone:"(770) 555-0244", email:"pnair@email.com", veh:"2024 Cadillac XT5 Sport", stock:"U24720", vin:"1GYKNGRS0RZ123464", trade:"—", source:"Internet", last:"1h ago", next:{t:"appt",l:"Confirm Appt",due:"Tomorrow · 2:00 PM"}, stage:"appt", pri:4, rep:"You", budget:"$780/mo", timeline:"This month", prob:71, rec:"Confirm tomorrow's appointment.", msg:"Hi Priya! Confirming your appointment tomorrow at 2 PM for the XT5.", tags:["myleads","internet","appointments","waiting"] },
-      { id:10, name:"Marcus Webb", ini:"MB", c:"#10b981", phone:"(404) 555-0311", email:"mwebb@email.com", veh:"2025 Chevrolet Corvette Stingray", stock:"U25100", vin:"1G1YB2D40S5123465", trade:"—", source:"Referral", last:"6d ago", next:{t:"call",l:"Deliver",due:"Delivered"}, stage:"sold", pri:1, rep:"You", budget:"Cash", timeline:"Complete", prob:100, rec:"Deal complete — request a review and referrals.", msg:"Thanks again, Marcus! Enjoy the Corvette. Mind leaving us a quick review?", tags:["myleads","sold"] },
-      { id:11, name:"Grace Kim", ini:"GK", c:"#eab308", phone:"(678) 555-0402", email:"gkim@email.com", veh:"2023 Kia Telluride SX", stock:"U23440", vin:"5XYP5DGC0PG123466", trade:"—", source:"Internet", last:"8d ago", next:{t:"email",l:"Re-engage",due:"—"}, stage:"lost", pri:1, rep:"Mike Davis", budget:"$560/mo", timeline:"—", prob:12, rec:"Lost to competitor — add to 90-day win-back.", msg:"Hi Grace, if you're still shopping, we just got new Telluride inventory in.", tags:["internet","lost"] },
-      { id:12, name:"Ethan Ross", ini:"ER", c:"#64748b", phone:"(770) 555-0361", email:"eross@email.com", veh:"2024 Buick Enclave Avenir", stock:"U24990", vin:"5GAEVCKW0RJ123467", trade:"2015 Buick Enclave", source:"Phone", last:"1d ago", next:{t:"call",l:"Call",due:"Today · 5:00 PM"}, stage:"finance", pri:5, rep:"You", budget:"$690/mo", timeline:"This week", prob:85, rec:"In finance — confirm terms and delivery date.", msg:"Hi Ethan, finance is approved! Let's lock in your delivery date.", tags:["myleads","phone","hot","manager"] },
+      { id:1, name:"Michael Williams", ini:"MW", c:"#7c3aed", phone:"(404) 555-0198", email:"mwilliams@email.com", veh:"2024 Toyota RAV4 XLE", stock:"U24521", vin:"2T3P1RFV8RC123457", trade:"2021 Toyota Camry", source:"Internet", last:"2h ago", next:{t:"call",l:"Call",due:"Today · 10:00 AM"}, stage:"qualified", pri:5, rep:"You", score:94, gross:5820, prob:94, sentiment:"Positive", ltv:8210, referral:"High", rel:4.5, payGoal:"$450 – $550 /mo", budget:"$28,000 – $32,000", pref:"Text", bestTime:"5:00 PM – 7:00 PM", days:5, timeline:"This week",
+        rec:"Call today — opened your pricing email and viewed the payment calculator 4× this morning.",
+        summary:"<b>Michael</b> has viewed the payment calculator <b>4 times</b> in the last 24 hours. He opened yesterday's email and clicked the RAV4 video. His trade value increased by <b>$700</b>. He typically replies by text in the evening.",
+        signals:[["Viewed payment",4],["Visited inventory",5],["Email opens",3],["Trade completed",5],["Appointment confirmed",4],["Phone responsiveness",4]],
+        tags:["myleads","internet","needsaction","hot","manager"] },
+      { id:2, name:"Sarah Lewis", ini:"SL", c:"#e11d76", phone:"(770) 555-0127", email:"slewis@email.com", veh:"2023 Honda CR-V EX", stock:"U23311", vin:"7FARW2H85PE123458", trade:"—", source:"Internet", last:"3h ago", next:{t:"email",l:"Email",due:"Today · 1:30 PM"}, stage:"appt", pri:4, rep:"You", score:88, gross:3450, prob:88, sentiment:"Positive", ltv:5400, referral:"Medium", rel:4, payGoal:"$400 – $450 /mo", budget:"$26,000 – $30,000", pref:"Email", bestTime:"12:00 PM – 2:00 PM", days:8, timeline:"This month",
+        rec:"Confirm appointment and send financing options — requested more info 2 days ago.",
+        summary:"<b>Sarah</b> requested more info and is comparing the CR-V against the RAV4. She opens most emails within an hour and has an appointment scheduled. No trade on file.",
+        signals:[["Viewed payment",3],["Visited inventory",4],["Email opens",5],["Trade completed",1],["Appointment confirmed",5],["Phone responsiveness",3]],
+        tags:["myleads","internet","appointments","waiting","manager"] },
+      { id:3, name:"John Smith", ini:"JS", c:"#3b82f6", phone:"(678) 555-0142", email:"jsmith@email.com", veh:"2024 Chevrolet Silverado 1500 LT", stock:"T24158", vin:"3GCUKDED5SG123456", trade:"2019 Ford F-150", source:"Phone", last:"Yesterday", next:{t:"call",l:"Call",due:"Today · 11:00 AM"}, stage:"negotiating", pri:4, rep:"You", score:72, gross:4210, prob:72, sentiment:"Neutral", ltv:6900, referral:"Medium", rel:4, payGoal:"$600 – $680 /mo", budget:"$48,000 – $54,000", pref:"Call", bestTime:"9:00 AM – 11:00 AM", days:12, timeline:"This week",
+        rec:"Asked about financing — call to walk through payment options and lock terms.",
+        summary:"<b>John</b> is negotiating on the Silverado and asked about financing yesterday. He has an F-150 trade with positive equity. Responds best to phone calls in the morning.",
+        signals:[["Viewed payment",4],["Visited inventory",3],["Email opens",2],["Trade completed",5],["Appointment confirmed",2],["Phone responsiveness",5]],
+        tags:["myleads","phone","needsaction","hot"] },
+      { id:4, name:"David Johnson", ini:"DJ", c:"#f59e0b", phone:"(678) 555-0177", email:"djohnson@email.com", veh:"2024 Ford F-150 XLT", stock:"T24211", vin:"1FTFW1E80RF123459", trade:"2018 Chevrolet Silverado", source:"Phone", last:"1d ago", next:{t:"video",l:"Send Video",due:"Tomorrow · 10:00 AM"}, stage:"testdrive", pri:3, rep:"You", score:64, gross:3170, prob:64, sentiment:"Neutral", ltv:5100, referral:"Low", rel:3.5, payGoal:"$650 – $720 /mo", budget:"$44,000 – $50,000", pref:"Text", bestTime:"4:00 PM – 6:00 PM", days:9, timeline:"1 month",
+        rec:"Viewed 2 vehicles — send a personalized walkaround video before the test drive.",
+        summary:"<b>David</b> has viewed 2 F-150 configurations and has a Silverado trade. Engagement is moderate; a walkaround video tends to move test-drive leads like this forward.",
+        signals:[["Viewed payment",2],["Visited inventory",4],["Email opens",3],["Trade completed",4],["Appointment confirmed",3],["Phone responsiveness",3]],
+        tags:["myleads","walkin","appointments"] },
+      { id:5, name:"Amanda Harris", ini:"AH", c:"#ec4899", phone:"(404) 555-0182", email:"aharris@email.com", veh:"2024 Chevrolet Equinox LT", stock:"U24102", vin:"3GNAXWEG0RL123460", trade:"—", source:"Phone", last:"1d ago", next:{t:"payment",l:"Send Payment",due:"Tomorrow · 2:00 PM"}, stage:"new", pri:3, rep:"You", score:48, gross:2190, prob:48, sentiment:"Cautious", ltv:3200, referral:"Low", rel:3, payGoal:"$350 – $400 /mo", budget:"$24,000 – $28,000", pref:"Email", bestTime:"1:00 PM – 3:00 PM", days:2, timeline:"Researching",
+        rec:"No activity in 7 days — needs approval to reprice; send payment estimate to re-engage.",
+        summary:"<b>Amanda</b> is early in her research on the Equinox and comparing payments. No activity in 7 days — a fresh payment estimate is the best way to re-open the conversation.",
+        signals:[["Viewed payment",2],["Visited inventory",2],["Email opens",2],["Trade completed",1],["Appointment confirmed",1],["Phone responsiveness",2]],
+        tags:["myleads","internet","needsaction","waiting"] },
+      { id:6, name:"Robert Brown", ini:"RB", c:"#14b8a6", phone:"(770) 555-0231", email:"rbrown@email.com", veh:"2024 Chevrolet Tahoe Premier", stock:"U24610", vin:"1GNSKCKD6SR123461", trade:"2017 Chevrolet Tahoe", source:"Phone", last:"Yesterday", next:{t:"call",l:"Call",due:"Today · 4:00 PM"}, stage:"contacted", pri:4, rep:"You", score:79, gross:6100, prob:79, sentiment:"Positive", ltv:9400, referral:"High", rel:4, payGoal:"$820 – $900 /mo", budget:"$62,000 – $68,000", pref:"Call", bestTime:"3:00 PM – 5:00 PM", days:6, timeline:"2 weeks",
+        rec:"High trade equity on the Tahoe — call to schedule a test drive.",
+        summary:"<b>Robert</b> has strong equity in his current Tahoe and is upgrading. High referral potential. Prefers phone in the afternoon.",
+        signals:[["Viewed payment",3],["Visited inventory",4],["Email opens",3],["Trade completed",5],["Appointment confirmed",2],["Phone responsiveness",4]],
+        tags:["myleads","phone","hot","manager"] },
+      { id:7, name:"Priya Nair", ini:"PN", c:"#f43f5e", phone:"(770) 555-0244", email:"pnair@email.com", veh:"2024 Cadillac XT5 Sport", stock:"U24720", vin:"1GYKNGRS0RZ123464", trade:"—", source:"Internet", last:"1h ago", next:{t:"appt",l:"Confirm Appt",due:"Tomorrow · 2:00 PM"}, stage:"appt", pri:4, rep:"You", score:75, gross:4600, prob:75, sentiment:"Positive", ltv:6800, referral:"Medium", rel:4, payGoal:"$720 – $800 /mo", budget:"$52,000 – $57,000", pref:"Text", bestTime:"6:00 PM – 8:00 PM", days:4, timeline:"This month",
+        rec:"Confirm tomorrow's appointment for the XT5.",
+        summary:"<b>Priya</b> booked an appointment for the XT5 and is highly engaged online. Confirm the visit and prep an XT5 vs. XT6 comparison.",
+        signals:[["Viewed payment",3],["Visited inventory",5],["Email opens",4],["Trade completed",1],["Appointment confirmed",5],["Phone responsiveness",4]],
+        tags:["myleads","internet","appointments","waiting"] },
+      { id:8, name:"Kevin Anderson", ini:"KA", c:"#0ea5e9", phone:"(678) 555-0176", email:"kanderson@email.com", veh:"2025 GMC Sierra 1500 Denali", stock:"T25012", vin:"3GTUUGEL0SG123463", trade:"2016 GMC Sierra", source:"Walk-In", last:"4d ago", next:{t:"text",l:"Follow Up",due:"Overdue"}, stage:"negotiating", pri:5, rep:"You", score:81, gross:7200, prob:81, sentiment:"Neutral", ltv:11200, referral:"Medium", rel:4, payGoal:"$980 – $1,050 /mo", budget:"$72,000 – $78,000", pref:"Call", bestTime:"10:00 AM – 12:00 PM", days:14, timeline:"This week",
+        rec:"Overdue & hot — get a manager on the Denali deal today.",
+        summary:"<b>Kevin</b> is negotiating on the Denali with a Sierra trade. The follow-up is overdue and the deal needs a manager. High total opportunity value.",
+        signals:[["Viewed payment",5],["Visited inventory",4],["Email opens",2],["Trade completed",5],["Appointment confirmed",2],["Phone responsiveness",3]],
+        tags:["myleads","walkin","needsaction","overdue","hot","manager"] },
+      { id:9, name:"Jessica Davis", ini:"JD", c:"#6366f1", phone:"(404) 555-0265", email:"jdavis@email.com", veh:"2023 Honda Accord Sport", stock:"U23880", vin:"1HGCY2F58PA123462", trade:"—", source:"Internet", last:"2d ago", next:{t:"call",l:"Call",due:"Overdue"}, stage:"contacted", pri:2, rep:"Sarah Johnson", score:44, gross:2600, prob:44, sentiment:"Cautious", ltv:3800, referral:"Low", rel:3, payGoal:"$380 – $430 /mo", budget:"$27,000 – $31,000", pref:"Email", bestTime:"11:00 AM – 1:00 PM", days:18, timeline:"Long term",
+        rec:"Overdue follow-up — re-engage with a check-in.",
+        summary:"<b>Jessica</b> went quiet after initial contact on the Accord. Long-term shopper — a light check-in keeps the lead warm without pressure.",
+        signals:[["Viewed payment",2],["Visited inventory",2],["Email opens",3],["Trade completed",1],["Appointment confirmed",1],["Phone responsiveness",2]],
+        tags:["internet","needsaction","overdue"] },
+      { id:10, name:"Priya Patel", ini:"PP", c:"#10b981", phone:"(404) 555-0311", email:"ppatel@email.com", veh:"2025 Chevrolet Traverse RS", stock:"U25100", vin:"1G1YB2D40S5123465", trade:"2020 Honda Pilot", source:"Referral", last:"3h ago", next:{t:"appt",l:"Confirm Appt",due:"Today · 5:30 PM"}, stage:"testdrive", pri:4, rep:"You", score:77, gross:4900, prob:77, sentiment:"Positive", ltv:7200, referral:"High", rel:4.5, payGoal:"$560 – $620 /mo", budget:"$44,000 – $49,000", pref:"Text", bestTime:"5:00 PM – 7:00 PM", days:3, timeline:"This week",
+        rec:"Referral lead with a Pilot trade — confirm the test drive tonight.",
+        summary:"<b>Priya</b> is a referral with high intent and a Pilot trade. Referral leads close well — confirm the evening test drive and prep the trade appraisal.",
+        signals:[["Viewed payment",4],["Visited inventory",5],["Email opens",4],["Trade completed",4],["Appointment confirmed",4],["Phone responsiveness",4]],
+        tags:["myleads","internet","appointments","hot"] },
+      { id:11, name:"Grace Kim", ini:"GK", c:"#eab308", phone:"(678) 555-0402", email:"gkim@email.com", veh:"2023 Kia Telluride SX", stock:"U23440", vin:"5XYP5DGC0PG123466", trade:"—", source:"Internet", last:"8d ago", next:{t:"email",l:"Re-engage",due:"—"}, stage:"lost", pri:1, rep:"Mike Davis", score:22, gross:0, prob:12, sentiment:"Cautious", ltv:0, referral:"Low", rel:2.5, payGoal:"$520 – $580 /mo", budget:"$40,000 – $45,000", pref:"Email", bestTime:"—", days:32, timeline:"—",
+        rec:"Lost to competitor — add to 90-day win-back campaign.",
+        summary:"<b>Grace</b> was lost to a competitor on the Telluride. Add to the 90-day win-back; new Telluride inventory may re-open interest.",
+        signals:[["Viewed payment",1],["Visited inventory",2],["Email opens",1],["Trade completed",1],["Appointment confirmed",1],["Phone responsiveness",1]],
+        tags:["internet","lost"] },
+      { id:12, name:"Ethan Ross", ini:"ER", c:"#64748b", phone:"(770) 555-0361", email:"eross@email.com", veh:"2024 Buick Enclave Avenir", stock:"U24990", vin:"5GAEVCKW0RJ123467", trade:"2015 Buick Enclave", source:"Phone", last:"1d ago", next:{t:"call",l:"Call",due:"Today · 5:00 PM"}, stage:"finance", pri:5, rep:"You", score:85, gross:5300, prob:85, sentiment:"Positive", ltv:8900, referral:"Medium", rel:4.5, payGoal:"$650 – $720 /mo", budget:"$52,000 – $58,000", pref:"Call", bestTime:"4:00 PM – 6:00 PM", days:7, timeline:"This week",
+        rec:"In finance — confirm terms and delivery date.",
+        summary:"<b>Ethan</b> is approved in finance on the Enclave with an Enclave trade. Confirm final terms and lock the delivery date.",
+        signals:[["Viewed payment",4],["Visited inventory",3],["Email opens",4],["Trade completed",5],["Appointment confirmed",4],["Phone responsiveness",5]],
+        tags:["myleads","phone","hot","manager"] },
     ];
+    P.forEach(function(p){ p.commission = Math.round(p.gross * 0.134); p.oppValue = p.gross ? p.gross + p.commission : 0; });
 
-    /* filter/queue/view definitions */
-    const PILLS = [
-      ["all","All"],["myleads","My Leads"],["needsaction","Needs Action"],["appointments","Appointments"],
-      ["internet","Internet"],["phone","Phone"],["walkin","Walk-In"],["hot","Hot"],["lost","Lost"],["sold","Sold"]
-    ];
+    const PILLS = [["all","All"],["myleads","My Leads"],["needsaction","Needs Action"],["appointments","Appointments"],["internet","Internet"],["phone","Phone"],["walkin","Walk-In"],["hot","Hot"],["lost","Lost"],["sold","Sold"]];
     const QUEUE = [
-      ["needsaction","Needs Action","red",'<path d="M12 8v5M12 16v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/>'],
-      ["appointments","Appointments Today","blue",'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>'],
-      ["waiting","Waiting on Customer","amber",'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>'],
-      ["manager","Needs Manager","purple",'<circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M17 6l1.5 1.5L22 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>'],
-      ["overdue","Overdue","gray",'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>']
+      ["needsaction","Needs Action","red",'<path d="M12 8v5M12 16v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/>',["up","2 from yesterday"]],
+      ["appointments","Appointments Today","blue",'<rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" fill="none" stroke="currentColor" stroke-width="1.7"/>',["up","1 from yesterday"]],
+      ["waiting","Waiting on Customer","amber",'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',["flat","No change"]],
+      ["manager","Needs Manager","purple",'<circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M17 6l1.5 1.5L22 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',["up","1 from yesterday"]],
+      ["hival","High Value Opportunities","green",'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',["val","$12,640 potential gross"]]
     ];
-    const VIEWS = [["all","Today's Work"],["internet","Internet Leads"],["phone","Phone Ups"],["appointments","Appointments"],["sold","Sold"],["myleads","My Customers"],["needsaction","Needs Attention"]];
+    const VIEWS = [["all","All Prospects"],["needsaction","Needs Attention"],["appointments","Appointments"],["internet","Internet Leads"],["phone","Phone Ups"],["hot","Hot Opportunities"],["sold","Sold"]];
 
-    const state = { filter:"all", q:"", sel:new Set(), adv:{} };
+    const state = { filter:"all", q:"", sel:new Set(), adv:{}, open:null };
+    const $ = (id) => document.getElementById(id);
+    const enc = encodeURIComponent;
+    const money = (n) => "$" + Math.round(n).toLocaleString();
+    const first = (p) => p.name.split(" ")[0];
+    const stars = (n) => `<span class="stars">${"★".repeat(Math.round(n))}<span class="off">${"★".repeat(5-Math.round(n))}</span></span>`;
+    const sigBars = (n,color) => `<span class="sig-bars" style="--sc:${color}">${[1,2,3,4,5].map(i=>`<i class="${i<=n?"on":""}"></i>`).join("")}</span>`;
+    function scoreColor(s){ return s>=85?"#16a34a":s>=70?"#2563eb":s>=55?"#ea8a0b":"#94a3b8"; }
+    function sigColor(n){ return n>=4?"#16a34a":n>=3?"#ea8a0b":"#94a3b8"; }
+    function sigLabel(n){ return n>=5?"Very High":n>=4?"High":n>=3?"Medium":n>=2?"Low":"Cold"; }
+    function link(p){ return "/customer.html?id="+p.id+"&name="+enc(p.name)+"&phone="+enc(p.phone)+"&email="+enc(p.email||"")+"&veh="+enc(p.veh||"")+"&ini="+enc(p.ini)+"&c="+enc(p.c); }
 
     function matchFilter(p) {
       const f = state.filter;
@@ -321,193 +420,298 @@
       if (f === "internet") return ["Internet","Facebook","Marketplace","Referral"].includes(p.source);
       if (f === "phone") return p.source === "Phone";
       if (f === "walkin") return p.source === "Walk-In";
-      if (f === "hot") return p.pri >= 5 || p.tags.includes("hot");
+      if (f === "hot") return p.tags.includes("hot");
       if (f === "lost") return p.stage === "lost";
       if (f === "sold") return p.stage === "sold";
+      if (f === "hival") return p.gross >= 4500;
+      if (f === "waiting") return p.tags.includes("waiting");
       return p.tags.includes(f);
     }
-    function matchAdv(p) {
-      const a = state.adv;
+    function matchAdv(p) { const a = state.adv;
       if (a.source && p.source !== a.source) return false;
       if (a.stage && p.stage !== a.stage) return false;
       if (a.rep && p.rep !== a.rep) return false;
-      if (a.pri && p.pri < +a.pri) return false;
+      if (a.score && p.score < +a.score) return false;
       if (a.trade === "yes" && p.trade === "—") return false;
       if (a.trade === "no" && p.trade !== "—") return false;
       return true;
     }
-    function matchSearch(p) {
-      const q = state.q.trim().toLowerCase();
-      if (!q) return true;
-      return [p.name,p.phone,p.email,p.veh,p.stock,p.vin,p.trade,p.rec].join(" ").toLowerCase().includes(q);
-    }
+    function matchSearch(p) { const q = state.q.trim().toLowerCase(); if (!q) return true;
+      return [p.name,p.phone,p.email,p.veh,p.stock,p.vin,p.trade,p.rec].join(" ").toLowerCase().includes(q); }
     const filtered = () => P.filter((p) => matchFilter(p) && matchAdv(p) && matchSearch(p));
 
-    const stars = (n) => `<span class="stars">${"★".repeat(n)}<span class="off">${"★".repeat(5-n)}</span></span>`;
-
-    /* ---------- render queue ---------- */
+    /* ================= queue + pills ================= */
     function renderQueue() {
-      document.getElementById("queue").innerHTML = QUEUE.map(([tag,label,color,icon]) => {
-        const n = P.filter((p) => p.tags.includes(tag)).length;
-        return `<button class="q ${state.filter===tag?"active":""}" data-tag="${tag}"><span class="q-ic ${color}"><svg viewBox="0 0 24 24">${icon}</svg></span><div><div class="q-v">${n}</div><div class="q-l">${label}</div></div></button>`;
+      $("queue").innerHTML = QUEUE.map(([tag,label,color,icon,delta]) => {
+        let n = tag==="hival" ? P.filter(p=>p.gross>=4500).length : P.filter((p) => p.tags.includes(tag)).length;
+        return `<button class="q ${state.filter===tag?"active":""}" data-tag="${tag}"><span class="q-ic ${color}"><svg viewBox="0 0 24 24">${icon}</svg></span><div><div class="q-v">${n}</div><div class="q-l">${label}</div><div class="q-d ${delta[0]}">${delta[0]==="up"?"↑ ":""}${delta[1]}</div></div></button>`;
       }).join("");
       document.querySelectorAll(".q").forEach((b) => b.addEventListener("click", () => setFilter(b.dataset.tag)));
     }
     function renderPills() {
-      document.getElementById("pills").innerHTML = PILLS.map(([t,l]) => `<button class="pill ${state.filter===t?"on":""}" data-t="${t}">${l}</button>`).join("") + `<button class="pill" id="customPill">+ Custom Filter</button>`;
+      $("pills").innerHTML = PILLS.map(([t,l]) => `<button class="pill ${state.filter===t?"on":""}" data-t="${t}">${l}</button>`).join("");
       document.querySelectorAll(".pill[data-t]").forEach((b) => b.addEventListener("click", () => setFilter(b.dataset.t)));
-      document.getElementById("customPill").addEventListener("click", openDrawer);
     }
-    function setFilter(t) { state.filter = t; renderQueue(); renderPills(); renderList(); }
+    function setFilter(t) { state.filter = t; state.open = null; renderQueue(); renderPills(); renderList(); }
 
-    /* ---------- render list ---------- */
+    /* ================= list (launcher rows) ================= */
+    function rowHTML(p) {
+      const [sc,sl] = STAGES[p.stage];
+      const due = p.next.due === "Overdue" ? `<span class="ov">Overdue</span>` : `<span>${p.next.due}</span>`;
+      const topSig = p.signals.reduce((a,b)=>b[1]>a[1]?b:a, p.signals[0]);
+      const expanded = state.open === p.id;
+      return `<div class="pc ${expanded?"expanded":""}" data-id="${p.id}">
+        <span class="chk ${state.sel.has(p.id)?"on":""}" data-chk="${p.id}"></span>
+        <div class="cust"><span class="av-sm" style="background:${p.c}">${p.ini}</span><div><a class="cust-name" href="${link(p)}"><b>${p.name}${p.pri>=5?'<span class="star">★</span>':""}</b></a><div class="meta2">${p.phone}<span class="src">${p.source}</span></div></div></div>
+        <div class="veh"><b>${p.veh}</b><span>Stock #${p.stock}</span>${p.trade!=="—"?`<div class="trade">Trade · ${p.trade}</div>`:""}</div>
+        <div class="sig col-hideable"><div class="sig-top">${sigBars(topSig[1],sigColor(topSig[1]))}<span class="sig-lbl" style="color:${sigColor(topSig[1])}">${sigLabel(topSig[1])}</span></div><span class="sig-d">${topSig[0]} · ${topSig[1]}★</span></div>
+        <div class="muted-2 col-hideable">${p.last}</div>
+        <div class="na col-hideable"><svg viewBox="0 0 24 24">${IC[p.next.t]}</svg><div><b>${p.next.l}</b>${due}</div></div>
+        <div class="col-hideable"><span class="stage ${sc}">${sl}<svg viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></div>
+        <div class="val col-hideable"><b>${p.gross?money(p.gross):"—"}</b><span>Est. Gross</span></div>
+        <div class="col-hideable"><span class="score-ring" style="--p:${p.score};--rc:${scoreColor(p.score)}">${p.score}</span></div>
+        <button class="add-mini" data-toggle="${p.id}" title="Open workspace"><svg viewBox="0 0 24 24">${expanded?'<path d="M6 12h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>':IC.chev}</svg></button>
+      </div>`;
+    }
     function renderList() {
       const rows = filtered();
-      const list = document.getElementById("list");
-      if (!rows.length) {
-        list.innerHTML = `<div class="empty"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19c0-3.4 2.6-5.5 5.5-5.5s5.5 2.1 5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17 8h5M19.5 5.5v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h3>No prospects match your filters</h3><p>Try clearing filters or adding a new prospect.</p><div class="btns"><button class="add-btn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Add Prospect</button></div></div>`;
-        return;
-      }
+      const list = $("list");
+      if (!rows.length) { list.innerHTML = `<div class="empty"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 19c0-3.4 2.6-5.5 5.5-5.5s5.5 2.1 5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M17 8h5M19.5 5.5v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h3>No prospects match your filters</h3><p>Try clearing filters or adjusting your search.</p></div>`; return; }
       list.innerHTML = rows.map((p) => {
-        const [sc,sl] = STAGES[p.stage];
-        const due = p.next.due === "Overdue" ? `<span class="ov">Overdue</span>` : `<span>${p.next.due}</span>`;
-        return `<div class="pc ${state.sel.has(p.id)?"sel":""}" data-id="${p.id}" title="${PRI_LABEL[p.pri]}">
-          <span class="chk ${state.sel.has(p.id)?"on":""}" data-chk="${p.id}"></span>
-          <div class="cust"><span class="av-sm" style="background:${p.c}">${p.ini}</span><div><a class="cust-name" href="/customer.html?id=${p.id}&name=${encodeURIComponent(p.name)}&phone=${encodeURIComponent(p.phone)}&email=${encodeURIComponent(p.email||"")}&veh=${encodeURIComponent(p.veh||"")}&ini=${encodeURIComponent(p.ini)}&c=${encodeURIComponent(p.c)}"><b>${p.name}</b></a><div class="meta2">${p.phone}<span class="src">${p.source}</span></div></div></div>
-          <div class="veh"><b>${p.veh}</b><span>Stock #${p.stock}</span>${p.trade!=="—"?`<div class="trade">Trade · ${p.trade}</div>`:""}</div>
-          <div class="muted-2 col-hideable">${p.last}</div>
-          <div class="na col-hideable"><svg viewBox="0 0 24 24">${IC[p.next.t]}</svg><div><b>${p.next.l}</b>${due}</div></div>
-          <div class="col-hideable"><span class="stage ${sc}">${sl}</span><div style="margin-top:6px">${stars(p.pri)}</div></div>
-          <div class="rep col-hideable"><span class="av-xs">${p.rep==="You"?"JA":p.rep.split(" ").map(w=>w[0]).join("")}</span>${p.rep}</div>
-          <div class="row-actions">
-            <button class="ra" data-act="call" title="Call">${svg("call")}</button>
-            <button class="ra" data-act="text" title="Text">${svg("text")}</button>
-            <button class="ra" data-act="email" title="Email">${svg("email")}</button>
-            <button class="ra" data-act="video" title="Video">${svg("video")}</button>
-            <button class="ra" data-act="appt" title="Appointment">${svg("appt")}</button>
-            <button class="ra" data-act="payment" title="Payment">${svg("payment")}</button>
-            <button class="ra open-btn" data-open="${p.id}">Open</button>
-          </div>
-        </div>`;
+        let html = rowHTML(p);
+        if (state.open === p.id) html += `<div class="ws-host"><div class="ws" data-ws="${p.id}">${workspaceHTML(p)}</div></div>`;
+        return html;
       }).join("");
-
-      list.querySelectorAll(".pc").forEach((row) => {
-        row.addEventListener("click", (e) => {
-          if (e.target.closest("[data-chk]") || e.target.closest(".ra:not(.open-btn)") || e.target.closest(".cust-name")) return;
-          openPanel(+row.dataset.id);
-        });
-      });
+      wireList();
+    }
+    function wireList() {
+      const list = $("list");
+      list.querySelectorAll(".pc").forEach((row) => row.addEventListener("click", (e) => {
+        if (e.target.closest("[data-chk]") || e.target.closest(".cust-name") || e.target.closest("[data-toggle]")) return;
+        toggleOpen(+row.dataset.id);
+      }));
+      list.querySelectorAll("[data-toggle]").forEach((b) => b.addEventListener("click", (e) => { e.stopPropagation(); toggleOpen(+b.dataset.toggle); }));
       list.querySelectorAll("[data-chk]").forEach((c) => c.addEventListener("click", (e) => { e.stopPropagation(); toggleSel(+c.dataset.chk); }));
+      wireWorkspace();
+    }
+    function toggleOpen(id) {
+      state.open = state.open === id ? null : id;
+      renderList();
+      if (state.open === id) {
+        const el = document.querySelector('.pc[data-id="'+id+'"]');
+        if (el) setTimeout(() => el.scrollIntoView({ behavior:"smooth", block:"nearest" }), 60);
+        startLive(id);
+      } else stopLive();
     }
 
-    /* ---------- selection / bulk ---------- */
-    function toggleSel(id) { state.sel.has(id) ? state.sel.delete(id) : state.sel.add(id); renderList(); renderBulk(); }
-    function renderBulk() {
-      const bulk = document.getElementById("bulk");
-      document.getElementById("bulkN").textContent = state.sel.size;
-      bulk.classList.toggle("show", state.sel.size > 0);
-    }
-    document.getElementById("bulkClear").addEventListener("click", () => { state.sel.clear(); renderList(); renderBulk(); });
-
-    /* ---------- slide-over panel ---------- */
-    const scrim = document.getElementById("scrim"), panel = document.getElementById("panel");
-    function openPanel(id) {
-      const p = P.find((x) => x.id === id); if (!p) return;
-      const [sc,sl] = STAGES[p.stage];
-      panel.innerHTML = `
-        <div class="panel-hd">
-          <span class="av-lg" style="background:${p.c}">${p.ini}</span>
-          <div><h2>${p.name}</h2><div class="pmeta">${p.phone} · ${p.email}</div><div style="margin-top:8px;display:flex;align-items:center;gap:10px"><span class="stage ${sc}">${sl}</span>${stars(p.pri)}</div></div>
-          <button class="panel-close" id="panelClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    /* ================= workspace ================= */
+    function workspaceHTML(p) {
+      const fields = [
+        ["appt","Buying Stage", STAGES[p.stage][1]],
+        ["globe","Lead Source", p.source + " — SRP"],
+        ["call","Assigned To", p.rep === "You" ? "Jordan Avery" : p.rep],
+        ["payment","Est. Payment Goal", p.payGoal],
+        ["credit","Est. Budget", p.budget],
+        ["text","Preferred Contact", p.pref],
+        ["reminder","Best Time to Contact", p.bestTime],
+        ["spark","Customer Sentiment", p.sentiment],
+        ["appt","Days in Pipeline", p.days + " days"],
+        ["trade","Lifetime Value", money(p.ltv)],
+        ["more","Referral Potential", p.referral]
+      ];
+      const qa = [["call","Call"],["text","Text"],["email","Email"],["video","Video"],["payment","Payment"],["credit","Credit App"],["appt","Appt"],["trade","Trade"],["docs","Docs"],["note","Note"],["reminder","Reminder"],["more","More"]];
+      const tp = [
+        ["Budget Concern","Be ready to discuss monthly payment around " + (p.payGoal.split("–")[0]||"$450").trim() + "."],
+        ["Trade Objection","Address trade value and payoff questions on the " + p.trade.replace(/^\d{4}\s/, "") + "."],
+        ["Vehicle Comparison", p.veh.split(" ").slice(1,3).join(" ") + " vs. the two rivals they viewed."],
+        ["Current Incentive","$750 customer cash ends soon — lead with urgency."],
+        ["Conversation Starter","\"Just checking in on the " + p.veh.split(" ").slice(1,3).join(" ") + " you were interested in…\""]
+      ];
+      const riskBadge = p.score>=75 ? ["Low","low","Stable"] : p.score>=55 ? ["Medium","med","Watch"] : ["Elevated","med","Rising"];
+      const probBadge = p.score>=85 ? "Very High" : p.score>=70 ? "High" : p.score>=55 ? "Moderate" : "Low";
+      return `<div class="ws-grid">
+        <!-- LEFT -->
+        <div class="ws-left">
+          <div class="ws-photo" style="background:${p.c}">${p.ini}</div>
+          <div class="ws-name">${p.name}${p.pri>=5?'<span class="star">★</span>':""}</div>
+          <div class="ws-phone">${p.phone}</div>
+          <div class="ws-fields">
+            ${fields.map(f=>`<div class="ws-f"><span class="k">${svg(f[0])}${f[1]}</span><span class="v ${f[1]==="Customer Sentiment"&&p.sentiment==="Positive"?"pos":""}">${f[2]}</span></div>`).join("")}
+            <div class="ws-f"><span class="k">${svg("spark")}Relationship Strength</span><span class="v stars">${"★".repeat(Math.round(p.rel))}${"☆".repeat(5-Math.round(p.rel))} (${p.rel})</span></div>
+          </div>
+          <div class="ws-qa-t">Quick Actions</div>
+          <div class="ws-qa">${qa.map(a=>`<button data-wsact="${a[0]}">${svg(a[0])}${a[1]}</button>`).join("")}</div>
+          <a class="c360-btn" href="${link(p)}">${svg("eye")}Open Customer 360</a>
         </div>
-        <div class="panel-body">
-          <div class="qa">
-            <button data-act="call">${svg("call")}Call</button><button data-act="text">${svg("text")}Text</button><button data-act="email">${svg("email")}Email</button><button data-act="video">${svg("video")}Video</button><button data-act="appt">${svg("appt")}Appt</button><button data-act="payment">${svg("payment")}Payment</button><button data-act="trade">${svg("trade")}Trade</button>
-          </div>
-          <a class="c360-btn" href="/customer.html?id=${p.id}&name=${encodeURIComponent(p.name)}&phone=${encodeURIComponent(p.phone)}&email=${encodeURIComponent(p.email||"")}&veh=${encodeURIComponent(p.veh||"")}&ini=${encodeURIComponent(p.ini)}&c=${encodeURIComponent(p.c)}" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#fff;border-radius:12px;padding:12px;font-size:13.5px;font-weight:700;box-shadow:0 12px 26px -14px rgba(37,99,235,0.9)"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><circle cx="12" cy="9" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6 19c0-2.8 2.7-4.5 6-4.5s6 1.7 6 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Open Customer 360 — Full Profile</a>
-          <div class="sect">
-            <h3><span class="spark"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg></span>AI Summary</h3>
-            <div class="ai-grid">
-              <div><div class="k">Interested In</div><div class="v">${p.veh}</div></div>
-              <div><div class="k">Budget</div><div class="v">${p.budget}</div></div>
-              <div><div class="k">Trade-In</div><div class="v">${p.trade}</div></div>
-              <div><div class="k">Timeline</div><div class="v">${p.timeline}</div></div>
+
+        <!-- CENTER -->
+        <div class="ws-center">
+          <div class="ws-card">
+            <div class="ws-ch"><span class="spk">${svg("spark")}</span>AI Opportunity Summary<span class="beta">BETA</span></div>
+            <div class="ai-sum-body">
+              <p>${p.summary}</p>
+              <div class="big-ring" style="--p:${p.score}"><span class="n">${p.score}</span><span class="t">Opportunity<br>Score</span><span class="e">${p.score>=85?"Excellent":p.score>=70?"Strong":p.score>=55?"Fair":"Low"}</span></div>
             </div>
-            <div class="prob-wrap"><span class="prob-ring" style="background:conic-gradient(#16a34a ${p.prob*3.6}deg, #e7f7ee 0)"><span style="background:#fff;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center">${p.prob}%</span></span><div><b>Close probability</b><p>${p.rec}</p></div></div>
-            <div class="sugg"><div class="lbl">Suggested Message</div>${p.msg}<button class="send-btn">Send Message</button></div>
+            <div class="ai-sum-foot"><span>Likelihood to purchase <b>${p.prob}%</b></span><span>Recommended action: <span class="rec">${p.next.due.indexOf("AM")>=0?"Call before "+p.next.due.split("·")[1].trim():p.next.l}</span></span></div>
           </div>
-          <div class="sect">
-            <h3>Vehicle &amp; Trade</h3>
-            <div class="field-row"><span class="k">Vehicle</span><span class="v">${p.veh}</span></div>
-            <div class="field-row"><span class="k">Stock #</span><span class="v">${p.stock}</span></div>
-            <div class="field-row"><span class="k">VIN</span><span class="v" style="font-family:monospace;font-size:12px">${p.vin}</span></div>
-            <div class="field-row"><span class="k">Trade-In</span><span class="v">${p.trade}</span></div>
-            <div class="field-row"><span class="k">Lead Source</span><span class="v">${p.source}</span></div>
-            <div class="field-row"><span class="k">Assigned</span><span class="v">${p.rep}</span></div>
+          <div class="ws-card">
+            <div class="ws-ch">AI Recommended Next Action</div>
+            <div class="ws-cta-row">
+              <button class="ws-cta" data-wsact="call">${svg("call")}Call ${first(p)}</button>
+              <button class="ws-sec" data-wsact="text">${svg("text")}Text</button>
+              <button class="ws-sec" data-wsact="email">${svg("email")}Email</button>
+              <button class="ws-sec" data-wsact="video">${svg("video")}Record Video</button>
+              <button class="ws-sec" data-wsact="payment">${svg("payment")}Generate Payment</button>
+            </div>
           </div>
-          <div class="sect">
-            <h3>Timeline</h3>
-            <div class="tl"><span class="tl-dot"></span><div><b>${p.next.l} scheduled</b><span>${p.next.due}</span></div></div>
-            <div class="tl"><span class="tl-dot" style="background:#7c3aed;box-shadow:0 0 0 4px #f1eafe"></span><div><b>Viewed pricing email</b><span>This morning</span></div></div>
-            <div class="tl"><span class="tl-dot" style="background:#16a34a;box-shadow:0 0 0 4px #e7f7ee"></span><div><b>Last contact</b><span>${p.last} · ${p.source}</span></div></div>
-            <div class="tl"><span class="tl-dot" style="background:#94a3b8;box-shadow:0 0 0 4px #eef1f6"></span><div><b>Lead created</b><span>from ${p.source}</span></div></div>
+          <div class="ws-card">
+            <div class="ws-ch">AI Talking Points<span class="r"><button class="mini-a" data-edit-tp>${svg("note")}Edit</button></span></div>
+            <div class="tp-grid">${tp.map(t=>`<div class="tp"><div class="tp-t">${t[0]}</div><div class="tp-d" contenteditable="false">${t[1]}</div></div>`).join("")}</div>
           </div>
-        </div>`;
-      panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
-      panel.querySelector("#panelClose").addEventListener("click", closeAll);
-      panel.querySelectorAll(".qa [data-act]").forEach((b) => b.addEventListener("click", () => routeProspect(p, b.dataset.act)));
-      const sb = panel.querySelector(".send-btn"); if (sb) sb.addEventListener("click", () => { location.href = "/communications?channel=text&to=" + encodeURIComponent(p.name); });
+          <div class="ws-card">
+            <div class="ws-ch">Customer Timeline</div>
+            <div class="tl-tabs">${["All","Calls","Texts","Emails","Appointments","Activity","Notes"].map((t,i)=>`<button class="${i===0?"on":""}" data-tltab="${t.toLowerCase()}">${t}</button>`).join("")}</div>
+            <div class="tl-list">${timelineHTML(p)}</div>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="ws-right">
+          <div class="ws-card">
+            <div class="ws-ch">Live Customer Activity<span class="r"><span class="live-badge">Live</span></span></div>
+            <div class="live-feed" id="liveFeed-${p.id}">${liveHTML(p)}</div>
+            <div style="padding:0 15px 14px"><a class="mini-a" href="${link(p)}">View all activity ${svg("chev")}</a></div>
+          </div>
+          <div class="ws-card">
+            <div class="ws-ch"><span class="spk">${svg("spark")}</span>AI Sales Coach<span class="beta">BETA</span></div>
+            <div class="coach-row"><span class="k">Probability to Purchase</span><span class="v">${p.prob}%<span class="badge vhi">${probBadge}</span></span></div>
+            <div class="coach-row"><span class="k">Risk Level</span><span class="v">${riskBadge[0]}<span class="badge ${riskBadge[1]}">${riskBadge[2]}</span></span></div>
+            <div class="coach-row"><span class="k">Est. Gross</span><span class="v">${money(p.gross)}</span></div>
+            <div class="coach-row"><span class="k">Est. Commission</span><span class="v g">${money(p.commission)}</span></div>
+            <div class="coach-row"><span class="k">Total Opportunity Value</span><span class="v">${money(p.oppValue)}</span></div>
+            <div class="coach-nba"><div class="t">Next Best Action</div><b>${p.next.due.indexOf("AM")>=0?"Call before "+p.next.due.split("·")[1].trim():p.rec.split("—")[0].trim()}</b> <span class="badge med">High Impact</span></div>
+            <div class="coach-script"><div class="t">Recommended Script</div><p id="script-${p.id}">"Hi ${first(p)}, this is Jordan with North Valley Chevrolet. I saw you were looking at the ${p.veh.split(" ").slice(1,3).join(" ")} — I wanted to follow up and see if you had any questions or wanted to lock in a test drive."</p><button class="use-script" data-usescript="${p.id}">Use Script</button></div>
+            <div class="coach-obj"><b>⚠ Objection Alert</b>May ask about monthly payment — be ready to discuss around ${(p.payGoal.split("–")[0]||"$450").trim()}.</div>
+          </div>
+          <div class="ws-card">
+            <div class="ws-ch">Notes &amp; Context<span class="r"><button class="mini-a" data-addnote="${p.id}">+ Add Note</button></span></div>
+            <div class="note"><div class="nh">Customer Note<span class="pin">📌</span></div><p>Prefers ${p.sentiment==="Positive"?"AWD and safety features":"a low monthly payment"}. ${p.trade!=="—"?"Has a "+p.trade.replace(/^\d{4}\s/, "")+" to trade.":"No trade on file."}</p><div class="nm">${p.days} days ago · Jordan Avery</div></div>
+            <div class="note"><div class="nh">Manager Note</div><p>${p.tags.includes("manager")?"Approved $500 discount if we can finance in-house.":"Standard pricing — no exceptions needed yet."}</p><div class="nm">This week · Sales Manager</div></div>
+            <div class="note ai"><div class="nh"><span class="spk" style="color:var(--violet)">${svg("spark")}</span>AI Note Summary</div><p>${first(p)} is ${p.score>=75?"highly engaged and comparing options":"early-stage and price-sensitive"}. ${p.gross>=4500?"High-value opportunity — prioritize.":"Nurture toward a test drive."}</p><div class="nm">Updated just now</div></div>
+          </div>
+        </div>
+      </div>`;
     }
-    /* Call -> shared in-call screen; Text/Email/Video -> contact center */
+
+    function timelineHTML(p) {
+      const col = { call:"#16a34a", text:"#2563eb", email:"#6366f1", appt:"#0891b2", payment:"#7c3aed", video:"#db2777", trade:"#ea8a0b", eye:"#0891b2", credit:"#7c3aed" };
+      const items = [
+        ["payment","Viewed Payment Calculator","Viewed 4 times — "+p.veh.split(" ").slice(0,3).join(" "),"Today · 9:15 AM"],
+        ["email","Email Opened","Re: Your "+p.veh.split(" ").slice(1,3).join(" ")+" Information","Yesterday · 7:42 PM"],
+        ["video","Clicked Video",p.veh.split(" ").slice(1,3).join(" ")+" Walkaround","Yesterday · 7:38 PM"],
+        (p.trade!=="—"?["trade","Trade Value Updated",p.trade.replace(/^\d{4}\s/, "")+" — value increased $700","Yesterday · 5:30 PM"]:["eye","Visited Inventory",p.veh.split(" ").slice(1,3).join(" ")+" detail page","Yesterday · 5:30 PM"]),
+        ["text","Text Message","You: \"Hi "+first(p)+", just checking in!\"","May 14 · 3:21 PM"],
+        ["globe","Visited Website","mocazarico.autodealer.com","May 13 · 2:02 PM"]
+      ];
+      return items.map(it=>`<div class="tli" data-tltype="${({payment:'activity',email:'emails',video:'activity',trade:'activity',eye:'activity',text:'texts',globe:'activity',call:'calls',appt:'appointments'})[it[0]]||'activity'}"><span class="ic" style="background:${(col[it[0]]||'#64748b')}18;color:${col[it[0]]||'#64748b'}">${svg(it[0])}</span><div><b>${it[1]}</b><span>${it[2]}</span></div><span class="tm">${it[3]}</span></div>`).join("");
+    }
+    function liveHTML(p) {
+      const col = { payment:"#7c3aed", eye:"#2563eb", email:"#6366f1", trade:"#16a34a", globe:"#0891b2", text:"#e11d76" };
+      const items = [
+        ["payment","Viewed Payment Calculator",p.veh.split(" ").slice(0,3).join(" "),"9:15 AM"],
+        ["eye","Viewed Inventory",p.veh.split(" ").slice(1,3).join(" ")+", "+(p.veh.split(" ").slice(3).join(" ")||"XLE Premium"),"9:10 AM"],
+        ["email","Opened Email","Re: Your "+p.veh.split(" ").slice(1,3).join(" ")+" Information","Yesterday"],
+        [p.trade!=="—"?"trade":"globe",p.trade!=="—"?"Submitted Trade Appraisal":"Visited Website",p.trade!=="—"?p.trade.replace(/^\d{4}\s/, ""):"mocazarico.autodealer.com","May 14"],
+        ["globe","Visited Website","mocazarico.autodealer.com","May 13"]
+      ];
+      return items.map(it=>`<div class="lf"><span class="ic" style="background:${(col[it[0]]||'#64748b')}18;color:${col[it[0]]||'#64748b'}">${svg(it[0])}</span><div><b>${it[1]}</b><span>${it[2]}</span><div class="tm">${it[3]}</div></div></div>`).join("");
+    }
+
+    function wireWorkspace() {
+      const ws = document.querySelector(".ws"); if (!ws) return;
+      const p = P.find(x => x.id === +ws.dataset.ws);
+      ws.querySelectorAll("[data-wsact]").forEach(b => b.addEventListener("click", () => routeProspect(p, b.dataset.wsact)));
+      ws.querySelectorAll("[data-tltab]").forEach(b => b.addEventListener("click", () => {
+        ws.querySelectorAll("[data-tltab]").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+        const t = b.dataset.tltab;
+        ws.querySelectorAll(".tli").forEach(li => li.style.display = (t==="all" || li.dataset.tltype===t) ? "" : "none");
+      }));
+      const editBtn = ws.querySelector("[data-edit-tp]");
+      if (editBtn) editBtn.addEventListener("click", () => {
+        const on = editBtn.classList.toggle("on");
+        ws.querySelectorAll(".tp").forEach(tp => { const d = tp.querySelector(".tp-d"); d.setAttribute("contenteditable", on?"true":"false"); tp.classList.toggle("editing", on); if(on) d.focus(); });
+        editBtn.innerHTML = on ? svg("note")+"Done" : svg("note")+"Edit";
+        if (!on) toast("Talking points saved");
+      });
+      const us = ws.querySelector("[data-usescript]");
+      if (us) us.addEventListener("click", () => { routeProspect(p, "text"); });
+      const an = ws.querySelector("[data-addnote]");
+      if (an) an.addEventListener("click", () => toast("Note added to "+first(p)+"'s workspace"));
+    }
+
+    /* ================= actions ================= */
     function routeProspect(p, act) {
       p = p || {};
-      if (act === "call") { if (window.ADCall) ADCall.open({ name:p.name, phone:p.phone, ini:p.ini, color:p.c, id:p.id, veh:p.veh }); else location.href = "/communications"; return; }
-      if (act === "text" || act === "email" || act === "video") { location.href = "/communications?channel=" + act + "&to=" + encodeURIComponent(p.name || ""); return; }
+      if (act === "call") { if (window.ADCall) ADCall.open({ name:p.name, phone:p.phone, ini:p.ini, color:p.c, id:p.id, veh:p.veh }); else location.href = "/communications?channel=call"; return; }
+      if (act === "text" || act === "email" || act === "video") { location.href = "/communications?channel=" + act + "&to=" + enc(p.name || ""); return; }
       if (act === "appt") { location.href = "/appointments"; return; }
       if (act === "trade") { location.href = "/trades"; return; }
-      if (window.adToast) window.adToast(act.charAt(0).toUpperCase() + act.slice(1) + " opened");
+      if (act === "payment") { location.href = link(p) + "#deal"; return; }
+      if (act === "credit" || act === "docs") { location.href = link(p); return; }
+      toast((act.charAt(0).toUpperCase()+act.slice(1))+" opened for "+first(p));
     }
-    document.addEventListener("click", function (e) {
-      const b = e.target.closest(".pc .ra[data-act]"); if (!b) return; e.stopPropagation();
-      const row = b.closest(".pc"); const p = P.find((x) => x.id === (row ? +row.dataset.id : 0));
-      routeProspect(p, b.dataset.act);
-    });
 
-    /* ---------- drawer ---------- */
-    const drawer = document.getElementById("drawer");
+    /* ================= live feed ticker ================= */
+    let liveTimer = null;
+    const LIVE_POOL = [
+      ["eye","#2563eb","Viewing a vehicle now","Silverado LT detail page"],
+      ["payment","#7c3aed","Adjusted payment calculator","Changed down payment"],
+      ["email","#6366f1","Opened your email","Re: pricing options"],
+      ["globe","#0891b2","Back on the website","Browsing inventory"],
+      ["text","#e11d76","Replied to your text","\"Sounds good, what time?\""]
+    ];
+    function startLive(id) {
+      stopLive(); let i = 0;
+      liveTimer = setInterval(() => {
+        if (document.hidden) return;
+        const feed = document.getElementById("liveFeed-"+id); if (!feed) return stopLive();
+        const it = LIVE_POOL[i % LIVE_POOL.length]; i++;
+        const el = document.createElement("div");
+        el.className = "lf fresh";
+        el.innerHTML = `<span class="ic" style="background:${it[1]}18;color:${it[1]}">${svg(it[0])}</span><div><b>${it[2]}</b><span>${it[3]}</span><div class="tm">just now</div></div>`;
+        feed.insertBefore(el, feed.firstChild);
+        while (feed.children.length > 6) feed.removeChild(feed.lastChild);
+      }, 12000);
+    }
+    function stopLive() { if (liveTimer) clearInterval(liveTimer); liveTimer = null; }
+    document.addEventListener("visibilitychange", () => { if (document.hidden) stopLive(); else if (state.open) startLive(state.open); });
+
+    /* ================= selection / bulk ================= */
+    function toggleSel(id) { state.sel.has(id) ? state.sel.delete(id) : state.sel.add(id); renderList(); renderBulk(); }
+    function renderBulk() {
+      const bulk = $("bulk"); const n = state.sel.size;
+      $("bulkN").textContent = n; bulk.classList.toggle("show", n > 0);
+    }
+    $("bulkClear").addEventListener("click", () => { state.sel.clear(); renderList(); renderBulk(); });
+    document.querySelectorAll("[data-bulk]").forEach(b => b.addEventListener("click", () => toast(b.dataset.bulk.charAt(0).toUpperCase()+b.dataset.bulk.slice(1)+" · "+state.sel.size+" prospects")));
+
+    /* ================= drawer / views / search ================= */
+    const drawer = $("drawer"), scrim = $("scrim");
     function openDrawer() { drawer.classList.add("open"); drawer.setAttribute("aria-hidden","false"); scrim.classList.add("show"); }
-    document.getElementById("advBtn").addEventListener("click", openDrawer);
-    document.getElementById("drawerClose").addEventListener("click", closeAll);
-    document.getElementById("fApply").addEventListener("click", () => {
-      state.adv = { source:val("fSource"), stage:val("fStage"), rep:val("fRep"), pri:val("fPri"), trade:val("fTrade") };
-      closeAll(); renderList();
-    });
-    document.getElementById("fReset").addEventListener("click", () => {
-      ["fSource","fStage","fRep","fTrade"].forEach((i)=>document.getElementById(i).selectedIndex=0);
-      document.getElementById("fPri").selectedIndex=0; state.adv={}; renderList();
-    });
-    const val = (id) => { const v = document.getElementById(id).value; return v; };
-
-    function closeAll() {
-      panel.classList.remove("open"); panel.setAttribute("aria-hidden","true");
-      drawer.classList.remove("open"); drawer.setAttribute("aria-hidden","true");
-      scrim.classList.remove("show");
-    }
+    function closeAll() { drawer.classList.remove("open"); drawer.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
+    $("advBtn").addEventListener("click", openDrawer);
+    $("drawerClose").addEventListener("click", closeAll);
     scrim.addEventListener("click", closeAll);
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeAll();
-      if (e.key === "/" && document.activeElement.tagName !== "INPUT") { e.preventDefault(); document.getElementById("search").focus(); }
-    });
+    $("fApply").addEventListener("click", () => { state.adv = { source:$("fSource").value, stage:$("fStage").value, rep:$("fRep").value, score:$("fScore").value, trade:$("fTrade").value }; closeAll(); state.open=null; renderList(); });
+    $("fReset").addEventListener("click", () => { ["fSource","fStage","fRep","fScore","fTrade"].forEach(i=>$(i).selectedIndex=0); state.adv={}; renderList(); });
+    $("viewsBtn").addEventListener("click", () => toast("Saved views · showing All Prospects"));
+    $("importBtn").addEventListener("click", () => toast("Lead import — connect a source in Settings"));
+    $("quickAdd").addEventListener("click", () => { if (window.ADWire && ADWire.openAction) ADWire.openAction("prospect"); else toast("Quick Add prospect"); });
+    $("search").addEventListener("input", (e) => { state.q = e.target.value; state.open=null; renderList(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") { if (state.open){ state.open=null; stopLive(); renderList(); } else closeAll(); } if (e.key === "/" && document.activeElement.tagName !== "INPUT") { e.preventDefault(); $("search").focus(); } });
 
-    /* ---------- saved views ---------- */
-    const viewsBtn = document.getElementById("viewsBtn"), viewsMenu = document.getElementById("viewsMenu");
-    viewsMenu.innerHTML = VIEWS.map(([t,l]) => `<button data-v="${t}"><svg viewBox="0 0 24 24" style="width:15px;height:15px;color:#64748b"><path d="M4 7h16M6 12h12M9 17h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>${l}</button>`).join("");
-    viewsBtn.addEventListener("click", (e) => { e.stopPropagation(); viewsMenu.classList.toggle("open"); });
-    document.addEventListener("click", () => viewsMenu.classList.remove("open"));
-    viewsMenu.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => { setFilter(b.dataset.v); viewsMenu.classList.remove("open"); }));
-
-    /* ---------- search ---------- */
-    document.getElementById("search").addEventListener("input", (e) => { state.q = e.target.value; renderList(); });
+    let toastEl;
+    function toast(msg) { if (window.adToast) return window.adToast(msg); if(!toastEl){ toastEl=document.createElement("div"); toastEl.style.cssText="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0e1a2e;color:#fff;padding:11px 18px;border-radius:11px;font-size:13.5px;font-weight:600;z-index:80;box-shadow:0 20px 44px -18px rgba(0,0,0,.5);opacity:0;transition:opacity .2s"; document.body.appendChild(toastEl);} toastEl.textContent=msg; toastEl.style.opacity="1"; clearTimeout(toastEl._t); toastEl._t=setTimeout(()=>toastEl.style.opacity="0",2200); }
 
     renderQueue(); renderPills(); renderList();
   </script>
