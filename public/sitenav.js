@@ -52,11 +52,11 @@
   nav.innerHTML =
     '<div class="sn-in">' + wm +
       '<div class="sn-links">' + links() + '</div>' +
-      '<div class="sn-right"><a class="sn-login" href="/login">Log In</a><a class="sn-btn" href="/login">Request Demo</a></div>' +
+      '<div class="sn-right"><a class="sn-login" href="/login">Log In</a><a class="sn-btn" href="/demo">Request Demo</a></div>' +
       '<button class="sn-ham" id="snHam" aria-label="Open menu"><svg width="20" height="14" viewBox="0 0 20 14"><path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" stroke-width="2"/></svg></button>' +
     '</div>' +
     '<div class="sn-mob" id="snMob">' + links() +
-      '<div class="sn-mrow"><a class="sn-login" href="/login">Log In</a><a class="sn-btn" href="/login">Request Demo</a></div>' +
+      '<div class="sn-mrow"><a class="sn-login" href="/login">Log In</a><a class="sn-btn" href="/demo">Request Demo</a></div>' +
     '</div>';
 
   function mount(){
