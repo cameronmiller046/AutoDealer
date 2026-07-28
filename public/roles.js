@@ -119,7 +119,9 @@
         {label:'e-Signature', href:'/signing', icon:'signing', badge:'5'},
         {label:'Customer Portal', href:'/portal', icon:'portal', tag:'Preview'},
         {label:'Document Center', href:'/documents', icon:'documents'},
+        {label:'Deal Packets', href:'/forms', icon:'documents', tag:'New'},
         {label:'Automation Builder', href:'/automations', icon:'automations'},
+        {label:'Deal Packets', href:'/forms', icon:'documents', tag:'New'},
         {label:'Knowledge Center', href:'/knowledge', icon:'knowledge'},
         {label:'Data Quality', href:'/dataquality', icon:'dataquality', badge:'12'},
         {label:'System Health', href:'/status', icon:'status'},
@@ -173,6 +175,7 @@
         {label:'Deal Desk', href:'/deals', icon:'deals'},
         {label:'Customers', href:'/customers', icon:'customers'},
         {label:'Documents', href:'/documents', icon:'documents'},
+        {label:'Deal Packets', href:'/forms', icon:'documents', tag:'New'},
         {label:'Contracts', href:'/signing', icon:'signing', badge:'5'},
         {label:'Deliveries', href:'/delivery', icon:'delivery', badge:'3'},
         {label:'Communications', href:'/communications', icon:'comms'},
@@ -192,6 +195,7 @@
         {label:'Sales', href:'/manager', icon:'deals'},
         {label:'BDC', href:'/bdc', icon:'prospects'},
         {label:'Finance', href:'/finance', icon:'signing'},
+        {label:'Deal Packets', href:'/forms', icon:'documents', tag:'New'},
         {label:'Inventory Intel', href:'/invintel', icon:'invintel'},
         {label:'Workflow Analytics', href:'/analytics', icon:'analytics'},
         {label:'Customers', href:'/customers', icon:'customers'},
@@ -213,6 +217,7 @@
         {label:'AI Manager', href:'/aimanager', icon:'aimanager', tag:'AI'},
         {label:'Sales', href:'/manager', icon:'deals'},
         {label:'Finance', href:'/finance', icon:'signing'},
+        {label:'Deal Packets', href:'/forms', icon:'documents', tag:'New'},
         {label:'Inventory Intel', href:'/invintel', icon:'invintel'},
         {label:'Workflow Analytics', href:'/analytics', icon:'analytics'},
         {label:'Customers', href:'/customers', icon:'customers'},
@@ -241,6 +246,7 @@
         {label:'Multi-Store', href:'/stores', icon:'stores'},
         {label:'AI Manager', href:'/aimanager', icon:'aimanager', tag:'AI'},
         {label:'Automation Builder', href:'/automations', icon:'automations'},
+        {label:'Deal Packets', href:'/forms', icon:'documents', tag:'New'},
         {label:'Data Migration', href:'/migration', icon:'migrate'},
         {label:'Knowledge Center', href:'/knowledge', icon:'knowledge'},
         {label:'Reports', href:'/reports', icon:'reports'},
@@ -276,7 +282,7 @@
   ];
 
   /* Every known in-app route. Anything here that is NOT in the active role's nav is blocked. */
-  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing','/showroom','/training','/analytics','/invintel','/service','/whiteboard','/marketplace','/referrals','/aimanager','/chat','/bdc','/finance','/gm','/settings','/knowledge','/dataquality','/status','/developers','/stores','/jacket','/portal','/tv'];
+  var KNOWN = ['/dashboard','/manager','/reception','/prospects','/customers','/appointments','/tasks','/inventory','/communications','/reports','/team','/admin','/checkin','/deals','/trades','/delivery','/documents','/automations','/migration','/equity','/feedback','/health','/marketing','/recovery','/sentiment','/reviews','/coach','/signing','/showroom','/training','/analytics','/invintel','/service','/whiteboard','/marketplace','/referrals','/aimanager','/chat','/bdc','/finance','/gm','/settings','/knowledge','/dataquality','/status','/developers','/stores','/jacket','/portal','/tv','/forms'];
 
   function getRole(){ var r = localStorage.getItem('ad_role'); return ROLES[r] ? r : 'salesperson'; }
   function cfg(){ return ROLES[getRole()]; }
