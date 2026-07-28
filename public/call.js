@@ -42,7 +42,16 @@
     '.adc-chips button{border:1px solid var(--line,#e7ecf3);background:var(--card,#fff);color:var(--text,#16202e);border-radius:10px;padding:9px 13px;font:700 12.5px Inter,system-ui,sans-serif;cursor:pointer;transition:.14s;}',
     '.adc-chips button:hover{border-color:#cfe0f7;color:#2563eb;} .adc-chips button.on{background:linear-gradient(180deg,#3b82f6,#2563eb);color:#fff;border-color:transparent;}',
     '.adc-ai{background:linear-gradient(135deg,rgba(79,141,255,.1),rgba(124,92,255,.07));border:1px solid rgba(79,141,255,.2);border-radius:12px;padding:13px 15px;font-size:12.5px;color:var(--muted,#6b7a90);line-height:1.5;}',
-    'html[data-theme="dark"] .adc-pb.on{background:rgba(37,99,235,.2);}'
+    'html[data-theme="dark"] .adc-pb.on{background:rgba(37,99,235,.2);}',
+    '.adc-dialpad{display:none;padding:2px 20px 12px;} .adc-dialpad.show{display:block;}',
+    '.adc-dd-disp{width:100%;box-sizing:border-box;text-align:center;font:800 22px Inter,system-ui,sans-serif;letter-spacing:3px;padding:10px;border:1px solid var(--line,#e7ecf3);border-radius:11px;background:var(--bg,#f6f8fb);color:var(--text,#16202e);margin-bottom:10px;min-height:44px;}',
+    '.adc-dd-disp:empty::before{content:"Enter digits";color:var(--faint,#97a4b6);font-weight:600;letter-spacing:.5px;font-size:14px;}',
+    '.adc-dd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}',
+    '.adc-dd-grid button{height:50px;border-radius:12px;border:1px solid var(--line,#e7ecf3);background:var(--card,#fff);color:var(--text,#16202e);font:700 20px Inter,system-ui,sans-serif;cursor:pointer;transition:.1s;line-height:1;}',
+    '.adc-dd-grid button:hover{background:var(--bg,#f1f5f9);} .adc-dd-grid button:active{transform:scale(.94);} .adc-dd-grid button small{display:block;font-size:8.5px;color:var(--muted,#6b7a90);font-weight:800;letter-spacing:1.2px;margin-top:2px;}',
+    '.adc-dd-actions{display:flex;gap:9px;margin-top:9px;} .adc-dd-actions button{flex:1;border-radius:10px;padding:9px;font:700 12.5px Inter,system-ui,sans-serif;cursor:pointer;border:1px solid var(--line,#e7ecf3);background:var(--card,#fff);color:var(--text,#16202e);}',
+    '.adc-fu-custom{display:none;margin-top:10px;gap:8px;align-items:center;} .adc-fu-custom.show{display:flex;} .adc-fu-custom input{flex:1;min-width:0;padding:9px 11px;border:1px solid var(--line,#e7ecf3);border-radius:10px;font:inherit;background:var(--bg,#fff);color:var(--text,#16202e);} .adc-fu-custom button{border:none;background:linear-gradient(180deg,#3b82f6,#2563eb);color:#fff;border-radius:10px;padding:9px 14px;font:700 12.5px Inter,system-ui,sans-serif;cursor:pointer;white-space:nowrap;}',
+    '.adc-fu-msg{font-size:12px;color:#16a34a;font-weight:700;margin-top:9px;min-height:14px;}'
   ].join('');
   (document.head||document.documentElement).appendChild(css);
 
@@ -74,10 +83,11 @@
         + '<div class="adc-timer" id="adcTimer">00:00</div><div class="adc-stat" id="adcStat"><span class="d"></span>Connected · Recording</div>'
         + '<div class="adc-wave" id="adcWave">'+Array.from({length:22}).map(function(_,i){return '<i style="animation-delay:'+((i%6)*0.09)+'s"></i>';}).join('')+'</div></div>'
       + '<div class="adc-pad"><button class="adc-pb" data-c="mute" title="Mute">'+I('mute')+'</button><button class="adc-pb" data-c="pad" title="Keypad">'+I('keypad')+'</button><button class="adc-pb rec on" data-c="rec" title="Recording">'+I('record')+'</button><button class="adc-pb end" data-c="end" title="End call">'+I('endcall')+'</button></div>'
+      + '<div class="adc-dialpad" id="adcDialpad"><div class="adc-dd-disp" id="adcDdDisp"></div><div class="adc-dd-grid">'+[['1',''],['2','ABC'],['3','DEF'],['4','GHI'],['5','JKL'],['6','MNO'],['7','PQRS'],['8','TUV'],['9','WXYZ'],['*',''],['0','+'],['#','']].map(function(k){return '<button data-k="'+k[0]+'">'+k[0]+'<small>'+k[1]+'</small></button>';}).join('')+'</div><div class="adc-dd-actions"><button data-dd="back">⌫ Delete</button><button data-dd="clear">Clear</button></div></div>'
       + '<div class="adc-body">'
         + '<div class="adc-sec"><h4>Call Notes</h4><textarea id="adcNotes" placeholder="Type notes during the call…"></textarea></div>'
         + '<div class="adc-sec"><h4>Disposition</h4><div class="adc-chips" id="adcDisp">'+['Connected','Left Voicemail','No Answer','Busy','Wrong Number','Callback Requested','Sold','Lost'].map(function(d,i){return '<button'+(i===0?' class="on"':'')+' data-d="'+d+'">'+d+'</button>';}).join('')+'</div></div>'
-        + '<div class="adc-sec"><h4>Schedule Follow-up</h4><div class="adc-chips" id="adcFu">'+['Tomorrow','In 3 Days','Next Week','Custom'].map(function(f){return '<button data-f="'+f+'">'+f+'</button>';}).join('')+'</div></div>'
+        + '<div class="adc-sec"><h4>Schedule Follow-up</h4><div class="adc-chips" id="adcFu">'+['Tomorrow','In 3 Days','Next Week','Custom'].map(function(f){return '<button data-f="'+f+'">'+f+'</button>';}).join('')+'</div><div class="adc-fu-custom" id="adcFuCustom"><input type="datetime-local" id="adcFuDt"><button data-fu-save>Schedule</button></div><div class="adc-fu-msg" id="adcFuMsg"></div></div>'
         + '<div class="adc-sec"><h4><span class="spark">'+ic_spark()+'</span>AI Call Summary</h4><div class="adc-ai" id="adcAi">Live transcription is running. When the call ends, a summary of key topics, commitments, and a recommended next step will appear here.</div></div>'
       + '</div>';
     document.body.appendChild(scrim); document.body.appendChild(p);
@@ -105,17 +115,35 @@
     function finish(){ endCall(); logCall(); close(); toast('Call logged — '+disp); }
 
     p.querySelectorAll('#adcDisp [data-d]').forEach(function(b){ b.addEventListener('click', function(){ p.querySelectorAll('#adcDisp button').forEach(function(x){x.classList.remove('on');}); b.classList.add('on'); disp=b.dataset.d; endCall(); }); });
+    // ---- Schedule Follow-up (working, incl. Custom date/time) ----
+    function fmtWhen(ts){ var d=new Date(ts), h=d.getHours(), ap=h<12?'AM':'PM'; h=h%12||12; return d.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})+' · '+h+':'+two(d.getMinutes())+' '+ap; }
+    function scheduleFu(ts){
+      try { var fu={ kind:'followup', dir:'out', title:'Follow-up call — '+name, detail:'Scheduled from the call.', ts:ts, status:'scheduled', priority:'High', assignee:'You' };
+        if(window.ADCustomer && window.ADCustomer.log) window.ADCustomer.log(fu); else if(window.ADStore) window.ADStore.add('follow_ups', fu); } catch(e){}
+      var m=p.querySelector('#adcFuMsg'); if(m) m.textContent='✓ Follow-up set for '+fmtWhen(ts); toast('Follow-up set for '+fmtWhen(ts));
+    }
     p.querySelectorAll('#adcFu [data-f]').forEach(function(b){ b.addEventListener('click', function(){ p.querySelectorAll('#adcFu button').forEach(function(x){x.classList.remove('on');}); b.classList.add('on');
-      try { var when=b.dataset.f, off=when==='Tomorrow'?1:when==='In 3 Days'?3:when==='Next Week'?7:2; var d=new Date(); d.setDate(d.getDate()+off); d.setHours(10,0,0,0);
-        var fu={ kind:'followup', dir:'out', title:'Follow-up call — '+name, detail:'Scheduled from call disposition.', ts:d.getTime(), status:'scheduled', priority:'High', assignee:'You' };
-        if(window.ADCustomer && window.ADCustomer.log) window.ADCustomer.log(fu); else if(window.ADStore) window.ADStore.add('follow_ups', fu);
-      } catch(e){}
-      toast('Follow-up scheduled — '+b.dataset.f); }); });
+      var when=b.dataset.f, cust=p.querySelector('#adcFuCustom');
+      if(when==='Custom'){ cust.classList.add('show'); var inp=p.querySelector('#adcFuDt'); var d=new Date(); d.setDate(d.getDate()+1); d.setHours(10,0,0,0); inp.value=d.getFullYear()+'-'+two(d.getMonth()+1)+'-'+two(d.getDate())+'T'+two(d.getHours())+':'+two(d.getMinutes()); inp.focus(); return; }
+      cust.classList.remove('show');
+      var off=when==='Tomorrow'?1:when==='In 3 Days'?3:when==='Next Week'?7:1; var d=new Date(); d.setDate(d.getDate()+off); d.setHours(10,0,0,0); scheduleFu(d.getTime());
+    }); });
+    var fuSave=p.querySelector('[data-fu-save]'); if(fuSave) fuSave.addEventListener('click', function(){ var v=p.querySelector('#adcFuDt').value; if(!v){ return; } scheduleFu(new Date(v).getTime()); });
+
+    // ---- Dialpad (working DTMF keypad with tones) ----
+    var actx; function beep(key){ try{ actx=actx||new (window.AudioContext||window.webkitAudioContext)(); var o=actx.createOscillator(), g=actx.createGain();
+      var f={'1':697,'2':770,'3':852,'4':941,'5':1209,'6':1336,'7':1477,'8':1633,'9':1000,'0':600,'*':700,'#':900}[key]||700;
+      o.type='sine'; o.frequency.value=f; g.gain.value=0.07; o.connect(g); g.connect(actx.destination); o.start();
+      g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime+0.14); o.stop(actx.currentTime+0.15); } catch(e){} }
+    var dispEl=p.querySelector('#adcDdDisp');
+    p.querySelectorAll('#adcDialpad [data-k]').forEach(function(b){ b.addEventListener('click', function(){ if(dispEl.textContent.length<24) dispEl.textContent+=b.dataset.k; beep(b.dataset.k); }); });
+    p.querySelectorAll('#adcDialpad [data-dd]').forEach(function(b){ b.addEventListener('click', function(){ if(b.dataset.dd==='back') dispEl.textContent=dispEl.textContent.slice(0,-1); else dispEl.textContent=''; }); });
+
     p.querySelectorAll('.adc-pad [data-c]').forEach(function(b){ b.addEventListener('click', function(){ var c=b.dataset.c;
       if(c==='end') finish();
       else if(c==='mute'){ muted=!muted; b.classList.toggle('on',muted); toast(muted?'Muted':'Unmuted'); }
       else if(c==='rec'){ recording=!recording; b.classList.toggle('on',recording); p.querySelector('#adcWave').classList.toggle('off',!recording); toast(recording?'Recording resumed':'Recording paused'); }
-      else if(c==='pad') toast('Keypad');
+      else if(c==='pad'){ var dp=p.querySelector('#adcDialpad'); var open=dp.classList.toggle('show'); b.classList.toggle('on',open); }
     }); });
     var t=p.querySelector('#adcNotes'); if(t) setTimeout(function(){ t.focus(); },200);
     return { close:close };
