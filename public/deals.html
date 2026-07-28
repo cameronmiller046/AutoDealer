@@ -3,90 +3,176 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deal Desk — Autodealer</title>
+  <title>Deal Workspace — Autodealer</title>
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
   <style>
-    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    :root { --bg:#f4f6fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eaeef4; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 10px 24px -18px rgba(16,32,60,0.26); --radius:15px; }
     * { margin:0; box-sizing:border-box; }
     body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
     a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
-    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .shell { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
     .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
-    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 26px; }
-    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:104px; height:9px; margin-bottom:4px; } .brand .wm { font-size:21px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
     .nav { display:flex; flex-direction:column; gap:3px; }
-    .nav a { display:flex; align-items:center; gap:13px; padding:11px 14px; border-radius:11px; color:#aebdd2; font-size:14.5px; font-weight:500; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
     .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
     .nav a svg { width:19px; height:19px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
-    .side-user { display:flex; align-items:center; gap:11px; padding:14px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
+    .side-user { margin-top:auto; display:flex; align-items:center; gap:11px; padding:14px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); }
     .side-user .av { width:38px; height:38px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
     .side-user .meta b { color:#fff; font-size:13.5px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11.5px; } .side-user .chev { margin-left:auto; color:#7e90a8; width:14px; height:14px; }
     .main { min-width:0; display:flex; flex-direction:column; }
-    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:16px; padding:11px 26px; }
     .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; display:inline-flex; align-items:center; justify-content:center; } .hamb svg { width:20px; height:20px; }
-    .tsearch { flex:1; max-width:420px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); }
+    .tsearch { flex:1; max-width:420px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:10px 14px; color:var(--muted); }
     .tsearch svg { width:17px; height:17px; flex:none; } .tsearch input { border:none; background:none; outline:none; width:100%; font-size:13.5px; color:var(--text); }
-    .live-chip { display:inline-flex; align-items:center; gap:7px; background:#e7f7ee; color:#16a34a; border-radius:999px; padding:6px 12px; font-size:12px; font-weight:700; } .live-chip .ld { width:8px; height:8px; border-radius:50%; background:#16a34a; animation:pulse 1.6s infinite; }
+    .live-chip { display:inline-flex; align-items:center; gap:7px; background:color-mix(in srgb,#16a34a 12%,var(--card)); color:#16a34a; border-radius:999px; padding:6px 12px; font-size:12px; font-weight:700; } .live-chip .ld { width:8px; height:8px; border-radius:50%; background:#16a34a; animation:pulse 1.6s infinite; }
     @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(22,163,74,0.5)} 70%{box-shadow:0 0 0 6px rgba(22,163,74,0)} 100%{box-shadow:0 0 0 0 rgba(22,163,74,0)} }
     .tb-icons { display:flex; align-items:center; gap:4px; margin-left:auto; }
-    .ib { position:relative; border:none; background:none; color:var(--muted); width:40px; height:40px; border-radius:11px; display:inline-flex; align-items:center; justify-content:center; } .ib svg { width:21px; height:21px; }
     .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; margin-left:8px; }
-    .content { padding:26px 30px 60px; }
+    .content { padding:20px 26px 50px; }
     .phead { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
-    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; }
+    .phead h1 { font-size:24px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14px; margin-top:5px; }
     .head-actions { display:flex; gap:10px; }
-    .btn { display:inline-flex; align-items:center; gap:8px; border-radius:11px; padding:11px 17px; font-size:13.5px; font-weight:600; box-shadow:var(--shadow); } .btn svg { width:16px; height:16px; }
+    .btn { display:inline-flex; align-items:center; gap:8px; border-radius:11px; padding:10px 16px; font-size:13.5px; font-weight:600; box-shadow:var(--shadow); } .btn svg { width:16px; height:16px; }
     .btn-ghost { background:var(--card); border:1px solid var(--line); color:var(--text); } .btn-ghost:hover { border-color:#cfe0f7; color:var(--accent); }
     .btn-primary { background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; box-shadow:0 12px 26px -14px rgba(37,99,235,0.9); }
-    .kpis { display:grid; grid-template-columns:repeat(6,1fr); gap:13px; margin:22px 0 6px; }
-    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; box-shadow:var(--shadow); } .kp .kl { color:var(--muted); font-size:12px; } .kp .kv { font-size:22px; font-weight:800; letter-spacing:-0.5px; margin-top:4px; }
-    .toolbar { display:flex; align-items:center; gap:12px; margin:20px 0 16px; flex-wrap:wrap; }
-    .segn { display:inline-flex; background:var(--card); border:1px solid var(--line); border-radius:11px; padding:4px; box-shadow:var(--shadow); } .segn button { border:none; background:none; padding:8px 14px; border-radius:8px; font-size:13px; font-weight:600; color:var(--muted); } .segn button.on { background:var(--accent); color:#fff; }
-    .spacer { flex:1; }
-    /* kanban */
-    .board { display:grid; grid-auto-flow:column; grid-auto-columns:288px; gap:14px; overflow-x:auto; padding-bottom:10px; }
-    .col { background:var(--bg); border-radius:14px; padding:12px; min-height:200px; }
-    .col-hd { display:flex; align-items:center; gap:8px; margin-bottom:12px; padding:0 4px; } .col-hd .dot { width:9px; height:9px; border-radius:50%; } .col-hd b { font-size:13px; font-weight:700; } .col-hd .cn { margin-left:auto; color:var(--faint); font-size:12px; font-weight:700; background:#fff; border-radius:8px; padding:1px 8px; }
-    .deal { background:#fff; border:1px solid var(--line); border-radius:12px; padding:13px; margin-bottom:10px; cursor:pointer; box-shadow:0 1px 2px rgba(16,32,60,0.04); transition:transform .12s, box-shadow .12s, opacity .3s; border-left:3px solid var(--dc); } .deal:hover { transform:translateY(-2px); box-shadow:0 12px 26px -16px rgba(16,32,60,.4); } .deal.moving { opacity:0; transform:translateX(30px); }
-    .deal-top { display:flex; align-items:center; gap:10px; } .deal .av { width:34px; height:34px; border-radius:50%; flex:none; color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; } .deal .dn b { font-weight:700; font-size:13.5px; } .deal .dn span { display:block; color:var(--muted); font-size:11.5px; }
-    .deal .flag { margin-left:auto; font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:6px; } .fl-hot{background:#fdeaea;color:#dc2626;} .fl-new{background:#eaf1fe;color:#2563eb;} .fl-wait{background:#fdf0dc;color:#b45309;}
-    .deal-veh { font-size:12px; color:var(--accent); font-weight:600; margin:9px 0 8px; }
-    .deal-nums { display:flex; justify-content:space-between; padding-top:9px; border-top:1px solid var(--line); } .deal-nums .k { color:var(--faint); font-size:10px; text-transform:uppercase; letter-spacing:.3px; } .deal-nums .v { font-weight:800; font-size:14px; } .deal-nums .v.g { color:#16a34a; }
-    .deal-foot { display:flex; align-items:center; gap:7px; margin-top:9px; font-size:11px; color:var(--muted); } .deal-foot .age { margin-left:auto; }
-    body[data-role="salesperson"] .mgr-only { display:none !important; }
 
-    /* slide-over */
-    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.4); z-index:45; opacity:0; pointer-events:none; transition:opacity .2s; } .scrim.show { opacity:1; pointer-events:auto; }
-    .panel { position:fixed; top:0; right:0; bottom:0; width:520px; max-width:96vw; background:var(--bg); z-index:46; box-shadow:-20px 0 60px -30px rgba(0,0,0,0.5); transform:translateX(100%); transition:transform .28s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column; } .panel.open { transform:none; }
-    .panel-hd { display:flex; align-items:flex-start; gap:14px; padding:20px 22px; background:var(--card); border-bottom:1px solid var(--line); }
-    .panel-hd .av-lg { width:48px; height:48px; border-radius:50%; color:#fff; font-size:16px; font-weight:700; display:flex; align-items:center; justify-content:center; flex:none; }
-    .panel-hd h2 { font-size:18px; font-weight:800; letter-spacing:-0.3px; } .panel-hd .pmeta { color:var(--muted); font-size:13px; margin-top:3px; }
-    .panel-close { margin-left:auto; border:none; background:none; color:var(--muted); width:34px; height:34px; border-radius:9px; } .panel-close svg { width:18px; height:18px; }
-    .panel-body { overflow-y:auto; padding:18px 22px 30px; display:flex; flex-direction:column; gap:16px; }
+    /* analytics strip */
+    .astrip { display:grid; grid-template-columns:repeat(8,1fr); gap:11px; margin:18px 0 4px; }
+    .am { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:12px 13px; box-shadow:var(--shadow); }
+    .am .al { color:var(--muted); font-size:11px; font-weight:600; } .am .av { font-size:19px; font-weight:800; letter-spacing:-0.4px; margin-top:5px; } .am .ad { font-size:10.5px; font-weight:700; margin-top:2px; } .am .ad.up{color:#16a34a;} .am .ad.dn{color:#dc2626;} .am .ad.fl{color:var(--faint);}
+
+    .toolbar { display:flex; align-items:center; gap:12px; margin:18px 0 14px; flex-wrap:wrap; }
+    .segn { display:inline-flex; background:var(--card); border:1px solid var(--line); border-radius:11px; padding:4px; box-shadow:var(--shadow); } .segn button { border:none; background:none; padding:8px 14px; border-radius:8px; font-size:13px; font-weight:600; color:var(--muted); } .segn button.on { background:var(--accent); color:#fff; }
+    .fpill { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:7px 13px; font-size:12.5px; font-weight:600; box-shadow:0 1px 2px rgba(16,32,60,.03); } .fpill:hover{color:var(--text);border-color:#cfe0f7;} .fpill.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+    .spacer { flex:1; }
+    .hint { font-size:12px; color:var(--muted); }
+
+    /* ============ KANBAN ============ */
+    .board { display:grid; grid-auto-flow:column; grid-auto-columns:300px; gap:13px; overflow-x:auto; padding-bottom:12px; }
+    .col { background:var(--bg); border:1px solid var(--line); border-radius:14px; padding:11px; min-height:200px; }
+    .col-hd { display:flex; align-items:center; gap:8px; margin-bottom:11px; padding:0 3px; } .col-hd .dot { width:9px; height:9px; border-radius:50%; } .col-hd b { font-size:12.5px; font-weight:700; } .col-hd .cn { margin-left:auto; color:var(--faint); font-size:11.5px; font-weight:700; background:var(--card); border-radius:8px; padding:1px 8px; }
+    .col-sum { font-size:10.5px; color:var(--muted); font-weight:600; margin-bottom:9px; padding:0 3px; }
+
+    .deal { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px; margin-bottom:10px; cursor:pointer; box-shadow:0 1px 2px rgba(16,32,60,0.04); transition:transform .12s, box-shadow .12s, opacity .3s; border-left:3px solid var(--dc); position:relative; } .deal:hover { transform:translateY(-2px); box-shadow:0 14px 28px -16px rgba(16,32,60,.4); } .deal.moving { opacity:0; transform:translateX(30px); }
+    .deal-top { display:flex; align-items:center; gap:9px; } .deal .av { width:32px; height:32px; border-radius:50%; flex:none; color:#fff; font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center; } .deal .dn b { font-weight:700; font-size:13px; } .deal .dn span { display:block; color:var(--muted); font-size:11px; }
+    .deal .rtag { margin-left:auto; display:flex; align-items:center; gap:5px; }
+    .risk { font-size:9.5px; font-weight:800; padding:2px 6px; border-radius:6px; display:inline-flex; align-items:center; gap:3px; } .risk .rk-d{width:5px;height:5px;border-radius:50%;}
+    .rk-lo{background:color-mix(in srgb,#16a34a 13%,var(--card));color:#16a34a;} .rk-lo .rk-d{background:#16a34a;} .rk-md{background:color-mix(in srgb,#d97706 15%,var(--card));color:#b45309;} .rk-md .rk-d{background:#d97706;} .rk-hi{background:color-mix(in srgb,#dc2626 13%,var(--card));color:#dc2626;} .rk-hi .rk-d{background:#dc2626;}
+    .unread { background:#dc2626; color:#fff; font-size:9.5px; font-weight:800; min-width:16px; height:16px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; padding:0 4px; }
+    .deal-veh { font-size:12px; color:var(--text); font-weight:700; margin:9px 0 1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .deal-vin { font-size:10px; color:var(--faint); font-weight:600; font-family:ui-monospace,Menlo,monospace; margin-bottom:9px; }
+    .deal-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px 10px; padding:9px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .dcell .k { color:var(--faint); font-size:9px; text-transform:uppercase; letter-spacing:.3px; font-weight:700; } .dcell .v { font-weight:700; font-size:12.5px; margin-top:1px; } .dcell .v.g{color:#16a34a;} .dcell .v.c{color:#7c3aed;}
+    .deal-status { display:flex; flex-wrap:wrap; gap:4px; margin-top:9px; }
+    .sp { font-size:9px; font-weight:800; padding:2px 6px; border-radius:5px; display:inline-flex; align-items:center; gap:3px; letter-spacing:.2px; }
+    .sp svg{width:9px;height:9px;}
+    .sp-ok{background:color-mix(in srgb,#16a34a 13%,var(--card));color:#16a34a;} .sp-pend{background:color-mix(in srgb,#d97706 15%,var(--card));color:#b45309;} .sp-off{background:color-mix(in srgb,var(--muted) 13%,var(--card));color:var(--muted);}
+    .deal-foot { display:flex; align-items:center; gap:8px; margin-top:9px; font-size:10.5px; color:var(--muted); } .deal-foot .age { margin-left:auto; display:inline-flex; align-items:center; gap:4px; } .deal-foot svg{width:11px;height:11px;}
+    .qa-row { display:flex; gap:5px; margin-top:9px; opacity:0; max-height:0; overflow:hidden; transition:all .16s; } .deal:hover .qa-row { opacity:1; max-height:40px; }
+    .qa-row button { flex:1; border:1px solid var(--line); background:var(--card); border-radius:7px; padding:6px 0; color:var(--accent); display:inline-flex; align-items:center; justify-content:center; } .qa-row button:hover{background:var(--accent);color:#fff;border-color:transparent;} .qa-row button svg{width:14px;height:14px;}
+    body[data-role="salesperson"] .mgr-only, body[data-role="bdc"] .mgr-only, body[data-role="receptionist"] .mgr-only { display:none !important; }
+
+    /* analytics view */
+    .an-grid { display:grid; grid-template-columns:1.4fr 1fr; gap:16px; align-items:start; }
+    .an-card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; margin-bottom:16px; }
+    .an-card h3 { font-size:14px; font-weight:800; margin-bottom:14px; display:flex; align-items:center; gap:8px; } .an-card h3 svg{width:16px;height:16px;color:var(--accent);} .an-card h3 .spark svg{color:#7c3aed;}
+    .funnel .fn-row { display:flex; align-items:center; gap:12px; margin-bottom:9px; } .funnel .fn-row .fl { width:130px; font-size:12.5px; color:var(--muted); flex:none; } .funnel .fn-bar { flex:1; height:26px; border-radius:7px; background:var(--line); overflow:hidden; position:relative; } .funnel .fn-bar i { display:block; height:100%; border-radius:7px; } .funnel .fn-bar span { position:absolute; right:9px; top:50%; transform:translateY(-50%); font-size:11.5px; font-weight:800; color:var(--text); }
+    .pen { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .pen-ring { text-align:center; } .pen-ring .pr { width:96px; height:96px; margin:0 auto; position:relative; } .pen-ring .pr b { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:900; } .pen-ring .pl { font-size:12px; color:var(--muted); font-weight:600; margin-top:6px; }
+    .feed { max-height:520px; overflow-y:auto; }
+    .fe { display:flex; gap:11px; padding:10px 0; border-top:1px solid var(--line); } .fe:first-child{border-top:none;} .fe .fi{width:30px;height:30px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;} .fe .fi svg{width:15px;height:15px;} .fe .fb b{font-size:12.5px;font-weight:700;} .fe .fb span{display:block;font-size:11.5px;color:var(--muted);} .fe .ft{margin-left:auto;font-size:10.5px;color:var(--faint);font-weight:600;white-space:nowrap;}
+
+    /* ============ DEAL WORKSPACE MODAL ============ */
+    .scrim { position:fixed; inset:0; background:rgba(10,20,36,0.5); z-index:60; opacity:0; pointer-events:none; transition:opacity .2s; backdrop-filter:blur(2px); } .scrim.show { opacity:1; pointer-events:auto; }
+    .ws { position:fixed; inset:2.2vh 2.2vw; background:var(--bg); z-index:61; border-radius:18px; box-shadow:0 40px 100px -30px rgba(0,0,0,.6); transform:scale(.98); opacity:0; pointer-events:none; transition:.24s cubic-bezier(.2,.8,.2,1); display:grid; grid-template-columns:224px 1fr; overflow:hidden; } .ws.show { transform:none; opacity:1; pointer-events:auto; }
+    .ws-side { background:var(--card); border-right:1px solid var(--line); display:flex; flex-direction:column; padding:18px 14px; overflow-y:auto; }
+    .ws-cust { display:flex; align-items:center; gap:11px; padding-bottom:15px; border-bottom:1px solid var(--line); margin-bottom:14px; } .ws-cust .av { width:44px; height:44px; border-radius:12px; flex:none; color:#fff; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:center; } .ws-cust b { font-size:14px; font-weight:800; display:block; } .ws-cust span { font-size:11.5px; color:var(--muted); }
+    .ws-nav { display:flex; flex-direction:column; gap:2px; flex:1; }
+    .ws-nav button { display:flex; align-items:center; gap:11px; border:none; background:none; text-align:left; padding:9px 12px; border-radius:10px; font-size:13px; font-weight:600; color:var(--muted); } .ws-nav button:hover{background:var(--bg);color:var(--text);} .ws-nav button.on{background:var(--accent-soft);color:var(--accent);} .ws-nav button svg{width:16px;height:16px;flex:none;} .ws-nav button .wc{margin-left:auto;font-size:10.5px;font-weight:800;background:var(--bg);color:var(--muted);border-radius:7px;padding:1px 6px;} .ws-nav button.on .wc{background:var(--card);color:var(--accent);}
+    .ws-complete { margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
+    .ws-complete .ct { display:flex; justify-content:space-between; font-size:11.5px; margin-bottom:6px; } .ws-complete .ct .k{color:var(--muted);font-weight:600;} .ws-complete .ct .v{font-weight:800;} .ws-complete .bar{height:7px;border-radius:999px;background:var(--line);overflow:hidden;} .ws-complete .bar i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#16a34a);border-radius:999px;}
+    .ws-main { display:flex; flex-direction:column; min-width:0; }
+    .ws-hd { display:flex; align-items:center; gap:14px; padding:16px 22px; background:var(--card); border-bottom:1px solid var(--line); flex:none; }
+    .ws-hd h2 { font-size:17px; font-weight:800; letter-spacing:-.3px; } .ws-hd .hm { font-size:12.5px; color:var(--muted); margin-top:2px; }
+    .ws-hd .stage-badge { font-size:11px; font-weight:800; padding:4px 11px; border-radius:8px; }
+    .ws-x { margin-left:auto; border:none; background:var(--bg); color:var(--muted); width:36px; height:36px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; } .ws-x:hover{color:var(--text);} .ws-x svg{width:18px;height:18px;}
+    .ws-body { flex:1; overflow-y:auto; padding:20px 22px; }
+    .ws-cols { display:grid; grid-template-columns:1.5fr 1fr; gap:16px; align-items:start; } @media(max-width:1100px){ .ws-cols{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:13px; box-shadow:var(--shadow); padding:16px; margin-bottom:16px; }
+    .card h3 { font-size:13px; font-weight:800; margin-bottom:12px; display:flex; align-items:center; gap:8px; } .card h3 svg{width:15px;height:15px;color:var(--accent);} .card h3 .spark svg{color:#7c3aed;} .card h3 .rt{margin-left:auto;font-size:12px;font-weight:800;}
+
+    .nums .nr { display:flex; justify-content:space-between; padding:7px 0; border-top:1px solid var(--line); font-size:13px; } .nums .nr:first-child{border-top:none;} .nums .nr .k{color:var(--muted);} .nums .nr .v{font-weight:600;} .nums .nr.tot{border-top:2px solid var(--line);margin-top:4px;padding-top:10px;} .nums .nr.tot .k{font-weight:700;} .nums .nr.tot .v{font-size:16px;font-weight:800;} .neg{color:#dc2626;} .pos{color:#16a34a;}
+
+    /* commission card */
+    .comm { background:linear-gradient(135deg,#0d1b34,#123a6b); color:#eaf2ff; border-radius:13px; padding:16px; margin-bottom:16px; position:relative; overflow:hidden; }
+    .comm::after{content:"";position:absolute;right:-40px;top:-40px;width:170px;height:170px;background:radial-gradient(circle,rgba(59,130,246,.4),transparent 70%);}
+    .comm h3 { font-size:12px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; color:#9dc0ff; display:flex; align-items:center; gap:7px; position:relative; } .comm h3 svg{width:14px;height:14px;}
+    .comm .cbig { display:flex; align-items:flex-end; gap:12px; margin:8px 0 12px; position:relative; } .comm .cbig .cv{font-size:36px;font-weight:900;letter-spacing:-1px;line-height:1;} .comm .cbig .cc{font-size:11.5px;color:#9dc0ff;font-weight:700;padding-bottom:4px;} .comm .cbig .cc b{color:#4ade80;}
+    .comm .cbrk { position:relative; } .comm .cbrk .br { display:flex; justify-content:space-between; padding:5px 0; border-top:1px solid rgba(255,255,255,.12); font-size:12px; } .comm .cbrk .br:first-child{border-top:none;} .comm .cbrk .br .k{color:#a9c4f0;} .comm .cbrk .br .v{font-weight:700;} .comm .cbrk .br .v.plus{color:#4ade80;}
+    .comm .cnote{ position:relative; font-size:11px; color:#8fb4ff; margin-top:9px; }
+
+    /* AI assistant */
+    .ai { background:linear-gradient(180deg,color-mix(in srgb,#7c3aed 6%,var(--card)),var(--card)); border-color:color-mix(in srgb,#7c3aed 18%,var(--card)); }
+    .ai-item { display:flex; gap:10px; padding:10px 0; border-top:1px solid var(--line); } .ai-item:first-of-type{border-top:none;} .ai-item .aii{width:28px;height:28px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;} .ai-item .aii svg{width:15px;height:15px;} .ai-item .aib b{font-size:12.5px;font-weight:700;display:block;} .ai-item .aib span{font-size:11.5px;color:var(--muted);} .ai-item .aig{margin-left:auto;font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;align-self:center;white-space:nowrap;}
+    .imp-hi{background:color-mix(in srgb,#dc2626 13%,var(--card));color:#dc2626;} .imp-md{background:color-mix(in srgb,#d97706 15%,var(--card));color:#b45309;} .imp-lo{background:color-mix(in srgb,#16a34a 13%,var(--card));color:#16a34a;}
+
     /* stepper */
     .stepper { display:flex; align-items:center; }
     .step { flex:1; display:flex; flex-direction:column; align-items:center; position:relative; }
-    .step .sc { width:26px; height:26px; border-radius:50%; background:#e6ebf3; color:var(--faint); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; z-index:1; } .step.done .sc { background:#16a34a; color:#fff; } .step.cur .sc { background:var(--accent); color:#fff; box-shadow:0 0 0 4px var(--accent-soft); } .step .sc svg { width:13px; height:13px; }
-    .step .sl { font-size:9.5px; font-weight:700; color:var(--muted); margin-top:6px; text-align:center; line-height:1.2; } .step.cur .sl { color:var(--accent); }
-    .step:not(:last-child)::after { content:""; position:absolute; top:13px; left:60%; right:-40%; height:2px; background:#e6ebf3; } .step.done:not(:last-child)::after { background:#16a34a; }
-    .sect { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px; }
-    .sect h3 { font-size:13px; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:7px; } .sect h3 .spark { color:#7c3aed; display:inline-flex; } .sect h3 .spark svg { width:15px; height:15px; } .sect h3 .rt { margin-left:auto; font-size:12px; font-weight:800; }
-    .nums .nr { display:flex; justify-content:space-between; padding:7px 0; border-top:1px solid var(--line); font-size:13px; } .nums .nr:first-child { border-top:none; } .nums .nr .k { color:var(--muted); } .nums .nr .v { font-weight:600; } .nums .nr.tot { border-top:2px solid var(--line); margin-top:4px; padding-top:10px; } .nums .nr.tot .k { font-weight:700; color:var(--text); } .nums .nr.tot .v { font-size:16px; font-weight:800; } .nums .neg { color:#dc2626; } .nums .pos { color:#16a34a; }
-    /* calculator */
-    .calc-tabs { display:flex; gap:6px; margin-bottom:14px; } .calc-tab { border:1px solid var(--line); background:#fff; border-radius:9px; padding:7px 14px; font-size:12.5px; font-weight:700; color:var(--muted); } .calc-tab.on { background:var(--accent); color:#fff; border-color:var(--accent); }
-    .cfield { display:grid; grid-template-columns:1fr 120px; align-items:center; gap:10px; margin-bottom:10px; } .cfield label { font-size:12.5px; color:#33445c; font-weight:600; } .cfield .inp { display:flex; align-items:center; border:1px solid var(--line); border-radius:9px; padding:0 10px; background:#fff; } .cfield .inp:focus-within { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); } .cfield .inp span { color:var(--faint); font-size:13px; } .cfield input, .cfield select { border:none; outline:none; width:100%; padding:9px 4px; font:inherit; font-size:13.5px; text-align:right; background:none; } .cfield select { text-align:left; }
-    .pay-out { background:linear-gradient(180deg,#0f2749,#0a1c38); color:#fff; border-radius:13px; padding:16px 18px; margin-top:6px; text-align:center; } .pay-out .pl { font-size:11.5px; color:#9db4d6; font-weight:600; } .pay-out .pv { font-size:34px; font-weight:800; letter-spacing:-1px; margin:2px 0; } .pay-out .pv small { font-size:15px; color:#9db4d6; } .pay-out .pf { font-size:11.5px; color:#c3d4ea; }
-    .scen { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px; } .scen .sc2 { border:1px solid var(--line); border-radius:10px; padding:11px 8px; text-align:center; cursor:pointer; } .scen .sc2:hover { border-color:var(--accent); } .scen .sc2 .t { font-size:11px; color:var(--muted); font-weight:600; } .scen .sc2 .p { font-size:17px; font-weight:800; margin-top:3px; } .scen .sc2 .d { font-size:10.5px; color:var(--faint); }
-    .ai-target { margin-top:14px; background:linear-gradient(180deg,#f5f0ff,#faf8ff); border:1px solid #ece3fb; border-radius:11px; padding:13px; } .ai-target .at-l { font-size:11px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; color:#7c3aed; display:flex; align-items:center; gap:6px; margin-bottom:9px; } .ai-target .at-l svg { width:13px; height:13px; } .ai-target .at-row { display:flex; gap:8px; align-items:center; } .ai-target .inp { flex:1; display:flex; align-items:center; border:1px solid #ddd0f5; border-radius:9px; padding:0 10px; background:#fff; } .ai-target .inp span { color:var(--faint); } .ai-target input { border:none; outline:none; padding:9px 4px; width:100%; font:inherit; font-size:13.5px; background:none; } .ai-target button { border:none; background:#7c3aed; color:#fff; border-radius:9px; padding:9px 14px; font-size:12.5px; font-weight:700; } .ai-target .at-out { font-size:12.5px; color:#4b3a72; margin-top:10px; line-height:1.5; } .ai-target .at-out b { color:#5b21b6; }
-    .approve-row { display:flex; gap:10px; } .approve-row button { flex:1; border-radius:11px; padding:12px; font-size:13.5px; font-weight:700; } .ap-send { background:#fff; border:1px solid var(--line); color:var(--text); } .ap-send:hover { border-color:#f0b8b8; color:#dc2626; } .ap-ok { background:linear-gradient(180deg,#22c55e,#16a34a); border:none; color:#fff; box-shadow:0 12px 26px -14px rgba(22,163,74,.9); } .ap-ok:hover { filter:brightness(1.05); }
-    .tl2 { display:grid; grid-template-columns:16px 1fr; gap:12px; padding-bottom:13px; position:relative; } .tl2:last-child { padding-bottom:0; } .tl2-dot { width:11px; height:11px; border-radius:50%; margin-top:3px; } .tl2:not(:last-child)::after { content:""; position:absolute; left:5px; top:15px; bottom:0; width:2px; background:var(--line); } .tl2 b { font-weight:600; display:block; font-size:13px; } .tl2 span { color:var(--muted); font-size:12px; }
-    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:60; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;}
-    @media (max-width:1240px){ .kpis{grid-template-columns:repeat(3,1fr);} }
-    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .kpis{grid-template-columns:repeat(2,1fr);} }
+    .step .sc { width:26px; height:26px; border-radius:50%; background:var(--line); color:var(--faint); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; z-index:1; } .step.done .sc{background:#16a34a;color:#fff;} .step.cur .sc{background:var(--accent);color:#fff;box-shadow:0 0 0 4px var(--accent-soft);} .step .sc svg{width:13px;height:13px;}
+    .step .sl { font-size:9px; font-weight:700; color:var(--muted); margin-top:6px; text-align:center; line-height:1.2; } .step.cur .sl{color:var(--accent);}
+    .step:not(:last-child)::after { content:""; position:absolute; top:13px; left:60%; right:-40%; height:2px; background:var(--line); } .step.done:not(:last-child)::after{background:#16a34a;}
+
+    /* quick actions */
+    .ws-qa { display:grid; grid-template-columns:repeat(6,1fr); gap:7px; }
+    .ws-qa button { border:1px solid var(--line); background:var(--card); border-radius:10px; padding:10px 0 7px; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:10px; color:var(--muted); font-weight:700; } .ws-qa button:hover{border-color:var(--accent);color:var(--accent);} .ws-qa button svg{width:16px;height:16px;color:var(--accent);}
+
+    /* approvals */
+    .apv-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; } .apv-grid button { border:1px solid var(--line); background:var(--card); border-radius:10px; padding:10px 12px; font-size:12.5px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:8px; } .apv-grid button:hover{border-color:#cfe0f7;color:var(--accent);} .apv-grid button svg{width:15px;height:15px;}
+    .apv-main { display:flex; gap:10px; margin-top:12px; } .apv-main button{flex:1;border-radius:11px;padding:12px;font-size:13.5px;font-weight:800;border:none;} .apv-ok{background:linear-gradient(180deg,#22c55e,#16a34a);color:#fff;box-shadow:0 12px 26px -14px rgba(22,163,74,.8);} .apv-rej{background:var(--card);border:1px solid var(--line)!important;color:#dc2626;} .apv-rej:hover{border-color:#f0b8b8;}
+
+    /* documents */
+    .pkt { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:14px; } .pkt button{border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:8px 12px;font-size:12px;font-weight:700;color:var(--text);} .pkt button:hover{border-color:var(--accent);color:var(--accent);}
+    .missing { background:color-mix(in srgb,#d97706 8%,var(--card)); border:1px solid color-mix(in srgb,#d97706 22%,var(--card)); border-radius:11px; padding:12px 14px; margin-bottom:14px; } .missing .mt{font-size:12px;font-weight:800;color:#b45309;display:flex;align-items:center;gap:7px;margin-bottom:8px;} .missing .mt svg{width:14px;height:14px;} .missing ul{margin:0;padding-left:2px;list-style:none;} .missing li{font-size:12.5px;padding:3px 0;display:flex;align-items:center;gap:8px;} .missing li::before{content:"";width:5px;height:5px;border-radius:50%;background:#d97706;}
+    .dl { display:flex; align-items:center; gap:12px; padding:10px 0; border-top:1px solid var(--line); } .dl:first-child{border-top:none;} .dl .di{width:32px;height:32px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;} .dl .di svg{width:15px;height:15px;} .dl .db{flex:1;min-width:0;} .dl .db b{font-size:12.5px;font-weight:700;display:block;} .dl .db span{font-size:10.5px;color:var(--muted);}
+    .dstat{font-size:9.5px;font-weight:800;padding:2px 8px;border-radius:6px;flex:none;} .ds-signed{background:color-mix(in srgb,#16a34a 13%,var(--card));color:#16a34a;} .ds-completed{background:color-mix(in srgb,#2563eb 13%,var(--card));color:#2563eb;} .ds-draft{background:color-mix(in srgb,#d97706 15%,var(--card));color:#b45309;} .ds-notstarted{background:color-mix(in srgb,var(--muted) 13%,var(--card));color:var(--muted);} .ds-printed{background:color-mix(in srgb,#7c3aed 13%,var(--card));color:#7c3aed;}
+    .dl .dgo{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 8px;color:var(--accent);flex:none;} .dl .dgo svg{width:14px;height:14px;}
+    .esign { margin-top:6px; } .esign .es-hd{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:6px;} .esign .es-hd .k{color:var(--muted);font-weight:600;} .esign .es-hd .v{font-weight:800;color:#16a34a;} .esign .bar{height:7px;border-radius:999px;background:var(--line);overflow:hidden;} .esign .bar i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#16a34a);border-radius:999px;}
+    .es-steps{display:flex;gap:6px;margin-top:10px;} .es-steps .est{flex:1;text-align:center;font-size:9.5px;font-weight:700;color:var(--faint);} .es-steps .est .ed{width:22px;height:22px;border-radius:50%;margin:0 auto 4px;background:var(--line);display:flex;align-items:center;justify-content:center;} .es-steps .est.on .ed{background:#16a34a;color:#fff;} .es-steps .est.on{color:#16a34a;} .es-steps .est .ed svg{width:12px;height:12px;}
+
+    /* comm feed inside workspace */
+    .cmz { display:flex; gap:11px; padding:10px 0; border-top:1px solid var(--line); } .cmz:first-child{border-top:none;} .cmz .ci{width:30px;height:30px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;} .cmz .ci svg{width:14px;height:14px;} .cmz .cb{flex:1;min-width:0;} .cmz .ch{display:flex;gap:8px;align-items:baseline;} .cmz .ch b{font-size:12.5px;font-weight:700;} .cmz .ch .t{margin-left:auto;font-size:10.5px;color:var(--faint);} .cmz .cp{font-size:12px;color:var(--muted);margin-top:2px;}
+    .tl2 { display:grid; grid-template-columns:16px 1fr; gap:12px; padding-bottom:13px; position:relative; } .tl2:last-child{padding-bottom:0;} .tl2-dot{width:11px;height:11px;border-radius:50%;margin-top:3px;} .tl2:not(:last-child)::after{content:"";position:absolute;left:5px;top:15px;bottom:0;width:2px;background:var(--line);} .tl2 b{font-weight:600;display:block;font-size:13px;} .tl2 span{color:var(--muted);font-size:12px;}
+    .audit-row{display:flex;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:12px;} .audit-row:first-child{border-top:none;} .audit-row .at{width:96px;flex:none;color:var(--faint);font-weight:600;} .audit-row .au{font-weight:700;} .audit-row .ax{color:var(--muted);}
+
+    /* fields (finance/trade tabs) */
+    .fld-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;} .fld label{display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-bottom:5px;} .fld input,.fld select{width:100%;box-sizing:border-box;padding:9px 11px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:13px;background:var(--card);color:var(--text);} .fld input:focus,.fld select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
+
+    /* document editor fullscreen */
+    .ed-scrim{position:fixed;inset:0;background:rgba(6,12,22,.75);z-index:70;opacity:0;pointer-events:none;transition:.2s;} .ed-scrim.show{opacity:1;pointer-events:auto;}
+    .editor{position:fixed;inset:0;z-index:71;display:none;grid-template-rows:auto 1fr auto;background:var(--bg);} .editor.show{display:grid;}
+    .ed-hd{display:flex;align-items:center;gap:14px;padding:14px 22px;background:var(--card);border-bottom:1px solid var(--line);} .ed-hd h2{font-size:16px;font-weight:800;} .ed-hd .em{font-size:12px;color:var(--muted);} .ed-hd .autopop{margin-left:auto;font-size:11px;font-weight:700;color:#16a34a;display:inline-flex;align-items:center;gap:6px;} .ed-hd .autopop svg{width:14px;height:14px;} .ed-hd .ex{border:none;background:var(--bg);width:34px;height:34px;border-radius:10px;color:var(--muted);}
+    .ed-body{overflow-y:auto;padding:24px;display:flex;justify-content:center;}
+    .paper{width:760px;max-width:100%;background:#fff;color:#16202e;border:1px solid var(--line);border-radius:8px;box-shadow:0 20px 50px -24px rgba(0,0,0,.4);padding:34px 40px;}
+    .paper .ph{display:flex;justify-content:space-between;border-bottom:2px solid #0a1628;padding-bottom:14px;margin-bottom:18px;} .paper .ph .co{font-size:19px;font-weight:900;letter-spacing:.5px;} .paper .ph .co b{color:#2563eb;} .paper .ph .ct{font-size:12px;color:#64748b;text-align:right;}
+    .paper h4{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:#64748b;margin:18px 0 10px;}
+    .prow{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;}
+    .pf{border-bottom:1px solid #dfe4ec;padding:4px 0;} .pf .pl{font-size:10px;color:#97a4b6;font-weight:700;text-transform:uppercase;} .pf .pv{font-size:14px;font-weight:600;min-height:20px;} .pf input{border:none;outline:none;width:100%;font:inherit;font-size:14px;font-weight:600;background:#fff7e6;padding:2px 4px;border-radius:4px;} .pf input:focus{background:#fff3cd;box-shadow:0 0 0 2px #ffd966;}
+    .sig-box{margin-top:20px;border:2px dashed #cbd5e1;border-radius:8px;height:70px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:13px;font-weight:700;cursor:pointer;} .sig-box.signed{border-style:solid;border-color:#16a34a;background:#f0fdf4;color:#16a34a;font-family:'Segoe Script','Brush Script MT',cursive;font-size:26px;}
+    .ed-ft{display:flex;align-items:center;gap:10px;padding:12px 22px;background:var(--card);border-top:1px solid var(--line);} .ed-ft .sp{flex:1;} .ed-ft button{border-radius:10px;padding:10px 16px;font-size:13px;font-weight:700;border:1px solid var(--line);background:var(--card);color:var(--text);} .ed-ft button svg{width:15px;height:15px;vertical-align:-3px;margin-right:6px;} .ed-ft .save{background:var(--accent);color:#fff;border-color:transparent;} .ed-ft .esn{background:#16a34a;color:#fff;border-color:transparent;}
+    @media print { .sidebar,.topbar,.ed-hd,.ed-ft{display:none!important;} .editor{position:static;} .ed-body{padding:0;} .paper{box-shadow:none;border:none;} }
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:90; } .toast.show{opacity:1;transform:none;} .toast .tk{width:22px;height:22px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;flex:none;} .toast .tk svg{width:13px;height:13px;color:#fff;}
+    @media (max-width:1400px){ .astrip{grid-template-columns:repeat(4,1fr);} }
+    @media (max-width:1100px){ .an-grid{grid-template-columns:1fr;} .ws{grid-template-columns:1fr;} .ws-side{display:none;} }
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .astrip{grid-template-columns:repeat(2,1fr);} }
+    @media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important;} }
   </style>
 </head>
 <body>
@@ -99,203 +185,509 @@
     <div class="main">
       <header class="topbar">
         <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" placeholder="Search deals by customer or vehicle..." /></div>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="search" placeholder="Search deals by customer, vehicle, VIN, stock..." /></div>
         <span class="live-chip"><span class="ld"></span>Live</span>
         <div class="tb-icons"><span class="tb-avatar"><span class="av">JA</span></span></div>
       </header>
       <main class="content">
         <div class="phead">
-          <div><h1>Deal Desk</h1><p class="sub">Every deal moves through a digital approval queue — no more chasing managers around the showroom.</p></div>
+          <div><h1>Deal Workspace</h1><p class="sub">The operating center for every deal — pencil to delivery. Desking, commission, documents, e-sign, approvals.</p></div>
           <div class="head-actions">
-            <button class="btn btn-ghost" id="calcBtn"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 7h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15v3M8 18h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Payment Calculator</button>
-            <button class="btn btn-primary"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Submit Deal</button>
+            <button class="btn btn-ghost" id="analyticsBtn"><svg viewBox="0 0 24 24"><path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M7 15l3-4 3 2.5L20 7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Analytics</button>
+            <button class="btn btn-primary" id="newDealBtn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Start New Deal</button>
           </div>
         </div>
 
-        <div class="kpis" id="kpis"></div>
+        <div class="astrip" id="astrip"></div>
 
         <div class="toolbar">
-          <div class="segn" id="viewSeg"><button data-v="board" class="on">Board</button><button data-v="mine">My Deals</button></div>
+          <div class="segn" id="viewSeg"><button data-v="board" class="on">Board</button><button data-v="mine">My Deals</button><button data-v="analytics">Analytics</button></div>
+          <div id="filters" style="display:flex;gap:7px;flex-wrap:wrap"></div>
           <div class="spacer"></div>
-          <span style="font-size:12.5px;color:var(--muted)">Drag-free approvals · click any deal to review, desk, and advance</span>
+          <span class="hint">Click any deal to open its workspace · drag-free approvals</span>
         </div>
 
-        <div class="board" id="board"></div>
+        <div id="viewHost"></div>
       </main>
     </div>
   </div>
 
   <div class="scrim" id="scrim"></div>
-  <aside class="panel" id="panel" aria-hidden="true"></aside>
+  <aside class="ws" id="ws" aria-hidden="true"></aside>
+
+  <div class="ed-scrim" id="edScrim"></div>
+  <div class="editor" id="editor"></div>
+
   <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="toastMsg">Done</span></div>
 
   <script src="/roles.js"></script>
   <script>
     var $ = function(id){ return document.getElementById(id); };
     var money = function(n){ return "$" + Math.round(n).toLocaleString(); };
-    var STAGES = [["submitted","Submitted","#64748b"],["review","Manager Review","#ea8a0b"],["desk","Desk Numbers","#2563eb"],["trade","Trade Approved","#7c3aed"],["finance","Finance","#0891b2"],["ready","Ready for Delivery","#16a34a"]];
+    function role(){ try{ return (window.ADRoles&&ADRoles.getRole&&ADRoles.getRole())||"salesperson"; }catch(e){ return "salesperson"; } }
+    function isMgr(){ return ["manager","gm","dealerprincipal","admin","finance"].indexOf(role())>=0; }
+    function canCredit(){ try{ return !!(window.ADRoles&&ADRoles.canField&&ADRoles.canField("creditScore")); }catch(e){ return false; } }
+    function me(){ return role()==="salesperson" ? "Jordan" : null; }
+
+    var IC = {
+      call:'<path d="M6 3h3l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4 5.2 2 2 0 0 1 6 3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      text:'<path d="M4 5.5h16v10H9l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+      email:'<rect x="3.5" y="5.5" width="17" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      ws:'<rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 9h18M9 9v11" fill="none" stroke="currentColor" stroke-width="1.7"/>',
+      doc:'<path d="M6 3.5h8l4 4V20.5H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3.5v4h4M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+      dollar:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5v9M14 9.5c0-1-1-1.5-2-1.5s-2 .5-2 1.5 1 1.4 2 1.6 2 .6 2 1.6-1 1.5-2 1.5-2-.5-2-1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+      swap:'<path d="M4 8h13l-3-3M20 16H7l3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+      key:'<circle cx="8" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 11l7 7-2 2M15 15l2-2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+      print:'<path d="M7 8V3.5h10V8M7 17H5a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-2M7 14h10v6.5H7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      check:'<path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
+      clock:'<circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+      spark:'<path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/>',
+      shield:'<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      bank:'<path d="M4 10l8-5 8 5M5 10v8m4-8v8m6-8v8m4-8v8M3 20h18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+      user:'<circle cx="12" cy="9" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 19c0-2.8 2.7-4.5 6-4.5s6 1.7 6 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+      car:'<path d="M3 13l2-5.5A2 2 0 0 1 6.9 6h10.2a2 2 0 0 1 1.9 1.5L21 13v5h-3v-2H6v2H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+      gavel:'<path d="M14 5l5 5-3 3-5-5zM9 10l5 5-6 6-3-3zM15 15l4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
+      list:'<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+      chart:'<path d="M4 20V4M20 20H4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M7 15l3-4 3 2.5L20 7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
+      alert:'<path d="M12 4l9 16H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+      trend:'<path d="M4 16l5-5 3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>',
+      x:'<path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+      pkt:'<path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zM4 8l1.4-3.2A1 1 0 0 1 6.3 4h11.4a1 1 0 0 1 .9.6L20 8M4 8a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
+      chat:'<path d="M4 5.5h16v10H10l-4 3.5v-3.5H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>'
+    };
+    var svg = function(k){ return '<svg viewBox="0 0 24 24">'+(IC[k]||"")+'</svg>'; };
+
+    var STAGES = [["submitted","Submitted","#64748b"],["review","Manager Review","#ea8a0b"],["desk","Desk Numbers","#2563eb"],["trade","Trade Approved","#7c3aed"],["finance","Finance / F&I","#0891b2"],["ready","Ready for Delivery","#16a34a"]];
     var STAGE_I = {}; STAGES.forEach(function(s,i){ STAGE_I[s[0]]=i; });
 
-    // deal: id,cust,ini,color,veh,stock,rep,stage,price,tradeAllow,payoff,down,apr,term,taxRate,fees,rebate,type,flag
+    /* deal data */
     var D = [
-      {id:1,cust:"John Smith",ini:"JS",color:"#3b82f6",veh:"2024 Silverado High Country",stock:"T45281",rep:"Jordan",stage:"review",price:74300,tradeAllow:28900,payoff:24100,down:5000,apr:6.9,term:72,taxRate:0.07,fees:899,rebate:1500,type:"finance",flag:"fl-new"},
-      {id:2,cust:"Sarah Lewis",ini:"SL",color:"#8b5cf6",veh:"2024 Tahoe RST",stock:"T44102",rep:"Jordan",stage:"finance",price:64995,tradeAllow:22800,payoff:11000,down:8000,apr:5.9,term:60,taxRate:0.07,fees:899,rebate:1000,type:"finance",flag:""},
-      {id:3,cust:"Amanda Harris",ini:"AH",color:"#ec4899",veh:"2024 Equinox RS",stock:"S43011",rep:"Jordan",stage:"desk",price:31995,tradeAllow:0,payoff:0,down:3000,apr:7.4,term:72,taxRate:0.07,fees:799,rebate:750,type:"finance",flag:""},
-      {id:4,cust:"Robert Brown",ini:"RB",color:"#14b8a6",veh:"2023 Tahoe Premier",stock:"T44780",rep:"Jordan",stage:"ready",price:74995,tradeAllow:0,payoff:0,down:12000,apr:6.4,term:72,taxRate:0.07,fees:899,rebate:0,type:"finance",flag:""},
-      {id:5,cust:"David Johnson",ini:"DJ",color:"#f59e0b",veh:"2021 F-150 Lariat",stock:"S39820",rep:"Jordan",stage:"trade",price:44995,tradeAllow:26000,payoff:31200,down:2000,apr:8.2,term:72,taxRate:0.07,fees:799,rebate:500,type:"finance",flag:"fl-wait"},
-      {id:6,cust:"Kevin Anderson",ini:"KA",color:"#0ea5e9",veh:"2022 Sierra Denali",stock:"T42551",rep:"Sarah",stage:"submitted",price:68995,tradeAllow:34500,payoff:22000,down:4000,apr:6.9,term:72,taxRate:0.07,fees:899,rebate:1000,type:"finance",flag:"fl-new"},
-      {id:7,cust:"Priya Nair",ini:"PN",color:"#f43f5e",veh:"2024 Cadillac XT5",stock:"S43550",rep:"Jordan",stage:"submitted",price:49995,tradeAllow:0,payoff:0,down:6000,apr:6.4,term:60,taxRate:0.07,fees:899,rebate:0,type:"lease",flag:""},
-      {id:8,cust:"Marcus Webb",ini:"MB",color:"#10b981",veh:"2023 Corvette Z06",stock:"S41290",rep:"Sarah",stage:"review",price:118000,tradeAllow:0,payoff:0,down:40000,apr:5.9,term:72,taxRate:0.07,fees:899,rebate:0,type:"finance",flag:"fl-hot"},
-      {id:9,cust:"Grace Kim",ini:"GK",color:"#eab308",veh:"2025 Telluride SX",stock:"S44900",rep:"Michael",stage:"desk",price:46900,tradeAllow:21000,payoff:6800,down:3000,apr:7.9,term:75,taxRate:0.07,fees:799,rebate:500,type:"finance",flag:""},
-      {id:10,cust:"Ethan Ross",ini:"ER",color:"#64748b",veh:"2022 Buick Enclave",stock:"S43990",rep:"Michael",stage:"finance",price:39900,tradeAllow:0,payoff:0,down:5000,apr:7.4,term:72,taxRate:0.07,fees:799,rebate:250,type:"cash",flag:""}
+      {id:1,cust:"John Smith",ini:"JS",color:"#3b82f6",veh:"2024 Silverado High Country",vin:"3GCUKDED5SG145281",stock:"T45281",rep:"Jordan",stage:"review",price:74300,cost:65900,tradeAllow:28900,payoff:24100,down:5000,apr:6.9,term:72,taxRate:0.07,fees:899,rebate:1500,type:"finance",lender:"Ally Financial",tier:"A · 742",priority:"hot",unread:2,mApp:"pending",fApp:"pending",docs:64,signed:0,appt:"Today 3:00 PM"},
+      {id:2,cust:"Sarah Lewis",ini:"SL",color:"#8b5cf6",veh:"2024 Tahoe RST",vin:"1GNSKPKD7RR203118",stock:"T44102",rep:"Jordan",stage:"finance",price:64995,cost:57200,tradeAllow:22800,payoff:11000,down:8000,apr:5.9,term:60,taxRate:0.07,fees:899,rebate:1000,type:"finance",lender:"GM Financial",tier:"A+ · 801",priority:"normal",unread:0,mApp:"approved",fApp:"pending",docs:88,signed:40,appt:"Tomorrow 2:00 PM"},
+      {id:3,cust:"Amanda Harris",ini:"AH",color:"#ec4899",veh:"2024 Equinox RS",vin:"3GNAXUEV8RL118422",stock:"S43011",rep:"Jordan",stage:"desk",price:31995,cost:28800,tradeAllow:0,payoff:0,down:3000,apr:7.4,term:72,taxRate:0.07,fees:799,rebate:750,type:"finance",lender:"Capital One",tier:"B · 688",priority:"normal",unread:1,mApp:"approved",fApp:"pending",docs:40,signed:0,appt:"—"},
+      {id:4,cust:"Robert Brown",ini:"RB",color:"#14b8a6",veh:"2023 Tahoe Premier",vin:"1GNSKSKD1PR400551",stock:"T44780",rep:"Jordan",stage:"ready",price:74995,cost:66100,tradeAllow:0,payoff:0,down:12000,apr:6.4,term:72,taxRate:0.07,fees:899,rebate:0,type:"finance",lender:"Ally Financial",tier:"A · 755",priority:"normal",unread:0,mApp:"approved",fApp:"approved",docs:100,signed:100,appt:"Today 4:30 PM"},
+      {id:5,cust:"David Johnson",ini:"DJ",color:"#f59e0b",veh:"2021 F-150 Lariat",vin:"1FTFW1E80MFA88213",stock:"S39820",rep:"Jordan",stage:"trade",price:44995,cost:39900,tradeAllow:26000,payoff:31200,down:2000,apr:8.2,term:72,taxRate:0.07,fees:799,rebate:500,type:"finance",lender:"Westlake",tier:"C · 631",priority:"high",unread:3,mApp:"approved",fApp:"pending",docs:52,signed:0,appt:"—"},
+      {id:6,cust:"Kevin Anderson",ini:"KA",color:"#0ea5e9",veh:"2022 Sierra Denali",vin:"3GTUUGED4NG501277",stock:"T42551",rep:"Sarah",stage:"submitted",price:68995,cost:60800,tradeAllow:34500,payoff:22000,down:4000,apr:6.9,term:72,taxRate:0.07,fees:899,rebate:1000,type:"finance",lender:"—",tier:"A · 738",priority:"hot",unread:1,mApp:"pending",fApp:"notstarted",docs:20,signed:0,appt:"Fri 11:00 AM"},
+      {id:7,cust:"Priya Nair",ini:"PN",color:"#f43f5e",veh:"2024 Cadillac XT5",vin:"1GYKNCRS4RZ700914",stock:"S43550",rep:"Jordan",stage:"submitted",price:49995,cost:44100,tradeAllow:0,payoff:0,down:6000,apr:6.4,term:60,taxRate:0.07,fees:899,rebate:0,type:"lease",lender:"GM Financial",tier:"A+ · 792",priority:"normal",unread:0,mApp:"pending",fApp:"notstarted",docs:15,signed:0,appt:"—"},
+      {id:8,cust:"Marcus Webb",ini:"MW",color:"#10b981",veh:"2023 Corvette Z06",vin:"1G1YF2D4XP5600238",stock:"S41290",rep:"Sarah",stage:"review",price:118000,cost:104500,tradeAllow:0,payoff:0,down:40000,apr:5.9,term:72,taxRate:0.07,fees:899,rebate:0,type:"finance",lender:"Bank of America",tier:"A+ · 815",priority:"hot",unread:0,mApp:"pending",fApp:"notstarted",docs:30,signed:0,appt:"Sat 10:00 AM"},
+      {id:9,cust:"Grace Kim",ini:"GK",color:"#eab308",veh:"2025 Telluride SX",vin:"5XYP5DGC1SG200412",stock:"S44900",rep:"Michael",stage:"desk",price:46900,cost:41300,tradeAllow:21000,payoff:6800,down:3000,apr:7.9,term:75,taxRate:0.07,fees:799,rebate:500,type:"finance",lender:"Kia Finance",tier:"B · 702",priority:"normal",unread:0,mApp:"approved",fApp:"pending",docs:48,signed:0,appt:"—"},
+      {id:10,cust:"Ethan Ross",ini:"ER",color:"#64748b",veh:"2022 Buick Enclave",vin:"5GAEVAKW2NJ140882",stock:"S43990",rep:"Michael",stage:"finance",price:39900,cost:35400,tradeAllow:0,payoff:0,down:5000,apr:0,term:0,taxRate:0.07,fees:799,rebate:250,type:"cash",lender:"Cash",tier:"—",priority:"normal",unread:0,mApp:"approved",fApp:"approved",docs:80,signed:60,appt:"Mon 1:00 PM"}
     ];
 
-    /* ---- deal math ---- */
+    /* ---------- deal math ---------- */
     function calc(d){
-      var netTrade = d.tradeAllow - d.payoff;               // + equity / - negative equity
+      var netTrade = d.tradeAllow - d.payoff;
       var taxable = Math.max(0, d.price - d.tradeAllow);
       var tax = taxable * d.taxRate;
       var financed = d.price + tax + d.fees - d.rebate - d.down - netTrade;
       var r = d.apr/1200, n = d.term;
-      var monthly = d.type==="cash" ? 0 : (r>0 ? financed*r/(1-Math.pow(1+r,-n)) : financed/n);
-      if (d.type==="lease") { // simplified lease
-        var residual = d.price*0.58, mf = d.apr/2400, capCost = d.price + tax + d.fees - d.rebate - d.down - netTrade;
-        monthly = (capCost-residual)/n + (capCost+residual)*mf;
-        financed = capCost;
-      }
+      var monthly = d.type==="cash" ? 0 : (r>0 ? financed*r/(1-Math.pow(1+r,-n)) : (n?financed/n:0));
+      if (d.type==="lease"){ var residual=d.price*0.58, mf=d.apr/2400, capCost=d.price+tax+d.fees-d.rebate-d.down-netTrade; monthly=(capCost-residual)/n+(capCost+residual)*mf; financed=capCost; }
       var cashDue = d.price + tax + d.fees - d.rebate - netTrade;
-      var gross = (d.price - d.price*0.88) + (d.fees*0.5) + 900; // front + reserve estimate
-      return {netTrade:netTrade, tax:tax, financed:financed, monthly:monthly, cashDue:cashDue, gross:gross, taxable:taxable};
+      return {netTrade:netTrade, tax:tax, financed:financed, monthly:monthly, cashDue:cashDue, taxable:taxable};
     }
-    function monthlyFor(financed, apr, term){ var r=apr/1200; return r>0 ? financed*r/(1-Math.pow(1+r,-term)) : financed/term; }
+    function monthlyFor(fin,apr,term){ var r=apr/1200; return r>0?fin*r/(1-Math.pow(1+r,-term)):fin/term; }
 
-    /* ---- KPIs ---- */
-    function renderKPIs(){
-      var inProg = D.length, review = D.filter(function(d){return d.stage==="review";}).length, fin = D.filter(function(d){return d.stage==="finance";}).length, ready = D.filter(function(d){return d.stage==="ready";}).length;
-      var avgGross = Math.round(D.reduce(function(a,d){return a+calc(d).gross;},0)/D.length);
-      var cards = [["Deals in Progress",inProg,""],["Pending Review",review,""],["Awaiting Finance",fin,""],["Ready for Delivery",ready,""],["Avg Front Gross",money(avgGross),"mgr-only"],["Closed This Month","38",""]];
-      $("kpis").innerHTML = cards.map(function(c){ return '<div class="kp '+c[2]+'"><div class="kl">'+c[0]+'</div><div class="kv">'+c[1]+'</div></div>'; }).join("");
-    }
-
-    var view = "board", q = "";
-    function visible(){ return D.filter(function(d){ var okv = view==="board" || d.rep==="Jordan"; var okq = !q || (d.cust+" "+d.veh).toLowerCase().indexOf(q.toLowerCase())!==-1; return okv && okq; }); }
-
-    function renderBoard(){
-      var rows = visible();
-      $("board").innerHTML = STAGES.map(function(s){
-        var items = rows.filter(function(d){ return d.stage===s[0]; });
-        var cards = items.map(function(d){ var c=calc(d); return '<div class="deal" data-id="'+d.id+'" style="--dc:'+s[2]+'"><div class="deal-top"><span class="av" style="background:'+d.color+'">'+d.ini+'</span><div class="dn"><b>'+d.cust+'</b><span>'+d.rep+'</span></div>'+(d.flag?'<span class="flag '+d.flag+'">'+(d.flag==="fl-hot"?"HOT":d.flag==="fl-new"?"NEW":"WAITING")+'</span>':"")+'</div>'+
-            '<div class="deal-veh">'+d.veh+'</div><div class="deal-nums"><div><div class="k">'+(d.type==="cash"?"Cash Due":"Payment")+'</div><div class="v">'+(d.type==="cash"?money(c.cashDue):money(c.monthly)+"/mo")+'</div></div><div class="mgr-only" style="text-align:right"><div class="k">Front Gross</div><div class="v g">'+money(c.gross)+'</div></div></div>'+
-            '<div class="deal-foot"><span>'+(d.type==="lease"?"Lease":d.type==="cash"?"Cash":d.term+"mo @ "+d.apr+"%")+'</span><span class="age">'+d.stock+'</span></div></div>'; }).join("");
-        var body = items.length ? cards : '<div style="color:var(--faint);font-size:12px;padding:8px 4px">No deals</div>';
-        return '<div class="col"><div class="col-hd"><span class="dot" style="background:'+s[2]+'"></span><b>'+s[1]+'</b><span class="cn">'+items.length+'</span></div>'+body+'</div>';
-      }).join("");
-      document.querySelectorAll(".deal").forEach(function(el){ el.addEventListener("click", function(){ openDeal(+el.dataset.id); }); });
-    }
-
-    /* ---- slide-over ---- */
-    var scrim = $("scrim"), panel = $("panel");
-    var calcState = {};
-    function openDeal(id){
-      var d = D.find(function(x){ return x.id===id; }); if(!d) return;
-      calcState = Object.assign({}, d);
-      var si = STAGE_I[d.stage];
+    /* ---------- gross + commission ---------- */
+    function gross(d){
       var c = calc(d);
-      panel.innerHTML = ''+
-        '<div class="panel-hd"><span class="av-lg" style="background:'+d.color+'">'+d.ini+'</span><div><h2>'+d.cust+'</h2><div class="pmeta">'+d.veh+' · Stock '+d.stock+' · '+d.rep+'</div></div><button class="panel-close" id="pClose"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>'+
-        '<div class="panel-body">'+
-          '<div class="sect"><h3>Deal Progress</h3><div class="stepper">'+STAGES.map(function(s,i){ var cls=i<si?"done":i===si?"cur":""; return '<div class="step '+cls+'"><span class="sc">'+(i<si?'<svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>':(i+1))+'</span><span class="sl">'+s[1]+'</span></div>'; }).join("")+'</div></div>'+
-          '<div class="sect nums"><h3>Deal Structure <span class="rt mgr-only" style="color:#16a34a">Gross '+money(c.gross)+'</span></h3>'+
-            nr("Sale Price",money(d.price))+
-            (d.tradeAllow?nr("Trade Allowance",money(d.tradeAllow)):"")+
-            (d.payoff?nr("Trade Payoff","-"+money(d.payoff)):"")+
-            (d.tradeAllow?nr("Net Trade "+(c.netTrade<0?"(negative equity)":"(equity)"), (c.netTrade<0?'<span class="neg">-'+money(-c.netTrade)+'</span>':'<span class="pos">+'+money(c.netTrade)+'</span>')):"")+
-            nr("Sales Tax ("+(d.taxRate*100).toFixed(1)+"%)",money(c.tax))+
-            nr("Doc &amp; Fees",money(d.fees))+
-            (d.rebate?nr("Rebates","-"+money(d.rebate)):"")+
-            nr("Cash Down","-"+money(d.down))+
-            '<div class="nr tot"><span class="k">'+(d.type==="cash"?"Total Cash Due":"Amount Financed")+'</span><span class="v">'+money(d.type==="cash"?c.cashDue:c.financed)+'</span></div>'+
-            (d.type!=="cash"?'<div class="nr" style="border-top:none;padding-top:6px"><span class="k">'+d.term+' mo @ '+d.apr+'% '+(d.type==="lease"?"lease":"APR")+'</span><span class="v" style="color:var(--accent);font-size:15px">'+money(c.monthly)+'/mo</span></div>':"")+
-          '</div>'+
-          '<div class="sect"><h3><svg viewBox="0 0 24 24" style="width:15px;height:15px;color:var(--accent)"><rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 7h8M8 11h.01M16 15v3M8 18h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Desking &amp; Payment Calculator</h3><div id="calcArea"></div></div>'+
-          '<div class="sect"><h3>Deal Timeline</h3>'+timelineFor(d,si)+'</div>'+
-          '<a href="/jacket?id='+d.id+'" style="display:flex;align-items:center;justify-content:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13.5px;font-weight:700;color:var(--accent)"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M4 7h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 7V5.5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2V7M4 12h16" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Open Full Deal Jacket</a>'+
-        '<div class="approve-row"><button class="ap-send" id="apSend">Send Back</button><button class="ap-ok" id="apOk">'+(si>=STAGES.length-1?"Complete Delivery":"Approve → "+STAGES[si+1][1])+'</button></div>'+
+      var front = Math.max(0, d.price - (d.cost || d.price*0.9));
+      var reserve = d.type==="cash" ? 0 : Math.min(1500, Math.max(0, c.financed)*0.02);
+      var products = d.type==="cash" ? 500 : 1500;      // warranty + gap + maintenance
+      var back = Math.round(reserve + products);
+      return { front:Math.round(front), back:back, total:Math.round(front+back) };
+    }
+    /* Configurable commission plan (dealer settings). Default: 20% front + 5% back,
+       $200 mini-deal floor, priority/volume bonuses. */
+    var PLAN = { frontPct:0.20, backPct:0.05, mini:200, hotBonus:250, volumeBonus:100 };
+    function commission(d){
+      var g = gross(d);
+      var base = Math.round(g.front*PLAN.frontPct + g.back*PLAN.backPct);
+      var mini = base < PLAN.mini;
+      var payout = Math.max(base, PLAN.mini);
+      var bonus = (d.priority==="hot"?PLAN.hotBonus:0) + (STAGE_I[d.stage]>=4?PLAN.volumeBonus:0);
+      var total = payout + bonus;
+      var conf = [82,86,90,94,97,99][STAGE_I[d.stage]] || 88;
+      return { base:base, mini:mini, payout:payout, bonus:bonus, total:total, conf:conf, g:g };
+    }
+    function riskScore(d){
+      var s=20; if(d.tier && /C|D/.test(d.tier.charAt(0))) s+=35; if(calc(d).netTrade<0) s+=20; if(d.down < d.price*0.08) s+=15; if(d.apr>=8) s+=10; if(d.docs<40) s+=8;
+      return Math.min(96, s);
+    }
+    function riskClass(v){ return v>=55?"rk-hi":v>=32?"rk-md":"rk-lo"; }
+    function completion(d){ // deal completion %
+      var parts=[d.mApp==="approved"?1:0, d.fApp==="approved"?1:0, d.docs/100, d.signed/100, STAGE_I[d.stage]>=4?1:0.4];
+      return Math.round(parts.reduce(function(a,b){return a+b;},0)/parts.length*100);
+    }
+
+    /* ---------- analytics strip ---------- */
+    function renderStrip(){
+      var avgGross = Math.round(D.reduce(function(a,d){return a+gross(d).total;},0)/D.length);
+      var avgComm = Math.round(D.reduce(function(a,d){return a+commission(d).total;},0)/D.length);
+      var finPen = Math.round(D.filter(function(d){return d.type==="finance";}).length/D.length*100);
+      var tradePen = Math.round(D.filter(function(d){return d.tradeAllow>0;}).length/D.length*100);
+      var cards=[
+        ["Deals in Progress",D.length,"fl","live pipeline",""],
+        ["Approval Rate","91%","up","+4% MTD",""],
+        ["Avg Approval Time","38 min","up","−12 min",""],
+        ["Avg Total Gross",money(avgGross),"up","+$210","mgr-only"],
+        ["Avg Commission",money(avgComm),"up","per deal",""],
+        ["Finance Penetration",finPen+"%","fl","of deals",""],
+        ["Trade Penetration",tradePen+"%","up","+6%",""],
+        ["Avg Days to Delivery","3.2","up","−0.4 days",""]
+      ];
+      $("astrip").innerHTML = cards.map(function(c){ return '<div class="am '+c[4]+'"><div class="al">'+c[0]+'</div><div class="av">'+c[1]+'</div><div class="ad '+c[2]+'">'+c[3]+'</div></div>'; }).join("");
+    }
+
+    /* ---------- filters ---------- */
+    var view="board", q="", pf="all";
+    var FILTERS=[["all","All"],["hot","Priority"],["review","Needs Approval"],["finance","In Finance"],["ready","Ready"]];
+    function renderFilters(){
+      $("filters").innerHTML = FILTERS.map(function(f){ return '<button class="fpill '+(pf===f[0]?"on":"")+'" data-f="'+f[0]+'">'+f[1]+'</button>'; }).join("");
+      $("filters").querySelectorAll("[data-f]").forEach(function(b){ b.addEventListener("click", function(){ pf=b.dataset.f; renderFilters(); renderView(); }); });
+    }
+    function visible(){
+      return D.filter(function(d){
+        var okv = (view==="board"||view==="analytics") || d.rep==="Jordan";
+        var okq = !q || (d.cust+" "+d.veh+" "+d.vin+" "+d.stock).toLowerCase().indexOf(q.toLowerCase())!==-1;
+        var okf = pf==="all" || (pf==="hot"&&d.priority!=="normal") || (pf==="review"&&d.mApp==="pending") || (pf==="finance"&&d.stage==="finance") || (pf==="ready"&&d.stage==="ready");
+        return okv && okq && okf;
+      });
+    }
+
+    /* ---------- board ---------- */
+    function statusPill(label,state,icon){ var cls=state==="approved"||state==="ready"?"sp-ok":state==="pending"?"sp-pend":"sp-off"; return '<span class="sp '+cls+'">'+(icon?svg(icon):"")+label+'</span>'; }
+    function renderBoard(){
+      var rows=visible();
+      $("viewHost").innerHTML = '<div class="board">'+STAGES.map(function(s){
+        var items=rows.filter(function(d){ return d.stage===s[0]; });
+        var sum = items.reduce(function(a,d){return a+gross(d).total;},0);
+        var cards=items.map(function(d){
+          var c=calc(d), g=gross(d), cm=commission(d), rk=riskScore(d);
+          var pay = d.type==="cash"?money(c.cashDue):money(c.monthly)+"/mo";
+          return '<div class="deal" data-id="'+d.id+'" style="--dc:'+s[2]+'">'+
+            '<div class="deal-top"><span class="av" style="background:'+d.color+'">'+d.ini+'</span><div class="dn"><b>'+d.cust+'</b><span>'+d.rep+' · '+d.stock+'</span></div>'+
+              '<div class="rtag">'+(d.unread?'<span class="unread">'+d.unread+'</span>':"")+'<span class="risk '+riskClass(rk)+'" title="AI Risk Score"><span class="rk-d"></span>'+rk+'</span></div></div>'+
+            '<div class="deal-veh">'+d.veh+'</div><div class="deal-vin">VIN '+d.vin.slice(-8)+' · '+d.type.toUpperCase()+'</div>'+
+            '<div class="deal-grid">'+
+              '<div class="dcell"><div class="k">'+(d.type==="cash"?"Cash Due":"Payment")+'</div><div class="v">'+pay+'</div></div>'+
+              '<div class="dcell"><div class="k">'+(d.type==="cash"?"Down":"Rate / Term")+'</div><div class="v">'+(d.type==="cash"?money(d.down):d.apr+"% · "+d.term+"mo")+'</div></div>'+
+              '<div class="dcell"><div class="k">'+(d.tradeAllow?"Trade Equity":"Down")+'</div><div class="v '+(d.tradeAllow&&c.netTrade>=0?"g":"")+'">'+(d.tradeAllow?(c.netTrade<0?"-"+money(-c.netTrade):"+"+money(c.netTrade)):money(d.down))+'</div></div>'+
+              '<div class="dcell mgr-only"><div class="k">Total Gross</div><div class="v g">'+money(g.total)+'</div></div>'+
+              '<div class="dcell"><div class="k">Est. Commission</div><div class="v c">'+money(cm.total)+'</div></div>'+
+              '<div class="dcell"><div class="k">Lender</div><div class="v" style="font-size:11px">'+d.lender+'</div></div>'+
+            '</div>'+
+            '<div class="deal-status">'+
+              statusPill(d.mApp==="approved"?"Mgr OK":"Mgr", d.mApp)+
+              statusPill(d.fApp==="approved"?"Fin OK":d.fApp==="pending"?"Finance":"F&I", d.fApp)+
+              statusPill("Docs "+d.docs+"%", d.docs>=100?"approved":d.docs>0?"pending":"off")+
+              statusPill(d.signed>=100?"Signed":d.signed>0?"Signing":"Unsigned", d.signed>=100?"approved":d.signed>0?"pending":"off","doc")+
+            '</div>'+
+            '<div class="deal-foot"><span>'+(canCredit()?"Tier "+d.tier:"Approved lender")+'</span><span class="age">'+svg("clock")+(d.appt!=="—"?d.appt:"in "+s[1].toLowerCase())+'</span></div>'+
+            '<div class="qa-row"><button data-qa="call" title="Call">'+svg("call")+'</button><button data-qa="text" title="Text">'+svg("text")+'</button><button data-qa="print" title="Print Packet">'+svg("print")+'</button><button data-qa="ws" title="Open Workspace">'+svg("ws")+'</button></div>'+
+          '</div>';
+        }).join("");
+        return '<div class="col"><div class="col-hd"><span class="dot" style="background:'+s[2]+'"></span><b>'+s[1]+'</b><span class="cn">'+items.length+'</span></div>'+(items.length?'<div class="col-sum mgr-only">'+money(sum)+' total gross</div>':"")+(items.length?cards:'<div style="color:var(--faint);font-size:12px;padding:8px 4px">No deals</div>')+'</div>';
+      }).join("")+'</div>';
+      document.querySelectorAll(".deal").forEach(function(el){
+        el.addEventListener("click", function(e){ if(e.target.closest("[data-qa]")) return; openWS(+el.dataset.id); });
+        el.querySelectorAll("[data-qa]").forEach(function(b){ b.addEventListener("click", function(ev){ ev.stopPropagation(); var d=D.find(function(x){return x.id===+el.dataset.id;}); qa(b.dataset.qa,d); }); });
+      });
+    }
+    function qa(kind,d){
+      if(kind==="call"){ if(window.ADCall) ADCall.open({name:d.cust,phone:"(678) 555-0142",ini:d.ini,color:d.color,veh:d.veh}); else toast("Calling "+d.cust); }
+      else if(kind==="text") toast("Opening text to "+d.cust);
+      else if(kind==="print") printPacket(d);
+      else if(kind==="ws") openWS(d.id);
+    }
+
+    /* ---------- analytics view ---------- */
+    function renderAnalytics(){
+      var rows=D;
+      var byStage=STAGES.map(function(s){ return { s:s, n:rows.filter(function(d){return d.stage===s[0];}).length }; });
+      var maxN=Math.max.apply(null,byStage.map(function(x){return x.n;}))||1;
+      var finPen=Math.round(rows.filter(function(d){return d.type==="finance";}).length/rows.length*100);
+      var tradePen=Math.round(rows.filter(function(d){return d.tradeAllow>0;}).length/rows.length*100);
+      var feed=[
+        ["#16a34a","check","Manager approved","Robert Brown · 2024 Tahoe Premier","2m"],
+        ["#0891b2","bank","Finance approved — Ally 6.4%","Robert Brown","5m"],
+        ["#7c3aed","doc","Customer signed Buyer's Order","Sarah Lewis","12m"],
+        ["#ea8a0b","swap","Trade appraised +$1,400","David Johnson · F-150","18m"],
+        ["#2563eb","dollar","Payment changed to $742/mo","Amanda Harris","24m"],
+        ["#16a34a","key","Vehicle reserved","Kevin Anderson · Sierra","31m"],
+        ["#7c3aed","print","Finance packet printed","Ethan Ross","44m"],
+        ["#dc2626","alert","Credit pulled — tier C","David Johnson","52m"],
+        ["#0891b2","shield","Insurance uploaded","Sarah Lewis","1h"],
+        ["#16a34a","clock","Delivery scheduled","Robert Brown · Today 4:30","1h"]
+      ];
+      $("viewHost").innerHTML='<div class="an-grid"><div>'+
+        '<div class="an-card"><h3>'+svg("chart")+'Pipeline Funnel</h3><div class="funnel">'+byStage.map(function(x){ return '<div class="fn-row"><span class="fl">'+x.s[1]+'</span><div class="fn-bar"><i style="width:'+Math.max(8,x.n/maxN*100)+'%;background:'+x.s[2]+'"></i><span>'+x.n+'</span></div></div>'; }).join("")+'</div></div>'+
+        '<div class="an-card"><h3>'+svg("trend")+'Penetration &amp; Performance</h3><div class="pen">'+
+          '<div class="pen-ring"><div class="pr">'+ringSvg(finPen,"#2563eb",96)+'<b>'+finPen+'%</b></div><div class="pl">Finance Penetration</div></div>'+
+          '<div class="pen-ring"><div class="pr">'+ringSvg(tradePen,"#7c3aed",96)+'<b>'+tradePen+'%</b></div><div class="pl">Trade Penetration</div></div>'+
+        '</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;text-align:center">'+
+          [["Avg Funding Time","1.8 days"],["Avg Days to Delivery","3.2"],["Deals Closed MTD","38"]].map(function(r){ return '<div><div style="font-size:18px;font-weight:800">'+r[1]+'</div><div style="font-size:11px;color:var(--muted);font-weight:600;margin-top:2px">'+r[0]+'</div></div>'; }).join("")+'</div></div>'+
+        '</div><div class="an-card"><h3>'+svg("clock")+'Real-Time Activity</h3><div class="feed">'+feed.map(function(e){ return '<div class="fe"><span class="fi" style="background:'+e[0]+'1e;color:'+e[0]+'">'+svg(e[1])+'</span><div class="fb"><b>'+e[2]+'</b><span>'+e[3]+'</span></div><span class="ft">'+e[4]+'</span></div>'; }).join("")+'</div></div></div>';
+    }
+    function ringSvg(pct,color,size){ var r=(size/2)-7,c=2*Math.PI*r,off=c*(1-pct/100); return '<svg viewBox="0 0 '+size+' '+size+'" style="transform:rotate(-90deg);width:'+size+'px;height:'+size+'px"><circle cx="'+(size/2)+'" cy="'+(size/2)+'" r="'+r+'" fill="none" stroke="var(--line)" stroke-width="8"/><circle cx="'+(size/2)+'" cy="'+(size/2)+'" r="'+r+'" fill="none" stroke="'+color+'" stroke-width="8" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'"/></svg>'; }
+
+    function renderView(){
+      document.body.setAttribute("data-role", role());
+      if(view==="analytics") renderAnalytics(); else renderBoard();
+    }
+
+    /* ================= DEAL WORKSPACE ================= */
+    var scrim=$("scrim"), ws=$("ws"), wsTab="summary", wsId=null;
+    function openWS(id){ wsId=id; wsTab="summary"; if(D.find(function(x){return x.id===id;}).unread){ D.find(function(x){return x.id===id;}).unread=0; } renderWS(); ws.classList.add("show"); ws.setAttribute("aria-hidden","false"); scrim.classList.add("show"); }
+    function closeWS(){ ws.classList.remove("show"); ws.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); renderView(); }
+    scrim.addEventListener("click", closeWS);
+    document.addEventListener("keydown", function(e){ if(e.key==="Escape"){ if($("editor").classList.contains("show")) closeEditor(); else closeWS(); } });
+
+    var WS_TABS=[["summary","Summary","list"],["finance","Finance","bank"],["trade","Trade","swap"],["documents","Documents","doc"],["comm","Communication","chat"],["timeline","Timeline","clock"],["approvals","Approvals","gavel"],["audit","Audit","shield"]];
+    function renderWS(){
+      var d=D.find(function(x){return x.id===wsId;}); if(!d) return;
+      var si=STAGE_I[d.stage], comp=completion(d), docCount=docsFor(d).length;
+      ws.innerHTML=''+
+        '<div class="ws-side">'+
+          '<div class="ws-cust"><span class="av" style="background:'+d.color+'">'+d.ini+'</span><div><b>'+d.cust+'</b><span>'+d.rep+'</span></div></div>'+
+          '<div class="ws-nav">'+WS_TABS.map(function(t){ var extra=t[0]==="documents"?'<span class="wc">'+docCount+'</span>':t[0]==="comm"&&d.unread?'<span class="wc">'+d.unread+'</span>':""; return '<button data-t="'+t[0]+'" class="'+(wsTab===t[0]?"on":"")+'">'+svg(t[2])+t[1]+extra+'</button>'; }).join("")+'</div>'+
+          '<div class="ws-complete"><div class="ct"><span class="k">Deal Completion</span><span class="v">'+comp+'%</span></div><div class="bar"><i style="width:'+comp+'%"></i></div></div>'+
+        '</div>'+
+        '<div class="ws-main">'+
+          '<div class="ws-hd"><div><h2>'+d.veh+'</h2><div class="hm">Stock '+d.stock+' · VIN '+d.vin+' · '+d.type.toUpperCase()+' deal</div></div>'+
+            '<span class="stage-badge" style="background:'+STAGES[si][2]+'1e;color:'+STAGES[si][2]+'">'+STAGES[si][1]+'</span>'+
+            '<button class="ws-x" id="wsX">'+svg("x")+'</button></div>'+
+          '<div class="ws-body" id="wsBody"></div>'+
         '</div>';
-      panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); scrim.classList.add("show");
-      $("pClose").addEventListener("click", closeAll);
-      $("apSend").addEventListener("click", function(){ toast("Deal sent back to "+d.rep+" with a note"); closeAll(); });
-      $("apOk").addEventListener("click", function(){ advance(id); });
-      renderCalc();
+      $("wsX").addEventListener("click", closeWS);
+      ws.querySelectorAll(".ws-nav [data-t]").forEach(function(b){ b.addEventListener("click", function(){ wsTab=b.dataset.t; renderWS(); }); });
+      renderWSBody(d);
+      if(window.ADRoles && ADRoles.applyGates){ try{ ADRoles.applyGates(); }catch(e){} }
+    }
+    function renderWSBody(d){
+      var b=$("wsBody");
+      if(wsTab==="summary") b.innerHTML=wsSummary(d);
+      else if(wsTab==="finance") b.innerHTML=wsFinance(d);
+      else if(wsTab==="trade") b.innerHTML=wsTrade(d);
+      else if(wsTab==="documents") b.innerHTML=wsDocuments(d);
+      else if(wsTab==="comm") b.innerHTML=wsComm(d);
+      else if(wsTab==="timeline") b.innerHTML=wsTimeline(d);
+      else if(wsTab==="approvals") b.innerHTML=wsApprovals(d);
+      else if(wsTab==="audit") b.innerHTML=wsAudit(d);
+      wireWSBody(d);
+    }
+
+    function commCard(d){
+      var cm=commission(d);
+      return '<div class="comm"><h3>'+svg("dollar")+'Estimated Commission</h3>'+
+        '<div class="cbig"><span class="cv">'+money(cm.total)+'</span><span class="cc">Confidence <b>'+cm.conf+'%</b></span></div>'+
+        '<div class="cbrk">'+
+          '<div class="br mgr-only"><span class="k">Front Gross</span><span class="v">'+money(cm.g.front)+'</span></div>'+
+          '<div class="br mgr-only"><span class="k">Back Gross</span><span class="v">'+money(cm.g.back)+'</span></div>'+
+          '<div class="br"><span class="k">Commission Rate</span><span class="v">'+(PLAN.frontPct*100)+'% front · '+(PLAN.backPct*100)+'% back</span></div>'+
+          '<div class="br"><span class="k">Base Payout</span><span class="v">'+money(cm.payout)+'</span></div>'+
+          '<div class="br"><span class="k">Mini Deal Floor</span><span class="v">'+(cm.mini?"Yes ($"+PLAN.mini+")":"No")+'</span></div>'+
+          '<div class="br"><span class="k">Bonus / Spiff</span><span class="v plus">'+(cm.bonus?"+"+money(cm.bonus):"$0")+'</span></div>'+
+        '</div><div class="cnote">Plan: '+(PLAN.frontPct*100)+'% front + '+(PLAN.backPct*100)+'% back · $'+PLAN.mini+' mini · updates live as numbers change.</div></div>';
+    }
+    function aiCard(d){
+      var c=calc(d), items=[];
+      if(d.apr>=7.5) items.push(["#16a34a","trend","Customer likely qualifies for a lower APR","Tier "+(d.tier||"A")+" — re-shop to Ally/GM Financial, save ~1.2%.","lo","Rate"]);
+      if(c.netTrade>0) items.push(["#7c3aed","swap","Trade equity of "+money(c.netTrade),"Use it as down to strengthen the deal.","md","Trade"]);
+      if(d.type!=="cash") items.push(["#2563eb","shield","Finance reserve + F&I opportunity","GAP + warranty add ~$1,500 back-end gross.","md","F&I"]);
+      if(d.docs<60) items.push(["#dc2626","alert","Missing paperwork blocks funding","Deal is "+d.docs+"% complete — collect the remaining docs.","hi","Docs"]);
+      items.push(["#16a34a","spark","Likelihood to close: high","Recommended next action: lock the appointment & desk the numbers.","lo","Close"]);
+      return '<div class="card ai"><h3><span class="spark">'+svg("spark")+'</span>AI Deal Assistant</h3>'+items.slice(0,4).map(function(x){ return '<div class="ai-item"><span class="aii" style="background:'+x[0]+'1e;color:'+x[0]+'">'+svg(x[1])+'</span><div class="aib"><b>'+x[2]+'</b><span>'+x[3]+'</span></div><span class="aig imp-'+x[4]+'">'+x[5]+'</span></div>'; }).join("")+'</div>';
+    }
+    function structureCard(d){
+      var c=calc(d), g=gross(d);
+      return '<div class="card nums"><h3>'+svg("dollar")+'Deal Structure <span class="rt mgr-only" style="color:#16a34a">Gross '+money(g.total)+'</span></h3>'+
+        nr("Sale Price",money(d.price))+
+        (d.tradeAllow?nr("Trade Allowance",money(d.tradeAllow)):"")+
+        (d.payoff?nr("Trade Payoff","-"+money(d.payoff)):"")+
+        (d.tradeAllow?nr("Net Trade "+(c.netTrade<0?"(neg. equity)":"(equity)"), c.netTrade<0?'<span class="neg">-'+money(-c.netTrade)+'</span>':'<span class="pos">+'+money(c.netTrade)+'</span>'):"")+
+        nr("Sales Tax ("+(d.taxRate*100).toFixed(1)+"%)",money(c.tax))+
+        nr("Doc &amp; Fees",money(d.fees))+
+        (d.rebate?nr("Rebates","-"+money(d.rebate)):"")+
+        nr("Cash Down","-"+money(d.down))+
+        '<div class="nr tot"><span class="k">'+(d.type==="cash"?"Total Cash Due":"Amount Financed")+'</span><span class="v">'+money(d.type==="cash"?c.cashDue:c.financed)+'</span></div>'+
+        (d.type!=="cash"?'<div class="nr" style="border-top:none;padding-top:6px"><span class="k">'+d.term+' mo @ '+d.apr+'% '+(d.type==="lease"?"lease":"APR")+'</span><span class="v" style="color:var(--accent);font-size:15px">'+money(c.monthly)+'/mo</span></div>':"")+'</div>';
     }
     function nr(k,v){ return '<div class="nr"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>'; }
-    function timelineFor(d,si){ var events=[["#2563eb","Deal submitted","by "+d.rep+" · 2h ago"],["#ea8a0b","Manager review","Desking numbers"],["#7c3aed","Trade approved","Appraisal signed off"],["#0891b2","Sent to finance","F&I products offered"],["#16a34a","Ready for delivery","Paperwork complete"]];
-      return events.slice(0, Math.max(1,si+1)).map(function(e,i){ var done=i<si; return '<div class="tl2"><span class="tl2-dot" style="background:'+(i<=si?e[0]:"#dfe4ec")+';box-shadow:0 0 0 4px '+(i<=si?e[0]+"22":"transparent")+'"></span><div><b>'+e[1]+'</b><span>'+e[2]+'</span></div></div>'; }).join(""); }
 
-    /* interactive calculator */
-    function renderCalc(){
-      var s = calcState;
-      var typeTabs = ["finance","lease","cash"];
-      $("calcArea").innerHTML = ''+
-        '<div class="calc-tabs">'+typeTabs.map(function(t){ return '<button class="calc-tab '+(s.type===t?"on":"")+'" data-ct="'+t+'">'+t.charAt(0).toUpperCase()+t.slice(1)+'</button>'; }).join("")+'</div>'+
-        cf("Sale Price","price",s.price,"$")+
-        cf("Cash Down","down",s.down,"$")+
-        cf("Trade Allowance","tradeAllow",s.tradeAllow,"$")+
-        cf("Trade Payoff","payoff",s.payoff,"$")+
-        (s.type!=="cash"?cf("APR","apr",s.apr,"%")+termField(s.term):"")+
-        '<div class="pay-out"><div class="pl">'+(s.type==="cash"?"Total Cash Due":s.type==="lease"?"Lease Payment":"Estimated Monthly Payment")+'</div><div class="pv" id="payVal">—</div><div class="pf" id="payFoot"></div></div>'+
-        (s.type==="finance"?'<div class="scen" id="scen"></div>':"")+
-        '<div class="ai-target"><div class="at-l"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z" fill="currentColor"/></svg>AI — Structure for a target payment</div><div class="at-row"><div class="inp"><span>$</span><input id="target" placeholder="650" /></div><span style="color:var(--muted);font-size:12.5px">/mo</span><button id="aiGo">Recommend</button></div><div class="at-out" id="aiOut">Enter the customer’s target payment and I’ll solve for the down payment or term.</div></div>';
-      $("calcArea").querySelectorAll(".calc-tab").forEach(function(b){ b.addEventListener("click", function(){ calcState.type=b.dataset.ct; renderCalc(); }); });
-      $("calcArea").querySelectorAll("[data-f]").forEach(function(inp){ inp.addEventListener("input", function(){ calcState[inp.dataset.f]= parseFloat(inp.value.replace(/[^0-9.]/g,""))||0; recompute(); }); });
-      var term=$("termSel"); if(term) term.addEventListener("change", function(){ calcState.term=+term.value; recompute(); });
-      $("aiGo").addEventListener("click", aiRecommend);
-      recompute();
+    function wsSummary(d){
+      var si=STAGE_I[d.stage];
+      return '<div class="card"><h3>'+svg("list")+'Deal Progress</h3><div class="stepper">'+STAGES.map(function(s,i){ var cls=i<si?"done":i===si?"cur":""; return '<div class="step '+cls+'"><span class="sc">'+(i<si?svg("check"):(i+1))+'</span><span class="sl">'+s[1]+'</span></div>'; }).join("")+'</div></div>'+
+        '<div class="ws-cols"><div>'+structureCard(d)+
+          '<div class="card"><h3>'+svg("list")+'Quick Actions</h3><div class="ws-qa">'+
+            [["call","Call","call"],["text","Text","text"],["email","Email","email"],["docs","Generate","doc"],["payment","Payment","dollar"],["trade","Trade","swap"],["reserve","Reserve","key"],["print","Print Packet","print"],["approval","Request Approval","gavel"],["chat","Mgr Chat","chat"],["ai","AI Review","spark"],["workspace","Reserve Veh","key"]].slice(0,12).map(function(a){ return '<button data-q="'+a[0]+'">'+svg(a[2])+a[1]+'</button>'; }).join("")+'</div></div>'+
+        '</div><div>'+commCard(d)+aiCard(d)+'</div></div>';
     }
-    function cf(label,key,val,unit){ return '<div class="cfield"><label>'+label+'</label><div class="inp">'+(unit==="$"?'<span>$</span>':"")+'<input data-f="'+key+'" value="'+val+'" />'+(unit==="%"?'<span>%</span>':"")+'</div></div>'; }
-    function termField(term){ return '<div class="cfield"><label>Term</label><div class="inp"><select id="termSel">'+[36,48,60,72,75,84].map(function(t){ return '<option value="'+t+'"'+(t===term?" selected":"")+'>'+t+' months</option>'; }).join("")+'</select></div></div>'; }
-    function recompute(){
-      var c = calc(calcState);
-      var pv = calcState.type==="cash" ? c.cashDue : c.monthly;
-      $("payVal").innerHTML = calcState.type==="cash" ? money(pv) : money(pv)+'<small>/mo</small>';
-      $("payFoot").textContent = calcState.type==="cash" ? "Out-the-door, taxes & fees included" : money(c.financed)+" financed · "+money(c.tax)+" tax · "+money(c.netTrade)+" net trade";
-      if (calcState.type==="finance"){ var sc=$("scen"); if(sc){ sc.innerHTML=[60,72,84].map(function(t){ var m=monthlyFor(c.financed,calcState.apr,t); return '<div class="sc2" data-term="'+t+'"><div class="t">'+t+' months</div><div class="p">'+money(m)+'</div><div class="d">/mo</div></div>'; }).join(""); sc.querySelectorAll("[data-term]").forEach(function(el){ el.addEventListener("click", function(){ calcState.term=+el.dataset.term; renderCalc(); }); }); } }
+    function wsFinance(d){
+      var c=calc(d);
+      return '<div class="ws-cols"><div><div class="card"><h3>'+svg("bank")+'Financing</h3><div class="fld-grid">'+
+          fld("Lender",d.lender)+fld("Type",d.type.charAt(0).toUpperCase()+d.type.slice(1))+
+          fld("APR",d.apr+"%")+fld("Term",d.term+" months")+
+          fld("Amount Financed",money(c.financed))+fld("Monthly Payment",money(c.monthly))+
+          (canCredit()?fld("Credit Tier",d.tier)+fld("Decision","Approved"):'<div class="fld" style="grid-column:span 2"><label>Credit Tier</label><input value="Restricted — F&I access only" disabled></div>')+
+        '</div></div>'+
+        '<div class="card"><h3>'+svg("shield")+'F&amp;I Products</h3>'+
+          [["Extended Warranty (7yr/100k)","$2,400","Recommended"],["GAP Insurance","$695","Recommended"],["Prepaid Maintenance","$1,150","Optional"],["Tire & Wheel","$895","Optional"]].map(function(p){ return '<div class="dl"><span class="di" style="background:'+(p[2]==="Recommended"?"#16a34a":"#64748b")+'1e;color:'+(p[2]==="Recommended"?"#16a34a":"#64748b")+'">'+svg("shield")+'</span><div class="db"><b>'+p[0]+'</b><span>'+p[2]+'</span></div><span class="dstat '+(p[2]==="Recommended"?"ds-completed":"ds-notstarted")+'">'+p[1]+'</span></div>'; }).join("")+'</div>'+
+        '</div><div>'+commCard(d)+'</div></div>';
     }
-    function aiRecommend(){
-      var target = parseFloat(($("target").value||"").replace(/[^0-9.]/g,"")); if(!target){ $("aiOut").innerHTML="Enter a target payment first."; return; }
-      var c = calc(calcState), r=calcState.apr/1200, n=calcState.term;
-      var neededFinanced = target*(1-Math.pow(1+r,-n))/r;
-      var extraDown = c.financed - neededFinanced;
-      var out;
-      if (Math.abs(c.monthly-target) < 8) out = 'This deal already lands at <b>'+money(c.monthly)+'/mo</b> — right on target. Present as structured.';
-      else if (extraDown > 0){
-        // also compute alternative term to hit target with current down
-        var altTerm = solveTerm(c.financed, calcState.apr, target);
-        out = 'To hit <b>'+money(target)+'/mo</b> at '+n+' months, increase cash down by <b>'+money(extraDown)+'</b> (to '+money(calcState.down+extraDown)+' total).'+ (altTerm?' Or extend the term to <b>'+altTerm+' months</b> with the current down.':'');
-      } else {
-        out = 'You have room — the customer can put <b>'+money(-extraDown)+' less down</b> and still stay at '+money(target)+'/mo. Consider adding F&amp;I products to protect gross.';
-      }
-      $("aiOut").innerHTML = out;
+    function wsTrade(d){
+      var c=calc(d);
+      if(!d.tradeAllow) return '<div class="card"><h3>'+svg("swap")+'Trade-In</h3><div style="color:var(--muted);font-size:13px;padding:14px 2px">No trade on this deal. <button class="btn btn-ghost" style="margin-left:8px" id="addTrade">Add a trade</button></div></div>';
+      return '<div class="ws-cols"><div><div class="card"><h3>'+svg("swap")+'Trade-In Appraisal</h3><div class="fld-grid">'+
+          fld("Allowance",money(d.tradeAllow))+fld("Payoff",money(d.payoff))+
+          fld("Net "+(c.netTrade<0?"(negative equity)":"(equity)"),(c.netTrade<0?"-":"+")+money(Math.abs(c.netTrade)))+fld("ACV (actual cash value)",money(d.tradeAllow-1800))+
+        '</div></div></div><div><div class="card ai"><h3><span class="spark">'+svg("spark")+'</span>Trade Insight</h3><div class="ai-item"><span class="aii" style="background:#7c3aed1e;color:#7c3aed">'+svg("trend")+'</span><div class="aib"><b>Market value up 3.1% this week</b><span>Wholesale demand strong — allowance is competitive.</span></div></div></div></div></div>';
     }
-    function solveTerm(financed, apr, target){ var r=apr/1200; for (var n=36;n<=96;n++){ var m=r>0?financed*r/(1-Math.pow(1+r,-n)):financed/n; if (m<=target) return n; } return null; }
+    function fld(l,v){ return '<div class="fld"><label>'+l+'</label><input value="'+v+'"></div>'; }
 
-    function advance(id){
-      var d = D.find(function(x){ return x.id===id; }); var si=STAGE_I[d.stage];
-      if (si>=STAGES.length-1){ toast(d.cust+"'s vehicle marked delivered 🎉"); D=D.filter(function(x){return x.id!==id;}); }
-      else { d.stage = STAGES[si+1][0]; d.flag=""; toast(d.cust+"'s deal advanced to "+STAGES[si+1][1]); }
-      renderKPIs(); renderBoard(); closeAll();
+    /* ---------- documents ---------- */
+    var DOC_CATS = [
+      ["Purchase Agreement","signed","Jordan Avery","v3","2h ago"],
+      ["Retail Installment Contract","completed","F&I · Tom Fielder","v2","1h ago"],
+      ["Credit Application","signed","Customer","v1","Yesterday"],
+      ["Driver License","completed","Front desk","v1","Yesterday"],
+      ["Insurance Card","notstarted","—","—","—"],
+      ["Odometer Statement","draft","Jordan Avery","v1","3h ago"],
+      ["Buyer's Order","draft","Jordan Avery","v2","30m ago"],
+      ["Privacy Notice","completed","System","v1","Yesterday"],
+      ["Trade Documents","draft","Jordan Avery","v1","3h ago"],
+      ["We Owe","notstarted","—","—","—"],
+      ["Warranty Forms","notstarted","—","—","—"],
+      ["Temporary Tag","notstarted","—","—","—"]
+    ];
+    function docsFor(d){ return DOC_CATS; }
+    var DOC_IC={signed:"check",completed:"doc",draft:"doc",notstarted:"doc",printed:"print"};
+    function wsDocuments(d){
+      var docs=docsFor(d);
+      var missing=[]; if(d.signed<100) missing.push("Customer signature on Buyer's Order");
+      docs.forEach(function(x){ if(x[1]==="notstarted") missing.push(x[0]); });
+      var comp=Math.round(docs.filter(function(x){return x[1]==="signed"||x[1]==="completed"||x[1]==="printed";}).length/docs.length*100);
+      var esPct=d.signed;
+      return '<div class="ws-cols"><div>'+
+        '<div class="card"><h3>'+svg("pkt")+'Smart Packet Builder</h3><div class="pkt">'+["Cash Deal","Finance Packet","Lease Packet","Trade Packet","Out-of-State","Commercial","Custom"].map(function(p){ return '<button data-pkt="'+p+'">'+p+'</button>'; }).join("")+'</div>'+
+          '<div class="missing"><div class="mt">'+svg("alert")+'Missing Document Detection · Deal '+comp+'% complete</div><ul>'+(missing.length?missing.slice(0,5).map(function(m){return '<li>'+m+'</li>';}).join(""):'<li>All required documents present ✓</li>')+'</ul></div>'+
+          docs.map(function(x){ var st=x[1]; var lbl={signed:"Signed",completed:"Completed",draft:"Draft",notstarted:"Not Started",printed:"Printed"}[st]; var col={signed:"#16a34a",completed:"#2563eb",draft:"#d97706",notstarted:"#64748b",printed:"#7c3aed"}[st]; return '<div class="dl"><span class="di" style="background:'+col+'1e;color:'+col+'">'+svg(DOC_IC[st])+'</span><div class="db"><b>'+x[0]+'</b><span>'+(x[2]!=="—"?x[2]+" · "+x[3]+" · "+x[4]:"Awaiting start")+'</span></div><span class="dstat ds-'+st+'">'+lbl+'</span><button class="dgo" data-doc="'+x[0]+'" title="Open editor">'+svg("doc")+'</button></div>'; }).join("")+'</div>'+
+        '</div><div>'+
+          '<div class="card"><h3>'+svg("doc")+'E-Signature</h3><div class="esign"><div class="es-hd"><span class="k">Signature progress</span><span class="v">'+esPct+'%</span></div><div class="bar"><i style="width:'+esPct+'%"></i></div>'+
+            '<div class="es-steps">'+[["Sent","check"],["Viewed","check"],["Opened",esPct>0?"check":""],["Signed",esPct>=100?"check":""],["Certified",esPct>=100?"check":""]].map(function(s,i){ var on=(i<2)||(i===2&&esPct>0)||(i>=3&&esPct>=100); return '<div class="est '+(on?"on":"")+'"><span class="ed">'+(on?svg("check"):(i+1))+'</span>'+s[0]+'</div>'; }).join("")+'</div>'+
+            '<div style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.5">'+(esPct>=100?"Signed "+"· IP 73.12.44.9 · certificate on file":esPct>0?"Viewed on customer portal · awaiting signature":"Not yet sent for signature")+'</div></div>'+
+            '<div style="display:flex;gap:8px;margin-top:12px"><button class="btn btn-ghost" style="flex:1" id="esSend">'+svg("email")+'Send to sign</button><button class="btn btn-ghost" style="flex:1" id="esRemind">Remind</button></div></div>'+
+          '<div class="card"><h3>'+svg("print")+'Printing Center</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+
+            '<button class="btn btn-ghost" data-print="all">'+svg("print")+'Print All</button>'+
+            '<button class="btn btn-ghost" data-print="packet">'+svg("pkt")+'Print Packet</button>'+
+            '<button class="btn btn-ghost" data-print="pdf">'+svg("doc")+'Download PDF</button>'+
+            '<button class="btn btn-ghost" data-print="preview">'+svg("doc")+'Preview</button>'+
+          '</div><div style="font-size:11px;color:var(--muted);margin-top:10px">Printer: Front Office HP · Letter · 2 copies · duplex</div></div>'+
+        '</div></div>';
     }
-    function closeAll(){ panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
-    scrim.addEventListener("click", closeAll);
-    document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeAll(); });
 
-    document.querySelectorAll("#viewSeg button").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#viewSeg button").forEach(function(x){x.classList.remove("on");}); b.classList.add("on"); view=b.dataset.v; renderBoard(); }); });
-    $("search").addEventListener("input", function(e){ q=e.target.value; renderBoard(); });
-    $("calcBtn").addEventListener("click", function(){ if(D[0]) openDeal(D[0].id); });
+    function wsComm(d){
+      var msgs=[["#2563eb","text","in",d.cust,"Today 9:12 AM","Can I come in tomorrow? Is the tow package included?"],["#7c3aed","doc","out","You","Yesterday","Sent Buyer's Order for e-signature"],["#6366f1","email","out","You","Yesterday","Payment estimate — opened, PDF downloaded"],["#16a34a","call","out","You","Mon","Call — discussed trade · 4m 12s"]];
+      return '<div class="card"><h3>'+svg("chat")+'Deal Communication</h3>'+msgs.map(function(m){ return '<div class="cmz"><span class="ci" style="background:'+m[0]+'1e;color:'+m[0]+'">'+svg(m[1])+'</span><div class="cb"><div class="ch"><b>'+m[3]+'</b><span class="t">'+m[4]+'</span></div><div class="cp">'+m[5]+'</div></div></div>'; }).join("")+
+        '<div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-ghost" data-q="call">'+svg("call")+'Call</button><button class="btn btn-ghost" data-q="text">'+svg("text")+'Text</button><button class="btn btn-ghost" data-q="email">'+svg("email")+'Email</button></div></div>';
+    }
+    function wsTimeline(d){
+      var si=STAGE_I[d.stage];
+      var ev=[["#2563eb","Deal submitted","by "+d.rep+" · 2h ago"],["#ea8a0b","Manager review","Desking numbers"],["#2563eb","Desk numbers set","Payment "+money(calc(d).monthly)+"/mo"],["#7c3aed","Trade approved","Appraisal signed off"],["#0891b2","Sent to finance","F&I products offered"],["#16a34a","Ready for delivery","Paperwork complete"]];
+      return '<div class="card"><h3>'+svg("clock")+'Deal Timeline</h3>'+ev.slice(0,Math.max(1,si+1)).map(function(e,i){ return '<div class="tl2"><span class="tl2-dot" style="background:'+(i<=si?e[0]:"#dfe4ec")+';box-shadow:0 0 0 4px '+(i<=si?e[0]+"22":"transparent")+'"></span><div><b>'+e[1]+'</b><span>'+e[2]+'</span></div></div>'; }).join("")+'</div>';
+    }
+    function wsApprovals(d){
+      var si=STAGE_I[d.stage];
+      var mgrView=isMgr();
+      var reqs=[["Approve","check"],["Request More Down","dollar"],["Increase Gross","trend"],["Reduce Discount","dollar"],["Change Lender","bank"],["Request Changes","doc"]];
+      return '<div class="card"><h3>'+svg("gavel")+'Approval Workflow</h3>'+
+        '<div class="nums"><div class="nr"><span class="k">Manager Approval</span><span class="v" style="color:'+(d.mApp==="approved"?"#16a34a":"#d97706")+'">'+(d.mApp==="approved"?"Approved":"Pending")+'</span></div>'+
+          '<div class="nr"><span class="k">Finance Approval</span><span class="v" style="color:'+(d.fApp==="approved"?"#16a34a":d.fApp==="pending"?"#d97706":"#64748b")+'">'+(d.fApp==="approved"?"Approved":d.fApp==="pending"?"Pending":"Not started")+'</span></div>'+
+          '<div class="nr"><span class="k">Lender</span><span class="v">'+d.lender+'</span></div></div>'+
+        (mgrView?'<div style="margin-top:14px"><div class="apv-grid">'+reqs.map(function(r){ return '<button data-apv="'+r[0]+'">'+svg(r[1])+r[0]+'</button>'; }).join("")+'</div>'+
+          '<div class="apv-main"><button class="apv-rej" data-apv="Reject">Reject Deal</button><button class="apv-ok" data-apv="approve-advance">'+(si>=STAGES.length-1?"Complete Delivery":"Approve → "+STAGES[si+1][1])+'</button></div></div>'
+          :'<div style="margin-top:14px;font-size:13px;color:var(--muted);background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px">Approvals are handled by a manager. <button class="btn btn-primary" style="margin-top:10px" data-apv="request">Request Manager Approval</button></div>')+
+        '</div>';
+    }
+    function wsAudit(d){
+      var rows=[["2h ago",d.rep,"Submitted deal to desk"],["1h 40m ago","Dana Morales","Opened deal · reviewed structure"],["1h 30m ago","Dana Morales","Adjusted APR 7.4% → 6.9%"],["1h ago","System","Recalculated payment "+money(calc(d).monthly)+"/mo"],["55m ago","Tom Fielder","Pulled credit · tier "+(d.tier||"A")],["40m ago",d.rep,"Sent Buyer's Order for e-sign"],["12m ago","Customer","Viewed documents · IP 73.12.44.9"]];
+      return '<div class="card"><h3>'+svg("shield")+'Audit History</h3>'+rows.map(function(r){ return '<div class="audit-row"><span class="at">'+r[0]+'</span><span class="au">'+r[1]+'</span><span class="ax">'+r[2]+'</span></div>'; }).join("")+'</div>';
+    }
+
+    function wireWSBody(d){
+      var b=$("wsBody");
+      b.querySelectorAll("[data-q]").forEach(function(x){ x.addEventListener("click", function(){ var k=x.dataset.q;
+        if(k==="call"||k==="text") qa(k,d);
+        else if(k==="email") toast("Email composer for "+d.cust);
+        else if(k==="docs"){ wsTab="documents"; renderWS(); }
+        else if(k==="payment"||k==="trade") { wsTab=k==="payment"?"finance":"trade"; renderWS(); }
+        else if(k==="print") printPacket(d);
+        else if(k==="approval"||k==="chat"){ wsTab="approvals"; renderWS(); }
+        else if(k==="ai") toast("AI review complete — see AI Deal Assistant");
+        else if(k==="reserve"||k==="workspace") toast(d.veh+" reserved for "+d.cust);
+      }); });
+      b.querySelectorAll("[data-doc]").forEach(function(x){ x.addEventListener("click", function(){ openEditor(d, x.dataset.doc); }); });
+      b.querySelectorAll("[data-pkt]").forEach(function(x){ x.addEventListener("click", function(){ toast("Built "+x.dataset.pkt+" packet — required forms attached"); }); });
+      b.querySelectorAll("[data-print]").forEach(function(x){ x.addEventListener("click", function(){ if(x.dataset.print==="preview"){ openEditor(d,"Buyer's Order"); } else printPacket(d); }); });
+      b.querySelectorAll("[data-apv]").forEach(function(x){ x.addEventListener("click", function(){ approval(d, x.dataset.apv); }); });
+      var es=b.querySelector("#esSend"); if(es) es.addEventListener("click", function(){ d.signed=Math.max(40,d.signed); toast("Sent to "+d.cust+" for e-signature"); renderWS(); });
+      var er=b.querySelector("#esRemind"); if(er) er.addEventListener("click", function(){ toast("Signature reminder sent"); });
+      var at=b.querySelector("#addTrade"); if(at) at.addEventListener("click", function(){ toast("Trade appraisal started"); });
+    }
+    function approval(d, act){
+      var si=STAGE_I[d.stage];
+      if(act==="approve-advance"){ if(si>=STAGES.length-1){ toast(d.cust+"'s vehicle marked delivered 🎉"); D=D.filter(function(x){return x.id!==d.id;}); closeWS(); renderStrip(); return; } d.mApp="approved"; d.stage=STAGES[si+1][0]; d.priority="normal"; toast(d.cust+"'s deal approved → "+STAGES[si+1][1]); renderStrip(); renderWS(); }
+      else if(act==="Reject"){ toast(d.cust+"'s deal rejected — sent back to "+d.rep); closeWS(); }
+      else if(act==="request"){ toast("Approval requested from desk manager"); }
+      else { toast('"'+act+'" sent to '+d.rep+" · deal updated in real time"); if(act==="Approve"){ d.mApp="approved"; renderWS(); } }
+      renderView();
+    }
+
+    /* ---------- full-screen document editor ---------- */
+    var edScrim=$("edScrim"), editor=$("editor");
+    function openEditor(d, docName){
+      var c=calc(d);
+      var fields=[
+        ["Buyer / Customer",d.cust],["Co-Buyer",""],["Address","2140 Peachtree Rd, Atlanta, GA 30309"],["Phone","(678) 555-0142"],
+        ["Year / Make / Model",d.veh],["VIN",d.vin],["Stock Number",d.stock],["Mileage","12"],
+        ["Sale Price",money(d.price)],["Trade Allowance",d.tradeAllow?money(d.tradeAllow):"—"],["Trade Payoff",d.payoff?money(d.payoff):"—"],["Cash Down",money(d.down)],
+        ["Sales Tax",money(c.tax)],["Doc Fee",money(d.fees)],["Rebate",d.rebate?money(d.rebate):"—"],[d.type==="cash"?"Total Cash Due":"Amount Financed",money(d.type==="cash"?c.cashDue:c.financed)],
+        ["Lender",d.lender],["APR / Term",d.type==="cash"?"Cash":d.apr+"% / "+d.term+" mo"],["Salesperson",d.rep+" Avery"],["Deal Date","Today"]
+      ];
+      editor.innerHTML=''+
+        '<div class="ed-hd"><div><h2>'+docName+'</h2><div class="em">'+d.cust+' · Stock '+d.stock+'</div></div><span class="autopop">'+svg("check")+'Auto-populated from deal</span><button class="ex" id="edX">'+svg("x")+'</button></div>'+
+        '<div class="ed-body"><div class="paper"><div class="ph"><div class="co">AUTO<b>DEALER</b></div><div class="ct">'+docName+'<br>North Valley Chevrolet<br>DMS #4471-A</div></div>'+
+          '<h4>Purchaser &amp; Vehicle</h4><div class="prow">'+fields.slice(0,8).map(pfEditable).join("")+'</div>'+
+          '<h4>Financial Terms</h4><div class="prow">'+fields.slice(8,16).map(pfEditable).join("")+'</div>'+
+          '<h4>Financing &amp; Signatures</h4><div class="prow">'+fields.slice(16).map(pfEditable).join("")+'</div>'+
+          '<div class="sig-box" id="sigBox" data-signed="0">Click to capture customer signature</div>'+
+        '</div></div>'+
+        '<div class="ed-ft"><button id="edPrev">'+svg("doc")+'Preview</button><button id="edPrint">'+svg("print")+'Print</button><button id="edPdf">'+svg("doc")+'Download PDF</button><div class="sp"></div><button class="save" id="edSave">'+svg("check")+'Save Draft</button><button class="esn" id="edSign">'+svg("doc")+'Send for e-Sign</button></div>';
+      edScrim.classList.add("show"); editor.classList.add("show");
+      $("edX").addEventListener("click", closeEditor);
+      $("sigBox").addEventListener("click", function(){ var s=$("sigBox"); if(s.dataset.signed==="1"){ s.dataset.signed="0"; s.classList.remove("signed"); s.textContent="Click to capture customer signature"; } else { s.dataset.signed="1"; s.classList.add("signed"); s.textContent=d.cust; } });
+      $("edPrint").addEventListener("click", function(){ window.print(); });
+      $("edPdf").addEventListener("click", function(){ toast("Generating PDF of "+docName+"…"); });
+      $("edPrev").addEventListener("click", function(){ toast("Preview mode"); });
+      $("edSave").addEventListener("click", function(){ toast(docName+" saved as draft"); closeEditor(); });
+      $("edSign").addEventListener("click", function(){ d.signed=Math.max(d.signed,40); toast(docName+" sent to "+d.cust+" for e-signature"); closeEditor(); renderWS(); });
+    }
+    function pfEditable(f){ var editableVal = f[1]||""; return '<div class="pf"><div class="pl">'+f[0]+'</div><input value="'+String(editableVal).replace(/"/g,"&quot;")+'" '+(f[1]?"":"placeholder=\"—\"")+'></div>'; }
+    function closeEditor(){ editor.classList.remove("show"); edScrim.classList.remove("show"); }
+    edScrim.addEventListener("click", closeEditor);
+
+    function printPacket(d){ toast("Sending "+d.cust+"'s deal packet to Front Office HP…"); }
+
+    /* ---------- toolbar wiring ---------- */
+    document.querySelectorAll("#viewSeg button").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#viewSeg button").forEach(function(x){x.classList.remove("on");}); b.classList.add("on"); view=b.dataset.v; renderView(); }); });
+    $("search").addEventListener("input", function(e){ q=e.target.value; if(view!=="analytics") renderView(); });
+    $("analyticsBtn").addEventListener("click", function(){ view="analytics"; document.querySelectorAll("#viewSeg button").forEach(function(x){x.classList.toggle("on",x.dataset.v==="analytics");}); renderView(); });
+    $("newDealBtn").addEventListener("click", function(){ if(window.ADWire&&ADWire.openAction) ADWire.openAction("New Deal"); else toast("Start a new deal"); });
 
     var toastT; function toast(msg){ $("toastMsg").textContent=msg; var el=$("toast"); el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){el.classList.remove("show");},2400); }
 
-    renderKPIs(); renderBoard();
+    function boot(){ document.body.setAttribute("data-role", role()); renderStrip(); renderFilters(); renderView(); }
+    if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", boot); else boot();
   </script>
 </body>
 </html>
