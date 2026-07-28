@@ -305,6 +305,7 @@
   <aside class="panel" id="panel" aria-hidden="true"></aside>
   <div class="toast" id="toast"><span class="tk"><svg viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><span id="toastMsg">Vehicle sold</span><small id="toastSub">Just now</small></div></div>
 
+  <script src="/vehicleimg.js"></script>
   <script>
     /* ---- vehicle silhouette (studio photo stand-in) ---- */
     function shade(hex, amt) { const n = parseInt(hex.slice(1),16); let r=(n>>16)+amt, g=((n>>8)&255)+amt, b=(n&255)+amt; r=Math.max(0,Math.min(255,r)); g=Math.max(0,Math.min(255,g)); b=Math.max(0,Math.min(255,b)); return "#"+(r<<16|g<<8|b).toString(16).padStart(6,"0"); }
@@ -447,7 +448,7 @@
       const st = STATUS[v.status];
       const bdgs = v.badges.slice(0,2).map((b) => `<span class="bdg ${BDG[b][0]}">${BDG[b][1]}</span>`).join("");
       return `<div class="vcard" data-id="${v.id}">
-        <div class="vphoto">${carSVG(v.body, v.hex)}<div class="badges">${bdgs}</div><span class="stat-pill ${st[0]}">${st[1]}</span>${hoverBar(v.id)}</div>
+        <div class="vphoto">${VehicleImage.render(v,{uploadable:false})}<div class="badges">${bdgs}</div><span class="stat-pill ${st[0]}">${st[1]}</span>${hoverBar(v.id)}</div>
         <div class="vbody">
           <div class="vtitle">${v.year} ${v.make} ${v.model} ${v.trim}</div>
           <div class="vspec"><span class="sw"><span class="swp" style="background:${v.hex}"></span>${v.color}</span><span>·</span><span>${v.engine}</span><span>·</span><span>${v.drive}</span></div>
@@ -472,12 +473,21 @@
       else el.innerHTML = mapView();
       el.querySelectorAll("[data-id]").forEach((n) => n.addEventListener("click", (e) => { if (e.target.closest("[data-hover]")) return; openPanel(+n.dataset.id); }));
       el.querySelectorAll("[data-hover]").forEach((b) => b.addEventListener("click", (e) => { e.stopPropagation(); const i = b.dataset.hover; if (i === "eye" || i === "dots") openPanel(+b.dataset.vid); else if (i === "tag") reserveVehicle(+b.dataset.vid); else showToast(b.title + " opened", "Launching workflow"); }));
+      if (window.VehicleImage) VehicleImage.wire(el, { onUpload: invUpload });
+    }
+    /* photo upload: adds dealership photos to a vehicle and replaces the placeholder immediately */
+    function invUpload(id, urls) {
+      const v = V.find((x) => x.id === +id); if (!v) return;
+      v.images = (v.images || []).concat(urls);
+      renderInv(); if (panel.classList.contains("open")) openPanel(+id);
+      FEED.unshift(["#7c3aed","sticker",`<b>${v.year} ${v.model}</b> — ${urls.length} photo${urls.length>1?"s":""} uploaded`,"just now"]); renderFeed(true);
+      showToast(`${urls.length} photo${urls.length>1?"s":""} added`, `${v.year} ${v.model} ${v.trim}`);
     }
 
     function listView(rows) {
       return `<div class="lhead"><span>PHOTO</span><span>VEHICLE</span><span>PRICE</span><span>STOCK / VIN</span><span>STATUS</span><span>DAYS</span><span>VIEWS</span></div>
       <div class="list">${rows.map((v) => { const st = STATUS[v.status]; return `<div class="lrow" data-id="${v.id}">
-        <div class="lthumb">${carSVG(v.body, v.hex)}</div>
+        <div class="lthumb">${VehicleImage.render(v,{uploadable:false})}</div>
         <div class="lv"><b>${v.year} ${v.make} ${v.model} ${v.trim}</b><span>${v.color} · ${v.engine} · ${v.miles.toLocaleString()} mi</span></div>
         <div class="price-2">${money(v.price)}</div>
         <div class="muted-2 l-hide">${v.stock}<br><span style="font-size:11px">${v.vin.slice(0,11)}…</span></div>
@@ -489,10 +499,10 @@
     }
     function kanbanView() {
       const cols = [["available","Available","#16a34a"],["reserved","Reserved","#7c3aed"],["transit","In Transit","#ea8a0b"],["service","Service","#64748b"]];
-      return `<div class="kanban">${cols.map(([k,label,color]) => { const items = V.filter((v)=>v.status===k && matchSearch(v) && matchFilter(v)); return `<div class="kcol"><div class="kcol-hd"><span class="dot" style="background:${color}"></span><b>${label}</b><span class="cn">${items.length}</span></div>${items.map((v)=>`<div class="kcard" data-id="${v.id}"><div class="kthumb">${carSVG(v.body,v.hex)}</div><b>${v.year} ${v.model} ${v.trim}</b><div class="kp2">${money(v.price)}</div><div class="km">${v.stock} · ${v.days} days · ${v.views} views</div></div>`).join("")||`<div style="color:var(--faint);font-size:12.5px;padding:10px 4px">No vehicles</div>`}</div>`; }).join("")}</div>`;
+      return `<div class="kanban">${cols.map(([k,label,color]) => { const items = V.filter((v)=>v.status===k && matchSearch(v) && matchFilter(v)); return `<div class="kcol"><div class="kcol-hd"><span class="dot" style="background:${color}"></span><b>${label}</b><span class="cn">${items.length}</span></div>${items.map((v)=>`<div class="kcard" data-id="${v.id}"><div class="kthumb">${VehicleImage.render(v,{uploadable:false})}</div><b>${v.year} ${v.model} ${v.trim}</b><div class="kp2">${money(v.price)}</div><div class="km">${v.stock} · ${v.days} days · ${v.views} views</div></div>`).join("")||`<div style="color:var(--faint);font-size:12.5px;padding:10px 4px">No vehicles</div>`}</div>`; }).join("")}</div>`;
     }
     function galleryTile(v) {
-      return `<div class="gtile" data-id="${v.id}">${carSVG(v.body,v.hex)}<div class="gcap"><b>${v.year} ${v.make} ${v.model} ${v.trim}</b><span>${v.color} · ${v.miles.toLocaleString()} mi · ${v.stock}</span><div class="gp">${money(v.price)}</div></div></div>`;
+      return `<div class="gtile" data-id="${v.id}">${VehicleImage.render(v,{uploadable:false})}<div class="gcap"><b>${v.year} ${v.make} ${v.model} ${v.trim}</b><span>${v.color} · ${v.miles.toLocaleString()} mi · ${v.stock}</span><div class="gp">${money(v.price)}</div></div></div>`;
     }
     function mapView() {
       const zones = [["Front Lot",6,"5%","6%","42%",["#16a34a","#16a34a","#2563eb","#16a34a","#db2777","#16a34a"]],["Showroom",3,"5%","54%","20%",["#7c3aed","#16a34a","#16a34a"]],["Service Bay",2,"30%","54%","20%",["#64748b","#dc2626"]],["In Transit",4,"57%","6%","36%",["#ea8a0b","#ea8a0b","#ea8a0b","#ea8a0b"]]];
@@ -515,8 +525,8 @@
       const st = STATUS[v.status];
       const angles = [v.hex, shade(v.hex,-18), shade(v.hex,20)];
       panel.innerHTML = `<div class="panel-body">
-        <div class="p-hero">${carSVG(v.body, v.hex)}<button class="p-close" id="pClose">${'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'}</button><span class="stat-pill ${st[0]}" style="top:16px;left:16px">${st[1]}</span></div>
-        <div class="p-thumbs">${angles.map((h,i)=>`<div class="p-thumb ${i===0?"on":""}">${carSVG(v.body,h)}</div>`).join("")}<div class="p-thumb addph" title="Drag &amp; drop to upload">${svg("plus")}</div></div>
+        <div class="p-hero">${VehicleImage.render(v,{uploadable:true,big:true})}<button class="p-close" id="pClose">${'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'}</button><span class="stat-pill ${st[0]}" style="top:16px;left:16px">${st[1]}</span></div>
+        <div class="p-thumbs">${(v.images&&v.images.length)?v.images.map((u,i)=>`<div class="p-thumb ${i===0?"on":""}" data-thumb="${i}"><img src="${u}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:inherit"></div>`).join(""):`<div class="p-thumb on" style="flex:1">${carSVG(v.body,v.hex)}</div>`}${VehicleImage.canEdit()?`<div class="p-thumb addph" data-vi-up="${v.id}" title="Upload dealership photos">${svg("plus")}</div>`:""}</div>
         <div class="p-sec">
           <div class="p-tophd"><div><h2>${v.year} ${v.make} ${v.model} ${v.trim}</h2><div class="pspec">${v.color} · ${v.engine} · ${v.drive} · ${v.trans}</div></div><div class="pprice"><div class="pp">${money(v.price)}</div>${v.prev?`<div class="op">${money(v.prev)}</div>`:""}</div></div>
           <div class="interest">
@@ -548,6 +558,7 @@
       var pe = $("pEdit"); if (pe) pe.addEventListener("click", () => openEdit(id));
       panel.querySelectorAll("[data-mkt]").forEach((b) => b.addEventListener("click", () => marketAction(id, b.dataset.mkt)));
       panel.querySelectorAll(".p-thumb:not(.addph)").forEach((t) => t.addEventListener("click", () => { panel.querySelectorAll(".p-thumb").forEach((x)=>x.classList.remove("on")); t.classList.add("on"); }));
+      if (window.VehicleImage) VehicleImage.wire(panel, { onUpload: invUpload });
     }
     function closeAll() { panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); scrim.classList.remove("show"); }
     scrim.addEventListener("click", closeAll);
