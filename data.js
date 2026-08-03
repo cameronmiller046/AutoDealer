@@ -141,4 +141,95 @@ function genInventory(){
   return cars; // 120
 }
 
-module.exports = { genCustomers: genCustomers, genInventory: genInventory };
+/* ---------- door-to-door canvassing turfs + doors ----------
+   Phoenix metro. Doors are laid out along real street grids so the map, the
+   walking order and the drive times between turfs all behave realistically
+   without spending a Google geocoding call on seed data. Live Google lookups
+   are reserved for addresses a rep types in the field (see /api/places/*). */
+
+var DEALER = { name:"Premier Auto Group", addr:"3402 W Bell Rd, Phoenix, AZ 85053", lat:33.63862, lng:-112.13304 };
+
+/* metres -> degrees at Phoenix's latitude (~33.6N) */
+var M_LAT = 1/111320, M_LNG = 1/92662;
+
+/* [turf name, zip, centre lat, centre lng, [ [street, orientation, houseBase, count], ... ] ]
+   orientation "ns" = north-south street (houses step in latitude),
+               "ew" = east-west street (houses step in longitude). */
+var TURFS = [
+  ["Deer Valley",      "85027", 33.68300, -112.10800, [["W Utopia Rd","ew",3510,14],["N 35th Ave","ns",19420,12],["W Pinnacle Peak Rd","ew",3620,12]]],
+  ["Arrowhead Ranch",  "85308", 33.66500, -112.19500, [["W Behrend Dr","ew",6840,13],["N 67th Ave","ns",18240,12],["W Melinda Ln","ew",6910,11]]],
+  ["Moon Valley",      "85023", 33.62400, -112.07300, [["N 7th Ave","ns",15120,12],["W Sweetwater Ave","ew",1420,13],["N 15th Ave","ns",15340,11]]],
+  ["Norterra",         "85085", 33.72600, -112.11400, [["W Rowel Rd","ew",2740,12],["N 27th Dr","ns",23180,12],["W Sands Dr","ew",2820,11]]],
+  ["Desert Ridge",     "85050", 33.68000, -111.97600, [["E Deer Valley Rd","ew",4210,13],["N 46th St","ns",21150,12],["E Mountain Sky Ave","ew",4330,11]]],
+  ["Sunnyslope",       "85021", 33.56800, -112.08600, [["W Mountain View Rd","ew",1240,13],["N 19th Ave","ns",9420,12],["W Butler Dr","ew",1310,11]]],
+  ["Union Hills",      "85308", 33.65600, -112.15800, [["W Grovers Ave","ew",4520,12],["N 51st Ave","ns",17840,12],["W Paradise Ln","ew",4610,11]]],
+  ["Maryvale",         "85033", 33.50900, -112.21400, [["W Campbell Ave","ew",7810,13],["N 75th Ave","ns",4180,12],["W Osborn Rd","ew",7920,11]]]
+];
+
+/* Mostly blank — a canvassing book only carries a note where someone actually
+   observed something. The empties keep the list honest. */
+var DOOR_NOTE = [
+  "", "", "", "",
+  "Truck in the driveway — lease plate frame.",
+  "", "", "",
+  "Two vehicles, both tags expiring soon.",
+  "", "",
+  "Corner lot, dog in the yard — knock at the side gate.",
+  "", "", "",
+  "Newer build, likely first-time owners.",
+  "", "",
+  "Boat on a trailer — towing prospect.",
+  "", "", "",
+  "Solar install last year; household invests in upgrades.",
+  "", ""
+];
+
+/* Doors: every house on the street, which is what canvassing actually is.
+   Roughly 1 in 5 matches a customer already in the CRM (a warm door). */
+function genCanvassDoors(customers){
+  customers = customers || [];
+  var doors = [], id = 1, ci = 0;
+  TURFS.forEach(function(t, ti){
+    var turf = t[0], zip = t[1], clat = t[2], clng = t[3], streets = t[4];
+    streets.forEach(function(s, si){
+      var street = s[0], orient = s[1], base = s[2], count = s[3];
+      // offset each street off the turf centre so they don't overlap on the map
+      var offLat = (si - 1) * 320 * M_LAT;
+      var offLng = (si - 1) * 340 * M_LNG;
+      for (var h = 0; h < count; h++){
+        var lat, lng;
+        if (orient === "ns") { lat = clat + offLat + (h - count/2) * 24 * M_LAT; lng = clng + offLng; }
+        else                 { lat = clat + offLat; lng = clng + offLng + (h - count/2) * 26 * M_LNG; }
+        var num = base + h * 2;                      // even side of the street
+        // two independent seeds — one shared seed made every note on a street identical
+        var seedIdx = ti * 41 + si * 13 + h * 7;
+        var noteIdx = ti * 5 + si * 3 + h;
+        var warm = (seedIdx % 5 === 0) && ci < customers.length;
+        var cust = warm ? customers[(ci++ * 9 + 3) % customers.length] : null;
+        doors.push({
+          id: id++,
+          turf: turf,
+          street: street,
+          addr: num + " " + street,
+          city: "Phoenix", state: "AZ", zip: zip,
+          lat: Math.round(lat * 1e6) / 1e6,
+          lng: Math.round(lng * 1e6) / 1e6,
+          custId: cust ? cust.id : null,
+          name: cust ? cust.name : null,
+          veh: cust ? cust.veh : null,
+          score: cust ? cust.score : null,
+          status: "todo",
+          note: DOOR_NOTE[noteIdx % DOOR_NOTE.length],
+          visitedAt: null,
+          source: "seed"
+        });
+      }
+    });
+  });
+  return doors;
+}
+
+function genTurfs(){ return TURFS.map(function(t){ return { name:t[0], zip:t[1], lat:t[2], lng:t[3] }; }); }
+
+module.exports = { genCustomers: genCustomers, genInventory: genInventory,
+  genCanvassDoors: genCanvassDoors, genTurfs: genTurfs, DEALER: DEALER };

@@ -1,6 +1,11 @@
+/* Local dev: load .env if present. Railway injects real env vars, so this is a
+   no-op in production. process.loadEnvFile is built in (Node 20.6+) — no dep. */
+try { if (process.loadEnvFile) process.loadEnvFile(); } catch (_) { /* no .env — fine */ }
+
 const express = require("express");
 const path = require("path");
 const db = require("./db");
+const gmaps = require("./google");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,6 +36,55 @@ app.get("/api/inventory", async (_req, res) => {
 app.get("/api/inventory/updates", async (req, res) => {
   try { res.json(await db.getInventoryUpdates(req.query.since)); }
   catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* ---------------- door-to-door canvassing ---------------- */
+app.get("/api/canvass", async (_req, res) => {
+  try { res.json(await db.getDoors()); }
+  catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post("/api/canvass/:id/visit", async (req, res) => {
+  try { res.json(await db.logVisit(req.params.id, req.body.status, req.body.note, req.body.rep)); }
+  catch (e) { res.status(400).json({ error: e.message }); }
+});
+
+app.post("/api/canvass/doors", async (req, res) => {
+  try { res.json(await db.addDoor(req.body)); }
+  catch (e) { res.status(400).json({ error: e.message }); }
+});
+
+/* Optimised walking order for a set of doors. Falls back to a local optimiser
+   when no Google key is configured, so the route always comes back. */
+app.post("/api/canvass/route", async (req, res) => {
+  try {
+    const { doors: doorIds, mode } = req.body || {};
+    if (!Array.isArray(doorIds) || !doorIds.length) return res.status(400).json({ error: "doors[] is required" });
+    const all = await db.getDoors();
+    const byId = new Map(all.doors.map((d) => [d.id, d]));
+    const stops = doorIds.map((id) => byId.get(id)).filter(Boolean);
+    if (!stops.length) return res.status(400).json({ error: "no matching doors" });
+    res.json(await gmaps.buildRoute(all.dealer, stops, mode));
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+/* ---------------- Google Maps Platform ---------------- */
+app.get("/api/maps/config", (_req, res) => {
+  res.json({ key: gmaps.browserKey(), hasKey: gmaps.hasKey() });
+});
+
+app.get("/api/places/autocomplete", async (req, res) => {
+  try { res.json(await gmaps.autocomplete(String(req.query.q || ""))); }
+  catch (e) { res.status(502).json({ error: e.message, suggestions: [], live: false }); }
+});
+
+app.post("/api/places/resolve", async (req, res) => {
+  try {
+    const { placeId, address } = req.body || {};
+    if (placeId) return res.json(await gmaps.placeDetails(placeId));
+    if (address) return res.json(await gmaps.geocode(address));
+    res.status(400).json({ error: "placeId or address is required" });
+  } catch (e) { res.status(502).json({ error: e.message }); }
 });
 
 /* Health check for Railway */

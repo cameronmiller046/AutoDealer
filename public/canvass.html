@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Door Knocking — Autodealer</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230072CE'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='19' font-weight='800' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --sidebar:#0a1628; --sidebar-2:#071120; --text:#16202e; --muted:#6b7a90; --faint:#97a4b6; --line:#eef1f6; --accent:#2563eb; --accent-2:#3b82f6; --accent-soft:#eef4ff; --green:#16a34a; --amber:#d97706; --red:#dc2626; --purple:#7c3aed; --shadow:0 1px 2px rgba(16,32,60,0.04), 0 12px 28px -18px rgba(16,32,60,0.28); --radius:16px; }
+    * { margin:0; box-sizing:border-box; }
+    body { font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; font-size:14px; }
+    a { color:inherit; text-decoration:none; } button { font:inherit; cursor:pointer; }
+    svg{display:block;}
+    .shell { display:grid; grid-template-columns:244px 1fr; min-height:100vh; }
+    .sidebar { background:linear-gradient(180deg,var(--sidebar),var(--sidebar-2)); color:#c7d4e6; padding:22px 14px 18px; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; overflow-y:auto; }
+    .brand { display:flex; flex-direction:column; align-items:flex-start; padding:4px 8px 22px; }
+    .brand .sw { width:108px; height:9px; margin-bottom:4px; } .brand .wm { font-size:22px; font-weight:900; letter-spacing:0.5px; color:#fff; } .brand .wm b { color:#2b8fff; }
+    .nav { display:flex; flex-direction:column; gap:3px; }
+    .nav a { display:flex; align-items:center; gap:13px; padding:10px 14px; border-radius:11px; color:#aebdd2; font-size:14px; font-weight:500; }
+    .nav a:hover { background:rgba(255,255,255,0.06); color:#fff; } .nav a.on { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 8px 20px -10px rgba(37,99,235,0.9); }
+    .nav a svg { width:18px; height:18px; flex:none; } .nav a .nb { margin-left:auto; background:rgba(255,255,255,0.12); color:#dbe7f7; font-size:11px; font-weight:700; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:0 6px; } .nav a.on .nb { background:rgba(255,255,255,0.25); color:#fff; }
+    .side-user { display:flex; align-items:center; gap:11px; padding:12px 8px 4px; border-top:1px solid rgba(255,255,255,0.08); margin-top:auto; }
+    .side-user .av { width:36px; height:36px; border-radius:50%; flex:none; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; }
+    .side-user .meta b { color:#fff; font-size:13px; font-weight:600; display:block; } .side-user .meta span { color:#8698b0; font-size:11px; }
+    .main { min-width:0; display:flex; flex-direction:column; }
+    .topbar { position:sticky; top:0; z-index:30; background:rgba(255,255,255,0.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:12px 30px; }
+    .hamb { border:none; background:none; color:var(--muted); width:36px; height:36px; border-radius:9px; } .hamb svg { width:20px; height:20px; }
+    .tsearch { flex:1; max-width:320px; display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--line); border-radius:11px; padding:11px 14px; color:var(--muted); } .tsearch svg{width:17px;height:17px;} .tsearch input{border:none;background:none;outline:none;width:100%;font-size:13.5px;}
+    .role-badge { display:inline-flex; align-items:center; gap:7px; background:#e8f3ff; color:#1d4ed8; border-radius:999px; padding:6px 13px; font-size:12px; font-weight:700; margin-left:auto; }
+    .tb-avatar .av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3f9bff,#0b57b8); color:#fff; font-weight:700; }
+    .content { padding:26px 30px 60px; }
+    .phead h1 { font-size:26px; font-weight:800; letter-spacing:-0.6px; } .phead .sub { color:var(--muted); font-size:14.5px; margin-top:6px; }
+
+    .banner { display:flex; align-items:flex-start; gap:11px; background:#fffbeb; border:1px solid #fde68a; color:#92400e; border-radius:12px; padding:12px 15px; margin-top:16px; font-size:13px; line-height:1.55; }
+    .banner svg { width:17px; height:17px; flex:none; margin-top:1px; } .banner b { font-weight:800; } .banner code { background:rgba(146,64,14,.1); padding:1px 5px; border-radius:4px; font-size:12px; }
+
+    .kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:13px; margin:20px 0; }
+    @media(max-width:1100px){ .kpis{grid-template-columns:repeat(3,1fr);} } @media(max-width:640px){ .kpis{grid-template-columns:repeat(2,1fr);} }
+    .kp { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; box-shadow:var(--shadow); } .kp .kl{color:var(--muted);font-size:12px;} .kp .kv{font-size:23px;font-weight:800;letter-spacing:-0.6px;margin-top:4px;} .kp .kd{font-size:11.5px;font-weight:700;margin-top:5px;color:var(--muted);}
+
+    .sec-label { font-size:12px; font-weight:700; letter-spacing:0.5px; color:var(--faint); text-transform:uppercase; margin:20px 0 12px; }
+    .turfs { display:flex; flex-wrap:wrap; gap:9px; }
+    .turf { display:flex; align-items:center; gap:9px; background:var(--card); border:1px solid var(--line); border-radius:11px; padding:9px 14px; font-size:13px; font-weight:700; box-shadow:var(--shadow); }
+    .turf:hover { border-color:#c9dcfb; } .turf.on { background:var(--accent); border-color:var(--accent); color:#fff; box-shadow:0 10px 22px -12px rgba(37,99,235,.9); }
+    .turf .cnt { font-size:11px; font-weight:800; background:var(--bg); color:var(--muted); border-radius:6px; padding:2px 7px; } .turf.on .cnt { background:rgba(255,255,255,.22); color:#fff; }
+
+    .work { display:grid; grid-template-columns:1fr 392px; gap:18px; align-items:start; margin-top:18px; }
+    @media(max-width:1180px){ .work{grid-template-columns:1fr;} }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .card-h { display:flex; align-items:center; gap:10px; padding:14px 18px; border-bottom:1px solid var(--line); } .card-h h2{font-size:14.5px;font-weight:800;} .card-h svg{width:18px;height:18px;color:var(--accent);} .card-h .r{margin-left:auto;font-size:12px;color:var(--muted);font-weight:700;}
+
+    .routebar { display:flex; align-items:center; gap:10px; padding:13px 18px; border-bottom:1px solid var(--line); background:#fbfcfe; flex-wrap:wrap; }
+    .btn { border:1px solid var(--line); background:#fff; color:var(--text); border-radius:10px; padding:9px 14px; font-size:13px; font-weight:700; } .btn:hover{background:var(--bg);}
+    .btn.pri { background:linear-gradient(180deg,var(--accent-2),var(--accent)); color:#fff; border:none; box-shadow:0 10px 22px -12px rgba(37,99,235,.9); } .btn.pri:hover{filter:brightness(1.06);}
+    .btn:disabled { opacity:.5; cursor:not-allowed; }
+    .seg { display:flex; border:1px solid var(--line); border-radius:10px; overflow:hidden; } .seg button{border:none;background:#fff;padding:9px 13px;font-size:12.5px;font-weight:700;color:var(--muted);} .seg button.on{background:var(--accent-soft);color:var(--accent);}
+    .rstat { margin-left:auto; display:flex; align-items:center; gap:16px; font-size:12.5px; color:var(--muted); font-weight:700; } .rstat b{color:var(--text);font-size:14px;}
+    .rsrc { font-size:11px; font-weight:800; padding:3px 8px; border-radius:6px; text-transform:uppercase; letter-spacing:.3px; }
+    .rsrc.live { background:#dcfce7; color:#15803d; } .rsrc.local { background:#f1f5f9; color:#64748b; }
+
+    #map { height:520px; width:100%; background:#eef2f7; } @media(max-width:1180px){ #map{height:400px;} }
+    .fallback { height:100%; width:100%; display:block; background:linear-gradient(180deg,#f4f7fb,#e9eff7); }
+
+    .listwrap { max-height:640px; overflow-y:auto; }
+    .filters { display:flex; gap:7px; padding:12px 16px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+    .fchip { border:1px solid var(--line); background:#fff; border-radius:999px; padding:5px 11px; font-size:11.5px; font-weight:700; color:var(--muted); } .fchip.on { background:var(--accent-soft); border-color:#c9dcfb; color:var(--accent); }
+    .door { display:flex; align-items:center; gap:11px; padding:11px 16px; border-top:1px solid var(--line); cursor:pointer; } .door:first-child{border-top:none;} .door:hover{background:#fafcff;} .door.sel{background:var(--accent-soft);}
+    .door .pin { width:26px; height:26px; border-radius:8px; flex:none; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:800; }
+    .door .dm { flex:1; min-width:0; } .door .dm > b { font-size:13px; font-weight:700; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .door .dm > span { font-size:11.5px; color:var(--muted); display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .door .dm > span > b { font-weight:700; }
+    .door .warm { font-size:10px; font-weight:800; background:#fef3c7; color:#92400e; border-radius:5px; padding:2px 6px; flex:none; }
+    .door .ord { font-size:11px; font-weight:800; color:var(--accent); background:var(--accent-soft); border-radius:6px; padding:2px 7px; flex:none; }
+    .empty { padding:34px 18px; text-align:center; color:var(--muted); font-size:13px; }
+
+    .addwrap { padding:13px 16px; border-top:1px solid var(--line); position:relative; }
+    .addwrap input { width:100%; border:1px solid var(--line); border-radius:10px; padding:10px 13px; font:inherit; font-size:13px; outline:none; } .addwrap input:focus{border-color:var(--accent);}
+    .sugg { position:absolute; left:16px; right:16px; top:52px; background:#fff; border:1px solid var(--line); border-radius:12px; box-shadow:0 20px 40px -18px rgba(16,32,60,.4); z-index:20; overflow:hidden; display:none; } .sugg.open{display:block;}
+    .sugg div { padding:10px 13px; font-size:13px; border-top:1px solid var(--line); } .sugg div:first-child{border-top:none;} .sugg div:hover{background:var(--accent-soft);} .sugg div b{display:block;font-weight:700;} .sugg div span{font-size:11.5px;color:var(--muted);}
+    .hint { font-size:11.5px; color:var(--faint); margin-top:7px; line-height:1.5; }
+
+    .modal { position:fixed; inset:0; background:rgba(9,17,30,.5); display:none; align-items:center; justify-content:center; z-index:80; padding:20px; } .modal.open{display:flex;}
+    .sheet { background:#fff; border-radius:18px; width:100%; max-width:440px; box-shadow:0 40px 80px -30px rgba(0,0,0,.6); overflow:hidden; }
+    .sheet-h { padding:18px 20px 14px; border-bottom:1px solid var(--line); } .sheet-h b{font-size:16px;font-weight:800;display:block;} .sheet-h span{font-size:13px;color:var(--muted);}
+    .sheet-b { padding:16px 20px; } .sheet-b textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 13px;font:inherit;font-size:13px;outline:none;resize:vertical;min-height:74px;} .sheet-b textarea:focus{border-color:var(--accent);}
+    .outs { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px; }
+    .out { border:1px solid var(--line); background:#fff; border-radius:11px; padding:11px; font-size:13px; font-weight:700; display:flex; align-items:center; gap:9px; } .out:hover{background:var(--bg);} .out.on{border-color:currentColor;box-shadow:0 0 0 2px rgba(37,99,235,.1);}
+    .out i { width:10px; height:10px; border-radius:50%; flex:none; }
+    .sheet-f { padding:14px 20px 18px; display:flex; gap:9px; } .sheet-f .btn{flex:1;text-align:center;}
+    .toast { position:fixed; bottom:24px; right:24px; background:#0f1b2d; color:#fff; padding:12px 18px; border-radius:12px; font-size:13px; font-weight:600; box-shadow:0 20px 40px -16px rgba(0,0,0,.5); opacity:0; transform:translateY(18px); transition:all .3s; z-index:90; } .toast.show{opacity:1;transform:none;}
+    @media (max-width:900px){ .shell{grid-template-columns:1fr;} .sidebar{display:none;} .content{padding:20px 16px 50px;} }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><svg class="sw" viewBox="0 0 108 9"><path d="M2 7 C26 1, 82 1, 106 5" fill="none" stroke="#2b8fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="wm">AUTO<b>DEALER</b></span></div>
+      <nav class="nav"></nav>
+      <div class="side-user"><span class="av">JA</span><span class="meta"><b>Jordan Avery</b><span>Sales Representative</span></span></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button class="hamb"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <div class="tsearch"><svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><input id="q" placeholder="Search an address, street or name..." /></div>
+        <span class="role-badge">Field Canvassing</span>
+        <span class="tb-avatar"><span class="av">JA</span></span>
+      </header>
+      <main class="content">
+        <div class="phead">
+          <h1>Door Knocking</h1>
+          <p class="sub" id="sub">Pick a turf, walk it in the optimised order, and log every door as you go.</p>
+        </div>
+
+        <div class="banner" id="keyBanner" style="display:none">
+          <svg viewBox="0 0 24 24"><path d="M12 8v5M12 16.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M10.3 3.9L2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          <div id="keyMsg"></div>
+        </div>
+
+        <div class="kpis" id="kpis"></div>
+
+        <div class="sec-label">Turfs</div>
+        <div class="turfs" id="turfs"></div>
+
+        <div class="work">
+          <div class="card">
+            <div class="routebar">
+              <button class="btn pri" id="buildBtn">Build walking route</button>
+              <div class="seg" id="modeSeg">
+                <button data-mode="WALK" class="on">Walk</button>
+                <button data-mode="DRIVE">Drive</button>
+              </div>
+              <button class="btn" id="clearBtn">Clear</button>
+              <div class="rstat" id="rstat"><span>No route yet</span></div>
+            </div>
+            <div id="map"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-h">
+              <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <h2 id="listTitle">Doors</h2>
+              <span class="r" id="listCount"></span>
+            </div>
+            <div class="filters" id="filters"></div>
+            <div class="listwrap" id="list"></div>
+            <div class="addwrap">
+              <input id="addr" placeholder="Add a door — type an address..." autocomplete="off" />
+              <div class="sugg" id="sugg"></div>
+              <div class="hint" id="addHint">Powered by Google Places. Added doors are geocoded and saved to your book.</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="sheet">
+      <div class="sheet-h"><b id="mAddr">—</b><span id="mMeta">—</span></div>
+      <div class="sheet-b">
+        <div class="outs" id="outs"></div>
+        <textarea id="mNote" placeholder="Notes from the door — who answered, what they drive, when to come back..."></textarea>
+      </div>
+      <div class="sheet-f">
+        <button class="btn" id="mCancel">Cancel</button>
+        <button class="btn pri" id="mSave">Save visit</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"><span id="toastMsg">Done</span></div>
+
+  <script src="/roles.js"></script>
+  <script>
+  (function(){
+    var $ = function(id){ return document.getElementById(id); };
+    var STATUS = {
+      'todo':           { label:'Not knocked',   color:'#94a3b8' },
+      'not-home':       { label:'Not home',      color:'#d97706' },
+      'interested':     { label:'Interested',    color:'#16a34a' },
+      'appointment':    { label:'Appointment',   color:'#2563eb' },
+      'not-interested': { label:'Not interested',color:'#64748b' },
+      'dnc':            { label:'Do not contact',color:'#dc2626' }
+    };
+    var S = { doors:[], turfs:[], dealer:null, kpis:{}, turf:null, filter:'all', route:null, sel:null, query:'', mode:'WALK', gmapReady:false };
+    var map=null, markers=[], routeLine=null, dealerMarker=null;
+
+    /* ---------------- data ---------------- */
+    function load(){
+      return fetch('/api/canvass').then(function(r){ return r.json(); }).then(function(d){
+        S.doors = d.doors; S.turfs = d.turfs; S.dealer = d.dealer; S.kpis = d.kpis;
+        if (!S.turf && S.turfs.length) S.turf = S.turfs[0].name;
+        renderAll();
+      });
+    }
+
+    function visible(){
+      var q = S.query.toLowerCase();
+      return S.doors.filter(function(d){
+        if (d.turf !== S.turf) return false;
+        if (S.filter === 'open' && d.status !== 'todo') return false;
+        if (S.filter === 'hit' && d.status !== 'interested' && d.status !== 'appointment') return false;
+        if (S.filter === 'warm' && !d.custId) return false;
+        if (q && (d.addr + ' ' + (d.name||'') + ' ' + d.street).toLowerCase().indexOf(q) === -1) return false;
+        return true;
+      });
+    }
+
+    /* ---------------- render ---------------- */
+    function renderAll(){ renderKpis(); renderTurfs(); renderFilters(); renderList(); drawMap(); }
+
+    function renderKpis(){
+      var k = S.kpis;
+      $('kpis').innerHTML =
+        kp('Doors in book', k.total, 'across ' + S.turfs.length + ' turfs') +
+        kp('Knocked', k.knocked, k.total ? pct(k.knocked, k.total) + ' of book' : '—') +
+        kp('Interested', k.interested, k.knocked ? pct(k.interested, k.knocked) + ' of knocks' : 'no knocks yet') +
+        kp('Appointments set', k.appointments, k.knocked ? pct(k.appointments, k.knocked) + ' of knocks' : 'no knocks yet') +
+        kp('Known customers', k.warm, 'already in the CRM');
+    }
+    function kp(l,v,d){ return '<div class="kp"><div class="kl">'+l+'</div><div class="kv">'+v+'</div><div class="kd">'+d+'</div></div>'; }
+    function pct(n,total){ if (!n) return '0%'; var p = n/total*100; return p < 1 ? '<1%' : Math.round(p) + '%'; }
+
+    function renderTurfs(){
+      $('turfs').innerHTML = S.turfs.map(function(t){
+        var left = t.doors - t.done;
+        return '<button class="turf'+(t.name===S.turf?' on':'')+'" data-turf="'+esc(t.name)+'">'+esc(t.name)+
+          '<span class="cnt">'+(left ? left + ' open' : 'done')+'</span></button>';
+      }).join('');
+    }
+
+    function renderFilters(){
+      var f = [['all','All'],['open','Not knocked'],['hit','Interested'],['warm','Known customer']];
+      $('filters').innerHTML = f.map(function(x){
+        return '<button class="fchip'+(S.filter===x[0]?' on':'')+'" data-f="'+x[0]+'">'+x[1]+'</button>';
+      }).join('');
+    }
+
+    function renderList(){
+      var v = visible();
+      $('listTitle').textContent = S.turf || 'Doors';
+      $('listCount').textContent = v.length + ' door' + (v.length===1?'':'s');
+      if (!v.length) { $('list').innerHTML = '<div class="empty">No doors match this filter.</div>'; return; }
+      var order = S.route ? S.route.order : null;
+      $('list').innerHTML = v.map(function(d){
+        var st = STATUS[d.status] || STATUS.todo;
+        var pos = order ? order.indexOf(d.id) : -1;
+        // always lead with the outcome, then whatever else is worth knowing at the door
+        var detail = [d.name ? d.name + (d.veh ? ' · ' + d.veh : '') : '', d.note].filter(Boolean).join(' · ');
+        return '<div class="door'+(S.sel===d.id?' sel':'')+'" data-id="'+d.id+'">'+
+          '<span class="pin" style="background:'+st.color+'">'+(pos>=0?(pos+1):'&nbsp;')+'</span>'+
+          '<span class="dm"><b>'+esc(d.addr)+'</b><span><b style="color:'+st.color+';font-weight:700">'+esc(st.label)+'</b>'+(detail?esc(' · ' + detail):'')+'</span></span>'+
+          (d.custId ? '<span class="warm">CRM</span>' : '')+
+          (pos>=0 ? '<span class="ord">#'+(pos+1)+'</span>' : '')+
+        '</div>';
+      }).join('');
+    }
+
+    function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+
+    /* ---------------- map ---------------- */
+    function drawMap(){ if (S.gmapReady && map) drawGoogle(); else drawFallback(); }
+
+    function drawGoogle(){
+      markers.forEach(function(m){ m.setMap(null); }); markers = [];
+      if (routeLine) { routeLine.setMap(null); routeLine = null; }
+      var v = visible(), bounds = new google.maps.LatLngBounds();
+
+      if (!dealerMarker) {
+        dealerMarker = new google.maps.Marker({ map:map, position:{lat:S.dealer.lat,lng:S.dealer.lng}, title:S.dealer.name,
+          icon:{ path:google.maps.SymbolPath.BACKWARD_CLOSED_ARROW, scale:6, fillColor:'#0a1628', fillOpacity:1, strokeColor:'#fff', strokeWeight:2 } });
+      }
+      bounds.extend({lat:S.dealer.lat,lng:S.dealer.lng});
+
+      var order = S.route ? S.route.order : null;
+      v.forEach(function(d){
+        var st = STATUS[d.status] || STATUS.todo;
+        var pos = order ? order.indexOf(d.id) : -1;
+        var m = new google.maps.Marker({
+          map:map, position:{lat:d.lat,lng:d.lng}, title:d.addr,
+          label: pos>=0 ? { text:String(pos+1), color:'#fff', fontSize:'11px', fontWeight:'700' } : null,
+          icon:{ path:google.maps.SymbolPath.CIRCLE, scale:pos>=0?11:7, fillColor:st.color, fillOpacity:1, strokeColor:'#fff', strokeWeight:2 }
+        });
+        m.addListener('click', function(){ openDoor(d.id); });
+        markers.push(m);
+        bounds.extend({lat:d.lat,lng:d.lng});
+      });
+
+      if (S.route && S.route.polyline && google.maps.geometry) {
+        routeLine = new google.maps.Polyline({ map:map, path:google.maps.geometry.encoding.decodePath(S.route.polyline),
+          strokeColor:'#2563eb', strokeOpacity:.85, strokeWeight:4 });
+      } else if (S.route) {
+        var byId = {}; S.doors.forEach(function(d){ byId[d.id]=d; });
+        var pathPts = [{lat:S.dealer.lat,lng:S.dealer.lng}].concat(
+          S.route.order.map(function(id){ var d=byId[id]; return d?{lat:d.lat,lng:d.lng}:null; }).filter(Boolean));
+        routeLine = new google.maps.Polyline({ map:map, path:pathPts, strokeColor:'#2563eb', strokeOpacity:.6, strokeWeight:3 });
+      }
+      if (!bounds.isEmpty()) map.fitBounds(bounds, 48);
+    }
+
+    /* Self-contained map so the page works before a Google key is configured. */
+    function drawFallback(){
+      var v = visible();
+      var pts = v.map(function(d){ return {lat:d.lat,lng:d.lng,d:d}; });
+      if (S.dealer) pts.push({lat:S.dealer.lat,lng:S.dealer.lng,dealer:true});
+      if (!pts.length) { $('map').innerHTML = '<div class="empty" style="padding-top:200px">No doors to plot.</div>'; return; }
+      var lats = pts.map(function(p){return p.lat;}), lngs = pts.map(function(p){return p.lng;});
+      var minLa=Math.min.apply(null,lats), maxLa=Math.max.apply(null,lats);
+      var minLo=Math.min.apply(null,lngs), maxLo=Math.max.apply(null,lngs);
+      var padLa=(maxLa-minLa)*0.12||0.004, padLo=(maxLo-minLo)*0.12||0.004;
+      minLa-=padLa; maxLa+=padLa; minLo-=padLo; maxLo+=padLo;
+      var W=1000, H=520;
+      var X=function(lo){ return ((lo-minLo)/(maxLo-minLo))*W; };
+      var Y=function(la){ return H-((la-minLa)/(maxLa-minLa))*H; };
+
+      var g='';
+      for (var i=0;i<=10;i++){ g+='<line x1="'+(i*W/10)+'" y1="0" x2="'+(i*W/10)+'" y2="'+H+'" stroke="#dde5ef" stroke-width="1"/>'; }
+      for (var j=0;j<=6;j++){ g+='<line x1="0" y1="'+(j*H/6)+'" x2="'+W+'" y2="'+(j*H/6)+'" stroke="#dde5ef" stroke-width="1"/>'; }
+
+      var order = S.route ? S.route.order : null, line='';
+      if (order) {
+        var byId={}; S.doors.forEach(function(d){ byId[d.id]=d; });
+        var seq=[[X(S.dealer.lng),Y(S.dealer.lat)]];
+        order.forEach(function(id){ var d=byId[id]; if(d) seq.push([X(d.lng),Y(d.lat)]); });
+        line='<polyline points="'+seq.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ')+'" fill="none" stroke="#2563eb" stroke-width="3" stroke-opacity=".7" stroke-linejoin="round"/>';
+      }
+
+      var dots = v.map(function(d){
+        var st=STATUS[d.status]||STATUS.todo, pos=order?order.indexOf(d.id):-1;
+        var x=X(d.lng), y=Y(d.lat), r=pos>=0?12:7;
+        return '<g class="fdot" data-id="'+d.id+'" style="cursor:pointer">'+
+          '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+r+'" fill="'+st.color+'" stroke="#fff" stroke-width="2"/>'+
+          (pos>=0?'<text x="'+x.toFixed(1)+'" y="'+(y+4).toFixed(1)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">'+(pos+1)+'</text>':'')+
+          '<title>'+esc(d.addr)+' — '+st.label+'</title></g>';
+      }).join('');
+
+      var dx=X(S.dealer.lng), dy=Y(S.dealer.lat);
+      var dealer='<g><rect x="'+(dx-9)+'" y="'+(dy-9)+'" width="18" height="18" rx="4" fill="#0a1628"/>'+
+        '<text x="'+dx+'" y="'+(dy+4)+'" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">D</text>'+
+        '<title>'+esc(S.dealer.name)+'</title></g>';
+
+      $('map').innerHTML = '<svg class="fallback" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid slice">'+
+        g + line + dots + dealer + '</svg>';
+      Array.prototype.forEach.call($('map').querySelectorAll('.fdot'), function(el){
+        el.addEventListener('click', function(){ openDoor(parseInt(el.getAttribute('data-id'),10)); });
+      });
+    }
+
+    /* ---------------- route ---------------- */
+    function buildRoute(){
+      var v = visible().filter(function(d){ return d.status === 'todo' || S.filter !== 'all'; });
+      if (!v.length) v = visible();
+      if (!v.length) return toast('No doors to route');
+      $('buildBtn').disabled = true; $('rstat').innerHTML = '<span>Optimising…</span>';
+      fetch('/api/canvass/route', { method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ doors: v.map(function(d){ return d.id; }), mode: S.mode }) })
+        .then(function(r){ return r.json(); })
+        .then(function(rt){
+          if (rt.error) throw new Error(rt.error);
+          S.route = rt;
+          var km = (rt.distanceMeters/1609.34).toFixed(1);
+          var mins = Math.round(rt.durationSeconds/60);
+          $('rstat').innerHTML =
+            '<span><b>'+rt.order.length+'</b> stops</span>'+
+            '<span><b>'+km+'</b> mi</span>'+
+            '<span><b>'+(mins>=60?(Math.floor(mins/60)+'h '+(mins%60)+'m'):(mins+' min'))+'</b></span>'+
+            '<span class="rsrc '+(rt.live?'live':'local')+'">'+(rt.live?'Google Routes':'Local estimate')+'</span>';
+          if (rt.capped) toast(rt.capped + ' door(s) beyond Google’s 25-stop limit were left off the drawn route');
+          renderList(); drawMap();
+        })
+        .catch(function(e){ toast('Route failed: ' + e.message); $('rstat').innerHTML='<span>No route yet</span>'; })
+        .finally(function(){ $('buildBtn').disabled = false; });
+    }
+
+    /* ---------------- visit logging ---------------- */
+    var pending = null;
+    function openDoor(id){
+      var d = S.doors.find(function(x){ return x.id === id; });
+      if (!d) return;
+      S.sel = id; pending = { id:id, status:d.status };
+      $('mAddr').textContent = d.addr;
+      $('mMeta').textContent = [d.city + ', ' + d.state + ' ' + d.zip, d.name ? ('CRM: ' + d.name + (d.veh ? ' · ' + d.veh : '')) : 'Not in the CRM'].join('  ·  ');
+      $('mNote').value = d.note || '';
+      renderOuts();
+      $('modal').classList.add('open');
+      renderList();
+    }
+    function renderOuts(){
+      $('outs').innerHTML = Object.keys(STATUS).map(function(k){
+        var s = STATUS[k];
+        return '<button class="out'+(pending.status===k?' on':'')+'" data-s="'+k+'" style="color:'+(pending.status===k?s.color:'var(--text)')+'">'+
+          '<i style="background:'+s.color+'"></i>'+s.label+'</button>';
+      }).join('');
+    }
+    function saveVisit(){
+      if (!pending) return;
+      fetch('/api/canvass/'+pending.id+'/visit', { method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ status: pending.status, note: $('mNote').value, rep: 'Jordan Avery' }) })
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          if (d.error) throw new Error(d.error);
+          var i = S.doors.findIndex(function(x){ return x.id === d.id; });
+          if (i >= 0) S.doors[i] = d;
+          closeModal();
+          return load();
+        })
+        .then(function(){ toast('Visit logged'); })
+        .catch(function(e){ toast('Could not save: ' + e.message); });
+    }
+    function closeModal(){ $('modal').classList.remove('open'); pending = null; }
+
+    /* ---------------- add a door (Places Autocomplete) ---------------- */
+    var acTimer = null;
+    function onType(){
+      var q = $('addr').value.trim();
+      clearTimeout(acTimer);
+      if (q.length < 3) return hideSugg();
+      acTimer = setTimeout(function(){
+        fetch('/api/places/autocomplete?q=' + encodeURIComponent(q))
+          .then(function(r){ return r.json(); })
+          .then(function(d){
+            if (!d.suggestions || !d.suggestions.length) {
+              if (d.reason === 'no-key') $('sugg').innerHTML = '<div><b>Google Places is not configured</b><span>Set GOOGLE_MAPS_API_KEY to search real addresses. Press Enter to add this text as a door.</span></div>';
+              else return hideSugg();
+            } else {
+              $('sugg').innerHTML = d.suggestions.map(function(s){
+                return '<div data-pid="'+esc(s.placeId)+'"><b>'+esc(s.main || s.text)+'</b><span>'+esc(s.secondary)+'</span></div>';
+              }).join('');
+            }
+            $('sugg').classList.add('open');
+          })
+          .catch(function(){ hideSugg(); });
+      }, 260);
+    }
+    function hideSugg(){ $('sugg').classList.remove('open'); }
+
+    function resolveAndAdd(payload){
+      fetch('/api/places/resolve', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
+        .then(function(r){ return r.json(); })
+        .then(function(p){
+          if (p.error) throw new Error(p.error);
+          return fetch('/api/canvass/doors', { method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ addr:p.addr, street:p.street, city:p.city, state:p.state, zip:p.zip, lat:p.lat, lng:p.lng, turf:S.turf }) });
+        })
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          if (d.error) throw new Error(d.error);
+          $('addr').value = ''; hideSugg();
+          return load().then(function(){ toast('Added ' + d.addr); });
+        })
+        .catch(function(e){ toast('Could not add: ' + e.message); });
+    }
+
+    /* ---------------- events ---------------- */
+    $('turfs').addEventListener('click', function(e){
+      var b = e.target.closest('[data-turf]'); if (!b) return;
+      S.turf = b.getAttribute('data-turf'); S.route = null;
+      $('rstat').innerHTML = '<span>No route yet</span>';
+      renderAll();
+    });
+    $('filters').addEventListener('click', function(e){
+      var b = e.target.closest('[data-f]'); if (!b) return;
+      S.filter = b.getAttribute('data-f'); renderFilters(); renderList(); drawMap();
+    });
+    $('list').addEventListener('click', function(e){
+      var b = e.target.closest('[data-id]'); if (!b) return;
+      openDoor(parseInt(b.getAttribute('data-id'),10));
+    });
+    $('modeSeg').addEventListener('click', function(e){
+      var b = e.target.closest('[data-mode]'); if (!b) return;
+      S.mode = b.getAttribute('data-mode');
+      Array.prototype.forEach.call($('modeSeg').children, function(c){ c.classList.toggle('on', c===b); });
+    });
+    $('buildBtn').addEventListener('click', buildRoute);
+    $('clearBtn').addEventListener('click', function(){ S.route=null; $('rstat').innerHTML='<span>No route yet</span>'; renderList(); drawMap(); });
+    $('outs').addEventListener('click', function(e){
+      var b = e.target.closest('[data-s]'); if (!b || !pending) return;
+      pending.status = b.getAttribute('data-s'); renderOuts();
+    });
+    $('mSave').addEventListener('click', saveVisit);
+    $('mCancel').addEventListener('click', closeModal);
+    $('modal').addEventListener('click', function(e){ if (e.target === $('modal')) closeModal(); });
+    $('q').addEventListener('input', function(){ S.query = $('q').value.trim(); renderList(); drawMap(); });
+    $('addr').addEventListener('input', onType);
+    $('addr').addEventListener('keydown', function(e){
+      if (e.key === 'Enter') { e.preventDefault(); var t=$('addr').value.trim(); if (t.length>4) resolveAndAdd({ address:t }); }
+    });
+    $('sugg').addEventListener('click', function(e){
+      var b = e.target.closest('[data-pid]'); if (!b) return;
+      resolveAndAdd({ placeId: b.getAttribute('data-pid') });
+    });
+    document.addEventListener('click', function(e){ if (!e.target.closest('.addwrap')) hideSugg(); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') { closeModal(); hideSugg(); } });
+
+    var tTimer; function toast(m){ $('toastMsg').textContent=m; $('toast').classList.add('show'); clearTimeout(tTimer); tTimer=setTimeout(function(){ $('toast').classList.remove('show'); },3200); }
+
+    /* ---------------- Google Maps JS ---------------- */
+    window.__initGMap = function(){
+      map = new google.maps.Map($('map'), {
+        center: { lat: S.dealer ? S.dealer.lat : 33.6386, lng: S.dealer ? S.dealer.lng : -112.133 },
+        zoom: 14, mapTypeControl:false, streetViewControl:false, fullscreenControl:false,
+        styles:[{featureType:'poi',stylers:[{visibility:'off'}]},{featureType:'transit',stylers:[{visibility:'off'}]}]
+      });
+      S.gmapReady = true;
+      drawMap();
+    };
+
+    function bootMaps(){
+      return fetch('/api/maps/config').then(function(r){ return r.json(); }).then(function(c){
+        if (!c.key) {
+          $('keyBanner').style.display = 'flex';
+          $('keyMsg').innerHTML = '<b>Google Maps is not connected yet.</b> The map, walking order and distances below are computed locally, so the tool works — but you are not seeing real streets or real walk times. Set <code>GOOGLE_MAPS_API_KEY</code> (and optionally <code>GOOGLE_MAPS_BROWSER_KEY</code>) to turn on Google Maps, Places address search and Routes.';
+          $('addHint').textContent = 'Address search needs GOOGLE_MAPS_API_KEY. You can still type a full address and press Enter once the key is set.';
+          return;
+        }
+        var s = document.createElement('script');
+        s.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(c.key) + '&libraries=geometry&callback=__initGMap&loading=async';
+        s.async = true;
+        s.onerror = function(){ toast('Google Maps failed to load — using the local map'); };
+        document.head.appendChild(s);
+      }).catch(function(){});
+    }
+
+    window.gm_authFailure = function(){
+      S.gmapReady = false;
+      $('keyBanner').style.display = 'flex';
+      $('keyMsg').innerHTML = '<b>Google rejected the Maps key.</b> Check that the Maps JavaScript API is enabled for the key and that this domain is allowed under the key’s HTTP-referrer restrictions. Falling back to the local map.';
+      drawFallback();
+    };
+
+    load().then(bootMaps);
+  })();
+  </script>
+</body>
+</html>

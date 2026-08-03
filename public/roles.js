@@ -49,7 +49,8 @@
     dataquality:'<ellipse cx="12" cy="6" rx="7" ry="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 6v6c0 1.4 3.1 2.6 7 2.6M19 6v4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M14.5 18l2 2 4-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
     status:'<rect x="3.5" y="4" width="17" height="6" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="3.5" y="14" width="17" height="6" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7" cy="7" r="1" fill="currentColor"/><circle cx="7" cy="17" r="1" fill="currentColor"/>',
     developers:'<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13 5l-2 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
-    stores:'<path d="M4 9l1.4-3.6A1 1 0 0 1 6.3 5h11.4a1 1 0 0 1 .9.6L20 9M4 9h16M4 9v10h16V9M4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>'
+    stores:'<path d="M4 9l1.4-3.6A1 1 0 0 1 6.3 5h11.4a1 1 0 0 1 .9.6L20 9M4 9h16M4 9v10h16V9M4 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>',
+    canvass:'<path d="M12 21.4s6.7-5.6 6.7-11A6.7 6.7 0 1 0 5.3 10.4c0 5.4 6.7 11 6.7 11z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.6 13.7V9.4L12 7.5l2.4 1.9v4.3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="13.2" cy="11.7" r="0.75" fill="currentColor"/>'
   };
   function svg(k){ return '<svg viewBox="0 0 24 24">'+(IC[k]||'')+'</svg>'; }
 
@@ -60,6 +61,7 @@
       nav:[
         {label:'Home', href:'/dashboard', icon:'home'},
         {label:'Prospects', href:'/prospects', icon:'prospects', badge:'18'},
+        {label:'Door Knocking', href:'/canvass', icon:'canvass', tag:'Field'},
         {label:'Customers', href:'/customers', icon:'customers'},
         {label:'Appointments', href:'/appointments', icon:'appt', badge:'5'},
         {label:'Tasks', href:'/tasks', icon:'tasks', badge:'7'},
